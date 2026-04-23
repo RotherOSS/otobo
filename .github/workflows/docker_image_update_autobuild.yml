@@ -32,8 +32,8 @@ jobs:
       otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
       otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
 
-      #otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
-      #otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
+      otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
+      otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
 
       otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
       otobo_nginx_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0_autobuild }}
@@ -49,8 +49,7 @@ jobs:
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        #target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
-        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', ]
+        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
         docker_tag: [
           'latest-10_1-autobuild',
           'latest-11_0-autobuild'
@@ -62,10 +61,10 @@ jobs:
           # Has to be updated for every new patch level release.
           -
             docker_tag:   'latest-10_1-autobuild'
-            otobo_branch: 'rel-10_1_16'
+            otobo_branch: 'rel-10_1_17'
           -
             docker_tag:   'latest-11_0-autobuild'
-            otobo_branch: 'rel-11_0_15'
+            otobo_branch: 'rel-11_0_16'
 
           # otobo-web uses different base images in different releases.
           # perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12.
@@ -117,15 +116,14 @@ jobs:
             docker_tag: 'latest-10_1-autobuild'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-          # TODO: reenable elasic after Release of OTOBO 10.1.17
           # The autobuild image for elastic has been reenabled for OTOBO 10.1.17 and 11.0.16
           # as the base image is now also retrieved from Docker Hub.
-          #-
-          #  target:     'otobo-elasticsearch'
-          #  dockerfile: 'otobo.elasticsearch.dockerfile'
-          #  context:    'scripts/elasticsearch'
-          #  repository: 'rotheross/otobo-elasticsearch'
-          #  base_image: 'elasticsearch:8.19.3'
+          -
+            target:     'otobo-elasticsearch'
+            dockerfile: 'otobo.elasticsearch.dockerfile'
+            context:    'scripts/elasticsearch'
+            repository: 'rotheross/otobo-elasticsearch'
+            base_image: 'elasticsearch:8.19.3'
 
     steps:
 
@@ -148,7 +146,7 @@ jobs:
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether the base image was updated
         id: check
-        uses: lucacome/docker-image-update-checker@v2
+        uses: lucacome/docker-image-update-checker@v3
         with:
           base-image: ${{ env.otobo_base_image }}
           image:      ${{ env.otobo_ref }}
@@ -167,7 +165,7 @@ jobs:
         # this avoids that secrets have to be passed
         name: Login to Docker Hub
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -175,7 +173,7 @@ jobs:
       -
         name: 'check out so that the composite action becomes available'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       -
         # the name of the Dockerfile might depend on the branch
@@ -198,9 +196,11 @@ jobs:
           target: ${{ matrix.target }}
           dockerhub_tags: "${{ matrix.repository }}:${{ matrix.docker_tag }}"
 
-      - name: 'check out so that the composite action becomes available'
+      -
+        # TODO: why another checkout?
+        name: 'check out so that the composite action becomes available'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
   # Write Summary
   WriteSummary:

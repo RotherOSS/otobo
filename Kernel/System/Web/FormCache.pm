@@ -92,7 +92,18 @@ sub PrepareFormID {
     }
 
     # get form id or create a new one
-    my $FormID = $Param{ParamObject}->GetParam( Param => 'FormID' ) || $Self->FormIDCreate();
+    my $FormID = $Param{ParamObject}->GetParam( Param => 'FormID' );
+
+    if ( $FormID && $FormID !~ /^[0-9\.]+$/ ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'notice',
+            Message  => "FormID '$FormID' has an erroneous format!",
+        );
+
+        $FormID = undef;
+    }
+
+    $FormID ||= $Self->FormIDCreate();
 
     # store the FormID in the provided LayoutObject
     $Param{LayoutObject}{FormID} = $FormID;
