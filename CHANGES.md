@@ -1,4 +1,172 @@
 
+# OTOBO 11.0.16 2026-04-23
+- 2026-04-21 14:01:07 +0200 [Security] Fix two additional xss targets. (https://github.com/RotherOSS/otobo/issues/5419)
+- 2026-04-20 12:24:39 +0200 Translated using Weblate (Italian)
+- 2026-04-20 10:50:13 +0200 React to notifications about Node.js 20  emitted by Github Actions (https://github.com/RotherOSS/otobo/issues/5354) - in progress
+- 2026-04-20 09:15:23 +0200 [Security] Fix XSS issue with unfiltered URL parameters. (CVE-2025-59490) (https://github.com/RotherOSS/otobo/issues/5358)
+- 2026-04-16 11:26:11 +0200 [Bugfix]   AgentTicketActionCommon: Bug with PossibleValues for certain multivalue fields causes log message (https://github.com/RotherOSS/otobo/issues/5402)
+- 2026-04-16 10:04:25 +0200 [Bugfix]   Properly escape autocomplete filters in overview masks. (https://github.com/RotherOSS/otobo/issues/5400)
+- 2026-04-15 12:56:34 +0200 Upgrade the elasticsearch base image to 8.19.3 and pull it from Docker Hub  ? (https://github.com/RotherOSS/otobo/issues/4427)
+- 2026-04-15 10:15:06 +0200 CustomerTicketProcess: Label for RichText Body Input Field is not handled correctly (https://github.com/RotherOSS/otobo/issues/5388)
+- 2026-04-14 16:21:52 +0200 [Bugfix]   CustomerTicketProcess: Title field not marked as filled correctly (https://github.com/RotherOSS/otobo/issues/4985)
+- 2026-04-13 16:10:34 +0200 [Tidied]   Tidyings and Improvements for Reference DynamicFields (https://github.com/RotherOSS/otobo/issues/5317)
+- 2026-03-26 10:51:32 +0000 Atttachment form-id is not correctly read in customer interface - e.g. deletion for DynamicField attachment does not work. (https://github.com/RotherOSS/otobo/issues/5292)
+- 2026-03-27 13:55:40 +0100 [Security] Improve password masking in support bundle generation. (CVE-2025-59393) (https://github.com/RotherOSS/otobo/issues/5376)
+- 2026-04-09 11:21:40 +0200 [Security] Remove stack traces from error messages in the frontend. (https://github.com/RotherOSS/otobo/issues/5359)
+- 2026-04-10 11:12:13 +0200 [Bugfix]   The button "Send a bug report" on the agent error page doesn't work as intended (https://github.com/RotherOSS/otobo/issues/5363)
+- 2026-04-10 12:12:20 +0200 [Bugfix]   BuildDateSelection: Sanitize prefix and suffix when building date selections (https://github.com/RotherOSS/otobo/issues/5348)
+- 2026-04-09 15:25:01 +0200 Evaluate CVE-2020-16093 for OTOBO (https://github.com/RotherOSS/otobo/issues/5365)
+- 2026-04-09 13:50:00 +0200 Evaluate CVE-2011-4116 about File::Temp as reported by CPAN::Audit (https://github.com/RotherOSS/otobo/issues/5364)
+- 2026-04-09 11:49:33 +0200 Evaluate the CVE CVE-2024-45321 about App-cpanminus as reported by CPAN::Audit (https://github.com/RotherOSS/otobo/issues/5360)
+- 2023-09-19 09:40:27 +0200 [Enhanced] Prepare OTOBO for CMDB 11 changes. (https://github.com/RotherOSS/otobo/issues/2514)
+- 2023-12-02 13:59:16 +0100 [Tidied]   Eliminate usage of $| (https://github.com/RotherOSS/otobo/issues/2738)
+- 2025-07-03 15:54:05 +0100 [Bugfix]   Elasticsearch index `tmpattachments` is not managed by Otobo (https://github.com/RotherOSS/otobo/issues/4326)
+- 2025-11-13 17:26:20 +0100 Allow to activate profiling in the web app via the .env file (https://github.com/RotherOSS/otobo/issues/4833)
+- 2026-04-03 14:51:51 +0200 [Enhanced] Provide the URL otobo-web/static for serving static files (https://github.com/RotherOSS/otobo/issues/5342)
+- 2026-04-02 11:33:34 +0200 [Enhanced] Add console command Maint::Elasticsearch::TestConnection (https://github.com/RotherOSS/otobo/issues/5340)
+- 2026-04-02 10:57:46 +0200 [Tidied]   Remove LWP, LWP::UserAgent  from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/2587)
+- 2026-04-02 07:47:41 +0200 [Tidied]   AgentTicketProcess: Rename CustomerUserID input to avoid naming collisions (https://github.com/RotherOSS/otobo/issues/5325)
+- 2026-04-01 14:49:51 +0200 [Enhanced] Make it obvious that CVE-2024-58135 and CVE-2024-58134 for Mojolicious are not relevant for OTOBO (https://github.com/RotherOSS/otobo/issues/5328)
+- 2026-04-01 12:01:05 +0100 Improve fallback of content security policy settings (https://github.com/RotherOSS/otobo/issues/5330)
+- 2026-04-01 12:14:14 +0200 [Bugfix]   Really exclude OTOBO files in Dev::Code::CPANAudit (https://github.com/RotherOSS/otobo/issues/5332)
+- 2026-03-31 07:22:28 +0200 [Bugfix]   AgentTicketProcess and CustomerTicketProcess: Showing a hidden field on initial page load does not work (https://github.com/RotherOSS/otobo/issues/5196)
+- 2026-03-30 11:42:48 +0200 Update Compress::Raw::Zlib to handle violation of CVE-2026-3381 for Docker. (https://github.com/RotherOSS/otobo/issues/5269)
+- 2026-03-25 12:18:31 +0100 [Bugfix]   Leeway parameter is not passed to JWT token decoding (https://github.com/RotherOSS/otobo/issues/5211)
+- 2026-03-26 10:41:55 +0100 [Bugfix]   Submitting an erroneous postmaster filter leads to being stuck with overlay (https://github.com/RotherOSS/otobo/issues/5009) - in progress
+- 2026-03-25 15:02:54 +0100 [Bugfix]   DF Ticket Reference: Map CustomerUserID to CustomerUserLogin for TicketSearch (https://github.com/RotherOSS/otobo/issues/5300)
+- 2026-03-25 15:26:47 +0000 [Bugfix]   Duplicate CustomerNavigationBar in CustomerTicketMessage.pm on validation error (https://github.com/RotherOSS/otobo/issues/5078)
+- 2026-03-25 13:17:59 +0100 [Bugfix]   Catch nonexistent customer user identifier in reference driver sub SearchObjects (https://github.com/RotherOSS/otobo/issues/5298)
+- 2026-03-25 13:15:04 +0100 Unify return value of sub SearchObjects across reference dynamic field drivers (https://github.com/RotherOSS/otobo/issues/5296)
+- 2026-03-24 14:23:15 +0100 New test failure with ContentCharset.t (https://github.com/RotherOSS/otobo/issues/5285)
+- 2026-03-24 12:55:06 +0000 Update CKEditor to version 47.6.1 (https://github.com/RotherOSS/otobo/issues/5283)
+- 2025-12-10 11:23:42 +0100 [Bugfix]   CustomerID and CustomerUserID not defined in TicketACLPreselection. (https://github.com/RotherOSS/otobo/issues/4860)
+- 2026-03-23 15:43:29 +0000 [Bugfix]   CustomerDashboard tiles: SysConfig should check sanity of the order settings (https://github.com/RotherOSS/otobo/issues/1304)
+- 2026-03-24 09:04:18 +0000 Corners are too round on attachment upload area in Agent interface (https://github.com/RotherOSS/otobo/issues/5279)
+- 2026-03-24 10:26:39 +0100 [Tidied]   Replace usages of `substr`with `substring` (https://github.com/RotherOSS/otobo/issues/5226)
+- 2026-03-20 09:47:47 +0100 [Bugfix]   Long dynamic field labels lead to strange layout (https://github.com/RotherOSS/otobo/issues/5235)
+- 2026-03-24 08:16:42 +0100 [Bugfix]   DF CustomerUser Reference: External source attribute 'E-Mail' does not work (https://github.com/RotherOSS/otobo/issues/5273)
+- 2026-03-24 08:26:33 +0100 [Bugfix]   DF CustomerUser Reference: Link creation doesn't work correctly (https://github.com/RotherOSS/otobo/issues/5275)
+- 2026-03-24 08:34:57 +0100 [Bugfix]   DF CustomerUser Reference: Implement FieldValueValidate (https://github.com/RotherOSS/otobo/issues/5277)
+- 2026-03-20 09:25:34 +0100 [Bugfix]   Broken links to external icons and data leaking (https://github.com/RotherOSS/otobo/issues/5212)
+- 2026-03-23 10:14:56 +0100 [Bugfix]   QueueDefault can lead to DynamicField values not being stored. (https://github.com/RotherOSS/otobo/issues/4962)
+- 2026-03-20 10:42:47 +0100 [Bugfix]   Uncaught TypeError: Core.UI.InputFields.HideMultiAddRemoveButtons is not a function (https://github.com/RotherOSS/otobo/issues/5256)
+- 2026-03-19 16:10:05 +0100 DynamicFieldScreens: Long field names and labels exceed container (https://github.com/RotherOSS/otobo/issues/5265)
+- 2026-03-17 15:08:16 +0100 Translated using Weblate (Hungarian)
+- 2026-03-12 21:19:33 +0100 Do not use both `carton`and `cpanm`in otobo.web.dockerfile (https://github.com/RotherOSS/otobo/issues/5252)
+- 2026-03-12 14:03:07 +0100 [Tidied]   OTRS related logos shipped with installation package (https://github.com/RotherOSS/otobo/issues/5213)
+- 2026-03-12 12:13:03 +0100 Update Mozilla::CA in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/5245)
+- 2026-03-12 08:35:24 +0100 Fix setting ACLs to invalid in Selenium tests (https://github.com/RotherOSS/otobo/issues/5243)
+- 2026-03-10 06:36:44 +0100 [Enhanced] Treat email X-headers as external source for dynamic fields. (https://github.com/RotherOSS/otobo/issues/5164)
+- 2026-03-10 08:58:25 +0100 Translated using Weblate (Arabic (Saudi Arabia))
+- 2026-03-09 07:43:39 +0100 Translated using Weblate (German)
+- 2026-03-09 15:16:36 +0100 Consider ITSMConfigurationManagement ready to adopt classes in translation string parsing. (https://github.com/RotherOSS/otobo/issues/5238)
+- 2026-02-21 10:43:32 +0100 Translated using Weblate (Chinese (Traditional Han script))
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Chinese (Simplified Han script))
+- 2026-02-21 10:43:32 +0100 Translated using Weblate (Vietnamese)
+- 2026-02-21 10:43:35 +0100 Translated using Weblate (Ukrainian)
+- 2026-02-21 10:43:30 +0100 Translated using Weblate (Turkish)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Thai)
+- 2026-02-21 10:43:35 +0100 Translated using Weblate (Swahili)
+- 2026-02-21 10:43:22 +0100 Translated using Weblate (Swedish)
+- 2026-02-21 10:43:35 +0100 Translated using Weblate (Serbian)
+- 2026-02-21 10:43:20 +0100 Translated using Weblate (Slovenian)
+- 2026-02-21 10:43:34 +0100 Translated using Weblate (Slovak)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Russian)
+- 2026-02-21 10:43:15 +0100 Translated using Weblate (Romanian)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Portuguese (Brazil))
+- 2026-02-21 10:43:34 +0100 Translated using Weblate (Portuguese)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Malay)
+- 2026-02-21 10:43:13 +0100 Translated using Weblate (Macedonian)
+- 2026-02-21 10:43:10 +0100 Translated using Weblate (Latvian)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Korean)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Indonesian)
+- 2026-02-21 10:43:33 +0100 Translated using Weblate (Croatian)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Hindi)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Hebrew)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Galician)
+- 2026-02-21 10:43:03 +0100 Translated using Weblate (French (Canada))
+- 2026-02-21 10:43:03 +0100 Translated using Weblate (French)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Finnish)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Persian)
+- 2026-02-21 10:42:53 +0100 Translated using Weblate (Spanish (Colombia))
+- 2026-02-21 10:43:33 +0100 Translated using Weblate (Spanish)
+- 2026-02-21 10:42:51 +0100 Translated using Weblate (Greek)
+- 2026-02-21 10:43:32 +0100 Translated using Weblate (Danish)
+- 2026-03-09 11:48:18 +0100 [Bugfix]   Queue set via url does not properly trigger ACLs in CustomerTicketMessage. (https://github.com/RotherOSS/otobo/issues/5237)
+- 2026-03-05 16:50:27 +0100 [Bugfix]   Mark/Unmark ticket as seen entry is not available in ACL editor (https://github.com/RotherOSS/otobo/issues/5231)
+- 2026-03-06 08:39:00 +0100 Further stabilize GetFieldStates unit test (https://github.com/RotherOSS/otobo/issues/5233)
+- 2026-03-02 20:58:47 +0100 Issue #5221: fix quick date buttons on responsible screen
+- 2026-03-02 17:51:47 +0100 Issue 5219: move quick date buttons settings to correct navigation path
+- 2026-03-04 13:18:58 +0100 Issue #5141: Added translations to test script.
+- 2026-03-03 18:15:36 +0100 Issue #5225: Move description from AdminQueue to AdminSystemAddress.
+- 2026-02-27 11:28:42 +0100 Issue #5208: better reporting in upgrade script
+- 2026-02-27 10:40:06 +0100 Issue #5205: print indicator whether the migration was successful
+- 2026-02-27 10:32:05 +0100 Issue #5205: mention that the table stats_report is created as well
+- 2026-02-27 10:30:43 +0100 Issue #5205: print a count of the migration tasks
+- 2026-02-27 10:29:02 +0100 Issue #5205: no need for an explicit 'exit 0'
+- 2026-02-27 10:27:09 +0100 Issue #5205: a bit of tidying
+- 2026-02-26 15:55:50 +0100 Issue #5203: Added metacharacter quoting to ExternalURLJump regexp.
+- 2025-12-15 14:07:03 +0000 Issue #4947: Update qunit paths with new version number
+- 2025-12-15 14:04:20 +0000 Issue #4947: Update QUnit files to version 2.24.3
+- 2026-02-25 11:35:06 +0100 Issue #5188: remove AdminCloudServices from navigation
+- 2026-02-24 16:57:37 +0100 Issue #5189: Update date to 2026.
+- 2026-02-20 13:22:25 +0100 Issue #5176: Cleaned up two duplicates in article event config.
+- 2026-02-19 14:01:42 +0100 Issue #5122: Corrected capitalization and wording.
+- 2026-02-16 13:08:19 +0100 Issue #5110: remove redundant sample for database connect attributes
+- 2026-02-16 13:06:36 +0100 Issue #5110: rephrase the code comment for Database::Connect
+- 2026-02-13 15:05:34 +0100 Issue #5158: fiddle with templates for the generated sample code
+- 2026-02-13 15:04:22 +0100 Issue #5158: remove OTRS copyright line
+- 2026-02-12 18:41:28 +0100 Issue #5156: regenerate snapshot, removing Mock::Config
+- 2026-02-12 18:25:12 +0100 Issue #5156: update the CPAN snapshot file
+- 2026-02-12 18:23:58 +0100 Issue #5156: use https://backpan.perl.org for download from backpan
+- 2026-02-12 14:26:55 +0100 Issue #5193: update code comments about the base image of otobo-nginx-webproxy
+- 2026-02-12 14:18:27 +0100 Issue #5193: use nginx:mainline-trixie as the base image
+- 2026-02-12 13:36:52 +0100 Issue #5152: remove trailing commas
+- 2026-02-12 13:24:33 +0100 Issue #5152: tidy matrix setup of otobo-selenium-chrome
+- 2026-02-12 13:12:11 +0100 Issue #5152: tidy matrix setup of otobo-nginx-kerberos-webproxy
+- 2026-02-12 12:58:56 +0100 Issue #5152: tidy matrix setup of otobo-nginx-webproxy
+- 2026-02-12 12:10:32 +0100 Issue #5152: tidy matrix setup of otobo-elasticsearch
+- 2026-02-12 12:07:02 +0100 Issue #5152: tidy matrix setup of otobo-web
+- 2026-02-12 12:51:11 +0100 Issue #5122: Corrected capitalization and grammar.
+- 2026-02-09 10:48:39 +0000 Issue #5140: Restrict absolute, sticky, and fixed positioning in CKEditor styles
+- 2026-02-12 10:26:23 +0100 Issue #5138: remove a comma that broke YAML syntax
+- 2026-02-12 10:21:09 +0100 Issue #5138: add base image declaration for the Selenium image
+- 2026-02-10 15:14:38 +0100 Issue #5144: add local::lib to the cpanfile.docker and cpanfile.plackup
+- 2026-02-09 14:01:42 +0100 Issue #5138: declare the base image for otobo-web
+- 2026-02-09 12:39:21 +0100 Issue #5138: update base image of the selenium image
+- 2026-02-09 12:05:02 +0100 Issue #5141: Added new translations to test.
+- 2026-02-06 19:49:39 +0100 Issue #5100: add a test case with two cite divs
+- 2026-02-06 19:48:41 +0100 Issue #5100: add a test case with two <a> elements
+- 2026-02-06 19:44:54 +0100 Issue #5100: also use a named capture for the cite div
+- 2026-02-06 19:43:43 +0100 Issue #5100: remove a not needed named capture
+- 2026-02-06 19:40:52 +0100 Issue #5100: remove incorrect code comment
+- 2026-02-06 18:51:33 +0100 Issue #5101: add a newline before blockquite or cite divs
+- 2026-02-06 18:48:50 +0100 Issue #5101: add two test cases
+- 2026-02-06 18:40:56 +0100 Issue #5101: tidying, do not reuse the variable name $Counter
+- 2026-02-06 18:45:04 +0100 Issue #5101: add the attribute 'Line' to the test cases
+- 2026-02-06 15:04:52 +0100 Issue #5110: tentatively support 'Attribute' in DB dynamic field
+- 2026-02-05 15:56:59 +0100 Issue #5110: add support for attribute for DB dynamic fields
+- 2026-02-05 15:47:11 +0100 Issue #5110: connect attributes for CustomerUser
+- 2026-02-05 15:33:32 +0100 Issue #5110: connect attributes for CustomerCompany
+- 2026-02-05 14:35:14 +0100 Issue #5110: add support for connect attributes for customer auth
+- 2026-02-06 12:42:02 +0100 Issue #5117: Fixed icon color and changed approach to filter coloring.
+- 2026-02-03 15:40:01 +0100 Issue #5041: Added Readonly check for UseDefaultValue parameter.
+- 2026-02-05 13:57:17 +0100 Issue #5120: Copied array handling from Base to BaseDatabase.
+- 2026-01-30 15:46:08 +0100 Issue #5084: use named captures in regex for the blockquote element
+- 2026-01-30 15:08:31 +0100 Issue #5084: reintroduce the regex capture
+- 2026-01-29 18:04:02 +0100 Issue #5084: replace a non-specific non-greedy pattern
+- 2026-01-29 17:56:17 +0100 Issue #5084: eliminate an useless regexp capture
+- 2026-01-29 17:52:00 +0100 Issue #5084: add test with two blockquote elements
+- 2026-01-29 17:06:30 +0100 Issue #5084: added some random tests with '<blockquote>'
+- 2026-01-27 16:40:03 +0100 Issue #5084: enhance code comments
+- 2026-01-27 16:39:12 +0100 Issue #5084: add a test case to the test script RichText2Ascii.t
+- 2026-01-27 16:38:44 +0100 Issue #5084: convert a test script to Test2::V0
+- 2026-01-27 16:37:04 +0100 Issue #5084: introducing a loop variable
+- 2026-01-27 16:32:35 +0100 Issue #5084: use saner variable name: $BodyAsText => $BodyText
+- 2026-01-22 12:38:14 +0000 Issue #4944: Update jquery-ui version number in paths and references
+- 2026-01-22 12:36:16 +0000 Issue #4944: Update jquery-ui js and css files
+
+
 # OTOBO 11.0.15 2026-02-04
 - 2026-02-04 08:10:08 +0100 Create new OTOBO language files.
 - 2026-02-02 16:37:42 +0100 Add Mock-Config-0.05 to the snapshot file
@@ -3020,6 +3188,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
