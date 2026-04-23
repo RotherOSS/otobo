@@ -128,10 +128,7 @@ sub TestAdminTranslation {
         );
         my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
-        isa_ok(
-            $LanguageObject,
-            ['Kernel::Language'], 'got a Language object'
-        );
+        isa_ok( $LanguageObject, ['Kernel::Language'], 'got a Language object' );
 
         # test for the new translation to be actually applied
         my $Translated = $LanguageObject->Translate( $Params{Content} );
