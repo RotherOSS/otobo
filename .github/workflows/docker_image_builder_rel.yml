@@ -79,7 +79,7 @@ jobs:
           ) >> $GITHUB_ENV
 
       - name: 'check out the relevant OTOBO branch'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       -
         # login to Docker Hub before the composite action

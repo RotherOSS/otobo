@@ -282,7 +282,7 @@ jobs:
       -
         name: 'check out so that the composite action becomes available'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       -
         # the name of the Dockerfile might depend on the branch
@@ -307,7 +307,7 @@ jobs:
 
       - name: 'check out so that the composite action becomes available'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
   # Write Summary
   WriteSummary:

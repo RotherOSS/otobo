@@ -82,11 +82,11 @@ jobs:
           echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(github.ref_name, 'rel-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
 
       - name: 'check out the relevant OTOBO branch'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       -
         # check whether an devel image must be built
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         id: has-changes
         with:
           base: "${{ github.ref_name }}"                     # e.g rel-10_0
