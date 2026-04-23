@@ -52,14 +52,14 @@ runs:
 
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       -
         # Build the image but do not push it to Docker Hub yet.
         # Enable caching with Github Actions Cache, which is limited to 10 GB.
         # context: .  indicates that the top level ot the current checkout is used as the build context.
         name: Build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           load: true
           context: ${{ inputs.context }}
@@ -90,7 +90,7 @@ runs:
         # using the provided dockerhub_tags
         # the built image is already available in the job
         name: Push to DockerHub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           push: true
           context: ${{ inputs.context }}
