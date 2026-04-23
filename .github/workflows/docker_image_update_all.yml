@@ -28,6 +28,7 @@ jobs:
     # Needs to be updated for new patch level releases.
     outputs:
 
+      # web
       otobo_web_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_15 }}
       otobo_web_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_16 }}
       otobo_web_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_17 }}
@@ -48,6 +49,7 @@ jobs:
       #otobo_elasticsearch_rel_11_0_12: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_12 }}
       #otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
 
+      # nginx_webproxy
       otobo_nginx_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_15 }}
       otobo_nginx_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_16 }}
       otobo_nginx_webproxy_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_17 }}
@@ -58,6 +60,7 @@ jobs:
       otobo_nginx_webproxy_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_16 }}
       otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
 
+      # nginx_kerberos_webproxy
       otobo_nginx_kerberos_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_15 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_16 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_17 }}
@@ -68,6 +71,7 @@ jobs:
       otobo_nginx_kerberos_webproxy_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_16 }}
       otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
 
+      # selenium_chrome
       otobo_selenium_chrome_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_15 }}
       otobo_selenium_chrome_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_16 }}
       otobo_selenium_chrome_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_17 }}
@@ -89,6 +93,7 @@ jobs:
           'rel-10_1_15', 'rel-10_1_16', 'rel-10_1_17', 'latest-10_1',
           'rel-11_0_14', 'rel-11_0_15', 'rel-11_0_16', 'latest-11_0'
         ]
+
         exclude:
 
           # Exclude the Ngnix Images prior to rel-10_1_16 and rel-11_0_13.
@@ -109,9 +114,8 @@ jobs:
             docker_tag: 'latest-11_0'
             patch:      'rel-11_0_16'
 
-          # otobo-web uses different base images in different releases.
-          # perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12. Declare that base image as the default
-          # and add overrides for the exceptions.
+          # web
+          # the base image perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
@@ -119,7 +123,7 @@ jobs:
             repository: 'rotheross/otobo'
             base_image: 'perl:5.40-bookworm'
 
-          # The base image nginx:mainline-trixie is used since 11.0.12.
+          # The base image nginx:mainline-trixie is used since 10.1.17 and 11.0.12.
           # nginx:mainline is used in rel-10_1 up to 10.1.16 and then switched to nginx:mainline-trixie
           -
             target:     'otobo-nginx-webproxy'
