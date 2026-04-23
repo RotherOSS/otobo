@@ -148,17 +148,20 @@ jobs:
           # Excluded Docker tags
           #-
           #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'rel-10_1_14'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          #  base_image: 'nginx:mainline'
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
           #  docker_tag: 'rel-10_1_15'
           #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
           #  base_image: 'nginx:mainline'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_1_16'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_1_17'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_1'
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
           # otobo-selenium-crome uses different base images in different releases.
