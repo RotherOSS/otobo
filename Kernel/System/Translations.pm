@@ -703,21 +703,19 @@ sub WriteTranslationFile {
         )
     };
 
+    # Get base translations from core installation.
+    # This is used for deciding whether a translation should be added to JavaScriptStrings.
     my %BaseTranslations;
+    {
+        my %BaseData = %{
+            $Self->ReadExistingTranslationFile(
+                UserLanguage => $Param{UserLanguage},
+            )
+        };
 
-    # Get base translations from core installation
-    my %BaseData = %{
-        $Self->ReadExistingTranslationFile(
-            UserLanguage => $Param{UserLanguage},
-        )
-    };
-
-    # if there are any custom translations, they are collected
-    if ( %BaseData && defined $BaseData{Translation} ) {
-        my %Strings = %{ $BaseData{Translation} };
-
-        for my $Custom ( sort keys %Strings ) {
-            $BaseTranslations{$Custom} = $Strings{$Custom};
+        # collect the base translation if there are any
+        if ( %BaseData && defined $BaseData{Translation} ) {
+            %BaseTranslations = $BaseData{Translation}->%*;
         }
     }
 

@@ -869,21 +869,20 @@ sub _Overview {
 
     my %Collected;
     my %CollectedDraft;
+
+    # Get base translations from core installation.
+    # This is used for indicating whether a custom translation overwrites a base translation.
     my %BaseTranslations;
+    {
+        my %BaseData = %{
+            $TranslationsObject->ReadExistingTranslationFile(
+                UserLanguage => $LanguageID
+            )
+        };
 
-    # Get base translations from core installation
-    my %BaseData = %{
-        $TranslationsObject->ReadExistingTranslationFile(
-            UserLanguage => $LanguageID
-        )
-    };
-
-    # if there are any custom translations, they are collected
-    if ( %BaseData && defined $BaseData{Translation} ) {
-        my %Strings = %{ $BaseData{Translation} };
-
-        for my $Custom ( sort keys %Strings ) {
-            $BaseTranslations{$Custom} = $Strings{$Custom};
+        # collect the base translation if there are any
+        if ( %BaseData && defined $BaseData{Translation} ) {
+            %BaseTranslations = $BaseData{Translation}->%*;
         }
     }
 
@@ -954,7 +953,7 @@ sub _Overview {
         }
     );
 
-    # if there are any custom translations, they are shown
+    # if there are any active custom translations, they are shown
     if (@LanguageData) {
 
         # Write values from translation file into tt
