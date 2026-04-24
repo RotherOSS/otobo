@@ -256,23 +256,34 @@ END_SQL
     return \@DraftItems;
 }
 
+=encoding utf-8
+
+=for stopwords dům
+
 =head2 DraftTranslationsExport()
 
-get all draft translation items for Export process
+contrary to the method name, this method gets the active translation items for the export process.
+Exported are the translations for all source strings that have a translation in
+at least one of the relevant languages.
 
     my $DraftTranslations = $TranslationsObject->DraftTranslationsExport(
-        Language     => ['en', 'de', 'es_CO'],
+        Language     => ['ca', 'cs', 'de'],
     );
 
 Returns:
 
     $DraftTranslations = [
         {
-            Language    => 'en',
-            Content     => 'Earth',
-            en          => 'Earth',
-            de          => 'Tierra',
-            es          => 'Erde',
+            'House' => {
+                de => 'Haus',
+                ca => 'casa',
+                cs => 'dům',
+        },
+        {
+            'Mouse' => {
+                de => 'Maus',
+                ca => 'ratolí',
+                cs => 'myš',
         },
         ...
     ]
@@ -291,14 +302,8 @@ sub DraftTranslationsExport {
         return;
     }
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my @DraftItems;
-    my %Strings;
-    my @LanguageIDsQuoted;
-
-    for my $LanguageID ( @{ $Param{Language} } ) {
-        push @LanguageIDsQuoted, $DBObject->Quote($LanguageID);
-    }
+    my $DBObject          = $Kernel::OM->Get('Kernel::System::DB');
+    my @LanguageIDsQuoted = map { $DBObject->Quote($_) } $Param{Language}->@*;
 
     if ( !@LanguageIDsQuoted ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -306,20 +311,27 @@ sub DraftTranslationsExport {
             Message  => "No Language received!",
         );
 
-        return \@DraftItems;
+        return [];
     }
 
-    my $SQLIn = join ', ', map {qq{'$_'}} @LanguageIDsQuoted;
+    my $LanguageList = join ', ', map {qq{'$_'}} @LanguageIDsQuoted;
 
-    return \@DraftItems
-        if !$DBObject->Prepare(
-            SQL => "SELECT distinct(content) FROM translation_item WHERE language IN ($SQLIn) AND import_param = 0 AND flag = 'a' ORDER BY 1 ASC",
-        );
+    return [] unless $DBObject->Prepare(
+        SQL => <<"END_SQL",
+SELECT distinct(content)
+  FROM translation_item
+  WHERE language IN ($LanguageList)
+    AND import_param = 0
+    AND flag = 'a'
+END_SQL
+    );
 
+    my %Strings;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Strings{ $Row[0] } = $Row[0];
     }
 
+    my @DraftItems;
     for my $Content ( sort keys %Strings ) {
         my %Record;
         my %DraftElement;
@@ -334,9 +346,7 @@ sub DraftTranslationsExport {
                 $Record{$DestLang} = $Row[0];
             }
 
-            if ( !$Record{$DestLang} ) {
-                $Record{$DestLang} = '';
-            }
+            $Record{$DestLang} ||= '';
         }
 
         $DraftElement{$Content} = \%Record;
