@@ -833,8 +833,10 @@ sub WriteActiveTranslationsToFile {
     my $BreakLineAfterChars = 60;
     my $Home                = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $Indent              = ' ' x 4;
-    my $JavascriptStrings   = $Indent . "push \@{ \$Self->{JavaScriptStrings} // [] }, (\n";
     my $Data                = '';
+    my $JavascriptStrings =
+        $Indent . '$Self->{JavaScriptStrings} //= [];' . "\n" .
+        $Indent . 'push $Self->{JavaScriptStrings}->@*, (' . "\n";
 
     # Get base translations from core installation.
     # This is used for deciding whether a translation should be added to JavaScriptStrings.
@@ -925,8 +927,8 @@ $JavascriptStrings
 1;
 EOF
 
-    my $ModuleName = "Kernel/Language/$Param{UserLanguage}_ZZZAAuto.pm";
-    my $TargetFile = "$Home/$ModuleName";
+    my $ModuleFileName = "Kernel/Language/$Param{UserLanguage}_ZZZAAuto.pm";
+    my $TargetFile     = "$Home/$ModuleFileName";
 
     if ( -e $TargetFile ) {
         my $Rename = rename( $TargetFile, "$TargetFile.old" );
@@ -966,7 +968,7 @@ EOF
     else {
         rename( "$TargetFile.new", $TargetFile );
 
-        Kernel::System::ModuleRefresh->refresh_module($ModuleName);
+        Kernel::System::ModuleRefresh->refresh_module($ModuleFileName);
 
         $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
             Location        => "$TargetFile.old",
