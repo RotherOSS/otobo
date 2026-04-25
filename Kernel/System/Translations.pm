@@ -703,22 +703,6 @@ sub WriteTranslationFile {
         )
     };
 
-    # Get base translations from core installation.
-    # This is used for deciding whether a translation should be added to JavaScriptStrings.
-    my %BaseTranslations;
-    {
-        my %BaseData = %{
-            $Self->ReadExistingTranslationFile(
-                UserLanguage => $Param{UserLanguage},
-            )
-        };
-
-        # collect the base translation if there are any
-        if ( %BaseData && defined $BaseData{Translation} ) {
-            %BaseTranslations = $BaseData{Translation}->%*;
-        }
-    }
-
     for my $Existing (@LanguageData) {
         my %Item = %{$Existing};
         $Collected{ $Item{Content} } = $Item{Translation};
@@ -783,29 +767,117 @@ END_SQL
         }
     }
 
+    my $Success = $Self->WriteActiveTranslationsToFile(
+        UserLanguage => $Param{UserLanguage},
+        Translations => \%Collected,
+    );
+
+    return unless $Success;
+
+    if ( !$Param{NoParentChild} ) {
+
+        my %Queues  = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+        my @Strings = values %Queues;
+
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
+
+            my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
+                UserID => 1,
+            );
+            push @Strings, values %Services;
+        }
+
+        $Self->TranslateParentChildElements(
+            LanguageID => $Param{UserLanguage},
+            Strings    => \@Strings,
+        );
+    }
+
+    return $Success;
+}
+
+=head2 WriteActiveTranslationsToFile()
+
+Write the active translations to the language file F<Kernel/Language/LANG_ZZZAAuto.pm>.
+Use the base translations for determining whether the source string
+is to be passed to JavaScript.
+
+    my $RetCode = $TranslationsObject->WriteActiveTranslationsToFile(
+        UserLanguage => 'da',
+        Translations => {
+            cosy => 'hyggelig'
+            sun  => 'Sol',
+        }
+    );
+
+Returns:
+
+    # empty list in case of failure
+    $RetCode = undef;
+
+    # in case of success
+    $RetCode = 1;
+
+    # when writing the tranlation file has been rolled back
+    $Success = 3;
+
+=cut
+
+sub WriteActiveTranslationsToFile {
+    my ( $Self, %Param ) = @_;
+
+    # extract parameters
+    my $UserLanguage = $Param{UserLanguage};
+    my %Translations = $Param{Translations}->%*;    # in future the active translation could be fetched in this sub
+
+    my $BreakLineAfterChars = 60;
+    my $Home                = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Indent              = ' ' x 4;
+    my $JavascriptStrings   = $Indent . "push \@{ \$Self->{JavaScriptStrings} // [] }, (\n";
+    my $Data                = '';
+
+    # Get base translations from core installation.
+    # This is used for deciding whether a translation should be added to JavaScriptStrings.
+    my %BaseTranslations;
+    {
+        my %BaseData = $Self->ReadExistingTranslationFile(
+            UserLanguage => $Param{UserLanguage},
+        )->%*;
+
+        # collect the base translation if there are any
+        if ( %BaseData && defined $BaseData{Translation} ) {
+            %BaseTranslations = $BaseData{Translation}->%*;
+        }
+    }
+
     # Generate translation data in required structure
     KEY:
-    for my $Key ( keys %Collected ) {
-        $Collected{$Key} =~ s{\\}{\\\\}xmsg;
-        $Collected{$Key} =~ s{\'}{\\'}xmsg;
+    for my $Key ( keys %Translations ) {
+
+        # Prepare for embedding in single quoted string
+        # by quoting all backslashes and all apostrophes.
+        $Translations{$Key} =~ s{\\}{\\\\}xmsg;
+        $Translations{$Key} =~ s{\'}{\\'}xmsg;
 
         my $SourceKey = $Key;
 
+        # Prepare for embedding in single quoted string
+        # by quoting all backslashes and all apostrophes.
         $Key =~ s{\\}{\\\\}xmsg;
         $Key =~ s{\'}{\\'}xmsg;
 
         if (
-            index( $SourceKey, "\n" )
-            > -1
-            || length($SourceKey) < $BreakLineAfterChars
+            index( $SourceKey, "\n" ) > -1
+            ||
+            length($SourceKey) < $BreakLineAfterChars
             )
         {
             $Data .= $Indent
-                . "\$Self->{Translation}->{'$Key'} = '$Collected{$SourceKey}';\n";
+                . "\$Self->{Translation}->{'$Key'} = '$Translations{$SourceKey}';\n";
         }
         else {
             $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
-            $Data .= $Indent . '    ' . "'$Collected{$SourceKey}';\n";
+            $Data .= $Indent . '    ' . "'$Translations{$SourceKey}';\n";
         }
 
         # skip adding to javascript strings if item exists in core translations
@@ -824,7 +896,7 @@ $Separator
 # OTOBO is a web-based ticketing system for service organisations.
 $Separator
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 $Separator
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -903,25 +975,6 @@ EOF
         );
 
         $Success = 1;
-    }
-
-    if ( !$Param{NoParentChild} ) {
-
-        my %Queues  = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
-        my @Strings = values %Queues;
-
-        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
-
-            my %Services = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
-                UserID => 1,
-            );
-            push @Strings, values %Services;
-        }
-
-        $Self->TranslateParentChildElements(
-            LanguageID => $Param{UserLanguage},
-            Strings    => \@Strings,
-        );
     }
 
     return $Success;
