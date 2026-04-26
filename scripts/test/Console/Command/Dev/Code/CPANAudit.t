@@ -63,7 +63,7 @@ for my $Key (qw( args command cpan_audit total_advisories )) {
 is(
     $ThawedAuditReport->{meta}->{cpan_audit},
     {
-        db      => '20260412.001',
+        db      => '20260419.002',
         version => '20260308.002',
     },
     'got expected version of the advisory list'
