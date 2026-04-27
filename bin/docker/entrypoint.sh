@@ -182,6 +182,7 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Translations::Deploy 2>&1)
         date
         echo "finished $FUNCNAME()"
         echo
