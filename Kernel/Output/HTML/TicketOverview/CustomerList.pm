@@ -232,7 +232,6 @@ sub Run {
             my $ValueStrg = $BackendObject->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Value,
-                ValueMaxChars      => 20,
                 LayoutObject       => $LayoutObject,
             );
             next DYNAMICFIELD if ( !defined $ValueStrg->{Value} || $ValueStrg->{Value} eq '' );

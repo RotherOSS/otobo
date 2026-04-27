@@ -345,7 +345,8 @@ td.Attachment {
     border-right: 0px;
 }
 
-.TableSmall thead th a {
+.TableSmall thead th a,
+.TableSmall thead th span.Gray {
     padding-top: 2px;
     padding-bottom: 2px;
 }
@@ -724,7 +725,8 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
 
 .DataTable thead th.DashboardHeader a,
 .TableSmall thead th.OverviewHeader a,
-.DataTable thead th.DashboardHeader span.Gray {
+.DataTable thead th.DashboardHeader span.Gray,
+.TableSmall thead th.OverviewHeader span.Gray {
     height: 16px;
     line-height: 16px;
     padding-left: 5px;
