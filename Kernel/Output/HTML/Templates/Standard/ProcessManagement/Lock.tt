@@ -14,25 +14,28 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 [% RenderBlockStart("rw:Lock") %]
-<label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
+<div class="Row">
+    <div class="FieldCell">
+        <label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
 [% RenderBlockStart("LabelSpan") %]
-    <span class="Marker">*</span>
+            <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpan") %]
 [% RenderBlockStart("rw:Lock:DescriptionLong") %]
-    <span class="FieldHelpContainer">
-        <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Translate(Data.DescriptionLong) | html %]</span>
-    </span>
+            <span class="FieldHelpContainer">
+                <i class="fa fa-question-circle FieldHelpTrigger"></i>
+                <span>[% Translate(Data.DescriptionLong) | html %]</span>
+            </span>
 [% RenderBlockEnd("rw:Lock:DescriptionLong") %]
-    [% Data.Label | html %]:
-</label>
-<div class="Field">
-    [% Data.Content %]
-    <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            [% Data.Label | html %]:
+        </label>
+        <div class="Field">
+            [% Data.Content %]
+            <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockStart("rw:Lock:DescriptionShort") %]
-    <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
+            <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
 [% RenderBlockEnd("rw:Lock:DescriptionShort") %]
+        </div>
+    </div>
 </div>
-<div class="Clear"></div>
 [% RenderBlockEnd("rw:Lock") %]
