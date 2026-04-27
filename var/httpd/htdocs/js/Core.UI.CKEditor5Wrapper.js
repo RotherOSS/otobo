@@ -53,6 +53,7 @@ let Plugins = [
     CKEditor5Wrapper.ImageToolbar,
     CKEditor5Wrapper.ImageInsert,
     CKEditor5Wrapper.Indent,
+    CKEditor5Wrapper.IndentBlock,
     CKEditor5Wrapper.Italic,
     CKEditor5Wrapper.Link,
     CKEditor5Wrapper.List,
