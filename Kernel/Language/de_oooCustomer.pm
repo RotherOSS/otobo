@@ -26,17 +26,12 @@ sub Data {
     $Self->{Translation}->{'Your Tickets. Your OTOBO.'}   = 'Deine Tickets. Dein OTOBO.';
 
     # Dashboard
-    $Self->{Translation}->{'# FAQ Article № 1'} = '# FAQ Artikel № 1';
-    $Self->{Translation}->{'List of features coming with the OTOBO beta version.'} = 'Liste der Features, die in der OTOBO beta Version enthalten sein werden.';
-    $Self->{Translation}->{'Show >'} = 'Anzeigen >';
     $Self->{Translation}->{'Message of the day'} = 'Aktuelle Informationen';
     $Self->{Translation}->{'Welcome %s, to your OTOBO.'} = 'Willkommen %s, in Deinem OTOBO.';
-    $Self->{Translation}->{'Have fun exploring this preliminary version of the OTOBO customer interface!'} = 'Viel Spaß beim Ansehen dieser im Aufbau befindlichen Kundenansicht von OTOBO!';
     $Self->{Translation}->{'Your last tickets'} = 'Deine letzten Tickets';
     $Self->{Translation}->{'Your external tools'} = 'Externe Tools';
 
     return;
-
 }
 
 1;
