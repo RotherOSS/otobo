@@ -498,7 +498,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
                     // get Path length
                     for (PathKey in Path) {
-                        if (Path.hasOwnProperty(PathKey)) {
+                        if (Object.prototype.hasOwnProperty.call(Path, PathKey)) {
                             PathLength++;
                         }
                     }
