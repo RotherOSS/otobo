@@ -882,6 +882,7 @@ sub ColumnFilterValuesGet {
         my $DisplayValue = $Self->DisplayValueRender(
             LayoutObject => $Param{LayoutObject},
             Value        => $Key,
+            HTMLOutput   => 0,
         );
 
         if ( IsHashRefWithData($DisplayValue) ) {

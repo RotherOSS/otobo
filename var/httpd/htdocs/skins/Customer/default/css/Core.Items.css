@@ -27,6 +27,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-bottom: 1px;
     min-height: 15px;
     min-width: 5px;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #oooCustomerNotifications > .MessageBox {

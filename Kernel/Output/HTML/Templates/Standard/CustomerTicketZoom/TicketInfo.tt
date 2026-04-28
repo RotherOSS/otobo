@@ -68,15 +68,15 @@
 [% RenderBlockStart("CategoriesI") %]
                 [% IF Data.Config.Link %]
                     [% IF Data.Config.Translate %]
-                        <a class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" href="[% Data.Config.Link | Interpolate | html %]" target="_blank">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</a>
+                        <a class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" href="[% Data.Config.Link | Interpolate | html %]" title="[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]" target="_blank">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</a>
                     [% ELSE %]
-                        <a class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" href="[% Data.Config.Link | Interpolate | html %]" target="_blank">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</a>
+                        <a class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" href="[% Data.Config.Link | Interpolate | html %]" title="[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]" target="_blank">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</a>
                     [% END %]
                 [% ELSE %]
                     [% IF Data.Config.Translate %]
-                        <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</p>
+                        <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" title="[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</p>
                     [% ELSE %]
-                        <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</p>
+                        <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]" title="[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</p>
                     [% END %]
                 [% END %]
 [% RenderBlockEnd("CategoriesI") %]

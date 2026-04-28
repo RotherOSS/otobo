@@ -6492,7 +6492,7 @@ sub SetRichTextParameters {
         'Alignment',    'Autoformat', 'BlockQuote', 'Bold', 'CodeBlock', 'DataFilter', 'DataSchema', 'FindAndReplace', 'FontColor',
         'FontFamily',   'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading', 'HorizontalLine', 'Image', 'ImageResize', 'ImageStyle', 'ImageUpload',
         'ImageToolbar', 'ImageInsert',
-        'Indent',       'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
+        'Indent', 'IndentBlock', 'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
         'SpecialCharactersEssentials',
         'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
     );
@@ -6666,7 +6666,7 @@ sub CustomerSetRichTextParameters {
         'Alignment',    'Autoformat', 'BlockQuote', 'Bold', 'CodeBlock', 'DataFilter', 'DataSchema', 'FindAndReplace', 'FontColor',
         'FontFamily',   'FontSize',   'FontBackgroundColor', 'GeneralHtmlSupport', 'Heading', 'HorizontalLine', 'Image', 'ImageResize', 'ImageStyle', 'ImageUpload',
         'ImageToolbar', 'ImageInsert',
-        'Indent',       'Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
+        'Indent', 'IndentBlock','Italic', 'Link', 'List', 'Paragraph', 'RemoveFormat', 'SelectAll', 'SimpleUploadAdapter', 'SourceEditing', 'SpecialCharacters',
         'SpecialCharactersEssentials',
         'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
     );
