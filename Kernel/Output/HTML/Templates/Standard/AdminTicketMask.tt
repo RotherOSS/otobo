@@ -26,7 +26,7 @@
 
     [% IF (Data.MaskSelected) %]
         [% BreadcrumbPath.push({
-            Name => 'Edit mask',
+            Name => Translate('Edit mask'),
         }) %]
     [% END %]
 
