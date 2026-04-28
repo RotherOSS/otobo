@@ -5547,7 +5547,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => '',
-        'Select the group of the agents' => '',
+        'Select the group of the agents.' => '',
         'External-source key' => '',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             '',
@@ -5558,7 +5558,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'Referenced object type' => '',
-        'Select the type of the referenced object' => '',
+        'Select the type of the referenced object.' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
         'Link type' => '',
@@ -5577,7 +5577,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
         'Attribute which will be searched on autocomplete' => '',
-        'Select the attribute which customer companies will be searched by' =>
+        'Select the attribute which customer companies will be searched by.' =>
             '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
@@ -5588,12 +5588,12 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
         'Queue of the ticket' => '',
-        'Select the queue of the ticket' => '',
+        'Select the queue of the ticket.' => '',
         'Type of the ticket' => '',
-        'Select the type of the ticket' => '',
-        'Select the attribute which tickets will be searched by' => '',
+        'Select the type of the ticket.' => '',
+        'Select the attribute which tickets will be searched by.' => '',
         'Attribute which is displayed for values' => '',
-        'Select the type of display' => '',
+        'Select the type of display.' => '',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
         'Column Separator' => 'Separator kolumny',

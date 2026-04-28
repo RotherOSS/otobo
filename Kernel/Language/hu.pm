@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998956936373119;
+    $Self->{Completeness}        = 0.997913872746238;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5548,7 +5548,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => 'Az ügyintézők csoportja',
-        'Select the group of the agents' => 'Az ügyintézők csoportjának kiválasztása',
+        'Select the group of the agents.' => '',
         'External-source key' => 'Külső forrás kulcsa',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             'Ha külső forráson (például webkiszolgálón vagy importáláson/exportáláson) keresztül van beállítva, akkor az érték ezen attribútumként lesz értelmezve.',
@@ -5559,7 +5559,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'Referenced object type' => 'Hivatkozott objektum típusa',
-        'Select the type of the referenced object' => 'A hivatkozott objektum típusának kiválasztása',
+        'Select the type of the referenced object.' => '',
         'Input mode of edit field' => 'Szerkesztőmező beviteli módja',
         'Select the input mode for the edit field.' => 'A szerkesztőmező beviteli módjának kiválasztása.',
         'Link type' => 'Kapcsolat típusa',
@@ -5578,8 +5578,8 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
         'Attribute which will be searched on autocomplete' => 'Az automatikus kiegészítésnél keresendő attribútum',
-        'Select the attribute which customer companies will be searched by' =>
-            'Azon attribútum kiválasztása, amely alapján az ügyfél-vállalatok keresve lesznek',
+        'Select the attribute which customer companies will be searched by.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Ez a mező kötelező vagy',
@@ -5589,12 +5589,12 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
         'Queue of the ticket' => 'A jegy várólistája',
-        'Select the queue of the ticket' => 'A jegy várólistájának kiválasztása',
+        'Select the queue of the ticket.' => '',
         'Type of the ticket' => 'A jegy típusa',
-        'Select the type of the ticket' => 'A jegy típusának kiválasztása',
-        'Select the attribute which tickets will be searched by' => 'Azon attribútum kiválasztása, amely alapján a jegyek keresve lesznek',
+        'Select the type of the ticket.' => '',
+        'Select the attribute which tickets will be searched by.' => '',
         'Attribute which is displayed for values' => 'Az az attribútum, amely az értékeknél van megjelenítve',
-        'Select the type of display' => 'A megjelenítés típusának kiválasztása',
+        'Select the type of display.' => '',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
         'Column Separator' => 'Oszlopelválasztó',
