@@ -61,64 +61,78 @@
                     <h2>[% Translate("Ticket Settings") | html %]</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class="TableLike FixedLabel">
+                    <fieldset class="ModularForm FixedLabel">
 
 [% RenderBlockStart("Queue") %]
-                        <label class="Mandatory" for="DestQueueID"><span class="Marker">*</span> [% Translate("New Queue") | html %]:</label>
-                        <div class="Field">
-                            [% Data.MoveQueuesStrg %]
-                            <div id="DestQueueIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="DestQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label class="Mandatory" for="DestQueueID"><span class="Marker">*</span> [% Translate("New Queue") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.MoveQueuesStrg %]
+                                    <div id="DestQueueIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="DestQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("Queue") %]
 
 [% RenderBlockStart("Owner") %]
-                        <label for="NewUserID">[% Translate("New Owner") | html %]:</label>
-                        <div class="Field">
-                            [% Data.OwnerStrg %]
-                            <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
-                                <span>[% Translate("Get all") | html %]</span>
-                                <i class="fa fa-refresh"></i>
-                            </a>
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label for="NewUserID">[% Translate("New Owner") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.OwnerStrg %]
+                                    <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
+                                        <span>[% Translate("Get all") | html %]</span>
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("Owner") %]
 
 [% RenderBlockStart("State") %]
-                        [% IF Data.StateMandatory %]
-                            <label class="Mandatory" for="NewStateID"><span class="Marker">*</span>[% Translate("Next ticket state") | html %]:</label>
-                        [% ELSE %]
-                            <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
-                        [% END %]
-                        <div class="Field">
-                            [% Data.NextStatesStrg %]
-                            [% IF Data.StateMandatory %]
-                                <div id="NewStateIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                                <div id="NewStateIDServerError" class="TooltipErrorMessage"><p>[% Translate("State invalid.") | html %]</p></div>
-                            [% END %]
-
+                        <div class="Row">
+                            <div class="FieldCell">
+                                [% IF Data.StateMandatory %]
+                                <label class="Mandatory" for="NewStateID"><span class="Marker">*</span>[% Translate("Next ticket state") | html %]:</label>
+                                [% ELSE %]
+                                <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
+                                [% END %]
+                                <div class="Field">
+                                    [% Data.NextStatesStrg %]
+                                    [% IF Data.StateMandatory %]
+                                    <div id="NewStateIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="NewStateIDServerError" class="TooltipErrorMessage"><p>[% Translate("State invalid.") | html %]</p></div>
+                                    [% END %]
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("State") %]
 
 [% RenderBlockStart("StatePending") %]
-                        <label>[% Translate("Pending date") | html %]:</label>
-                        <div class="Field">
-                            [% Data.DateString %]
-                            <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
-                            <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
-                            <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label>[% Translate("Pending date") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.DateString %]
+                                    <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                                    <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                                    <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("StatePending") %]
 
 [% RenderBlockStart("Priority") %]
-                        <label for="NewPriorityID">[% Translate("Priority") | html %]:</label>
-                        <div class="Field">
-                            [% Data.NextPrioritiesStrg %]
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label for="NewPriorityID">[% Translate("Priority") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.NextPrioritiesStrg %]
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("Priority") %]
                     </fieldset>
                 </div>
@@ -150,83 +164,105 @@
                     <h2>[% Translate("Add Article") | html %]</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class="TableLike FixedLabel">
+                    <fieldset class="ModularForm FixedLabel">
 [% IF Data.WidgetStatus == 'Expanded' %]
                         <input type="hidden" id="CreateArticle" name="CreateArticle" value="1" />
 [% ELSE %]
-                        <label for="CreateArticle">[% Translate("Create an Article") | html %]:</label>
-                        <div class="Field">
-                            <input type="checkbox" id="CreateArticle" name="CreateArticle" value="1" />
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label for="CreateArticle">[% Translate("Create an Article") | html %]:</label>
+                                <div class="Field">
+                                    <input type="checkbox" id="CreateArticle" name="CreateArticle" value="1" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% END %]
 [% RenderBlockStart("Note") %]
+                        <div class="Row">
+                            <div class="FieldCell">
 [% RenderBlockStart("SubjectLabel") %]
-                        <label for="Subject">[% Translate("Subject") | html %]:</label>
+                                <label for="Subject">[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabel") %]
 [% RenderBlockStart("SubjectLabelMandatory") %]
-                        <label class="Mandatory" for="Subject"><span class="Marker">*</span>[% Translate("Subject") | html %]:</label>
+                                <label class="Mandatory" for="Subject"><span class="Marker">*</span>[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabelMandatory") %]
-                        <div class="Field">
-                            <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate Validate_DependingRequiredAND Validate_Depending_CreateArticle [% Data.SubjectRequired %] [% Data.SubjectInvalid %] W75pc"/>
-                            <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div class="Field">
+                                    <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate Validate_DependingRequiredAND Validate_Depending_CreateArticle [% Data.SubjectRequired %] [% Data.SubjectInvalid %] W75pc"/>
+                                    <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockStart("TicketOptions") %]
-                        <label>[% Translate("Options") | html %]:</label>
-                        <div class="Field">
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label>[% Translate("Options") | html %]:</label>
+                                <div class="Field">
 <!-- OutputFilterHook_TicketOptionsBegin -->
 <!-- OutputFilterHook_TicketOptionsEnd -->
 
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("TicketOptions") %]
 
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
 [% RenderBlockStart("StandardTemplate") %]
-                        <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
-                        <div class="Field">
-                        [% Data.StandardTemplateStrg %]
-                            <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") | html %]</p>
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
+                                <div class="Field">
+                                [% Data.StandardTemplateStrg %]
+                                    <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") | html %]</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("StandardTemplate") %]
 
+                        <div class="Row">
+                            <div class="FieldCell">
 [% RenderBlockStart("RichTextLabel") %]
-                        <label for="RichText">[% Translate("Text") | html %]:</label>
+                                <label for="RichText">[% Translate("Text") | html %]:</label>
 [% RenderBlockEnd("RichTextLabel") %]
 [% RenderBlockStart("RichTextLabelMandatory") %]
-                        <label class="Mandatory" for="RichText"><span class="Marker">*</span>[% Translate("Text") | html %]:</label>
+                                <label class="Mandatory" for="RichText"><span class="Marker">*</span>[% Translate("Text") | html %]:</label>
 [% RenderBlockEnd("RichTextLabelMandatory") %]
-                        <div id="RichTextField" class="RichTextField">
-                            <textarea id="RichText" class="RichText Validate [% Data.BodyRequired %] [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
-                            <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="RichTextField" class="Field RichTextField">
+                                    <textarea id="RichText" class="RichText Validate [% Data.BodyRequired %] [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                                    <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 
-                        <label>[% Translate("Attachments") | html %]:</label>
-                        <div class="Field">
-[% INCLUDE "FormElements/AttachmentList.tt" %]
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label>[% Translate("Attachments") | html %]:</label>
+                                <div class="Field">
+                                    [% INCLUDE "FormElements/AttachmentList.tt" %]
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 
 [% RenderBlockEnd("Note") %]
+
+                        <div class="Row">
+                            <div class="FieldCell">
 [% RenderBlockStart("TimeUnitsLabel") %]
-                        <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+                                <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
 [% RenderBlockEnd("TimeUnitsLabel") %]
 [% RenderBlockStart("TimeUnitsLabelMandatory") %]
-                        <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+                                <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
 [% RenderBlockEnd("TimeUnitsLabelMandatory") %]
 [% RenderBlockStart("TimeUnits") %]
-                        <div class="Field">
-                            <input type="text" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]"/>
-                            <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
-                            <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div class="Field">
+                                    <input type="text" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]"/>
+                                    <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
+                                    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
                     </fieldset>
                 </div>
