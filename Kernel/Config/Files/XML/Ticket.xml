@@ -6376,7 +6376,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::MenuModule###9000-ShowHideDeletedArticles" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::MenuModule###9000-ShowHideDeletedArticles" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
