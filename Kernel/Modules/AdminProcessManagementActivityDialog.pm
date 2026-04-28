@@ -935,6 +935,10 @@ sub _ShowEdit {
         );
     }
 
+    $LayoutObject->Block(
+        Name => 'StandardTemplatesContainer',
+    );
+
     # extract parameters from config
     $Param{DescriptionShort}     = $Param{ActivityDialogData}->{Config}->{DescriptionShort};
     $Param{DescriptionLong}      = $Param{ActivityDialogData}->{Config}->{DescriptionLong};

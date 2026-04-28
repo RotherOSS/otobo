@@ -272,6 +272,14 @@
                 <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnitsContainer") %]
 
+[% RenderBlockStart("StandardTemplatesContainer") %]
+                <label for="StandardTemplates">[% Translate("Standard Templates") | html %]:</label>
+                <div class="Field" id="StandardTemplatesContainer" class='Hidden'>
+                    <input type="checkbox" name="StandardTemplates" id="StandardTemplates"/>
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("StandardTemplatesContainer") %]
+
                 <label for="Display">[% Translate("Display") | html %]:</label>
                 <div class="Field">
                     [% Data.DisplaySelection %]

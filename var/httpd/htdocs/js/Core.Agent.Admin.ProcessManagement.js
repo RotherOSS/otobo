@@ -1260,6 +1260,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
                                  // add the time units value to the fieldconfig
                                  FieldConfigElement.Config.TimeUnits = $('#TimeUnits').val();
+
+                                 // add the standard template value to the fieldconfig
+                                 FieldConfigElement.Config.StandardTemplates = '0';
+                                 if ($('#StandardTemplates').prop('checked')) {
+                                    FieldConfigElement.Config.StandardTemplates = '1';
+                                 }
                              }
 
                              $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfigElement));
@@ -1320,6 +1326,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     if (FieldConfig.Config.TimeUnits) {
                         $('#TimeUnits').val(FieldConfig.Config.TimeUnits);
                     }
+                    if ((typeof FieldConfig.Config.StandardTemplates === 'undefined') || FieldConfig.Config.StandardTemplates === '1') {
+                        $('#StandardTemplates').prop("checked", true);
+                    }
                 }
             }
 
@@ -1345,6 +1354,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#TimeUnitsContainer').removeClass('Hidden');
                 $('#TimeUnitsContainer').prev('label').css('display', 'block');
                 $('#TimeUnitsContainer .Modernize').trigger('redraw.InputField');
+
+                $('#StandardTemplatesContainer').removeClass('Hidden');
+                $('#StandardTemplatesContainer').prev('label').css('display', 'block');
             }
             else {
 
@@ -1356,6 +1368,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
                 $('#TimeUnitsContainer').addClass('Hidden');
                 $('#TimeUnitsContainer').prev('label').css('display', 'none');
+
+                $('#StandardTemplatesContainer').addClass('Hidden');
+                $('#StandardTemplatesContainer').prev('label').css('display', 'none');
             }
 
             return false;

@@ -13993,6 +13993,7 @@ Thanks for your help!
                 <Item Key="Email" Translatable="1">Email</Item>
                 <Item Key="PhoneCall" Translatable="1">Phone call</Item>
                 <Item Key="Note" Translatable="1">Note</Item>
+                <Item Key="ProcessDialog" Translatable="1">Process dialog</Item>
             </Hash>
         </Value>
     </Setting>
