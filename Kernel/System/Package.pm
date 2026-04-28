@@ -3356,6 +3356,7 @@ sub _GetIntegratedPackages {
 
             # future releases
             1 => [
+                'HideShowForAgentTicketCompose',
                 'ImportExportCustomerCompany',
                 'ImportExportStandardObjects',
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
