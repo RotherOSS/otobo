@@ -182,7 +182,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         Core.App.Publish('TicketProcess.Init.FirstActivityDialog.Load', [$ElementToUpdate]);
 
                         // NOTE this code aims to resemble the functionality of the submit event in Core.UI.InputFields.Init(), currently located in var/https/htdocs/js/Core.UI.InputFields.js Line 320, which does not take effect in AgentTicketProcess for an yet unknown reason
-                        $('button[type=submit]').on('click', function(Event) {
+                        $('button[type=submit]').on('click', function() {
                             $('.DynamicFieldText').attr('disabled', false);
                             return true;
                         });
