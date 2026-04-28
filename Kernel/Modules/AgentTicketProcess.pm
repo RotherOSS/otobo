@@ -757,6 +757,32 @@ sub _RenderAjax {
         }
     }
 
+    # activate standard templates if article is configured and standard templates are not explicitly set to 0
+    my $ActivateStandardTemplates = 0;
+    if ( $ActivityDialog->{Fields}{Article} ) {
+        $ActivateStandardTemplates
+            = defined $ActivityDialog->{Fields}{Article}{Config}{StandardTemplates} ? $ActivityDialog->{Fields}{Article}{Config}{StandardTemplates} : 1;
+    }
+    if ($ActivateStandardTemplates) {
+
+        my $Data = $Self->_GetStandardTemplates(
+            %{ $Param{GetParam} },
+        );
+
+        # Add StandardTemplate to the JSONCollector (Use SelectedID from web request).
+        push(
+            @JSONCollector,
+            {
+                Name         => 'StandardTemplateID',
+                Data         => $Data,
+                SelectedID   => $ParamObject->GetParam( Param => 'StandardTemplateID' ) || '',
+                PossibleNone => 1,
+                Translation  => 1,
+                Max          => 100,
+            },
+        );
+    }
+
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
 
@@ -799,6 +825,21 @@ sub _RenderAjax {
         ACLPreselection           => $ACLPreselection // '',
         LoopProtection            => \$LoopProtection,
     );
+
+    if ($ActivateStandardTemplates) {
+        my $StandardTemplates = $Self->_GetStandardTemplates( $Param{GetParam}->%* );
+
+        # check whether current selected value is still valid for the field
+        if (
+            $Param{GetParam}{StandardTemplateID}
+            && !$StandardTemplates->{ $Param{GetParam}{StandardTemplateID} }
+            )
+        {
+            # if not empty the field
+            $Param{GetParam}{StandardTemplateID} = '';
+            $ChangedElements{StandardTemplateID} = 1;
+        }
+    }
 
     $Param{GetParam}{DynamicField} //= {};
 
@@ -967,6 +1008,82 @@ sub _RenderAjax {
                 Max         => 100,
             };
         }
+    }
+
+    # update ticket body and attachements if needed.
+    if ( $ActivateStandardTemplates && $ChangedElements{StandardTemplateID} ) {
+        my @TicketAttachments;
+        my $TemplateText;
+
+        my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+        # remove all attachments from the Upload cache
+        my $RemoveSuccess = $UploadCacheObject->FormIDRemove(
+            FormID => $Self->{FormID},
+        );
+        if ( !$RemoveSuccess ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Form attachments could not be deleted!",
+            );
+        }
+
+        # get the template text and set new attachments if a template is selected
+        if ( IsPositiveInteger( $Param{GetParam}{StandardTemplateID} ) ) {
+            my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+
+            # set template text, replace smart tags
+            $TemplateText = $TemplateGenerator->Template(
+                TemplateID     => $Param{GetParam}{StandardTemplateID},
+                UserID         => $Self->{UserID},
+                TicketID       => $Param{GetParam}{TicketID},
+                CustomerUserID => $Param{GetParam}{CustomerUserID} || '',
+            );
+
+            # create StdAttachmentObject
+            my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
+
+            # add std. attachments to ticket
+            my %AllStdAttachments = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+                StandardTemplateID => $Param{GetParam}{StandardTemplateID},
+            );
+            for ( sort keys %AllStdAttachments ) {
+                my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
+                $UploadCacheObject->FormIDAddFile(
+                    FormID      => $Self->{FormID},
+                    Disposition => 'attachment',
+                    %AttachmentsData,
+                );
+            }
+
+            # send a list of attachments in the upload cache back to the clientside JavaScript
+            # which renders then the list of currently uploaded attachments
+            @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
+                FormID => $Self->{FormID},
+            );
+
+            for my $Attachment (@TicketAttachments) {
+                $Attachment->{Filesize} = $LayoutObject->HumanReadableDataSize(
+                    Size => $Attachment->{Filesize},
+                );
+            }
+        }
+
+        push @JSONCollector, (
+            {
+                Name => 'UseTemplateProcessDialog',
+                Data => '0',
+            },
+            {
+                Name => 'RichText',
+                Data => $TemplateText || '',
+            },
+            {
+                Name     => 'TicketAttachments',
+                Data     => \@TicketAttachments,
+                KeepData => 1,
+            },
+        );
     }
 
     my $JSON = $LayoutObject->BuildSelectionJSON( [@JSONCollector] );
@@ -1162,8 +1279,9 @@ sub _GetParam {
         # get article fields
         if ( $CurrentField eq 'Article' ) {
 
-            $GetParam{Subject} = $ParamObject->GetParam( Param => 'Subject' );
-            $GetParam{Body}    = $ParamObject->GetParam( Param => 'Body' );
+            $GetParam{Subject}            = $ParamObject->GetParam( Param => 'Subject' );
+            $GetParam{Body}               = $ParamObject->GetParam( Param => 'Body' );
+            $GetParam{StandardTemplateID} = $ParamObject->GetParam( Param => 'StandardTemplateID' );
             @{ $GetParam{InformUserID} } = $ParamObject->GetArray(
                 Param => 'InformUserID',
             );
@@ -2425,6 +2543,8 @@ sub _OutputActivityDialog {
         elsif ( $Self->{NameToID}{$CurrentField} eq 'Article' ) {
             next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}{$CurrentField} };
 
+            my $StandardTemplates = $Self->_GetStandardTemplates( $Param{GetParam}->%* );
+
             my $Response = $Self->_RenderArticle(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
@@ -2435,6 +2555,7 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
                 InformAgents        => $ActivityDialog->{Fields}{Article}{Config}{InformAgents},
+                StandardTemplates   => $StandardTemplates,
             );
 
             if ( !$Response->{Success} ) {
@@ -3103,6 +3224,51 @@ sub _RenderArticle {
                 DescriptionLong => $Param{DescriptionLong},
             },
         );
+    }
+
+    my $ActivateStandardTemplates = defined $Param{ActivityDialogField}{Config}{StandardTemplates} ? $Param{ActivityDialogField}{Config}{StandardTemplates} : 1;
+    if ($ActivateStandardTemplates) {
+
+        # check if exists create templates regardless the queue
+        my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+        my %StandardTemplates      = $StandardTemplateObject->StandardTemplateList(
+            Valid => 1,
+            Type  => 'ProcessDialog',
+        );
+
+        # build text template string
+        if ( IsHashRefWithData( \%StandardTemplates ) ) {
+
+            my $SelectedValue;
+
+            my $StandardTemplateIDParam = $Param{GetParam}{StandardTemplateID};
+            if ($StandardTemplateIDParam) {
+                $SelectedValue = $StandardTemplateObject->StandardTemplateLookup(
+                    StandardTemplateID => $StandardTemplateIDParam,
+                );
+            }
+
+            # set server errors
+            my $ServerError = '';
+            if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'StandardTemplateID'} ) {
+                $ServerError = 'ServerError';
+            }
+
+            $Param{StandardTemplateStrg} = $LayoutObject->BuildSelection(
+                Data          => $Param{StandardTemplates} || {},
+                Name          => 'StandardTemplateID',
+                SelectedValue => $SelectedValue,
+                Class         => "Modernize $ServerError",
+                PossibleNone  => 1,
+                Sort          => 'AlphanumericValue',
+                Translation   => 1,
+                Max           => 200,
+            );
+            $LayoutObject->Block(
+                Name => 'StandardTemplate',
+                Data => {%Param},
+            );
+        }
     }
 
     if ( $Param{InformAgents} ) {
@@ -6620,6 +6786,50 @@ sub _GetTypes {
         );
     }
     return \%Type;
+}
+
+sub _GetStandardTemplates {
+    my ( $Self, %Param ) = @_;
+
+    my %Templates;
+    my $QueueID = $Param{QueueID} || '';
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+
+    if ( !$QueueID ) {
+        my $DefaultQueue   = $ConfigObject->Get("Process::DefaultQueue");
+        my $DefaultQueueID = $QueueObject->QueueLookup( Queue => $DefaultQueue );
+        if ($DefaultQueueID) {
+            $QueueID = $DefaultQueueID;
+        }
+    }
+
+    # check needed
+    return \%Templates if !$QueueID && !$Param{TicketID};
+
+    if ( !$QueueID && $Param{TicketID} ) {
+
+        # get QueueID from the ticket
+        my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+            UserID        => $Self->{UserID},
+        );
+        $QueueID = $Ticket{QueueID} || '';
+    }
+
+    # fetch all std. templates
+    my %StandardTemplates = $QueueObject->QueueStandardTemplateMemberList(
+        QueueID       => $QueueID,
+        TemplateTypes => 1,
+    );
+
+    # return empty hash if there are no templates for this screen
+    return \%Templates if !IsHashRefWithData( $StandardTemplates{ProcessDialog} );
+
+    # return just the templates for this screen
+    return $StandardTemplates{ProcessDialog};
 }
 
 sub _ShowDialogError {

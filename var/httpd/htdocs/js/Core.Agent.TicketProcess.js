@@ -170,6 +170,14 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
                         QuickDateButtons.Init();
 
+                        // Bind event to StandardTemplate field.
+                        $('#StandardTemplateID').on('change', function () {
+                            Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+                                Core.AJAX.FormUpdate($('#RichText').closest('form'), 'AJAXUpdate', 'StandardTemplateID');
+                            });
+                            return false;
+                        });
+
                         // Publish event when first activity dialog has loaded, so other code can know to execute again.
                         Core.App.Publish('TicketProcess.Init.FirstActivityDialog.Load', [$ElementToUpdate]);
 
@@ -192,6 +200,14 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                     $('#ActivityDialogContent').empty();
                 });
             }
+            return false;
+        });
+
+        // Bind event to StandardTemplate field.
+        $('#StandardTemplateID').on('change', function () {
+            Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
+                Core.AJAX.FormUpdate($('#RichText').closest('form'), 'AJAXUpdate', 'StandardTemplateID');
+            });
             return false;
         });
 
