@@ -2479,7 +2479,7 @@ sub _Mask {
             );
             if ( $Item->{CustomerError} ) {
                 $LayoutObject->Block(
-                    Name => 'CcCustomerErrorExplantion',
+                    Name => 'CcCustomerErrorExplanation',
                 );
             }
             $CustomerCounterCc++;
@@ -2512,7 +2512,7 @@ sub _Mask {
             );
             if ( $Item->{CustomerError} ) {
                 $LayoutObject->Block(
-                    Name => 'BccCustomerErrorExplantion',
+                    Name => 'BccCustomerErrorExplanation',
                 );
             }
             $CustomerCounterBcc++;
@@ -2545,7 +2545,7 @@ sub _Mask {
             );
             if ( $Item->{CustomerError} ) {
                 $LayoutObject->Block(
-                    Name => 'CustomerErrorExplantion',
+                    Name => 'CustomerErrorExplanation',
                 );
             }
             $CustomerCounter++;

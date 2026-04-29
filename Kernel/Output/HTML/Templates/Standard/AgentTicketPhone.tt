@@ -104,9 +104,9 @@
                                             <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
                                         </a>
 
-[% RenderBlockStart("CustomerErrorExplantion") %]
+[% RenderBlockStart("CustomerErrorExplanation") %]
                                         <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
-[% RenderBlockEnd("CustomerErrorExplantion") %]
+[% RenderBlockEnd("CustomerErrorExplanation") %]
 
                                         <div id="CustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("CustomerGenericServerErrorMsg") %]

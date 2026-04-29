@@ -128,9 +128,9 @@
                                         <a href="#" id="MoveCustomerTicketToCc_[% Data.Count | html %]"  class="MoveCustomerButton CcMove"  title="[% Translate("Move to Cc") | html %]" name="MoveCustomerTicketToCc_[% Data.Count | html %]"><span>Cc</span></a>
                                         <a href="#" id="MoveCustomerTicketToBcc_[% Data.Count | html %]" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]" name="MoveCustomerTicketToBcc_[% Data.Count | html %]"><span>Bcc</span></a>
 
-[% RenderBlockStart("CustomerErrorExplantion") %]
+[% RenderBlockStart("CustomerErrorExplanation") %]
                                         <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
-[% RenderBlockEnd("CustomerErrorExplantion") %]
+[% RenderBlockEnd("CustomerErrorExplanation") %]
 
                                         <div id="CustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("CustomerGenericServerErrorMsg") %]
@@ -213,9 +213,9 @@
                                         <a href="#" id="MoveCustomerTicketCcTo_[% Data.Count | html %]"  class="MoveCustomerButton ToMove"  title="[% Translate("Move to To") | html %]"  name="MoveCustomerTicketCcTo_[% Data.Count | html %]"><span>To</span></a>
                                         <a href="#" id="MoveCustomerTicketCcBcc_[% Data.Count | html %]" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]" name="MoveCustomerTicketCcBcc_[% Data.Count | html %]"><span>Bcc</span></a>
 
-[% RenderBlockStart("CcCustomerErrorExplantion") %]
+[% RenderBlockStart("CcCustomerErrorExplanation") %]
                                         <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
-[% RenderBlockEnd("CcCustomerErrorExplantion") %]
+[% RenderBlockEnd("CcCustomerErrorExplanation") %]
 
                                         <div id="CcCustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("CcCustomerGenericServerErrorMsg") %]
@@ -298,9 +298,9 @@
                                         <a href="#" id="MoveCustomerTicketBccTo_[% Data.Count | html %]" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]" name="MoveCustomerTicketBccTo_[% Data.Count | html %]"><span>To</span></a>
                                         <a href="#" id="MoveCustomerTicketBccCc_[% Data.Count | html %]" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]" name="MoveCustomerTicketBccCc_[% Data.Count | html %]"><span>Cc</span></a>
 
-[% RenderBlockStart("BccCustomerErrorExplantion") %]
+[% RenderBlockStart("BccCustomerErrorExplanation") %]
                                         <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
-[% RenderBlockEnd("BccCustomerErrorExplantion") %]
+[% RenderBlockEnd("BccCustomerErrorExplanation") %]
 
                                         <div id="BccCustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("BccCustomerGenericServerErrorMsg") %]
