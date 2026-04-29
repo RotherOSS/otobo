@@ -65,10 +65,8 @@ sub new {
         Multiselect => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3720 and https://github.com/RotherOSS/otobo/issues/3815
-        RichText => 0,
-
-        # see https://github.com/RotherOSS/otobo/issues/3810
-        ScriptTemplateToolkit => 0,
+        RichText              => 0,
+        ScriptTemplateToolkit => 1,
         Set                   => 1,
         Text                  => 1,
         TextArea              => 1,
