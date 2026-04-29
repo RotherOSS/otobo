@@ -604,6 +604,7 @@
                 <Item>ImageToolbar</Item>
                 <Item>ImageInsert</Item>
                 <Item>Indent</Item>
+                <Item>IndentBlock</Item>
                 <Item>Italic</Item>
                 <Item>Link</Item>
                 <Item>List</Item>
@@ -661,6 +662,7 @@
                 <Item>
                     <Array>
                         <Item>indent</Item>
+                        <Item>indentBlock</Item>
                         <Item>outdent</Item>
                         <Item>alignment</Item>
                     </Array>
@@ -743,6 +745,7 @@
                 <Item>ImageToolbar</Item>
                 <Item>ImageInsert</Item>
                 <Item>Indent</Item>
+                <Item>IndentBlock</Item>
                 <Item>Italic</Item>
                 <Item>Link</Item>
                 <Item>List</Item>
@@ -800,6 +803,7 @@
                 <Item>
                     <Array>
                         <Item>indent</Item>
+                        <Item>indentBlock</Item>
                         <Item>outdent</Item>
                         <Item>alignment</Item>
                     </Array>
