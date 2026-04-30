@@ -373,7 +373,12 @@ sub SearchObjects {
     );
 
     my $GroupFilter = $Param{DynamicFieldConfig}{Config}{Group};
-    if ( IsArrayRefWithData($GroupFilter) && !$Param{ExternalSource} ) {
+    if (
+        !$Param{ExternalSource}
+        && IsArrayRefWithData($GroupFilter)
+        && any {$_} $GroupFilter->@*
+        )
+    {
         for my $GroupID ( $GroupFilter->@* ) {
             my %GroupAgents = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupGet(
                 GroupID => $GroupID,
