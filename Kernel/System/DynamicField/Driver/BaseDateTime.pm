@@ -232,7 +232,7 @@ sub EditFieldRender {
     for my $ValueItem ( $Value->@* ) {
         $ValueItem //= '';
         my ( $Year, $Month, $Day, $Hour, $Minute ) = $ValueItem =~
-            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
+            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : \d{2} \z }xms;
 
         # If a value is sent this value must be active, then the Used part needs to be set to 1
         #   otherwise user can easily forget to mark the checkbox and this could lead into data
