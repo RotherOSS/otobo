@@ -6471,33 +6471,7 @@ sub SetRichTextParameters {
             'sourceEditing'
         );
 
-        @ToolbarWithoutImage = (
-            'heading',
-            'fontSize',
-            'fontFamily',
-            '|',
-            'fontBackgroundColor',
-            'fontColor',
-            '|',
-            'bold',
-            'underline',
-            'italic',
-            'strikethrough',
-            '|',
-            'bulletedList',
-            'numberedList',
-            '|',
-            'outdent',
-            'indent',
-            'alignment',
-            'link',
-            'blockQuote',
-            'removeFormat',
-            '|',
-            'insertTable',
-            '|',
-            'sourceEditing'
-        );
+        @ToolbarWithoutImage = grep { $_ ne 'insertImage' } @Toolbar;
     }
 
     my $PluginConfig = $ConfigObject->Get('Frontend::CKEditorPlugins');
@@ -6643,33 +6617,7 @@ sub CustomerSetRichTextParameters {
             'insertTable'
         );
 
-        @ToolbarWithoutImage = (
-            'heading',
-            'fontSize',
-            'fontFamily',
-            '|',
-            'fontBackgroundColor',
-            'fontColor',
-            '|',
-            'bold',
-            'underline',
-            'italic',
-            'strikethrough',
-            '|',
-            'bulletedList',
-            'numberedList',
-            '|',
-            'outdent',
-            'indent',
-            'alignment',
-            '|',
-            'sourceEditing',
-            'link',
-            'blockQuote',
-            'removeFormat',
-            '|',
-            'insertTable'
-        );
+        @ToolbarWithoutImage = grep { $_ ne 'insertImage' } @Toolbar;
 
         @ToolbarMidi = (
             'bold',     'italic', 'underline',      'strikethrough',       '|',            'numberedList', 'bulletedList', '|',
