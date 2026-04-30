@@ -1392,8 +1392,6 @@ sub RandomValueSet {
 
     my $Value;
 
-    # TODO Suggestion to reduce code here: Unify this into one for loop and use LoopCount as limiter
-    # my $LoopCount = $Param{DynamicFieldConfig}{Config}{MultiValue} ? 0 : int( rand(3) );
     if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
         for my $j ( 0 .. int( rand(3) ) ) {
 
