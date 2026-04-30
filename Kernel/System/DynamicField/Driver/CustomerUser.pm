@@ -32,8 +32,7 @@ use List::Util qw(any);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
