@@ -137,6 +137,7 @@ jobs:
             context:    '.'
             repository: 'rotheross/otobo'
             base_image: 'perl:5.40-bookworm'
+            platforms:  'linux/amd64,linux/arm64'
 
           # The base image nginx:mainline-trixie is used since 10.1.17 and 11.0.12.
           # nginx:mainline is used in rel-10_1 up to 10.1.16 and then switched to nginx:mainline-trixie
@@ -146,6 +147,7 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-webproxy'
             base_image: 'nginx:mainline-trixie'
+            platforms:  'linux/amd64,linux/arm64'
           # Excluded Docker tags
           #-
           #  target:     'otobo-nginx-webproxy'
@@ -164,6 +166,7 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline-trixie'
+            platforms:  'linux/amd64,linux/arm64'
           # Excluded Docker tags
           #-
           #  target:     'otobo-nginx-kerberos-webproxy'
@@ -192,6 +195,7 @@ jobs:
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
             base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
+            platforms:  'linux/amd64'
           -
             target:     'otobo-selenium-chrome'
             docker_tag: 'rel-10_1_15'
@@ -216,6 +220,7 @@ jobs:
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
             base_image: 'elasticsearch:8.19.3'
+            platforms:  'linux/amd64,linux/arm64'
 
     steps:
 
@@ -303,6 +308,7 @@ jobs:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
+          platforms: ${{ matrix.platforms }}
           dockerhub_tags: "${{ matrix.repository }}:${{ matrix.docker_tag }}"
 
       - name: 'check out so that the composite action becomes available'

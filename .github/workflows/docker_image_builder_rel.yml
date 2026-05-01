@@ -35,26 +35,31 @@ jobs:
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
+            platforms:  'linux/amd64,linux/arm64'
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
+            platforms:  'linux/amd64,linux/arm64'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-webproxy'
+            platforms:  'linux/amd64,linux/arm64'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            platforms:  'linux/amd64,linux/arm64'
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
+            platforms:  'linux/amd64'
 
     steps:
 
@@ -98,4 +103,5 @@ jobs:
           dockerfile: ${{ matrix.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
+          platforms: ${{ matrix.platforms }}
           dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-${{ env.major_minor }}","${{ matrix.repository }}:latest-${{ env.major_minor }}-autobuild"
