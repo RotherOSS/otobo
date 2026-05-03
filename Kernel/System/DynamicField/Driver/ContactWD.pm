@@ -393,7 +393,6 @@ sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;

@@ -94,7 +94,6 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Prefix          = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
 
     # check values
@@ -232,8 +231,8 @@ sub EditFieldRender {
     my @ValueParts;
     for my $ValueItem ( $Value->@* ) {
         $ValueItem //= '';
-        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
-            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
+        my ( $Year, $Month, $Day, $Hour, $Minute ) = $ValueItem =~
+            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : \d{2} \z }xms;
 
         # If a value is sent this value must be active, then the Used part needs to be set to 1
         #   otherwise user can easily forget to mark the checkbox and this could lead into data
@@ -1393,8 +1392,6 @@ sub RandomValueSet {
 
     my $Value;
 
-    # TODO Suggestion to reduce code here: Unify this into one for loop and use LoopCount as limiter
-    # my $LoopCount = $Param{DynamicFieldConfig}{Config}{MultiValue} ? 0 : int( rand(3) );
     if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
         for my $j ( 0 .. int( rand(3) ) ) {
 
@@ -1439,8 +1436,6 @@ sub RandomValueSet {
 
 sub ObjectMatch {
     my ( $Self, %Param ) = @_;
-
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # not supported
     return 0;

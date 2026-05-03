@@ -26,6 +26,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -570,7 +571,7 @@ sub HasBehavior {
 
     # TODO: Think about additional behaviors we can just adopt from the attribute field
     # for certain behaviors instead use the attribute field behaviors
-    if ( grep { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable IsSetField/ ) {
+    if ( any { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable IsSetField/ ) {
         my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
             LensDynamicFieldConfig => $Param{DynamicFieldConfig},
         );

@@ -2021,6 +2021,7 @@
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Array>
+                <Item>AgentTicketArticleEdit</Item>
                 <Item>AgentTicketClose</Item>
                 <Item>AgentTicketCompose</Item>
                 <Item>AgentTicketEmailOutbound</Item>

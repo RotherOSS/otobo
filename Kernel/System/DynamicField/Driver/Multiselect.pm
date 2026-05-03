@@ -561,9 +561,6 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
-    my $ValueMaxChars = $Param{ValueMaxChars} || '';
-    my $TitleMaxChars = $Param{TitleMaxChars} || '';
-
     # check value
     my @Values;
     if ( ref $Param{Value} eq 'ARRAY' ) {

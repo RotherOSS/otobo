@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.615407539859931;
+    $Self->{Completeness}        = 0.61436447623305;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5551,7 +5551,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => 'Gruppo degli agenti',
-        'Select the group of the agents' => 'Seleziona il gruppo degli agenti',
+        'Select the group of the agents.' => '',
         'External-source key' => 'Chiave della sorgente esterna',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             'Quando impostato tramite una sorgente esterna (ad esempio un servizio web o un\'importazione/esportazione), il valore verrà interpretato come questo attributo.',
@@ -5562,7 +5562,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'Referenced object type' => 'Tipo di oggetto di riferimento',
-        'Select the type of the referenced object' => 'Seleziona il tipo dell\'oggetto di riferimento',
+        'Select the type of the referenced object.' => '',
         'Input mode of edit field' => 'Modalità di input del campo di modifica',
         'Select the input mode for the edit field.' => 'Seleziona la modalità di input per il campo di modifica.',
         'Link type' => '',
@@ -5581,8 +5581,8 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
         'Attribute which will be searched on autocomplete' => 'Attributo che verrà cercato nell\'autocompletamento',
-        'Select the attribute which customer companies will be searched by' =>
-            'Seleziona l\'attributo in base al quale verranno cercate le aziende clienti',
+        'Select the attribute which customer companies will be searched by.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Questo campo è obbligatorio oppure ',
@@ -5592,12 +5592,12 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
         'Queue of the ticket' => 'Coda del ticket',
-        'Select the queue of the ticket' => 'Seleziona la coda del ticket',
+        'Select the queue of the ticket.' => '',
         'Type of the ticket' => 'Tipo di ticket',
-        'Select the type of the ticket' => 'Seleziona il tipo di ticket',
-        'Select the attribute which tickets will be searched by' => 'Seleziona l\'attributo con cui cercare i ticket',
+        'Select the type of the ticket.' => '',
+        'Select the attribute which tickets will be searched by.' => '',
         'Attribute which is displayed for values' => 'Attributo visualizzato per i valori',
-        'Select the type of display' => 'Seleziona il tipo di visualizzazione',
+        'Select the type of display.' => '',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
         'Column Separator' => 'Separatore di colonna',

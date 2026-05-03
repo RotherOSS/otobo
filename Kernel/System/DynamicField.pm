@@ -25,6 +25,7 @@ use utf8;
 use parent qw(Kernel::System::EventHandler);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -153,7 +154,7 @@ sub DynamicFieldAdd {
     );
 
     my $NameExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $NameExists = 1;
     }
 
@@ -439,7 +440,7 @@ sub DynamicFieldUpdate {
     );
 
     my $NameExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $NameExists = 1;
     }
 
@@ -1795,7 +1796,7 @@ sub DynamicFieldConfigName2ID {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
 
         # needed transformation: Name -> ID
         if ( $DynamicFieldConfig->{Config}{Queue} ) {
@@ -1864,7 +1865,7 @@ sub DynamicFieldConfigID2Name {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
 
         # needed transformation: ID -> Name
         if ( $DynamicFieldConfig->{Config}{Queue} ) {
@@ -1958,11 +1959,6 @@ sub _DynamicFieldReorder {
             return;
         }
     }
-
-    # get the Dynamic Field trigger
-    my $DynamicFieldTrigger = $Self->DynamicFieldGet(
-        ID => $Param{ID},
-    );
 
     # extract the field order from the params
     my $TriggerFieldOrder = $Param{FieldOrder};

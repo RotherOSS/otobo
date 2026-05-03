@@ -22,7 +22,7 @@
     <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
     <input type="hidden" name="SourceArticleID" value="[% Data.SourceArticleID | html %]"/>
 
-    <div class="LayoutPopup ARIARoleMain">
+    <div class="LayoutPopup ARIARoleMain UseArticleColors">
         <div class="Header">
             <ul class="HeaderPopup">
 

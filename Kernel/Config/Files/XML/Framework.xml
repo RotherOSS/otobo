@@ -9272,7 +9272,7 @@ via the Preferences button after logging in.
                 <Item Key="InternalName">highcontrast</Item>
                 <Item Key="VisibleName" Translatable="1">High Contrast</Item>
                 <Item Key="Description" Translatable="1">High contrast skin for visually impaired users.</Item>
-                <Item Key="HomePage">www.otrs.com</Item>
+                <Item Key="HomePage">www.otobo.io</Item>
             </Hash>
         </Value>
     </Setting>

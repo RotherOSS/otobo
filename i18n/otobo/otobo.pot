@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-04-14 07:23+0000\n"
+"POT-Creation-Date: 2026-04-28 11:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15583,7 +15583,7 @@ msgid "Group of the agents"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
-msgid "Select the group of the agents"
+msgid "Select the group of the agents."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
@@ -15607,7 +15607,7 @@ msgid "Referenced object type"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-msgid "Select the type of the referenced object"
+msgid "Select the type of the referenced object."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
@@ -15655,7 +15655,7 @@ msgid "Attribute which will be searched on autocomplete"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
-msgid "Select the attribute which customer companies will be searched by"
+msgid "Select the attribute which customer companies will be searched by."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
@@ -15679,7 +15679,7 @@ msgid "Queue of the ticket"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-msgid "Select the queue of the ticket"
+msgid "Select the queue of the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
@@ -15687,11 +15687,11 @@ msgid "Type of the ticket"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-msgid "Select the type of the ticket"
+msgid "Select the type of the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-msgid "Select the attribute which tickets will be searched by"
+msgid "Select the attribute which tickets will be searched by."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
@@ -15699,7 +15699,7 @@ msgid "Attribute which is displayed for values"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-msgid "Select the type of display"
+msgid "Select the type of display."
 msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm

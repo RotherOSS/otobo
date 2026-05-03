@@ -458,7 +458,9 @@ sub EditFieldRender {
         }
 
         # set as checked if necessary
-        my $FieldChecked = ( defined $Value->{UsedValue} ? $Value->{UsedValue} eq 1 : 1 ) && defined $Value->{FieldValue} && $Value->{FieldValue} eq 1;
+        my $FieldChecked =
+            ( defined $Value->{UsedValue} ? $Value->{UsedValue} eq 1 : 1 )
+            && defined $Value->{FieldValue} && $Value->{FieldValue} eq 1;
         $FieldTemplateData{FieldChecked} = $FieldChecked ? 'checked ' : '';
 
         push @ResultHTML, $Param{LayoutObject}->Output(

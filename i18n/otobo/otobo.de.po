@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2026-03-10 07:00+0000\n"
-"Last-Translator: Arion2000 <github@arion2000.xyz>\n"
+"PO-Revision-Date: 2026-04-29 13:00+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/"
 "de/>\n"
 "Language: de\n"
@@ -17913,7 +17913,9 @@ msgstr "Erlaubt Agenten eine individuelle Statistik zu generieren."
 
 #. SysConfig
 msgid "Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment)."
-msgstr "Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im Browser (Inline) oder einfach nur als Download anbieten (Anhang)."
+msgstr ""
+"Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im "
+"Browser (Inline) oder bietet sie einfach nur zum Herunterladen an (Anhang)."
 
 #. SysConfig
 msgid "Allows choosing the next compose state for customer tickets in the customer interface."
