@@ -172,6 +172,11 @@ END_REASON
 The advisory is about default settings in the underlying module Net::LDAPS. In OTOBO the admin
 is responsible for setting up the connection to the LDAP server.
 END_REASON
+
+        'xsendfile' => <<'END_REASON',
+The advisory is about the Plack middlewarx Plack::Middleware::XSendfile. This middleware is not used
+in OTOBO.
+END_REASON
     );
 
     return
@@ -194,6 +199,10 @@ END_REASON
         'CPANSA-Net-LDAPS-2020-16093' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{ldaps},
+        },
+        'CPANSA-Plack-2026-7381' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{xsendfile},
         },
         ;
 }
