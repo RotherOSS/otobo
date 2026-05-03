@@ -605,14 +605,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Output 1.031
       Test::Simple 0.9
-  DBD-Pg-3.20.0
-    pathname: T/TU/TURNSTEP/DBD-Pg-3.20.0.tar.gz
+  DBD-Pg-3.20.2
+    pathname: T/TU/TURNSTEP/DBD-Pg-3.20.2.tar.gz
     provides:
-      Bundle::DBD::Pg v3.20.0
-      DBD::Pg v3.20.0
+      Bundle::DBD::Pg v3.20.2
+      DBD::Pg v3.20.2
     requirements:
       DBI 1.614
-      ExtUtils::MakeMaker 7.64
+      ExtUtils::MakeMaker 6.58
       File::Temp 0
       Test::More 0.88
       Time::HiRes 0
@@ -3106,12 +3106,12 @@ DISTRIBUTIONS
       Test::More 0
       Test::TCP 0
       Time::HiRes 0
-  Plack-1.0052
-    pathname: M/MI/MIYAGAWA/Plack-1.0052.tar.gz
+  Plack-1.0053
+    pathname: M/MI/MIYAGAWA/Plack-1.0053.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0052
+      Plack 1.0053
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -3170,9 +3170,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0052
+      Plack::Request 1.0053
       Plack::Request::Upload undef
-      Plack::Response 1.0052
+      Plack::Response 1.0053
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -3846,10 +3846,10 @@ DISTRIBUTIONS
       Test::Harness 0
       Test::More 0.92
       perl 5.006001
-  Text-CSV_XS-1.61
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.61.tgz
+  Text-CSV_XS-1.62
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.62.tgz
     provides:
-      Text::CSV_XS 1.61
+      Text::CSV_XS 1.62
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
@@ -4491,15 +4491,11 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
