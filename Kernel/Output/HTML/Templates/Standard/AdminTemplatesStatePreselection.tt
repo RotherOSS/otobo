@@ -16,18 +16,18 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="InvisibleText">[% Translate("Manage ticket state pre-selections for response templates") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Manage ticket state pre-selections for forward and response templates") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Manage ticket state pre-selections for response templates'),
+                Name => Translate('Manage ticket state pre-selections for forward and response templates'),
                 Link => Env("Action"),
             },
         ]
     %]
 
     [% IF Data.Action == 'Change' %]
-        [% USE EditTitle = String(Translate("Edit Response")) %]
+        [% USE EditTitle = String(Translate("Edit Template")) %]
         [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ), }) %]
     [% END %]
 
@@ -68,7 +68,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable" id="Responses">
+                <table class="DataTable" id="Templates">
                     <thead>
                         <tr>
                             <th>[% Translate("Template Name") | html %]</th>
@@ -103,7 +103,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Edit Response") | html %]</h2>
+                <h2>[% Translate("Edit Template") | html %]</h2>
             </div>
             <div class="Content">
                 <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
@@ -124,7 +124,7 @@
                             [% Translate("or") | html %]
                             <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=AdminResponseTemplatesStatePreselection">[% Translate("Cancel") | html %]</a>
+                            <a href="[% Env("Baselink") %]Action=AdminTemplatesStatePreselection">[% Translate("Cancel") | html %]</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

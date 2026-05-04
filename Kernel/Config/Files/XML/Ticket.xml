@@ -14070,7 +14070,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Module###AdminResponseTemplatesStatePreselection" Required="0" Valid="1">
+    <Setting Name="Frontend::Module###AdminTemplatesStatePreselection" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the admin interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
@@ -14085,27 +14085,27 @@ Thanks for your help!
                             <Item>admin</Item>
                         </Array>
                     </Item>
-                    <Item Key="Description" Translatable="1">Manage ticket state pre-selections for response templates.</Item>
-                    <Item Key="Title" Translatable="1">Ticket state pre-selection for response templates</Item>
+                    <Item Key="Description" Translatable="1">Manage ticket state pre-selections for forward and response templates.</Item>
+                    <Item Key="Title" Translatable="1">Ticket state pre-selection for forward and response templates</Item>
                     <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminResponseTemplatesStatePreselection###002-ResponseTemplatesStatePreselection" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminTemplatesStatePreselection###002-TemplatesStatePreselection" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>Core.Agent.Admin.ResponseTemplatesStatePreselection.js</Item>
+                        <Item>Core.Agent.Admin.TemplatesStatePreselection.js</Item>
                     </Array>
                 </Item>
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminResponseTemplatesStatePreselection###002-ResponseTemplatesStatePreselection" Required="0" Valid="0">
+    <Setting Name="Frontend::Navigation###AdminTemplatesStatePreselection###002-TemplatesStatePreselection" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
@@ -14117,7 +14117,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Frontend::NavigationModule###AdminResponseTemplatesStatePreselection" Required="0" Valid="1">
+    <Setting Name="Frontend::NavigationModule###AdminTemplatesStatePreselection" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
@@ -14134,7 +14134,7 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">State pre-selection for Templates</Item>
                 <Item Key="Block">Ticket</Item>
-                <Item Key="Description" Translatable="1">Manage ticket state pre-selections for response templates.</Item>
+                <Item Key="Description" Translatable="1">Manage ticket state pre-selections for forward and response templates.</Item>
                 <Item Key="IconBig">fa-th-list</Item>
                 <Item Key="IconSmall"></Item>
             </Hash>

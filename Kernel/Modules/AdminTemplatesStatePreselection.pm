@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::Modules::AdminResponseTemplatesStatePreselection;
+package Kernel::Modules::AdminTemplatesStatePreselection;
 
 use strict;
 use warnings;
@@ -38,15 +38,15 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ResponseTicketStatePreSelectionObject
-        = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection');
+    my $TemplatesStatePreSelectionObject
+        = $Kernel::OM->Get('Kernel::System::TemplatesStatePreselection');
 
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID   = $ParamObject->GetParam( Param => 'ID' ) || '';
-        my %Data = $ResponseTicketStatePreSelectionObject->StandardTemplateGet(
+        my %Data = $TemplatesStatePreSelectionObject->StandardTemplateGet(
             ID => $ID,
         );
 
@@ -64,7 +64,7 @@ sub Run {
             %Data,
         );
         $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminResponseTemplatesStatePreselection',
+            TemplateFile => 'AdminTemplatesStatePreselection',
             Data         => \%Param,
         );
         $Output .= $LayoutObject->Footer();
@@ -85,7 +85,7 @@ sub Run {
         my $TemplateID = $ParamObject->GetParam( Param => 'ID' );
 
         # Update response.
-        $ResponseTicketStatePreSelectionObject->StandardTemplateUpdate(
+        $TemplatesStatePreSelectionObject->StandardTemplateUpdate(
             ID                       => $TemplateID,
             PreSelectedTicketStateID => $PreSelectedTicketStateID,
             UserID                   => $Self->{UserID},
@@ -125,7 +125,7 @@ sub Run {
         }
 
         $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminResponseTemplatesStatePreselection',
+            TemplateFile => 'AdminTemplatesStatePreselection',
             Data         => \%Param,
         );
         $Output .= $LayoutObject->Footer();
@@ -190,16 +190,24 @@ sub _Overview {
         Valid  => 0,
     );
 
+    # add forward templates
+    my %ForwardTemplateList = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList(
+        UserID => 1,
+        Type   => 'Forward',
+        Valid  => 0,
+    );
+    %List = ( %List, %ForwardTemplateList );
+
     # If there are any results, they are shown.
     if (%List) {
 
         my $StateObject = $Kernel::OM->Get('Kernel::System::State');
-        my $ResponseTicketStatePreSelectionObject
-            = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection');
+        my $TemplatesStatePreSelectionObject
+            = $Kernel::OM->Get('Kernel::System::TemplatesStatePreselection');
 
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $ResponseTicketStatePreSelectionObject->StandardTemplateGet(
+            my %Data = $TemplatesStatePreSelectionObject->StandardTemplateGet(
                 ID => $ID,
             );
 
