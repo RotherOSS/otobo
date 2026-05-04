@@ -316,8 +316,8 @@ sub StandardTemplateUpdate {
                 change_time = current_timestamp, change_by = ? ,template_type = ?
             WHERE id = ?',
         Bind => [
-            \$Param{Name},    \$Param{Template}, \$Param{ContentType},  \$Param{Comment}, \$Param{PreSelectedTicketStateID},
-            \$Param{ValidID}, \$Param{UserID},   \$Param{TemplateType}, \$Param{ID},
+            \$Param{Name}, \$Param{Template}, \$Param{ContentType}, \$Param{Comment}, \$Param{ValidID},
+            \$Param{PreSelectedTicketStateID}, \$Param{UserID}, \$Param{TemplateType}, \$Param{ID},
         ],
     );
 
