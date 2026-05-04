@@ -82,10 +82,13 @@ sub Run {
             || undef;
 
         my $TemplateID = $ParamObject->GetParam( Param => 'ID' );
+        my %Data       = $StandardTemplateObject->StandardTemplateGet(
+            ID => $TemplateID,
+        );
 
         # Update response.
         $StandardTemplateObject->StandardTemplateUpdate(
-            ID                       => $TemplateID,
+            %Data,
             PreSelectedTicketStateID => $PreSelectedTicketStateID,
             UserID                   => $Self->{UserID},
         );
