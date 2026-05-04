@@ -662,7 +662,6 @@
                 <Item>
                     <Array>
                         <Item>indent</Item>
-                        <Item>indentBlock</Item>
                         <Item>outdent</Item>
                         <Item>alignment</Item>
                     </Array>
@@ -803,7 +802,6 @@
                 <Item>
                     <Array>
                         <Item>indent</Item>
-                        <Item>indentBlock</Item>
                         <Item>outdent</Item>
                         <Item>alignment</Item>
                     </Array>
