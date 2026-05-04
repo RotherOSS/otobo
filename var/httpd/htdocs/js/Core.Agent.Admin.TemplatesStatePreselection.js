@@ -39,7 +39,7 @@ Core.Agent.Admin.TemplatesStatePreselection = (function (TargetNS) {
     TargetNS.Init = function () {
 
         // Initialize filter field.
-        Core.UI.Table.InitTableFilter($('#Filter'), $('#Responses'));
+        Core.UI.Table.InitTableFilter($('#Filter'), $('#Templates'));
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
