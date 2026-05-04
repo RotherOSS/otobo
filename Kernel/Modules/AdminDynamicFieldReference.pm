@@ -224,7 +224,9 @@ sub _Add {
 
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} && !defined $GetParam{$Name} ) {
-            $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
+
+            # prevent storing an array with empty string
+            $GetParam{$Name}->@* = grep { IsStringWithData($_) } $ParamObject->GetArray( Param => $Name );
         }
         else {
             $GetParam{$Name} //= $ParamObject->GetParam( Param => $Name );
@@ -287,7 +289,9 @@ sub _AddAction {
 
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
-            $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
+
+            # prevent storing an array with empty string
+            $GetParam{$Name}->@* = grep { IsStringWithData($_) } $ParamObject->GetArray( Param => $Name );
         }
         else {
             $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
@@ -554,7 +558,9 @@ sub _ChangeAction {
 
         my $Name = $Setting->{ConfigParamName};
         if ( $Setting->{Multiple} ) {
-            $GetParam{$Name}->@* = $ParamObject->GetArray( Param => $Name );
+
+            # prevent storing an array with empty string
+            $GetParam{$Name}->@* = grep { IsStringWithData($_) } $ParamObject->GetArray( Param => $Name );
         }
         else {
             $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
