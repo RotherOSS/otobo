@@ -36,17 +36,16 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $TemplatesStatePreSelectionObject
-        = $Kernel::OM->Get('Kernel::System::TemplatesStatePreselection');
+    my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject            = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID   = $ParamObject->GetParam( Param => 'ID' ) || '';
-        my %Data = $TemplatesStatePreSelectionObject->StandardTemplateGet(
+        my %Data = $StandardTemplateObject->StandardTemplateGet(
             ID => $ID,
         );
 
@@ -85,7 +84,7 @@ sub Run {
         my $TemplateID = $ParamObject->GetParam( Param => 'ID' );
 
         # Update response.
-        $TemplatesStatePreSelectionObject->StandardTemplateUpdate(
+        $StandardTemplateObject->StandardTemplateUpdate(
             ID                       => $TemplateID,
             PreSelectedTicketStateID => $PreSelectedTicketStateID,
             UserID                   => $Self->{UserID},
@@ -170,7 +169,8 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -184,14 +184,14 @@ sub _Overview {
         Data => \%Param,
     );
 
-    my %List = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList(
+    my %List = $StandardTemplateObject->StandardTemplateList(
         UserID => 1,
         Type   => 'Answer',
         Valid  => 0,
     );
 
     # add forward templates
-    my %ForwardTemplateList = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList(
+    my %ForwardTemplateList = $StandardTemplateObject->StandardTemplateList(
         UserID => 1,
         Type   => 'Forward',
         Valid  => 0,
@@ -202,12 +202,10 @@ sub _Overview {
     if (%List) {
 
         my $StateObject = $Kernel::OM->Get('Kernel::System::State');
-        my $TemplatesStatePreSelectionObject
-            = $Kernel::OM->Get('Kernel::System::TemplatesStatePreselection');
 
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $TemplatesStatePreSelectionObject->StandardTemplateGet(
+            my %Data = $StandardTemplateObject->StandardTemplateGet(
                 ID => $ID,
             );
 
