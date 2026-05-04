@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::ResponseTemplatesStatePreselection;
+package Kernel::System::TemplatesStatePreselection;
 
 use strict;
 use warnings;
@@ -27,11 +27,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ResponseTemplatesStatePreselection - auto response template lib
+Kernel::System::TemplatesStatePreselection - auto forward and response template lib
 
 =head1 DESCRIPTION
 
-All std response functions. E. g. to add std response or other functions.
+All std response functions. E. g. to add std forward or response or other functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -41,7 +41,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+    my $TemplatesStatePreselectionObject = $Kernel::OM->Get('Kernel::System::TemplatesStatePreselection');
 
 =cut
 

@@ -21,17 +21,17 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace Core.Agent.Admin.ResponseTemplatesStatePreselection
+ * @namespace Core.Agent.Admin.TemplatesStatePreselection
  * @memberof Core.Agent.Admin
  * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for the ResponseTemplatesStatePreselection module.
+ *      This namespace contains the special module functions for the TemplatesStatePreselection module.
  */
-Core.Agent.Admin.ResponseTemplatesStatePreselection = (function (TargetNS) {
+Core.Agent.Admin.TemplatesStatePreselection = (function (TargetNS) {
 
     /**
     * @name Init
-    * @memberof Core.Agent.Admin.ResponseTemplatesStatePreselection
+    * @memberof Core.Agent.Admin.TemplatesStatePreselection
     * @function
     * @description
     *       Initialize module functionality.
@@ -45,4 +45,4 @@ Core.Agent.Admin.ResponseTemplatesStatePreselection = (function (TargetNS) {
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
-}(Core.Agent.Admin.ResponseTemplatesStatePreselection || {}));
+}(Core.Agent.Admin.TemplatesStatePreselection || {}));
