@@ -564,7 +564,7 @@ sub Form {
         }
 
         # set forward preselected state
-        my %Forward = $Kernel::OM->Get('Kernel::System::TemplatesStatePreselection')->StandardTemplateGet(
+        my %Forward = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateGet(
             ID => $GetParam{ForwardTemplateID},
         );
         $GetParam{ComposeStateID} ||= $Forward{PreSelectedTicketStateID};

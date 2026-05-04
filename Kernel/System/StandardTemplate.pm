@@ -144,17 +144,18 @@ get standard template attributes
 Returns:
 
     %StandardTemplate = (
-        ID                  => '123',
-        Name                => 'Simple remplate',
-        Comment             => 'Some comment',
-        Template            => 'Template content',
-        ContentType         => 'text/plain',
-        TemplateType        => 'Answer',
-        ValidID             => '1',
-        CreateTime          => '2010-04-07 15:41:15',
-        CreateBy            => '321',
-        ChangeTime          => '2010-04-07 15:59:45',
-        ChangeBy            => '223',
+        ID                       => '123',
+        Name                     => 'Simple remplate',
+        Comment                  => 'Some comment',
+        Template                 => 'Template content',
+        ContentType              => 'text/plain',
+        TemplateType             => 'Answer',
+        PreSelectedTicketStateID => '2',
+        ValidID                  => '1',
+        CreateTime               => '2010-04-07 15:41:15',
+        CreateBy                 => '321',
+        ChangeTime               => '2010-04-07 15:59:45',
+        ChangeBy                 => '223',
     );
 
 =cut
@@ -177,8 +178,8 @@ sub StandardTemplateGet {
     # sql
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT name, valid_id, comments, text, content_type, create_time, create_by,
-                change_time, change_by ,template_type
+            SELECT name, valid_id, preselected_ticket_state_id, comments, text, content_type,
+                create_time, create_by, change_time, change_by ,template_type
             FROM standard_template
             WHERE id = ?',
         Bind => [ \$Param{ID} ],
@@ -187,17 +188,18 @@ sub StandardTemplateGet {
     my %Data;
     while ( my @Data = $DBObject->FetchrowArray() ) {
         %Data = (
-            ID           => $Param{ID},
-            Name         => $Data[0],
-            Comment      => $Data[2],
-            Template     => $Data[3],
-            ContentType  => $Data[4] || 'text/plain',
-            ValidID      => $Data[1],
-            CreateTime   => $Data[5],
-            CreateBy     => $Data[6],
-            ChangeTime   => $Data[7],
-            ChangeBy     => $Data[8],
-            TemplateType => $Data[9],
+            ID                       => $Param{ID},
+            Name                     => $Data[0],
+            Comment                  => $Data[3],
+            Template                 => $Data[4],
+            ContentType              => $Data[5] || 'text/plain',
+            PreSelectedTicketStateID => $Data[2],
+            ValidID                  => $Data[1],
+            CreateTime               => $Data[6],
+            CreateBy                 => $Data[7],
+            ChangeTime               => $Data[8],
+            ChangeBy                 => $Data[9],
+            TemplateType             => $Data[10],
         );
     }
 
@@ -260,14 +262,15 @@ sub StandardTemplateDelete {
 update standard template attributes
 
     $StandardTemplateObject->StandardTemplateUpdate(
-        ID           => 123,
-        Name         => 'New Standard Template',
-        Comment      => 'Some comment.',
-        Template     => 'Thank you for your email.',
-        ContentType  => 'text/plain; charset=utf-8',
-        TemplateType => 'Answer',
-        ValidID      => 1,
-        UserID       => 123,
+        ID                       => 123,
+        Name                     => 'New Standard Template',
+        Comment                  => 'Some comment.',
+        Template                 => 'Thank you for your email.',
+        ContentType              => 'text/plain; charset=utf-8',
+        TemplateType             => 'Answer',
+        PreSelectedTicketStateID => 2, (optional, will be set to null otherwise)
+        ValidID                  => 1,
+        UserID                   => 123,
     );
 
 =cut
@@ -276,14 +279,18 @@ sub StandardTemplateUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID TemplateType ContentType UserID TemplateType)) {
-        if ( !defined( $Param{$_} ) ) {
+    for my $Needed (qw(ID Name ValidID TemplateType ContentType UserID TemplateType)) {
+        if ( !defined( $Param{$Needed} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
+    }
+
+    if ( !$Param{PreSelectedTicketStateID} ) {
+        $Param{PreSelectedTicketStateID} = undef;
     }
 
     # check if a standard template with this name already exists
@@ -305,11 +312,11 @@ sub StandardTemplateUpdate {
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE standard_template
-            SET name = ?, text = ?, content_type = ?, comments = ?, valid_id = ?,
+            SET name = ?, text = ?, content_type = ?, comments = ?, valid_id = ?, preselected_ticket_state_id = ?,
                 change_time = current_timestamp, change_by = ? ,template_type = ?
             WHERE id = ?',
         Bind => [
-            \$Param{Name},    \$Param{Template}, \$Param{ContentType},  \$Param{Comment},
+            \$Param{Name},    \$Param{Template}, \$Param{ContentType},  \$Param{Comment}, \$Param{PreSelectedTicketStateID},
             \$Param{ValidID}, \$Param{UserID},   \$Param{TemplateType}, \$Param{ID},
         ],
     );
