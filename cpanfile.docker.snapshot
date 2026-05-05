@@ -1956,8 +1956,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.42
-    pathname: S/SR/SRI/Mojolicious-9.42.tar.gz
+  Mojolicious-9.43
+    pathname: S/SR/SRI/Mojolicious-9.43.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2027,7 +2027,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.42
+      Mojolicious 9.43
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
