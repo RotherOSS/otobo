@@ -22,7 +22,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use MIME::Parser ();
+use MIME::Parser  ();
+use Mail::Address ();
 use Test2::V0;
 use Path::Class qw(file);
 

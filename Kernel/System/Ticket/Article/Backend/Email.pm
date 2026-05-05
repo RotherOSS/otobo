@@ -544,10 +544,11 @@ sub SendAutoResponse {
     );
 
     my @AutoReplyAddresses;
-    my @Addresses = $EmailParser->SplitAddressLine( Line => $OrigHeader{From} );
+    my @AddressObjects = $EmailParser->ParseAddressLine( Line => $OrigHeader{From} );
     ADDRESS:
-    for my $Address (@Addresses) {
-        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
+    for my $AddressObject (@AddressObjects) {
+        my $Email   = $EmailParser->GetEmailAddress( AddressObject => $AddressObject );
+        my $Address = $AddressObject->format;
         if ( !$Email ) {
 
             # add it to ticket history
@@ -563,6 +564,7 @@ sub SendAutoResponse {
                 Priority => 'notice',
                 Message  => "Sent no auto response to '$Address' because of invalid address.",
             );
+
             next ADDRESS;
 
         }
@@ -582,12 +584,13 @@ sub SendAutoResponse {
                 Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
                     . "$Ticket{TicketNumber}] ($Email) because of loop protection."
             );
+
             next ADDRESS;
         }
         else {
 
             # increase loop count
-            return if !$LoopProtectionObject->SendEmail( To => $Email );
+            return unless $LoopProtectionObject->SendEmail( To => $Email );
         }
 
         # check if sender is e. g. MAILER-DAEMON or Postmaster

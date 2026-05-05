@@ -180,15 +180,19 @@ sub GetConfig {
             %{$Self},
             Mode => 'Standalone',
         );
-        my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
+        my @Addresses = $EmailParser->ParseAddressLine( Line => $Recipients );
         ADDRESS:
         for my $Address (@Addresses) {
-            my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-            next ADDRESS if !$Email;
+            my $Email = $EmailParser->GetEmailAddress( AddressObject => $Address );
+
+            next ADDRESS unless $Email;
+
             my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
                 Address => $Email,
             );
+
             next ADDRESS if $IsLocal;
+
             $RecipientCount++;
         }
     }

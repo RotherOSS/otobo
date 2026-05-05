@@ -152,12 +152,12 @@ sub Run {
     my $From = $GetParam{'X-OTOBO-From'} ? $GetParam{'X-OTOBO-From'} : $GetParam{From};
 
     # get sender email
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+    my @EmailAddresses = $Self->{ParserObject}->ParseAddressLine(
         Line => $From,
     );
     for my $Address (@EmailAddresses) {
         $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
-            Email => $Address,
+            AddressObject => $Address,
         );
     }
 
@@ -185,13 +185,13 @@ sub Run {
         my %CustomerData;
         if ($From) {
 
-            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+            my @EmailAddresses = $Self->{ParserObject}->ParseAddressLine(
                 Line => $From,
             );
 
             for my $Address (@EmailAddresses) {
                 $GetParam{EmailFrom} = $Self->{ParserObject}->GetEmailAddress(
-                    Email => $Address,
+                    AddressObject => $Address,
                 );
             }
 

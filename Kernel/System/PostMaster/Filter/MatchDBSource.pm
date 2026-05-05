@@ -96,14 +96,14 @@ sub Run {
             # match only email addresses
             if ( defined $Param{GetParam}->{$Key} && $Value =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail    = $1;
-                my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+                my @EmailAddresses = $Self->{ParserObject}->ParseAddressLine(
                     Line => $Param{GetParam}->{$Key},
                 );
                 my $LocalMatched = 0;
                 RECIPIENT:
                 for my $Recipients (@EmailAddresses) {
 
-                    my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
+                    my $Email = $Self->{ParserObject}->GetEmailAddress( AddressObject => $Recipients );
 
                     next RECIPIENT if !$Email;
 

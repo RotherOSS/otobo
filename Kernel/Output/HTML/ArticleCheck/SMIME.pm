@@ -211,14 +211,14 @@ sub Check {
             my %EmailsToSearch;
             for my $Email (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
 
-                my @EmailAddressOnField = $ParserObject->SplitAddressLine(
+                my @EmailAddressOnField = $ParserObject->ParseAddressLine(
                     Line => $ParserObject->GetParam( WHAT => $Email ),
                 );
 
                 # filter email addresses avoiding repeated and save on hash to search
                 for my $EmailAddress (@EmailAddressOnField) {
                     my $CleanEmailAddress = $ParserObject->GetEmailAddress(
-                        Email => $EmailAddress,
+                        AddressObject => $EmailAddress,
                     );
                     $EmailsToSearch{$CleanEmailAddress} = '1';
                 }

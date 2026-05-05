@@ -73,7 +73,7 @@ sub Run {
     };
     return 1 if !$CryptObject;
 
-    my @EmailAddressOnField = $Self->{ParserObject}->SplitAddressLine(
+    my @EmailAddressOnField = $Self->{ParserObject}->ParseAddressLine(
         Line => $Self->{ParserObject}->GetParam( WHAT => 'From' ),
     );
 
@@ -81,7 +81,7 @@ sub Run {
 
     for my $EmailAddress (@EmailAddressOnField) {
         $IncomingMailAddress = $Self->{ParserObject}->GetEmailAddress(
-            Email => $EmailAddress,
+            AddressObject => $EmailAddress,
         );
     }
 

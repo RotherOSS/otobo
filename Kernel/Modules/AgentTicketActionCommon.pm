@@ -3008,17 +3008,18 @@ sub _Mask {
         my %ReplyToUsersHash;
         my %ReplyToUserIDs;
         if ( $Self->{ReplyToArticle} ) {
-            my @ReplyToParts = $EmailParserObject->SplitAddressLine(
+            my @ReplyToParts = $EmailParserObject->ParseAddressLine(
                 Line => $Self->{ReplyToArticleContent}->{To} || '',
             );
 
             REPLYTOPART:
             for my $SingleReplyToPart (@ReplyToParts) {
                 my $ReplyToAddress = $EmailParserObject->GetEmailAddress(
-                    Email => $SingleReplyToPart,
+                    AddressObject => $SingleReplyToPart,
                 );
 
-                next REPLYTOPART if !$ReplyToAddress;
+                next REPLYTOPART unless $ReplyToAddress;
+
                 push @ReplyToUsers, $ReplyToAddress;
             }
 

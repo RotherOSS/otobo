@@ -269,11 +269,25 @@ sub GetParam {
 
 =head2 GetEmailAddress()
 
-To get the senders email address back.
+extract the address from a complete email address. Only a single email address should be passed.
 
     my $SenderEmail = $ParserObject->GetEmailAddress(
-        Email => 'Juergen Weber <juergen.weber@air.com>',
+        Email => 'August Ausprobierer <gustl@testanything.org>',
     );
+
+or
+
+    my $AddressObject = Mail::Address->new(
+        'August Ausprobierer',
+        'gustl@testanything.org'
+    );
+    my $SenderEmail = $ParserObject->GetEmailAddress(
+        AddressObject => $AddressObject,
+    );
+
+Both variants return
+
+    $SenderEmail = 'gustl@testanything.org'
 
 This method can be used in standalone mode.
 
@@ -283,12 +297,21 @@ sub GetEmailAddress {
     my ( $Self, %Param ) = @_;
 
     my $Email = '';
-    for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
-        $Email = $EmailSplit->address;
+
+    if ( exists $Param{Email} ) {
+
+        # get last address in the list, but only a single email address is expected
+        for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+            $Email = $EmailSplit->address;
+        }
+    }
+    elsif ( exists $Param{AddressObject} ) {
+        $Email = $Param{AddressObject}->address;
     }
 
-    # return if no email address is there
-    return if $Email !~ /@/;
+    # return if no email address is there,
+    # even though an '@' is not mandatory for an address
+    return unless $Email =~ m/@/;
 
     # return email address
     return $Email;
@@ -377,7 +400,7 @@ This returns an array of strings
         'hans@example.com (Hans Huber)'
     );
 
-This method can be used in standalone mode.
+This method can be used in standalone mode. It is recommended to switch to C<ParseAddressLine()>.
 
 =cut
 

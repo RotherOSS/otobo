@@ -65,15 +65,15 @@ sub GetQueueID {
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
     # get addresses
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient );
+    my @EmailAddresses = $Self->{ParserObject}->ParseAddressLine( Line => $Recipient );
 
     # check addresses
     EMAIL:
     for my $Email (@EmailAddresses) {
 
-        next EMAIL if !$Email;
+        next EMAIL unless $Email;
 
-        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $Email );
+        my $Address = $Self->{ParserObject}->GetEmailAddress( AddressObject => $Email );
 
         next EMAIL if !$Address;
 

@@ -127,10 +127,10 @@ sub Run {
         next ARTICLE if !$Article->{To};
 
         # check based on recipient addresses of the article
-        my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        my @ToEmailAddresses = $Self->{ParserObject}->ParseAddressLine(
             Line => $Article->{To},
         );
-        my @CcEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        my @CcEmailAddresses = $Self->{ParserObject}->ParseAddressLine(
             Line => $Article->{Cc},
         );
         my @EmailAdresses = ( @ToEmailAddresses, @CcEmailAddresses );
@@ -138,7 +138,7 @@ sub Run {
         EMAIL:
         for my $Email (@EmailAdresses) {
             my $Recipient = $Self->{ParserObject}->GetEmailAddress(
-                Email => $Email,
+                AddressObject => $Email,
             );
             if ( lc $Recipient eq lc $SenderAddress ) {
                 $IsInternalForward = 1;

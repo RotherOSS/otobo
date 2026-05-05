@@ -233,9 +233,9 @@ sub _ArticleSenderImage {
         %{$Self},
         Mode => 'Standalone',
     );
-    my @Addresses = $EmailParser->SplitAddressLine( Line => $Param{Sender} );
+    my @Addresses = $EmailParser->ParseAddressLine( Line => $Param{Sender} );
     if (@Addresses) {
-        my $Email = $EmailParser->GetEmailAddress( Email => $Addresses[0] );
+        my $Email = $EmailParser->GetEmailAddress( AddressObject => $Addresses[0] );
         if ($Email) {
             my $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::ArticleDefaultImage') || 'mp';
 

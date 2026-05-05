@@ -627,12 +627,12 @@ sub GetEmailParams {
     if ( !$GetParam{'X-Sender'} ) {
 
         # get sender email
-        my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        my @EmailAddresses = $Self->{ParserObject}->ParseAddressLine(
             Line => $GetParam{From},
         );
         for my $Email (@EmailAddresses) {
             $GetParam{'X-Sender'} = $Self->{ParserObject}->GetEmailAddress(
-                Email => $Email,
+                AddressObject => $Email,
             );
         }
     }

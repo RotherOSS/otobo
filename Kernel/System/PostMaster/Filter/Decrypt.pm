@@ -239,14 +239,14 @@ sub _DecryptSMIME {
         my %EmailsToSearch;
         for my $Email (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
 
-            my @EmailAddressOnField = $Self->{ParserObject}->SplitAddressLine(
+            my @EmailAddressOnField = $Self->{ParserObject}->ParseAddressLine(
                 Line => $Self->{ParserObject}->GetParam( WHAT => $Email ),
             );
 
             # filter email addresses avoiding repeated and save on hash to search
             for my $EmailAddress (@EmailAddressOnField) {
                 my $CleanEmailAddress = $Self->{ParserObject}->GetEmailAddress(
-                    Email => $EmailAddress,
+                    AddressObject => $EmailAddress,
                 );
                 $EmailsToSearch{$CleanEmailAddress} = '1';
             }
