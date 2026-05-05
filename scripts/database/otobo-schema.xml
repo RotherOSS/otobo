@@ -2416,6 +2416,7 @@
     <!-- config stored as YAML like in the web service configuration -->
     <Column Name="config" Required="true" Type="LONGBLOB"/>
     <Column Name="namespace" Type="VARCHAR" Size="80"/>
+    <Column Name="process_entity_id" Type="VARCHAR" Size="50"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -2437,6 +2438,7 @@
     <!-- config stored as YAML like in the web service configuration -->
     <Column Name="config" Required="true" Type="LONGBLOB"/>
     <Column Name="namespace" Type="VARCHAR" Size="80"/>
+    <Column Name="process_entity_id" Type="VARCHAR" Size="50"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -2458,6 +2460,7 @@
     <!-- config stored as YAML like in the web service configuration -->
     <Column Name="config" Required="true" Type="LONGBLOB"/>
     <Column Name="namespace" Type="VARCHAR" Size="80"/>
+    <Column Name="process_entity_id" Type="VARCHAR" Size="50"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -2479,6 +2482,7 @@
     <!-- config stored as YAML like in the web service configuration -->
     <Column Name="config" Required="true" Type="LONGBLOB"/>
     <Column Name="namespace" Type="VARCHAR" Size="80"/>
+    <Column Name="process_entity_id" Type="VARCHAR" Size="50"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
