@@ -75,6 +75,15 @@ sub Run {
             );
         }
 
+        my $Invokers          = $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{InvokerControllerMapping};
+        my @MultipartInvokers = ();
+        for my $Invoker ( keys $Invokers->%* ) {
+
+            if ( $Invokers->{$Invoker}->{MultipartAttachment} ) {
+                push @MultipartInvokers, $Invoker;
+            }
+        }
+
         return $Self->_ShowEdit(
             %Param,
             WebserviceID      => $WebserviceID,
@@ -84,6 +93,7 @@ sub Run {
             Output            => $Output,
             LayoutObject      => $LayoutObject,
             ConfigObject      => $ConfigObject,
+            MultipartInvokers => \@MultipartInvokers,
         );
     }
 
@@ -237,6 +247,9 @@ sub Run {
             }
         }
 
+        my @MultipartConfig   = $ParamObject->GetArray( Param => 'MultipartConfig' );
+        my %MultipartInvokers = map { $_ => 1; } @MultipartConfig;
+
         my $Invokers = $WebserviceData->{Config}->{$CommunicationType}->{Invoker};
 
         if ( IsHashRefWithData($Invokers) ) {
@@ -263,9 +276,17 @@ sub Run {
                 my $Command = $ParamObject->GetParam(
                     Param => 'Command' . $CurrentInvoker
                 );
-                next INVOKER if !$Command;
 
-                $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command} = $Command;
+                if ( IsStringWithData($Command) ) {
+                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command} = $Command;
+                }
+
+                if ( exists $MultipartInvokers{$CurrentInvoker} ) {
+                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{MultipartAttachment} = 1;
+                }
+                else {
+                    delete $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{MultipartAttachment};
+                }
             }
         }
     }
@@ -437,6 +458,9 @@ sub Run {
 
     # If there is an error return to edit screen.
     if ( IsHashRefWithData( \%Error ) ) {
+
+        my @MultipartInvokers = $ParamObject->GetArray( Param => 'MultipartConfig' );
+
         return $Self->_ShowEdit(
             %Error,
             %Param,
@@ -447,6 +471,7 @@ sub Run {
             Output            => $Output,
             LayoutObject      => $LayoutObject,
             ConfigObject      => $ConfigObject,
+            MultipartInvokers => \@MultipartInvokers,
         );
     }
 
@@ -664,10 +689,13 @@ sub _ShowEdit {
             $Param{SSLHidden} = '';
         }
 
+        my @InvokerNames;
         my $Invokers = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Invoker};
         if ( IsHashRefWithData($Invokers) ) {
 
             for my $CurrentInvoker ( sort keys %{$Invokers} ) {
+
+                push @InvokerNames, $CurrentInvoker;
 
                 my $CommandStrg = $LayoutObject->BuildSelection(
                     Data          => \@PossibleRequestMethods,
@@ -697,6 +725,23 @@ sub _ShowEdit {
                 );
             }
         }
+
+        my $MultipartStrg = $LayoutObject->BuildSelection(
+            Data          => \@InvokerNames,
+            Name          => 'MultipartConfig',
+            SelectedValue => $Param{MultipartInvokers},
+            PossibleNone  => 1,
+            Multiple      => 1,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
+        );
+
+        $LayoutObject->Block(
+            Name => "MultipartBlock",
+            Data => {
+                MultipartStrg => $MultipartStrg
+            },
+        );
     }
 
     # Check if communication type is requester.

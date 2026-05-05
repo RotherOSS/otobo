@@ -423,6 +423,7 @@
                                 </p>
                             </div>
                             <div class="Clear"></div>
+
 [% RenderBlockEnd("InvokerControllerMapping") %]
 
                             <label for="DefaultCommand">[% Translate("Default command") | html %]:</label>
@@ -435,6 +436,19 @@
                             <div class="Clear"></div>
 
 [% END %]
+
+[% RenderBlockStart("MultipartBlock") %]
+
+                            <label for="MultipartConfig">[% Translate("Use multipart-formdata:") | html %]:</label>
+                            <div class="Field">
+                                [% Data.MultipartStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Select Requesters to send Attachments as binary data with content-type 'multipart-formdata' instead of the default Base64-encoded inline JSON.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+[% RenderBlockEnd("MultipartBlock") %]
 
 # added for OTOBOTicketInvoker
 

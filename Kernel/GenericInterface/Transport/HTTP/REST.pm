@@ -22,12 +22,13 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use MIME::Base64 qw(encode_base64);
+use MIME::Base64 qw(encode_base64 decode_base64);
 
 # CPAN modules
-use HTTP::Status    qw(status_message);
-use REST::Client    ();
 use URI::Escape     qw(uri_escape_utf8 uri_unescape);
+use HTTP::Status    qw(status_message);
+use HTTP::Message   ();
+use REST::Client    ();
 use Plack::Response ();
 
 # OTOBO modules
@@ -839,6 +840,9 @@ sub RequesterPerformRequest {
 
     my $Controller = $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{Controller};
 
+    # special case for MultiPart, do this check before $Controller is modified
+    my $IsMultiPartAttachmentUpload = $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{MultipartAttachment} // 0;
+
     # Remove any query parameters that might be in the config,
     #   For example, from the controller: /Ticket/:TicketID/?:UserLogin&:Password
     #   controller must remain  /Ticket/:TicketID/
@@ -920,10 +924,48 @@ sub RequesterPerformRequest {
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
+    my ( @BodyArr, @HeadersArr, @RequestParam );
+
     if ( IsHashRefWithData( $Param{Data} ) || IsArrayRefWithData( $Param{Data} ) ) {
 
+        # a special case with multipart messages
+        # see http://www.openproject.org/docs/api/endpoints/attachments/
+        if ($IsMultiPartAttachmentUpload) {
+
+            # create Boundary
+            my $Boundary = 'OTOBOBoundary' . int( rand(1000000) );
+            $Headers{'Content-Type'} = "multipart/form-data; boundary=$Boundary";
+            push @HeadersArr, \%Headers;
+
+            my @AttachmentArray;
+
+            # loop over attachments
+            ATTACHMENT:
+            for my $Attachment ( $Param{Data}->{Attachment}->@* ) {
+                next ATTACHMENT if $Attachment->{Filename} =~ /^file-\d*/;
+
+                # the first part sets up the filename
+                my $Filename = $Attachment->{Filename};
+
+                # create Multipart content
+                my $Content = "--$Boundary\r\n";
+                $Content .= "Content-Disposition: form-data; name=\"file\"; filename=\"$Filename\"\r\n";
+                $Content .= "Content-Type: $Attachment->{ContentType}\r\n\r\n";
+                $Content .= decode_base64( $Attachment->{Content} ) . "\r\n\r\n";
+
+                push( @AttachmentArray, $Content );
+            }
+
+            my $Content = join( "", @AttachmentArray );
+
+            $Content .= "\r\n--$Boundary--\r\n";
+
+            # The content is the two concatenated parts
+            push @BodyArr, $Content;
+        }
+
         # POST, PUT and PATCH can have Data in the Body.
-        if (
+        elsif (
             $RestCommand eq 'POST'
             || $RestCommand eq 'PUT'
             || $RestCommand eq 'PATCH'
@@ -972,8 +1014,6 @@ sub RequesterPerformRequest {
         }
     }
 
-    my @RequestParam = ($Controller);
-
     # Only POST, PUT or PATCH have a body. If it is empty
     # (i. e. $Param{Data} = {}), undef is passed to REST::Client.
     if (
@@ -982,12 +1022,23 @@ sub RequesterPerformRequest {
         || $RestCommand eq 'PATCH'
         )
     {
-        my $Body;
-        if ( IsStringWithData( $Param{Data} ) ) {
-            $Body = $Param{Data};
+        # the regular case
+        if ( !$IsMultiPartAttachmentUpload ) {
+            push @BodyArr,    $Param{Data};
+            push @HeadersArr, %Headers;
         }
+        for my $Body (@BodyArr) {
+            my $Headers = shift @HeadersArr;
 
-        push @RequestParam, $Body;
+            push @RequestParam, $Controller;
+
+            if ( IsStringWithData($Body) ) {
+                push @RequestParam, $Body;
+            }
+        }
+    }
+    else {
+        push @RequestParam, $Controller;
     }
 
     # added for OTOBOTicketInvoker
