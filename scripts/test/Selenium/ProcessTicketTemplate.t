@@ -210,7 +210,7 @@ $Selenium->RunTest(
             # check template text
             is(
                 $Selenium->execute_script("return \$('#RichText').val();"),
-                $StandardTemplateValues[$Index],
+                "<p>$StandardTemplateValues[$Index]</p>",
                 "Check template $Index text field"
             );
 
