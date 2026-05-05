@@ -270,7 +270,7 @@ sub GetParam {
 To get the senders email address back.
 
     my $SenderEmail = $ParserObject->GetEmailAddress(
-        Email => 'Juergen Weber <juergen.qeber@air.com>',
+        Email => 'Juergen Weber <juergen.weber@air.com>',
     );
 
 This method can be used in standalone mode.
@@ -297,7 +297,7 @@ sub GetEmailAddress {
 to get the sender's C<RealName> aka phrase.
 
     my $Realname = $ParserObject->GetRealname(
-        Email => 'Juergen Weber <juergen.qeber@air.com>',
+        Email => 'Juergen Weber <juergen.weber@air.com>',
     );
 
 Returns:
@@ -337,10 +337,16 @@ sub GetRealname {
 To get an array of email addresses of an To, Cc or Bcc line back.
 
     my @Addresses = $ParserObject->SplitAddressLine(
-        Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
+        Line => 'Juergen Weber <juergen.weber@air.com>, me@example.com, hans@example.com (Hans Huber)',
     );
 
-This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
+This returns an array of strings
+
+    @Addresses = (
+        'Juergen Weber <juergen.weber@air.com>',
+        'me@example.com',
+        'hans@example.com (Hans Huber)'
+    );
 
 This method can be used in standalone mode.
 
@@ -349,12 +355,9 @@ This method can be used in standalone mode.
 sub SplitAddressLine {
     my ( $Self, %Param ) = @_;
 
-    my @GetParam;
-    for my $Line ( $Self->_MailAddressParse( Email => $Param{Line} ) ) {
-        push @GetParam, $Line->format();
-    }
-
-    return @GetParam;
+    return
+        map { $_->format }
+        $Self->_MailAddressParse( Email => $Param{Line} );
 }
 
 =head2 GetContentType()
