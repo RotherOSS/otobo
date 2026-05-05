@@ -1106,13 +1106,16 @@ sub _ShowScreen {
             },
         );
     }
-    if ( IsStringWithData( $Param{NamespaceFilter} ) ) {
-        $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
-            Template => '[% Data.Filter | uri %]',
-            Data     => {
-                Filter => $Param{NamespaceFilter},
-            },
-        );
+
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        if ( IsStringWithData( $Param{NamespaceFilter} ) ) {
+            $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
+                Template => '[% Data.Filter | uri %]',
+                Data     => {
+                    Filter => $Param{NamespaceFilter},
+                },
+            );
+        }
     }
 
     # generate output
