@@ -62,7 +62,9 @@ sub new {
 
 =head2 ParseAddressLine()
 
-    my @MailAddressObjects = $ParserObject->ParseAddressLine( Line => $Email );
+    my @AddressObjects = $EmailAddressObject->ParseAddressLine(
+        Line => $Email
+    );
 
 Wrapper for C<Mail::Address->parse($Line)>, but cache it, since it's
 not too fast, and often called.
@@ -83,6 +85,55 @@ sub ParseAddressLine {
     $Cache->{$Line} = \@AddressObjects;
 
     return @AddressObjects;
+}
+
+=head2 GetAddress()
+
+extract the bare address from a complete email address. Only a single email address should be passed.
+
+    my $SenderEmail = $EmailAddressObject->GetAddress(
+        Email => 'August Ausprobierer <gustl@testanything.org>',
+    );
+
+or
+
+    my $AddressObject = Mail::Address->new(
+        'August Ausprobierer',
+        'gustl@testanything.org'
+    );
+    my $SenderEmail = $EmailAddressObject->GetAddress(
+        AddressObject => $AddressObject,
+    );
+
+Both variants return
+
+    $SenderEmail = 'gustl@testanything.org'
+
+This method can be used in standalone mode.
+
+=cut
+
+sub GetAddress {
+    my ( $Self, %Param ) = @_;
+
+    my $Email = '';
+    if ( exists $Param{Email} ) {
+
+        # get last address in the list, but only a single email address is expected
+        for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+            $Email = $EmailSplit->address;
+        }
+    }
+    elsif ( exists $Param{AddressObject} ) {
+        $Email = $Param{AddressObject}->address;
+    }
+
+    # return if no email address is there,
+    # even though an '@' is not mandatory for an address
+    return unless $Email =~ m/@/;
+
+    # return email address
+    return $Email;
 }
 
 1;

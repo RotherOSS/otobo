@@ -26,7 +26,6 @@ use parent 'Kernel::System::Ticket::Article::Backend::Base';
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -42,7 +41,8 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article::Backend::Email',
     'Kernel::System::User',
     'Kernel::System::Encode',
-    'Kernel::System::Ticket::ArticleFeatures'
+    'Kernel::System::Ticket::ArticleFeatures',
+    'Kernel::System::EmailAddress',
 );
 
 =head1 NAME
@@ -1221,6 +1221,7 @@ sub ArticleGet {
     my %ArticleSenderTypeList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeList();
 
     # Email parser object might be used below for its field cleanup methods only.
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     my $EmailParser;
     if ( $Param{RealNames} ) {
         $EmailParser = Kernel::System::EmailParser->new(
@@ -1339,12 +1340,12 @@ sub ArticleGet {
                 my $Realname = '';
                 EMAILADDRESS:
                 for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Data{$Key} ) ) {
-                    my $Name = $EmailParser->GetRealname( Email => $EmailSplit );
-                    if ( !$Name ) {
-                        $Name = $EmailParser->GetEmailAddress( Email => $EmailSplit );
-                    }
+                    my $Name =
+                        $EmailParser->GetRealname( Email => $EmailSplit )
+                        ||
+                        $EmailAddressObject->GetAddress( Email => $EmailSplit );
 
-                    next EMAILADDRESS if !$Name;
+                    next EMAILADDRESS unless $Name;
 
                     if ($Realname) {
                         $Realname .= ', ';

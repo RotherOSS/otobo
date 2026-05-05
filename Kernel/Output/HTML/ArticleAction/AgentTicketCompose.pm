@@ -24,8 +24,7 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::EmailParser ();
-use Kernel::Language            qw(Translatable);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -34,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::Queue',
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -176,19 +176,20 @@ sub GetConfig {
     }
     my $RecipientCount = 0;
     if ($Recipients) {
-        my $EmailParser = Kernel::System::EmailParser->new(
-            %{$Self},
-            Mode => 'Standalone',
-        );
-        my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+        my @Addresses          = $EmailAddressObject->ParseAddressLine( Line => $Recipients );
         ADDRESS:
         for my $Address (@Addresses) {
-            my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-            next ADDRESS if !$Email;
+            my $Email = $EmailAddressObject->GetAddress( AddressObject => $Address );
+
+            next ADDRESS unless $Email;
+
             my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
                 Address => $Email,
             );
+
             next ADDRESS if $IsLocal;
+
             $RecipientCount++;
         }
     }

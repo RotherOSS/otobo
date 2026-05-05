@@ -31,6 +31,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Crypt::SMIME',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -239,14 +240,15 @@ sub _DecryptSMIME {
         my %EmailsToSearch;
         for my $Email (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
 
-            my @EmailAddressOnField = $Self->{ParserObject}->SplitAddressLine(
+            my $EmailAddressObject  = $Kernel::OM->Get('Kernel::System::EmailAddress');
+            my @EmailAddressOnField = $EmailAddressObject->ParseAddressLine(
                 Line => $Self->{ParserObject}->GetParam( WHAT => $Email ),
             );
 
             # filter email addresses avoiding repeated and save on hash to search
             for my $EmailAddress (@EmailAddressOnField) {
-                my $CleanEmailAddress = $Self->{ParserObject}->GetEmailAddress(
-                    Email => $EmailAddress,
+                my $CleanEmailAddress = $EmailAddressObject->GetAddress(
+                    AddressObject => $EmailAddress,
                 );
                 $EmailsToSearch{$CleanEmailAddress} = '1';
             }
@@ -418,8 +420,9 @@ sub _DecryptSMIME {
             # made if sender and signer addresses does not match
 
             # get original sender from email
-            my $OrigFrom   = $Self->{ParserObject}->GetParam( WHAT => 'From' );
-            my $OrigSender = $Self->{ParserObject}->GetEmailAddress( Email => $OrigFrom );
+            my $OrigFrom           = $Self->{ParserObject}->GetParam( WHAT => 'From' );
+            my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+            my $OrigSender         = $EmailAddressObject->GetAddress( Email => $OrigFrom );
 
             # compare sender email to signer email
             my $SignerSenderMatch = 0;

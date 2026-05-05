@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Queue',
     'Kernel::System::SystemAddress',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -31,9 +32,6 @@ sub new {
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
-
-    # get parser object
-    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     # Get communication log object.
     $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
@@ -65,15 +63,16 @@ sub GetQueueID {
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
     # get addresses
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient );
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @EmailAddresses     = $EmailAddressObject->ParseAddressLine( Line => $Recipient );
 
     # check addresses
     EMAIL:
     for my $Email (@EmailAddresses) {
 
-        next EMAIL if !$Email;
+        next EMAIL unless $Email;
 
-        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $Email );
+        my $Address = $EmailAddressObject->GetAddress( AddressObject => $Email );
 
         next EMAIL if !$Address;
 

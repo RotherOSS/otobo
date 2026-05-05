@@ -28,7 +28,6 @@ use List::Util qw(any);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -2997,28 +2996,25 @@ sub _Mask {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
         }
 
-        # create email parser object
-        my $EmailParserObject = Kernel::System::EmailParser->new(
-            Mode  => 'Standalone',
-            Debug => 0,
-        );
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
         # check and retrieve involved and informed agents of ReplyTo Note
         my @ReplyToUsers;
         my %ReplyToUsersHash;
         my %ReplyToUserIDs;
         if ( $Self->{ReplyToArticle} ) {
-            my @ReplyToParts = $EmailParserObject->SplitAddressLine(
+            my @ReplyToParts = $EmailAddressObject->ParseAddressLine(
                 Line => $Self->{ReplyToArticleContent}->{To} || '',
             );
 
             REPLYTOPART:
             for my $SingleReplyToPart (@ReplyToParts) {
-                my $ReplyToAddress = $EmailParserObject->GetEmailAddress(
-                    Email => $SingleReplyToPart,
+                my $ReplyToAddress = $EmailAddressObject->GetAddress(
+                    AddressObject => $SingleReplyToPart,
                 );
 
-                next REPLYTOPART if !$ReplyToAddress;
+                next REPLYTOPART unless $ReplyToAddress;
+
                 push @ReplyToUsers, $ReplyToAddress;
             }
 

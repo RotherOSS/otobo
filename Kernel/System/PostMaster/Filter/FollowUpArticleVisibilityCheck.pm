@@ -23,6 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -88,8 +89,9 @@ sub Run {
 
     # Email Reply-To address for forwarded emails
     my $ReplyToAddress;
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     if ( $Param{GetParam}->{ReplyTo} ) {
-        $ReplyToAddress = $Self->{ParserObject}->GetEmailAddress(
+        $ReplyToAddress = $EmailAddressObject->GetAddress(
             Email => $Param{GetParam}->{ReplyTo},
         );
     }
@@ -127,18 +129,20 @@ sub Run {
         next ARTICLE if !$Article->{To};
 
         # check based on recipient addresses of the article
-        my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
-            Line => $Article->{To},
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+        my @EmailAdresses      = (
+            $EmailAddressObject->ParseAddressLine(
+                Line => $Article->{To},
+            ),
+            $EmailAddressObject->ParseAddressLine(
+                Line => $Article->{Cc},
+            )
         );
-        my @CcEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
-            Line => $Article->{Cc},
-        );
-        my @EmailAdresses = ( @ToEmailAddresses, @CcEmailAddresses );
 
         EMAIL:
         for my $Email (@EmailAdresses) {
-            my $Recipient = $Self->{ParserObject}->GetEmailAddress(
-                Email => $Email,
+            my $Recipient = $EmailAddressObject->GetAddress(
+                AddressObject => $Email,
             );
             if ( lc $Recipient eq lc $SenderAddress ) {
                 $IsInternalForward = 1;

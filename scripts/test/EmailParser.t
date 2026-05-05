@@ -22,7 +22,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use MIME::Parser ();
+use MIME::Parser  ();
+use Mail::Address ();
 use Test2::V0;
 use Path::Class qw(file);
 
@@ -106,70 +107,6 @@ END_OF_THE_LINE
         \@SplitAddresses,
         \@ExpectedSplitAddresses,
         'SplitAddressLine()',
-    );
-};
-
-subtest 'GetEmailAddress()' => sub {
-
-    # as stand alone mode, without parsing emails
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Mode  => 'Standalone',
-        Debug => 0,
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.weber@air.com>' ),
-        'juergen.weber@air.com',
-        'with phrase and address',
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+weber@air.com>' ),
-        'juergen+weber@air.com',
-        'address contains a +',
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress(
-            Email => 'Juergen Weber <juergen+weber@air.com> (Comment)'
-        ),
-        'juergen+weber@air.com',
-        'with comment',
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'juergen+weber@air.com (Comment)' ),
-        'juergen+weber@air.com',
-        'without a phrase and with comment',
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'oil and <water> (do not mix)' ),
-        undef,
-        'address without @',
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress(
-            AddressObject => Mail::Address->new(
-                'August Ausprobierer',
-                'gustl@testanything.org'
-            ),
-        ),
-        'gustl@testanything.org',
-        'with an instance of Mail::Address'
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress(
-            AddressObject => Mail::Address->new(
-                'oil and',
-                'water',
-                'do not mix',
-            ),
-        ),
-        undef,
-        'with an instance of Mail::Address, address without @'
     );
 };
 

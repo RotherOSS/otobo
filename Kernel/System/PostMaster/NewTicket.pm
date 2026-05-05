@@ -42,6 +42,7 @@ our @ObjectDependencies = (
     'Kernel::System::Type',
     'Kernel::System::User',
     'Kernel::System::Service',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -152,12 +153,13 @@ sub Run {
     my $From = $GetParam{'X-OTOBO-From'} ? $GetParam{'X-OTOBO-From'} : $GetParam{From};
 
     # get sender email
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @EmailAddresses     = $EmailAddressObject->ParseAddressLine(
         Line => $From,
     );
     for my $Address (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
-            Email => $Address,
+        $GetParam{SenderEmailAddress} = $EmailAddressObject->GetAddress(
+            AddressObject => $Address,
         );
     }
 
@@ -185,13 +187,12 @@ sub Run {
         my %CustomerData;
         if ($From) {
 
-            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+            my @EmailAddresses = $EmailAddressObject->ParseAddressLine(
                 Line => $From,
             );
-
             for my $Address (@EmailAddresses) {
-                $GetParam{EmailFrom} = $Self->{ParserObject}->GetEmailAddress(
-                    Email => $Address,
+                $GetParam{EmailFrom} = $EmailAddressObject->GetAddress(
+                    AddressObject => $Address,
                 );
             }
 
