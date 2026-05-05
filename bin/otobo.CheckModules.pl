@@ -660,10 +660,12 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Plack',
-        Required  => 1,
-        Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
-        InstTypes => {
+        # Blacklist Plack 1.0053 because of https://github.com/plack/Plack/issues/724
+        Module          => 'Plack',
+        Required        => 1,
+        VersionRequired => '!= 1.0053',
+        Comment         => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
+        InstTypes       => {
             aptget => 'libplack-perl',
             emerge => 'dev-perl/Plack',
             zypper => 'perl-Plack',
