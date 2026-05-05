@@ -81,7 +81,7 @@ requires 'YAML::XS';
 requires 'Unicode::Collate';
 
 # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
-requires 'Plack';
+requires 'Plack', '!= 1.0053';
 
 # Set HTTP headers
 requires 'Plack::Middleware::Header';
