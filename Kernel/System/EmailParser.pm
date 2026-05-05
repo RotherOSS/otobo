@@ -280,13 +280,14 @@ This method can be used in standalone mode.
 sub GetEmailAddress {
     my ( $Self, %Param ) = @_;
 
-    my $Email = '';
-    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
-        $Email = $EmailSplit->address();
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my $Email              = '';
+    for my $EmailSplit ( $EmailAddressObject->ParseAddressLine( Line => $Param{Email} ) ) {
+        $Email = $EmailSplit->address;
     }
 
     # return if no email address is there
-    return if $Email !~ /@/;
+    return unless $Email =~ m/@/;
 
     # return email address
     return $Email;
@@ -325,8 +326,9 @@ sub GetRealname {
     }
 
     # fallback of Mail::Address
-    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
-        $Realname = $EmailSplit->phrase();
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    for my $EmailSplit ( $EmailAddressObject->ParseAddressLine( Line => $Param{Email} ) ) {
+        $Realname = $EmailSplit->phrase;
     }
 
     return $Realname;
@@ -335,6 +337,7 @@ sub GetRealname {
 =head2 SplitAddressLine()
 
 To get an array of email addresses of an To, Cc or Bcc line back.
+This method is similar to C<ParseAddressLine()> but instead of objects the formatted objects are returned.
 
     my @Addresses = $ParserObject->SplitAddressLine(
         Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
@@ -349,12 +352,11 @@ This method can be used in standalone mode.
 sub SplitAddressLine {
     my ( $Self, %Param ) = @_;
 
-    my @GetParam;
-    for my $Line ( $Self->_MailAddressParse( Email => $Param{Line} ) ) {
-        push @GetParam, $Line->format();
-    }
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    return @GetParam;
+    return
+        map { $_->format }
+        $EmailAddressObject->ParseAddressLine( Line => $Param{Line} );
 }
 
 =head2 GetContentType()
@@ -1235,30 +1237,6 @@ sub _DecodeString {
     }
 
     return $DecodedString;
-}
-
-=head2 _MailAddressParse()
-
-    my @Chunks = $ParserObject->_MailAddressParse(Email => $Email);
-
-Wrapper for C<Mail::Address->parse($Email)>, but cache it, since it's
-not too fast, and often called.
-
-=cut
-
-sub _MailAddressParse {
-    my ( $Self, %Param ) = @_;
-
-    my $Email = $Param{Email};
-
-    my $Cache = $Self->{EmailCache};
-
-    return $Cache->{$Email}->@* if $Cache->{$Email};
-
-    my @Chunks = Mail::Address->parse($Email);
-    $Cache->{$Email} = \@Chunks;
-
-    return @Chunks;
 }
 
 =end Internal:

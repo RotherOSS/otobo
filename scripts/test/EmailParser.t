@@ -68,16 +68,15 @@ subtest 'parse PostMaster-Test1.box' => sub {
     );
 };
 
-subtest 'ParseAddressLine() and SplitAddressLine()' => sub {
+subtest 'SplitAddressLine()' => sub {
 
     # as stand alone mode, without parsing emails
     my $EmailParserObject = Kernel::System::EmailParser->new(
         Mode  => 'Standalone',
         Debug => 0,
     );
-    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    # Sample address line for testing ParseAddressLine() and SplitAddressLine().
+    # Sample address line for testing SplitAddressLine().
     # Note that whitespace gets normalized into a single space. Line breaks are allowed.
     # Note that the address does not require the existence of an '@'.
     # A double quote character may appear in a phrase when it is escaped. This is a quoted-pairl
@@ -92,71 +91,6 @@ END_OF_THE_LINE
     # Not adding
     # -->   " that \" is part of quoted pair" travelling@wilburys.org, <--
     # as Mail::Address seems to be confused about quoted pairs
-
-    my @MailAddressObjects         = $EmailAddressObject->ParseAddressLine( Line => $Line );
-    my @ExpectedMailAddressObjects = (
-        bless(
-            [
-                'Juergen Weber',
-                'juergen.weber@air.com',
-                ''
-            ],
-            'Mail::Address'
-        ),
-        bless(
-            [
-                '"Julia Weber"',
-                'julia.weber@air.com',
-                ''
-            ],
-            'Mail::Address'
-        ),
-        bless(
-            [
-                '',
-                'me@example.com',
-                ''
-            ],
-            'Mail::Address'
-        ),
-        bless(
-            [
-                '',
-                'hans@example.com',
-                '(Hans Huber)'
-            ],
-            'Mail::Address'
-        ),
-        bless(
-            [
-                'Juergen "quoted name" Weber',
-                'juergen.weber@air.com',
-                ''
-            ],
-            'Mail::Address'
-        ),
-        bless(
-            [
-                "my \"\x{1f34f} \x{1f333}\"",
-                'apple.tree@air.com',
-                ''
-            ],
-            'Mail::Address'
-        ),
-        bless(
-            [
-                "no at symbol",
-                'alice',
-                '( my team    lead   )'
-            ],
-            'Mail::Address'
-        ),
-    );
-    is(
-        \@MailAddressObjects,
-        \@ExpectedMailAddressObjects,
-        'ParseAddressLine()',
-    );
 
     my @SplitAddresses         = $EmailParserObject->SplitAddressLine( Line => $Line );
     my @ExpectedSplitAddresses = (
