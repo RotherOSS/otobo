@@ -77,21 +77,22 @@ subtest 'static methods' => sub {
         Debug => 0,
     );
 
-    my @Addresses = $EmailParserObject->SplitAddressLine(
-        Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber),
-        Juergen "quoted name" Weber <juergen.qeber@air.com>',
+    # note that whitespace gets normalized
+    my @SplitAddresses = $EmailParserObject->SplitAddressLine(
+        Line => 'Juergen Weber <juergen.weber@air.com>, "Julia Weber" <julia.weber@air.com>, me@example.com, hans@example.com (Hans Huber),
+        Juergen "quoted name" Weber <juergen.weber@air.com>    ,  my     "🍏 🌳"<apple.tree@air.com>',
     );
-
     is(
-        $Addresses[2],
-        'hans@example.com (Hans Huber)',
-        "SplitAddressLine()",
-    );
-
-    is(
-        $Addresses[3],
-        'Juergen "quoted name" Weber <juergen.qeber@air.com>',
-        "SplitAddressLine() with quoted name",
+        \@SplitAddresses,
+        [
+            'Juergen Weber <juergen.weber@air.com>',
+            '"Julia Weber" <julia.weber@air.com>',
+            'me@example.com',
+            'hans@example.com (Hans Huber)',
+            'Juergen "quoted name" Weber <juergen.weber@air.com>',
+            'my "🍏 🌳" <apple.tree@air.com>',
+        ],
+        'SplitAddressLine',
     );
 
     is(
