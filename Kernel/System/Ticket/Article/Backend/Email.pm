@@ -27,7 +27,6 @@ use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 use Mail::Address ();
 
 # OTOBO modules
-use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -45,6 +44,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::DateTime',
     'Kernel::System::MailQueue',
+    'Kernel::System::EmailAddress',
 );
 
 =head1 NAME
@@ -538,16 +538,14 @@ sub SendAutoResponse {
     # get loop protection object
     my $LoopProtectionObject = $Kernel::OM->Get('Kernel::System::PostMaster::LoopProtection');
 
-    # create email parser object
-    my $EmailParser = Kernel::System::EmailParser->new(
-        Mode => 'Standalone',
-    );
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     my @AutoReplyAddresses;
-    my @Addresses = $EmailParser->SplitAddressLine( Line => $OrigHeader{From} );
+    my @AddressObjects = $EmailAddressObject->ParseAddressLine( Line => $OrigHeader{From} );
     ADDRESS:
-    for my $Address (@Addresses) {
-        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
+    for my $AddressObject (@AddressObjects) {
+        my $Email   = $EmailAddressObject->GetAddress( AddressObject => $AddressObject );
+        my $Address = $AddressObject->format;
         if ( !$Email ) {
 
             # add it to ticket history
@@ -563,6 +561,7 @@ sub SendAutoResponse {
                 Priority => 'notice',
                 Message  => "Sent no auto response to '$Address' because of invalid address.",
             );
+
             next ADDRESS;
 
         }
@@ -582,12 +581,13 @@ sub SendAutoResponse {
                 Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
                     . "$Ticket{TicketNumber}] ($Email) because of loop protection."
             );
+
             next ADDRESS;
         }
         else {
 
             # increase loop count
-            return if !$LoopProtectionObject->SendEmail( To => $Email );
+            return unless $LoopProtectionObject->SendEmail( To => $Email );
         }
 
         # check if sender is e. g. MAILER-DAEMON or Postmaster

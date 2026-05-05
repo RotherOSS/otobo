@@ -112,4 +112,64 @@ END_OF_THE_LINE
     );
 };
 
+subtest 'GetAddress()' => sub {
+
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
+    is(
+        $EmailAddressObject->GetAddress( Email => 'Juergen Weber <juergen.weber@air.com>' ),
+        'juergen.weber@air.com',
+        'with phrase and address',
+    );
+
+    is(
+        $EmailAddressObject->GetAddress( Email => 'Juergen Weber <juergen+weber@air.com>' ),
+        'juergen+weber@air.com',
+        'address contains a +',
+    );
+
+    is(
+        $EmailAddressObject->GetAddress(
+            Email => 'Juergen Weber <juergen+weber@air.com> (Comment)'
+        ),
+        'juergen+weber@air.com',
+        'with comment',
+    );
+
+    is(
+        $EmailAddressObject->GetAddress( Email => 'juergen+weber@air.com (Comment)' ),
+        'juergen+weber@air.com',
+        'without a phrase and with comment',
+    );
+
+    is(
+        $EmailAddressObject->GetAddress( Email => 'oil and <water> (do not mix)' ),
+        undef,
+        'address without @',
+    );
+
+    is(
+        $EmailAddressObject->GetAddress(
+            AddressObject => Mail::Address->new(
+                'August Ausprobierer',
+                'gustl@testanything.org'
+            ),
+        ),
+        'gustl@testanything.org',
+        'with an instance of Mail::Address'
+    );
+
+    is(
+        $EmailAddressObject->GetAddress(
+            AddressObject => Mail::Address->new(
+                'oil and',
+                'water',
+                'do not mix',
+            ),
+        ),
+        undef,
+        'with an instance of Mail::Address, address without @'
+    );
+};
+
 done_testing;

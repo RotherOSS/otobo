@@ -43,6 +43,7 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::EmailAddress',
 );
 
 =head1 NAME
@@ -627,12 +628,13 @@ sub GetEmailParams {
     if ( !$GetParam{'X-Sender'} ) {
 
         # get sender email
-        my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+        my @EmailAddresses     = $EmailAddressObject->ParseAddressLine(
             Line => $GetParam{From},
         );
         for my $Email (@EmailAddresses) {
-            $GetParam{'X-Sender'} = $Self->{ParserObject}->GetEmailAddress(
-                Email => $Email,
+            $GetParam{'X-Sender'} = $EmailAddressObject->GetAddress(
+                AddressObject => $Email,
             );
         }
     }

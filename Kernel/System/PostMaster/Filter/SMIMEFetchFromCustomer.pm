@@ -28,6 +28,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Crypt::SMIME',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -73,19 +74,20 @@ sub Run {
     };
     return 1 if !$CryptObject;
 
-    my @EmailAddressOnField = $Self->{ParserObject}->SplitAddressLine(
+    my $EmailAddressObject  = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @EmailAddressOnField = $EmailAddressObject->ParseAddressLine(
         Line => $Self->{ParserObject}->GetParam( WHAT => 'From' ),
     );
 
     my $IncomingMailAddress;
 
     for my $EmailAddress (@EmailAddressOnField) {
-        $IncomingMailAddress = $Self->{ParserObject}->GetEmailAddress(
-            Email => $EmailAddress,
+        $IncomingMailAddress = $EmailAddressObject->GetAddress(
+            AddressObject => $EmailAddress,
         );
     }
 
-    return 1 if !$IncomingMailAddress;
+    return 1 unless $IncomingMailAddress;
 
     my @Files = $CryptObject->FetchFromCustomer(
         Search => $IncomingMailAddress,

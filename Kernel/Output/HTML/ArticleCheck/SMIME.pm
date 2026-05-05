@@ -34,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -104,7 +105,8 @@ sub Check {
 
     return @Early if ( @Early && $Completed );
 
-    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    my $SMIMEObject        = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     # check inline smime
     if ( $Param{Article}->{Body} && $Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/ ) {
@@ -211,14 +213,14 @@ sub Check {
             my %EmailsToSearch;
             for my $Email (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
 
-                my @EmailAddressOnField = $ParserObject->SplitAddressLine(
+                my @EmailAddressOnField = $EmailAddressObject->ParseAddressLine(
                     Line => $ParserObject->GetParam( WHAT => $Email ),
                 );
 
                 # filter email addresses avoiding repeated and save on hash to search
                 for my $EmailAddress (@EmailAddressOnField) {
-                    my $CleanEmailAddress = $ParserObject->GetEmailAddress(
-                        Email => $EmailAddress,
+                    my $CleanEmailAddress = $EmailAddressObject->GetAddress(
+                        AddressObject => $EmailAddress,
                     );
                     $EmailsToSearch{$CleanEmailAddress} = '1';
                 }
@@ -525,7 +527,7 @@ sub Check {
             );
 
             my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
-            my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+            my $OrigSender = $EmailAddressObject->GetAddress( Email => $OrigFrom );
 
             # compare sender email to signer email
             my $SignerSenderMatch = 0;

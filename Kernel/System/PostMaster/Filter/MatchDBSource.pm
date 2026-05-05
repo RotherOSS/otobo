@@ -22,17 +22,13 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::System::PostMaster::Filter',
     'Kernel::System::Valid',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get parser object
-    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
+    my $Self = bless {}, $Type;
 
     # Get communication log object.
     $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
@@ -86,9 +82,10 @@ sub Run {
         }
 
         # match 'Match => ???' stuff
-        my $Matched       = 0;    # Numbers are required because of the bitwise or in the negation.
-        my $MatchedNot    = 0;
-        my $MatchedResult = '';
+        my $Matched            = 0;                                                  # Numbers are required because of the bitwise or in the negation.
+        my $MatchedNot         = 0;
+        my $MatchedResult      = '';
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
         for my $Index ( 0 .. ( scalar @Match ) - 1 ) {
             my $Key   = $Match[$Index]->{Key};
             my $Value = $Match[$Index]->{Value};
@@ -96,14 +93,14 @@ sub Run {
             # match only email addresses
             if ( defined $Param{GetParam}->{$Key} && $Value =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail    = $1;
-                my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+                my @EmailAddresses = $EmailAddressObject->ParseAddressLine(
                     Line => $Param{GetParam}->{$Key},
                 );
                 my $LocalMatched = 0;
                 RECIPIENT:
                 for my $Recipients (@EmailAddresses) {
 
-                    my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
+                    my $Email = $EmailAddressObject->GetAddress( AddressObject => $Recipients );
 
                     next RECIPIENT if !$Email;
 

@@ -265,34 +265,6 @@ sub GetParam {
     return $ReturnLine;
 }
 
-=head2 GetEmailAddress()
-
-To get the senders email address back.
-
-    my $SenderEmail = $ParserObject->GetEmailAddress(
-        Email => 'Juergen Weber <juergen.qeber@air.com>',
-    );
-
-This method can be used in standalone mode.
-
-=cut
-
-sub GetEmailAddress {
-    my ( $Self, %Param ) = @_;
-
-    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my $Email              = '';
-    for my $EmailSplit ( $EmailAddressObject->ParseAddressLine( Line => $Param{Email} ) ) {
-        $Email = $EmailSplit->address;
-    }
-
-    # return if no email address is there
-    return unless $Email =~ m/@/;
-
-    # return email address
-    return $Email;
-}
-
 =head2 GetRealname()
 
 to get the sender's C<RealName> aka phrase.
@@ -345,7 +317,7 @@ This method is similar to C<ParseAddressLine()> but instead of objects the forma
 
 This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
 
-This method can be used in standalone mode.
+This method can be used in standalone mode. It is recommended to switch to C<ParseAddressLine()>.
 
 =cut
 

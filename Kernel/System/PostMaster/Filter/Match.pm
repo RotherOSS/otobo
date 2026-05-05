@@ -21,17 +21,14 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::EmailAddress',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get parser object
-    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
+    my $Self = bless {}, $Type;
 
     # Get communication log object.
     $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
@@ -96,9 +93,10 @@ sub Run {
     }
 
     # match 'Match => ???' stuff
-    my $Matched       = '';
-    my $MatchedNot    = 0;
-    my $MatchedResult = '';
+    my $Matched            = '';
+    my $MatchedNot         = 0;
+    my $MatchedResult      = '';
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     for my $Index ( 0 .. ( scalar @Match ) - 1 ) {
         my $Key   = $Match[$Index]->{Key};
         my $Value = $Match[$Index]->{Value};
@@ -106,14 +104,14 @@ sub Run {
         # match only email addresses
         if ( $Param{GetParam}->{$Key} && $Value =~ /^EMAILADDRESS:(.*)$/ ) {
             my $SearchEmail    = $1;
-            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+            my @EmailAddresses = $EmailAddressObject->ParseAddressLine(
                 Line => $Param{GetParam}->{$Key},
             );
             my $LocalMatched;
             RECIPIENTS:
             for my $Recipients (@EmailAddresses) {
 
-                my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
+                my $Email = $EmailAddressObject->GetAddress( AddressObject => $Recipients );
 
                 if ( $Email =~ /^$SearchEmail$/i ) {
 

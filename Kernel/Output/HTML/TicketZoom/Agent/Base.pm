@@ -25,7 +25,6 @@ use warnings;
 use Digest::MD5 qw(md5_hex);
 
 # OTOBO modules
-use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
@@ -39,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
     'Kernel::System::User',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -224,18 +224,15 @@ sub _ArticleSenderImage {
 
     my $Result = '';
 
-    return $Result if !$Param{Sender};
+    return $Result unless $Param{Sender};
 
     my $Size = 80;
 
     # Get email address from sender field.
-    my $EmailParser = Kernel::System::EmailParser->new(
-        %{$Self},
-        Mode => 'Standalone',
-    );
-    my @Addresses = $EmailParser->SplitAddressLine( Line => $Param{Sender} );
-    if (@Addresses) {
-        my $Email = $EmailParser->GetEmailAddress( Email => $Addresses[0] );
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my ($Address) = $EmailAddressObject->ParseAddressLine( Line => $Param{Sender} );
+    if ( defined $Address ) {
+        my $Email = $EmailAddressObject->GetAddress( AddressObject => $Address );
         if ($Email) {
             my $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::ArticleDefaultImage') || 'mp';
 
