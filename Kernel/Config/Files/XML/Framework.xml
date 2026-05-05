@@ -11106,4 +11106,16 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
+
+    <!-- Namespaces -->
+    <Setting Name="Namespaces###Global" Required="0" Valid="0">
+        <Description Translatable="1">Define possible namespaces for global usage (currently dynamic fields and process elements). Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.</Description>
+        <Navigation>Core::Namespaces</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="String" ValueRegex="^[a-zA-Z0-9]{1,64}$"></DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <!-- End Namespaces -->
 </otobo_config>
