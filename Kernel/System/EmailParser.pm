@@ -103,7 +103,9 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = bless {}, $Type;
+    my $Self = bless {
+        ParseAddressLineCache => {},
+    }, $Type;
 
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
@@ -281,8 +283,8 @@ sub GetEmailAddress {
     my ( $Self, %Param ) = @_;
 
     my $Email = '';
-    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
-        $Email = $EmailSplit->address();
+    for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+        $Email = $EmailSplit->address;
     }
 
     # return if no email address is there
@@ -325,16 +327,43 @@ sub GetRealname {
     }
 
     # fallback of Mail::Address
-    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
-        $Realname = $EmailSplit->phrase();
+    for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+        $Realname = $EmailSplit->phrase;
     }
 
     return $Realname;
 }
 
+=head2 ParseAddressLine()
+
+    my @MailAddressObjects = $ParserObject->ParseAddressLine( Line => $Email );
+
+Wrapper for C<Mail::Address->parse($Email)>, but cache it, since it's
+not too fast, and often called.
+
+Returns an array of Mail::Address objects.
+
+=cut
+
+sub ParseAddressLine {
+    my ( $Self, %Param ) = @_;
+
+    my $Line = $Param{Line};
+
+    my $Cache = $Self->{ParseAddressLineCache};
+
+    return $Cache->{$Line}->@* if $Cache->{$Line};
+
+    my @MailAddressObjects = Mail::Address->parse($Line);
+    $Cache->{$Line} = \@MailAddressObjects;
+
+    return @MailAddressObjects;
+}
+
 =head2 SplitAddressLine()
 
 To get an array of email addresses of an To, Cc or Bcc line back.
+This method is similar to C<ParseAddressLine()> but instead of objects the formatted objects are returned.
 
     my @Addresses = $ParserObject->SplitAddressLine(
         Line => 'Juergen Weber <juergen.weber@air.com>, me@example.com, hans@example.com (Hans Huber)',
@@ -357,7 +386,7 @@ sub SplitAddressLine {
 
     return
         map { $_->format }
-        $Self->_MailAddressParse( Email => $Param{Line} );
+        $Self->ParseAddressLine( Line => $Param{Line} );
 }
 
 =head2 GetContentType()
@@ -1238,30 +1267,6 @@ sub _DecodeString {
     }
 
     return $DecodedString;
-}
-
-=head2 _MailAddressParse()
-
-    my @Chunks = $ParserObject->_MailAddressParse(Email => $Email);
-
-Wrapper for C<Mail::Address->parse($Email)>, but cache it, since it's
-not too fast, and often called.
-
-=cut
-
-sub _MailAddressParse {
-    my ( $Self, %Param ) = @_;
-
-    my $Email = $Param{Email};
-
-    my $Cache = $Self->{EmailCache};
-
-    return $Cache->{$Email}->@* if $Cache->{$Email};
-
-    my @Chunks = Mail::Address->parse($Email);
-    $Cache->{$Email} = \@Chunks;
-
-    return @Chunks;
 }
 
 =end Internal:

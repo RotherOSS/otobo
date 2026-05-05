@@ -77,21 +77,90 @@ subtest 'static methods' => sub {
         Debug => 0,
     );
 
+    # Sample address line for testin ParseAddressLine() and SplitAddressLine()
     # note that whitespace gets normalized
-    my @SplitAddresses = $EmailParserObject->SplitAddressLine(
-        Line => 'Juergen Weber <juergen.weber@air.com>, "Julia Weber" <julia.weber@air.com>, me@example.com, hans@example.com (Hans Huber),
-        Juergen "quoted name" Weber <juergen.weber@air.com>    ,  my     "🍏 🌳"<apple.tree@air.com>',
+    # note that the address does not require the existence of an '@'
+    my $Line = 'Juergen Weber <juergen.weber@air.com>, "Julia Weber" <julia.weber@air.com>, me@example.com, hans@example.com (Hans Huber),
+        Juergen "quoted name" Weber <juergen.weber@air.com>    ,  my     "🍏 🌳"<apple.tree@air.com>, no  at   symbol    <alice>  ( my team    lead   )   ';
+
+    my @MailAddressObjects         = $EmailParserObject->ParseAddressLine( Line => $Line );
+    my @ExpectedMailAddressObjects = (
+        bless(
+            [
+                'Juergen Weber',
+                'juergen.weber@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                '"Julia Weber"',
+                'julia.weber@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                '',
+                'me@example.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                '',
+                'hans@example.com',
+                '(Hans Huber)'
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                'Juergen "quoted name" Weber',
+                'juergen.weber@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                "my \"\x{1f34f} \x{1f333}\"",
+                'apple.tree@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                "no at symbol",
+                'alice',
+                '( my team    lead   )'
+            ],
+            'Mail::Address'
+        ),
+    );
+    is(
+        \@MailAddressObjects,
+        \@ExpectedMailAddressObjects,
+        'ParseAddressLine()',
+    );
+
+    my @SplitAddresses         = $EmailParserObject->SplitAddressLine( Line => $Line );
+    my @ExpectedSplitAddresses = (
+        'Juergen Weber <juergen.weber@air.com>',
+        '"Julia Weber" <julia.weber@air.com>',
+        'me@example.com',
+        'hans@example.com (Hans Huber)',
+        'Juergen "quoted name" Weber <juergen.weber@air.com>',
+        'my "🍏 🌳" <apple.tree@air.com>',
+        'no at symbol <alice> ( my team    lead   )',
     );
     is(
         \@SplitAddresses,
-        [
-            'Juergen Weber <juergen.weber@air.com>',
-            '"Julia Weber" <julia.weber@air.com>',
-            'me@example.com',
-            'hans@example.com (Hans Huber)',
-            'Juergen "quoted name" Weber <juergen.weber@air.com>',
-            'my "🍏 🌳" <apple.tree@air.com>',
-        ],
+        \@ExpectedSplitAddresses,
         'SplitAddressLine',
     );
 
