@@ -713,4 +713,17 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+
+    <!-- Namespaces -->
+    <Setting Name="Namespaces###ProcessManagement" Required="0" Valid="0">
+        <Description Translatable="1">Define possible namespaces specifically for process elements. Must only contain alphanumeric characters. A namespace must not be longer than 80 characters.</Description>
+        <Navigation>Core::Namespaces</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="String" ValueRegex="^[a-zA-Z0-9]{1,80}$"></DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <!-- End Namespaces -->
+
 </otobo_config>
