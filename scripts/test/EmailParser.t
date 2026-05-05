@@ -24,6 +24,7 @@ use utf8;
 # CPAN modules
 use MIME::Parser ();
 use Test2::V0;
+use Path::Class qw(file);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -34,14 +35,12 @@ my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-subtest 'test PostMaster-Test1.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
+subtest 'parse PostMaster-Test1.box' => sub {
 
-    # create local object
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
 
     is(
@@ -69,7 +68,114 @@ subtest 'test PostMaster-Test1.box' => sub {
     );
 };
 
-subtest 'static methods' => sub {
+subtest 'ParseAddressLine() and SplitAddressLine()' => sub {
+
+    # as stand alone mode, without parsing emails
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Mode  => 'Standalone',
+        Debug => 0,
+    );
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
+    # Sample address line for testing ParseAddressLine() and SplitAddressLine().
+    # Note that whitespace gets normalized into a single space. Line breaks are allowed.
+    # Note that the address does not require the existence of an '@'.
+    # A double quote character may appear in a phrase when it is escaped. This is a quoted-pairl
+    my $Line = <<'END_OF_THE_LINE';
+Juergen Weber <juergen.weber@air.com>, "Julia Weber" <julia.weber@air.com>,
+ me@example.com, hans@example.com (Hans Huber),
+  Juergen "quoted name" Weber <juergen.weber@air.com>    ,
+   my     "🍏 🌳"<apple.tree@air.com>,
+    no  at   symbol    <alice>  ( my team    lead   ) ,
+END_OF_THE_LINE
+
+    # Not adding
+    # -->   " that \" is part of quoted pair" travelling@wilburys.org, <--
+    # as Mail::Address seems to be confused about quoted pairs
+
+    my @MailAddressObjects         = $EmailAddressObject->ParseAddressLine( Line => $Line );
+    my @ExpectedMailAddressObjects = (
+        bless(
+            [
+                'Juergen Weber',
+                'juergen.weber@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                '"Julia Weber"',
+                'julia.weber@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                '',
+                'me@example.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                '',
+                'hans@example.com',
+                '(Hans Huber)'
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                'Juergen "quoted name" Weber',
+                'juergen.weber@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                "my \"\x{1f34f} \x{1f333}\"",
+                'apple.tree@air.com',
+                ''
+            ],
+            'Mail::Address'
+        ),
+        bless(
+            [
+                "no at symbol",
+                'alice',
+                '( my team    lead   )'
+            ],
+            'Mail::Address'
+        ),
+    );
+    is(
+        \@MailAddressObjects,
+        \@ExpectedMailAddressObjects,
+        'ParseAddressLine()',
+    );
+
+    my @SplitAddresses         = $EmailParserObject->SplitAddressLine( Line => $Line );
+    my @ExpectedSplitAddresses = (
+        'Juergen Weber <juergen.weber@air.com>',
+        '"Julia Weber" <julia.weber@air.com>',
+        'me@example.com',
+        'hans@example.com (Hans Huber)',
+        'Juergen "quoted name" Weber <juergen.weber@air.com>',
+        'my "🍏 🌳" <apple.tree@air.com>',
+        'no at symbol <alice> ( my team    lead   )',
+    );
+    is(
+        \@SplitAddresses,
+        \@ExpectedSplitAddresses,
+        'SplitAddressLine()',
+    );
+};
+
+subtest 'GetEmailAddress()' => sub {
 
     # as stand alone mode, without parsing emails
     my $EmailParserObject = Kernel::System::EmailParser->new(
@@ -77,70 +183,89 @@ subtest 'static methods' => sub {
         Debug => 0,
     );
 
-    # note that whitespace gets normalized
-    my @SplitAddresses = $EmailParserObject->SplitAddressLine(
-        Line => 'Juergen Weber <juergen.weber@air.com>, "Julia Weber" <julia.weber@air.com>, me@example.com, hans@example.com (Hans Huber),
-        Juergen "quoted name" Weber <juergen.weber@air.com>    ,  my     "🍏 🌳"<apple.tree@air.com>',
-    );
     is(
-        \@SplitAddresses,
-        [
-            'Juergen Weber <juergen.weber@air.com>',
-            '"Julia Weber" <julia.weber@air.com>',
-            'me@example.com',
-            'hans@example.com (Hans Huber)',
-            'Juergen "quoted name" Weber <juergen.weber@air.com>',
-            'my "🍏 🌳" <apple.tree@air.com>',
-        ],
-        'SplitAddressLine',
+        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.weber@air.com>' ),
+        'juergen.weber@air.com',
+        'with phrase and address',
     );
 
     is(
-        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
-        'juergen.qeber@air.com',
-        "GetEmailAddress()",
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
-        'juergen+qeber@air.com',
-        "GetEmailAddress() again",
+        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+weber@air.com>' ),
+        'juergen+weber@air.com',
+        'address contains a +',
     );
 
     is(
         $EmailParserObject->GetEmailAddress(
-            Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'
+            Email => 'Juergen Weber <juergen+weber@air.com> (Comment)'
         ),
-        'juergen+qeber@air.com',
-        "GetEmailAddress() with comment",
+        'juergen+weber@air.com',
+        'with comment',
     );
 
     is(
-        $EmailParserObject->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
-        'juergen+qeber@air.com',
-        "GetEmailAddress() with comment again",
+        $EmailParserObject->GetEmailAddress( Email => 'juergen+weber@air.com (Comment)' ),
+        'juergen+weber@air.com',
+        'without a phrase and with comment',
     );
 
     is(
-        $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
+        $EmailParserObject->GetEmailAddress( Email => 'oil and <water> (do not mix)' ),
+        undef,
+        'address without @',
+    );
+
+    is(
+        $EmailParserObject->GetEmailAddress(
+            AddressObject => Mail::Address->new(
+                'August Ausprobierer',
+                'gustl@testanything.org'
+            ),
+        ),
+        'gustl@testanything.org',
+        'with an instance of Mail::Address'
+    );
+
+    is(
+        $EmailParserObject->GetEmailAddress(
+            AddressObject => Mail::Address->new(
+                'oil and',
+                'water',
+                'do not mix',
+            ),
+        ),
+        undef,
+        'with an instance of Mail::Address, address without @'
+    );
+};
+
+subtest 'GetRealname()' => sub {
+
+    # as stand alone mode, without parsing emails
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Mode  => 'Standalone',
+        Debug => 0,
+    );
+
+    is(
+        $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.weber@air.com>' ),
         'Juergen "quoted name" Weber',
-        "GetRealname() with quoted name",
+        'with quoted name',
     );
 
     is(
-        $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
+        $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.weber@air.com>' ),
         'Juergen "quoted name" Weber',
-        "GetRealname() with quoted name",
+        'with quoted name',
     );
 };
 
 subtest 'PostMaster-Test3.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
     is(
         $EmailParserObject->GetCharset(),
@@ -161,33 +286,30 @@ subtest 'PostMaster-Test3.box' => sub {
     );
 };
 
-subtest 'PostMaster-Test4.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close($IN);
-
+subtest 'PostMaster-Test4.box with GetMessageBody() tests' => sub {
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test4.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
     is(
         $EmailParserObject->GetCharset(),
         'iso-8859-15',
-        "GetCharset()",
+        'GetCharset()',
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'From' ),
         'Hans BÄKOSchönland <me@bogen.net>',
-        "From()",
+        'From()',
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'To' ),
         'Namedyński (hans@example.com)',
-        "To()",
+        'To()',
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'Subject' ),
         'utf8: 使って / ISO-8859-1: Priorität"  / cp-1251: Сергей Углицких',
-        "Subject()",
+        'Subject()',
     );
 
     subtest 'GetMessageBody() - match' => sub {
@@ -233,13 +355,13 @@ subtest 'PostMaster-Test4.box' => sub {
 };
 
 subtest 'PostMaster-Test5.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test5.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'utf-8',    # automatically converted
@@ -287,13 +409,13 @@ subtest 'PostMaster-Test5.box' => sub {
 };
 
 subtest 'PostMaster-Test6.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test6.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'utf-8',
@@ -338,13 +460,13 @@ subtest 'PostMaster-Test6.box' => sub {
 };
 
 subtest 'PostMaster-Test7.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test7.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'utf-8',    # automatically converted
@@ -387,13 +509,13 @@ subtest 'PostMaster-Test7.box' => sub {
 };
 
 subtest 'PostMaster-Test8.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test8.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         '',
@@ -417,13 +539,13 @@ subtest 'PostMaster-Test8.box' => sub {
 };
 
 subtest 'PostMaster-Test9.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test9.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'us-ascii',
@@ -451,13 +573,13 @@ subtest 'PostMaster-Test9.box' => sub {
 };
 
 subtest 'PostMaster-Test10.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test10.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'iso-8859-1',
@@ -501,13 +623,13 @@ subtest 'PostMaster-Test10.box' => sub {
 };
 
 subtest 'PostMaster-Test11.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test11.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'ISO-8859-1',
@@ -529,13 +651,13 @@ subtest 'PostMaster-Test11.box' => sub {
 };
 
 subtest 'PostMaster-Test12.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test12.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'utf-8',    # automatically converted
@@ -631,13 +753,13 @@ subtest 'PostMaster-Test12.box' => sub {
 };
 
 subtest 'PostMaster-Test13.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test13.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         '',
@@ -657,13 +779,13 @@ subtest 'PostMaster-Test13.box' => sub {
 };
 
 subtest 'PostMaster-Test14.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test14.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'UTF-8',
@@ -688,13 +810,13 @@ subtest 'PostMaster-Test14.box' => sub {
 };
 
 subtest 'PostMaster-Test16.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test16.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'ISO-8859-1',
@@ -786,13 +908,13 @@ subtest 'PostMaster-Test16.box' => sub {
 };
 
 subtest 'PostMaster-Test19.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test19.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
+
     is(
         $EmailParserObject->GetCharset(),
         'iso-8859-1',
@@ -812,12 +934,11 @@ subtest 'PostMaster-Test19.box' => sub {
 };
 
 subtest 'PostMaster-Test20.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test20.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
 
     my @Attachments = $EmailParserObject->GetAttachments();
@@ -837,12 +958,11 @@ subtest 'PostMaster-Test20.box' => sub {
 };
 
 subtest 'PostMaster-Test21.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test21.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test21.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
 
     is(
@@ -858,12 +978,11 @@ subtest 'PostMaster-Test21.box' => sub {
 };
 
 subtest 'PostMaster-Test22.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test22.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test22.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
 
     is(
@@ -879,12 +998,11 @@ subtest 'PostMaster-Test22.box' => sub {
 };
 
 subtest 'UTF-7.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/UTF-7.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
 
     is(
@@ -895,12 +1013,11 @@ subtest 'UTF-7.box' => sub {
 };
 
 subtest 'UTF-7.box again' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
 
+    # create local email parser object with sample mail
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/UTF-7.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@Lines,
     );
 
     is(
@@ -911,15 +1028,14 @@ subtest 'UTF-7.box again' => sub {
 };
 
 subtest 'UTF-7.box MIME::Parser' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
+
+    my @Lines = file("$Home/scripts/test/sample/EmailParser/UTF-7.box")->slurp;
 
     my $Parser = MIME::Parser->new();
 
     # prevents writing to filesystem
     $Parser->output_to_core(1);
-    my $Entity            = $Parser->parse_data( \@Array );
+    my $Entity            = $Parser->parse_data( \@Lines );
     my $EmailParserObject = Kernel::System::EmailParser->new(
         Entity => $Entity,
     );
