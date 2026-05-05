@@ -200,7 +200,9 @@ sub _ShowOverview {
     }
 
     my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
-    my $Namespaces       = $ConfigObject->Get('DynamicField::Namespaces');
+    my @DFNamespaces     = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
+        Scope => 'DynamicField',
+    );
 
     if ( !IsHashRefWithData($ObjectTypeConfig) ) {
         return $LayoutObject->ErrorScreen(
@@ -313,10 +315,10 @@ sub _ShowOverview {
         },
     );
 
-    if ( IsArrayRefWithData($Namespaces) ) {
+    if (@DFNamespaces) {
         my %NamespaceSelection = (
             '<none>' => '<' . $LayoutObject->{LanguageObject}->Translate('none') . '>',
-            map { $_ => $_ } $Namespaces->@*,
+            map { $_ => $_ } @DFNamespaces,
         );
 
         my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
@@ -387,7 +389,7 @@ sub _ShowOverview {
         );
     }
 
-    if ( IsArrayRefWithData($Namespaces) ) {
+    if (@DFNamespaces) {
         if ( IsStringWithData($NamespaceFilter) ) {
             $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
                 Template => '[% Data.Filter | uri %]',
