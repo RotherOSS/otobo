@@ -167,7 +167,7 @@
 [% IF Data.CommunicationType == 'Requester' %]
                             <label class="Mandatory" for="Host"><span class="Marker">*</span>[% Translate("Endpoint") | html %]:</label>
                             <div class="Field">
-                                <input id="Host" class="W50pc [% Data.HostServerError | html %] Validate_Required" type="text" maxlength="250" value="[% Data.Host | html %]" name="Host"/>
+                                <input id="Host" class="W50pc [% Data.HostServerError | html %] Validate_Required" type="text" value="[% Data.Host | html %]" name="Host"/>
                                 <div id="HostError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="HostServerError" class="TooltipErrorMessage"><p>[% Translate(Data.HostServerErrorMessage) | html %]</p></div>
                                 <p class="FieldExplanation">

@@ -73,7 +73,7 @@ requires 'Net::SMTP::SSL';
 requires 'Path::Class';
 
 # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
-requires 'Plack';
+requires 'Plack', '!= 1.0053';
 
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
