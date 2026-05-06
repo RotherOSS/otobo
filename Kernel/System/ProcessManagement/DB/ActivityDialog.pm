@@ -19,6 +19,12 @@ package Kernel::System::ProcessManagement::DB::ActivityDialog;
 use strict;
 use warnings;
 
+# core modules
+use List::Util qw(none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -26,6 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::Namespace',
     'Kernel::System::YAML',
 );
 
@@ -77,6 +84,7 @@ returns the id of the created activity dialog if success or undef otherwise
         Name        => 'NameOfActivityDialog', # mandatory
         Config      => $ConfigHashRef,         # mandatory, activity dialog configuration to be
                                                #    stored in YAML format
+        Namespace   => 'Namespace',            # optional
         UserID      => 123,                    # mandatory
     );
 
@@ -100,6 +108,21 @@ sub ActivityDialogAdd {
         }
     }
 
+    # validate namespace
+    if ( $Param{Namespace} ) {
+        my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespaceList(
+            Scope => 'ProcessManagement',
+        );
+
+        if ( none { $Param{Namespace} eq $_ } @ProcessNamespaces ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Namespace '$Param{Namespace}' is not a valid namespace for process elements!",
+            );
+            return;
+        }
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -114,7 +137,7 @@ sub ActivityDialogAdd {
     );
 
     my $EntityExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $EntityExists = 1;
     }
 
@@ -167,11 +190,11 @@ sub ActivityDialogAdd {
     # sql
     return if !$DBObject->Do(
         SQL => '
-            INSERT INTO pm_activity_dialog ( entity_id, name, config, create_time,
-                create_by, change_time, change_by )
-            VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            INSERT INTO pm_activity_dialog ( entity_id, name, config, namespace,
+                create_time, create_by, change_time, change_by )
+            VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{UserID}, \$Param{UserID},
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -260,6 +283,7 @@ Returns:
         EntityID     => 'AD1',
         Name         => 'some name',
         Config       => $ConfigHashRef,
+        Namespace    => 'Namespace',
         CreateTime   => '2012-07-04 15:08:00',
         ChangeTime   => '2012-07-04 15:08:00',
     };
@@ -311,7 +335,7 @@ sub ActivityDialogGet {
     if ( $Param{ID} ) {
         return if !$DBObject->Prepare(
             SQL => '
-                SELECT id, entity_id, name, config, create_time, change_time
+                SELECT id, entity_id, name, config, namespace, create_time, change_time
                 FROM pm_activity_dialog
                 WHERE id = ?',
             Bind  => [ \$Param{ID} ],
@@ -321,7 +345,7 @@ sub ActivityDialogGet {
     else {
         return if !$DBObject->Prepare(
             SQL => '
-                SELECT id, entity_id, name, config, create_time, change_time
+                SELECT id, entity_id, name, config, namespace, create_time, change_time
                 FROM pm_activity_dialog
                 WHERE entity_id = ?',
             Bind  => [ \$Param{EntityID} ],
@@ -342,8 +366,9 @@ sub ActivityDialogGet {
             EntityID   => $Data[1],
             Name       => $Data[2],
             Config     => $Config,
-            CreateTime => $Data[4],
-            ChangeTime => $Data[5],
+            Namespace  => $Data[4],
+            CreateTime => $Data[5],
+            ChangeTime => $Data[6],
 
         );
     }
@@ -373,6 +398,7 @@ returns 1 if success or undef otherwise
         Name        => 'NameOfActivityDialog', # mandatory
         Config      => $ConfigHashRef,         # mandatory, actvity dialog configuration to be
                                                #   stored in YAML format
+        Namespace   => 'Namespace',            # optional
         UserID      => 123,                    # mandatory
     );
 
@@ -392,6 +418,21 @@ sub ActivityDialogUpdate {
         }
     }
 
+    # validate namespace
+    if ( $Param{Namespace} ) {
+        my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespaceList(
+            Scope => 'ProcessManagement',
+        );
+
+        if ( none { $Param{Namespace} eq $_ } @ProcessNamespaces ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Namespace '$Param{Namespace}' is not a valid namespace for process elements!",
+            );
+            return;
+        }
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -406,7 +447,7 @@ sub ActivityDialogUpdate {
     );
 
     my $EntityExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $EntityExists = 1;
     }
 
@@ -458,7 +499,7 @@ sub ActivityDialogUpdate {
     # check if need to update db
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT entity_id, name, config
+            SELECT entity_id, name, config, namespace
             FROM pm_activity_dialog
             WHERE id = ?',
         Bind  => [ \$Param{ID} ],
@@ -468,28 +509,31 @@ sub ActivityDialogUpdate {
     my $CurrentEntityID;
     my $CurrentName;
     my $CurrentConfig;
+    my $CurrentNamespace;
     while ( my @Data = $DBObject->FetchrowArray() ) {
-        $CurrentEntityID = $Data[0];
-        $CurrentName     = $Data[1];
-        $CurrentConfig   = $Data[2];
+        $CurrentEntityID  = $Data[0];
+        $CurrentName      = $Data[1];
+        $CurrentConfig    = $Data[2];
+        $CurrentNamespace = $Data[3];
     }
 
     if ($CurrentEntityID) {
 
         return 1 if $CurrentEntityID eq $Param{EntityID}
             && $CurrentName eq $Param{Name}
-            && $CurrentConfig eq $Config;
+            && $CurrentConfig eq $Config
+            && $CurrentNamespace eq $Param{Namespace};
     }
 
     # sql
     return if !$DBObject->Do(
         SQL => '
             UPDATE pm_activity_dialog
-            SET entity_id = ?, name = ?,  config = ?, change_time = current_timestamp,
-                change_by = ?
+            SET entity_id = ?, name = ?,  config = ?, namespace = ?,
+                change_time = current_timestamp, change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{UserID}, \$Param{ID},
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{UserID}, \$Param{ID},
         ],
     );
 
@@ -600,6 +644,7 @@ Returns:
             EntityID       => 'AD1',
             Name           => 'some name',
             Config         => $ConfigHashRef,
+            Namespace      => 'Namespace',
             CreateTime     => '2012-07-04 15:08:00',
             ChangeTime     => '2012-07-04 15:08:00',
         }
@@ -608,6 +653,7 @@ Returns:
             EntityID       => 'AD2',
             Name           => 'some name',
             Config         => $ConfigHashRef,
+            Namespace      => 'Namespace',
             CreateTime     => '2012-07-04 15:09:00',
             ChangeTime     => '2012-07-04 15:09:00',
         }
