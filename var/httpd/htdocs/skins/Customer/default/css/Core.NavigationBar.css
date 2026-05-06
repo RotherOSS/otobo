@@ -67,15 +67,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         max-width: 268px;
     }
 
-    #oooUser .oooLogout > a {
+    #oooUser .oooNavBarAvatarPrimary > a {
         display: inline-block;
     }
 
-    #oooUser .oooLogout > #oooPrefDesc {
+    #oooUser .oooNavBarAvatarPrimary > #oooNavBarAvatarSecondaryDesc {
         left: 12px;
     }
 
-    #oooPrefDesc span {
+    #oooNavBarAvatarSecondaryDesc span {
         margin-right: 12px;
         color: #fff !important;
         opacity: 0.4 !important;
@@ -117,7 +117,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: 36px;
     }
 
-    #oooPrefDesc span {
+    #oooNavBarAvatarSecondaryDesc span {
         display: none;
     }
 }
@@ -181,12 +181,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-size: cover;
 }
 
-#oooPreferences > svg {
+#oooNavBarAvatarSecondary > svg {
     width: 24px;
     height: 24px;
 } 
 
-#oooPreferences,
+#oooNavBarAvatarSecondary,
 #oooNoPref {
     display: block;
     position: relative;
@@ -203,7 +203,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border-radius: 12px;
 }
 
-#oooUser:hover #oooPreferences {
+#oooUser:hover #oooNavBarAvatarSecondary {
     top: 22px;
     left: 22px;
 -webkit-transition: top 0.6s ease, left 1s ease;
@@ -212,7 +212,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         transition: top 0.6s ease, left 1s ease;
 }
 
-#oooLogoutIcon {
+#oooNavBarAvatarPrimaryIcon {
     display: block;
     position: relative;
     top: -20px;
@@ -224,7 +224,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border-radius: 12px;
 }
 
-#oooLogoutIcon > svg {
+#oooNavBarAvatarPrimaryIcon > svg {
     position: relative;
     top: 2px;
     left 2px;
@@ -266,7 +266,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border-radius: 16px;
 }
 
-#oooUser > .oooLogout {
+#oooUser > .oooNavBarAvatarPrimary {
 	width: 0px;
     max-height: 32px;
 -webkit-transition: width 0.3s ease;
@@ -274,11 +274,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
      -o-transition: width 0.3s ease;
         transition: width 0.3s ease;
 }
-#oooNavigation.oooExpanded > #oooNavBarIcons > #oooUser > .oooLogout {
+#oooNavigation.oooExpanded > #oooNavBarIcons > #oooUser > .oooNavBarAvatarPrimary {
 	width: 188px;
 }
 
-#oooPrefDesc {
+#oooNavBarAvatarSecondaryDesc {
     position: relative;
     left: 8px;
 }
@@ -395,13 +395,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 /* Text and svg colors */
-#oooUser > .oooLogout h3 {
+#oooUser > .oooNavBarAvatarPrimary h3 {
     opacity: 0.8;
 }
 
 #oooNavBarModuleIcons > a > .oooNavBarDescription > h3,
 #oooUser h3,
-#oooPrefDesc > p {
+#oooNavBarAvatarSecondaryDesc > p {
     display: none;
     color: #fff;
     opacity: 0.4;
@@ -415,7 +415,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #oooNavBarModuleIcons > a:hover > .oooNavBarDescription > h3,
 #oooUser a:hover > h3,
 #oooUser a:hover > p,
-#oooUser > .oooLogout .Highlight {
+#oooUser > .oooNavBarAvatarPrimary .Highlight {
 	opacity: 1;
     color: #fef235;
     color: var(--colHighlight);
@@ -465,7 +465,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         -ms-grid-row-align: center;
     }
 
-    #oooUser .oooLogout {
+    #oooUser .oooNavBarAvatarPrimary {
         -ms-grid-column: 3;
         -ms-grid-row-align: center;
     }

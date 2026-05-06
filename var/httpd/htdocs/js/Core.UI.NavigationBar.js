@@ -50,7 +50,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
             $('#oooUser h3').each(function() {
                 $(this).hide();
             });
-            $('#oooPrefDesc > p').each(function() {
+            $('#oooNavBarAvatarSecondaryDesc > p').each(function() {
                 $(this).hide();
             });
         }
@@ -102,7 +102,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
                 $('#oooUser h3').each(function() {
                     $(this).show();
                 });
-                $('#oooPrefDesc > p').each(function() {
+                $('#oooNavBarAvatarSecondaryDesc > p').each(function() {
                     $(this).show();
                 });
                 $('#oooNavigation').on('mouseleave', NavBarShrink);
@@ -122,7 +122,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
                 $('#oooUser h3').each(function() {
                     $(this).show();
                 });
-                $('#oooPrefDesc > p').each(function() {
+                $('#oooNavBarAvatarSecondaryDesc > p').each(function() {
                     $(this).show();
                 });
                 $('#oooUser').show().fadeIn(100);
@@ -143,18 +143,18 @@ Core.UI.NavigationBar = (function (TargetNS) {
         // special highlighting for preferences and logout
         $('#oooAvatar :first-child').hover(
             function() {
-                $('#oooUser .oooLogout h3').addClass('Highlight');
+                $('#oooUser .oooNavBarAvatarPrimary h3').addClass('Highlight');
             },
             function() {
-                $('#oooUser .oooLogout h3').removeClass('Highlight');
+                $('#oooUser .oooNavBarAvatarPrimary h3').removeClass('Highlight');
             },
         );
-        $('#oooPreferences').hover(
+        $('#oooNavBarAvatarSecondary').hover(
             function() {
-                $('#oooPrefDesc > p').addClass('Highlight');
+                $('#oooNavBarAvatarSecondaryDesc > p').addClass('Highlight');
             },
             function() {
-                $('#oooPrefDesc > p').removeClass('Highlight');
+                $('#oooNavBarAvatarSecondaryDesc > p').removeClass('Highlight');
             }
         );
     };
