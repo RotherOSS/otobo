@@ -258,6 +258,17 @@ subtest 'GetRealname()' => sub {
         'Juergen "quoted name" Weber',
         'with quoted name',
     );
+
+    is(
+        $EmailParserObject->GetRealname(
+            AddressObject => Mail::Address->new(
+                'Erna Extremtesterin',
+                'extremerna@testanything.org'
+            ),
+        ),
+        'Erna Extremtesterin',
+        'with an instance of Mail::Address'
+    );
 };
 
 subtest 'PostMaster-Test3.box' => sub {

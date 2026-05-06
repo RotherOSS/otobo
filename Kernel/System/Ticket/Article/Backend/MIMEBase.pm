@@ -1318,7 +1318,7 @@ sub ArticleGet {
 
         RECIPIENT:
         for my $Key (qw(From To Cc Bcc Subject)) {
-            next RECIPIENT if !$Data{$Key};
+            next RECIPIENT unless $Data{$Key};
 
             # Strip unwanted stuff from some fields.
             $Data{$Key} =~ s/\n|\r//g;
@@ -1335,25 +1335,23 @@ sub ArticleGet {
                     next RECIPIENT;
                 }
 
-                # Strip out real names.
-                my $Realname = '';
-                EMAILADDRESS:
-                for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Data{$Key} ) ) {
-                    my $Name = $EmailParser->GetRealname( Email => $EmailSplit );
-                    if ( !$Name ) {
-                        $Name = $EmailParser->GetEmailAddress( Email => $EmailSplit );
-                    }
+                # Extract the phrases, aka real names, from the address line
+                my @Realnames;
+                ADDRESS_OBJECT:
+                for my $AddressObject ( $EmailParser->ParseAddressLine( Line => $Data{$Key} ) ) {
+                    my $Name =
+                        $EmailParser->GetRealname( AddressObject => $AddressObject )
+                        ||
+                        $EmailParser->GetEmailAddress( AddressObject => $AddressObject );
 
-                    next EMAILADDRESS if !$Name;
+                    # the name '0' is not accepted
+                    next ADDRESS_OBJECT unless $Name;
 
-                    if ($Realname) {
-                        $Realname .= ', ';
-                    }
-                    $Realname .= $Name;
+                    push @Realnames, $Name;
                 }
 
-                # Add real name lines.
-                $Data{ $Key . 'Realname' } = $Realname;
+                # Add the real name lines like 'FromRealname' and 'CCRealname'
+                $Data{ $Key . 'Realname' } = join ', ', @Realnames;
             }
         }
     }

@@ -319,15 +319,25 @@ sub GetEmailAddress {
 
 =head2 GetRealname()
 
-to get the sender's C<RealName> aka phrase.
+extract the C<RealName>, that is the phrase, from a complete email address. Only a single email address should be passed.
 
     my $Realname = $ParserObject->GetRealname(
-        Email => 'Juergen Weber <juergen.weber@air.com>',
+        Email => 'Erna Extremtesterin <extremerna@testanything.org>',
     );
 
-Returns:
+or
 
-    'Juergen Weber'
+    my $AddressObject = Mail::Address->new(
+        'Erna Extremtesterin',
+        'extremerna@testanything.org'
+    );
+    my $Realname = $ParserObject->GetRealname(
+        AddressObject => $AddressObject,
+    );
+
+Both variants return
+
+    $Realname = 'Erna Extremtesterin'
 
 This method can be used in standalone mode.
 
@@ -335,6 +345,11 @@ This method can be used in standalone mode.
 
 sub GetRealname {
     my ( $Self, %Param ) = @_;
+
+    # The parameter AddressObject has precedence
+    if ( exists $Param{AddressObject} ) {
+        return $Param{AddressObject}->phrase;
+    }
 
     my $Realname = '';
 
