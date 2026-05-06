@@ -110,27 +110,6 @@ END_OF_THE_LINE
     );
 };
 
-subtest 'GetRealname()' => sub {
-
-    # as stand alone mode, without parsing emails
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Mode  => 'Standalone',
-        Debug => 0,
-    );
-
-    is(
-        $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.weber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        'with quoted name',
-    );
-
-    is(
-        $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.weber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        'with quoted name',
-    );
-};
-
 subtest 'PostMaster-Test3.box' => sub {
 
     # create local email parser object with sample mail

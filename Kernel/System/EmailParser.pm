@@ -265,47 +265,6 @@ sub GetParam {
     return $ReturnLine;
 }
 
-=head2 GetRealname()
-
-to get the sender's C<RealName> aka phrase.
-
-    my $Realname = $ParserObject->GetRealname(
-        Email => 'Juergen Weber <juergen.qeber@air.com>',
-    );
-
-Returns:
-
-    'Juergen Weber'
-
-This method can be used in standalone mode.
-
-=cut
-
-sub GetRealname {
-    my ( $Self, %Param ) = @_;
-
-    my $Realname = '';
-
-    # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
-    if ( $Param{Email} =~ /"(.+?)"\s+?\<.+?@.+?\..+?\>/ ) {
-        $Realname = $1;
-
-        # removes unnecessary blank spaces, if the string has quotes.
-        # This is because of bug 6059
-        $Realname =~ s/"\s+?(.+?)\s+?"/"$1"/g;
-
-        return $Realname;
-    }
-
-    # fallback of Mail::Address
-    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    for my $EmailSplit ( $EmailAddressObject->ParseAddressLine( Line => $Param{Email} ) ) {
-        $Realname = $EmailSplit->phrase;
-    }
-
-    return $Realname;
-}
-
 =head2 SplitAddressLine()
 
 To get an array of email addresses of an To, Cc or Bcc line back.

@@ -1211,7 +1211,8 @@ sub ArticleGet {
         ShowDeletedArticles => 1,
         VersionView         => $Param{VersionView}
     );
-    return if !%Article;
+
+    return unless %Article;
 
     my $ArticleEdited = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleEdited(
         TicketID  => $Param{TicketID},
@@ -1219,15 +1220,6 @@ sub ArticleGet {
     );
 
     my %ArticleSenderTypeList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeList();
-
-    # Email parser object might be used below for its field cleanup methods only.
-    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my $EmailParser;
-    if ( $Param{RealNames} ) {
-        $EmailParser = Kernel::System::EmailParser->new(
-            Mode => 'Standalone',
-        );
-    }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -1261,12 +1253,13 @@ sub ArticleGet {
         ';
     }
 
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
         Limit => 1,
     );
 
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         %Data = (
@@ -1319,7 +1312,9 @@ sub ArticleGet {
 
         RECIPIENT:
         for my $Key (qw(From To Cc Bcc Subject)) {
-            next RECIPIENT if !$Data{$Key};
+
+            # for some reason the subject '0' is not supported
+            next RECIPIENT unless $Data{$Key};
 
             # Strip unwanted stuff from some fields.
             $Data{$Key} =~ s/\n|\r//g;
@@ -1336,30 +1331,28 @@ sub ArticleGet {
                     next RECIPIENT;
                 }
 
-                # Strip out real names.
-                my $Realname = '';
-                EMAILADDRESS:
-                for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Data{$Key} ) ) {
+                # Extract the phrases, aka real names, from the address line
+                my @Realnames;
+                ADDRESS_OBJECT:
+                for my $AddressObject ( $EmailAddressObject->ParseAddressLine( Line => $Data{$Key} ) ) {
                     my $Name =
-                        $EmailParser->GetRealname(
-                            Email => $EmailSplit,
+                        $EmailAddressObject->GetRealname(
+                            AddressObject => $AddressObject,
                         )
                         ||
                         $EmailAddressObject->GetAddress(
-                            Email => $EmailSplit,
+                            AddressObject    => $AddressObject,
                             ValidateAtSymbol => 1,
                         );
 
-                    next EMAILADDRESS unless $Name;
+                    # the name '0' is not accepted
+                    next ADDRESS_OBJECT unless $Name;
 
-                    if ($Realname) {
-                        $Realname .= ', ';
-                    }
-                    $Realname .= $Name;
+                    push @Realnames, $Name;
                 }
 
-                # Add real name lines.
-                $Data{ $Key . 'Realname' } = $Realname;
+                # Add the real name lines like 'FromRealname' and 'CCRealname'
+                $Data{ $Key . 'Realname' } = join ', ', @Realnames;
             }
         }
     }

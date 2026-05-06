@@ -207,4 +207,32 @@ subtest 'GetAddress()' => sub {
     );
 };
 
+subtest 'GetRealname()' => sub {
+
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
+    is(
+        $EmailAddressObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.weber@air.com>' ),
+        'Juergen "quoted name" Weber',
+        'with quoted name',
+    );
+
+    is(
+        $EmailAddressObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.weber@air.com>' ),
+        'Juergen "quoted name" Weber',
+        'with quoted name',
+    );
+
+    is(
+        $EmailAddressObject->GetRealname(
+            AddressObject => Mail::Address->new(
+                'Erna Extremtesterin',
+                'extremerna@testanything.org'
+            ),
+        ),
+        'Erna Extremtesterin',
+        'with an instance of Mail::Address'
+    );
+};
+
 done_testing;
