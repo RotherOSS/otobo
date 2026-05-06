@@ -38,7 +38,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 subtest 'parse PostMaster-Test1.box' => sub {
 
     # create local email parser object with sample mail
-    my @Lines = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
         Email => \@Lines,
     );
@@ -262,7 +262,7 @@ subtest 'GetRealname()' => sub {
 subtest 'PostMaster-Test3.box' => sub {
 
     # create local email parser object with sample mail
-    my @Lines = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
+    my @Lines             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
         Email => \@Lines,
     );
@@ -311,42 +311,37 @@ subtest 'PostMaster-Test4.box with GetMessageBody() tests' => sub {
         'Subject()',
     );
 
-    # match values
-    my %Match = (
-        "Test1:" . chr(8211)              => 0,
-        "Test2:&"                         => 0,
-        "Test3:" . chr(8715)              => 0,
-        "Test4:&"                         => 0,
-        "Test5:" . chr( hex("3d") )       => 0,
-        "Compare Cable, DSL or Satellite" => 0,
-    );
-    for my $Key ( sort keys %Match ) {
-        if ( $EmailParserObject->GetMessageBody() =~ /$Key/ ) {
-            $Match{$Key} = 1;
-        }
-        ok(
-            $Match{$Key},
-            "html2ascii - Body match - $Key",
-        );
-    }
+    subtest 'GetMessageBody() - match' => sub {
 
-    # match values not
-    my %MatchNot = (
-        "style"      => 0,
-        "background" => 0,
-        "br"         => 0,
-        "div"        => 0,
-        "html"       => 0,
-    );
-    for my $Key ( sort keys %MatchNot ) {
-        if ( $EmailParserObject->GetMessageBody() !~ /$Key/ ) {
-            $MatchNot{$Key} = 1;
-        }
-        ok(
-            $MatchNot{$Key},
-            "html2ascii - Body match not - $Key",
+        my @Patterns = (
+            "Test1:" . chr(8211),           # chr(8211) is: – - U+02013 - EN DASH
+            "Test2:&",
+            "Test3:" . chr(8715),           # chr(8715) is: ∋ - U+0220B - CONTAINS AS MEMBER
+            "Test4:&",
+            "Test5:" . chr( hex('3d') ),    # hex('3d') is 61, chr(61) is: = - U+0003D - EQUALS SIGN
+            "Compare Cable, DSL or Satellite",
         );
-    }
+
+        for my $Pattern (@Patterns) {
+            like( $EmailParserObject->GetMessageBody(), qr/$Pattern/, $Pattern );
+        }
+    };
+
+    subtest 'GetMessageBody() - match not' => sub {
+
+        # match values not
+        my @Patterns = (
+            "style",
+            "background",
+            "br",
+            "div",
+            "html",
+        );
+
+        for my $Pattern (@Patterns) {
+            unlike( $EmailParserObject->GetMessageBody(), qr/$Pattern/, $Pattern );
+        }
+    };
 };
 
 subtest 'PostMaster-Test5.box' => sub {
