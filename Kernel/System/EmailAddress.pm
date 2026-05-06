@@ -148,4 +148,57 @@ sub GetAddress {
     return $Email;
 }
 
+=head2 GetRealname()
+
+extract the C<RealName>, that is the phrase, from a complete email address. Only a single email address should be passed.
+
+    my $Realname = $EmailAddressObject->GetRealname(
+        Email => 'Erna Extremtesterin <extremerna@testanything.org>',
+    );
+
+or
+
+    my $AddressObject = Mail::Address->new(
+        'Erna Extremtesterin',
+        'extremerna@testanything.org'
+    );
+    my $Realname = $EmailAddressObject->GetRealname(
+        AddressObject => $AddressObject,
+    );
+
+Both variants return
+
+    $Realname = 'Erna Extremtesterin'
+
+=cut
+
+sub GetRealname {
+    my ( $Self, %Param ) = @_;
+
+    # The parameter AddressObject has precedence
+    if ( exists $Param{AddressObject} ) {
+        return $Param{AddressObject}->phrase;
+    }
+
+    # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
+    if ( $Param{Email} =~ /"(.+?)"\s+?\<.+?@.+?\..+?\>/ ) {
+        my $Realname = $1;
+
+        # removes unnecessary blank spaces, if the string has quotes.
+        # This is because of bug 6059
+        $Realname =~ s/"\s+?(.+?)\s+?"/"$1"/g;
+
+        return $Realname;
+    }
+
+    # fallback to Mail::Address
+    # The real name of the last address is returned, but note that usually only a single address is passed
+    my $Realname;
+    for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+        $Realname = $EmailSplit->phrase;
+    }
+
+    return $Realname;
+}
+
 1;
