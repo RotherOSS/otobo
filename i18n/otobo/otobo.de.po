@@ -51,13 +51,14 @@
 # Markus Hlinka <mah@rother-oss.com>, 2024, 2025.
 # Furch Services <max.furch@furch-services.de>, 2025.
 # Arion2000 <github@arion2000.xyz>, 2026.
+# Stefan Härter <sha@rother-oss.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-04-14 07:17+0000\n"
-"PO-Revision-Date: 2026-04-29 13:00+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2026-05-07 03:27+0000\n"
+"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-10/"
 "de/>\n"
 "Language: de\n"
@@ -28369,7 +28370,6 @@ msgstr ""
 "Attribute angezeigt werden sollen."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Objects to search for, how many entries and which attributes to show. Ticket "
 "attributes, except queue, have to explicitly be stored via Elasticsearch."
@@ -30778,16 +30778,12 @@ msgid "Show command line output."
 msgstr "Zeige Befehlszeilenausgabe."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Show optional parameters in parameter list, too. If disabled, the optional "
 "parameters are only shown in an extra table."
 msgstr ""
-"\n"
-"            Zeigt auch optionale Parameter in der Parameterliste an. Ist die "
-"Option deaktiviert, werden optionale\n"
-"            Parameter in einer separaten Tabelle angezeigt.\n"
-"        "
+"Zeigt auch optionale Parameter in der Parameterliste an. Ist die Option "
+"deaktiviert, werden optionale Parameter in einer separaten Tabelle angezeigt."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
@@ -33068,6 +33064,12 @@ msgid ""
 "setting defines the settings that contain complex configuration hashes that "
 "should not be masked when generating the support data."
 msgstr ""
+"Wenn Supportdaten über den SupportDataCollector erfasst werden, werden "
+"bestimmte SysConfig-Werte, die mit ValueType=\"Password\" gekennzeichnet "
+"sind, automatisch maskiert. Dadurch wird verhindert, dass Passwörter in den "
+"Supportdaten im Klartext erscheinen. Diese Einstellung legt fest, welche "
+"Einträge komplexe Konfigurations-Hashes enthalten, die bei der Generierung "
+"der Supportdaten nicht maskiert werden sollen."
 
 #. SysConfig
 msgid ""
