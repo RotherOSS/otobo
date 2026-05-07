@@ -80,12 +80,13 @@ add new ActivityDialog
 returns the id of the created activity dialog if success or undef otherwise
 
     my $ID = $ActivityDialogObject->ActivityDialogAdd(
-        EntityID    => 'AD1'                   # mandatory, exportable unique identifier
-        Name        => 'NameOfActivityDialog', # mandatory
-        Config      => $ConfigHashRef,         # mandatory, activity dialog configuration to be
-                                               #    stored in YAML format
-        Namespace   => 'Namespace',            # optional
-        UserID      => 123,                    # mandatory
+        EntityID        => 'AD1'                   # mandatory, exportable unique identifier
+        Name            => 'NameOfActivityDialog', # mandatory
+        Config          => $ConfigHashRef,         # mandatory, activity dialog configuration to be
+                                                   #    stored in YAML format
+        Namespace       => 'Namespace',            # optional
+        ProcessEntityID => 123,                    # optional
+        UserID          => 123,                    # mandatory
     );
 
 Returns:
@@ -191,10 +192,11 @@ sub ActivityDialogAdd {
     return if !$DBObject->Do(
         SQL => '
             INSERT INTO pm_activity_dialog ( entity_id, name, config, namespace,
-                create_time, create_by, change_time, change_by )
-            VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+                process_entity_id, create_time, create_by, change_time, change_by )
+            VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{UserID}, \$Param{UserID},
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{ProcessEntityID},
+            \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -279,13 +281,14 @@ get Activity Dialog attributes
 Returns:
 
     $ActivityDialog = {
-        ID           => 123,
-        EntityID     => 'AD1',
-        Name         => 'some name',
-        Config       => $ConfigHashRef,
-        Namespace    => 'Namespace',
-        CreateTime   => '2012-07-04 15:08:00',
-        ChangeTime   => '2012-07-04 15:08:00',
+        ID              => 123,
+        EntityID        => 'AD1',
+        Name            => 'some name',
+        Config          => $ConfigHashRef,
+        Namespace       => 'Namespace',
+        ProcessEntityID => 123,
+        CreateTime      => '2012-07-04 15:08:00',
+        ChangeTime      => '2012-07-04 15:08:00',
     };
 
 =cut
@@ -335,7 +338,7 @@ sub ActivityDialogGet {
     if ( $Param{ID} ) {
         return if !$DBObject->Prepare(
             SQL => '
-                SELECT id, entity_id, name, config, namespace, create_time, change_time
+                SELECT id, entity_id, name, config, namespace, process_entity_id, create_time, change_time
                 FROM pm_activity_dialog
                 WHERE id = ?',
             Bind  => [ \$Param{ID} ],
@@ -345,7 +348,7 @@ sub ActivityDialogGet {
     else {
         return if !$DBObject->Prepare(
             SQL => '
-                SELECT id, entity_id, name, config, namespace, create_time, change_time
+                SELECT id, entity_id, name, config, namespace, process_entity_id, create_time, change_time
                 FROM pm_activity_dialog
                 WHERE entity_id = ?',
             Bind  => [ \$Param{EntityID} ],
@@ -362,13 +365,14 @@ sub ActivityDialogGet {
         my $Config = $YAMLObject->Load( Data => $Data[3] );
 
         %Data = (
-            ID         => $Data[0],
-            EntityID   => $Data[1],
-            Name       => $Data[2],
-            Config     => $Config,
-            Namespace  => $Data[4],
-            CreateTime => $Data[5],
-            ChangeTime => $Data[6],
+            ID              => $Data[0],
+            EntityID        => $Data[1],
+            Name            => $Data[2],
+            Config          => $Config,
+            Namespace       => $Data[4],
+            ProcessEntityID => $Data[5],
+            CreateTime      => $Data[6],
+            ChangeTime      => $Data[7],
 
         );
     }
@@ -393,13 +397,14 @@ update ActivityDialog attributes
 returns 1 if success or undef otherwise
 
     my $Success = $ActivityDialogObject->ActivityDialogUpdate(
-        ID          => 123,                    # mandatory
-        EntityID    => 'AD1'                   # mandatory, exportable unique identifier
-        Name        => 'NameOfActivityDialog', # mandatory
-        Config      => $ConfigHashRef,         # mandatory, actvity dialog configuration to be
-                                               #   stored in YAML format
-        Namespace   => 'Namespace',            # optional
-        UserID      => 123,                    # mandatory
+        ID              => 123,                    # mandatory
+        EntityID        => 'AD1'                   # mandatory, exportable unique identifier
+        Name            => 'NameOfActivityDialog', # mandatory
+        Config          => $ConfigHashRef,         # mandatory, actvity dialog configuration to be
+                                                   #   stored in YAML format
+        Namespace       => 'Namespace',            # optional
+        ProcessEntityID => 123,                    # optional
+        UserID          => 123,                    # mandatory
     );
 
 =cut
@@ -499,7 +504,7 @@ sub ActivityDialogUpdate {
     # check if need to update db
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT entity_id, name, config, namespace
+            SELECT entity_id, name, config, namespace, process_entity_id
             FROM pm_activity_dialog
             WHERE id = ?',
         Bind  => [ \$Param{ID} ],
@@ -510,11 +515,13 @@ sub ActivityDialogUpdate {
     my $CurrentName;
     my $CurrentConfig;
     my $CurrentNamespace;
+    my $CurrentProcessEntityID;
     while ( my @Data = $DBObject->FetchrowArray() ) {
-        $CurrentEntityID  = $Data[0];
-        $CurrentName      = $Data[1];
-        $CurrentConfig    = $Data[2];
-        $CurrentNamespace = $Data[3];
+        $CurrentEntityID        = $Data[0];
+        $CurrentName            = $Data[1];
+        $CurrentConfig          = $Data[2];
+        $CurrentNamespace       = $Data[3];
+        $CurrentProcessEntityID = $Data[4];
     }
 
     if ($CurrentEntityID) {
@@ -522,7 +529,8 @@ sub ActivityDialogUpdate {
         return 1 if $CurrentEntityID eq $Param{EntityID}
             && $CurrentName eq $Param{Name}
             && $CurrentConfig eq $Config
-            && $CurrentNamespace eq $Param{Namespace};
+            && $CurrentNamespace eq $Param{Namespace}
+            && $CurrentProcessEntityID eq $Param{ProcessEntityID};
     }
 
     # sql
@@ -530,10 +538,11 @@ sub ActivityDialogUpdate {
         SQL => '
             UPDATE pm_activity_dialog
             SET entity_id = ?, name = ?,  config = ?, namespace = ?,
-                change_time = current_timestamp, change_by = ?
+                process_entity_id = ?, change_time = current_timestamp, change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{UserID}, \$Param{ID},
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{ProcessEntityID},
+            \$Param{UserID}, \$Param{ID},
         ],
     );
 
@@ -640,22 +649,24 @@ Returns:
 
     $List = [
         {
-            ID             => 123,
-            EntityID       => 'AD1',
-            Name           => 'some name',
-            Config         => $ConfigHashRef,
-            Namespace      => 'Namespace',
-            CreateTime     => '2012-07-04 15:08:00',
-            ChangeTime     => '2012-07-04 15:08:00',
+            ID              => 123,
+            EntityID        => 'AD1',
+            Name            => 'some name',
+            Config          => $ConfigHashRef,
+            Namespace       => 'Namespace',
+            ProcessEntityID => 123,
+            CreateTime      => '2012-07-04 15:08:00',
+            ChangeTime      => '2012-07-04 15:08:00',
         }
         {
-            ID             => 456,
-            EntityID       => 'AD2',
-            Name           => 'some name',
-            Config         => $ConfigHashRef,
-            Namespace      => 'Namespace',
-            CreateTime     => '2012-07-04 15:09:00',
-            ChangeTime     => '2012-07-04 15:09:00',
+            ID              => 456,
+            EntityID        => 'AD2',
+            Name            => 'some name',
+            Config          => $ConfigHashRef,
+            Namespace       => 'Namespace',
+            ProcessEntityID => 123,
+            CreateTime      => '2012-07-04 15:09:00',
+            ChangeTime      => '2012-07-04 15:09:00',
         }
     ];
 
