@@ -314,12 +314,21 @@ subtest 'PostMaster-Test4.box with GetMessageBody() tests' => sub {
     subtest 'GetMessageBody() - match' => sub {
 
         my @Patterns = (
+            "Compare Cable, DSL or Satellite",
+
             "Test1:" . chr(8211),           # chr(8211) is: – - U+02013 - EN DASH
             "Test2:&",
             "Test3:" . chr(8715),           # chr(8715) is: ∋ - U+0220B - CONTAINS AS MEMBER
             "Test4:&",
             "Test5:" . chr( hex('3d') ),    # hex('3d') is 61, chr(61) is: = - U+0003D - EQUALS SIGN
-            "Compare Cable, DSL or Satellite",
+
+            # Non-characters, https://en.wikipedia.org/wiki/Universal_Character_Set_characters#Noncharacters
+            # non-characters are decoded to the replacement character U+FFFD
+            "Test10:\x{FFFD}",    # Test10:&#xFDD0;
+            "Test11:\x{FFFD}",    # Test11:&#xFFFE;
+            "Test12:\x{FFFD}",    # Test12:&#xFFFF;
+            "Test13:\x{FFFD}",    # Test13:&#x10FFFE;
+            "Test14:\x{FFFD}",    # Test14:&#x10FFFF;
         );
 
         for my $Pattern (@Patterns) {
