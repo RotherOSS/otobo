@@ -350,8 +350,7 @@ sub Sender {
             if ( $UserData{UserFullname} ) {
 
                 # rewrite RealName
-                my $Separator = ' ' . $ConfigObject->Get('Ticket::DefineEmailFromSeparator')
-                    || '';
+                my $Separator = ' ' . $ConfigObject->Get('Ticket::DefineEmailFromSeparator');
 
                 # $Address{RealName} comes from GetSystemAddress() which might already have added double quotes.
                 # Let's strip those before constructing a new RealName aka phrase.
