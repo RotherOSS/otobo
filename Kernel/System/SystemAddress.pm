@@ -32,7 +32,7 @@ Kernel::System::SystemAddress - all system address functions
 
 =head1 DESCRIPTION
 
-Global module to add/edit/update system addresses.
+Global module to add/edit/update system addresses. There is a system address for each queue.
 
 =head1 PUBLIC INTERFACE
 
@@ -45,11 +45,10 @@ create an object
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'SystemAddress';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -239,7 +238,7 @@ sub SystemAddressUpdate {
         }
     }
 
-    # Check if a system address with this name already exists.
+    # Check whether another system address with this name already exists.
     if (
         $Self->NameExistsCheck(
             ID   => $Param{ID},
@@ -254,9 +253,8 @@ sub SystemAddressUpdate {
         return;
     }
 
-    # Check if a system address is used in some queue's or auto response's.
-    if ( $Self->SystemAddressIsUsed( SystemAddressID => $Param{ID} ) && $Param{ValidID} > 1 )
-    {
+    # Check whether the system address is used in any queue or auto response
+    if ( $Self->SystemAddressIsUsed( SystemAddressID => $Param{ID} ) && $Param{ValidID} > 1 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  =>
@@ -544,7 +542,7 @@ sub NameExistsCheck {
 
 =head2 SystemAddressIsUsed()
 
-Return 1 if system address is used in one of the queue's or auto response's.
+Return 1 if system address is used in any queue or auto response.
 
     $SytemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
         SystemAddressID => 1,
