@@ -1922,7 +1922,7 @@ sub _InitialColumnFilter {
         $Class .= ' ' . $Param{Css};
     }
 
-    if ( $Param{ColumnName} ne 'CustomerID' ) {
+    if ( $Param{ColumnName} ne 'CustomerID' && $Param{ColumnName} ne 'CustomerUserID' ) {
         $Class .= ' Modernize';
     }
 
@@ -1933,7 +1933,7 @@ sub _InitialColumnFilter {
         Class       => $Class,
         Translation => $TranslationOption,
         SelectedID  => '',
-        Multiple    => $Param{ColumnName} eq 'CustomerID' ? 0 : 1,
+        Multiple    => ( $Param{ColumnName} eq 'CustomerID' || $Param{ColumnName} eq 'CustomerUserID' ) ? 0 : 1,
     );
     return $ColumnFilterHTML;
 }
