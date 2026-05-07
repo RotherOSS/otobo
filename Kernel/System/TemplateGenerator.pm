@@ -601,20 +601,29 @@ sub GenericAgentArticle {
 
 =head2 Attributes()
 
-generate attributes
+modifies inplace the passed in C<Data> hash reference and returns the enriched data.
 
-    my %Attributes = $TemplateGeneratorObject->Attributes(
-        TicketID   => 123,
-        ArticleID  => 123,
-        ResponseID => 123
-        UserID     => 123,
-        Action     => 'Forward', # Possible values are Reply and Forward, Reply is default.
+    my %Data = (
+        Subject => 'What do you want to talk about?'
     );
 
-returns
-    StandardResponse
-    Salutation
-    Signature
+    my %EnrichedData = $TemplateGeneratoObject->Attributes(
+        TicketID   => 123,
+        Data       => \%Data,    # $Data{Subject} is used as input for finding the new subject
+        UserID     => 123,
+        Action     => 'Forward', # Relevant for the subject.
+                                 # Possible values are 'Reply' and 'Forward', 'Reply' is eventually the default.
+    );
+
+Returns the modified hash reference as key value pairs. The potentially added or changed item are:
+
+=over 4
+
+=item Subject
+
+=item From
+
+=back
 
 =cut
 
@@ -628,6 +637,7 @@ sub Attributes {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -635,7 +645,7 @@ sub Attributes {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # get queue
+    # get ticket data, including the queue id
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
@@ -645,7 +655,7 @@ sub Attributes {
     $Param{Data}->{Subject} = $TicketObject->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
         Subject      => $Param{Data}->{Subject} || '',
-        Action       => $Param{Action}          || '',
+        Action       => $Param{Action}          || '',    # TicketSubjectBuild() falls back to the default 'Reply'
     );
 
     # get sender address
@@ -654,7 +664,7 @@ sub Attributes {
         UserID  => $Param{UserID},
     );
 
-    return %{ $Param{Data} };
+    return $Param{Data}->%*;
 }
 
 =head2 AutoResponse()
