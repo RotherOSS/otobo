@@ -80,12 +80,13 @@ add new TransitionAction
 returns the id of the created TransitionAction if success or undef otherwise
 
     my $ID = $TransitionActionObject->TransitionActionAdd(
-        EntityID    => 'TA1'                     # mandatory, exportable unique identifier
-        Name        => 'NameOfTransitionAction', # mandatory
-        Config      => $ConfigHashRef,           # mandatory, transition action configuration to be
-                                                 #    stored in YAML format
-        Namespace   => 'Namespace',              # optional
-        UserID      => 123,                      # mandatory
+        EntityID        => 'TA1'                     # mandatory, exportable unique identifier
+        Name            => 'NameOfTransitionAction', # mandatory
+        Config          => $ConfigHashRef,           # mandatory, transition action configuration to be
+                                                     #    stored in YAML format
+        Namespace       => 'Namespace',              # optional
+        ProcessEntityID => 123,                      # optional
+        UserID          => 123,                      # mandatory
     );
 
 Returns:
@@ -189,11 +190,12 @@ sub TransitionActionAdd {
     # sql
     return if !$DBObject->Do(
         SQL => '
-            INSERT INTO pm_transition_action ( entity_id, name, config, namespace, create_time,
-                create_by, change_time, change_by )
-            VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            INSERT INTO pm_transition_action ( entity_id, name, config, namespace, process_entity_id,
+                create_time, create_by, change_time, change_by )
+            VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{UserID}, \$Param{UserID},
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{ProcessEntityID},
+            \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -278,13 +280,14 @@ get TransitionAction attributes
 Returns:
 
     $TransitionAction = {
-        ID           => 123,
-        EntityID     => 'TA1',
-        Name         => 'some name',
-        Config       => $ConfigHashRef,
-        Namespace    => 'Namespace',
-        CreateTime   => '2012-07-04 15:08:00',
-        ChangeTime   => '2012-07-04 15:08:00',
+        ID              => 123,
+        EntityID        => 'TA1',
+        Name            => 'some name',
+        Config          => $ConfigHashRef,
+        Namespace       => 'Namespace',
+        ProcessEntityID => 123,
+        CreateTime      => '2012-07-04 15:08:00',
+        ChangeTime      => '2012-07-04 15:08:00',
     };
 
 =cut
@@ -334,7 +337,7 @@ sub TransitionActionGet {
     if ( $Param{ID} ) {
         return if !$DBObject->Prepare(
             SQL => '
-                SELECT id, entity_id, name, config, namespace, create_time, change_time
+                SELECT id, entity_id, name, config, namespace, process_entity_id, create_time, change_time
                 FROM pm_transition_action
                 WHERE id = ?',
             Bind  => [ \$Param{ID} ],
@@ -344,7 +347,7 @@ sub TransitionActionGet {
     else {
         return if !$DBObject->Prepare(
             SQL => '
-                SELECT id, entity_id, name, config, namespace, create_time, change_time
+                SELECT id, entity_id, name, config, namespace, process_entity_id, create_time, change_time
                 FROM pm_transition_action
                 WHERE entity_id = ?',
             Bind  => [ \$Param{EntityID} ],
@@ -361,13 +364,14 @@ sub TransitionActionGet {
         my $Config = $YAMLObject->Load( Data => $Data[3] );
 
         %Data = (
-            ID         => $Data[0],
-            EntityID   => $Data[1],
-            Name       => $Data[2],
-            Config     => $Config,
-            Namespace  => $Data[4],
-            CreateTime => $Data[5],
-            ChangeTime => $Data[6],
+            ID              => $Data[0],
+            EntityID        => $Data[1],
+            Name            => $Data[2],
+            Config          => $Config,
+            Namespace       => $Data[4],
+            ProcessEntityID => $Data[5],
+            CreateTime      => $Data[6],
+            ChangeTime      => $Data[7],
 
         );
     }
@@ -392,13 +396,14 @@ update TransitionAction attributes
 returns 1 if success or undef otherwise
 
     my $Success = $TransitionActionObject->TransitionActionUpdate(
-        ID          => 123,                      # mandatory
-        EntityID    => 'TA1'                     # mandatory, exportable unique identifier
-        Name        => 'NameOfTransitionAction', # mandatory
-        Config      => $ConfigHashRef,           # mandatory, actvity dialog configuration to be
-                                                 #   stored in YAML format
-        Namespace   => 'Namespace',              # optional
-        UserID      => 123,                      # mandatory
+        ID              => 123,                      # mandatory
+        EntityID        => 'TA1'                     # mandatory, exportable unique identifier
+        Name            => 'NameOfTransitionAction', # mandatory
+        Config          => $ConfigHashRef,           # mandatory, actvity dialog configuration to be
+                                                     #   stored in YAML format
+        Namespace       => 'Namespace',              # optional
+        ProcessEntityID => 123,                      # optional
+        UserID          => 123,                      # mandatory
     );
 
 =cut
@@ -498,7 +503,7 @@ sub TransitionActionUpdate {
     # check if need to update db
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT entity_id, name, config, namespace
+            SELECT entity_id, name, config, namespace, process_entity_id
             FROM pm_transition_action
             WHERE id = ?',
         Bind  => [ \$Param{ID} ],
@@ -509,11 +514,13 @@ sub TransitionActionUpdate {
     my $CurrentName;
     my $CurrentConfig;
     my $CurrentNamespace;
+    my $CurrentProcessEntityID;
     while ( my @Data = $DBObject->FetchrowArray() ) {
-        $CurrentEntityID  = $Data[0];
-        $CurrentName      = $Data[1];
-        $CurrentConfig    = $Data[2];
-        $CurrentNamespace = $Data[3];
+        $CurrentEntityID        = $Data[0];
+        $CurrentName            = $Data[1];
+        $CurrentConfig          = $Data[2];
+        $CurrentNamespace       = $Data[3];
+        $CurrentProcessEntityID = $Data[4];
     }
 
     if ($CurrentEntityID) {
@@ -521,7 +528,8 @@ sub TransitionActionUpdate {
         return 1 if $CurrentEntityID eq $Param{EntityID}
             && $CurrentName eq $Param{Name}
             && $CurrentConfig eq $Config
-            && $CurrentNamespace eq $Param{Namespace};
+            && $CurrentNamespace eq $Param{Namespace}
+            && $CurrentProcessEntityID eq $Param{ProcessEntityID};
     }
 
     # sql
@@ -529,10 +537,11 @@ sub TransitionActionUpdate {
         SQL => '
             UPDATE pm_transition_action
             SET entity_id = ?, name = ?,  config = ?, namespace = ?,
-                change_time = current_timestamp, change_by = ?
+                process_entity_id = ?, change_time = current_timestamp, change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{UserID}, \$Param{ID},
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{Namespace}, \$Param{ProcessEntityID},
+            \$Param{UserID}, \$Param{ID},
         ],
     );
 
@@ -639,22 +648,24 @@ Returns:
 
     $List = [
         {
-            ID             => 123,
-            EntityID       => 'TA1',
-            Name           => 'some name',
-            Config         => $ConfigHashRef,
-            Namespace      => 'Namespace',
-            CreateTime     => '2012-07-04 15:08:00',
-            ChangeTime     => '2012-07-04 15:08:00',
+            ID              => 123,
+            EntityID        => 'TA1',
+            Name            => 'some name',
+            Config          => $ConfigHashRef,
+            Namespace       => 'Namespace',
+            ProcessEntityID => 123,
+            CreateTime      => '2012-07-04 15:08:00',
+            ChangeTime      => '2012-07-04 15:08:00',
         }
         {
-            ID             => 456,
-            EntityID       => 'TA2',
-            Name           => 'some name',
-            Config         => $ConfigHashRef,
-            Namespace      => 'Namespace',
-            CreateTime     => '2012-07-04 15:09:00',
-            ChangeTime     => '2012-07-04 15:09:00',
+            ID              => 456,
+            EntityID        => 'TA2',
+            Name            => 'some name',
+            Config          => $ConfigHashRef,
+            Namespace       => 'Namespace',
+            ProcessEntityID => 123,
+            CreateTime      => '2012-07-04 15:09:00',
+            ChangeTime      => '2012-07-04 15:09:00',
         }
     ];
 
