@@ -1095,7 +1095,8 @@ sub Run {
             $IsVisibleForCustomer = $GetParam{IsVisibleForCustomer} ? 1 : 0;
         }
 
-        # Get attributes like sender address
+        # Get attributes like sender address.
+        # It is not obvious whether $Data{From} can differ from $GetParam{From}.
         my %Data = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Attributes(
             TicketID => $Self->{TicketID},
             Data     => {},
