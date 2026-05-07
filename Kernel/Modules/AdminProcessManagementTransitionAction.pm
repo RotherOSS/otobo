@@ -455,7 +455,7 @@ sub Run {
                 @ModuleParams = $Object->Params();
 
                 for my $Param (@ModuleParams) {
-                    $Param{Value} = $LayoutObject->{LanguageObject}->Translate( $Param{Value} );
+                    $Param->{Value} = $LayoutObject->{LanguageObject}->Translate( $Param->{Value} );
                 }
             }
         }
