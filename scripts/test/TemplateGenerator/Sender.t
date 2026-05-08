@@ -105,6 +105,30 @@ my @Tests = (
 
     },
     {
+        Name                  => 'system address real name with four words',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'four words real name',
+        Result                => {
+            SystemAddressName          => qq|four words real name <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|John Doe via four words real name <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+
+    },
+    {
+        # white space is not collapsed within the phrase
+        Name                  => 'system address real name with commas and extra spaces comma',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => ' real, name ,  with,commas',
+        Result                => {
+            SystemAddressName          => qq|" real, name ,  with,commas" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via  real, name ,  with,commas" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
         Name                  => 'Company with dot, requires escaping',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -116,7 +140,7 @@ my @Tests = (
         },
     },
     {
-        Name                  => 'Username with special character, requires escaping',
+        Name                  => 'Username with opening and closing parenthesis, requires escaping',
         AgentFirstname        => 'Jack (the)',
         AgentLastname         => 'Ripper',
         SystemAddressRealname => 'Test',
@@ -127,13 +151,82 @@ my @Tests = (
         },
     },
     {
-        Name                  => 'System address real name with special character, requires escaping',
+        Name                  => 'Username with closing and opening parenthesis, requires escaping',
+        AgentFirstname        => 'Jack )the(',
+        AgentLastname         => 'Ripper',
+        SystemAddressRealname => 'Test',
+        Result                => {
+            SystemAddressName          => qq|Test <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"Jack )the( Ripper via Test" <$SystemAddressEmail>|,
+            AgentName                  => qq|"Jack )the( Ripper" <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Name                  => 'Username with opening parenthesis, requires escaping',
+        AgentFirstname        => 'Jack (the(',
+        AgentLastname         => 'Ripper',
+        SystemAddressRealname => 'Test',
+        Result                => {
+            SystemAddressName          => qq|Test <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"Jack (the( Ripper via Test" <$SystemAddressEmail>|,
+            AgentName                  => qq|"Jack (the( Ripper" <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Name                  => 'Username with closing parenthesis, requires escaping',
+        AgentFirstname        => 'Jack )the)',
+        AgentLastname         => 'Ripper',
+        SystemAddressRealname => 'Test',
+        Result                => {
+            SystemAddressName          => qq|Test <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"Jack )the) Ripper via Test" <$SystemAddressEmail>|,
+            AgentName                  => qq|"Jack )the) Ripper" <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Name                  => 'System address real name with square brackets, requires escaping',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
         SystemAddressRealname => 'Foo[Bar]',
         Result                => {
             SystemAddressName          => qq|"Foo[Bar]" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Foo[Bar]" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Line                  => __LINE__,
+        Name                  => 'System address real name with a colon, requires escaping',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'Foo:Bar',
+        Result                => {
+            SystemAddressName          => qq|"Foo:Bar" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via Foo:Bar" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Line                  => __LINE__,
+        Name                  => 'system address real name with unescaped double quotes',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'Foo"Bar"',
+        Result                => {
+            SystemAddressName          => qq|Foo"Bar" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|John Doe via Foo"Bar" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
+        # This looks broken
+        Name                  => 'system address real name with comma and unescaped double quotes',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'F,oo"Bar"',
+        Result                => {
+            SystemAddressName          => qq|"F,oo"Bar"" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|John Doe via F,oo"Bar" <$SystemAddressEmail>|,
             AgentName                  => qq|John Doe <$SystemAddressEmail>|,
         },
     },
@@ -145,6 +238,17 @@ my @Tests = (
         Result                => {
             SystemAddressName          => qq|"Foo\\"Bar\\"" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Foo\\"Bar\\"" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Name                  => 'system address real name with comma and escaped double quotes',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'F,oo\\"Bar\\"',
+        Result                => {
+            SystemAddressName          => qq|"F,oo\\"Bar\\"" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via F,oo\\"Bar\\"" <$SystemAddressEmail>|,
             AgentName                  => qq|John Doe <$SystemAddressEmail>|,
         },
     },
