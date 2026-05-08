@@ -93,6 +93,7 @@ my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
 
 my @Tests = (
     {
+        Line                  => __LINE__,
         Name                  => 'Simple replace',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -105,6 +106,7 @@ my @Tests = (
 
     },
     {
+        Line                  => __LINE__,
         Name                  => 'system address real name with four words',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -118,6 +120,7 @@ my @Tests = (
     },
     {
         # white space is not collapsed within the phrase
+        Line                  => __LINE__,
         Name                  => 'system address real name with commas and extra spaces comma',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -129,6 +132,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'Company with dot, requires escaping',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -140,6 +144,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'Username with opening and closing parenthesis, requires escaping',
         AgentFirstname        => 'Jack (the)',
         AgentLastname         => 'Ripper',
@@ -151,6 +156,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'Username with closing and opening parenthesis, requires escaping',
         AgentFirstname        => 'Jack )the(',
         AgentLastname         => 'Ripper',
@@ -162,6 +168,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'Username with opening parenthesis, requires escaping',
         AgentFirstname        => 'Jack (the(',
         AgentLastname         => 'Ripper',
@@ -173,6 +180,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'Username with closing parenthesis, requires escaping',
         AgentFirstname        => 'Jack )the)',
         AgentLastname         => 'Ripper',
@@ -184,6 +192,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'System address real name with square brackets, requires escaping',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -220,6 +229,7 @@ my @Tests = (
     },
     {
         # This looks broken
+        Line                  => __LINE__,
         Name                  => 'system address real name with comma and unescaped double quotes',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -231,6 +241,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'system address real name with escaped double quotes',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -242,6 +253,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'system address real name with comma and escaped double quotes',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -253,6 +265,7 @@ my @Tests = (
         },
     },
     {
+        Line                  => __LINE__,
         Name                  => 'system address real name with emoji',
         AgentFirstname        => 'John',
         AgentLastname         => 'Doe',
@@ -266,7 +279,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    subtest $Test->{Name} => sub {
+    subtest "$Test->{Name} (line $Test->{Line}" => sub {
 
         $SystemAddressObject->SystemAddressUpdate(
             %SystemAddressData,
