@@ -67,6 +67,14 @@
                                 </div>
                             </div>
                             <div class="Clear"></div>
+
+[% RenderBlockStart("NamespaceSelection") %]
+                            <label for="Namespace">[% Translate("Namespace") | html %]:</label>
+                            <div class="Field">
+                                [% Data.NamespaceSelectionHTML %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("NamespaceSelection") %]
                         </fieldset>
                     </div>
                 </div>

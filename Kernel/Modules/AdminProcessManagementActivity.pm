@@ -237,7 +237,7 @@ sub Run {
                     Action    => $RedirectAction,
                     Subaction => $RedirectSubaction,
                     ID        => $RedirectID,
-                    EntityID  => $RedirectID,
+                    EntityID  => $RedirectEntityID,
                 },
                 ConfigJSON => $ActivityConfig,
             );
@@ -446,7 +446,7 @@ sub Run {
                     Action    => $RedirectAction,
                     Subaction => $RedirectSubaction,
                     ID        => $RedirectID,
-                    EntityID  => $RedirectID,
+                    EntityID  => $RedirectEntityID,
                 },
                 ConfigJSON => $ActivityConfig,
             );
@@ -869,6 +869,32 @@ sub _ShowEdit {
         }
 
         $Param{Title} = Translatable('Create New Activity');
+    }
+
+    # get available namespaces
+    my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
+        Scope => 'ProcessManagement',
+    );
+
+    # create namespace selection
+    if (@ProcessNamespaces) {
+        my $NamespaceSelectionHTML = $LayoutObject->BuildSelection(
+            Data         => \@ProcessNamespaces,
+            Name         => 'Namespace',
+            ID           => 'Namespace',
+            SelectedID   => $ActivityData->{Namespace} || '',
+            Sort         => 'AlphanumericKey',
+            Translation  => 0,
+            PossibleNone => 1,
+            Class        => 'Modernize',
+        );
+
+        $LayoutObject->Block(
+            Name => 'NamespaceSelection',
+            Data => {
+                NamespaceSelectionHTML => $NamespaceSelectionHTML,
+            },
+        );
     }
 
     my $Output = $LayoutObject->Header(

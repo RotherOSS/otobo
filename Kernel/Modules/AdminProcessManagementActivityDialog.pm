@@ -41,8 +41,7 @@ sub Run {
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 
-    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ID' )       || '';
-    my $EntityID         = $ParamObject->GetParam( Param => 'EntityID' ) || '';
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
     my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
         SessionID => $Self->{SessionID},
@@ -817,6 +816,32 @@ sub _ShowEdit {
         $Param{Title} = Translatable('Create New Activity Dialog');
     }
 
+    # get available namespaces
+    my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
+        Scope => 'ProcessManagement',
+    );
+
+    # create namespace selection
+    if (@ProcessNamespaces) {
+        my $NamespaceSelectionHTML = $LayoutObject->BuildSelection(
+            Data         => \@ProcessNamespaces,
+            Name         => 'Namespace',
+            ID           => 'Namespace',
+            SelectedID   => $ActivityDialogData->{Namespace} || '',
+            Sort         => 'AlphanumericKey',
+            Translation  => 0,
+            PossibleNone => 1,
+            Class        => 'Modernize',
+        );
+
+        $LayoutObject->Block(
+            Name => 'NamespaceSelection',
+            Data => {
+                NamespaceSelectionHTML => $NamespaceSelectionHTML,
+            },
+        );
+    }
+
     # get interface infos
     if ( defined $ActivityDialogData->{Config}->{Interface} ) {
         my $InterfaceLength = scalar @{ $ActivityDialogData->{Config}->{Interface} };
@@ -1034,7 +1059,7 @@ sub _PopSessionScreen {
     }
 
     # convert screens path to string (JSON)
-    my $JSONScreensPath = my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
+    my $JSONScreensPath = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
         Data => $Self->{ScreensPath},
     );
 
@@ -1060,7 +1085,7 @@ sub _PushSessionScreen {
     };
 
     # convert screens path to string (JSON)
-    my $JSONScreensPath = my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
+    my $JSONScreensPath = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
         Data => $Self->{ScreensPath},
     );
 
