@@ -86,7 +86,10 @@ sub CheckErrorType {
 
 =head2 CheckEmail()
 
-returns true if check was successful, if it's false, get the error message
+checks the address using Email::Valid. Depending on the SysConfig setting I<CheckMXRecord>
+check the mail exchange record.
+
+Returns true if check was successful, if it's false, get the error message
 from CheckError()
 
     my $Valid = $CheckItemObject->CheckEmail(
@@ -113,11 +116,12 @@ sub CheckEmail {
     # check if it's to do
     return 1 if !$ConfigObject->Get('CheckEmailAddresses');
 
-    # check valid email addresses
+    # exempt some addresses from further checks
     my $RegExp = $ConfigObject->Get('CheckEmailValidAddress');
     if ( $RegExp && $Param{Address} =~ /$RegExp/i ) {
         return 1;
     }
+
     my $Error = '';
 
     # Workaround for https://github.com/Perl-Email-Project/Email-Valid/issues/36:
@@ -125,6 +129,14 @@ sub CheckEmail {
     $Param{Address} =~ s{ \s* \( [^()]* \) \s* $ }{}smxg;
 
     # email address syntax check
+    #
+    # The address, e.g. q{Philipp Weber <p.weber@air.com> (Philipp)}. must exist.
+    # The address part must conform to RFC822, checked with a regexp.
+    # The address must be parsable by Mail::Address.
+    # The address part, e.g. q{p.weber@air.com}, may be up to 254 characters long.
+    # The user part, e.g. q{p.weber}, may be up to 64 characters long.
+    # Domain literals, like in peter@[10.11.12.13], are allowed.
+    # When the host part is not a domain literal, e.g. q{air.com}, then it must be a fully qualified domain name.
     if ( !Email::Valid->address( $Param{Address} ) ) {
         $Error = "Invalid syntax";
         $Self->{ErrorType} = 'InvalidSyntax';
@@ -145,6 +157,7 @@ sub CheckEmail {
     {
 
         # get host
+        # TODO: use the Mail::Address object returned from Email::Valid
         my $Host = $Param{Address};
         $Host =~ s/^.*@(.*)$/$1/;
         $Host =~ s/\s+//g;
@@ -227,6 +240,7 @@ sub CheckEmail {
 
         # remember error
         $Self->{Error} = "invalid $Param{Address} ($Error)! ";
+
         return;
     }
 }
