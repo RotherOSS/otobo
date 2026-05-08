@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2026-04-29 13:00+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2026-05-07 03:27+0000\n"
+"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/"
 "de/>\n"
 "Language: de\n"
@@ -27875,10 +27875,15 @@ msgstr "Perl Client-Info"
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."
 msgstr ""
+"Definiert, nach welchen Objekten gesucht wird, wie viele Einträge und welche "
+"Attribute angezeigt werden sollen. Alle Ticket-Attribute außer der Queue "
+"müssen explizit in Elasticsearch gespeichert werden."
 
 #. SysConfig
 msgid "Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table."
 msgstr ""
+"Zeigt auch optionale Parameter in der Parameterliste an. Ist die Option "
+"deaktiviert, werden optionale Parameter in einer separaten Tabelle angezeigt."
 
 #. SysConfig
 msgid "Ticket Title"
