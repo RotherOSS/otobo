@@ -64,7 +64,7 @@ my $SystemAddressRealname = "OTOBO-Team";
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
-    Name     => $SystemAddressEmail,
+    Name     => $SystemAddressEmail,      # 'Name' indicates the address, e.g. q{123@example.com}
     Realname => $SystemAddressRealname,
     Comment  => 'some comment',
     QueueID  => 1,
@@ -93,67 +93,67 @@ my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
 
 my @Tests = (
     {
-        Name              => 'Simple replace',
-        AgentFirstname    => 'John',
-        AgentLastname     => 'Doe',
-        SystemAddressName => 'Test',
-        Result            => {
-            SystemAddressName          => "Test <$SystemAddressEmail>",
-            AgentNameSystemAddressName => "John Doe via Test <$SystemAddressEmail>",
-            AgentName                  => "John Doe <$SystemAddressEmail>",
+        Name                  => 'Simple replace',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'Test',
+        Result                => {
+            SystemAddressName          => qq|Test <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|John Doe via Test <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
         },
 
     },
     {
-        Name              => 'Company with dot, requires escaping',
-        AgentFirstname    => 'John',
-        AgentLastname     => 'Doe',
-        SystemAddressName => 'company.com',
-        Result            => {
+        Name                  => 'Company with dot, requires escaping',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'company.com',
+        Result                => {
             SystemAddressName          => qq|"company.com" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via company.com" <$SystemAddressEmail>|,
-            AgentName                  => "John Doe <$SystemAddressEmail>",
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
         },
     },
     {
-        Name              => 'Username with special character, requires escaping',
-        AgentFirstname    => 'Jack (the)',
-        AgentLastname     => 'Ripper',
-        SystemAddressName => 'Test',
-        Result            => {
-            SystemAddressName          => "Test <$SystemAddressEmail>",
+        Name                  => 'Username with special character, requires escaping',
+        AgentFirstname        => 'Jack (the)',
+        AgentLastname         => 'Ripper',
+        SystemAddressRealname => 'Test',
+        Result                => {
+            SystemAddressName          => qq|Test <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"Jack (the) Ripper via Test" <$SystemAddressEmail>|,
             AgentName                  => qq|"Jack (the) Ripper" <$SystemAddressEmail>|,
         },
     },
     {
-        Name              => 'SystemAddressName with special character, requires escaping',
-        AgentFirstname    => 'John',
-        AgentLastname     => 'Doe',
-        SystemAddressName => 'Foo[Bar]',
-        Result            => {
+        Name                  => 'System address real name with special character, requires escaping',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'Foo[Bar]',
+        Result                => {
             SystemAddressName          => qq|"Foo[Bar]" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Foo[Bar]" <$SystemAddressEmail>|,
             AgentName                  => qq|John Doe <$SystemAddressEmail>|,
         },
     },
     {
-        Name              => 'SystemAddressName with escaped double quotes',
-        AgentFirstname    => 'John',
-        AgentLastname     => 'Doe',
-        SystemAddressName => 'Foo\\"Bar\\"',
-        Result            => {
+        Name                  => 'system address real name with escaped double quotes',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'Foo\\"Bar\\"',
+        Result                => {
             SystemAddressName          => qq|"Foo\\"Bar\\"" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Foo\\"Bar\\"" <$SystemAddressEmail>|,
             AgentName                  => qq|John Doe <$SystemAddressEmail>|,
         },
     },
     {
-        Name              => 'SystemAddressName with emoji',
-        AgentFirstname    => 'John',
-        AgentLastname     => 'Doe',
-        SystemAddressName => 'Chocolate Bar 🍫',
-        Result            => {
+        Name                  => 'system address real name with emoji',
+        AgentFirstname        => 'John',
+        AgentLastname         => 'Doe',
+        SystemAddressRealname => 'Chocolate Bar 🍫',
+        Result                => {
             SystemAddressName          => qq|"Chocolate Bar 🍫" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Chocolate Bar 🍫" <$SystemAddressEmail>|,
             AgentName                  => qq|John Doe <$SystemAddressEmail>|,
@@ -166,7 +166,7 @@ for my $Test (@Tests) {
 
         $SystemAddressObject->SystemAddressUpdate(
             %SystemAddressData,
-            Realname => $Test->{SystemAddressName},
+            Realname => $Test->{SystemAddressRealname},
             UserID   => 1,
         );
         $UserObject->UserUpdate(
@@ -191,10 +191,10 @@ for my $Test (@Tests) {
             is(
                 $Result,
                 $Test->{Result}->{$DefineEmailFrom},
-                "$DefineEmailFrom - Sender()",
+                "DefineEmailFrom: $DefineEmailFrom",
             );
         }
     };
 }
 
-done_testing();
+done_testing;
