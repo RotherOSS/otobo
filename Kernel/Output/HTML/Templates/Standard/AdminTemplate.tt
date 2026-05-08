@@ -169,6 +169,7 @@
                         <tr>
                             <th>[% Translate("Type") | html %]</th>
                             <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Pre-selected ticket state") | html %]</th>
                             <th>[% Translate("Attachments") | html %]</th>
                             <th>[% Translate("Comment") | html %]</th>
                             <th>[% Translate("Validity") | html %]</th>
@@ -179,11 +180,11 @@
                     </thead>
                     <tbody>
                         <tr class="FilterMessage Hidden">
-                            <td colspan="7">[% Translate("No matches found.") | html %]</td>
+                            <td colspan="8">[% Translate("No matches found.") | html %]</td>
                         </tr>
 [% RenderBlockStart("NoDataFoundMsg") %]
                         <tr>
-                            <td colspan="7">
+                            <td colspan="8">
                                 [% Translate("No data found.") | html %]
                             </td>
                         </tr>
@@ -194,6 +195,7 @@
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %];Type=[% Data.TemplateType | uri %]">[% Data.Name | html %]</a>
                             </td>
+                            <td>[% Translate(Data.PreSelectedTicketState) | html %]</td>
                             <td>[% Data.Attachments | html %]</td>
                             <td title="[% Data.Comment | html %]">[% Data.Comment | truncate(26) | html %]</td>
                             <td>[% Translate(Data.Valid) | html %]</td>
@@ -293,6 +295,12 @@
                         <label for="Comment">[% Translate("Comment") | html %]:</label>
                         <div class="Field">
                             <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="PreSelectedTicketStateID">[% Translate("Pre-selected ticket state") | html %]:</label>
+                        <div class="Field">
+                            [% Data.States %]
                         </div>
                         <div class="Clear"></div>
 
