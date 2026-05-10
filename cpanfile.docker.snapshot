@@ -218,19 +218,19 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  CGI-4.71
-    pathname: L/LE/LEEJO/CGI-4.71.tar.gz
+  CGI-4.72
+    pathname: L/LE/LEEJO/CGI-4.72.tar.gz
     provides:
-      CGI 4.71
-      CGI::Carp 4.71
+      CGI 4.72
+      CGI::Carp 4.72
       CGI::Cookie 4.59
-      CGI::File::Temp 4.71
+      CGI::File::Temp 4.72
       CGI::HTML::Functions undef
-      CGI::MultipartBuffer 4.71
-      CGI::Pretty 4.71
-      CGI::Push 4.71
-      CGI::Util 4.71
-      Fh 4.71
+      CGI::MultipartBuffer 4.72
+      CGI::Pretty 4.72
+      CGI::Push 4.72
+      CGI::Util 4.72
+      Fh 4.72
     requirements:
       Carp 0
       Config 0
@@ -1455,11 +1455,11 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
-  Gazelle-0.49
-    pathname: K/KA/KAZEBURO/Gazelle-0.49.tar.gz
+  Gazelle-0.50
+    pathname: K/KA/KAZEBURO/Gazelle-0.50.tar.gz
     provides:
-      Gazelle 0.49
-      Plack::Handler::Gazelle 0.49
+      Gazelle 0.50
+      Plack::Handler::Gazelle 0.50
     requirements:
       ExtUtils::CBuilder 0
       Guard 0
@@ -1956,8 +1956,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.43
-    pathname: S/SR/SRI/Mojolicious-9.43.tar.gz
+  Mojolicious-9.45
+    pathname: S/SR/SRI/Mojolicious-9.45.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2027,7 +2027,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.43
+      Mojolicious 9.45
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
