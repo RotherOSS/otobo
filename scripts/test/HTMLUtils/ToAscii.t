@@ -368,14 +368,14 @@ Fifth Line',
     },
     {
         Line   => __LINE__,
-        Input  => '&#128512;',
-        Result => '😀',
+        Input  => '&#128513;',
+        Result => '😁',
         Name   => 'Correctly encoded GRINNING FACE WITH SMILING EYES (decimal)',
     },
     {
         Line   => __LINE__,
-        Input  => '&#x1F600;',
-        Result => '😀',
+        Input  => '&#x1F601;',
+        Result => '😁',
         Name   => 'Correctly encoded GRINNING FACE WITH SMILING EYES (hex)',
     },
     {
