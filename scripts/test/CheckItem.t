@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -214,23 +214,28 @@ for my $Test (@Tests) {
 }
 
 # string clean tests
-@Tests = (
+my $IdeographicSpace  = chr(0x3000);    # 　- U+03000 - E3 80 80 - IDEOGRAPHIC SPACE, covered by the \s character class
+my @StringCleainTests = (
     {
+        Line   => __LINE__,
         String => ' ',
         Params => {},
         Result => '',
     },
     {
+        Line   => __LINE__,
         String => undef,
         Params => {},
         Result => undef,
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {},
         Result => "Test\n\r\t test\n\r\t Test",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft  => 1,
@@ -239,6 +244,7 @@ for my $Test (@Tests) {
         Result => "Test\n\r\t test\n\r\t Test\n\r\t ",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft  => 0,
@@ -247,6 +253,7 @@ for my $Test (@Tests) {
         Result => "\n\r\t Test\n\r\t test\n\r\t Test",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft  => 0,
@@ -255,6 +262,7 @@ for my $Test (@Tests) {
         Result => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 1,
@@ -266,6 +274,7 @@ for my $Test (@Tests) {
         Result => "Test\t test\t Test",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 1,
@@ -277,6 +286,7 @@ for my $Test (@Tests) {
         Result => "Test\n\r test\n\r Test",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 1,
@@ -288,6 +298,7 @@ for my $Test (@Tests) {
         Result => "Test\n\r\ttest\n\r\tTest",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 0,
@@ -299,6 +310,7 @@ for my $Test (@Tests) {
         Result => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 0,
@@ -310,6 +322,7 @@ for my $Test (@Tests) {
         Result => "\t Test\t test\t Test\t ",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 0,
@@ -321,6 +334,7 @@ for my $Test (@Tests) {
         Result => "\n\r Test\n\r test\n\r Test\n\r ",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 0,
@@ -332,6 +346,7 @@ for my $Test (@Tests) {
         Result => "\n\r\tTest\n\r\ttest\n\r\tTest\n\r\t",
     },
     {
+        Line   => __LINE__,
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
             TrimLeft          => 0,
@@ -345,23 +360,26 @@ for my $Test (@Tests) {
 
     # strip invalid utf8 characters
     {
+        Line   => __LINE__,
         String => 'aäöüß€z',
         Params => {},
         Result => 'aäöüß€z',
     },
     {
+        Line   => __LINE__,
         String => eval { my $String = "a\372z"; Encode::_utf8_on($String); $String },    # iso-8859 string
         Params => {},
         Result => undef,
     },
     {
+        Line   => __LINE__,
         String => eval {'aúz'},                                                          # utf-8 string
         Params => {},
         Result => 'aúz',
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@StringCleainTests) {
 
     # copy string to leave the original untouched
     my $String = $Test->{String};
@@ -376,7 +394,7 @@ for my $Test (@Tests) {
     is(
         ${$StringRef},
         $Test->{Result},
-        'TrimTest',
+        "TrimTest - line $Test->{Line}",
     );
 }
 
