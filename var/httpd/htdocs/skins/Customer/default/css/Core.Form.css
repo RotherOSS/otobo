@@ -18,6 +18,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @section     Customer
  */
 
+/**
+ * @subsection    ModularForm
+ */
+
+fieldset.ModularForm {
+    --AddRemoveButtonWidth: calc( 14.36 / 14 ) * 1em; /* at 14px font size, the buttons are 14.36px wide */
+    --AddRemoveButtonGap: 0.3em;
+    --AddRemoveButtonRowWidth: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
+    --AddRemoveButtonRowSpace: var(--AddRemoveButtonRowWidth) * 0.25; /* space between multivalue buttons and fields */
+
+    position: relative; /* to allow for positioning and sizing relative to the fieldset */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 66%;
+    margin: 0 auto;
+}
+
+fieldset.ModularForm .Row,
+fieldset.ModularForm p {
+    width: 100%;
+}
+
+fieldset.ModularForm .FieldCell {
+    position: relative; /* to allow for positioning and sizing relative to the field cell */
+}
+
+fieldset.ModularForm .Field {
+    width: calc(100% - (var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace)));
+}
+
 /*
  * @note    This will be displayed by Core.UI.Tooltips
  */
@@ -68,6 +100,12 @@ div.TooltipErrorMessage {
     font-size: 14px;
     color: #7f809d;
     color: var(--colTextLight);
+}
+
+.FieldCell .AJAXLoader {
+    position: absolute;
+    right: 42px;
+    top: 23px;
 }
 
 /**
@@ -446,9 +484,13 @@ table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
     display: none;
 }
 
+/*
+
 fieldset .AsteriskExplanation {
     margin-left: 17%;
 }
+
+*/
 
 .Messenger .AsteriskExplanation {
     padding-top: 30px;
@@ -459,7 +501,72 @@ fieldset .AsteriskExplanation {
     padding-top: 15px;
 }
 
+/**
+ * @subsection MultiValue Fields
+ */
+
+.AddRemoveValueRow {
+    position: absolute;
+    right: 0px;
+    top: calc( var(--FieldCellHeight)/2 );
+    height: 1em;
+    width: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
+    margin-top: -0.5em; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--AddRemoveButtonGap);
+}
+
+.AddRemoveValueRow .RemoveValueRow,
+.AddRemoveValueRow .AddValueRow {
+    display: block;
+    line-height: 1em;
+    height: 1em;
+}
+
+/**
+ * @subsection Dynamic Field Sets
+ */
+
+.FieldCell div.DFSetOuterField {
+    height: auto;
+    display: block;
+}
+
+.FieldCell .Field.DFSetOuterField + label {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    top: -6px;
+    left: 24px;
+    width: fit-content;
+}
+
+.DynamicFieldSet {
+    border: solid 1px var(--colTextLight);
+    border-radius: 10px;
+    padding-left: 32px;
+    padding-bottom: 40px;
+    padding-right: 8px;
+}
+
+.DynamicFieldSet .Row_DynamicField {
+    width: calc( 100% - 40px );
+    margin-left: 0px;
+}
+
+.DynamicFieldSet .Row_DynamicField.MultiColumn {
+    width: 100%;
+}
+
+.DynamicFieldSet .Row_DynamicField .Field {
+    width: 100%;
+}
+
 /* IE */
+/* Copilot Note: Edge Legacy and Internet Explorer do not support the :has() selector, so we need to use a workaround */
+/*
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 
     div.DnDUploadBox {
@@ -487,3 +594,4 @@ fieldset .AsteriskExplanation {
     }
 
 }
+    */

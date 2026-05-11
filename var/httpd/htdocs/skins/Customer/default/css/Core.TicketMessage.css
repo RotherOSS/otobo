@@ -13,13 +13,19 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*
+
 @media only screen and (max-width: 500px) {
     fieldset > .Row.MultiValue {
         margin-right: calc( 25% - 36px );
     }
 }
 
+*/
+
 @media only screen and (max-width: 767px) {
+
+/*
 
     .Row {
         margin-left: calc( 25% - 76px );
@@ -43,6 +49,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top: unset;
     }
 
+*/
+
     #oooHeader {
         height: 128px;
         border-radius: 20px 20px 0px 0px;
@@ -52,10 +60,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding-top: 40px;
     }
 
+/*
+
     div.FieldCell:first-child,
     .Row:first-child {
         margin-top: 0px;
     }
+
+*/
 
     #oooContent.TicketCompose {
         background-color: #00023c;
@@ -66,9 +78,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         border-radius: 0px;
     }
 
-    .FieldCell {
-        position: relative;
-    }
+/*
 
     fieldset .Field {
         width: 100%;
@@ -84,8 +94,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         right: -38px;
         top: 21px;
     }
+
+*/
     
     /* Grids */
+
+/*
 
     .Row.MultiColumn div.Field {
         width: 100% !important;
@@ -107,8 +121,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top: 21px;
     }
 
+*/
+
     /* Dynamic Field Sets */
 
+/*
 
     .FieldCell .DFSetOuterField + label {
         top: calc(-100% + 66px);
@@ -121,6 +138,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     .DynamicFieldSet .Row_DynamicField .Field {
         margin-left: 0px;
     }
+
+*/
     
 }
 
@@ -137,6 +156,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #oooHeader > h1 {
         padding-top: 48.5px;
     }
+
+/*
 
     .Row_DynamicField {
         width: 66%;
@@ -193,7 +214,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: calc( -66% + 24px );
     }
 
+*/
+
 }
+
+/*
 
 .FieldCell > label {
     left: 24px;
@@ -226,6 +251,8 @@ fieldset .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
 .Row.MultiColumn .FieldCell {
     width: calc(100% - 40px);
 }
+
+*/
 
 .TicketCompose ~ #oooFooter {
     background-color: #fff;

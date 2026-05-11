@@ -349,12 +349,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // change label css for textareas
         else if ( Textarea.length > 0 ) {
-            Label.css({
-                'display': 'inline-block',
-                'vertical-align': 'top',
-                'margin-top': '24px',
-            });
-
             TextInput = Textarea;
             TextValue = Textarea.text();
         }

@@ -20,14 +20,29 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media screen,projection,tv,handheld {
 
-/* TODO */
-.ARIAAlertMessage {
-    display: none;
+:root {
+    --FieldCellHeight: 56px;
+    --HorizontalLabelPadding: 8px;
+    --LabelLineHeight: 1.25em;
+    --HorizontalInputFieldPadding: 32px;
+    --FieldBorderRadius: 10px;
+    --LabelFontSize: 16px;
+    --LabelLetterSpacing: 0.4px;
+    --ErrorTextColor: #ea2400;
+    --BaseBackgroundColor: #ffffff; /* in hopes that one day there will be dark mode otobo */
 }
 
 /**
  * @subsection  General
  */
+
+.ARIAAlertMessage {
+    display: none;
+}
+
+.oooACLHidden {
+    display: none !important;
+}
 
 .InputField_Container,
 .InputField_InputContainer,
@@ -35,7 +50,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .InputField_Container div,
 .InputField_InputContainer div,
 .InputField_ListContainer div,
-fieldset.Columns .Column .InputField_Container,
+/* CustomerTicketSearch */
+fieldset.Columns .Column .InputField_Container, /* CustomerTicketSearch */
 fieldset.Columns .Column .InputField_InputContainer,
 fieldset.Columns .Column .InputField_ListContainer,
 fieldset.Columns .Column .InputField_Container div,
@@ -44,31 +60,12 @@ fieldset.Columns .Column .InputField_ListContainer div {
     overflow: visible;
 }
 
-.oooACLHidden {
-    display: none !important;
+.FieldTemplate { /* TODO: unused? */
+    display: none;
 }
 
 .MultiValue_Template {
     display: none !important;
-}
-
-.Row,
-.RichTextHolder {
-    margin-top: 40px;
-    white-space: nowrap;
-}
-
-.RichTextHolder > div,
-.RichTextHolder > textarea {
-    white-space: wrap;
-}
-
-.RichTextHolder {
-    height: 400px;
-    width: 66%;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: var(--colBGLight);
 }
 
 .AddValueRow,
@@ -76,256 +73,188 @@ fieldset.Columns .Column .InputField_ListContainer div {
     cursor: pointer;
 }
 
-.Row_DynamicField {
-    display: grid;
-    grid-column-gap: 40px;
-}
-
-.FieldTemplate {
-    display: none;
-}
-
-.AddButtonDynamicField,
-.RemoveButtonDynamicField {
+.AddButtonDynamicField, /* TODO: unused? */
+.RemoveButtonDynamicField /* TODO: unused? */{
     cursor: pointer;
 }
 
-.FieldCell > div.Field,
-.FieldCell > div.InputField_Container,
-.FieldCell > select,
-.Row > div.Field,
-.Row > div.InputField_Container,
-.Row > select {
-    display: inline-block;
-    height: 56px;
-}
+/*
+ * @subsection label
+ */
 
-#Subject,
-input.DynamicFieldText {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1.25;
-    letter-spacing: 0.4px;
-    text-align: left;
-/*    color: #7f809d; */
-}
+/* default styling */
+label,
+/* input:read-only ~ label, need readonly class */
+/* textarea:read-only ~ label, need readonly class */
+.Field.RichTextField:hover ~ label,
+.Field.RichTextField:focus ~ label {
 
-#Subject {
-    height: 56px;
-    padding: 0px;
-    padding-left: 32px;
-}
-/*#Subject:focus,
-.DynamicFieldText:focus {
-    color: #001bff; 
-}*/
-
-div.InputField_Container {
-    width: 100%;
-    height: 100%;
-    padding: 0px;
-    display: inline-block;
-}
-
-div.InputField_InputContainer {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    border-radius: 10px;
-}
-
-.InputField_Search::-ms-clear {
-    display: none;
-    width : 0;
-    height: 0;
-}
-
-.InputField_Search,
-input.DynamicFieldText:not([type=checkbox]),
-input.DynamicFieldDB,
-.InputField_Autocomplete {
-    /* overwrite js-generated width */
-    width: calc( 100% - 32px ) !important;
-    height: 100%;
-    border-radius: 10px;
-    padding: 0px;
-    padding-left: 32px;
-/*    border: solid 1px rgba(247, 247, 249, 0);
-    background-color: #f7f7f9;
--webkit-transition: border 0.2s ease;
-   -moz-transition: border 0.2s ease;
-     -o-transition: border 0.2s ease;
-        transition: border 0.2s ease; */
-}
-
-.FieldCell > select,
-.Row > select,
-#Subject {
-    border-radius: 10px;
-/*    border: none;
-    border: solid 1px rgba(247, 247, 249, 0);
-    background-color: #f7f7f9; */
-}
-
-textarea {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.35px;
-    color: #00023c;
-    color: var(--colTextDark);
-    width: calc( 100% - 48px );
-    padding: 16px 24px 16px 24px;
-    border-radius: 10px;
-    outline: none;
-    resize: vertical;
-}
-
-label {
-    position: relative;
-    padding-left: 8px;
-    padding-right: 8px;
+    /* padding */
+    padding-left: var(--HorizontalLabelPadding);
+    padding-right: var(--HorizontalLabelPadding);
     padding-bottom: 0px;
-    font-size: 16px;
+
+    /* text styling */
+    font-size: var(--LabelFontSize);
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.25;
-    letter-spacing: 0.4px;
+    line-height: var(--LabelLineHeight);
+    letter-spacing: var(--LabelLetterSpacing);
     text-align: left;
-    color: #7f809d;
+    color: var(--colTextLight);
+
+    /* layout */
+    position: absolute;
+    top: calc( var(--FieldCellHeight)/2 );
+    left: 0;
+    margin-top: calc( var(--LabelLineHeight)/-2 );
+    margin-left: var(--HorizontalInputFieldPadding);
+    margin-right: var(--HorizontalInputFieldPadding);
+    background-color: var(--colBGLight);
+
+    /* misc */
+    pointer-events: none;
+    -webkit-transition: color 0.2s ease;
+       -moz-transition: color 0.2s ease;
+         -o-transition: color 0.2s ease;
+            transition: color 0.2s ease;
+    -webkit-transition: top 0.2s ease, color 0.2s ease;
+       -moz-transition: top 0.2s ease, color 0.2s ease;
+         -o-transition: top 0.2s ease, color 0.2s ease;
+            transition: top 0.2s ease, color 0.2s ease;
+}
+
+/* hover, filled and focus form label styling */
+.Field:hover ~ label,
+.DynamicFieldDB:hover ~ label, /*TODO:test*/
+.InputField_Container:hover ~ label, /*TODO:test*/
+.Field.oooFull ~ label,
+.Field.oooSelected ~ label,
+input.DynamicFieldDB.oooFull ~ label, /* TODO: test */
+.oooDateContainer > input[type='checkbox']:checked ~ label,
+label.oooFocus,
+.Field ~ label.oooFocus,
+.DynamicFieldDB:hover ~ label.oooFocus, /*TODO:test*/
+.InputField_Container ~ label.oooFocus /*TODO:test*/ {
+    border-radius: var(--FieldBorderRadius);
+    top: 0;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    background-color: var(--BaseBackgroundColor);
+}
+
+/* hover and filled form label color */
+.FieldCell > .Field:hover ~ label,
+.FieldCell .DynamicFieldDB:hover ~ label, /*TODO:test*/
+.InputField_Container:hover ~ label, /*TODO:test*/
+.FieldCell > .Field.oooFull ~ label,
+.FieldCell > .Field.oooSelected ~ label,
+.FieldCell input.DynamicFieldDB.oooFull ~ label /*TODO:test*/{
     color: var(--colTextLight);
 }
 
-.RichTextHolder > label {
-    display: inline-block;
-    vertical-align: top;
-    top: 98px;
+/* focus form label color */
+label.oooFocus,
+.FieldCell > .Field ~ label.oooFocus,
+.FieldCell > .DynamicFieldDB:hover ~ label.oooFocus, /*TODO:test*/
+.InputField_Container ~ label.oooFocus /*TODO:test*/ {
+    color: var(--colMainLight);
 }
 
-/* 
- * colors and label repositioning
+.oooDateContainer > label,
+.oooCheckboxContainer > label /*TODO:test*/ {
+    display: inline-block;
+    background-color: var(--BaseBackgroundColor);
+    cursor: pointer;
+}
+
+.Field:hover ~ label.LabelError,
+.Field.oooFull ~ label.LabelError,
+.oooSelected ~ label.LabelError,
+label.oooFocus.LabelError {
+    background-color: var(--BaseBackgroundColor);
+}
+
+.RichTextField ~ label {
+    z-index: 20;
+}
+
+.RichTextHolder > label.LabelError {
+    background-color: unset;
+}
+
+/*
+ * @subsection Input
  */
 
 /* default */
 input,
-textarea {
+textarea,
+.Field input:read-only,
+.Field textarea:read-only {
+    box-sizing: border-box;
     font-family: inherit;
-    color: #7f809d;
     color: var(--colTextLight);
-    border: solid 1px rgba(247, 247, 249, 0);
     border: solid 1px var(--colBGLight);
-    background-color: #f7f7f9;
     background-color: var(--colBGLight);
--webkit-transition: border 0.2s ease, color 0.2s ease;
-   -moz-transition: border 0.2s ease, color 0.2s ease;
-     -o-transition: border 0.2s ease, color 0.2s ease;
-        transition: border 0.2s ease, color 0.2s ease;
+    -webkit-transition: border 0.2s ease, color 0.2s ease;
+       -moz-transition: border 0.2s ease, color 0.2s ease;
+         -o-transition: border 0.2s ease, color 0.2s ease;
+            transition: border 0.2s ease, color 0.2s ease;
 }
 
-.FieldCell {
-    position: relative;
+input[type='text'],
+textarea {
+    display: inline-block;
+    width: 100%;
+    border-radius: var(--FieldBorderRadius);
+    padding: 16px var(--HorizontalInputFieldPadding);
+    text-align: start;
 }
 
-.FieldCell > label,
-.Row > label {
-    pointer-events: none;
-    background-color: #f7f7f9;
-    background-color: var(--colBGLight);
--webkit-transition: color 0.2s ease;
-   -moz-transition: color 0.2s ease;
-     -o-transition: color 0.2s ease;
-        transition: color 0.2s ease;
--webkit-transition: top 0.2s ease, color 0.2s ease;
-   -moz-transition: top 0.2s ease, color 0.2s ease;
-     -o-transition: top 0.2s ease, color 0.2s ease;
-        transition: top 0.2s ease, color 0.2s ease;
+input[type='text'] {
+    font-size: var(--LabelFontSize);
+    line-height: 1.25;
+    letter-spacing: 0.4px;
 }
 
-.FieldCell .AJAXLoader {
-    position: absolute;
-    right: 42px;
-    top: 23px;
+textarea {
+    min-height: var(--FieldCellHeight);
+    resize: vertical;
+    line-height: 1.5;
+    letter-spacing: 0.35px;
+    color: var(--colTextDark);
+    outline: none;  
 }
 
-/* hover, selected and filled */
-input:not([readonly]):hover,
+input:hover,
 input.oooFull,
-textarea:not([readonly]):hover,
+textarea:hover,
 textarea.oooFull,
 .oooSelected input {
-    border: solid 1px #7f809d;
     border: solid 1px var(--colTextLight);
-    background-color: #fff;
-}
-
-.FieldCell > input:not([readonly]):hover ~ label,
-.Row > input:not([readonly]):hover ~ label,
-textarea.oooFull ~ label,
-input.oooFull ~ label,
-.Field:hover:not([class*='RichTextField']) ~ label,
-.Field.oooFull ~ label,
-.oooSelected ~ label,
-.DynamicFieldDB:not([readonly]):hover ~ label,
-.InputField_Container:hover ~ label, 
-.Field.DFSetOuterField ~ label {
-    border-radius: 10px;
-    top: -29px;
-    font-size: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    color: #7f809d;
-    color: var(--colTextLight);
-    background-color:#ffffff;
+    background-color: var(--BaseBackgroundColor);
 }
 
 /* focus */
-input:not([readonly]):focus,
+input:focus,
 input[aria-expanded="true"],
 input.oooFull[aria-expanded="true"],
 input.oooFull:focus,
-textarea:not([readonly]):focus,
+textarea:focus,
 textarea.oooFull:focus,
 .oooSelected input:focus {
-    border: solid 1px #001bff;
     border: solid 1px var(--colMainLight);
-    background-color: #fff;
-}
-
-.FieldCell > input:not([readonly]):focus ~ label,
-.Row > input:not([readonly]):focus ~ label,
-label.oooFocus,
-.Field ~ label.oooFocus,
-.DynamicFieldDB:hover ~ label.oooFocus,
-.InputField_Container ~ label.oooFocus {
-    border-radius: 10px;
-    top: -29px;
-    font-size: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    color: #001bff;
-    color: var(--colMainLight);
-    background-color:#ffffff;
-}
-
-.FieldCell input.DynamicFieldDB.oooFull ~ label {
-    border-radius: 10px;
-    top: -29px;
-    font-size: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    background-color: #ffffff;
+    background-color: var(--BaseBackgroundColor);
 }
 
 /* error */
 input.Error,
 textarea.Error,
 label.LabelError {
-    color: #ea2400 !important;
-    background-color: #f9bcb2;
+    color: var(--ErrorTextColor) !important;
     background-color: var(--colNotifyErr);
 }
 
@@ -340,82 +269,48 @@ textarea.Error:hover,
 textarea.Error.oooFull,
 textarea.Error.Error:focus,
 .oooSelected input.Error:focus {
-    border: solid 1px #ea2400;
-    background-color: #fff;
+    border: solid 1px var(--ErrorTextColor);
+    background-color: var(--BaseBackgroundColor);
 }
 
-input:hover ~ label.LabelError,
-input.oooFull ~ label.LabelError,
-.Field:hover ~ label.LabelError,
-.Field.oooFull ~ label.LabelError,
-.oooSelected ~ label.LabelError,
-.InputField_Container:hover ~ label.LabelError,
-input:focus ~ label.LabelError,
-label.oooFocus.LabelError {
-    background-color:#fff;
+/*
+ * @subsection Form Fields
+ */
+
+.FieldCell .Field,
+.FieldCell .InputField_Container,
+.FieldCell .InputField_InputContainer,
+.FieldCell .oooTitle {
+    min-height: var(--FieldCellHeight);
+    height: 100%;
+    width: 100%;
 }
 
 /* Title fields */
 .oooTitle {
-    height: 100%;
-    display: grid;
-    grid-template-rows: 100%;
-    align-items: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .oooTitle > p {
     white-space: normal;
-}
-
-/* IE */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-
-    .oooTitle {
-        display: -ms-grid;
-        -ms-grid-rows: 100%;
-    }
-    
-    .oooTitle > p {
-        -ms-grid-row-align: end;
-    }
-
-    @supports (display: grid) {
-        .oooTitle {
-            display: grid;
-        }
-    }
-}
-
-/* RichText */
-.RichTextHolder > label.LabelError {
-    background-color: transparent;
+    word-wrap: break-word;
 }
 
 /* Checkboxes & Date */
-.FieldCell > div.Field > div.oooDateContainer,
-.FieldCell > div.Field.oooCheckboxContainer,
-.Row > div.Field > div.oooDateContainer,
-.Row > div.Field.oooCheckboxContainer {
+.Field > div.oooDateContainer,
+.Field.oooCheckboxContainer {
     height: 38px;
     padding-top: 16px;
     padding-left: 16px;
-    font-size: 16px;
-    letter-spacing: 0.4px;
-    color: #7f809d;
+    font-size: var(--LabelFontSize);
+    letter-spacing: var(--LabelLetterSpacing);
     color: var(--colTextLight);
     white-space: nowrap;
 }
 
-.oooDateContainer > label,
-.oooCheckboxContainer > label {
-    display: inline-block;
-
-    background-color: #fff;
-    cursor: pointer;
-}
-
-.FieldCell input[type='checkbox'],
-.Row input[type='checkbox'] {
+.FieldCell input[type='checkbox'] {
     width: 16px;
     height: 16px;
     border: 0;
@@ -428,10 +323,10 @@ label.oooFocus.LabelError {
     position: relative;
     top: 1px;
     cursor: pointer;
-    background-color: #fff;
+    background-color: var(--BaseBackgroundColor);
 }
 
-input[type='checkbox']:disabled,
+.FieldCell input[type='checkbox']:disabled,
 .FieldCell input[type='checkbox']:disabled ~ * {
     color: var(--colBGDark);
 }
@@ -439,33 +334,21 @@ input[type='checkbox']:disabled,
 input[type='checkbox']:checked + .oooAltCheck:before,
 input[type='checkbox']:checked + .AJAXLoader + .oooAltCheck:before {
     content: "\e908";
-    font-size: 16px;
+    font-size: var(--LabelFontSize);
 }
 
 input[type='checkbox']:not(:checked) + .oooAltCheck:before,
 input[type='checkbox']:not(:checked) + .AJAXLoader + .oooAltCheck:before {
     content: "\e90b";
-    font-size: 16px;
+    font-size: var(--LabelFontSize);
 }
 
 input[type='checkbox']:focus + .oooAltCheck:before,
 input[type='checkbox']:focus + .AJAXLoader + .oooAltCheck:before {
-    color: #001bff;
     color: var(--colMainLight);
 }
 
 /* Date */
-.oooDateContainer > input[type='checkbox']:checked ~ label {
-    position: relative;
-    top: -24px;
-    left: -16.8px;
-    padding: 0px;
-
-    display: inline-block;
-    width: 0px;
-
-    font-size: 10px;
-}
 
 .oooDateContainer select {
     cursor: pointer;
@@ -492,19 +375,18 @@ select {
     -moz-appearance: none;
     -webkit-appearance: none;
 
-    font-size: 16px;
-    letter-spacing: 0.4px;
-    color: #7f809d;
+    font-size: var(--LabelFontSize);
+    letter-spacing: var(--LabelLetterSpacing);
     color: var(--colTextLight);
-    background-color: #fff;
+    background-color: var(--BaseBackgroundColor);
 }
 
 div.InputField_ListContainer {
     position: absolute;
     z-index: 1000;
     display: none;
-    background-color: #fff;
-    border-radius: 10px;
+    background-color: var(--BaseBackgroundColor);
+    border-radius: var(--FieldBorderRadius);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -527,8 +409,7 @@ div.InputField_More {
     height: 32px;
     padding-left: 16px;
     padding-right: 16px;
-    border-radius: 10px;
-    background-color: #f7f7f9;
+    border-radius: var(--FieldBorderRadius);
     background-color: var(--colBGLight);
 	width: auto;
 }
@@ -548,7 +429,6 @@ div.InputField_More > div {
     line-height: 2.92;
     letter-spacing: 0.3px;
     text-align: center;
-    color: #7f809d;
     color: var(--colTextLight);
     width: auto;
 }
@@ -573,7 +453,7 @@ div.InputField_Selection > .Remove {
     right: 16px;
     width: 30px;
     height: 30px;
-    background-color: #fff;
+    background-color: var(--BaseBackgroundColor);
     border-radius: 15px;
     z-index: 100;
     cursor: pointer;
@@ -585,6 +465,69 @@ div.InputField_Selection > .Remove {
     left: 8px;
 }
 
+/**
+ * @subsection  RichText
+ */
+
+.Field.RichTextField {
+    background-color: var(--colBGLight);
+    border-radius: var(--FieldBorderRadius);
+}
+
+ .RichTextHolder {
+    /*display: flex;
+    flex-direction: column;
+    justify-content: stretch;*/
+    margin-top: 0px;
+    padding-top: var(--FieldCellHeight);
+    border-radius: var(--FieldBorderRadius);
+    z-index: 10;
+    position: relative;
+    width: 100%;
+}
+
+.RichTextHolder .ck.ck-content {
+    box-sizing: border-box;
+}
+
+.RichTextHolder .ui-resizable-s {
+    justify-self: flex-end;
+    flex-grow: 0;
+    position: relative;
+    bottom: 0px;
+    width: 50px;
+    box-sizing: border-box;
+    height: 5px;
+    margin: auto;
+    margin-top: -2px;
+    margin-bottom: -2px;
+    border-radius: 5px;
+    background-color: var(--colBGDark);
+    cursor: s-resize;
+    overflow: hidden;
+}
+
+.RichTextHolder .ui-resizable-s i {
+    display: block;
+    margin: auto;
+    color: var(--colTextLight);
+    text-align: center;
+    font-size: 10px;
+    margin-top: -2.5px;
+}
+
+/**
+ * @subsection Database Dynamic Field
+*/
+
+.DynamicFieldDB + a {
+    --DBSearchButtonHeight: calc( var(--DefaultLineHeight) * var(--DefaultFontSize) );
+
+    right: calc( var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace) + 12px );
+    top: calc( var(--FieldCellHeight)/2 );
+    margin-top: calc( var(--DBSearchButtonHeight)/-2 );
+}
+
 /* readonly */
 input[readonly] {
     border: none !important;
@@ -593,7 +536,6 @@ input[readonly] {
 
 .InputField_InputContainer > input[readonly],
 .Field > input[readonly] {
-    box-shadow: inset 0px 0px 8px 2px #bfbfce;
     box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }
 
@@ -610,7 +552,7 @@ input[readonly] {
 }
 
 .Tooltip > .Content {
-    background-color: #fff;
+    background-color: var(--BaseBackgroundColor);
     border-radius: 15px;
     padding: 24px 32px;
     line-height: 1.4;
@@ -630,7 +572,6 @@ input[readonly] {
     z-index: 1100;
     position: relative;
     display: none;
-    color: #00023c;
     color: var(--colTextDark);
 }
 
@@ -657,14 +598,13 @@ input[readonly] {
 
 .jstree-anchor {
     pointer-events: none;
-    font-size: 16px;
+    font-size: var(--LabelFontSize);
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.25;
-    letter-spacing: 0.4px;
+    letter-spacing: var(--LabelLetterSpacing);
     text-align: left;
-    color: #00023c;
     color: var(--colTextDark);
     margin-top: 14px;
     margin-bottom: 14px;
@@ -677,245 +617,6 @@ input[readonly] {
 .jstree-InputField-NoTree .jstree-anchor {
     margin-left: 32px;
 }
-
-/*.ActionRow .InputField_Search,
-.ActionRow .InputField_Autocomplete {
-    min-width: 200px;
-    box-shadow: none;
-}
-
-.InputField_Search[disabled] {
-    color: #aaa;
-}
-
-.InputField_Search[readonly]:focus {
-    box-shadow: none;
-}
-
-a.InputField_Action {
-    position: absolute;
-    display: block;
-    color: #000;
-    top: 5px;
-}
-
-a.InputField_Action:hover {
-    color: #f92;
-}
-
-div.InputField_Selection {
-    display: none;
-    position: absolute;
-    top: 4px;
-    height: 17px;
-    line-height: 11px;
-}
-
-div.InputField_Selection div {
-    display: inline-block;
-    font-size: 11px;
-}
-
-div.InputField_Selection div.Text {
-    background: #ddd;
-    padding: 2px 4px !important;
-}
-
-div.InputField_Selection div.Remove {
-    background: #bbb;
-    color: #fff;
-    cursor: pointer;
-}
-
-.AlreadyDisabled div.InputField_Selection div.Text {
-    background: #f5f5f5;
-    cursor: default;
-}
-
-
-div.InputField_Selection div.Remove a {
-    color: #fff;
-    padding: 2px 4px;
-    display: block;
-}
-
-.AlreadyDisabled div.InputField_Selection div.Remove {
-    visibility: hidden;
-    display: none;
-}
-
-div.InputField_More {
-    position: absolute;
-    white-space: nowrap;
-    top: 6px;
-}
-
-div.InputField_ListContainer {
-    position: absolute;
-    z-index: 1000;
-    display: none;
-    text-shadow: none;
-}
-
-.ExpandToTop div.InputField_TreeContainer {
-    border-top: 1px solid #ccc;
-    border-bottom: none;
-}
-
-div.InputField_ToolbarContainer {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-top: none;
-    line-height: 21px;
-    box-sizing: content-box;
-    min-height: 21px;
-}
-
-.div.InputField_ToolbarContainer ul {
-    width:100%;
-}
-
-div.InputField_ToolbarContainer ul li {
-    display: table-cell;
-    width: 1%;
-    text-align: center;
-}
-
-div.InputField_ToolbarContainer ul li:after {
-    color: #bbb;
-    content: "|";
-    display: inline-block;
-    float: right;
-    cursor: default;
-    width: 0;
-}
-
-div.InputField_ToolbarContainer ul li:last-child:after {
-    display: none;
-}
-
-.RTL div.InputField_ToolbarContainer ul li:last-child:after {
-    display: inline-block;
-}
-
-.RTL div.InputField_ToolbarContainer ul li:first-child:after {
-    display: none;
-}
-
-div.InputField_ToolbarContainer ul li a {
-    color: #000;
-    display: inline-block;
-    width: 100%;
-    margin: 2px 0;
-    font-size: 11px;
-    line-height: 15px;
-}
-
-div.InputField_ToolbarContainer ul li a:hover {
-    border-bottom: 2px solid #f92;
-    margin-bottom: 0;
-}
-
-.InputField_Confirm,
-.InputField_Filters.Active {
-    font-weight: bold;
-}
-
-.InputField_FiltersList {
-    display: none;
-    background: #fff;
-    white-space: nowrap;
-    border-top: 1px solid #ccc;
-    z-index: 1500;
-    line-height: 1.5em;
-    width: 100%;
-    font-size: 11px;
-}
-
-.InputField_FiltersList span {
-    margin-right: 5px;
-    vertical-align: 15%;
-    cursor: default;
-}
-
-.InputField_FiltersList input[disabled] + span {
-    font-style: italic;
-    color: #aaa;
-} */
-
-/**
- * @subsection  DynamicFieldRichText
- */
-fieldset .RichTextHolder {
-    margin-top: 0px;
-    padding-top: 48px;
-    border-radius: 10px;
-    z-index: 10;
-    position: relative;
-    padding-bottom: 2px;
-    width: 100%;
-}
-
-fieldset > .RichTextHolder {
-    margin-top: 48px;
-    padding-top: 0px;
-    width: 66%;
-}
-
-.Messenger fieldset > .RichTextHolder {
-    width: 100%;
-}
-
-.FieldCell > .Field.RichTextField ~ label {
-    position: absolute;
-    margin-bottom: auto;
-    top: 16px;
-    left: 32px;
-    z-index: 20;
-}
-
-.Field > .RichTextHolder > .cke {
-    width: 100% !important;
-    margin-left: 0;
-}
-
-/* Dynamic Field Sets */
-
-.FieldCell div.DFSetOuterField {
-    height: auto;
-    display: block;
-}
-
-.FieldCell .Field.DFSetOuterField + label {
-    position: absolute;
-    z-index: 1;
-    display: block;
-    top: -6px;
-    left: 24px;
-    width: fit-content;
-}
-
-.DynamicFieldSet {
-    border: solid 1px var(--colTextLight);
-    border-radius: 10px;
-    padding-left: 32px;
-    padding-bottom: 40px;
-    padding-right: 8px;
-}
-
-.DynamicFieldSet .Row_DynamicField {
-    width: calc( 100% - 40px );
-    margin-left: 0px;
-}
-
-.DynamicFieldSet .Row_DynamicField.MultiColumn {
-    width: 100%;
-}
-
-.DynamicFieldSet .Row_DynamicField .Field {
-    width: 100%;
-}
-
 
 /**
  * @subsection  jsTree theme
@@ -1109,7 +810,7 @@ fieldset > .RichTextHolder {
 }
 
 .jstree-InputField-Tree .jstree-icon:before {
-    font-size: 16px;
+    font-size: var(--LabelFontSize);
 }
 
 .jstree-open > .jstree-wholerow {
@@ -1153,21 +854,18 @@ fieldset > .RichTextHolder {
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
-    background-color: #c4cdfa;
     background-color: var(--colHoverLight);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow {
-    background-color: #f7f7f9;
     background-color: var(--colBGLight);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused >.jstree-wholerow-clicked {
-    background-color: #6d83f2;
     background-color: var(--colHoverDark);
 }
 

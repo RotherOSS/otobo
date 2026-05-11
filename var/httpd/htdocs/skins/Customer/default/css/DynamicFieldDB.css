@@ -93,8 +93,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .DynamicFieldDB + a {
     display: inline-block;
-    position: relative;
-    left: -54px;
+    position: absolute;
     width: 14px;
 }
 
@@ -106,9 +105,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     left: -78px;
 }
 
+/*
 .DynamicFieldDB ~ label {
     left: calc( -100% + 2px );
 }
+*/
 
 .DynamicFieldDB[readonly] ~ label {
     left: calc( -100% + 24px );
