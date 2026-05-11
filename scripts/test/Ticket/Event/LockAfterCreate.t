@@ -58,13 +58,13 @@ $Success = $ConfigObject->Set(
     Key   => 'CheckMXRecord',
     Value => 0,
 );
-ok( $Success, "Disabled CheckMXRecord" );
+ok( $Success, 'Disabled CheckMXRecord' );
 
 $Success = $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-ok( $Success, "Disabled CheckEmailAddress" );
+ok( $Success, 'Disabled CheckEmailAddresses' );
 
 # Enable lock after create event.
 $Success = $ConfigObject->Set(
