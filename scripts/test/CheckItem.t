@@ -377,6 +377,46 @@ my @StringCleainTests = (
         Params => {},
         Result => 'aúz',
     },
+
+    # Tests with non-latin1 white space
+    {
+        Line   => __LINE__,
+        String => "$IdeographicSpace IdeographicSpace $IdeographicSpace",
+        Params => {
+            TrimLeft  => 0,
+            TrimRight => 0,
+        },
+        Result => "$IdeographicSpace IdeographicSpace $IdeographicSpace",
+    },
+    {
+        Line   => __LINE__,
+        String => "$IdeographicSpace IdeographicSpace $IdeographicSpace",
+        Params => {
+            TrimLeft  => 1,
+            TrimRight => 0,
+        },
+        Result => "IdeographicSpace $IdeographicSpace",
+    },
+    {
+        Line   => __LINE__,
+        String => "$IdeographicSpace IdeographicSpace $IdeographicSpace",
+        Params => {
+            TrimLeft  => 0,
+            TrimRight => 1,
+        },
+        Result => "$IdeographicSpace IdeographicSpace",
+    },
+    {
+        Line   => __LINE__,
+        String => "$IdeographicSpace Ideographic $IdeographicSpace Space $IdeographicSpace",
+        Params => {
+            TrimLeft        => 0,
+            TrimRight       => 0,
+            RemoveAllSpaces => 1,
+        },
+        Result => "${IdeographicSpace}Ideographic${IdeographicSpace}Space${IdeographicSpace}",
+    },
+
 );
 
 for my $Test (@StringCleainTests) {

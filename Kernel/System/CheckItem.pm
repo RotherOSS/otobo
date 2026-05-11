@@ -50,9 +50,8 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # allocate new hash for object
     return bless {}, $Type;
 }
 
@@ -247,7 +246,8 @@ sub CheckEmail {
 
 =head2 StringClean()
 
-clean a given string
+clean a given string. Per default left and right white space is trimmed.
+The exact way how white space is handled can be specified by the options.
 
     my $StringRef = $CheckItemObject->StringClean(
         StringRef         => \'String',
@@ -257,6 +257,10 @@ clean a given string
         RemoveAllTabs     => 1,  # (optional) default 0
         RemoveAllSpaces   => 1,  # (optional) default 0
     );
+
+Note the the options C<TrimLeft> and C<TrimRight> also remove non-ASCII whitespace
+like C<U+03000 IDEOGRAPHIC SPACE>. The other options only remove the characters
+that are in the ASCII range.
 
 =cut
 
