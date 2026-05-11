@@ -43,7 +43,7 @@ $ConfigObject->Set(
 );
 
 # email address checks
-my @Tests = (
+my @CheckEmailTests = (
 
     # Invalid
     {
@@ -199,7 +199,7 @@ my @Tests = (
 
 );
 
-for my $Test (@Tests) {
+for my $Test (@CheckEmailTests) {
 
     # check address
     my $Valid = $CheckItemObject->CheckEmail( Address => $Test->{Email} );
@@ -434,96 +434,7 @@ for my $Test (@StringCleainTests) {
     is(
         ${$StringRef},
         $Test->{Result},
-        "TrimTest - line $Test->{Line}",
-    );
-}
-
-# credit card tests
-@Tests = (
-    {
-        String => '4111 1111 1111 1111',
-        Found  => 1,
-        Result => '4111 XXXX XXXX 1111',
-    },
-    {
-        String => '4111+1111+1111+1111',
-        Found  => 1,
-        Result => '4111+XXXX+XXXX+1111',
-    },
-    {
-        String => '-4111+1111+1111+1111-',
-        Found  => 1,
-        Result => '-4111+XXXX+XXXX+1111-',
-    },
-    {
-        String => '-4111+1111+1111+11-',
-        Found  => 0,
-        Result => '-4111+1111+1111+11-',
-    },
-    {
-        String => '6011.0000/0000.0004',
-        Found  => 1,
-        Result => '6011.XXXX/XXXX.0004',
-    },
-    {
-        String => '3400/0000/0000/009',
-        Found  => 1,
-        Result => '3400/XXXX/XXXX/009',
-    },
-    {
-        String => '#5500.00000000.0004',
-        Found  => 1,
-        Result => '#5500.XXXXXXXX.0004',
-    },
-    {
-        String => '#5500.00000000.0004.',
-        Found  => 1,
-        Result => '#5500.XXXXXXXX.0004.',
-    },
-    {
-        String => "#5500.00000000.0004\n",
-        Found  => 1,
-        Result => "#5500.XXXXXXXX.0004\n",
-    },
-    {
-        String => ":5500.00000000.0004\n",
-        Found  => 1,
-        Result => ":5500.XXXXXXXX.0004\n",
-    },
-    {
-        String => "(5500.00000000.0004)\n",
-        Found  => 1,
-        Result => "(5500.XXXXXXXX.0004)\n",
-    },
-    {
-        String => '#5500.00000000.00045.',
-        Found  => 0,
-        Result => '#5500.00000000.00045.',
-    },
-    {
-        String => 'A5500.00000000.00045.',
-        Found  => 0,
-        Result => 'A5500.00000000.00045.',
-    },
-);
-for my $Test (@Tests) {
-
-    # copy string to leave the original untouched
-    my $String = $Test->{String};
-
-    # start string preparation
-    my ( $StringRef, $Found ) = $CheckItemObject->CreditCardClean( StringRef => \$String );
-
-    # check result
-    is(
-        $Found,
-        $Test->{Found},
-        'CreditCardClean - Found',
-    );
-    is(
-        ${$StringRef},
-        $Test->{Result},
-        'CreditCardClean - String',
+        "StringClean - line $Test->{Line}",
     );
 }
 

@@ -258,7 +258,7 @@ The exact way how white space is handled can be specified by the options.
         RemoveAllSpaces   => 1,  # (optional) default 0
     );
 
-Note the the options C<TrimLeft> and C<TrimRight> also remove non-ASCII whitespace
+Note that the options C<TrimLeft> and C<TrimRight> also remove non-ASCII whitespace
 like C<U+03000 IDEOGRAPHIC SPACE>. The other options only remove the characters
 that are in the ASCII range.
 
@@ -308,43 +308,6 @@ sub StringClean {
     }
 
     return $Param{StringRef};
-}
-
-=head2 CreditCardClean()
-
-clean a given string and remove credit card
-
-    my ($StringRef, $Found) = $CheckItemObject->CreditCardClean(
-        StringRef => \'String',
-    );
-
-=cut
-
-sub CreditCardClean {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need a scalar reference!'
-        );
-        return;
-    }
-
-    return ( $Param{StringRef}, 0 ) if ${ $Param{StringRef} } eq '';
-    return ( $Param{StringRef}, 0 ) if !defined ${ $Param{StringRef} };
-
-    # strip credit card numbers
-    my $Count = 0;
-    ${ $Param{StringRef} } =~ s{
-        \b(\d{4})(\s|\.|\+|_|-|\\|/)(\d{4})(\s|\.|\+|_|-|\\|/|)(\d{4})(\s|\.|\+|_|-|\\|/)(\d{3,4})\b
-    }
-    {
-        $Count++;
-        "$1$2XXXX$4XXXX$6$7";
-    }egx;
-
-    return $Param{StringRef}, $Count;
 }
 
 1;
