@@ -354,16 +354,25 @@ Fifth Line',
         Result => 'abce',
         Name   => 'ToAscii - <style/> (no whitespaces) removal'
     },
+
+    # Some test cases involving a smiley outside the basic multilingual plane.
+    # There have been cases where the original source was encoded in UTF-16
+    # and the surrogate pairs have been incorrectly
+    # transcribed as two numeric entities where a single entity would have been warranted.
+    #   $ uni -8 😁
+    #   😁 - U+1F601 - F0 9F 98 81 - GRINNING FACE WITH SMILING EYES
     {
+        # encoded as surrogate pair
         Line   => __LINE__,
         Input  => '&#55357;&#56833;',
-        Result => '&#55357;&#56833;',
+        Result => '😁',
         Name   => 'Incorrectly encoded GRINNING FACE WITH SMILING EYES (decimal)'
     },
     {
+        # encoded as surrogate pair
         Line   => __LINE__,
         Input  => '&#xD83D;&#xDE01;',
-        Result => '&#xD83D;&#xDE01;',
+        Result => '😁',
         Name   => 'Incorrectly encoded GRINNING FACE WITH SMILING EYES (hex)'
     },
     {
@@ -378,6 +387,7 @@ Fifth Line',
         Result => '😁',
         Name   => 'Correctly encoded GRINNING FACE WITH SMILING EYES (hex)',
     },
+
     {
         Line   => __LINE__,
         Input  => '&#252;',
