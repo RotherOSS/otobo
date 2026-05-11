@@ -510,6 +510,20 @@ my @NeededModules = (
         },
     },
     {
+        # This distro is needed because it provides HTML::Entities.
+        # It is also used by LWP::UserAgent.
+        Module          => 'HTML::Parser',
+        Required        => 1,
+        VersionRequired => '3.75',                                                 #  Version 3.75, 2020-08-30, is packaged in Debian 11 (Bullseye)
+        Comment         => 'provides HTML::Entities for decoding HTML entities',
+        InstTypes       => {
+            aptget => 'libhtml-parser-perl',
+            emerge => 'dev-perl/HTML-Parser',
+            zypper => 'perl-HTML-Parser',
+            ports  => 'p5-HTML-Parser',
+        },
+    },
+    {
         Module          => 'HTTP::Message',
         Required        => 1,
         VersionRequired => '>= 6.18',

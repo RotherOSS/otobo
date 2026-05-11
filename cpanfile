@@ -36,6 +36,9 @@ requires 'Digest::SHA';
 
 requires 'File::chmod';
 
+# provides HTML::Entities for decoding HTML entities
+requires 'HTML::Parser', '3.75';
+
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';
 
