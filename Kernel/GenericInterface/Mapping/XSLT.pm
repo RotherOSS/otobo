@@ -346,13 +346,15 @@ sub Map {
         );
     }
 
+    my $EnableExtendedXSLTMappingAttributes = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Mapping::EnableExtendedXSLTMappingAttributes');
+
     # Convert data back to Perl structure.
     my $ReturnData = eval {
         $XMLSimple->XMLin(
             $XMLPost,
             ForceArray => 0,
             ContentKey => '-content',
-            NoAttr     => 1,
+            NoAttr     => $EnableExtendedXSLTMappingAttributes ? 0 : 1,
             KeyAttr    => [],
 
             # from XML to JSON map empty and undef values to '' instead of {}
@@ -366,6 +368,24 @@ sub Map {
                 Message => $@,
                 XMLIn   => $XMLPost,
             },
+        );
+    }
+
+    # typify tree structure if 'otoboType' attrs have been used in XSLT
+    if ( $EnableExtendedXSLTMappingAttributes && $XMLPost =~ /otoboXslType=/ ) {
+
+        $Self->{DebuggerObject}->Debug(
+            Summary => 'XML after mapping',
+            Data    => $XMLPost,
+        );
+
+        $ReturnData = $Self->_ReduceTypedTreeData(
+            Data => $ReturnData
+        );
+
+        $Self->{DebuggerObject}->Debug(
+            Summary => 'Returned data structure with type reduction applied',
+            Data    => $ReturnData,
         );
     }
 
@@ -402,6 +422,129 @@ sub Map {
         Success => 1,
         Data    => $ReturnData,
     };
+}
+
+sub _ReduceTypedTreeData {
+    my ( $Self, %Param ) = @_;
+
+    my $Data     = $Param{Data};
+    my $TypeHint = $Param{TypeHint};
+
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    my $Result;
+
+    # hashes could contain a type discriminator ('otoboXslType')
+    if ( ref $Data eq 'HASH' ) {
+
+        # if hash contains a type discriminator ('otoboXslType')
+        if ( exists $Data->{otoboXslType} ) {
+
+            my $OtoboType = $Data->{otoboXslType};
+            my $Content   = $Data->{content};
+
+            if ( $OtoboType =~ 'array' && ref $Content ne 'ARRAY' ) {
+
+                # wrap content in an array as requested
+                $Result = [
+                    $Self->_ReduceTypedTreeData(
+                        Data     => $Content,
+                        TypeHint => $OtoboType
+                    )
+                ];
+            }
+            else {
+
+                # either single element, or already is an Array
+                # so just reduce
+                $Result = $Self->_ReduceTypedTreeData(
+                    Data     => $Content,
+                    TypeHint => $OtoboType
+                );
+            }
+        }
+        else {
+
+            # this is a plain hash. walk the items and reduce it further
+            $Result = {};
+            for my $Key ( keys $Data->%* ) {
+                $Result->{$Key} = $Self->_ReduceTypedTreeData(
+                    Data     => $Data->{$Key},
+                    TypeHint => $TypeHint
+                );
+            }
+        }
+    }
+
+    # arrays won't contain a type discrimator, but their items could
+    elsif ( ref $Data eq 'ARRAY' ) {
+
+        my @Array;
+        for my $Item ( $Data->@* ) {
+
+            # if array item is a hash with otoboType discriminator
+            if ( ref $Item eq 'HASH' && exists $Item->{otoboXslType} ) {
+
+                push @Array, $Self->_ReduceTypedTreeData(
+                    Data     => $Item->{content},
+                    TypeHint => $Item->{otoboXslType}
+                );
+            }
+
+            # plain array item otherwise, just reduce it
+            else {
+
+                push @Array, $Self->_ReduceTypedTreeData(
+                    Data     => $Item,
+                    TypeHint => $TypeHint
+                );
+            }
+        }
+        $Result = \@Array;
+    }
+
+    # not an array or hash, but a typehint exist from parent element
+    elsif ($TypeHint) {
+
+        if ( $TypeHint =~ 'bool' ) {
+
+            # captures undef, 0, '0', and the string 'false' (case-insensitive)
+            if ( !$Data || ( lc($Data) eq 'false' ) ) {
+
+                $Result = $JSONObject->False;
+            }
+
+            # otherwise assume value of true
+            else {
+
+                $Result = $JSONObject->True;
+            }
+        }
+        elsif ( $TypeHint =~ 'int' ) {
+
+            # force integer representation
+            $Result = int($Data);
+        }
+        elsif ( $TypeHint =~ 'float' ) {
+
+            # force floating point represnation
+            $Result = $Data ? 0.0 + $Data : 0.0;
+        }
+        else {
+
+            # copy value as is
+            $Result = $Data;
+        }
+    }
+
+    # not an array or hash, and no typehint avail
+    else {
+
+        # copy value as is
+        $Result = $Data;
+    }
+
+    return $Result;
 }
 
 sub _RegExRecursion {
