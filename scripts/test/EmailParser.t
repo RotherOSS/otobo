@@ -203,8 +203,8 @@ subtest 'PostMaster-Test4.box' => sub {
             # Non-characters, https://en.wikipedia.org/wiki/Universal_Character_Set_characters#Noncharacters
             # non-characters are decoded to the replacement character U+FFFD
             "Test10:\x{FFFD}",    # Test10:&#xFDD0;
-            "Test11:\x{FFFD}",    # Test11:&#xFFFE;
-            "Test12:\x{FFFD}",    # Test12:&#xFFFF;
+            "Test11:&#xFFFE;",    # Test11:&#xFFFE;
+            "Test12:&#xFFFF;",    # Test12:&#xFFFF;
             "Test13:\x{FFFD}",    # Test13:&#x10FFFE;
             "Test14:\x{FFFD}",    # Test14:&#x10FFFF;
         );
