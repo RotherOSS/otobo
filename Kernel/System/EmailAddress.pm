@@ -201,4 +201,45 @@ sub GetRealname {
     return $Realname;
 }
 
+=head2 Format()
+
+Format a Mail::Address object or an address given as a string.
+
+    my $FormattedAddress = $EmailAddressObject->Format(
+        AddressObject => Mail::Address->new(
+            'Erna Extremtesterin',
+            'extremerna@testanything.org'
+            'extreme testing is good'
+        );
+    );
+
+or
+
+    my $FormattedAddress = $EmailAddressObject->Format(
+        Email => 'dummy <dummy@testanything.org>,   Erna Extremtesterin     <extremerna@testanything.org>   (extreme testing is good) ',
+        ),
+
+Both variants return:
+
+    $FormattedAddress = 'Erna Extremtesterin <extremerna@testanything.org> (extreme testing is good)'
+
+=cut
+
+sub Format {
+    my ( $Self, %Param ) = @_;
+
+    # The parameter AddressObject has precedence
+    if ( exists $Param{AddressObject} ) {
+        return $Param{AddressObject}->format;
+    }
+
+    my $FormattedAddress = '';
+
+    for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+        $FormattedAddress = $EmailSplit->format;
+    }
+
+    return $FormattedAddress;
+}
+
 1;
