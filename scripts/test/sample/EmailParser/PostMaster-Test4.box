@@ -29,4 +29,16 @@ Test4:&amp;
 <br>
 Test5:&#x3d;
 
+<h1>From the special character set, see https://en.wikipedia.org/wiki/Universal_Character_Set_characters#Noncharacters
+<br>
+Test10:&#xFDD0;
+<br>
+Test11:&#xFFFE;
+<br>
+Test12:&#xFFFF;
+<br>
+Test13:&#x10FFFE;
+<br>
+Test14:&#x10FFFF;
+
 </html>
