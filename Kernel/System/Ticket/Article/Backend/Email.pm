@@ -548,7 +548,7 @@ sub SendAutoResponse {
             AddressObject    => $AddressObject,
             ValidateAtSymbol => 1,
         );
-        my $Address = $AddressObject->format;
+        my $Address = $EmailAddressObject->Format( AddressObject => $AddressObject );
         if ( !$Email ) {
 
             # add it to ticket history

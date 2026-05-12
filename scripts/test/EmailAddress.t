@@ -235,4 +235,33 @@ subtest 'GetRealname()' => sub {
     );
 };
 
+subtest 'Format()' => sub {
+
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
+    my $AddressObject = Mail::Address->new(
+        'Erna Extremtesterin',
+        'extremerna@testanything.org',
+        'extreme testing is good',
+    );
+    my $FormattedAddress = $EmailAddressObject->Format(
+        AddressObject => $AddressObject,
+    );
+
+    is(
+        $FormattedAddress,
+        'Erna Extremtesterin <extremerna@testanything.org> (extreme testing is good)',
+        'Format phrase, address, and comment'
+    );
+
+    is(
+        $EmailAddressObject->Format(
+            Email => 'dummy <dummy@testanything.org>,  Erna Extremtesterin     <extremerna@testanything.org>   ',
+        ),
+        'Erna Extremtesterin <extremerna@testanything.org>',
+        'last address in address list',
+    );
+
+};
+
 done_testing;
