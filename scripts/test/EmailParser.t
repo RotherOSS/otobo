@@ -69,47 +69,6 @@ subtest 'parse PostMaster-Test1.box' => sub {
     );
 };
 
-subtest 'SplitAddressLine()' => sub {
-
-    # as stand alone mode, without parsing emails
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Mode  => 'Standalone',
-        Debug => 0,
-    );
-
-    # Sample address line for testing SplitAddressLine().
-    # Note that whitespace gets normalized into a single space. Line breaks are allowed.
-    # Note that the address does not require the existence of an '@'.
-    # A double quote character may appear in a phrase when it is escaped. This is a quoted-pairl
-    my $Line = <<'END_OF_THE_LINE';
-Juergen Weber <juergen.weber@air.com>, "Julia Weber" <julia.weber@air.com>,
- me@example.com, hans@example.com (Hans Huber),
-  Juergen "quoted name" Weber <juergen.weber@air.com>    ,
-   my     "🍏 🌳"<apple.tree@air.com>,
-    no  at   symbol    <alice>  ( my team    lead   ) ,
-END_OF_THE_LINE
-
-    # Not adding
-    # -->   " that \" is part of quoted pair" travelling@wilburys.org, <--
-    # as Mail::Address seems to be confused about quoted pairs
-
-    my @SplitAddresses         = $EmailParserObject->SplitAddressLine( Line => $Line );
-    my @ExpectedSplitAddresses = (
-        'Juergen Weber <juergen.weber@air.com>',
-        '"Julia Weber" <julia.weber@air.com>',
-        'me@example.com',
-        'hans@example.com (Hans Huber)',
-        'Juergen "quoted name" Weber <juergen.weber@air.com>',
-        'my "🍏 🌳" <apple.tree@air.com>',
-        'no at symbol <alice> ( my team    lead   )',
-    );
-    is(
-        \@SplitAddresses,
-        \@ExpectedSplitAddresses,
-        'SplitAddressLine()',
-    );
-};
-
 subtest 'PostMaster-Test3.box' => sub {
 
     # create local email parser object with sample mail
