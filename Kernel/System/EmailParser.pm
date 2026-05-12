@@ -265,31 +265,6 @@ sub GetParam {
     return $ReturnLine;
 }
 
-=head2 SplitAddressLine()
-
-To get an array of email addresses of an To, Cc or Bcc line back.
-This method is similar to C<ParseAddressLine()> but instead of objects the formatted objects are returned.
-
-    my @Addresses = $ParserObject->SplitAddressLine(
-        Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
-    );
-
-This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
-
-This method can be used in standalone mode. It is recommended to switch to C<ParseAddressLine()>.
-
-=cut
-
-sub SplitAddressLine {
-    my ( $Self, %Param ) = @_;
-
-    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-
-    return
-        map { $_->format }
-        $EmailAddressObject->ParseAddressLine( Line => $Param{Line} );
-}
-
 =head2 GetContentType()
 
 Returns the message body content type.
