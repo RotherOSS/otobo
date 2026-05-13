@@ -598,17 +598,12 @@ sub Send {
 
     # get recipients
     my @ToArray;
-    my $To = '';    # only used for logging
-
     RECIPIENT:
     for my $Recipient (qw(To Cc Bcc)) {
-        next RECIPIENT if !$Param{$Recipient};
+        next RECIPIENT unless $Param{$Recipient};
+
         for my $Email ( Mail::Address->parse( $Param{$Recipient} ) ) {
-            push( @ToArray, $Email->address() );
-            if ($To) {
-                $To .= ', ';
-            }
-            $To .= $Email->address();
+            push @ToArray, $Email->address;
         }
     }
 
@@ -616,8 +611,10 @@ sub Send {
     my $SendmailBcc = $ConfigObject->Get('SendmailBcc');
     if ($SendmailBcc) {
         push @ToArray, $SendmailBcc;
-        $To .= ', ' . $SendmailBcc;
     }
+
+    # comma separated list used for logging and error messages
+    my $To = join ', ', @ToArray;
 
     # set envelope sender for replies
     my $RealFrom = $ConfigObject->Get('SendmailEnvelopeFrom') || '';
