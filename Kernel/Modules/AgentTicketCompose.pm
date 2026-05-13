@@ -563,14 +563,15 @@ sub Run {
         # check some values
         LINE:
         for my $Line (qw(To Cc Bcc)) {
-            next LINE if !$GetParam{$Line};
+            next LINE unless $GetParam{$Line};
+
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Line} ) ) {
                 if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                     $Error{ $Line . 'Invalid' }   = 'ServerError';
                 }
                 my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                    Address => $Email->address()
+                    AddressObject => $Email,
                 );
                 if ($IsLocal) {
                     $Error{ $Line . 'IsLocalAddress' } = 'ServerError';
@@ -1798,7 +1799,7 @@ sub Run {
         # add not local To addresses to Cc
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Data{To} ) ) {
             my $IsLocal = $SystemAddress->SystemAddressIsLocalAddress(
-                Address => $Email->address(),
+                AddressObject => $Email,
             );
             if ( !$IsLocal ) {
                 if ( $Data{Cc} ) {

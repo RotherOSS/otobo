@@ -412,7 +412,7 @@ sub Run {
                     $Error{ $Line . 'Invalid' }   = 'ServerError';
                 }
                 my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                    Address => $Email->address()
+                    AddressObject => $Email,
                 );
                 if ($IsLocal) {
                     $Error{ $Line . 'IsLocalAddress' } = 'ServerError';
