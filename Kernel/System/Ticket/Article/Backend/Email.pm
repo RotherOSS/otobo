@@ -24,7 +24,7 @@ use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 # core modules
 
 # CPAN modules
-use Mail::Address ();
+use Email::Address::XS ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -666,7 +666,7 @@ sub SendAutoResponse {
 
     # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
-    my $From = Mail::Address->new( $AutoResponse{SenderRealname}, $AutoResponse{SenderAddress} );
+    my $From = Email::Address::XS->new( $AutoResponse{SenderRealname}, $AutoResponse{SenderAddress} );
 
     # send email
     my $ArticleID = $Self->ArticleSend(

@@ -24,7 +24,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Mail::Address 2.18 ();
+use Email::Address::XS 1.04 ();
 
 # OTOBO modules
 
@@ -37,9 +37,9 @@ Kernel::System::EmailAddress - parse address lists and provide methods for worki
 
 =head1 DESCRIPTION
 
-The method C<ParseAddressLine()> returns an array of C<Mail::Address> objects.
+The method C<ParseAddressLine()> returns an array of C<Email::Address::XS> objects.
 
-The other methods provide access to these instances of C<Mail::Address>.
+The other methods provide access to these instances of C<Email::Address::XS>.
 
 =head1 PUBLIC INTERFACE
 
@@ -66,10 +66,10 @@ sub new {
         Line => $Email
     );
 
-Wrapper for C<Mail::Address->parse($Line)>, but cache it, since it's
+Wrapper for C<Email::Address::XS->parse($Line)>, but cache it, since it's
 not too fast, and often called.
 
-Returns an array of C<Mail::Address> objects.
+Returns an array of C<Email::Address::XS> objects.
 
 =cut
 
@@ -81,7 +81,7 @@ sub ParseAddressLine {
 
     return $Cache->{$Line}->@* if $Cache->{$Line};
 
-    my @AddressObjects = Mail::Address->parse($Line);
+    my @AddressObjects = Email::Address::XS->parse($Line);
     $Cache->{$Line} = \@AddressObjects;
 
     return @AddressObjects;
@@ -97,7 +97,7 @@ extracts the bare address from a complete email address. Only a single email add
 
 or
 
-    my $AddressObject = Mail::Address->new(
+    my $AddressObject = Email::Address::XS->new(
         'August Ausprobierer',
         'gustl@testanything.org'
     );
@@ -158,7 +158,7 @@ extract the C<RealName>, that is the phrase, from a complete email address. Only
 
 or
 
-    my $AddressObject = Mail::Address->new(
+    my $AddressObject = Email::Address::XS->new(
         'Erna Extremtesterin',
         'extremerna@testanything.org'
     );
@@ -180,7 +180,7 @@ sub GetRealname {
         return $Param{AddressObject}->phrase;
     }
 
-    # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
+    # find "NamePart, NamePart" <some@example.com> (get not recognized by Email::Address::XS)
     if ( $Param{Email} =~ /"(.+?)"\s+?\<.+?@.+?\..+?\>/ ) {
         my $Realname = $1;
 
@@ -191,7 +191,7 @@ sub GetRealname {
         return $Realname;
     }
 
-    # fallback to Mail::Address
+    # fallback to Email::Address::XS
     # The real name of the last address is returned, but note that usually only a single address is passed
     my $Realname;
     for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
@@ -203,10 +203,10 @@ sub GetRealname {
 
 =head2 Format()
 
-Format a Mail::Address object or an address given as a string.
+Format a Email::Address::XS object or an address given as a string.
 
     my $FormattedAddress = $EmailAddressObject->Format(
-        AddressObject => Mail::Address->new(
+        AddressObject => Email::Address::XS->new(
             'Erna Extremtesterin',
             'extremerna@testanything.org'
             'extreme testing is good'
@@ -236,7 +236,7 @@ sub Format {
     my $FormattedAddress = '';
 
     for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
-        $FormattedAddress = $EmailSplit->format;
+        $FormattedAddress = $EmailSplit->format // '';
     }
 
     return $FormattedAddress;

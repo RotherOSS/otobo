@@ -131,7 +131,7 @@ sub CheckEmail {
     #
     # The address, e.g. q{Philipp Weber <p.weber@air.com> (Philipp)}. must exist.
     # The address part must conform to RFC822, checked with a regexp.
-    # The address must be parsable by Mail::Address.
+    # The address must be parsable by Email::Address::XS.
     # The address part, e.g. q{p.weber@air.com}, may be up to 254 characters long.
     # The user part, e.g. q{p.weber}, may be up to 64 characters long.
     # Domain literals, like in peter@[10.11.12.13], are allowed.

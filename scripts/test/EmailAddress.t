@@ -22,6 +22,8 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Email::Address::XS ();
+use Mail::Address      ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -44,65 +46,80 @@ END_OF_THE_LINE
 
     # Not adding
     # -->   " that \" is part of quoted pair" travelling@wilburys.org, <--
-    # as Mail::Address seems to be confused about quoted pairs
+    # as Email::Address::XS seems to be confused about quoted pairs
 
     my @MailAddressObjects         = $EmailAddressObject->ParseAddressLine( Line => $Line );
     my @ExpectedMailAddressObjects = (
         bless(
-            [
-                'Juergen Weber',
-                'juergen.weber@air.com',
-                ''
-            ],
-            'Mail::Address'
+            {
+                comment  => undef,
+                host     => "air.com",
+                original => "Juergen Weber <juergen.weber\@air.com>",
+                phrase   => "Juergen Weber",
+                user     => "juergen.weber",
+            },
+            "Email::Address::XS"
         ),
         bless(
-            [
-                '"Julia Weber"',
-                'julia.weber@air.com',
-                ''
-            ],
-            'Mail::Address'
+            {
+                comment  => undef,
+                host     => "air.com",
+                original => "\"Julia Weber\" <julia.weber\@air.com>",
+                phrase   => "Julia Weber",
+                user     => "julia.weber",
+            },
+            "Email::Address::XS"
         ),
         bless(
-            [
-                '',
-                'me@example.com',
-                ''
-            ],
-            'Mail::Address'
+            {
+                comment  => undef,
+                host     => "example.com",
+                original => "me\@example.com",
+                phrase   => undef,
+                user     => "me",
+            },
+            "Email::Address::XS"
         ),
         bless(
-            [
-                '',
-                'hans@example.com',
-                '(Hans Huber)'
-            ],
-            'Mail::Address'
+            {
+                comment  => "Hans Huber",
+                host     => "example.com",
+                original => "hans\@example.com (Hans Huber)",
+                phrase   => undef,
+                user     => "hans",
+            },
+            "Email::Address::XS"
         ),
         bless(
-            [
-                'Juergen "quoted name" Weber',
-                'juergen.weber@air.com',
-                ''
-            ],
-            'Mail::Address'
+            {
+                comment  => undef,
+                host     => "air.com",
+                original => "Juergen \"quoted name\" Weber <juergen.weber\@air.com>    ",
+                phrase   => "Juergen quoted name Weber",
+                user     => "juergen.weber",
+            },
+            "Email::Address::XS"
         ),
         bless(
-            [
-                "my \"\x{1f34f} \x{1f333}\"",
-                'apple.tree@air.com',
-                ''
-            ],
-            'Mail::Address'
+            {
+                comment  => undef,
+                host     => "air.com",
+                original => "my     \"\x{1F34F} \x{1F333}\"<apple.tree\@air.com>",
+                phrase   => "my \x{1F34F} \x{1F333}",
+                user     => "apple.tree",
+            },
+            "Email::Address::XS"
         ),
         bless(
-            [
-                "no at symbol",
-                'alice',
-                '( my team    lead   )'
-            ],
-            'Mail::Address'
+            {
+                comment  => " my team    lead   ",
+                host     => undef,
+                invalid  => 1,
+                original => "no  at   symbol    <alice>  ( my team    lead   ) ",
+                phrase   => "no at symbol",
+                user     => "alice",
+            },
+            "Email::Address::XS"
         ),
     );
     is(
@@ -165,25 +182,25 @@ subtest 'GetAddress()' => sub {
         $EmailAddressObject->GetAddress(
             Email => 'oil and <water> (do not mix)',
         ),
-        'water',
+        undef,
         'address without @, without ValidateAtSymbol',
     );
 
     is(
         $EmailAddressObject->GetAddress(
-            AddressObject => Mail::Address->new(
+            AddressObject => Email::Address::XS->new(
                 'August Ausprobierer',
                 'gustl@testanything.org'
             ),
             ValidateAtSymbol => 1,
         ),
         'gustl@testanything.org',
-        'with an instance of Mail::Address'
+        'with an instance of Email::Address::XS'
     );
 
     is(
         $EmailAddressObject->GetAddress(
-            AddressObject => Mail::Address->new(
+            AddressObject => Email::Address::XS->new(
                 'oil and',
                 'water',
                 'do not mix',
@@ -191,19 +208,19 @@ subtest 'GetAddress()' => sub {
             ValidateAtSymbol => 1,
         ),
         undef,
-        'instance of Mail::Address, address without @, with ValidateAtSymbol'
+        'instance of Email::Address::XS, address without @, with ValidateAtSymbol'
     );
 
     is(
         $EmailAddressObject->GetAddress(
-            AddressObject => Mail::Address->new(
+            AddressObject => Email::Address::XS->new(
                 'oil and',
                 'water',
                 'do not mix',
             ),
         ),
-        'water',
-        'instance of Mail::Address, address without @, without ValidateAtSymbol'
+        undef,
+        'instance of Email::Address::XS, address without @, without ValidateAtSymbol'
     );
 };
 
@@ -225,13 +242,13 @@ subtest 'GetRealname()' => sub {
 
     is(
         $EmailAddressObject->GetRealname(
-            AddressObject => Mail::Address->new(
+            AddressObject => Email::Address::XS->new(
                 'Erna Extremtesterin',
                 'extremerna@testanything.org'
             ),
         ),
         'Erna Extremtesterin',
-        'with an instance of Mail::Address'
+        'with an instance of Email::Address::XS'
     );
 };
 
@@ -239,7 +256,7 @@ subtest 'Format()' => sub {
 
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    my $AddressObject = Mail::Address->new(
+    my $AddressObject = Email::Address::XS->new(
         'Erna Extremtesterin',
         'extremerna@testanything.org',
         'extreme testing is good',
@@ -247,10 +264,9 @@ subtest 'Format()' => sub {
     my $FormattedAddress = $EmailAddressObject->Format(
         AddressObject => $AddressObject,
     );
-
     is(
         $FormattedAddress,
-        'Erna Extremtesterin <extremerna@testanything.org> (extreme testing is good)',
+        '"Erna Extremtesterin" <extremerna@testanything.org> (extreme testing is good)',
         'Format phrase, address, and comment'
     );
 
@@ -258,10 +274,125 @@ subtest 'Format()' => sub {
         $EmailAddressObject->Format(
             Email => 'dummy <dummy@testanything.org>,  Erna Extremtesterin     <extremerna@testanything.org>   ',
         ),
-        'Erna Extremtesterin <extremerna@testanything.org>',
+        '"Erna Extremtesterin" <extremerna@testanything.org>',
         'last address in address list',
     );
 
+    is(
+        $EmailAddressObject->Format(
+            Some => 'Dummy',
+            Para => 'Meter'
+        ),
+        '',
+        'empty string as fallback'
+    );
+
+    is(
+        $EmailAddressObject->Format( Realname => 'Ben 🐛 Bugfinder' ),
+        '',
+        'only the phrase'
+    );
+
+    is(
+        $EmailAddressObject->Format( Address => 'bugfinder@testanything.org' ),
+        'bugfinder@testanything.org',
+        'only the address'
+    );
+
+    is(
+        $EmailAddressObject->Format(
+            Realname => 'Ben 🐛 Bugfinder',
+            Address  => 'bugfinder@testanything.org'
+        ),
+        '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
+        'phrase and address'
+    );
+};
+
+subtest 'Email::Address::XS vs Mail::AddressⅠ' => sub {
+    diag q{Email::Address::XS requires an '@' in the address};
+
+    my $Phrase           = 'August Ausprobierer';
+    my $AddressWithoutAt = 'gustl';
+
+    my $OldObject = Mail::Address->new( $Phrase, $AddressWithoutAt );
+
+    is(
+        $OldObject->phrase,
+        $Phrase,
+        'phrase for Mail::Address'
+    );
+    is(
+        $OldObject->address,
+        $AddressWithoutAt,
+        'Mail::Address accepts no @ in address'
+    );
+    is(
+        $OldObject->format,
+        q{August Ausprobierer <gustl>},
+        'Mail::Address has formatted address without quotes and address without @',
+    );
+
+    my $NewObject = Email::Address::XS->new( $Phrase, $AddressWithoutAt );
+
+    is(
+        $NewObject->phrase,
+        $Phrase,
+        'phrase for Email::Address::XS'
+    );
+    is(
+        $NewObject->address,
+        undef,
+        'Email::Address::XS requires @ in address'
+    );
+    is(
+        $NewObject->format,
+        q{},
+        'Email::Address::XS requires @ in address for the formatted address',
+    );
+};
+
+subtest 'Email::Address::XS vs Mail::Address Ⅱ' => sub {
+    diag 'quotes around phrase with a space';
+
+    my $PhraseWithSpaces = 'Евгений Васильев Новоподзалупинский';
+    my $Address          = 'xxzzyy@gmail.com';
+
+    my $OldObject = Mail::Address->new( $PhraseWithSpaces, $Address );
+
+    is(
+        $OldObject->phrase,
+        $PhraseWithSpaces,
+        'phrase for Mail::Address'
+    );
+    is(
+        $OldObject->address,
+        $Address,
+        'Mail::Address with a regular address'
+    );
+    is(
+        $OldObject->format,
+        q{Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>},
+        'Mail::Address does not add quotes when there are spaces',
+    );
+
+    my $NewObject = Email::Address::XS->new( $PhraseWithSpaces, $Address );
+
+    is(
+        $NewObject->phrase,
+        $PhraseWithSpaces,
+        'phrase for Email::Address::XS'
+    );
+    is(
+        $NewObject->address,
+        $Address,
+        'Email::Address::XS with a regular address'
+    );
+    is(
+        $NewObject->format,
+        q{"Евгений Васильев Новоподзалупинский" <xxzzyy@gmail.com>},
+        'Email::Address::XS adds quotes when there are spaces',
+    );
 };
 
 done_testing;
