@@ -39,6 +39,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -449,19 +450,20 @@ sub ArticleCustomerRecipientsGet {
 
     my $CheckItemObject    = $Kernel::OM->Get('Kernel::System::CheckItem');
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     my @CustomerUserIDs;
 
     EMAIL:
-    for my $Email ( Mail::Address->parse($RecipientEmail) ) {
-        next EMAIL if !$CheckItemObject->CheckEmail( Address => $Email->address() );
+    for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $RecipientEmail ) ) {
+        next EMAIL unless $CheckItemObject->CheckEmail( Address => $Email->address );
 
         # Get single customer user from customer backend based on the email address.
         my %CustomerSearch = $CustomerUserObject->CustomerSearch(
             PostMasterSearch => $Email->address(),
             Limit            => 1,
         );
-        next EMAIL if !%CustomerSearch;
+
+        next EMAIL unless %CustomerSearch;
 
         # Save customer user ID if not already present in the list.
         for my $CustomerUserID ( sort keys %CustomerSearch ) {

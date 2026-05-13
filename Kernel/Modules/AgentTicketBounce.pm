@@ -44,7 +44,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     # check needed stuff
     for my $Needed (qw(ArticleID TicketID QueueID)) {
@@ -374,7 +375,7 @@ $Param{Signature}";
         # get check item object
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-        for my $Email ( Mail::Address->parse( $Param{BounceTo} ) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{BounceTo} ) ) {
             my $Address = $Email->address();
             if ( $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress( Address => $Address ) )
             {
@@ -401,7 +402,7 @@ $Param{Signature}";
             else {
 
                 # check email address(es)
-                for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+                for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{To} ) ) {
                     if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                         my $ToErrorMsg =
                             'To'

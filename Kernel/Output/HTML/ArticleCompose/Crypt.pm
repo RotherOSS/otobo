@@ -16,10 +16,10 @@
 
 package Kernel::Output::HTML::ArticleCompose::Crypt;
 
-use parent 'Kernel::Output::HTML::Base';
-
 use strict;
 use warnings;
+
+use parent 'Kernel::Output::HTML::Base';
 
 # core modules
 
@@ -34,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Crypt::SMIME',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::EmailAddress',
 );
 
 sub Option {
@@ -205,9 +206,10 @@ sub Data {
         }
     }
 
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     my @SearchAddress;
     if ($Recipient) {
-        @SearchAddress = Mail::Address->parse($Recipient);
+        @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Recipient );
     }
 
     # Generate key list.
@@ -364,13 +366,14 @@ sub _CheckRecipient {
     my $MissingKeysFlag;
 
     # Check each recipient type.
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     RECIPIENTTYPE:
     for my $RecipientType (qw(To Cc Bcc)) {
 
         # Get all addresses for each recipient type.
         my @SearchAddress;
         if ( $Param{$RecipientType} ) {
-            @SearchAddress = Mail::Address->parse( $Param{$RecipientType} );
+            @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
         }
 
         # Get all certificates/public keys for each address.
@@ -464,13 +467,15 @@ sub _PickEncryptKeyIDs {
     # Return nothing if encrypt object was not created
     return [] if !$EncryptObject;
 
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
     # Check each recipient type.
     for my $RecipientType (qw(To Cc Bcc)) {
 
         # Get all addresses for each recipient type.
         my @SearchAddress;
         if ( $Param{$RecipientType} ) {
-            @SearchAddress = Mail::Address->parse( $Param{$RecipientType} );
+            @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
         }
 
         ADDRESS:
@@ -559,13 +564,15 @@ sub _GetUniqueEncryptKeyIDsToRemove {
 
     my %UniqueEncryptKeyIDsToRemove;
 
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
     # Check each recipient type.
     for my $RecipientType (qw(To Cc Bcc)) {
 
         # Get all addresses for each recipient type.
         my @SearchAddress;
         if ( $Param{$RecipientType} ) {
-            @SearchAddress = Mail::Address->parse( $Param{$RecipientType} );
+            @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
         }
 
         ADDRESS:

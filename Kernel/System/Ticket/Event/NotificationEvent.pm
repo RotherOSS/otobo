@@ -49,6 +49,7 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::User',
     'Kernel::System::CheckItem',
+    'Kernel::System::EmailAddress',
 );
 
 sub new {
@@ -966,8 +967,9 @@ sub _RecipientsGet {
                 }
 
                 # Loop through recipients.
+                my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
                 EMAIL:
-                for my $Email ( Mail::Address->parse(@TmpRecipients) ) {
+                for my $Email ( $EmailAddressObject->ParseAddressLine( Line => @TmpRecipients ) ) {
 
                     # Skip notification if email address is already used by other groups.
                     next EMAIL if grep { $_ eq $Email->address() } @RecipientUserEmails;

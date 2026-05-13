@@ -3293,12 +3293,12 @@ sub _RenderCustomer {
         && $Self->{LinkArticleData}{SenderType} eq 'customer'
         )
     {
-
-        my @ArticleFromAddress = Mail::Address->parse( $Self->{LinkArticleData}{From} );
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+        my ($ArticleFromAddress) = $EmailAddressObject->ParseAddressLine( Line => $Self->{LinkArticleData}{From} );
 
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
         my %List               = $CustomerUserObject->CustomerSearch(
-            PostMasterSearch => $ArticleFromAddress[0]->address(),
+            PostMasterSearch => $ArticleFromAddress->address(),
             Valid            => 1,
         );
 
@@ -4798,7 +4798,8 @@ sub _StoreActivityDialog {
                 $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerAutoComplete' );
 
                 # check email address
-                for my $Email ( Mail::Address->parse($CustomerUserID) ) {
+                my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+                for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerUserID ) ) {
                     if (
                         !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Email->address() )
                         )
