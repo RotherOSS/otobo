@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.819997019818209;
+    $Self->{Completeness}        = 0.819874851013111;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2500,6 +2500,7 @@ sub Data {
 
         # Template: AdminTicketMask
         'Ticket Mask Management' => '',
+        'Edit mask' => '',
         'Change mask definition' => '',
         'Ticket Mask' => '',
         'Change' => '',
