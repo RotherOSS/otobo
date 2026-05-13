@@ -224,11 +224,7 @@ sub Run {
             if ( $GetParam{To} ) {
                 my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{To} ) ) {
-                    my $Address = $Email->address();
-                    if (
-                        $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress( Address => $Address )
-                        )
-                    {
+                    if ( $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress( AddressObject => $Email ) ) {
                         $LayoutObject->Block( Name => 'ToCustomerGenericServerErrorMsg' );
                         $Error{'ToInvalid'} = 'ServerError';
                     }

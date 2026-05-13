@@ -984,7 +984,7 @@ sub _RecipientsGet {
 
                     # Check if email address is a local.
                     my $IsLocal = $SystemAddressObject->SystemAddressIsLocalAddress(
-                        Address => $Email->address(),
+                        AddressObject => $Email,
                     );
 
                     # Skip local email address.

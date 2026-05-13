@@ -376,15 +376,13 @@ $Param{Signature}";
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{BounceTo} ) ) {
-            my $Address = $Email->address();
-            if ( $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress( Address => $Address ) )
-            {
+            if ( $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress( AddressObject => $Email ) ) {
                 $LayoutObject->Block( Name => 'BounceToCustomerGenericServerErrorMsg' );
                 $Error{'BounceToInvalid'} = 'ServerError';
             }
 
             # check email address
-            elsif ( !$CheckItemObject->CheckEmail( Address => $Address ) ) {
+            elsif ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                 my $BounceToErrorMsg =
                     'BounceTo'
                     . $CheckItemObject->CheckErrorType()

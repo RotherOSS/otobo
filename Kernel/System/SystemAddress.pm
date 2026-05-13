@@ -360,23 +360,46 @@ for local addresses.
         # is not local
     }
 
+Alternatively an instance of Email::Address::XS may be passed. In that case only the bare address is checked.
+
+    my $AddressObject = Email::Address::XS->new(
+        'August Ausprobierer',
+        'gustl@testanything.org'
+    );
+
+    my $IsLocal = $SystemAddressObject->SystemAddressIsLocalAddress(
+        AddressObject => $AddressObject,
+    );
+
 =cut
 
 sub SystemAddressIsLocalAddress {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(Address)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
+    if ( !$Param{Address} && !$Param{AddressObject} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need either Address or AddressObject!'
+        );
+
+        return;
+    }
+    if ( $Param{Address} && $Param{AddressObject} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need only one of Address or AddressObject!'
+        );
+
+        return;
     }
 
-    return $Self->SystemAddressQueueID(%Param);
+    # Traditionally this check is only looking a the bare address
+    my $Address = $Param{Address} // $Param{AddressObject}->address;
+
+    return $Self->SystemAddressQueueID(
+        Address => $Address,
+    );
 }
 
 =head2 SystemAddressQueueID()
