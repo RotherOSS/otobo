@@ -221,7 +221,7 @@ sub Run {
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerError    = '';
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerError = 'ServerError';
@@ -287,7 +287,7 @@ sub Run {
             my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorCc    = '';
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementCc ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerErrorCc = 'ServerError';
@@ -352,7 +352,7 @@ sub Run {
             my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorBcc    = '';
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementBcc ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerErrorBcc = 'ServerError';
@@ -407,7 +407,7 @@ sub Run {
         for my $Line (qw(To Cc Bcc)) {
             next LINE if !$GetParam{$Line};
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Line} ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                     $Error{ $Line . 'Invalid' }   = 'ServerError';
                 }
@@ -451,7 +451,7 @@ sub Run {
         for my $Line (qw(To Cc Bcc)) {
             next LINE if !$GetParam{$Line};
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Line} ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $Error{ $Line . 'Invalid' } = 'ServerError';
                 }
             }
@@ -848,14 +848,14 @@ sub Run {
         for my $Line (qw(To Cc Bcc)) {
             next LINE if !$Data{$Line};
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Data{$Line} ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $Error{ $Line . "Invalid" } = " ServerError";
                 }
             }
         }
         if ( $Data{From} ) {
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Data{From} ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $Error{"FromInvalid"} .= $CheckItemObject->CheckError();
                 }
             }

@@ -403,7 +403,7 @@ $Param{Signature}";
 
                 # check email address(es)
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{To} ) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                         my $ToErrorMsg =
                             'To'
                             . $CheckItemObject->CheckErrorType()

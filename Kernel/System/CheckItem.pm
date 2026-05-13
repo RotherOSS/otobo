@@ -95,17 +95,39 @@ from CheckError()
         Address => 'info@example.com',
     );
 
+The methods also accepts an instance of Email::Address::XS. In this case only the bare address is checked.
+
+    my $AddressObject = Email::Address::XS->new(
+        'August Ausprobierer',
+        'gustl@testanything.org'
+    );
+
+    my $Valid = $CheckItemObject->CheckEmail(
+        AddressObject => $AddressObject,
+    );
+
+No cleanup of the address is done.
+
 =cut
 
 sub CheckEmail {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{Address} ) {
+    # check needed stuff, existence is used here as Email::Address::XS overrides stringification and boolification
+    if ( ( !exists $Param{Address} ) && ( !exists $Param{AddressObject} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need Address!'
+            Message  => 'Need either Address or AddressObject!'
         );
+
+        return;
+    }
+    if ( ( exists $Param{Address} ) && ( exists $Param{AddressObject} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need only one of Address or AddressObject!'
+        );
+
         return;
     }
 
@@ -113,11 +135,14 @@ sub CheckEmail {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # check if it's to do
-    return 1 if !$ConfigObject->Get('CheckEmailAddresses');
+    return 1 unless $ConfigObject->Get('CheckEmailAddresses');
+
+    # Traditionally this check is only looking a the bare address
+    my $Address = exists $Param{Address} ? $Param{Address} : $Param{AddressObject}->address;
 
     # exempt some addresses from further checks
     my $RegExp = $ConfigObject->Get('CheckEmailValidAddress');
-    if ( $RegExp && $Param{Address} =~ /$RegExp/i ) {
+    if ( $RegExp && $Address =~ /$RegExp/i ) {
         return 1;
     }
 
@@ -125,26 +150,28 @@ sub CheckEmail {
 
     # Workaround for https://github.com/Perl-Email-Project/Email-Valid/issues/36:
     # remove comment from address when checking.
-    $Param{Address} =~ s{ \s* \( [^()]* \) \s* $ }{}smxg;
+    if ( $Param{Address} ) {
+        $Address =~ s{ \s* \( [^()]* \) \s* $ }{}smxg;
+    }
 
     # email address syntax check
     #
     # The address, e.g. q{Philipp Weber <p.weber@air.com> (Philipp)}. must exist.
     # The address part must conform to RFC822, checked with a regexp.
-    # The address must be parsable by Email::Address::XS.
+    # The address must be parsable by Mail::Address.
     # The address part, e.g. q{p.weber@air.com}, may be up to 254 characters long.
     # The user part, e.g. q{p.weber}, may be up to 64 characters long.
     # Domain literals, like in peter@[10.11.12.13], are allowed.
     # When the host part is not a domain literal, e.g. q{air.com}, then it must be a fully qualified domain name.
-    if ( !Email::Valid->address( $Param{Address} ) ) {
-        $Error = "Invalid syntax";
+    if ( !Email::Valid->address($Address) ) {
+        $Error = 'Invalid syntax';
         $Self->{ErrorType} = 'InvalidSyntax';
     }
 
     # period (".") may not be used to end the local part,
     # nor may two or more consecutive periods appear
-    elsif ( $Param{Address} =~ /(\.\.)|(\.@)/ ) {
-        $Error = "Invalid syntax";
+    elsif ( $Address =~ /(\.\.)|(\.@)/ ) {
+        $Error = 'Invalid syntax';
         $Self->{ErrorType} = 'InvalidSyntax';
     }
 
@@ -157,7 +184,7 @@ sub CheckEmail {
 
         # get host
         # TODO: use the Mail::Address object returned from Email::Valid
-        my $Host = $Param{Address};
+        my $Host = $Address;
         $Host =~ s/^.*@(.*)$/$1/;
         $Host =~ s/\s+//g;
         $Host =~ s/(^\[)|(\]$)//g;
@@ -228,8 +255,8 @@ sub CheckEmail {
 
         # check special stuff
         my $RegExp = $ConfigObject->Get('CheckEmailInvalidAddress');
-        if ( $RegExp && $Param{Address} =~ /$RegExp/i ) {
-            $Self->{Error}     = "invalid $Param{Address} (config)!";
+        if ( $RegExp && $Address =~ m/$RegExp/i ) {
+            $Self->{Error}     = "invalid $Address (config)!";
             $Self->{ErrorType} = 'InvalidConfig';
             return;
         }
@@ -238,7 +265,7 @@ sub CheckEmail {
     else {
 
         # remember error
-        $Self->{Error} = "invalid $Param{Address} ($Error)! ";
+        $Self->{Error} = "invalid $Address ($Error)! ";
 
         return;
     }

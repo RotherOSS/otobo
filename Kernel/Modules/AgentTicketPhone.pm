@@ -226,7 +226,7 @@ sub Run {
 
             # check email address
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerError = 'ServerError';
@@ -541,9 +541,7 @@ sub Run {
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerDisabled = '';
             my $CustomerSelected = $CountFrom eq '1' ? 'checked ' : '';
-            my $EmailAddress     = $Email->address();
-            if ( !$CheckItemObject->CheckEmail( Address => $EmailAddress ) )
-            {
+            if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                 $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                     . 'ServerErrorMsg';
                 $CustomerError = 'ServerError';
@@ -565,7 +563,8 @@ sub Run {
                 $Phrase = $Email->phrase();
             }
 
-            my $CustomerKey = '';
+            my $CustomerKey  = '';
+            my $EmailAddress = $Email->address();
             if (
                 defined $CustomerDataFrom{UserEmail}
                 && $CustomerDataFrom{UserEmail} eq $EmailAddress
@@ -1402,7 +1401,7 @@ sub Run {
 
         # check email address
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{From} ) ) {
-            if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+            if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                 $Error{ErrorType}   = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                 $Error{FromInvalid} = ' ServerError';
             }

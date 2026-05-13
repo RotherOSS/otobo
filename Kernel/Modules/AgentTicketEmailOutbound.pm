@@ -1164,7 +1164,7 @@ sub SendEmail {
     for my $Line (qw(To Cc Bcc)) {
         next LINE if !$GetParam{$Line};
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Line} ) ) {
-            if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+            if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                 $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                 $Error{ $Line . 'Invalid' }   = 'ServerError';
             }
@@ -2166,7 +2166,7 @@ sub _GetExtendedParams {
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerError    = '';
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerError = 'ServerError';
@@ -2232,7 +2232,7 @@ sub _GetExtendedParams {
             my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorCc    = '';
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementCc ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerErrorCc = 'ServerError';
@@ -2297,7 +2297,7 @@ sub _GetExtendedParams {
             my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorBcc    = '';
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementBcc ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerErrorBcc = 'ServerError';

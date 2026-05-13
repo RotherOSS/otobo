@@ -861,7 +861,7 @@ sub ValidateFrom {
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{From} ) ) {
         return unless $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail(
-            Address => $Email->address()
+            AddressObject => $Email
         );
     }
 

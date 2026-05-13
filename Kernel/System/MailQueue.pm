@@ -1284,7 +1284,7 @@ Returns 1 or undef.
 sub _CheckValidEmailAddresses {
     my ( $Self, %Param ) = @_;
 
-    return 1 if !$Self->{CheckEmailAddresses};
+    return 1 unless $Self->{CheckEmailAddresses};
 
     my $ParamName = $Param{ParamName};
     my $Addresses = $Param{Addresses};

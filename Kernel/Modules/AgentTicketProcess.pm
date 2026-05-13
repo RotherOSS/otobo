@@ -4801,7 +4801,7 @@ sub _StoreActivityDialog {
                 my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerUserID ) ) {
                     if (
-                        !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Email->address() )
+                        !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( AddressObject => $Email )
                         )
                     {
                         $Error{'CustomerUserID'} = 1;
