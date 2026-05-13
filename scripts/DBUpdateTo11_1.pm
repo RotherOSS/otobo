@@ -94,6 +94,10 @@ sub Run {
             Name   => 'Update mail_account table to support OIDC/OAuth2.',
             Module => 'DBUpdateOIDCMail',
         },
+        {
+            Name   => 'Enable Similar Search Widget if ES is activated',
+            Module => 'EnableSimilarSearchWidgetIfESActivated',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
