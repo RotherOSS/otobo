@@ -197,12 +197,32 @@ my @CheckEmailTests = (
         Valid => 1,
     },
 
+    # Tests with Email::Address::XS objects
+    {
+        AddressObject => Email::Address::XS->new(
+            'August Ausprobierer',
+            'gustl@testanything.org'
+        ),
+        Valid => 1,
+    },
+    {
+        AddressObject => Email::Address::XS->new(
+            'oil and',
+            'water',
+            'do not mix',
+        ),
+        Valid => 0,
+    },
 );
 
 for my $Test (@CheckEmailTests) {
 
     # check address
-    my $Valid = $CheckItemObject->CheckEmail( Address => $Test->{Email} );
+    my $Valid = exists $Test->{AddressObject}
+        ?
+        $CheckItemObject->CheckEmail( AddressObject => $Test->{AddressObject} )
+        :
+        $CheckItemObject->CheckEmail( Address => $Test->{Email} );
 
     # execute unit test
     if ( $Test->{Valid} ) {

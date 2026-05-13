@@ -976,7 +976,7 @@ sub _RecipientsGet {
 
                     # Validate email address.
                     my $Valid = $CheckItemObject->CheckEmail(
-                        Address => $Email->address(),
+                        AddressObject => $Email,
                     );
 
                     # Skip invalid.

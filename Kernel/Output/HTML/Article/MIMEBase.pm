@@ -455,7 +455,7 @@ sub ArticleCustomerRecipientsGet {
 
     EMAIL:
     for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $RecipientEmail ) ) {
-        next EMAIL unless $CheckItemObject->CheckEmail( Address => $Email->address );
+        next EMAIL unless $CheckItemObject->CheckEmail( AddressObject => $Email );
 
         # Get single customer user from customer backend based on the email address.
         my %CustomerSearch = $CustomerUserObject->CustomerSearch(

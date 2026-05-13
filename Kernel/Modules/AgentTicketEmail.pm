@@ -233,7 +233,7 @@ sub Run {
 
             # check email address
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) )
                 {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
@@ -296,8 +296,7 @@ sub Run {
 
             # check email address
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementCc ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
-                {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerErrorCc = 'ServerError';
@@ -358,8 +357,7 @@ sub Run {
 
             # check email address
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementBcc ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
-                {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
                     $CustomerErrorBcc = 'ServerError';
@@ -653,7 +651,7 @@ sub Run {
             my $CustomerDisabled = '';
             my $CustomerSelected = $CountFrom eq '1' ? 'checked ' : '';
             my $EmailAddress     = $Email->address();
-            if ( !$CheckItemObject->CheckEmail( Address => $EmailAddress ) )
+            if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) )
             {
                 $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                     . 'ServerErrorMsg';
@@ -1584,7 +1582,7 @@ sub Run {
         for my $Parameter (qw(To Cc Bcc)) {
             next PARAMETER if !$GetParam{$Parameter};
             for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Parameter} ) ) {
-                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                     $Error{ $Parameter . 'ErrorType' } = $Parameter . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                     $Error{ $Parameter . 'Invalid' }   = 'ServerError';
                 }

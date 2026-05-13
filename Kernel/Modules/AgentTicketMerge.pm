@@ -234,7 +234,7 @@ sub Run {
                     }
 
                     # check email address
-                    elsif ( !$CheckItemObject->CheckEmail( Address => $Address ) ) {
+                    elsif ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) ) {
                         my $ToErrorMsg =
                             'To'
                             . $CheckItemObject->CheckErrorType()
