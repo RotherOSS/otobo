@@ -333,13 +333,13 @@ feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
 
 };
 
-feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
+feature 'mail:ntlm', 'NTLM authentication mechanism in IMAP connections' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
 
 };
 
-feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
+feature 'mail:sasl', 'DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections' => sub {
     # Required for DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections.
     requires 'Authen::SASL';
 
