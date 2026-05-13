@@ -1081,10 +1081,11 @@ sub SendEmail {
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
     # check some values
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     LINE:
     for my $Line (qw(To Cc Bcc)) {
         next LINE if !$GetParam{$Line};
-        for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Line} ) ) {
             if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                 $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                 $Error{ $Line . 'Invalid' }   = 'ServerError';
@@ -2030,7 +2031,8 @@ sub _GetExtendedParams {
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
     if ($CustomersNumberTo) {
-        my $CustomerCounter = 1;
+        my $CustomerCounter    = 1;
+        my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
         COUNT:
         for my $Count ( 1 .. $CustomersNumberTo ) {
@@ -2054,7 +2056,7 @@ sub _GetExtendedParams {
             # check email address
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerError    = '';
-            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
@@ -2094,7 +2096,8 @@ sub _GetExtendedParams {
     }
 
     my @MultipleCustomerCc;
-    my $CustomersNumberCc = $ParamObject->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
+    my $CustomersNumberCc  = $ParamObject->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     if ($CustomersNumberCc) {
         my $CustomerCounterCc = 1;
@@ -2120,7 +2123,7 @@ sub _GetExtendedParams {
             # check email address
             my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorCc    = '';
-            for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementCc ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
@@ -2185,7 +2188,7 @@ sub _GetExtendedParams {
             # check email address
             my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorBcc    = '';
-            for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementBcc ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';

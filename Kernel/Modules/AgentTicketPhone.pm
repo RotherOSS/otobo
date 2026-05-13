@@ -166,7 +166,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     # get params
     my %GetParam;
@@ -224,7 +225,7 @@ sub Run {
             }
 
             # check email address
-            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
@@ -461,7 +462,7 @@ sub Run {
                 my $SystemAddressEmail;
 
                 if ($ArticleFrom) {
-                    @ArticleFromAddress = Mail::Address->parse($ArticleFrom);
+                    @ArticleFromAddress = $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom );
                     $SystemAddressEmail = $ArticleFromAddress[0]->address();
                 }
 
@@ -533,7 +534,7 @@ sub Run {
             );
         }
 
-        for my $Email ( Mail::Address->parse($ArticleFrom) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom ) ) {
 
             my $CountAux         = $CountFrom;
             my $CustomerError    = '';
@@ -1400,7 +1401,7 @@ sub Run {
         }
 
         # check email address
-        for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{From} ) ) {
             if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                 $Error{ErrorType}   = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                 $Error{FromInvalid} = ' ServerError';

@@ -858,15 +858,14 @@ sub ValidateFrom {
     return if !$Param{From};
 
     # check email address
-    for my $Email ( Mail::Address->parse( $Param{From} ) ) {
-        if (
-            !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Email->address() )
-            )
-        {
-            return;
-        }
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{From} ) ) {
+        return unless $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail(
+            Address => $Email->address()
+        );
     }
 
+    # no problems found
     return 1;
 }
 

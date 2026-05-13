@@ -40,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::MailQueue',
     'Kernel::System::CommunicationLog',
+    'Kernel::System::EmailAddress',
 );
 
 =head1 NAME
@@ -597,11 +598,12 @@ sub Send {
 
     # get recipients
     my @ToArray;
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     RECIPIENT:
     for my $Recipient (qw(To Cc Bcc)) {
         next RECIPIENT unless $Param{$Recipient};
 
-        for my $Email ( Mail::Address->parse( $Param{$Recipient} ) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{$Recipient} ) ) {
             push @ToArray, $Email->address;
         }
     }
@@ -618,7 +620,7 @@ sub Send {
     # set envelope sender for replies
     my $RealFrom = $ConfigObject->Get('SendmailEnvelopeFrom') || '';
     if ( !$RealFrom ) {
-        my @Sender = Mail::Address->parse( $Param{From} );
+        my @Sender = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
         $RealFrom = $Sender[0]->address();
     }
 
@@ -896,8 +898,9 @@ sub Bounce {
     my $EmailObject = Mail::Internet->new( \@EmailPlain );
 
     # get sender
-    my @Sender   = Mail::Address->parse( $Param{From} );
-    my $RealFrom = $Sender[0]->address();
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @Sender             = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+    my $RealFrom           = $Sender[0]->address();
 
     # add ReSent header (see https://www.ietf.org/rfc/rfc2822.txt A.3. Resent messages)
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');

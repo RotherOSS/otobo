@@ -821,7 +821,8 @@ sub SendEmail {
     my %ACLCompatGetParam;
 
     # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     # ACL compatibility translation
     $ACLCompatGetParam{NextStateID} = $ParamObject->GetParam( Param => 'NextStateID' );
@@ -1162,7 +1163,7 @@ sub SendEmail {
     LINE:
     for my $Line (qw(To Cc Bcc)) {
         next LINE if !$GetParam{$Line};
-        for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Line} ) ) {
             if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                 $Error{ $Line . 'ErrorType' } = $Line . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                 $Error{ $Line . 'Invalid' }   = 'ServerError';
@@ -2112,7 +2113,8 @@ sub _GetExtendedParams {
     my ( $Self, %Param ) = @_;
 
     # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     # get params
     my %GetParam;
@@ -2163,7 +2165,7 @@ sub _GetExtendedParams {
             # check email address
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerError    = '';
-            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
@@ -2229,7 +2231,7 @@ sub _GetExtendedParams {
             # check email address
             my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorCc    = '';
-            for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementCc ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';
@@ -2294,7 +2296,7 @@ sub _GetExtendedParams {
             # check email address
             my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
             my $CustomerErrorBcc    = '';
-            for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementBcc ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
                         . 'ServerErrorMsg';

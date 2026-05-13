@@ -222,7 +222,8 @@ sub Run {
 
             # check forward email address(es)
             if ( $GetParam{To} ) {
-                for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
+                my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+                for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{To} ) ) {
                     my $Address = $Email->address();
                     if (
                         $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress( Address => $Address )

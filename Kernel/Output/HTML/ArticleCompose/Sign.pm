@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::Crypt::SMIME',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Queue',
+    'Kernel::System::EmailAddress',
 );
 
 sub Option {
@@ -187,9 +188,10 @@ sub Data {
 
     return %KeyList if !$Param{From};
 
-    my @SearchAddress = Mail::Address->parse( $Param{From} );
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @SearchAddress      = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
-    return %KeyList if !$Param{EmailSecurityOptions};
+    return %KeyList unless $Param{EmailSecurityOptions};
 
     # Get email security options.
     my ( $Backend, $Sign, $Encrypt ) = split /::/, $Param{EmailSecurityOptions};
@@ -332,8 +334,9 @@ sub _CheckSender {
 
     my $MissingSelectedKeyFlag;
     my $MissingKeysFlag;
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    my @SearchAddress = Mail::Address->parse( $Param{From} );
+    my @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     ADDRESS:
     for my $Address (@SearchAddress) {
@@ -441,9 +444,10 @@ sub _PickSignKeyID {
     my $EncryptObject = $Kernel::OM->Get("Kernel::System::Crypt::$Backend");
 
     # Return nothing if encrypt object was not created
-    return if !$EncryptObject;
+    return unless $EncryptObject;
 
-    my @SearchAddress = Mail::Address->parse( $Param{From} );
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @SearchAddress      = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     # Search for privates keys for queue system address.
     my @PrivateKeys;
@@ -515,11 +519,12 @@ sub _GetUniqueSignKeyIDsToRemove {
     my $EncryptObject = $Kernel::OM->Get("Kernel::System::Crypt::$Backend");
 
     # Return nothing if encrypt object was not created
-    return if !$EncryptObject;
+    return unless $EncryptObject;
 
     my %UniqueSignKeyIDsToRemove;
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    my @SearchAddress = Mail::Address->parse( $Param{From} );
+    my @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     ADDRESS:
     for my $Address (@SearchAddress) {

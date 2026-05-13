@@ -173,7 +173,8 @@ sub Run {
     }
 
     # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     my $Debug = $Param{Debug} || 0;
 
@@ -231,7 +232,7 @@ sub Run {
             my $CountAux         = $CustomerCounter++;
 
             # check email address
-            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElement ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
                 {
                     $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
@@ -294,7 +295,7 @@ sub Run {
             }
 
             # check email address
-            for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementCc ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
                 {
                     $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
@@ -356,7 +357,7 @@ sub Run {
             }
 
             # check email address
-            for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerElementBcc ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
                 {
                     $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
@@ -562,7 +563,7 @@ sub Run {
                 my $SystemAddressEmail;
 
                 if ($ArticleFrom) {
-                    @ArticleFromAddress = Mail::Address->parse($ArticleFrom);
+                    @ArticleFromAddress = $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom );
                     $SystemAddressEmail = $ArticleFromAddress[0]->address();
                 }
 
@@ -644,7 +645,7 @@ sub Run {
             );
         }
 
-        for my $Email ( Mail::Address->parse($ArticleFrom) ) {
+        for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom ) ) {
 
             my $CountAux         = $CountFrom;
             my $CustomerError    = '';
@@ -1582,7 +1583,7 @@ sub Run {
         PARAMETER:
         for my $Parameter (qw(To Cc Bcc)) {
             next PARAMETER if !$GetParam{$Parameter};
-            for my $Email ( Mail::Address->parse( $GetParam{$Parameter} ) ) {
+            for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $GetParam{$Parameter} ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                     $Error{ $Parameter . 'ErrorType' } = $Parameter . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
                     $Error{ $Parameter . 'Invalid' }   = 'ServerError';
