@@ -77,7 +77,7 @@ requires 'Locale::Codes', '== 3.86';
 # needed by webservices
 requires 'LWP::Protocol::https', '== 6.11';
 
-# needed in frontend and system OTOBO modules
+# not used in OTOBO core except in Email::Valid, please switch to Email::Address::XS
 requires 'Mail::Address', '== 2.18';
 
 # needed by Kernel::System::Mail

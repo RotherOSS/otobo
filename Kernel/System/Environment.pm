@@ -428,7 +428,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.11',
         },
         {
-            'Comment'         => 'needed in frontend and system OTOBO modules',
+            'Comment'         => 'not used in OTOBO core except in Email::Valid, please switch to Email::Address::XS',
             'Module'          => 'Mail::Address',
             'Required'        => 1,
             'VersionRequired' => '== 2.18',
