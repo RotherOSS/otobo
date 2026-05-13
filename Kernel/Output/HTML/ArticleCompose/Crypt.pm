@@ -85,14 +85,6 @@ sub Run {
         }
     }
 
-    # Find recipient list.
-    my $Recipient = '';
-    for (qw(To Cc Bcc)) {
-        if ( $Param{$_} ) {
-            $Recipient .= ', ' . $Param{$_};
-        }
-    }
-
     if (
         !IsArrayRefWithData( $Param{CryptKeyID} )
         || ( $Param{ExpandCustomerName} && $Param{ExpandCustomerName} == 3 )
