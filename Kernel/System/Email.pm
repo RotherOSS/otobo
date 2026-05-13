@@ -23,7 +23,6 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::Address  ();
 use Mail::Internet ();
 use MIME::Entity   ();
 use MIME::Parser   ();

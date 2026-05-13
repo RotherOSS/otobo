@@ -24,7 +24,6 @@ use MIME::Base64 qw(decode_base64);
 use Encode       qw(resolve_alias);
 
 # CPAN modules
-use Mail::Address ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
