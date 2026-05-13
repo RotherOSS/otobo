@@ -1133,14 +1133,18 @@ fieldset.ModularForm {
     row-gap: var(--row-gap);
 }
 
+    fieldset.ModularForm * {
+        box-sizing: border-box;
+    }
+
+    fieldset.ModularForm .fa {
+        color: var(--colTextDark);
+    }
+
     fieldset.ModularForm .AJAXLoader {
         margin: var(--AJAX-loader-margin);
         position: absolute;
         right: 0;
-    }
-
-    fieldset.ModularForm * {
-        box-sizing: border-box;
     }
 
     fieldset.ModularForm div.Field {
@@ -1293,10 +1297,6 @@ fieldset.ModularForm {
             text-align: center;
             font-size: 9px;
         }
-    }
-
-    fieldset.ModularForm .RichTextField textarea {
-        resize: none;
     }
 
     fieldset.ModularForm .RichTextField .ck-editor {

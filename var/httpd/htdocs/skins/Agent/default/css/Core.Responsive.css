@@ -717,10 +717,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-area: multivaluebuttons;
     }
 
-    fieldset.ModularForm .fa {
-        color: var(--colTextDark);
-    }
-
     fieldset.ModularForm > div.Row.MultiColumn {
         --left-margin: 0px;
     }
