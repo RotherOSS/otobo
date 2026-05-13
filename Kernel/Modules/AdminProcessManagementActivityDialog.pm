@@ -41,7 +41,8 @@ sub Run {
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 
-    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ID' ) || '';
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ID' )              || '';
+    my $ProcessEntityID  = $ParamObject->GetParam( Param => 'ProcessEntityID' ) || '';
 
     my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
         SessionID => $Self->{SessionID},
@@ -111,7 +112,8 @@ sub Run {
 
         return $Self->_ShowEdit(
             %Param,
-            Action => 'New',
+            ProcessEntityID => $ProcessEntityID,
+            Action          => 'New',
         );
     }
 
@@ -225,6 +227,7 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
+                ProcessEntityID    => $ProcessEntityID,
                 ActivityDialogData => $ActivityDialogData,
                 Action             => 'New',
             );
@@ -243,12 +246,18 @@ sub Run {
             );
         }
 
+        # unset ProcessID if necesssary
+        if ( $ActivityDialogData->{Global} ) {
+            $ProcessEntityID = undef;
+        }
+
         # otherwise save configuration and return process screen
         my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
-            Name     => $ActivityDialogData->{Name},
-            EntityID => $EntityID,
-            Config   => $ActivityDialogData->{Config},
-            UserID   => $Self->{UserID},
+            Name            => $ActivityDialogData->{Name},
+            EntityID        => $EntityID,
+            Config          => $ActivityDialogData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ProcessEntityID,
         );
 
         # show error if can't create
@@ -365,10 +374,16 @@ sub Run {
             );
         }
 
+        # preserve Global if ProcessEntityID already exists in db
+        if ( !$ActivityDialogData->{ProcessEntityID} ) {
+            $ActivityDialogData->{Global} = 'checked';
+        }
+
         return $Self->_ShowEdit(
             %Param,
             ActivityDialogID   => $ActivityDialogID,
             ActivityDialogData => $ActivityDialogData,
+            ProcessEntityID    => $ProcessEntityID,
             Action             => 'Edit',
         );
     }
@@ -492,18 +507,25 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
+                ProcessEntityID    => $ProcessEntityID,
                 ActivityDialogData => $ActivityDialogData,
                 Action             => 'Edit',
             );
         }
 
+        # unset ProcessID if necessary
+        if ( $ActivityDialogData->{Global} ) {
+            $ProcessEntityID = undef;
+        }
+
         # otherwise save configuration and return to overview screen
         my $Success = $ActivityDialogObject->ActivityDialogUpdate(
-            ID       => $ActivityDialogID,
-            Name     => $ActivityDialogData->{Name},
-            EntityID => $ActivityDialogData->{EntityID},
-            Config   => $ActivityDialogData->{Config},
-            UserID   => $Self->{UserID},
+            ID              => $ActivityDialogID,
+            Name            => $ActivityDialogData->{Name},
+            EntityID        => $ActivityDialogData->{EntityID},
+            Config          => $ActivityDialogData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ProcessEntityID,
         );
 
         # show error if can't update

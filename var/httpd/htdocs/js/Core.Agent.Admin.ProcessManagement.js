@@ -832,7 +832,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // re-initialize accordion functions (accordion, filters, DnD)
         var Data = {
                 Action: 'AdminProcessManagement',
-                Subaction: 'UpdateAccordion'
+                Subaction: 'UpdateAccordion',
+                EntityID: $('input[name=EntityID]').val(),
             },
             ActiveElementIndex = parseInt($('ul#ProcessElements > li.Active').index(), 10),
             ActiveElementValue = $('ul#ProcessElements > li:eq(' + ActiveElementIndex + ') .ProcessElementFilter').val();

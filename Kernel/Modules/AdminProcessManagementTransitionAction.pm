@@ -41,7 +41,8 @@ sub Run {
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 
-    my $TransitionActionID = $ParamObject->GetParam( Param => 'ID' ) || '';
+    my $TransitionActionID = $ParamObject->GetParam( Param => 'ID' )              || '';
+    my $ProcessEntityID    = $ParamObject->GetParam( Param => 'ProcessEntityID' ) || '';
 
     my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
         SessionID => $Self->{SessionID},
@@ -66,7 +67,8 @@ sub Run {
 
         return $Self->_ShowEdit(
             %Param,
-            Action => 'New',
+            ProcessEntityID => $ProcessEntityID,
+            Action          => 'New',
         );
     }
 
@@ -117,6 +119,7 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
+                ProcessEntityID      => $ProcessEntityID,
                 TransitionActionData => $TransitionActionData,
                 Action               => 'New',
             );
@@ -135,13 +138,19 @@ sub Run {
             );
         }
 
+        # unset ProcessID if necessary
+        if ( $TransitionActionData->{Global} ) {
+            $ProcessEntityID = undef;
+        }
+
         # otherwise save configuration and return process screen
         my $TransitionActionID = $TransitionActionObject->TransitionActionAdd(
-            Name     => $TransitionActionData->{Name},
-            Module   => $TransitionActionData->{Module},
-            EntityID => $EntityID,
-            Config   => $TransitionActionData->{Config},
-            UserID   => $Self->{UserID},
+            Name            => $TransitionActionData->{Name},
+            Module          => $TransitionActionData->{Module},
+            EntityID        => $EntityID,
+            Config          => $TransitionActionData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ProcessEntityID,
         );
 
         # show error if can't create
@@ -262,10 +271,16 @@ sub Run {
             );
         }
 
+        # preserve Global if ProcessEntityID already exists in db
+        if ( !$TransitionActionData->{ProcessEntityID} ) {
+            $TransitionActionData->{Global} = 'checked';
+        }
+
         return $Self->_ShowEdit(
             %Param,
             TransitionActionID   => $TransitionActionID,
             TransitionActionData => $TransitionActionData,
+            ProcessEntityID      => $ProcessEntityID,
             Action               => 'Edit',
         );
     }
@@ -318,19 +333,26 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
+                ProcessEntityID      => $ProcessEntityID,
                 TransitionActionData => $TransitionActionData,
                 Action               => 'Edit',
             );
         }
 
+        # unset ProcessID if necessary
+        if ( $TransitionActionData->{Global} ) {
+            $ProcessEntityID = undef;
+        }
+
         # otherwise save configuration and return to overview screen
         my $Success = $TransitionActionObject->TransitionActionUpdate(
-            ID       => $TransitionActionID,
-            EntityID => $TransitionActionData->{EntityID},
-            Name     => $TransitionActionData->{Name},
-            Module   => $TransitionActionData->{Module},
-            Config   => $TransitionActionData->{Config},
-            UserID   => $Self->{UserID},
+            ID              => $TransitionActionID,
+            EntityID        => $TransitionActionData->{EntityID},
+            Name            => $TransitionActionData->{Name},
+            Module          => $TransitionActionData->{Module},
+            Config          => $TransitionActionData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ProcessEntityID,
         );
 
         # show error if can't update
