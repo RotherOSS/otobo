@@ -114,7 +114,7 @@
                         <div class="Row">
                             <div class="FieldCell">
                                 <label>[% Translate("Pending date") | html %]:</label>
-                                <div class="Field">
+                                <div class="Field PendingDateField">
                                     [% Data.DateString %]
                                     <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                                     <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
@@ -146,7 +146,7 @@
                     <h2>[% Translate("Dynamic Fields") | html %]</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class="TableLike FixedLabel">
+                    <fieldset class="ModularForm FixedLabel">
 
 [% Data.DynamicFieldHTML %]
 

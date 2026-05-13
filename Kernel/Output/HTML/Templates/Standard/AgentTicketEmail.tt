@@ -511,7 +511,7 @@
                     <div class="Row">
                         <div class="FieldCell">
                             <label>[% Translate("Pending date") | html %]:</label>
-                            <div class="Field">
+                            <div class="Field PendingDateField">
                                 [% Data.PendingDateString %]
                                 <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                                 <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
