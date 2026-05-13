@@ -16,6 +16,7 @@
 
 package Kernel::Output::HTML::ArticleAction::AgentTicketCompose;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -180,7 +181,10 @@ sub GetConfig {
         my @Addresses          = $EmailAddressObject->ParseAddressLine( Line => $Recipients );
         ADDRESS:
         for my $Address (@Addresses) {
-            my $Email = $EmailAddressObject->GetAddress( AddressObject => $Address );
+            my $Email = $EmailAddressObject->GetAddress(
+                AddressObject    => $Address,
+                ValidateAtSymbol => 1,
+            );
 
             next ADDRESS unless $Email;
 

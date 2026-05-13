@@ -3010,7 +3010,8 @@ sub _Mask {
             REPLYTOPART:
             for my $SingleReplyToPart (@ReplyToParts) {
                 my $ReplyToAddress = $EmailAddressObject->GetAddress(
-                    AddressObject => $SingleReplyToPart,
+                    AddressObject    => $SingleReplyToPart,
+                    ValidateAtSymbol => 1,
                 );
 
                 next REPLYTOPART unless $ReplyToAddress;

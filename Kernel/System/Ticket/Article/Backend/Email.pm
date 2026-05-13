@@ -544,7 +544,10 @@ sub SendAutoResponse {
     my @AddressObjects = $EmailAddressObject->ParseAddressLine( Line => $OrigHeader{From} );
     ADDRESS:
     for my $AddressObject (@AddressObjects) {
-        my $Email   = $EmailAddressObject->GetAddress( AddressObject => $AddressObject );
+        my $Email = $EmailAddressObject->GetAddress(
+            AddressObject    => $AddressObject,
+            ValidateAtSymbol => 1,
+        );
         my $Address = $AddressObject->format;
         if ( !$Email ) {
 

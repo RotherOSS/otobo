@@ -83,7 +83,8 @@ sub Run {
 
     for my $EmailAddress (@EmailAddressOnField) {
         $IncomingMailAddress = $EmailAddressObject->GetAddress(
-            AddressObject => $EmailAddress,
+            AddressObject    => $EmailAddress,
+            ValidateAtSymbol => 1,
         );
     }
 

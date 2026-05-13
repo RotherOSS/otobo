@@ -62,17 +62,18 @@ sub GetQueueID {
     # get system address object
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
-    # get addresses
+    # check addresses
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     my @EmailAddresses     = $EmailAddressObject->ParseAddressLine( Line => $Recipient );
-
-    # check addresses
     EMAIL:
     for my $Email (@EmailAddresses) {
 
         next EMAIL unless $Email;
 
-        my $Address = $EmailAddressObject->GetAddress( AddressObject => $Email );
+        my $Address = $EmailAddressObject->GetAddress(
+            AddressObject    => $Email,
+            ValidateAtSymbol => 1,
+        );
 
         next EMAIL if !$Address;
 
