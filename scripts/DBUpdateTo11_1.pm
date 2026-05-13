@@ -118,6 +118,10 @@ sub Run {
             Name   => 'Migrate package setting \'TimeShowCreatedAt\' to core setting.',
             Module => 'SysConfigMigrateTimeShowCreatedAt',
         },
+        {
+            Name   => 'Enable Similar Search Widget if ES is activated',
+            Module => 'EnableSimilarSearchWidgetIfESActivated',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;

@@ -13516,6 +13516,16 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0400-SimilarTickets" Required="0" Valid="0">
+        <Description Translatable="1">AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketZoom::SimilarTickets</Item>
+                <Item Key="Location">Sidebar</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketZoom###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the ticket zoom screen of the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
@@ -15830,6 +15840,15 @@ Thanks for your help!
                         <Item>Core.Agent.TicketFormDraft.js</Item>
                     </Array>
                 </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::Settings::SimilarSearch" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Settings for Similar Ticket Search in ES.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Limit" ValueType="String" ValueRegex="[0-9]+">6</Item>
             </Hash>
         </Value>
     </Setting>

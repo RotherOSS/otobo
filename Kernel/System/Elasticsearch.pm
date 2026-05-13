@@ -430,6 +430,89 @@ sub TicketSearch {
 
     }
 
+    # similar search
+    elsif ( defined $Param{MoreLikeThis} ) {
+
+        # get fields to search
+        my $FulltextFields = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
+        my @SearchFields   = @{ $FulltextFields->{Ticket} };
+        push @SearchFields, ( map {"ArticlesExternal.$_"} @{ $FulltextFields->{Article} } );
+        push @SearchFields, ( "AttachmentsExternal.Content", "AttachmentsExternal.Filename" );
+
+        # add internal fields
+        if ( $Param{UserID} ) {
+            push @SearchFields, ( map {"ArticlesInternal.$_"} @{ $FulltextFields->{Article} } );
+            push @SearchFields, ( "AttachmentsInternal.Content", "AttachmentsInternal.Filename" );
+        }
+
+        # handle dynamic fields
+        if ( $FulltextFields->{DynamicField} ) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+            my $ZoomConfig         = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom') || {};
+            my $CustomerFields     = $ZoomConfig->{DynamicField};
+
+            DYNAMICFIELD:
+            for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
+                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
+
+                # agent search
+                if ( $Param{UserID} ) {
+
+                    # add all ticket dynamic fields
+                    if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
+                        push @SearchFields, "DynamicField_$DynamicFieldName";
+                    }
+
+                    # add article dynamicfields for both internal and external articles
+                    elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
+                        push @SearchFields,
+                            (
+                                "ArticlesExternal.DynamicField_$DynamicFieldName",
+                                "ArticlesInternal.DynamicField_$DynamicFieldName"
+                            );
+                    }
+                }
+
+                # customer search
+                else {
+                    # check if dynamic field is visible for customers
+                    next DYNAMICFIELD if ( !$CustomerFields || !$CustomerFields->{$DynamicFieldName} );
+
+                    # add ticket dynamic fields
+                    if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
+                        push @SearchFields, "DynamicField_$DynamicFieldName";
+                    }
+
+                    # add article dynamicfields for external articles
+                    elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
+                        push @SearchFields, ("ArticlesExternal.DynamicField_$DynamicFieldName");
+                    }
+                }
+            }
+        }
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Elasticsearch [ticket] Similar Search Query: " . $Param{MoreLikeThis}
+        );
+
+        # add queue restrictions
+        push @Musts, {
+            more_like_this => {
+                fields          => \@SearchFields,
+                like            => $Param{MoreLikeThis},
+                min_term_freq   => 1,
+                max_query_terms => 12,
+
+                # min_doc_freq  => 5, # see ES docs for other parameters
+                # https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-mlt-query
+            },
+        };
+    }
+
     # define the return type
     my $Return = ( $ResultType eq 'HASH' ) ? [qw(TicketID TicketNumber)] :
         ( $ResultType eq 'FULL' ) ? '' : 'TicketID';
@@ -1773,11 +1856,14 @@ sub InitialSetup {
     }
 
     if ($Success) {
+
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             LockAll => 1,
             Force   => 1,
             UserID  => 1,
         );
+
+        # enable toolbar
         my %Setting = $SysConfigObject->SettingGet(
             Name => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
         );
@@ -1788,9 +1874,23 @@ sub InitialSetup {
             ExclusiveLockGUID => $ExclusiveLockGUID,
             EffectiveValue    => $Setting{EffectiveValue},
         );
+
+        # enable similar search widget
+        %Setting = $SysConfigObject->SettingGet(
+            Name => 'Ticket::Frontend::AgentTicketZoom###Widgets###0400-SimilarTickets',
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Ticket::Frontend::AgentTicketZoom###Widgets###0400-SimilarTickets',
+            IsValid           => 1,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            EffectiveValue    => $Setting{EffectiveValue},
+        );
+
         $SysConfigObject->SettingUnlock(
             UnlockAll => 1,
         );
+
     }
     else {
         # disable in case of failure
@@ -1839,6 +1939,8 @@ sub _IsUsingExtendedSearchSyntax {
 
     my $Query = $Param{Query};
 
+    return 0 if !$Query;
+
     # SearchTerm does contain any of:
     #      colon ':', boolean operator  'AND, OR, NOT' or the shorthands '&&, ||, !''
     #      bracket '(', or double-quote '"'
@@ -1870,6 +1972,8 @@ sub _AugmentTicketSearchQueryString {
     my $Query          = $Param{Query};
     my $SearchFields   = $Param{SearchFields};
     my $ExtendedSearch = $Param{ExtendedSearch};
+
+    return '' if !$Query;
 
     # Extended Syntax is introduced with 'ES:' prefix
     if ( $ExtendedSearch && $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
