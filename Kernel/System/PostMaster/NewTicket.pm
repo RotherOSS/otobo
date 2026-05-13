@@ -159,7 +159,8 @@ sub Run {
     );
     for my $Address (@EmailAddresses) {
         $GetParam{SenderEmailAddress} = $EmailAddressObject->GetAddress(
-            AddressObject => $Address,
+            AddressObject    => $Address,
+            ValidateAtSymbol => 1,
         );
     }
 
@@ -192,7 +193,8 @@ sub Run {
             );
             for my $Address (@EmailAddresses) {
                 $GetParam{EmailFrom} = $EmailAddressObject->GetAddress(
-                    AddressObject => $Address,
+                    AddressObject    => $Address,
+                    ValidateAtSymbol => 1,
                 );
             }
 

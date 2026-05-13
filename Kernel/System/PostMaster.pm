@@ -634,7 +634,8 @@ sub GetEmailParams {
         );
         for my $Email (@EmailAddresses) {
             $GetParam{'X-Sender'} = $EmailAddressObject->GetAddress(
-                AddressObject => $Email,
+                AddressObject    => $Email,
+                ValidateAtSymbol => 1,
             );
         }
     }

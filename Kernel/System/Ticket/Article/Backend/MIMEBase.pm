@@ -1341,9 +1341,14 @@ sub ArticleGet {
                 EMAILADDRESS:
                 for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Data{$Key} ) ) {
                     my $Name =
-                        $EmailParser->GetRealname( Email => $EmailSplit )
+                        $EmailParser->GetRealname(
+                            Email => $EmailSplit,
+                        )
                         ||
-                        $EmailAddressObject->GetAddress( Email => $EmailSplit );
+                        $EmailAddressObject->GetAddress(
+                            Email => $EmailSplit,
+                            ValidateAtSymbol => 1,
+                        );
 
                     next EMAILADDRESS unless $Name;
 

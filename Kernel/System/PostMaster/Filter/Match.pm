@@ -111,7 +111,10 @@ sub Run {
             RECIPIENTS:
             for my $Recipients (@EmailAddresses) {
 
-                my $Email = $EmailAddressObject->GetAddress( AddressObject => $Recipients );
+                my $Email = $EmailAddressObject->GetAddress(
+                    AddressObject    => $Recipients,
+                    ValidateAtSymbol => 1,
+                );
 
                 if ( $Email =~ /^$SearchEmail$/i ) {
 

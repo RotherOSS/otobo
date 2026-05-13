@@ -89,7 +89,7 @@ sub ParseAddressLine {
 
 =head2 GetAddress()
 
-extract the bare address from a complete email address. Only a single email address should be passed.
+extracts the bare address from a complete email address. Only a single email address should be passed.
 
     my $SenderEmail = $EmailAddressObject->GetAddress(
         Email => 'August Ausprobierer <gustl@testanything.org>',
@@ -109,7 +109,17 @@ Both variants return
 
     $SenderEmail = 'gustl@testanything.org'
 
-This method can be used in standalone mode.
+The optional parameter C<ValidateAtSymbol> activates the check whether the extracted address contains
+the character "@". This check is off per default.
+
+    my $SenderEmail = $EmailAddressObject->GetAddress(
+        Email            => 'August Ausprobierer <gustl>',
+        ValidateAtSymbol => 1,
+    );
+
+Returns
+
+    $SenderEmail = undef;
 
 =cut
 
@@ -128,9 +138,11 @@ sub GetAddress {
         $Email = $Param{AddressObject}->address;
     }
 
-    # return if no email address is there,
-    # even though an '@' is not mandatory for an address
-    return unless $Email =~ m/@/;
+    # Validate whether an @ symbol is present in the extracted address.
+    # Having an @ is not required.
+    if ( $Param{ValidateAtSymbol} ) {
+        return unless ( $Email // '' ) =~ m/@/;
+    }
 
     # return email address
     return $Email;
