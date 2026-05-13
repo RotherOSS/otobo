@@ -901,8 +901,8 @@
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="1">
-                <Item ValueType="Option" Value="1">valid</Item>
-                <Item ValueType="Option" Value="0">invalid</Item>
+                <Item ValueType="Option" Value="1" Translatable="1">valid</Item>
+                <Item ValueType="Option" Value="0" Translatable="1">invalid</Item>
             </Item>
         </Value>
     </Setting>
