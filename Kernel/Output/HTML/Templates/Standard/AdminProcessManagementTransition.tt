@@ -35,6 +35,7 @@
                 <input type="hidden" name="Subaction" value="Transition[% Data.Action | html %]Action"/>
                 <input type="hidden" name="EntityID" value="[% Data.EntityID | html %]"/>
                 <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
                 <input type="hidden" name="ActivityDialogs" value=""/>
                 <input type="hidden" name="ConditionConfig" value=""/>
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>

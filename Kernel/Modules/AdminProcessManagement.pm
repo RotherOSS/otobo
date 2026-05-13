@@ -1557,7 +1557,8 @@ sub Run {
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
-                            AvailableIn => $AvailableIn,    #only used for ActivityDialogs
+                            ProcessEntityID => $EntityID,
+                            AvailableIn     => $AvailableIn,    #only used for ActivityDialogs
                         },
                     );
                 }
@@ -1574,7 +1575,9 @@ sub Run {
 
         my $Output = $LayoutObject->Output(
             TemplateFile => 'AdminProcessManagementProcessAccordion',
-            Data         => {},
+            Data         => {
+                ProcessEntityID => $EntityID,
+            },
         );
 
         # send HTML response
@@ -1813,7 +1816,8 @@ sub _ShowEdit {
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
-                            AvailableIn => $AvailableIn,    #only used for ActivityDialogs
+                            ProcessEntityID => $ProcessData->{EntityID},
+                            AvailableIn     => $AvailableIn,    #only used for ActivityDialogs
                         },
                     );
                 }
@@ -1885,7 +1889,8 @@ sub _ShowEdit {
             Transition        => $ProcessDump->{Transition},
             TransitionAction  => $ProcessDump->{TransitionAction},
             PopupPathActivity => $LayoutObject->{Baselink}
-                . 'Action=AdminProcessManagementActivity;Subaction=ActivityEdit;',
+                . 'Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ProcessEntityID='
+                . ($ProcessData->{EntityID} || '') . ';',
             PopupPathPath => $LayoutObject->{Baselink} . 'Action=AdminProcessManagementPath;Subaction=PathEdit;',
         }
     );
@@ -1895,7 +1900,8 @@ sub _ShowEdit {
         Data         => {
             %Param,
             %{$ProcessData},
-            Description => $ProcessData->{Config}->{Description} || '',
+            ProcessEntityID => $ProcessData->{EntityID},
+            Description     => $ProcessData->{Config}->{Description} || '',
         },
     );
 

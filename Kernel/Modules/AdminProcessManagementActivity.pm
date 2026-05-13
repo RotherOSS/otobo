@@ -43,8 +43,9 @@ sub Run {
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 
-    my $ActivityID = $ParamObject->GetParam( Param => 'ID' )       || '';
-    my $EntityID   = $ParamObject->GetParam( Param => 'EntityID' ) || '';
+    my $ActivityID      = $ParamObject->GetParam( Param => 'ID' )              || '';
+    my $EntityID        = $ParamObject->GetParam( Param => 'EntityID' )        || '';
+    my $ProcessEntityID = $ParamObject->GetParam( Param => 'ProcessEntityID' ) || '';
 
     my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
         SessionID => $Self->{SessionID},
@@ -82,7 +83,8 @@ sub Run {
 
         return $Self->_ShowEdit(
             %Param,
-            Action => 'New',
+            ProcessEntityID => $ProcessEntityID,
+            Action          => 'New',
         );
     }
 
@@ -156,8 +158,9 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
-                ActivityData => $ActivityData,
-                Action       => 'New',
+                ProcessEntityID => $ProcessEntityID,
+                ActivityData    => $ActivityData,
+                Action          => 'New',
             );
         }
 
@@ -174,12 +177,18 @@ sub Run {
             );
         }
 
+        # unset ProcessID if necessary
+        if ( $ActivityData->{Global} ) {
+            $ProcessEntityID = undef;
+        }
+
         # otherwise save configuration and return process screen
         my $ActivityID = $ActivityObject->ActivityAdd(
-            Name     => $ActivityData->{Name},
-            EntityID => $EntityID,
-            Config   => $ActivityData->{Config},
-            UserID   => $Self->{UserID},
+            Name            => $ActivityData->{Name},
+            EntityID        => $EntityID,
+            Config          => $ActivityData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ProcessEntityID,
         );
 
         # show error if can't create
@@ -298,11 +307,17 @@ sub Run {
             );
         }
 
+        # preserve Global if ProcessEntityID already exists in db
+        if ( !$ActivityData->{ProcessEntityID} ) {
+            $ActivityData->{Global} = 'checked';
+        }
+
         return $Self->_ShowEdit(
             %Param,
-            ActivityID   => $ActivityID,
-            ActivityData => $ActivityData,
-            Action       => 'Edit',
+            ActivityID      => $ActivityID,
+            ActivityData    => $ActivityData,
+            ProcessEntityID => $ProcessEntityID,
+            Action          => 'Edit',
         );
     }
 
@@ -378,18 +393,25 @@ sub Run {
             return $Self->_ShowEdit(
                 %Error,
                 %Param,
-                ActivityData => $ActivityData,
-                Action       => 'Edit',
+                ProcessEntityID => $ProcessEntityID,
+                ActivityData    => $ActivityData,
+                Action          => 'Edit',
             );
+        }
+
+        # unset ProcessID if necessary
+        if ( $ActivityData->{Global} ) {
+            $ProcessEntityID = undef;
         }
 
         # otherwise save configuration and return to overview screen
         my $Success = $ActivityObject->ActivityUpdate(
-            ID       => $ActivityID,
-            Name     => $ActivityData->{Name},
-            EntityID => $ActivityData->{EntityID},
-            Config   => $ActivityData->{Config},
-            UserID   => $Self->{UserID},
+            ID              => $ActivityID,
+            Name            => $ActivityData->{Name},
+            EntityID        => $ActivityData->{EntityID},
+            Config          => $ActivityData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ProcessEntityID,
         );
 
         # show error if can't update
@@ -595,11 +617,12 @@ sub Run {
 
         # Save Activity to DB
         my $Success = $ActivityObject->ActivityUpdate(
-            ID       => $ActivityData->{ID},
-            Name     => $ActivityData->{Name},
-            EntityID => $ActivityData->{EntityID},
-            Config   => $ActivityData->{Config},
-            UserID   => $Self->{UserID},
+            ID              => $ActivityData->{ID},
+            Name            => $ActivityData->{Name},
+            EntityID        => $ActivityData->{EntityID},
+            Config          => $ActivityData->{Config},
+            UserID          => $Self->{UserID},
+            ProcessEntityID => $ActivityData->{ProcessEntityID},
         );
 
         if ( !$Success ) {
@@ -908,6 +931,7 @@ sub _ShowEdit {
         Data         => {
             %Param,
             %{$ActivityData},
+            ProcessEntityID => $Param{ProcessEntityID},
         },
     );
 
