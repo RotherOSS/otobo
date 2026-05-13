@@ -84,14 +84,6 @@ when an email has been already parsed or a C<MIME::Entity> object has been const
         Email        => $EmailString,
     );
 
-Sometimes it is useful to have an empty instance on which helper methods can be called.
-In the case the parameter C<Mode> must be passed with the value "Standalone".
-
-    my $ParserObject = Kernel::System::EmailParser->new(
-        Mode         => 'Standalone',
-        Debug        => 0,
-    );
-
 The parameter C<Debug> can be used to activate debug output. The default is off.
 
 The parameter C<NoHTMLChecks> may be used to suppress the generation of the plain text message when there
@@ -107,9 +99,6 @@ sub new {
 
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
-
-    # create empty object just for accessing the helper methods
-    return $Self if ( $Param{Mode} && $Param{Mode} eq 'Standalone' );
 
     # Check the parameters when the method is not called for standalone mode. The email must be passed
     # either as text in the parameter Email or as an instance of MIME::Entity in the parameter Entity.
