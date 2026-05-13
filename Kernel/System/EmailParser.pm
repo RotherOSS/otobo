@@ -27,10 +27,10 @@ use MIME::Base64      qw(decode_base64);
 use MIME::QuotedPrint ();
 
 # CPAN modules
-use Mail::Internet ();
-use MIME::Parser   ();
-use MIME::Words    qw(decode_mimewords);
-use Mail::Address  ();
+use Mail::Internet     ();
+use MIME::Parser       ();
+use MIME::Words        qw(decode_mimewords);
+use Email::Address::XS ();
 
 # OTOBO modules
 
@@ -226,16 +226,17 @@ sub GetParam {
     my $ReturnLine;
 
     # We need to split address lists before decoding; see "6.2. Display of 'encoded-word's"
-    # in RFC 2047. Mail::Address routines will quote stuff if necessary (i.e. comma
-    # or semicolon found in phrase).
+    # in RFC 2047. Email::Address::XS routines will routinely put the phrase between quotation marks
+    # when there are special characters, including semicolons, tabs, and simple spaces.
+    # Quotes that are already in the input are not preserved when they are around simple words.
     if ( $What =~ m/^(From|To|Cc)/ ) {
-        for my $Address ( Mail::Address->parse($Line) ) {
-            $Address->phrase( $Self->_DecodeString( String => $Address->phrase() ) );
-            $Address->address( $Self->_DecodeString( String => $Address->address() ) );
-            $Address->comment( $Self->_DecodeString( String => $Address->comment() ) );
-            $ReturnLine .= ', ' if $ReturnLine;
-            $ReturnLine .= $Address->format();
+        my @Addresses = Email::Address::XS->parse($Line);
+        for my $Address (@Addresses) {
+            $Address->phrase( $Self->_DecodeString( String => $Address->phrase ) );
+            $Address->address( $Self->_DecodeString( String => $Address->address ) );
+            $Address->comment( $Self->_DecodeString( String => $Address->comment ) );
         }
+        $ReturnLine = join ', ', map { $_->format } @Addresses;
     }
     else {
         $ReturnLine = $Self->_DecodeString( String => $Line );

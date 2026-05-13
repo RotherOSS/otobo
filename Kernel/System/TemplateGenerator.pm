@@ -364,7 +364,7 @@ sub Sender {
 
     # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
-    return Mail::Address->new( $Address{RealName}, $Address{Email} )->format();
+    return Email::Address::XS->new( $Address{RealName}, $Address{Email} )->format;
 }
 
 =head2 Template()

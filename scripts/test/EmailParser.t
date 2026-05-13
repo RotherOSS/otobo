@@ -22,8 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use MIME::Parser  ();
-use Mail::Address ();
+use MIME::Parser ();
 use Test2::V0;
 use Path::Class qw(file);
 
@@ -46,14 +45,14 @@ subtest 'parse PostMaster-Test1.box' => sub {
 
     is(
         $EmailParserObject->GetParam( WHAT => 'To' ),
-        'darthvader@otobo.org',
-        "GetParam(WHAT => 'To')",
+        q{darthvader@otobo.org},
+        q{GetParam(WHAT => 'To'), bare address},
     );
 
     is(
         $EmailParserObject->GetParam( WHAT => 'From' ),
-        'Skywalker Attachment <skywalker@otobo.org>',
-        "GetParam(WHAT => 'From')",
+        q{"Skywalker Attachment" <skywalker@otobo.org>},
+        q{GetParam(WHAT => 'From'), quotes added because of space in phrase},
     );
 
     is(
@@ -101,19 +100,19 @@ subtest 'PostMaster-Test4.box with GetMessageBody() tests' => sub {
         Email => \@Lines,
     );
     is(
-        $EmailParserObject->GetCharset(),
+        $EmailParserObject->GetCharset,
         'iso-8859-15',
         'GetCharset()',
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'From' ),
-        'Hans BÄKOSchönland <me@bogen.net>',
-        'From()',
+        q{"Hans BÄKOSchönland" <me@bogen.net>},
+        q{GetParam( WHAT => 'From'), charset Windows-1252, quotes added},
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'To' ),
-        'Namedyński (hans@example.com)',
-        'To()',
+        q{Namedyński <johann@example.com> (hans@example.com)},
+        q{GetParam(WHAT => 'To'), charset iso-8859-2?, quotes added around phrase},
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'Subject' ),
@@ -479,8 +478,8 @@ subtest 'PostMaster-Test12.box' => sub {
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'Cc' ),
-        '張雅惠 <support2@example.com>, "문화연대" <support3@example.com>',
-        "GetParam(WHAT => 'Cc')",
+        q{張雅惠 <support2@example.com>, 문화연대 <support3@example.com>},
+        q{GetParam(WHAT => 'Cc'), Asian charsets, no quotes around phrase without space},
     );
 
     my $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
@@ -776,13 +775,13 @@ subtest 'PostMaster-Test21.box' => sub {
 
     is(
         $EmailParserObject->GetParam( WHAT => 'To' ),
-        'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-        "GetParam(WHAT => 'To' Multiline encode quote printable)",
+        q{"Евгений Васильев Новоподзалупинский" <xxzzyy@gmail.com>},
+        q{GetParam(WHAT => 'To'), Multiline encode quote printable, quotes added around phrase},
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'Subject' ),
         'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-        "GetParam(WHAT => 'Subject' Multiline encode quote printable)",
+        "GetParam(WHAT => 'Subject') Multiline encode quote printable)",
     );
 };
 
@@ -796,8 +795,8 @@ subtest 'PostMaster-Test22.box' => sub {
 
     is(
         $EmailParserObject->GetParam( WHAT => 'To' ),
-        'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-        "GetParam(WHAT => 'To' Multiline encode)",
+        q{"QBQB Евгений Васильев Новоподзалупинский" <xxzzyy@gmail.com>},
+        q{GetParam(WHAT => 'To'), multiline encode, quotes added arount phrase},
     );
     is(
         $EmailParserObject->GetParam( WHAT => 'Subject' ),
