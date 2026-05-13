@@ -85,6 +85,12 @@
                                 </div>
                             </div>
                             <div class="Clear"></div>
+
+                            <label for="Global">[% Translate("Global") | html %]:</label>
+                            <div class="Field">
+                                <input type="checkbox" name="Global" id="Global" value="1" [% Data.Global | html %] />
+                            </div>
+                            <div class="Clear"></div>
                         </fieldset>
 
                         <div class="WidgetSimple">

@@ -102,6 +102,7 @@ sub Run {
 
         # set new configuration
         $ActivityData->{Name}   = $GetParam->{Name};
+        $ActivityData->{Global} = $GetParam->{Global};
         $ActivityData->{Config} = {};
 
         # set the rest of the config
@@ -322,6 +323,7 @@ sub Run {
         # set new configuration
         $ActivityData->{Name}     = $GetParam->{Name};
         $ActivityData->{EntityID} = $GetParam->{EntityID};
+        $ActivityData->{Global}   = $GetParam->{Global};
         $ActivityData->{Config}   = {};
 
         # set the rest of the config
@@ -922,7 +924,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name EntityID )
+        qw( Name EntityID Global )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

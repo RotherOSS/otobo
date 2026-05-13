@@ -132,6 +132,7 @@ sub Run {
         # set new confguration
         $ActivityDialogData->{Name}                           = $GetParam->{Name};
         $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
+        $ActivityDialogData->{Global}                         = $GetParam->{Global};
         $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
         $ActivityDialogData->{Config}->{DescriptionShort}     = $GetParam->{DescriptionShort};
         $ActivityDialogData->{Config}->{DescriptionLong}      = $GetParam->{DescriptionLong};
@@ -389,6 +390,7 @@ sub Run {
         # set new confguration
         $ActivityDialogData->{Name}                           = $GetParam->{Name};
         $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
+        $ActivityDialogData->{Global}                         = $GetParam->{Global};
         $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
         $ActivityDialogData->{Config}->{DescriptionShort}     = $GetParam->{DescriptionShort};
         $ActivityDialogData->{Config}->{DescriptionLong}      = $GetParam->{DescriptionLong};
@@ -1006,7 +1008,7 @@ sub _GetParams {
     # get parameters from web browser
     for my $ParamName (
         qw( Name EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
-        SubmitButtonText InputFieldDefinition DirectSubmit )
+        SubmitButtonText InputFieldDefinition DirectSubmit Global )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

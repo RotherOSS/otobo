@@ -86,6 +86,7 @@ sub Run {
 
         # set new configuration
         $TransitionActionData->{Name}             = $GetParam->{Name};
+        $TransitionActionData->{Global}           = $GetParam->{Global};
         $TransitionActionData->{Config}->{Module} = $GetParam->{Module};
         $TransitionActionData->{Config}->{Config} = $GetParam->{Config};
 
@@ -286,6 +287,7 @@ sub Run {
         # set new configuration
         $TransitionActionData->{Name}             = $GetParam->{Name};
         $TransitionActionData->{EntityID}         = $GetParam->{EntityID};
+        $TransitionActionData->{Global}           = $GetParam->{Global};
         $TransitionActionData->{Config}->{Module} = $GetParam->{Module};
         $TransitionActionData->{Config}->{Config} = $GetParam->{Config};
 
@@ -661,7 +663,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name Module EntityID )
+        qw( Name Module EntityID Global)
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

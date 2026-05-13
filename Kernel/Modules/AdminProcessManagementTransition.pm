@@ -85,6 +85,7 @@ sub Run {
 
         # set new configuration
         $TransitionData->{Name}   = $GetParam->{Name};
+        $TransitionData->{Global} = $GetParam->{Global};
         $TransitionData->{Config} = $GetParam->{Config};
 
         # check required parameters
@@ -271,6 +272,7 @@ sub Run {
         # set new configuration
         $TransitionData->{Name}     = $GetParam->{Name};
         $TransitionData->{EntityID} = $EntityID;
+        $TransitionData->{Global}   = $GetParam->{Global};
         $TransitionData->{Config}   = $GetParam->{Config};
 
         # check required parameters
@@ -698,9 +700,12 @@ sub _GetParams {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get parameters from web browser
-    $GetParam->{Name}            = $ParamObject->GetParam( Param => 'Name' ) || '';
-    $GetParam->{ConditionConfig} = $ParamObject->GetParam( Param => 'ConditionConfig' )
-        || '';
+    for my $ParamName (
+        qw( Name ConditionConfig Global )
+        )
+    {
+        $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
+    }
 
     my $Config = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
         Data => $GetParam->{ConditionConfig}
