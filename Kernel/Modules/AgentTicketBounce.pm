@@ -19,18 +19,20 @@ package Kernel::Modules::AgentTicketBounce;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
-use Mail::Address                 ();
 
 our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # get article ID
     $Self->{ArticleID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ArticleID' ) || '';

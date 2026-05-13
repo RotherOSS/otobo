@@ -24,7 +24,6 @@ use warnings;
 use List::Util qw(first);
 
 # CPAN modules
-use Mail::Address ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

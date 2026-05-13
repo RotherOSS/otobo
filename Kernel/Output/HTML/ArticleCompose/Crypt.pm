@@ -24,7 +24,6 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::Address ();
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
