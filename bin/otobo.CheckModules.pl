@@ -499,7 +499,20 @@ my @NeededModules = (
             aptget => 'perl',
             emerge => 'dev-perl/Digest-SHA',
             zypper => 'perl-Digest-SHA',
-            ports  => 'security/p5-Digest-SHA'
+            ports  => 'security/p5-Digest-SHA',
+        },
+    },
+    {
+        # Used in Kernel::System::EmailAddress
+        Module          => 'Email::Address::XS',
+        Comment         => 'parse list of mail addresses, substitute for Mail::Address',
+        Required        => 1,
+        VersionRequired => 1.04,                                                           # included in Debian 11 (bullseye)
+        InstTypes       => {
+            aptget => 'libemail-address-xs-perl',
+            emerge => 'dev-perl/Email-Address-XS',
+            zypper => 'perl-Email-Address-XS',
+            ports  => 'mail/p5-Email-Address-XS',
         },
     },
     {

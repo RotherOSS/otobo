@@ -34,6 +34,9 @@ requires 'DBIx::Connector';
 # (in perlcore)
 requires 'Digest::SHA';
 
+# parse list of mail addresses, substitute for Mail::Address
+requires 'Email::Address::XS', '1.04';
+
 requires 'File::chmod';
 
 # provides HTML::Entities for decoding HTML entities
