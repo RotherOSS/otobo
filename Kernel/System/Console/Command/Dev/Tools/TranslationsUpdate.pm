@@ -202,6 +202,9 @@ sub HandleLanguage {
         # i.e. FAQ_2_0 or FAQ20
         $Module =~ s/((_|\-)?(\d+))+$//gix;
 
+        # remove dashes from module name
+        $Module =~ s/-//g;
+
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
 
