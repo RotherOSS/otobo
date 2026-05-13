@@ -92,10 +92,6 @@ sub Run {
             $Recipient .= ', ' . $Param{$_};
         }
     }
-    my @SearchAddress = ();
-    if ($Recipient) {
-        @SearchAddress = Mail::Address->parse($Recipient);
-    }
 
     if (
         !IsArrayRefWithData( $Param{CryptKeyID} )
@@ -218,7 +214,7 @@ sub Data {
         }
     }
 
-    my @SearchAddress = ();
+    my @SearchAddress;
     if ($Recipient) {
         @SearchAddress = Mail::Address->parse($Recipient);
     }
