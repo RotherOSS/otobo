@@ -1533,11 +1533,14 @@ sub Run {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
+                ELEMENT:
                 for my $ElementData (
                     sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
                     @{$ElementList}
                     )
                 {
+                    next ELEMENT unless !$ElementData->{ProcessEntityID} ||
+                                        $ElementData->{ProcessEntityID} eq $ProcessEntityID;
 
                     my $AvailableIn = '';
                     if ( $Element eq "ActivityDialog" ) {
@@ -1799,11 +1802,14 @@ sub _ShowEdit {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
+                ELEMENT:
                 for my $ElementData (
                     sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
                     @{$ElementList}
                     )
                 {
+                    next ELEMENT unless !$ElementData->{ProcessEntityID} ||
+                        $ElementData->{ProcessEntityID} eq $ProcessData->{EntityID};
 
                     my $AvailableIn = '';
                     if ( $Element eq "ActivityDialog" ) {
