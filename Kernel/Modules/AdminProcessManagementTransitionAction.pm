@@ -204,19 +204,21 @@ sub Run {
                 Subaction => 'TransitionActionEdit'    # always use edit screen
             );
 
-            my $RedirectAction    = $ParamObject->GetParam( Param => 'PopupRedirectAction' )    || '';
-            my $RedirectSubaction = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID        = $ParamObject->GetParam( Param => 'PopupRedirectID' )        || '';
-            my $RedirectEntityID  = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )  || '';
+            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
+            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )       || '';
+            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )              || '';
+            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )        || '';
+            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' ) || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
                 Redirect => 1,
                 Screen   => {
-                    Action    => $RedirectAction,
-                    Subaction => $RedirectSubaction,
-                    ID        => $RedirectID,
-                    EntityID  => $RedirectEntityID,
+                    Action          => $RedirectAction,
+                    Subaction       => $RedirectSubaction,
+                    ID              => $RedirectID,
+                    EntityID        => $RedirectEntityID,
+                    ProcessEntityID => $RedirectProcessEntityID,
                 },
                 ConfigJSON => $TransitionActionConfig,
             );
@@ -413,19 +415,21 @@ sub Run {
                 Subaction => 'TransitionActionEdit'               # always use edit screen
             );
 
-            my $RedirectAction    = $ParamObject->GetParam( Param => 'PopupRedirectAction' )    || '';
-            my $RedirectSubaction = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID        = $ParamObject->GetParam( Param => 'PopupRedirectID' )        || '';
-            my $RedirectEntityID  = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )  || '';
+            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
+            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )       || '';
+            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )              || '';
+            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )        || '';
+            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' ) || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
                 Redirect => 1,
                 Screen   => {
-                    Action    => $RedirectAction,
-                    Subaction => $RedirectSubaction,
-                    ID        => $RedirectID,
-                    EntityID  => $RedirectEntityID,
+                    Action          => $RedirectAction,
+                    Subaction       => $RedirectSubaction,
+                    ID              => $RedirectID,
+                    EntityID        => $RedirectEntityID,
+                    ProcessEntityID => $RedirectProcessEntityID,
                 },
                 ConfigJSON => $TransitionActionConfig,
             );
@@ -683,6 +687,7 @@ sub _ShowEdit {
         Data         => {
             %Param,
             %{$TransitionActionData},
+            ProcessEntityID => $Param{ProcessEntityID},
             Name => $TransitionActionData->{Name},
         },
     );

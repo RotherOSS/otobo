@@ -1028,6 +1028,7 @@ sub _ShowEdit {
         Data         => {
             %Param,
             %{$ActivityDialogData},
+            ProcessEntityID => $Param{ProcessEntityID},
         },
     );
 

@@ -242,19 +242,21 @@ sub Run {
                 Subaction => 'ActivityEdit'               # always use edit screen
             );
 
-            my $RedirectAction    = $ParamObject->GetParam( Param => 'PopupRedirectAction' )    || '';
-            my $RedirectSubaction = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID        = $ParamObject->GetParam( Param => 'PopupRedirectID' )        || '';
-            my $RedirectEntityID  = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )  || '';
+            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
+            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )       || '';
+            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )              || '';
+            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )        || '';
+            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' ) || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
                 Redirect => 1,
                 Screen   => {
-                    Action    => $RedirectAction,
-                    Subaction => $RedirectSubaction,
-                    ID        => $RedirectID,
-                    EntityID  => $RedirectEntityID,
+                    Action          => $RedirectAction,
+                    Subaction       => $RedirectSubaction,
+                    ID              => $RedirectID,
+                    EntityID        => $RedirectEntityID,
+                    ProcessEntityID => $RedirectProcessEntityID,
                 },
                 ConfigJSON => $ActivityConfig,
             );
@@ -472,19 +474,21 @@ sub Run {
                 Subaction => 'ActivityEdit'               # always use edit screen
             );
 
-            my $RedirectAction    = $ParamObject->GetParam( Param => 'PopupRedirectAction' )    || '';
-            my $RedirectSubaction = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID        = $ParamObject->GetParam( Param => 'PopupRedirectID' )        || '';
-            my $RedirectEntityID  = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )  || '';
+            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )           || '';
+            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )        || '';
+            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )               || '';
+            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )         || '';
+            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
                 Redirect => 1,
                 Screen   => {
-                    Action    => $RedirectAction,
-                    Subaction => $RedirectSubaction,
-                    ID        => $RedirectID,
-                    EntityID  => $RedirectEntityID,
+                    Action          => $RedirectAction,
+                    Subaction       => $RedirectSubaction,
+                    ID              => $RedirectID,
+                    EntityID        => $RedirectEntityID,
+                    ProcessEntityID => $RedirectProcessEntityID,
                 },
                 ConfigJSON => $ActivityConfig,
             );
@@ -807,10 +811,11 @@ sub _ShowEdit {
             $LayoutObject->Block(
                 Name => 'AvailableActivityDialogRow',
                 Data => {
-                    ID          => $ActivityDialogData->{ID},
-                    EntityID    => $ActivityDialogData->{EntityID},
-                    Name        => $ActivityDialogData->{Name},
-                    AvailableIn => $AvailableIn,
+                    ID              => $ActivityDialogData->{ID},
+                    EntityID        => $ActivityDialogData->{EntityID},
+                    ProcessEntityID => $Param{ProcessEntityID},
+                    Name            => $ActivityDialogData->{Name},
+                    AvailableIn     => $AvailableIn,
                 },
             );
         }
@@ -842,10 +847,11 @@ sub _ShowEdit {
             $LayoutObject->Block(
                 Name => 'AssignedActivityDialogRow',
                 Data => {
-                    ID          => $ActivityDialogData->{ID},
-                    EntityID    => $ActivityDialogData->{EntityID},
-                    Name        => $ActivityDialogData->{Name},
-                    AvailableIn => $AvailableIn,
+                    ID              => $ActivityDialogData->{ID},
+                    EntityID        => $ActivityDialogData->{EntityID},
+                    ProcessEntityID => $Param{ProcessEntityID},
+                    Name            => $ActivityDialogData->{Name},
+                    AvailableIn     => $AvailableIn,
                 },
             );
         }
@@ -899,10 +905,11 @@ sub _ShowEdit {
             $LayoutObject->Block(
                 Name => 'AvailableActivityDialogRow',
                 Data => {
-                    ID          => $ActivityDialogData->{ID},
-                    EntityID    => $ActivityDialogData->{EntityID},
-                    Name        => $ActivityDialogData->{Name},
-                    AvailableIn => $AvailableIn,
+                    ID              => $ActivityDialogData->{ID},
+                    EntityID        => $ActivityDialogData->{EntityID},
+                    ProcessEntityID => $Param{ProcessEntityID},
+                    Name            => $ActivityDialogData->{Name},
+                    AvailableIn     => $AvailableIn,
                 },
             );
         }
