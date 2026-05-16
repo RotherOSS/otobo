@@ -132,6 +132,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('#PopupRedirectSubaction').val($(this).data('subaction'));
             $('#PopupRedirectID').val($(this).data('id'));
             $('#PopupRedirectEntityID').val($(this).data('entity'));
+            $('#PopupRedirectProcessEntityID').val($(this).data('process'));
             // Only used for path popup
             $('#PopupRedirectStartActivityID').val($(this).data('startactivityid'));
 
@@ -180,6 +181,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 Subaction: Redirect.Subaction,
                 ID: Redirect.ID,
                 EntityID: Redirect.EntityID,
+                ProcessEntityID: Redirect.ProcessEntityID,
                 Field: Redirect.Field,
                 StartActivityID: Redirect.StartActivityID
             };

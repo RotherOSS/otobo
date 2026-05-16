@@ -43,6 +43,7 @@
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+                <input type="hidden" name="PopupRedirectProcessEntityID" value="" id="PopupRedirectProcessEntityID"/>
                 <input type="hidden" name="PopupRedirectStartActivityID" value="" id="PopupRedirectStartActivityID"/>
 
                 <div class="WidgetSimple Expanded">
@@ -61,7 +62,7 @@
                             </li>
                             <li id="EndActivity" class="EndActivity"></li>
                         </ul>
-                        <div id="EditPath"><a href="#" data-action="AdminProcessManagementTransition" data-subaction="TransitionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_Transition">[% Translate("Edit this transition") | html %]</a></div>
+                        <div id="EditPath"><a href="#" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementTransition" data-subaction="TransitionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_Transition">[% Translate("Edit this transition") | html %]</a></div>
                     </div>
                 </div>
 
@@ -88,10 +89,10 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableTransitionActions">
 [% RenderBlockStart("AvailableTransitionActionRow") %]
-                                <li data-id="[% Data.ID | html %]" id="[% Data.EntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
+                                <li data-id="[% Data.ID | html %]" id="[% Data.EntityID | html %]" data-process="[% Data.ProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
                                     [% Data.Name | html %] ([% Data.EntityID | html %])
                                     <span class="Functions">
-                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon" title="[% Translate("Edit") | html %]">
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon" title="[% Translate("Edit") | html %]">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </span>
@@ -99,7 +100,7 @@
 [% RenderBlockEnd("AvailableTransitionActionRow") %]
                             </ul>
                             <div class="SpacingTop">
-                                <a href="#" data-entity="" data-id="" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionNew" class="CallForAction AsPopup_Redirect Edit_Confirm"><span>[% Translate("Create New Transition Action") | html %]</span></a>
+                                <a href="#" data-entity="" data-id="" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionNew" class="CallForAction AsPopup_Redirect Edit_Confirm"><span>[% Translate("Create New Transition Action") | html %]</span></a>
                             </div>
                         </div>
                         <div class="Size1of2">

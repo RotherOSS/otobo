@@ -42,6 +42,7 @@
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+                <input type="hidden" name="PopupRedirectProcessEntityID" value="" id="PopupRedirectProcessEntityID"/>
 
 [% RenderBlockStart("EditWarning") %]
                 <div class="WidgetSimple Expanded WidgetNotice">
@@ -114,7 +115,7 @@
                                     [% Data.Name | html %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
-                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </span>
@@ -122,8 +123,7 @@
 [% RenderBlockEnd("AvailableActivityDialogRow") %]
                             </ul>
                             <div class="SpacingTop">
-                                <a href="#" data-entity="" data-id="" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogNew" class="CallForAction AsPopup_Redirect" ><span>[% Translate("Create New Activity Dialog") | html %]</span></a>
-
+                                <a href="#" data-entity="" data-id="" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogNew" class="CallForAction AsPopup_Redirect" ><span>[% Translate("Create New Activity Dialog") | html %]</span></a>
 
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                     [% Data.Name | html %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
-                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </span>

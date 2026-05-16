@@ -154,10 +154,11 @@ sub Run {
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
-            my $RedirectAction    = $ParamObject->GetParam( Param => 'PopupRedirectAction' )    || '';
-            my $RedirectSubaction = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID        = $ParamObject->GetParam( Param => 'PopupRedirectID' )        || '';
-            my $RedirectEntityID  = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )  || '';
+            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
+            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )       || '';
+            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )              || '';
+            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )        || '';
+            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' ) || '';
 
             # when redirecting to the transition dialog, we need the new TransitionID
             # because the ID was possibly changed in this dialog
@@ -180,6 +181,7 @@ sub Run {
 
             $Self->_PushSessionScreen(
                 ID              => $TransferData->{ProcessEntityID},    # abuse!
+                ProcessEntityID => $TransferData->{ProcessEntityID},
                 EntityID        => $EntityID,
                 StartActivityID => $GetParam->{StartActivityID},
                 Subaction       => 'PathEdit'                           # always use edit screen
@@ -198,10 +200,11 @@ sub Run {
             return $Self->_PopupResponse(
                 Redirect => 1,
                 Screen   => {
-                    Action    => $RedirectAction,
-                    Subaction => $RedirectSubaction,
-                    ID        => $RedirectID,
-                    EntityID  => $RedirectEntityID,
+                    Action          => $RedirectAction,
+                    Subaction       => $RedirectSubaction,
+                    ID              => $RedirectID,
+                    EntityID        => $RedirectEntityID,
+                    ProcessEntityID => $RedirectProcessEntityID,
                 },
                 ConfigJSON => $ReturnConfig,
             );
@@ -332,9 +335,10 @@ sub _ShowEdit {
         $LayoutObject->Block(
             Name => 'AvailableTransitionActionRow',
             Data => {
-                ID       => $TransitionActionData->{ID},
-                EntityID => $TransitionActionData->{EntityID},
-                Name     => $TransitionActionData->{Name},
+                ID              => $TransitionActionData->{ID},
+                EntityID        => $TransitionActionData->{EntityID},
+                Name            => $TransitionActionData->{Name},
+                ProcessEntityID => $Param{ProcessEntityID},
             },
         );
     }
@@ -424,6 +428,7 @@ sub _PushSessionScreen {
         Action          => $Self->{Action} || '',
         Subaction       => $Param{Subaction},
         ID              => $Param{ID},
+        ProcessEntityID => $Param{ProcessEntityID},
         EntityID        => $Param{EntityID},
         StartActivityID => $Param{StartActivityID},
     };
