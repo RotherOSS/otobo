@@ -439,13 +439,13 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Crypt-JWT-0.037
-    pathname: M/MI/MIK/Crypt-JWT-0.037.tar.gz
+  Crypt-JWT-0.038
+    pathname: M/MI/MIK/Crypt-JWT-0.038.tar.gz
     provides:
-      Crypt::JWT 0.037
-      Crypt::KeyWrap 0.037
+      Crypt::JWT 0.038
+      Crypt::KeyWrap 0.038
     requirements:
-      Compress::Raw::Zlib 0
+      Compress::Raw::Zlib 2.057
       CryptX 0.067
       Exporter 5.57
       ExtUtils::MakeMaker 0
@@ -465,118 +465,128 @@ DISTRIBUTIONS
       FileHandle 0
       constant 0
       perl 5.006
-  CryptX-0.088
-    pathname: M/MI/MIK/CryptX-0.088.tar.gz
+  CryptX-0.089
+    pathname: M/MI/MIK/CryptX-0.089.tar.gz
     provides:
-      Crypt::AuthEnc 0.088
-      Crypt::AuthEnc::CCM 0.088
-      Crypt::AuthEnc::ChaCha20Poly1305 0.088
-      Crypt::AuthEnc::EAX 0.088
-      Crypt::AuthEnc::GCM 0.088
-      Crypt::AuthEnc::OCB 0.088
-      Crypt::Checksum 0.088
-      Crypt::Checksum::Adler32 0.088
-      Crypt::Checksum::CRC32 0.088
-      Crypt::Cipher 0.088
-      Crypt::Cipher::AES 0.088
-      Crypt::Cipher::Anubis 0.088
-      Crypt::Cipher::Blowfish 0.088
-      Crypt::Cipher::CAST5 0.088
-      Crypt::Cipher::Camellia 0.088
-      Crypt::Cipher::DES 0.088
-      Crypt::Cipher::DES_EDE 0.088
-      Crypt::Cipher::IDEA 0.088
-      Crypt::Cipher::KASUMI 0.088
-      Crypt::Cipher::Khazad 0.088
-      Crypt::Cipher::MULTI2 0.088
-      Crypt::Cipher::Noekeon 0.088
-      Crypt::Cipher::RC2 0.088
-      Crypt::Cipher::RC5 0.088
-      Crypt::Cipher::RC6 0.088
-      Crypt::Cipher::SAFERP 0.088
-      Crypt::Cipher::SAFER_K128 0.088
-      Crypt::Cipher::SAFER_K64 0.088
-      Crypt::Cipher::SAFER_SK128 0.088
-      Crypt::Cipher::SAFER_SK64 0.088
-      Crypt::Cipher::SEED 0.088
-      Crypt::Cipher::Serpent 0.088
-      Crypt::Cipher::Skipjack 0.088
-      Crypt::Cipher::Twofish 0.088
-      Crypt::Cipher::XTEA 0.088
-      Crypt::Digest 0.088
-      Crypt::Digest::BLAKE2b_160 0.088
-      Crypt::Digest::BLAKE2b_256 0.088
-      Crypt::Digest::BLAKE2b_384 0.088
-      Crypt::Digest::BLAKE2b_512 0.088
-      Crypt::Digest::BLAKE2s_128 0.088
-      Crypt::Digest::BLAKE2s_160 0.088
-      Crypt::Digest::BLAKE2s_224 0.088
-      Crypt::Digest::BLAKE2s_256 0.088
-      Crypt::Digest::CHAES 0.088
-      Crypt::Digest::Keccak224 0.088
-      Crypt::Digest::Keccak256 0.088
-      Crypt::Digest::Keccak384 0.088
-      Crypt::Digest::Keccak512 0.088
-      Crypt::Digest::MD2 0.088
-      Crypt::Digest::MD4 0.088
-      Crypt::Digest::MD5 0.088
-      Crypt::Digest::RIPEMD128 0.088
-      Crypt::Digest::RIPEMD160 0.088
-      Crypt::Digest::RIPEMD256 0.088
-      Crypt::Digest::RIPEMD320 0.088
-      Crypt::Digest::SHA1 0.088
-      Crypt::Digest::SHA224 0.088
-      Crypt::Digest::SHA256 0.088
-      Crypt::Digest::SHA384 0.088
-      Crypt::Digest::SHA3_224 0.088
-      Crypt::Digest::SHA3_256 0.088
-      Crypt::Digest::SHA3_384 0.088
-      Crypt::Digest::SHA3_512 0.088
-      Crypt::Digest::SHA512 0.088
-      Crypt::Digest::SHA512_224 0.088
-      Crypt::Digest::SHA512_256 0.088
-      Crypt::Digest::SHAKE 0.088
-      Crypt::Digest::Tiger192 0.088
-      Crypt::Digest::Whirlpool 0.088
-      Crypt::KeyDerivation 0.088
-      Crypt::Mac 0.088
-      Crypt::Mac::BLAKE2b 0.088
-      Crypt::Mac::BLAKE2s 0.088
-      Crypt::Mac::F9 0.088
-      Crypt::Mac::HMAC 0.088
-      Crypt::Mac::OMAC 0.088
-      Crypt::Mac::PMAC 0.088
-      Crypt::Mac::Pelican 0.088
-      Crypt::Mac::Poly1305 0.088
-      Crypt::Mac::XCBC 0.088
-      Crypt::Misc 0.088
-      Crypt::Mode 0.088
-      Crypt::Mode::CBC 0.088
-      Crypt::Mode::CFB 0.088
-      Crypt::Mode::CTR 0.088
-      Crypt::Mode::ECB 0.088
-      Crypt::Mode::OFB 0.088
-      Crypt::PK 0.088
-      Crypt::PK::DH 0.088
-      Crypt::PK::DSA 0.088
-      Crypt::PK::ECC 0.088
-      Crypt::PK::Ed25519 0.088
-      Crypt::PK::RSA 0.088
-      Crypt::PK::X25519 0.088
-      Crypt::PRNG 0.088
-      Crypt::PRNG::ChaCha20 0.088
-      Crypt::PRNG::Fortuna 0.088
-      Crypt::PRNG::RC4 0.088
-      Crypt::PRNG::Sober128 0.088
-      Crypt::PRNG::Yarrow 0.088
-      Crypt::Stream::ChaCha 0.088
-      Crypt::Stream::RC4 0.088
-      Crypt::Stream::Rabbit 0.088
-      Crypt::Stream::Salsa20 0.088
-      Crypt::Stream::Sober128 0.088
-      Crypt::Stream::Sosemanuk 0.088
-      CryptX 0.088
-      Math::BigInt::LTM 0.088
+      Crypt::ASN1 0.089
+      Crypt::AuthEnc 0.089
+      Crypt::AuthEnc::CCM 0.089
+      Crypt::AuthEnc::ChaCha20Poly1305 0.089
+      Crypt::AuthEnc::EAX 0.089
+      Crypt::AuthEnc::GCM 0.089
+      Crypt::AuthEnc::OCB 0.089
+      Crypt::AuthEnc::SIV 0.089
+      Crypt::AuthEnc::XChaCha20Poly1305 0.089
+      Crypt::Checksum 0.089
+      Crypt::Checksum::Adler32 0.089
+      Crypt::Checksum::CRC32 0.089
+      Crypt::Cipher 0.089
+      Crypt::Cipher::AES 0.089
+      Crypt::Cipher::Anubis 0.089
+      Crypt::Cipher::Blowfish 0.089
+      Crypt::Cipher::CAST5 0.089
+      Crypt::Cipher::Camellia 0.089
+      Crypt::Cipher::DES 0.089
+      Crypt::Cipher::DES_EDE 0.089
+      Crypt::Cipher::IDEA 0.089
+      Crypt::Cipher::KASUMI 0.089
+      Crypt::Cipher::Khazad 0.089
+      Crypt::Cipher::MULTI2 0.089
+      Crypt::Cipher::Noekeon 0.089
+      Crypt::Cipher::RC2 0.089
+      Crypt::Cipher::RC5 0.089
+      Crypt::Cipher::RC6 0.089
+      Crypt::Cipher::SAFERP 0.089
+      Crypt::Cipher::SAFER_K128 0.089
+      Crypt::Cipher::SAFER_K64 0.089
+      Crypt::Cipher::SAFER_SK128 0.089
+      Crypt::Cipher::SAFER_SK64 0.089
+      Crypt::Cipher::SEED 0.089
+      Crypt::Cipher::SM4 0.089
+      Crypt::Cipher::Serpent 0.089
+      Crypt::Cipher::Skipjack 0.089
+      Crypt::Cipher::Twofish 0.089
+      Crypt::Cipher::XTEA 0.089
+      Crypt::Digest 0.089
+      Crypt::Digest::BLAKE2b_160 0.089
+      Crypt::Digest::BLAKE2b_256 0.089
+      Crypt::Digest::BLAKE2b_384 0.089
+      Crypt::Digest::BLAKE2b_512 0.089
+      Crypt::Digest::BLAKE2s_128 0.089
+      Crypt::Digest::BLAKE2s_160 0.089
+      Crypt::Digest::BLAKE2s_224 0.089
+      Crypt::Digest::BLAKE2s_256 0.089
+      Crypt::Digest::CHAES 0.089
+      Crypt::Digest::KangarooTwelve 0.089
+      Crypt::Digest::Keccak224 0.089
+      Crypt::Digest::Keccak256 0.089
+      Crypt::Digest::Keccak384 0.089
+      Crypt::Digest::Keccak512 0.089
+      Crypt::Digest::MD2 0.089
+      Crypt::Digest::MD4 0.089
+      Crypt::Digest::MD5 0.089
+      Crypt::Digest::RIPEMD128 0.089
+      Crypt::Digest::RIPEMD160 0.089
+      Crypt::Digest::RIPEMD256 0.089
+      Crypt::Digest::RIPEMD320 0.089
+      Crypt::Digest::SHA1 0.089
+      Crypt::Digest::SHA224 0.089
+      Crypt::Digest::SHA256 0.089
+      Crypt::Digest::SHA384 0.089
+      Crypt::Digest::SHA3_224 0.089
+      Crypt::Digest::SHA3_256 0.089
+      Crypt::Digest::SHA3_384 0.089
+      Crypt::Digest::SHA3_512 0.089
+      Crypt::Digest::SHA512 0.089
+      Crypt::Digest::SHA512_224 0.089
+      Crypt::Digest::SHA512_256 0.089
+      Crypt::Digest::SHAKE 0.089
+      Crypt::Digest::Tiger192 0.089
+      Crypt::Digest::TurboSHAKE 0.089
+      Crypt::Digest::Whirlpool 0.089
+      Crypt::KeyDerivation 0.089
+      Crypt::Mac 0.089
+      Crypt::Mac::BLAKE2b 0.089
+      Crypt::Mac::BLAKE2s 0.089
+      Crypt::Mac::F9 0.089
+      Crypt::Mac::HMAC 0.089
+      Crypt::Mac::OMAC 0.089
+      Crypt::Mac::PMAC 0.089
+      Crypt::Mac::Pelican 0.089
+      Crypt::Mac::Poly1305 0.089
+      Crypt::Mac::XCBC 0.089
+      Crypt::Misc 0.089
+      Crypt::Mode 0.089
+      Crypt::Mode::CBC 0.089
+      Crypt::Mode::CFB 0.089
+      Crypt::Mode::CTR 0.089
+      Crypt::Mode::ECB 0.089
+      Crypt::Mode::OFB 0.089
+      Crypt::PK 0.089
+      Crypt::PK::DH 0.089
+      Crypt::PK::DSA 0.089
+      Crypt::PK::ECC 0.089
+      Crypt::PK::Ed25519 0.089
+      Crypt::PK::Ed448 0.089
+      Crypt::PK::RSA 0.089
+      Crypt::PK::X25519 0.089
+      Crypt::PK::X448 0.089
+      Crypt::PRNG 0.089
+      Crypt::PRNG::ChaCha20 0.089
+      Crypt::PRNG::Fortuna 0.089
+      Crypt::PRNG::RC4 0.089
+      Crypt::PRNG::Sober128 0.089
+      Crypt::PRNG::Yarrow 0.089
+      Crypt::Stream::ChaCha 0.089
+      Crypt::Stream::RC4 0.089
+      Crypt::Stream::Rabbit 0.089
+      Crypt::Stream::Salsa20 0.089
+      Crypt::Stream::Sober128 0.089
+      Crypt::Stream::Sosemanuk 0.089
+      Crypt::Stream::XChaCha 0.089
+      Crypt::Stream::XSalsa20 0.089
+      CryptX 0.089
+      Math::BigInt::LTM 0.089
     requirements:
       ExtUtils::MakeMaker 0
       Math::BigInt 0
@@ -2408,7 +2418,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -4324,11 +4333,11 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008
-  YAML-LibYAML-v0.906.0
-    pathname: T/TI/TINITA/YAML-LibYAML-v0.906.0.tar.gz
+  YAML-LibYAML-v0.907.0
+    pathname: T/TI/TINITA/YAML-LibYAML-v0.907.0.tar.gz
     provides:
-      YAML::LibYAML v0.906.0
-      YAML::XS v0.906.0
+      YAML::LibYAML v0.907.0
+      YAML::XS v0.907.0
     requirements:
       B::Deparse 0
       Exporter 0
@@ -4345,32 +4354,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.82
-    pathname: O/OA/OALDERS/libwww-perl-6.82.tar.gz
+  libwww-perl-6.83
+    pathname: O/OA/OALDERS/libwww-perl-6.83.tar.gz
     provides:
-      LWP 6.82
-      LWP::Authen::Basic 6.82
-      LWP::Authen::Digest 6.82
-      LWP::Authen::Ntlm 6.82
-      LWP::ConnCache 6.82
-      LWP::Debug 6.82
-      LWP::Debug::TraceHTTP 6.82
-      LWP::DebugFile 6.82
-      LWP::MemberMixin 6.82
-      LWP::Protocol 6.82
-      LWP::Protocol::cpan 6.82
-      LWP::Protocol::data 6.82
-      LWP::Protocol::file 6.82
-      LWP::Protocol::ftp 6.82
-      LWP::Protocol::gopher 6.82
-      LWP::Protocol::http 6.82
-      LWP::Protocol::loopback 6.82
-      LWP::Protocol::mailto 6.82
-      LWP::Protocol::nntp 6.82
-      LWP::Protocol::nogo 6.82
-      LWP::RobotUA 6.82
-      LWP::Simple 6.82
-      LWP::UserAgent 6.82
+      LWP 6.83
+      LWP::Authen::Basic 6.83
+      LWP::Authen::Digest 6.83
+      LWP::Authen::Ntlm 6.83
+      LWP::ConnCache 6.83
+      LWP::Debug 6.83
+      LWP::Debug::TraceHTTP 6.83
+      LWP::DebugFile 6.83
+      LWP::MemberMixin 6.83
+      LWP::Protocol 6.83
+      LWP::Protocol::cpan 6.83
+      LWP::Protocol::data 6.83
+      LWP::Protocol::file 6.83
+      LWP::Protocol::ftp 6.83
+      LWP::Protocol::gopher 6.83
+      LWP::Protocol::http 6.83
+      LWP::Protocol::loopback 6.83
+      LWP::Protocol::mailto 6.83
+      LWP::Protocol::nntp 6.83
+      LWP::Protocol::nogo 6.83
+      LWP::RobotUA 6.83
+      LWP::Simple 6.83
+      LWP::UserAgent 6.83
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -4497,9 +4506,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
-      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
@@ -4510,7 +4517,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
@@ -4519,5 +4525,4 @@ DISTRIBUTIONS
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
-      XML::SAX::Base 0
       perl 5.008001
