@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-04-28 11:37+0000\n"
+"POT-Creation-Date: 2026-05-13 07:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7408,6 +7408,10 @@ msgstr ""
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
+msgstr ""
+
+#. Template: AdminTicketMask
+msgid "Edit mask"
 msgstr ""
 
 #. Template: AdminTicketMask

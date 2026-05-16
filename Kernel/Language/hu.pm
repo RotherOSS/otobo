@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.997913872746238;
+    $Self->{Completeness}        = 0.997765196662694;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2505,6 +2505,7 @@ sub Data {
 
         # Template: AdminTicketMask
         'Ticket Mask Management' => 'Jegymaszkkezelés',
+        'Edit mask' => '',
         'Change mask definition' => 'Maszkmeghatározás megváltoztatása',
         'Ticket Mask' => 'Jegymaszk',
         'Change' => 'Változás',

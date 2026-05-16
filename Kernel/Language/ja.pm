@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.848457755923111;
+    $Self->{Completeness}        = 0.848331346841478;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2503,6 +2503,7 @@ sub Data {
 
         # Template: AdminTicketMask
         'Ticket Mask Management' => 'チケットマスク管理',
+        'Edit mask' => '',
         'Change mask definition' => 'マスク定義を変更する',
         'Ticket Mask' => 'チケットマスク',
         'Change' => '',
