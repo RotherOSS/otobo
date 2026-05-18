@@ -101,7 +101,6 @@ sub Run {
         # Get default signing key from the queue (if apply) or any other key from queue system
         #   address that fits.
         if ( $Param{QueueID} ) {
-
             $Param{SignKeyID} = $Self->_PickSignKeyID(%Param) || '';
         }
     }
@@ -205,7 +204,7 @@ sub Data {
 
         my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
-        return %KeyList if !$PGPObject;
+        return %KeyList unless $PGPObject;
 
         # Get PGP method (Detached or In-line).
         my $PGPMethod = $ConfigObject->Get('PGP::Method') || 'Detached';
@@ -216,7 +215,7 @@ sub Data {
             )
         {
             my @PrivateKeys = $PGPObject->PrivateKeySearch(
-                Search => $SearchAddress[0]->address(),
+                Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddresses[0] ),
             );
             for my $DataRef (@PrivateKeys) {
                 my $Expires = '';
@@ -242,10 +241,10 @@ sub Data {
 
         my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-        return %KeyList if !$SMIMEObject;
+        return %KeyList unless $SMIMEObject;
 
         my @PrivateKeys = $SMIMEObject->PrivateSearch(
-            Search => $SearchAddress[0]->address(),
+            Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddresses[0] ),
         );
         for my $DataRef (@PrivateKeys) {
             my $Expired = '';
@@ -341,7 +340,7 @@ sub _CheckSender {
     ADDRESS:
     for my $Address (@SearchAddress) {
 
-        my $EmailAddress = $Address->address();
+        my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Address );
 
         my @PrivateKeys;
         if ( $Backend eq 'PGP' ) {
@@ -447,20 +446,20 @@ sub _PickSignKeyID {
     return unless $EncryptObject;
 
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my @SearchAddress      = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+    my @SearchAddresses    = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     # Search for privates keys for queue system address.
     my @PrivateKeys;
     if ( $Backend eq 'PGP' ) {
         @PrivateKeys = $EncryptObject->PrivateKeySearch(
-            Search => $SearchAddress[0]->address(),
+            Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddresses[0] ),
         );
 
         @PrivateKeys = sort { $a->{Expires} cmp $b->{Expires} } grep { $_->{Status} eq 'good' } @PrivateKeys;
     }
     else {
         @PrivateKeys = $EncryptObject->PrivateSearch(
-            Search => $SearchAddress[0]->address(),
+            Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddresses[0] ),
             Valid  => 1,
         );
         @PrivateKeys = sort { $a->{ShortEndDate} cmp $b->{ShortEndDate} } @PrivateKeys;
@@ -532,12 +531,12 @@ sub _GetUniqueSignKeyIDsToRemove {
         my @PrivateKeys;
         if ( $Backend eq 'PGP' ) {
             @PrivateKeys = $EncryptObject->PrivateKeySearch(
-                Search => $Address->address(),
+                Search => $EmailAddressObject->GetAddress( AddressObject => $Address ),
             );
         }
         else {
             @PrivateKeys = $EncryptObject->PrivateSearch(
-                Search => $Address->address(),
+                Search => $EmailAddressObject->GetAddress( AddressObject => $Address ),
             );
         }
 

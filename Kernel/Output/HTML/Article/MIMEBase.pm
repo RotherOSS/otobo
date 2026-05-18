@@ -459,7 +459,7 @@ sub ArticleCustomerRecipientsGet {
 
         # Get single customer user from customer backend based on the email address.
         my %CustomerSearch = $CustomerUserObject->CustomerSearch(
-            PostMasterSearch => $Email->address(),
+            PostMasterSearch => $EmailAddressObject->GetAddress( AddressObject => $Email ),
             Limit            => 1,
         );
 

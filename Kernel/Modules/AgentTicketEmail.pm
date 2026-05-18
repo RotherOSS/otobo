@@ -557,12 +557,11 @@ sub Run {
 
                 my %QueueLookup         = reverse %Queues;
                 my %SystemAddressLookup = reverse $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList();
-                my @ArticleFromAddress;
                 my $SystemAddressEmail;
 
                 if ($ArticleFrom) {
-                    @ArticleFromAddress = $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom );
-                    $SystemAddressEmail = $ArticleFromAddress[0]->address();
+                    my ($ArticleFromAddress) = $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom );
+                    $SystemAddressEmail = $EmailAddressObject->GetAddress( AddressObject => $ArticleFromAddress );
                 }
 
                 if ( !defined $QueueLookup{ $Article{To} } && defined $SystemAddressLookup{$SystemAddressEmail} ) {
@@ -650,7 +649,7 @@ sub Run {
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerDisabled = '';
             my $CustomerSelected = $CountFrom eq '1' ? 'checked ' : '';
-            my $EmailAddress     = $Email->address();
+            my $EmailAddress     = $EmailAddressObject->GetAddress( AddressObject => $Email );
             if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) )
             {
                 $CustomerErrorMsg = $CheckItemObject->CheckErrorType()

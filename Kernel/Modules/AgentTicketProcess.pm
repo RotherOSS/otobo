@@ -3298,7 +3298,7 @@ sub _RenderCustomer {
 
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
         my %List               = $CustomerUserObject->CustomerSearch(
-            PostMasterSearch => $ArticleFromAddress->address(),
+            PostMasterSearch => $EmailAddressObject->GetAddress( AddressObject => $ArticleFromAddress ),
             Valid            => 1,
         );
 
@@ -4800,10 +4800,7 @@ sub _StoreActivityDialog {
                 # check email address
                 my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $CustomerUserID ) ) {
-                    if (
-                        !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( AddressObject => $Email )
-                        )
-                    {
+                    if ( !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( AddressObject => $Email ) ) {
                         $Error{'CustomerUserID'} = 1;
                     }
                 }
