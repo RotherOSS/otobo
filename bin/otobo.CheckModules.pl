@@ -103,6 +103,7 @@ use Term::ReadLine;    # avoids error when checking for Term::ReadLine::Gnu
 # CPAN modules
 
 # OTOBO modules
+use Kernel::MinimalPerlVersion    ();
 use Kernel::System::Environment   ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 

@@ -39,6 +39,7 @@ use File::Copy  qw(move);
 # CPAN modules
 
 # OTOBO modules
+use Kernel::MinimalPerlVersion    ();
 use Kernel::System::ObjectManager ();
 
 # Disable warnings for redefined subroutines by setting our own WARN signal handler.
