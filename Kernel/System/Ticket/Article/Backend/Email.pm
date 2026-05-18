@@ -666,7 +666,10 @@ sub SendAutoResponse {
 
     # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
-    my $From = Email::Address::XS->new( $AutoResponse{SenderRealname}, $AutoResponse{SenderAddress} );
+    my $From = $EmailAddressObject->Format(
+        Realname => $AutoResponse{SenderRealname},
+        Address  => $AutoResponse{SenderAddress},
+    );
 
     # send email
     my $ArticleID = $Self->ArticleSend(
@@ -675,7 +678,7 @@ sub SendAutoResponse {
         TicketID             => $Param{TicketID},
         HistoryType          => $HistoryType,
         HistoryComment       => "\%\%$AutoReplyAddresses",
-        From                 => $From->format(),
+        From                 => $From,
         To                   => $AutoReplyAddresses,
         Cc                   => $Cc,
         Charset              => 'utf-8',

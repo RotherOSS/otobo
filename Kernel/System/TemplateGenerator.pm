@@ -37,6 +37,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailAddress',
     'Kernel::System::Encode',
     'Kernel::System::HTMLUtils',
     'Kernel::System::Log',
@@ -364,7 +365,13 @@ sub Sender {
 
     # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
-    return Email::Address::XS->new( $Address{RealName}, $Address{Email} )->format;
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+
+    return $EmailAddressObject->Format(
+        Realname => $Address{Realname},
+        Address  => $Address{Email},
+    );
+
 }
 
 =head2 Template()

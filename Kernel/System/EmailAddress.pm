@@ -31,6 +31,8 @@ use Email::Address::XS 1.04 ();
 our @ObjectDependencies = (
 );
 
+=encoding UTF-8
+
 =head1 NAME
 
 Kernel::System::EmailAddress - parse address lists and provide methods for working with the returned address objects
@@ -217,11 +219,24 @@ or
 
     my $FormattedAddress = $EmailAddressObject->Format(
         Email => 'dummy <dummy@testanything.org>,   Erna Extremtesterin     <extremerna@testanything.org>   (extreme testing is good) ',
-        ),
+    );
 
-Both variants return:
+or
+
+    my $FormattedAddress = $EmailAddressObject->Format(
+        Realname => 'Ben 🐛 Bugfinder',
+        Address => 'bugfinder@testanything.org'
+    );
+
+The first two variants support comments. They return:
 
     $FormattedAddress = 'Erna Extremtesterin <extremerna@testanything.org> (extreme testing is good)'
+
+The third variant does not support comments. It returns:
+
+    $FormattedAddress = '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>';
+
+An empty string is returned as fallback.
 
 =cut
 
@@ -233,14 +248,29 @@ sub Format {
         return $Param{AddressObject}->format;
     }
 
-    my $FormattedAddress = '';
+    # The parameter Email is second in line
+    if ( exists $Param{Email} ) {
 
-    # get last address in the list, but only a single email address is expected
-    for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
-        $FormattedAddress = $EmailSplit->format // '';
+        # get last address in the list, but only a single email address is expected
+        my $FormattedAddress = '';
+
+        for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
+            $FormattedAddress = $EmailSplit->format // '';
+        }
+
+        return $FormattedAddress;
     }
 
-    return $FormattedAddress;
+    # alternatively the phrase and the address can be passed
+    if ( $Param{Realname} || $Param{Address} ) {
+        return Email::Address::XS->new(
+            phrase  => $Param{Realname},
+            address => $Param{Address},
+        )->format;
+    }
+
+    # the fallback
+    return '';
 }
 
 1;
