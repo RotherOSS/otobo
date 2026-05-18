@@ -246,7 +246,7 @@
                                         <div id="KerberosKeytabError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                         <div id="KerberosKeytabServerError" class="TooltipErrorMessage"><p>[% Translate(Data.KerberosKeytabServerErrorMessage) | html %]</p></div>
                                         <p class="FieldExplanation">
-                                            [% Translate("The kerberos keytab file for the privileged user.") | html %]
+                                            [% Translate("The Kerberos keytab file for the privileged user.") | html %]
                                         </p>
                                     </div>
                                     <div class="Clear"></div>

@@ -125,15 +125,15 @@ sub Run {
     );
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
-        Tests            => $Self->GetOption('test'),
-        TestScriptPathes => $Self->GetArgument('test-script-path'),
-        Directory        => $Self->GetOption('directory'),
-        SOPMFiles        => $Self->GetOption('sopm'),
-        Packages         => $Self->GetOption('package'),
-        Verbose          => $Self->GetOption('verbose'),
-        Merge            => $Self->GetOption('merge'),
-        Shuffle          => $Self->GetOption('shuffle'),
-        PostTestScripts  => $Self->GetOption('post-test-script'),
+        Tests           => $Self->GetOption('test'),
+        TestScriptPaths => $Self->GetArgument('test-script-path'),
+        Directory       => $Self->GetOption('directory'),
+        SOPMFiles       => $Self->GetOption('sopm'),
+        Packages        => $Self->GetOption('package'),
+        Verbose         => $Self->GetOption('verbose'),
+        Merge           => $Self->GetOption('merge'),
+        Shuffle         => $Self->GetOption('shuffle'),
+        PostTestScripts => $Self->GetOption('post-test-script'),
     );
 
     return $Self->ExitCodeOk if $FunctionResult;

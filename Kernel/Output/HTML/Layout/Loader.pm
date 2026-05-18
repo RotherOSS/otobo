@@ -326,7 +326,7 @@ sub LoaderCreateJavaScriptTemplateData {
         $JSTemplateDir = $JSStandardTemplateDir;
     }
 
-    # get the needed pathes
+    # get the needed paths
     my $Home                 = $ConfigObject->Get('Home');
     my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
     my $TargetFilenamePrefix = "TemplateJS_$Theme";
@@ -485,7 +485,7 @@ Only the file for the current user language is created.
 sub LoaderCreateJavaScriptTranslationData {
     my ( $Self, %Param ) = @_;
 
-    # get the needed pathes
+    # get the needed paths
     my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
     my $Home                 = $ConfigObject->Get('Home');
     my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';

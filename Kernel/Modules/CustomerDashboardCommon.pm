@@ -91,7 +91,7 @@ sub Run {
         if ( !$UsedTiles->{$Tile}{Module} ) {
             if ( !$UsedTiles->{$Tile}{Template} ) {
                 my $Message = $LayoutObject->{LanguageObject}->Translate(
-                    'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.',
+                    'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.',
                     $Tile,
                 );
                 $Kernel::OM->Get('Kernel::System::Log')->Log(

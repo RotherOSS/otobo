@@ -128,7 +128,7 @@
             </div>
             <div class="Content">
                 <p>
-                [% Translate("Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.") | html %]
+                [% Translate("Changes made here only affect the system behavior after your draft translations have been deployed. By deploying them, all changes will be written to the language files.") | html %]
                 </p>
             </div>
         </div>

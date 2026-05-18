@@ -137,11 +137,11 @@ sub Run {
     if ( !$OTRSConfigpmPath || !-e $OTRSConfigpmPath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't open Kernel/Config.pm file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
+            Message  => "Can't open Kernel/Config.pm file from OTRS home directory: $Param{OTRSData}->{OTRSHome}!",
         );
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open Kernel/Config.pm file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open Kernel/Config.pm file from OTRS home directory: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
 
         return \%Result;
@@ -200,7 +200,7 @@ sub _CheckOTRSConfigpm {
     # load Kernel/Config.pm file
     if ( !-e "$OTRSConfigpmPath" ) {
         return {
-            Message    => $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home."),
+            Message    => $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS home directory."),
             Comment    => $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory."),
             Successful => 0,
         };
@@ -209,7 +209,7 @@ sub _CheckOTRSConfigpm {
     # look at Kernel/Config.pm file and extract DB connection settings
     if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSConfigpmPath ) ) {
         return {
-            Message    => $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home."),
+            Message    => $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS home directory."),
             Comment    => $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory."),
             Successful => 0,
         };
@@ -217,7 +217,7 @@ sub _CheckOTRSConfigpm {
 
     # Everything is correct, return %Result
     return {
-        Message    => $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home."),
+        Message    => $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS home directory."),
         Comment    => $Self->{LanguageObject}->Translate("Connect to OTRS file directory is possible."),
         Successful => 1,
     };

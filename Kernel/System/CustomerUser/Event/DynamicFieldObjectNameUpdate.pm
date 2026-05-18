@@ -59,7 +59,7 @@ sub Run {
         }
     }
 
-    # The dynamic fields of a CustomerUser are linked via the the field UserLogin. But UserLogin
+    # The dynamic fields of a CustomerUser are linked via the field UserLogin. But UserLogin
     # is not necessarily the unique id for the customer user. This means that UserLogin may
     # change. If the user login has been changed, update dynamic field object name for given name and type.
     if ( lc $Param{Data}->{OldData}->{UserLogin} ne lc $Param{Data}->{NewData}->{UserLogin} ) {
