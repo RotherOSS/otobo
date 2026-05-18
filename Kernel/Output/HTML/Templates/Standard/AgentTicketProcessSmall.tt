@@ -32,15 +32,18 @@
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
             <input type="hidden" name="IsProcessEnroll" id="IsProcessEnroll" value="[% Data.IsProcessEnroll | html %]"/>
             <input type="hidden" name="TicketID" id="TicketID" value="[% Data.TicketID | html %]"/>
-            <fieldset class="TableLike">
+            <fieldset class="ModularForm">
 [% RenderBlockStart("ProcessList") %]
-                <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>[% Translate("Process") | html %]:</label>
-                <div class="Field">
-                    [% Data.ProcessList %]
-                    <div id="ProcessEntityIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    <div id="ProcessEntityIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                <div class="Row">
+                    <div class="FieldCell">
+                        <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>[% Translate("Process") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ProcessList %]
+                            <div id="ProcessEntityIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="ProcessEntityIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="Spacing Clear"></div>
 [% RenderBlockEnd("ProcessList") %]
             </fieldset>
         </form>

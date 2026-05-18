@@ -47,38 +47,46 @@
                         <input type="hidden" name="Subaction" value="Update"/>
                         <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
                         <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
-                        <fieldset class="TableLike FixedLabel">
+                        <fieldset class="ModularForm FixedLabel">
 
-[% RenderBlockStart("AsteriskExplanation") %]
-                            <div class="Field">
-                                <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+    [% RenderBlockStart("AsteriskExplanation") %]
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="Clear"></div>
-[% RenderBlockEnd("AsteriskExplanation") %]
+    [% RenderBlockEnd("AsteriskExplanation") %]
 
-                            <label for="CustomerAutoComplete" class="Mandatory"><span class="Marker">*</span> [% Translate("Customer user") | html %]:</label>
-                            <div class="Field">
-                                <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDInvalid | html %]" autocomplete="off" />
-                                <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <label for="CustomerAutoComplete" class="Mandatory"><span class="Marker">*</span> [% Translate("Customer user") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDInvalid | html %]" autocomplete="off" />
+                                        <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="Clear"></div>
 
                             [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly") %]
 
-                            <div class="Field">
-<!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->
-                                <button class="CallForAction Primary" id="Submit" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+        <!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->
+                                        <button class="CallForAction Primary" id="Submit" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
                     </form>
                 </div>
             </div>
-            <div class="Clear"></div>
         </div>
-
+        <div class="Clear"></div>
         <div id="CustomerTickets"></div>
-
     </div>
     <div class="Footer"></div>
 </div>

@@ -3209,7 +3209,7 @@ sub _MaskEmailNew {
             );
             if ( $Item->{CustomerError} ) {
                 $LayoutObject->Block(
-                    Name => 'CcCustomerErrorExplantion',
+                    Name => 'CcCustomerErrorExplanation',
                 );
             }
             $CustomerCounterCc++;
@@ -3249,7 +3249,7 @@ sub _MaskEmailNew {
             );
             if ( $Item->{CustomerError} ) {
                 $LayoutObject->Block(
-                    Name => 'BccCustomerErrorExplantion',
+                    Name => 'BccCustomerErrorExplanation',
                 );
             }
             $CustomerCounterBcc++;
@@ -3289,7 +3289,7 @@ sub _MaskEmailNew {
             );
             if ( $Item->{CustomerError} ) {
                 $LayoutObject->Block(
-                    Name => 'CustomerErrorExplantion',
+                    Name => 'CustomerErrorExplanation',
                 );
             }
             $CustomerCounter++;
