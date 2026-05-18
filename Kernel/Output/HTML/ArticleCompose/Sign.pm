@@ -188,7 +188,7 @@ sub Data {
     return %KeyList if !$Param{From};
 
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my @SearchAddress      = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+    my @SearchAddresses    = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     return %KeyList unless $Param{EmailSecurityOptions};
 
@@ -335,10 +335,10 @@ sub _CheckSender {
     my $MissingKeysFlag;
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    my @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+    my @SearchAddresses = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     ADDRESS:
-    for my $Address (@SearchAddress) {
+    for my $Address (@SearchAddresses) {
 
         my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Address );
 
@@ -523,10 +523,10 @@ sub _GetUniqueSignKeyIDsToRemove {
     my %UniqueSignKeyIDsToRemove;
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    my @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+    my @SearchAddresses = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
 
     ADDRESS:
-    for my $Address (@SearchAddress) {
+    for my $Address (@SearchAddresses) {
 
         my @PrivateKeys;
         if ( $Backend eq 'PGP' ) {

@@ -207,15 +207,15 @@ sub Data {
     }
 
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my @SearchAddress;
+    my @SearchAddresses;
     if ($Recipient) {
-        @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Recipient );
+        @SearchAddresses = $EmailAddressObject->ParseAddressLine( Line => $Recipient );
     }
 
     # Generate key list.
     my %KeyList;
 
-    return %KeyList if !@SearchAddress;
+    return %KeyList if !@SearchAddresses;
     return %KeyList if !$Param{EmailSecurityOptions};
 
     # Get email security options.
@@ -241,7 +241,7 @@ sub Data {
             || ( $PGPMethod eq 'Inline' && !$Kernel::OM->Get('Kernel::Output::HTML::Layout')->{BrowserRichText} )
             )
         {
-            for my $SearchAddress (@SearchAddress) {
+            for my $SearchAddress (@SearchAddresses) {
                 my @PublicKeys = $PGPObject->PublicKeySearch(
                     Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddress ),
                 );
@@ -273,7 +273,7 @@ sub Data {
 
         return %KeyList if !$SMIMEObject;
 
-        for my $SearchAddress (@SearchAddress) {
+        for my $SearchAddress (@SearchAddresses) {
             my @PublicKeys = $SMIMEObject->CertificateSearch(
                 Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddress ),
             );
@@ -371,14 +371,14 @@ sub _CheckRecipient {
     for my $RecipientType (qw(To Cc Bcc)) {
 
         # Get all addresses for each recipient type.
-        my @SearchAddress;
+        my @SearchAddresses;
         if ( $Param{$RecipientType} ) {
-            @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
+            @SearchAddresses = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
         }
 
         # Get all certificates/public keys for each address.
         ADDRESS:
-        for my $Address (@SearchAddress) {
+        for my $Address (@SearchAddresses) {
 
             my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Address );
 
@@ -473,13 +473,13 @@ sub _PickEncryptKeyIDs {
     for my $RecipientType (qw(To Cc Bcc)) {
 
         # Get all addresses for each recipient type.
-        my @SearchAddress;
+        my @SearchAddresses;
         if ( $Param{$RecipientType} ) {
-            @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
+            @SearchAddresses = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
         }
 
         ADDRESS:
-        for my $Address (@SearchAddress) {
+        for my $Address (@SearchAddresses) {
 
             my @PublicKeys;
             if ( $Backend eq 'PGP' ) {
