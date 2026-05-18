@@ -557,11 +557,7 @@ sub Run {
                 $CountAux         = $CountFrom . 'Error';
             }
 
-            my $Phrase = '';
-            if ( $Email->phrase() ) {
-                $Phrase = $Email->phrase();
-            }
-
+            my $Phrase       = $EmailAddressObject->GetRealname( AddressObject => $Email ) || '';
             my $CustomerKey  = '';
             my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
             if (
