@@ -1805,7 +1805,7 @@ sub Run {
                 if ( $Data{Cc} ) {
                     $Data{Cc} .= ', ';
                 }
-                $Data{Cc} .= $Email->format();
+                $Data{Cc} .= $EmailAddressObject->Format( AddressObject => $Email );
             }
         }
 
@@ -1897,7 +1897,7 @@ sub Run {
                             if ($NewLine) {
                                 $NewLine .= ', ';
                             }
-                            $NewLine .= $Email->format();
+                            $NewLine .= $EmailAddressObject->Format( AddressObject => $Email );
                         }
                     }
                 }

@@ -834,7 +834,7 @@ sub Run {
                             if ($NewLine) {
                                 $NewLine .= ', ';
                             }
-                            $NewLine .= $Email->format();
+                            $NewLine .= $EmailAddressObject->Format( AddressObject => $Email );
                         }
                     }
                 }

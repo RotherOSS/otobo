@@ -235,6 +235,7 @@ sub Format {
 
     my $FormattedAddress = '';
 
+    # get last address in the list, but only a single email address is expected
     for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
         $FormattedAddress = $EmailSplit->format // '';
     }
