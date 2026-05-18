@@ -68,7 +68,7 @@
 
                     <div class="Row">
                         <div class="FieldCell">
-                            <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate(" Customer user") | html %]:</label>
+                            <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("Customer user") | html %]:</label>
                             <div class="Field">
                                 <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc [% Data.FromInvalid | html %]" autocomplete="off" />
                                 <div id="FromCustomerServerError" class="TooltipErrorMessage">
@@ -104,9 +104,9 @@
                                             <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
                                         </a>
 
-[% RenderBlockStart("CustomerErrorExplantion") %]
+[% RenderBlockStart("CustomerErrorExplanation") %]
                                         <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
-[% RenderBlockEnd("CustomerErrorExplantion") %]
+[% RenderBlockEnd("CustomerErrorExplanation") %]
 
                                         <div id="CustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
 [% RenderBlockStart("CustomerGenericServerErrorMsg") %]
@@ -323,7 +323,7 @@
                     <div class="Row">
                         <div class="FieldCell">
                             <label>[% Translate("Pending date") | html %]:</label>
-                            <div class="Field">
+                            <div class="Field PendingDateField">
                                 [% Data.PendingDateString %]
                                 <div id="DayError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                                 <div id="HourError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>

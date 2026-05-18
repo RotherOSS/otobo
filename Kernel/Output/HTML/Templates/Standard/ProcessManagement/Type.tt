@@ -13,26 +13,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+
 [% RenderBlockStart("rw:Type") %]
-<label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
+<div class="Row">
+    <div class="FieldCell">
+        <label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
 [% RenderBlockStart("LabelSpan") %]
-    <span class="Marker">*</span>
+            <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpan") %]
 [% RenderBlockStart("rw:Type:DescriptionLong") %]
-    <span class="FieldHelpContainer">
-        <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Translate(Data.DescriptionLong) | html %]</span>
-    </span>
+            <span class="FieldHelpContainer">
+                <i class="fa fa-question-circle FieldHelpTrigger"></i>
+                <span>[% Translate(Data.DescriptionLong) | html %]</span>
+            </span>
 [% RenderBlockEnd("rw:Type:DescriptionLong") %]
-    [% Data.Label | html %]:
-</label>
-<div class="Field">
-    [% Data.Content %]
-    <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            [% Data.Label | html %]:
+        </label>
+        <div class="Field">
+            [% Data.Content %]
+            <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockStart("rw:Type:DescriptionShort") %]
-    <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
+            <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
 [% RenderBlockEnd("rw:Type:DescriptionShort") %]
+        </div>
+    </div>
 </div>
-<div class="Clear"></div>
 [% RenderBlockEnd("rw:Type") %]

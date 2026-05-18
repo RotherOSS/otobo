@@ -15,25 +15,28 @@
 # --
 
 [% RenderBlockStart("rw:Customer") %]
-<input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
-<label for="CustomerAutoComplete" class="[% Data.MandatoryClass | html %]">
+<div class="Row">
+    <div class="FieldCell">
+        <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
+        <label for="CustomerAutoComplete" class="[% Data.MandatoryClass | html %]">
 [% RenderBlockStart("LabelSpanCustomerUser") %]
-    <span class="Marker">*</span>
+            <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpanCustomerUser") %]
 [% RenderBlockStart("rw:Customer:DescriptionLong") %]
-    <span class="FieldHelpContainer">
-        <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Translate(Data.DescriptionLong)| html %]</span>
-    </span>
+            <span class="FieldHelpContainer">
+                <i class="fa fa-question-circle FieldHelpTrigger"></i>
+                <span>[% Translate(Data.DescriptionLong)| html %]</span>
+            </span>
 [% RenderBlockEnd("rw:Customer:DescriptionLong") %]
-    [% Data.LabelCustomerUser | html %]:
-</label>
-<div class="Field">
-    <input id="CustomerAutoComplete" type="text" name="CustomerAutoComplete" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerAutoCompleteServerError | html %]" autocomplete="off" />
-    <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            [% Data.LabelCustomerUser | html %]:
+        </label>
+        <div class="Field">
+            <input id="CustomerAutoComplete" type="text" name="CustomerAutoComplete" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerAutoCompleteServerError | html %]" autocomplete="off" />
+            <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+        </div>
+    </div>
 </div>
-<div class="Clear"></div>
 
 [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly") %]
 
