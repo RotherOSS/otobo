@@ -1169,7 +1169,7 @@
         <Navigation>Core::DynamicFields::DriverRegistration</Navigation>
         <Value>
             <Hash>
-                <Item Key="DisplayName" Translatable="1">CustomerCompany</Item>
+                <Item Key="DisplayName" Translatable="1">Customer Company</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Driver::CustomerCompany</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldReference</Item>
                 <Item Key="ObjectTypes">
@@ -1852,7 +1852,7 @@
                             </Array>
                         </Item>
                         <Item Key="Description">Manage dynamic field in screens.</Item>
-                        <Item Key="Title" Translatable="1">DynamicFieldScreen</Item>
+                        <Item Key="Title" Translatable="1">Dynamic Field Screen</Item>
                         <Item Key="NavBarName">Admin</Item>
                     </Hash>
                 </Item>
