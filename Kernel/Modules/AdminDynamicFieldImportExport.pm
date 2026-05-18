@@ -365,12 +365,7 @@ sub _DynamicFieldShow {
         my @DynamicFieldsAlreadyUsed;
 
         DYNAMICFIELD:
-        for my $DynamicField (
-            sort {
-                ( $Param{Data}->{DynamicFields}{$a}{FieldOrder} || 0 ) <=> ( $Param{Data}->{DynamicFields}{$b}{FieldOrder} || 0 )
-            } keys %{ $Param{Data}->{DynamicFields} }
-            )
-        {
+        for my $DynamicField ( sort keys $Param{Data}{DynamicFields}->%* ) {
 
             push @DynamicFieldsAlreadyUsed, $DynamicField;
 
