@@ -29,6 +29,7 @@ use lib dirname($RealBin) . '/Custom';
 # CPAN modules
 
 # OTOBO modules
+use Kernel::MinimalPerlVersion    ();
 use Kernel::System::ObjectManager ();
 
 my $RetCode;

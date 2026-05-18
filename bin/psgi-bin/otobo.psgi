@@ -87,6 +87,7 @@ use Plack::App::File      ();
 use Plack::App::Directory ();
 
 # OTOBO modules
+use Kernel::MinimalPerlVersion ();
 use Kernel::Config;                                             # assure that Kernel/Config.pm exists, though the file might be modified later
 use Kernel::System::ModuleRefresh                 ();           # based on Module::Refresh
 use Kernel::System::ObjectManager                 ();
