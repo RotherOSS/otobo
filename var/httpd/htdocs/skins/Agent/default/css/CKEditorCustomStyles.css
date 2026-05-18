@@ -39,6 +39,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     --ck-color-focus-border: var(--colMainHover);
 }
 
+.ck.ck-editor__editable {
+    box-sizing: border-box;
+}
+
 .ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label {
     width: 7.5em;
 }
