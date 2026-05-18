@@ -19,6 +19,14 @@ package Kernel::Modules::AdminDynamicFieldImportExport;
 use strict;
 use warnings;
 
+# core modules
+use List::Util qw(any);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -31,8 +39,6 @@ our @ObjectDependencies = (
     'Kernel::System::ZnunyHelper',
     'Kernel::System::DateTime',
 );
-
-use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -457,7 +463,7 @@ sub _DynamicFieldShow {
         DYNAMICFIELDSCREEN:
         for my $DynamicField ( sort keys %{ $Param{Data}->{DynamicFieldsScreens} } ) {
 
-            next DYNAMICFIELDSCREEN if grep { $DynamicField eq $_ } @DynamicFieldsAlreadyUsed;
+            next DYNAMICFIELDSCREEN if any { $DynamicField eq $_ } @DynamicFieldsAlreadyUsed;
             next DYNAMICFIELDSCREEN if !IsHashRefWithData( $Param{Data}->{DynamicFieldsScreens}->{$DynamicField} );
 
             my %DynamicFieldData = (
