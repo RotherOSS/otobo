@@ -243,7 +243,7 @@ sub Data {
         {
             for my $SearchAddress (@SearchAddress) {
                 my @PublicKeys = $PGPObject->PublicKeySearch(
-                    Search => $SearchAddress->address(),
+                    Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddress ),
                 );
 
                 for my $DataRef (@PublicKeys) {
@@ -275,7 +275,7 @@ sub Data {
 
         for my $SearchAddress (@SearchAddress) {
             my @PublicKeys = $SMIMEObject->CertificateSearch(
-                Search => $SearchAddress->address(),
+                Search => $EmailAddressObject->GetAddress( AddressObject => $SearchAddress ),
             );
             for my $DataRef (@PublicKeys) {
                 my $Expired = '';
@@ -380,7 +380,7 @@ sub _CheckRecipient {
         ADDRESS:
         for my $Address (@SearchAddress) {
 
-            my $EmailAddress = $Address->address();
+            my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Address );
 
             my @PublicKeys;
             if ( $Backend eq 'PGP' ) {
@@ -484,14 +484,14 @@ sub _PickEncryptKeyIDs {
             my @PublicKeys;
             if ( $Backend eq 'PGP' ) {
                 @PublicKeys = $EncryptObject->PublicKeySearch(
-                    Search => $Address->address(),
+                    Search => $EmailAddressObject->GetAddress( AddressObject => $Address ),
                 );
 
                 @PublicKeys = sort { $a->{Expires} cmp $b->{Expires} } grep { $_->{Status} eq 'good' } @PublicKeys;
             }
             else {
                 @PublicKeys = $EncryptObject->CertificateSearch(
-                    Search => $Address->address(),
+                    Search => $EmailAddressObject->GetAddress( AddressObject => $Address ),
                     Valid  => 1,
                 );
 
@@ -570,23 +570,23 @@ sub _GetUniqueEncryptKeyIDsToRemove {
     for my $RecipientType (qw(To Cc Bcc)) {
 
         # Get all addresses for each recipient type.
-        my @SearchAddress;
+        my @SearchAddresses;
         if ( $Param{$RecipientType} ) {
-            @SearchAddress = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
+            @SearchAddresses = $EmailAddressObject->ParseAddressLine( Line => $Param{$RecipientType} );
         }
 
         ADDRESS:
-        for my $Address (@SearchAddress) {
+        for my $Address (@SearchAddresses) {
 
             my @PublicKeys;
             if ( $Backend eq 'PGP' ) {
                 @PublicKeys = $EncryptObject->PublicKeySearch(
-                    Search => $Address->address(),
+                    Search => $EmailAddressObject->GetAddress( AddressObject => $Address ),
                 );
             }
             else {
                 @PublicKeys = $EncryptObject->CertificateSearch(
-                    Search => $Address->address(),
+                    Search => $EmailAddressObject->GetAddress( AddressObject => $Address ),
                 );
             }
 

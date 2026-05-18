@@ -1823,7 +1823,7 @@ sub Run {
 
         # get to email (just "some@example.com")
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Data{To} ) ) {
-            $Data{ToEmail} = $Email->address();
+            $Data{ToEmail} = $EmailAddressObject->GetAddress( AddressObject => $Email );
         }
 
         # only reply to sender
@@ -1885,7 +1885,7 @@ sub Run {
             if ( $Data{$Type} ) {
                 my $NewLine = '';
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Data{$Type} ) ) {
-                    my $Address = lc $Email->address();
+                    my $Address = lc $EmailAddressObject->GetAddress( AddressObject => $Email );
 
                     # only use email addresses with @ inside
                     if ( $Address && $Address =~ /@/ && !$Recipient{$Address} ) {
@@ -2580,7 +2580,7 @@ sub _Mask {
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{Cc} ) ) {
 
             my %CustomerSearch = $CustomerUserObject->CustomerSearch(
-                PostMasterSearch => $Email->address(),
+                PostMasterSearch => $EmailAddressObject->GetAddress( AddressObject => $Email ),
                 Limit            => 1,
             );
 
@@ -2619,7 +2619,7 @@ sub _Mask {
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{To} ) ) {
 
             my %CustomerSearch = $CustomerUserObject->CustomerSearch(
-                PostMasterSearch => $Email->address(),
+                PostMasterSearch => $EmailAddressObject->GetAddress( AddressObject => $Email ),
                 Limit            => 1,
             );
 

@@ -604,7 +604,7 @@ sub Send {
         next RECIPIENT unless $Param{$Recipient};
 
         for my $Email ( $EmailAddressObject->ParseAddressLine( Line => $Param{$Recipient} ) ) {
-            push @ToArray, $Email->address;
+            push @ToArray, $EmailAddressObject->GetAddress( AddressObject => $Email );
         }
     }
 
@@ -620,8 +620,8 @@ sub Send {
     # set envelope sender for replies
     my $RealFrom = $ConfigObject->Get('SendmailEnvelopeFrom') || '';
     if ( !$RealFrom ) {
-        my @Sender = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
-        $RealFrom = $Sender[0]->address();
+        my ($Sender) = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+        $RealFrom = $EmailAddressObject->GetAddress( AddressObject => $Sender );
     }
 
     # set envelope sender for auto-responses and notifications
@@ -899,8 +899,8 @@ sub Bounce {
 
     # get sender
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my @Sender             = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
-    my $RealFrom           = $Sender[0]->address();
+    my ($Sender)           = $EmailAddressObject->ParseAddressLine( Line => $Param{From} );
+    my $RealFrom           = $EmailAddressObject->GetAddress( AddressObject => $Sender );
 
     # add ReSent header (see https://www.ietf.org/rfc/rfc2822.txt A.3. Resent messages)
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');

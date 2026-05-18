@@ -458,12 +458,11 @@ sub Run {
 
                 my %QueueLookup         = reverse %Queues;
                 my %SystemAddressLookup = reverse $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList();
-                my @ArticleFromAddress;
                 my $SystemAddressEmail;
 
                 if ($ArticleFrom) {
-                    @ArticleFromAddress = $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom );
-                    $SystemAddressEmail = $ArticleFromAddress[0]->address();
+                    my ($ArticleFromAddress) = $EmailAddressObject->ParseAddressLine( Line => $ArticleFrom );
+                    $SystemAddressEmail = $EmailAddressObject->GetAddress( AddressObject => $ArticleFromAddress );
                 }
 
                 if ( !defined $QueueLookup{ $Article{To} } && defined $SystemAddressLookup{$SystemAddressEmail} ) {
@@ -564,7 +563,7 @@ sub Run {
             }
 
             my $CustomerKey  = '';
-            my $EmailAddress = $Email->address();
+            my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
             if (
                 defined $CustomerDataFrom{UserEmail}
                 && $CustomerDataFrom{UserEmail} eq $EmailAddress

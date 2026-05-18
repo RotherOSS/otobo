@@ -972,7 +972,7 @@ sub _RecipientsGet {
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => @TmpRecipients ) ) {
 
                     # Skip notification if email address is already used by other groups.
-                    next EMAIL if grep { $_ eq $Email->address() } @RecipientUserEmails;
+                    next EMAIL if grep { $_ eq $EmailAddressObject->GetAddress( AddressObject => $Email ) } @RecipientUserEmails;
 
                     # Validate email address.
                     my $Valid = $CheckItemObject->CheckEmail(
@@ -980,7 +980,7 @@ sub _RecipientsGet {
                     );
 
                     # Skip invalid.
-                    next EMAIL if !$Valid;
+                    next EMAIL unless $Valid;
 
                     # Check if email address is a local.
                     my $IsLocal = $SystemAddressObject->SystemAddressIsLocalAddress(
@@ -991,12 +991,12 @@ sub _RecipientsGet {
                     next EMAIL if $IsLocal;
 
                     # Skip email addresses from agents selected by other groups.
-                    next EMAIL if grep { $_ eq $Email->address() } @TmpRecipientAgents;
+                    next EMAIL if grep { $_ eq $EmailAddressObject->GetAddress( AddressObject => $Email ) } @TmpRecipientAgents;
 
-                    push @AllRecipients, $Email->address();
+                    push @AllRecipients, $EmailAddressObject->GetAddress( AddressObject => $Email );
 
                     # Push Email Addresses into array to prevent multiple notifications.
-                    push @RecipientUserEmails, $Email->address();
+                    push @RecipientUserEmails, $EmailAddressObject->GetAddress( AddressObject => $Email );
                 }
 
                 # Merge recipients.
