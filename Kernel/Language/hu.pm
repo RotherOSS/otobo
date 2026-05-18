@@ -8045,7 +8045,7 @@ Az Ön ügyfélszolgálati csapata
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Meghatározza a megjelenített oszlopokat és a pozíciót az ügyintézői ügyfél-felhasználó címjegyzék eredményei képernyőn.',
         'Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> and <OTOBO_CONFIG_ScriptAlias> will be substituted.' =>
-            'Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül.',
+            'Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a „Content” tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül.',
         'Defines the source dynamic field for storing historical data.' =>
             'Meghatározza a forrás dinamikus mezőt a történelmi adatok tárolásához.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
