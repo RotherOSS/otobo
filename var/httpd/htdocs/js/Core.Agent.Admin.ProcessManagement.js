@@ -625,8 +625,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
        */
         function DummyActivityConnected(ProcessEntityID) {
             var DummyFound = false;
-            $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (Activity, ActivityData) {
-                $.each(ActivityData, function (Transition, TransitionData) {
+            $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (_Activity, ActivityData) {
+                $.each(ActivityData, function (_Transition, TransitionData) {
                     if (typeof TransitionData.ActivityEntityID === 'undefined') {
                         DummyFound = true;
                     }
@@ -706,7 +706,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
        * @description
        *      Adds transition action to the canvas after drop event.
        */
-        function AddTransitionActionToCanvas(Event, UI) {
+        function AddTransitionActionToCanvas(_Event, UI) {
             var EntityID = $(UI.draggable).data('entity'),
                 Entity = TargetNS.ProcessData.TransitionAction[EntityID],
                 Transition,
@@ -754,7 +754,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $Clone.addClass('EntityDrag').find('span').remove();
                 return $Clone[0];
             },
-            start: function (Event, UI) {
+            start: function (_Event, UI) {
                 var $Source = $(this),
                     SourceID = $Source.closest('ul').attr('id');
 
@@ -1007,7 +1007,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // check if there are "open" transitions, e.g. transitions that have only a startpoint but no defined endpoint
             // these open transitions must be deleted before saving
-            $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (Activity, ActivityData) {
+            $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (_Activity, ActivityData) {
                 $.each(ActivityData, function (Transition, TransitionData) {
                     if (typeof TransitionData.ActivityEntityID === 'undefined') {
                         delete ActivityData[Transition];
@@ -1069,7 +1069,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      *      Initialize activity edit screen.
      */
     TargetNS.InitActivityEdit = function () {
-        function InitListFilter(Event, UI) {
+        function InitListFilter(_Event, UI) {
          // only do something, if the element was removed from the right list
             if (UI.sender.attr('id') === 'AssignedActivityDialogs') {
                 Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
@@ -1118,7 +1118,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         var MandatoryFields = ['Queue', 'State', 'Lock', 'Priority', 'Type', 'CustomerID'],
             FieldsWithoutDefaultValue = ['CustomerID', 'Article'];
 
-        function UpdateFields(Event, UI) {
+        function UpdateFields(_Event, UI) {
             var Fieldname,
                 DefaultFieldConfig = {};
 
