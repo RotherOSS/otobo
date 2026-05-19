@@ -474,11 +474,11 @@ sub Run {
                 Subaction => 'ActivityEdit'               # always use edit screen
             );
 
-            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )           || '';
-            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )        || '';
-            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )               || '';
-            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )         || '';
-            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' )  || '';
+            my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
+            my $RedirectSubaction       = $ParamObject->GetParam( Param => 'PopupRedirectSubaction' )       || '';
+            my $RedirectID              = $ParamObject->GetParam( Param => 'PopupRedirectID' )              || '';
+            my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )        || '';
+            my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' ) || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
