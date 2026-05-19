@@ -785,9 +785,13 @@ sub _ShowEdit {
         }
 
         # display available activity dialogs
+        ACTIVITYDIALOG:
         for my $EntityID ( sort keys %AvailableActivityDialogsLookup ) {
 
             my $ActivityDialogData = $AvailableActivityDialogsLookup{$EntityID};
+
+            next ACTIVITYDIALOG unless !$ActivityDialogData->{ProcessEntityID} ||
+                $ActivityDialogData->{ProcessEntityID} eq $Param{ProcessEntityID};
 
             my $AvailableIn       = '';
             my $ConfigAvailableIn = $ActivityDialogData->{Config}->{Interface};
@@ -879,9 +883,13 @@ sub _ShowEdit {
     else {
 
         # display available activity dialogs
+        ACTIVITYDIALOG:
         for my $EntityID ( sort keys %AvailableActivityDialogsLookup ) {
 
             my $ActivityDialogData = $AvailableActivityDialogsLookup{$EntityID};
+
+            next ACTIVITYDIALOG unless !$ActivityDialogData->{ProcessEntityID} ||
+                $ActivityDialogData->{ProcessEntityID} eq $Param{ProcessEntityID};
 
             my $AvailableIn       = '';
             my $ConfigAvailableIn = $ActivityDialogData->{Config}->{Interface};
