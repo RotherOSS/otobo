@@ -2418,6 +2418,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -3284,13 +3285,13 @@ DISTRIBUTIONS
       Time::HiRes 1.77
       Try::Tiny 0
       perl 5.014000
-  Role-Tiny-2.002004
-    pathname: H/HA/HAARG/Role-Tiny-2.002004.tar.gz
+  Role-Tiny-2.002005
+    pathname: H/HA/HAARG/Role-Tiny-2.002005.tar.gz
     provides:
-      Role::Tiny 2.002004
-      Role::Tiny::With 2.002004
+      Role::Tiny 2.002005
+      Role::Tiny::With 2.002005
     requirements:
-      Exporter 5.57
+      Exporter 0
       perl 5.006
   Scope-Guard-0.21
     pathname: C/CH/CHOCOLATE/Scope-Guard-0.21.tar.gz
@@ -4517,6 +4518,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
@@ -4525,4 +4527,5 @@ DISTRIBUTIONS
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
