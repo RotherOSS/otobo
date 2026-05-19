@@ -361,7 +361,8 @@ my $ExitCode = 0;    # success
 # That attributes accepts a version range like they are known from cpanfiles.
 #
 # There are cases when a different or more strict version is desired in a Docker build. This version can be
-# specified with the attribute 'DockerVersionRequired'.
+# specified with the attribute 'DockerVersionRequired'. This attribute is also used for the versions for
+# cpanfile.plackup.
 #
 # ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
 #            bin/otobo.CheckModules.pl --generate-cpanfiles
@@ -1921,9 +1922,12 @@ sub PrintCpanfile {
             }
 
             # there may be additional restrictions on the versions
-            # exact version for Docker builds has higher priority
+            # exact version for Docker builds has higher priority for cpanfile.docker and cpanfile.plackup.
             my $VersionRequirement = '';
             if ( $ForDocker && $Module->{DockerVersionRequired} ) {
+                $VersionRequirement = qq{, '$Module->{DockerVersionRequired}'};
+            }
+            elsif ( $ForPlackup && $Module->{DockerVersionRequired} ) {
                 $VersionRequirement = qq{, '$Module->{DockerVersionRequired}'};
             }
             elsif ( $Module->{VersionRequired} ) {
