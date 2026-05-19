@@ -1336,14 +1336,9 @@ sub ArticleGet {
                 ADDRESS_OBJECT:
                 for my $AddressObject ( $EmailAddressObject->ParseAddressLine( Line => $Data{$Key} ) ) {
                     my $Name =
-                        $EmailAddressObject->GetRealname(
-                            AddressObject => $AddressObject,
-                        )
+                        $EmailAddressObject->GetRealname( AddressObject => $AddressObject )
                         ||
-                        $EmailAddressObject->GetAddress(
-                            AddressObject    => $AddressObject,
-                            ValidateAtSymbol => 1,
-                        );
+                        $EmailAddressObject->GetAddress( AddressObject => $AddressObject );
 
                     # the name '0' is not accepted
                     next ADDRESS_OBJECT unless $Name;

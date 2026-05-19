@@ -232,10 +232,7 @@ sub _ArticleSenderImage {
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     my ($Address) = $EmailAddressObject->ParseAddressLine( Line => $Param{Sender} );
     if ( defined $Address ) {
-        my $Email = $EmailAddressObject->GetAddress(
-            AddressObject    => $Address,
-            ValidateAtSymbol => 1,
-        );
+        my $Email = $EmailAddressObject->GetAddress( AddressObject => $Address );
         if ($Email) {
             my $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::ArticleDefaultImage') || 'mp';
 

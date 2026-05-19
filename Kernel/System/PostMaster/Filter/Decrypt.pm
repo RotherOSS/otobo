@@ -247,10 +247,7 @@ sub _DecryptSMIME {
 
             # filter email addresses avoiding repeated and save on hash to search
             for my $EmailAddress (@EmailAddressOnField) {
-                my $CleanEmailAddress = $EmailAddressObject->GetAddress(
-                    AddressObject    => $EmailAddress,
-                    ValidateAtSymbol => 1,
-                );
+                my $CleanEmailAddress = $EmailAddressObject->GetAddress( AddressObject => $EmailAddress );
                 $EmailsToSearch{$CleanEmailAddress} = '1';
             }
         }
@@ -423,10 +420,7 @@ sub _DecryptSMIME {
             # get original sender from email
             my $OrigFrom           = $Self->{ParserObject}->GetParam( WHAT => 'From' );
             my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-            my $OrigSender         = $EmailAddressObject->GetAddress(
-                Email            => $OrigFrom,
-                ValidateAtSymbol => 1,
-            );
+            my $OrigSender         = $EmailAddressObject->GetAddress( Email => $OrigFrom );
 
             # compare sender email to signer email
             my $SignerSenderMatch = 0;

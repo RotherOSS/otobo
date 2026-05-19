@@ -111,43 +111,30 @@ Both variants return
 
     $SenderEmail = 'gustl@testanything.org'
 
-The optional parameter C<ValidateAtSymbol> activates the check whether the extracted address contains
-the character "@". This check is off per default.
-
-    my $SenderEmail = $EmailAddressObject->GetAddress(
-        Email            => 'August Ausprobierer <gustl>',
-        ValidateAtSymbol => 1,
-    );
-
-Returns
-
-    $SenderEmail = undef;
+Note that the address must contain the @ symbol.
 
 =cut
 
 sub GetAddress {
     my ( $Self, %Param ) = @_;
 
-    my $Email = '';
     if ( exists $Param{Email} ) {
 
         # get last address in the list, but only a single email address is expected
+        my $Email = '';
         for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
             $Email = $EmailSplit->address;
         }
-    }
-    elsif ( exists $Param{AddressObject} ) {
-        $Email = $Param{AddressObject}->address;
+
+        return $Email;
     }
 
-    # Validate whether an @ symbol is present in the extracted address.
-    # Having an @ is not required.
-    if ( $Param{ValidateAtSymbol} ) {
-        return unless ( $Email // '' ) =~ m/@/;
+    if ( exists $Param{AddressObject} ) {
+        return $Param{AddressObject}->address;
     }
 
-    # return email address
-    return $Email;
+    # return empty list as a fallback
+    return;
 }
 
 =head2 GetRealname()

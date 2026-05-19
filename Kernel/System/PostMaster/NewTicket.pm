@@ -158,10 +158,7 @@ sub Run {
         Line => $From,
     );
     for my $Address (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $EmailAddressObject->GetAddress(
-            AddressObject    => $Address,
-            ValidateAtSymbol => 1,
-        );
+        $GetParam{SenderEmailAddress} = $EmailAddressObject->GetAddress( AddressObject => $Address );
     }
 
     $GetParam{SenderEmailAddress} //= '';
@@ -192,10 +189,7 @@ sub Run {
                 Line => $From,
             );
             for my $Address (@EmailAddresses) {
-                $GetParam{EmailFrom} = $EmailAddressObject->GetAddress(
-                    AddressObject    => $Address,
-                    ValidateAtSymbol => 1,
-                );
+                $GetParam{EmailFrom} = $EmailAddressObject->GetAddress( AddressObject => $Address );
             }
 
             if ( $GetParam{EmailFrom} ) {
