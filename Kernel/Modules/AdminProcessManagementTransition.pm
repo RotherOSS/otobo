@@ -505,6 +505,7 @@ sub _ShowEdit {
     }
     else {
         $Param{Title} = Translatable('Create New Transition');
+        $TransitionData->{Global} = 'checked';
     }
 
     # get available namespaces

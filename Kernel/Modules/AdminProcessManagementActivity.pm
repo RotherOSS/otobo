@@ -908,6 +908,7 @@ sub _ShowEdit {
         }
 
         $Param{Title} = Translatable('Create New Activity');
+        $ActivityData->{Global} = 'checked';
     }
 
     # get available namespaces
