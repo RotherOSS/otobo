@@ -24,17 +24,26 @@ ARCHIVE_NAME="otobo-deps-11.0-rhel-9.7.tar.gz"
 # Directory at /opt/otobo to compress to tar.gz
 ARCHIVE_DIR="install"
 
+SUDO=''
+if [ "$EUID" -ne 0 ]; then
+    echo "Führe Installationen mit sudo-Rechten aus..."
+    SUDO='sudo'
+fi
+
+# 2. cpanm prüfen und ggf. installieren
 if ! command -v cpanm &> /dev/null; then
     echo "cpanm not found. Installing using dnf..."
-    
-    if [ "$EUID" -ne 0 ]; then
-        echo "Installatin failed. Please provide sudo credentials."
-        sudo dnf install -y perl-App-cpanminus
-    else
-        dnf install -y perl-App-cpanminus
-    fi
+    $SUDO dnf install -y perl-App-cpanminus
 else
-    echo "cpanm is already present. Skipping Installation."
+    echo "cpanm is already present. Skipping installation."
+fi
+
+# 3. carton prüfen und ggf. installieren
+if ! command -v carton &> /dev/null; then
+    echo "carton not found. Installing using cpanm..."
+    $SUDO cpanm Carton
+else
+    echo "carton is already present. Skipping installation."
 fi
 
 cd "$PROJECT_ROOT"
@@ -48,14 +57,11 @@ fi
 
 PERL5LIB="$PROJECT_ROOT/install/local/lib/perl5"
 
-# Overwritte default cpanfile for cpanm build
-cp cpanfile.plackup cpanfile -f
-
-if [ -f "cpanfile" ]; then
+if [ -f "cpanfile.plackup" ]; then
     echo "Installing dependencies to $TARGET_LIB..."
-    cpanm --local-lib "$TARGET_LIB" --self-contained --notest --mirror "https://cpan.metacpan.org" --installdeps .
+    carton install --path "$TARGET_LIB" --cpanfile cpanfile.plackup
 else
-    echo "Error: Couldn't find cpanfile in $PROJECT_ROOT!"
+    echo "Error: Couldn't find cpanfile.plackup in $PROJECT_ROOT!"
     exit 1
 fi
 
