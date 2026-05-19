@@ -142,9 +142,8 @@ sub CheckEmail {
 
     # exempt some addresses from further checks
     my $RegExp = $ConfigObject->Get('CheckEmailValidAddress');
-    if ( $RegExp && $Address =~ /$RegExp/i ) {
-        return 1;
-    }
+
+    return 1 if ( $RegExp && ( $Address // '' ) =~ /$RegExp/i );
 
     my $Error = '';
 
