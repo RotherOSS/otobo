@@ -1514,6 +1514,14 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpdateAccordion' ) {
 
+        # check for ProcessEntityID
+        my $ProcessEntityID = $ParamObject->GetParam( Param => 'EntityID' ) || '';
+        if ( !$ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('Need ProcessEntityID!'),
+            );
+        }
+
         # ouput available process elements in the accordion
         for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
 
@@ -1758,6 +1766,13 @@ sub _ShowEdit {
     my $StateObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+
+        # check for ProcessEntityID
+        if ( !$ProcessData->{EntityID} ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('Need ProcessEntityID!'),
+            );
+        }
 
         # check if process is inactive and show delete action
         my $State = $StateObject->StateLookup(

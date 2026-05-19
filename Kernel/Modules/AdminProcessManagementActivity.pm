@@ -81,6 +81,13 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ActivityNew' ) {
 
+        # check for ProcessEntityID
+        if ( !$ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('Need ProcessEntityID!'),
+            );
+        }
+
         return $Self->_ShowEdit(
             %Param,
             ProcessEntityID => $ProcessEntityID,
@@ -283,10 +290,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ActivityEdit' ) {
 
-        # check for ActivityID
-        if ( !$ActivityID ) {
+        # check for ActivityID and ProcessEntityID
+        if ( !$ActivityID || !$ProcessEntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Need ActivityID!'),
+                Message => Translatable('Need ActivityID and ProcessEntityID!'),
             );
         }
 
@@ -304,6 +311,13 @@ sub Run {
             return $LayoutObject->ErrorScreen(
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ActivityID %s', $ActivityID ),
+            );
+        }
+
+        # check if Activity is part of the current Process
+        if ( $ActivityData->{ProcessEntityID} && $ActivityData->{ProcessEntityID} ne $ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('This Activity is not available to the current Process!'),
             );
         }
 
