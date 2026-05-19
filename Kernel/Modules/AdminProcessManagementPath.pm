@@ -301,7 +301,11 @@ sub _ShowEdit {
 
     # collect possible transitions and build selection
     my %TransitionList;
+    TRANSITION:
     for my $Transition ( @{ $Self->{TransitionList} } ) {
+
+        next TRANSITION unless !$Transition->{ProcessEntityID} ||
+            $Transition->{ProcessEntityID} eq $Param{ProcessEntityID};
         $TransitionList{ $Transition->{EntityID} } = $Transition->{Name};
     }
 
@@ -328,9 +332,13 @@ sub _ShowEdit {
     );
 
     # display available transition actions
+    TRANSITIONACTION:
     for my $EntityID ( sort keys %AvailableTransitionActionsLookup ) {
 
         my $TransitionActionData = $AvailableTransitionActionsLookup{$EntityID};
+
+        next TRANSITIONACTION unless !$TransitionActionData->{ProcessEntityID} ||
+            $TransitionActionData->{ProcessEntityID} eq $Param{ProcessEntityID};
 
         $LayoutObject->Block(
             Name => 'AvailableTransitionActionRow',
