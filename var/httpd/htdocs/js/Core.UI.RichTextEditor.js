@@ -497,7 +497,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         $editingArea.height(newEditingAreaSize);
                         editor.editing.view.forceRender();
                     } else {
-                        let $editingArea = $domEditableElement.find('.ck-content');
+                        let $editingArea = $domEditableElement.find('.ck-editor__editable');
                         let borderWidth = parseFloat($editingArea.css("border-top")) 
                                         + parseFloat($editingArea.css("border-bottom"));
                         newEditingAreaSize -= borderWidth;
