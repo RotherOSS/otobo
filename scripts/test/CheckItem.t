@@ -27,6 +27,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Email::Address::XS ();
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
@@ -47,106 +48,144 @@ my @CheckEmailTests = (
 
     # Invalid
     {
+        Line  => __LINE__,
         Email => 'somebody',
         Valid => 0,
     },
     {
+        Line        => __LINE__,
+        Description => 'with phrase and with @ in address',
+        Email       => '"just another" <somebody@somehost.com>',
+        Valid       => 1,
+    },
+    {
+        Line        => __LINE__,
+        Description => 'with phrase and without @ in address',
+        Email       => '"just another" <somebody>',
+        Valid       => 0,
+    },
+    {
+        Line  => __LINE__,
         Email => 'somebod y@somehost.com',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'ä@somehost.com',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => '.somebody@somehost.com',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'somebody.@somehost.com',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'some..body@somehost.com',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'some@body@somehost.com',
         Valid => 0,
     },
     {
-        Email => '',
-        Valid => 0,
+        Line        => __LINE__,
+        Description => 'Email is empty string',
+        Email       => '',
+        Valid       => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'foo=bar@[192.1233.22.2]',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'foo=bar@[192.22.2]',
         Valid => 0,
     },
 
     # Valid
     {
+        Line  => __LINE__,
         Email => 'somebody@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'some.body@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'some+body@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'some-body@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'some_b_o_d_y@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'Some.Bo_dY.test.TesT@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => '_some.name@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => '-some.name-@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'name.surname@sometext.sometext.sometext',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'user/department@somehost.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => '#helpdesk@foo.com',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'foo=bar@domain.de',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'foo=bar@[192.123.22.2]',
         Valid => 1,
     },
 
     # Unicode domains
     {
+        Line  => __LINE__,
         Email => 'mail@xn--f1aefnbl.xn--p1ai',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'mail@кц.рф',    # must be converted to IDN
         Valid => 0,
     },
@@ -154,6 +193,7 @@ my @CheckEmailTests = (
     # Local part of email address is too long according to RFC.
     # See http://isemail.info/modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen%3Dotobo.org%40perl.apache.org
     {
+        Line  => __LINE__,
         Email =>
             'modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen=otobo.org@perl.apache.org',
         Valid => 0,
@@ -161,44 +201,55 @@ my @CheckEmailTests = (
 
     # Complex addresses
     {
+        Line  => __LINE__,
         Email => 'test@home.com (Test)',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => '"Test Test" <test@home.com>',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => '"Test Test" <test@home.com> (Test)',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'Test <test@home(Test).com>',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => '<test@home.com',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'test@home.com>',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'test@home.com(Test)',
         Valid => 1,
     },
     {
+        Line  => __LINE__,
         Email => 'test@home.com>(Test)',
         Valid => 0,
     },
     {
+        Line  => __LINE__,
         Email => 'Test <test@home.com> (Test)',
         Valid => 1,
     },
 
     # Tests with Email::Address::XS objects
     {
+        Line          => __LINE__,
+        Description   => 'AddressObject with @ in address',
         AddressObject => Email::Address::XS->new(
             'August Ausprobierer',
             'gustl@testanything.org'
@@ -206,6 +257,20 @@ my @CheckEmailTests = (
         Valid => 1,
     },
     {
+        Line          => __LINE__,
+        Description   => 'AddressObject with @ in address and a comment',
+        AddressObject => Email::Address::XS->new(
+            'August Ausprobierer',
+            'gustl@testanything.org',
+            'probiert es aus',
+        ),
+        Valid => 1,
+    },
+    {
+
+        # Email::Address::XS does not recognise an address without '@'
+        Line          => __LINE__,
+        Description   => 'AddressObject without @ in address and a comment',
         AddressObject => Email::Address::XS->new(
             'oil and',
             'water',
@@ -224,12 +289,22 @@ for my $Test (@CheckEmailTests) {
         :
         $CheckItemObject->CheckEmail( Address => $Test->{Email} );
 
+    # some diagnostics
+    if ( !$Valid ) {
+        my $CheckErrorType = $CheckItemObject->CheckErrorType;
+        diag "CheckErrorType: $CheckErrorType";
+
+        my $CheckError = $CheckItemObject->CheckError;
+        diag "CheckError: $CheckError";
+    }
+
     # execute unit test
+    my $Description = join ' - ', ( $Test->{Description} // $Test->{Email} // 'no description' ), "line $Test->{Line}";
     if ( $Test->{Valid} ) {
-        ok( $Valid, "CheckEmail() - $Test->{Email}" );
+        ok( $Valid, "CheckEmail() valid - $Description" );
     }
     else {
-        ok( !$Valid, "CheckEmail() - $Test->{Email}" );
+        ok( !$Valid, "CheckEmail() invalid  - $Description" );
     }
 }
 
