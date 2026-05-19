@@ -852,6 +852,7 @@ sub _ShowEdit {
         }
 
         $Param{Title} = Translatable('Create New Activity Dialog');
+        $ActivityDialogData->{Global} = 'checked';
     }
 
     # get available namespaces
