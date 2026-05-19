@@ -65,6 +65,13 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'TransitionActionNew' ) {
 
+        # check for ProcessEntityID
+        if ( !$ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('Need ProcessEntityID!'),
+            );
+        }
+
         return $Self->_ShowEdit(
             %Param,
             ProcessEntityID => $ProcessEntityID,
@@ -245,10 +252,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'TransitionActionEdit' ) {
 
-        # check for TransitionActionID
-        if ( !$TransitionActionID ) {
+        # check for TransitionActionID ProcessEntityID
+        if ( !$TransitionActionID || !$ProcessEntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Need TransitionActionID!'),
+                Message => Translatable('Need TransitionActionID and ProcessEntityID!'),
             );
         }
 
@@ -268,6 +275,13 @@ sub Run {
                     'Could not get data for TransitionActionID %s',
                     $TransitionActionID
                 ),
+            );
+        }
+
+        # check if Transition Action is part of the current Process
+        if ( $TransitionActionData->{ProcessEntityID} && $TransitionActionData->{ProcessEntityID} ne $ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('This Transition Action is not available to the current Process!'),
             );
         }
 

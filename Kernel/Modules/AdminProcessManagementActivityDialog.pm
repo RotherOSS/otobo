@@ -110,6 +110,13 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ActivityDialogNew' ) {
 
+        # check for ProcessEntityID
+        if ( !$ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('Need ProcessEntityID!'),
+            );
+        }
+
         return $Self->_ShowEdit(
             %Param,
             ProcessEntityID => $ProcessEntityID,
@@ -348,10 +355,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ActivityDialogEdit' ) {
 
-        # check for ActivityDialogID
-        if ( !$ActivityDialogID ) {
+        # check for ActivityDialogID and ProcessEntityID
+        if ( !$ActivityDialogID || !$ProcessEntityID) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable("Need ActivityDialogID!"),
+                Message => Translatable("Need ActivityDialogID and ProcessEntityID!"),
             );
         }
 
@@ -371,6 +378,13 @@ sub Run {
                     'Could not get data for ActivityDialogID %s',
                     $ActivityDialogID
                 ),
+            );
+        }
+
+        # check if Activity Dialog is part of the current Process
+        if ( $ActivityDialogData->{ProcessEntityID} && $ActivityDialogData->{ProcessEntityID} ne $ProcessEntityID ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('This Activity Dialog is not available to the current Process!'),
             );
         }
 
