@@ -356,7 +356,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ActivityDialogEdit' ) {
 
         # check for ActivityDialogID and ProcessEntityID
-        if ( !$ActivityDialogID || !$ProcessEntityID) {
+        if ( !$ActivityDialogID || !$ProcessEntityID ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable("Need ActivityDialogID and ProcessEntityID!"),
             );
