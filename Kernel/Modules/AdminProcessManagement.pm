@@ -172,7 +172,6 @@ sub Run {
             $Content = ${ $Content || \'' };
         }
         else {
-            my $FormID      = $ParamObject->GetParam( Param => 'FormID' ) || '';
             my %UploadStuff = $ParamObject->GetUploadAll(
                 Param => 'FileUpload',
             );
@@ -1540,7 +1539,7 @@ sub Run {
                     )
                 {
                     next ELEMENT unless !$ElementData->{ProcessEntityID} ||
-                                        $ElementData->{ProcessEntityID} eq $ProcessEntityID;
+                        $ElementData->{ProcessEntityID} eq $ProcessEntityID;
 
                     my $AvailableIn = '';
                     if ( $Element eq "ActivityDialog" ) {
@@ -1838,7 +1837,7 @@ sub _ShowEdit {
                         Data => {
                             %{$ElementData},
                             ProcessEntityID => $ProcessData->{EntityID},
-                            AvailableIn     => $AvailableIn,    #only used for ActivityDialogs
+                            AvailableIn     => $AvailableIn,               #only used for ActivityDialogs
                         },
                     );
                 }
