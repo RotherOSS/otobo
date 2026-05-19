@@ -153,7 +153,7 @@ sub Run {
 
         return {
             Message    => $Self->{LanguageObject}->Translate($Message),
-            Comment    => $Self->{LanguageObject}->Translate( "Can't access OTRS Home: %s!", $Param{OTRSData}->{OTRSHome} ),
+            Comment    => $Self->{LanguageObject}->Translate( "Can't access OTRS home directory: %s!", $Param{OTRSData}->{OTRSHome} ),
             Successful => 0,
         };
     }
