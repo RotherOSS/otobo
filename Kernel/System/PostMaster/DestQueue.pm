@@ -70,12 +70,9 @@ sub GetQueueID {
 
         next EMAIL unless $Email;
 
-        my $Address = $EmailAddressObject->GetAddress(
-            AddressObject    => $Email,
-            ValidateAtSymbol => 1,
-        );
+        my $Address = $EmailAddressObject->GetAddress( AddressObject => $Email );
 
-        next EMAIL if !$Address;
+        next EMAIL unless $Address;
 
         # lookup queue id if recipiend address
         my $QueueID = $SystemAddressObject->SystemAddressQueueID(

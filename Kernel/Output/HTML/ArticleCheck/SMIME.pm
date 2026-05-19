@@ -217,13 +217,10 @@ sub Check {
                     Line => $ParserObject->GetParam( WHAT => $Email ),
                 );
 
-                # filter email addresses avoiding repeated and save on hash to search
+                # filter the cleaned email addresses avoiding repeated and save on hash to search
                 for my $EmailAddress (@EmailAddressOnField) {
-                    my $CleanEmailAddress = $EmailAddressObject->GetAddress(
-                        AddressObject    => $EmailAddress,
-                        ValidateAtSymbol => 1,
-                    );
-                    $EmailsToSearch{$CleanEmailAddress} = '1';
+                    my $Address = $EmailAddressObject->GetAddress( AddressObject => $EmailAddress );
+                    $EmailsToSearch{$Address} = 1;
                 }
             }
 
@@ -528,10 +525,7 @@ sub Check {
             );
 
             my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
-            my $OrigSender = $EmailAddressObject->GetAddress(
-                Email            => $OrigFrom,
-                ValidateAtSymbol => 1,
-            );
+            my $OrigSender = $EmailAddressObject->GetAddress( Email => $OrigFrom );
 
             # compare sender email to signer email
             my $SignerSenderMatch = 0;

@@ -91,10 +91,7 @@ sub Run {
     my $ReplyToAddress;
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
     if ( $Param{GetParam}->{ReplyTo} ) {
-        $ReplyToAddress = $EmailAddressObject->GetAddress(
-            Email            => $Param{GetParam}->{ReplyTo},
-            ValidateAtSymbol => 1,
-        );
+        $ReplyToAddress = $EmailAddressObject->GetAddress( Email => $Param{GetParam}->{ReplyTo} );
     }
 
     # check if current sender is customer (do nothing)
@@ -142,10 +139,7 @@ sub Run {
 
         EMAIL:
         for my $Email (@EmailAdresses) {
-            my $Recipient = $EmailAddressObject->GetAddress(
-                AddressObject    => $Email,
-                ValidateAtSymbol => 1,
-            );
+            my $Recipient = $EmailAddressObject->GetAddress( AddressObject => $Email );
             if ( lc $Recipient eq lc $SenderAddress ) {
                 $IsInternalForward = 1;
                 last ARTICLE;

@@ -134,56 +134,33 @@ subtest 'GetAddress()' => sub {
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     is(
-        $EmailAddressObject->GetAddress(
-            Email            => 'Juergen Weber <juergen.weber@air.com>',
-            ValidateAtSymbol => 1,
-        ),
+        $EmailAddressObject->GetAddress( Email => 'Juergen Weber <juergen.weber@air.com>' ),
         'juergen.weber@air.com',
         'with phrase and address',
     );
 
     is(
-        $EmailAddressObject->GetAddress(
-            Email            => 'Juergen Weber <juergen+weber@air.com>',
-            ValidateAtSymbol => 1,
-        ),
+        $EmailAddressObject->GetAddress( Email => 'Juergen Weber <juergen+weber@air.com>' ),
         'juergen+weber@air.com',
         'address contains a +',
     );
 
     is(
-        $EmailAddressObject->GetAddress(
-            Email            => 'Juergen Weber <juergen+weber@air.com> (Comment)',
-            ValidateAtSymbol => 1,
-        ),
+        $EmailAddressObject->GetAddress( Email => 'Juergen Weber <juergen+weber@air.com> (Comment)' ),
         'juergen+weber@air.com',
         'with comment',
     );
 
     is(
-        $EmailAddressObject->GetAddress(
-            Email            => 'juergen+weber@air.com (Comment)',
-            ValidateAtSymbol => 1,
-        ),
+        $EmailAddressObject->GetAddress( Email => 'juergen+weber@air.com (Comment)' ),
         'juergen+weber@air.com',
         'without a phrase and with comment',
     );
 
     is(
-        $EmailAddressObject->GetAddress(
-            Email            => 'oil and <water> (do not mix)',
-            ValidateAtSymbol => 1,
-        ),
+        $EmailAddressObject->GetAddress( Email => 'oil and <water> (do not mix)' ),
         undef,
-        'address without @, with ValidateAtSymbol',
-    );
-
-    is(
-        $EmailAddressObject->GetAddress(
-            Email => 'oil and <water> (do not mix)',
-        ),
-        undef,
-        'address without @, without ValidateAtSymbol',
+        'address without @',
     );
 
     is(
@@ -192,7 +169,6 @@ subtest 'GetAddress()' => sub {
                 'August Ausprobierer',
                 'gustl@testanything.org'
             ),
-            ValidateAtSymbol => 1,
         ),
         'gustl@testanything.org',
         'with an instance of Email::Address::XS'
@@ -205,22 +181,9 @@ subtest 'GetAddress()' => sub {
                 'water',
                 'do not mix',
             ),
-            ValidateAtSymbol => 1,
         ),
         undef,
-        'instance of Email::Address::XS, address without @, with ValidateAtSymbol'
-    );
-
-    is(
-        $EmailAddressObject->GetAddress(
-            AddressObject => Email::Address::XS->new(
-                'oil and',
-                'water',
-                'do not mix',
-            ),
-        ),
-        undef,
-        'instance of Email::Address::XS, address without @, without ValidateAtSymbol'
+        'instance of Email::Address::XS, address without @'
     );
 };
 

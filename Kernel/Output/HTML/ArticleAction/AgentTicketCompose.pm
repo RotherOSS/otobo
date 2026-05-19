@@ -181,10 +181,7 @@ sub GetConfig {
         my @Addresses          = $EmailAddressObject->ParseAddressLine( Line => $Recipients );
         ADDRESS:
         for my $Address (@Addresses) {
-            my $Email = $EmailAddressObject->GetAddress(
-                AddressObject    => $Address,
-                ValidateAtSymbol => 1,
-            );
+            my $Email = $EmailAddressObject->GetAddress( AddressObject => $Address );
 
             next ADDRESS unless $Email;
 

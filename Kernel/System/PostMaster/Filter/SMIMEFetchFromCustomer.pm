@@ -82,10 +82,7 @@ sub Run {
     my $IncomingMailAddress;
 
     for my $EmailAddress (@EmailAddressOnField) {
-        $IncomingMailAddress = $EmailAddressObject->GetAddress(
-            AddressObject    => $EmailAddress,
-            ValidateAtSymbol => 1,
-        );
+        $IncomingMailAddress = $EmailAddressObject->GetAddress( AddressObject => $EmailAddress );
     }
 
     return 1 unless $IncomingMailAddress;
