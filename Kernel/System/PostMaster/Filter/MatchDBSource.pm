@@ -86,6 +86,7 @@ sub Run {
         my $MatchedNot         = 0;
         my $MatchedResult      = '';
         my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+        INDEX:
         for my $Index ( 0 .. ( scalar @Match ) - 1 ) {
             my $Key   = $Match[$Index]->{Key};
             my $Value = $Match[$Index]->{Value};
@@ -135,6 +136,21 @@ sub Run {
                 else {
                     $Matched = 1;
                 }
+
+                # abort processing if
+                #   1. should match but does not
+                #   2. should not match but does
+                if ( !$LocalMatched ) {
+                    my $Op = $Config{Not}->[$Index]->{Value} ? '!' : "=";
+                    $Self->{CommunicationLogObject}->ObjectLog(
+                        ObjectLogType => 'Message',
+                        Priority      => 'Debug',
+                        Key           => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                        Value         => "failed $Prefix'$Param{GetParam}->{$Key}' $Op~ /$Value/i - aborting!",
+                    );
+
+                    last INDEX;
+                }
             }
 
             # match string
@@ -182,6 +198,10 @@ sub Run {
                     Value         => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
                 );
 
+                # abort processing if
+                #   1. should match but does not
+                #   2. should not match but does
+                last INDEX;
             }
         }
 
