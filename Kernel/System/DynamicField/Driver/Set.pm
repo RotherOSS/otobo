@@ -1003,12 +1003,10 @@ sub GetFieldState {
         for my $Name ( keys $SetFieldStates{Fields}->%* ) {
 
             my $DFName = "DynamicField_" . $Name;
-            if ( $IndexVisibility{$DFName} == 0 && $SetFieldStates{Visibility}{$DFName} == 1 )
+            if ( $IndexVisibility{$DFName} && $IndexVisibility{$DFName} == 0 && $SetFieldStates{Visibility}{$DFName} )
             {
                 my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
                 if ( $ParamObject && $Param{TicketID} ) {
-
-                    my @FieldValue = map { $_->{$Name} } @SetValue;
 
                     my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
                     my $OldValues     = $BackendObject->ValueGet(
@@ -1019,8 +1017,6 @@ sub GetFieldState {
                     ) // [];
 
                     if ( $DynamicField->{$Name}{Config}{MultiValue} ) {
-
-                        my $IndexMax = $#FieldValue;
 
                         # gather OriginSetIndex values
                         # to detect if we had delete/append operations
