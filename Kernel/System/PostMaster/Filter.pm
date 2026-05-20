@@ -393,6 +393,7 @@ sub FilterGet {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # ensure that body statements are listed at the very end of matching condition for performance reasons
     return if !$DBObject->Prepare(
         SQL => <<~"POSTMASTER_SELECT",
             SELECT
