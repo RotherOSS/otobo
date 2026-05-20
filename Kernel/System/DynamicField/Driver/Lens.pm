@@ -76,8 +76,9 @@ sub new {
     # Used for declaring CSS classes
     $Self->{FieldCSSClass} = 'DynamicFieldLens';
 
-# set field behaviors
-#   NOTE behaviors IsACLReducible, IsCustomerInterfaceCapable, IsReferenceField and IsSetField get overridden with the attribute fields behaviors in sub HasBehavior
+    # set field behaviors
+    #   NOTE behaviors IsACLReducible, IsCustomerInterfaceCapable, IsReferenceField and
+    #   IsSetField get overridden with the attribute fields behaviors in sub HasBehavior
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
         'IsNotificationEventCondition' => 1,
