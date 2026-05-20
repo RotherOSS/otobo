@@ -935,17 +935,13 @@ sub _RecipientsGet {
                     next RECIPIENT;
                 }
 
-                my %Recipient;
-                my @AllRecipients;
-                my @TmpRecipients;
-                my @TmpRecipientAgents;
-                my @RecipientAgents;
-
                 # Get recipient agents to prevent multiple notifications
+                my @RecipientAgents;
                 if ( IsArrayRefWithData( $Notification{Data}->{RecipientAgents} ) ) {
                     @RecipientAgents = @{ $Notification{Data}->{RecipientAgents} };
                 }
 
+                my @TmpRecipientAgents;
                 if (@RecipientAgents) {
                     for my $UserID (@RecipientAgents) {
 
@@ -957,51 +953,47 @@ sub _RecipientsGet {
                     }
                 }
 
-                # Get all recipients from the article.
-                ALLRECIPIENTS:
-                for my $Header (qw(From To Cc)) {
-
-                    next ALLRECIPIENTS if !$Article{$Header};
-
-                    push @TmpRecipients, split /,/, $Article{$Header};
-                }
-
-                # Loop through recipients.
                 my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-                EMAIL:
-                for my $Email ( $EmailAddressObject->ParseAddressLine( Line => @TmpRecipients ) ) {
 
-                    my $TmpRecipientAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
+                # Get the bare addresses of all of the recipients in the article
+                # Do not split an address line by comma, as a comma might be part of the phrase.
+                my @Addresses =
+                    map { $EmailAddressObject->GetAddress( AddressObject => $_ ) }
+                    map { $EmailAddressObject->ParseAddressLine( Line => $Article{$_} ) }
+                    qw(From To Cc);
+
+                # Filter the bare addresses.
+                my @AllRecipients;
+                ADDRESS:
+                for my $Address (@Addresses) {
 
                     # Skip notification if email address is already used by other groups.
-                    next EMAIL if any { $_ eq $TmpRecipientAddress } @RecipientUserEmails;
+                    next ADDRESS if any { $_ eq $Address } @RecipientUserEmails;
 
                     # Validate email address.
                     my $Valid = $CheckItemObject->CheckEmail(
-                        AddressObject => $Email,
+                        Address => $Address,
                     );
 
                     # Skip invalid.
-                    next EMAIL unless $Valid;
-
-                    # Check if email address is a local.
-                    my $IsLocal = $SystemAddressObject->SystemAddressIsLocalAddress(
-                        AddressObject => $Email,
-                    );
+                    next ADDRESS unless $Valid;
 
                     # Skip local email address.
-                    next EMAIL if $IsLocal;
+                    next ADDRESS if $SystemAddressObject->SystemAddressIsLocalAddress(
+                        Address => $Address,
+                    );
 
                     # Skip email addresses from agents selected by other groups.
-                    next EMAIL if any { $_ eq $TmpRecipientAddress } @TmpRecipientAgents;
+                    next ADDRESS if any { $_ eq $Address } @TmpRecipientAgents;
 
-                    push @AllRecipients, $TmpRecipientAddress;
+                    push @AllRecipients, $Address;
 
-                    # Push Email Addresses into array to prevent multiple notifications.
-                    push @RecipientUserEmails, $TmpRecipientAddress;
+                    # Push email addresses into array to prevent multiple notifications.
+                    push @RecipientUserEmails, $Address;
                 }
 
                 # Merge recipients.
+                my %Recipient;
                 $Recipient{UserEmail} = join( ',', @AllRecipients );
 
                 $Recipient{Type} = 'Customer';
