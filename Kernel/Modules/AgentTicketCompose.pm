@@ -2598,7 +2598,7 @@ sub _Mask {
             else {
                 push @EmailAddressesCc, {
                     CustomerKey        => '',
-                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                    CustomerTicketText => $EmailAddressObject->Format( AddressObject => $Email ),
                 };
             }
         }
@@ -2637,7 +2637,7 @@ sub _Mask {
             else {
                 push @EmailAddressesTo, {
                     CustomerKey        => '',
-                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                    CustomerTicketText => $EmailAddressObject->Format( AddressObject => $Email ),
                 };
             }
         }
