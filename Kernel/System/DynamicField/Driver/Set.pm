@@ -1003,7 +1003,7 @@ sub GetFieldState {
         for my $Name ( keys $SetFieldStates{Fields}->%* ) {
 
             my $DFName = "DynamicField_" . $Name;
-            if ( $IndexVisibility{$DFName} && $IndexVisibility{$DFName} == 0 && $SetFieldStates{Visibility}{$DFName} )
+            if ( exists $IndexVisibility{$DFName} && $IndexVisibility{$DFName} == 0 && $SetFieldStates{Visibility}{$DFName} )
             {
                 my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
                 if ( $ParamObject && $Param{TicketID} ) {
