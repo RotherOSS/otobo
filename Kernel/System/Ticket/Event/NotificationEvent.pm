@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use List::Util qw(first);
+use List::Util qw(any first);
 
 # CPAN modules
 
@@ -971,8 +971,10 @@ sub _RecipientsGet {
                 EMAIL:
                 for my $Email ( $EmailAddressObject->ParseAddressLine( Line => @TmpRecipients ) ) {
 
+                    my $TmpRecipientAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
+
                     # Skip notification if email address is already used by other groups.
-                    next EMAIL if grep { $_ eq $EmailAddressObject->GetAddress( AddressObject => $Email ) } @RecipientUserEmails;
+                    next EMAIL if any { $_ eq $TmpRecipientAddress } @RecipientUserEmails;
 
                     # Validate email address.
                     my $Valid = $CheckItemObject->CheckEmail(
@@ -991,12 +993,12 @@ sub _RecipientsGet {
                     next EMAIL if $IsLocal;
 
                     # Skip email addresses from agents selected by other groups.
-                    next EMAIL if grep { $_ eq $EmailAddressObject->GetAddress( AddressObject => $Email ) } @TmpRecipientAgents;
+                    next EMAIL if any { $_ eq $TmpRecipientAddress } @TmpRecipientAgents;
 
-                    push @AllRecipients, $EmailAddressObject->GetAddress( AddressObject => $Email );
+                    push @AllRecipients, $TmpRecipientAddress;
 
                     # Push Email Addresses into array to prevent multiple notifications.
-                    push @RecipientUserEmails, $EmailAddressObject->GetAddress( AddressObject => $Email );
+                    push @RecipientUserEmails, $TmpRecipientAddress;
                 }
 
                 # Merge recipients.
