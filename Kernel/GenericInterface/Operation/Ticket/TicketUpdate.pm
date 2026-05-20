@@ -1293,7 +1293,6 @@ sub _CheckUpdatePermissions {
     my $Ticket           = $Param{Ticket};
     my $Article          = $Param{Article};
     my $DynamicFieldList = $Param{DynamicFieldList};
-    my $AttachmentList   = $Param{AttachmentList};
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
