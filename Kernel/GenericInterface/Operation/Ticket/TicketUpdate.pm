@@ -538,7 +538,6 @@ sub Run {
             $Article->{AutoResponseType} = $Self->{Config}->{AutoResponseType} || '';
         }
 
-        # TODO: GenericInterface::Operation::TicketUpdate###CommunicationChannel
         if ( !$Article->{CommunicationChannelID} && !$Article->{CommunicationChannel} ) {
             $Article->{CommunicationChannel} = 'Internal';
         }
@@ -1301,7 +1300,6 @@ sub _CheckUpdatePermissions {
     my $Ticket           = $Param{Ticket};
     my $Article          = $Param{Article};
     my $DynamicFieldList = $Param{DynamicFieldList};
-    my $AttachmentList   = $Param{AttachmentList};
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
