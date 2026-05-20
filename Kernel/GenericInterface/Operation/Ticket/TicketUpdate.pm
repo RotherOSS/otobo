@@ -531,7 +531,6 @@ sub Run {
             $Article->{AutoResponseType} = $Self->{Config}->{AutoResponseType} || '';
         }
 
-        # TODO: GenericInterface::Operation::TicketUpdate###CommunicationChannel
         if ( !$Article->{CommunicationChannelID} && !$Article->{CommunicationChannel} ) {
             $Article->{CommunicationChannel} = 'Internal';
         }
