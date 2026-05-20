@@ -135,15 +135,10 @@ sub Run {
 
                 if ( !$LocalMatched ) {
                     $MatchedNot = 1;
-                }
-                else {
-                    $Matched = 1;
-                }
 
-                # abort processing if
-                #   1. should match but does not
-                #   2. should not match but does
-                if ( !$LocalMatched ) {
+                    # abort processing if
+                    #   1. should match but does not
+                    #   2. should not match but does
                     my $Op = $Config{Not}->[$Index]->{Value} ? '!' : "=";
                     $Self->{CommunicationLogObject}->ObjectLog(
                         ObjectLogType => 'Message',
@@ -153,6 +148,9 @@ sub Run {
                     );
 
                     last INDEX;
+                }
+                else {
+                    $Matched = 1;
                 }
             }
 
