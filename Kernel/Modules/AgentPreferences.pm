@@ -134,7 +134,7 @@ sub Run {
                 );
             }
 
-            next GROUP unless ( $Self->{CurrentUserID} != $EditUserID || $Preferences{$Group}{Active} );
+            next GROUP unless ( $Self->{UserID} != $EditUserID || $Preferences{$Group}{Active} );
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
