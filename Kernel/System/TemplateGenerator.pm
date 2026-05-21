@@ -368,10 +368,9 @@ sub Sender {
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     return $EmailAddressObject->Format(
-        Realname => $Address{Realname},
+        Realname => $Address{RealName},
         Address  => $Address{Email},
     );
-
 }
 
 =head2 Template()
