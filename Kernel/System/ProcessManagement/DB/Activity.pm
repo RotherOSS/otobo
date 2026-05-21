@@ -112,7 +112,7 @@ sub ActivityAdd {
 
     # validate namespace
     if ( $Param{Namespace} ) {
-        my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespaceList(
+        my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
             Scope => 'ProcessManagement',
         );
 
@@ -456,7 +456,7 @@ sub ActivityUpdate {
 
     # validate namespace
     if ( $Param{Namespace} ) {
-        my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespaceList(
+        my @ProcessNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
             Scope => 'ProcessManagement',
         );
 
@@ -526,8 +526,8 @@ sub ActivityUpdate {
         $CurrentEntityID        = $Data[0];
         $CurrentName            = $Data[1];
         $CurrentConfig          = $Data[2];
-        $CurrentNamespace       = $Data[3];
-        $CurrentProcessEntityID = $Data[4];
+        $CurrentNamespace       = $Data[3] // '';
+        $CurrentProcessEntityID = $Data[4] // '';
     }
 
     if ($CurrentEntityID) {
