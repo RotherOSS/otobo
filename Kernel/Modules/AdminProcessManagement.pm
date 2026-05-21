@@ -227,7 +227,7 @@ sub Run {
 
             for my $ProcessEntityID ( $ProcessImport{ProcessEntityIDs}->@* ) {
 
-                # set entitty sync state
+                # set entity sync state
                 my $Success = $EntityObject->EntitySyncStateSet(
                     EntityType => 'Process',
                     EntityID   => $ProcessEntityID,
@@ -278,7 +278,7 @@ sub Run {
             ID => $ProcessID
         );
 
-        # convert the processdata hash to string
+        # convert the process data hash to string
         my $ProcessDataYAML = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $ProcessData );
 
         # send the result to the browser
@@ -338,7 +338,7 @@ sub Run {
                     },
                 );
 
-                # list all assigned dialogs
+                # list all assigned dialogues
                 my $AssignedDialogs = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
                 if ( $AssignedDialogs && %{$AssignedDialogs} ) {
 
@@ -369,7 +369,7 @@ sub Run {
             );
         }
 
-        # print all activity dialogs
+        # print all activity dialogues
         if ( $ProcessData->{ActivityDialogs} && %{ $ProcessData->{ActivityDialogs} } ) {
 
             for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
@@ -796,7 +796,7 @@ sub Run {
             );
         }
 
-        # check if Inactive state estity exists
+        # check if inactive state entity exists
         my $StateList   = $StateObject->StateList( UserID => $Self->{UserID} );
         my %StateLookup = reverse %{$StateList};
 
@@ -826,7 +826,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
             EntityID   => $EntityID,
@@ -872,7 +872,7 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams();
 
-        # set new confguration
+        # set new configuration
         $ProcessData->{Name}                  = $GetParam->{Name};
         $ProcessData->{Config}->{Description} = $GetParam->{Description};
         $ProcessData->{StateEntityID}         = $GetParam->{StateEntityID};
@@ -943,7 +943,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         my $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
             EntityID   => $EntityID,
@@ -1030,13 +1030,13 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        # get webserice configuration
+        # get webservice configuration
         my $ProcessData;
 
         # get parameter from web browser
         my $GetParam = $Self->_GetParams();
 
-        # set new confguration
+        # set new configuration
         $ProcessData->{Name}                          = $GetParam->{Name};
         $ProcessData->{EntityID}                      = $GetParam->{EntityID};
         $ProcessData->{ProcessLayout}                 = $GetParam->{ProcessLayout};
@@ -1100,7 +1100,7 @@ sub Run {
             );
         }
 
-        # set entitty sync state
+        # set entity sync state
         $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
             EntityID   => $ProcessData->{EntityID},
@@ -1193,7 +1193,7 @@ sub Run {
             }
             else {
 
-                # set entitty sync state
+                # set entity sync state
                 my $Success = $EntityObject->EntitySyncStateSet(
                     EntityType => 'Process',
                     EntityID   => $CheckResult->{ProcessData}->{EntityID},
@@ -1269,7 +1269,7 @@ sub Run {
         }
         else {
 
-            # show error if can't synch
+            # show error if can't sync
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('There was an error synchronizing the processes.'),
             );
@@ -1378,7 +1378,7 @@ sub Run {
                 }
                 else {
 
-                    # set entitty sync state
+                    # set entity sync state
                     my $Success = $EntityObject->EntitySyncStateSet(
                         EntityType => $GetParam{EntityType},
                         EntityID   => $Entity->{EntityID},
@@ -1521,7 +1521,7 @@ sub Run {
             );
         }
 
-        # ouput available process elements in the accordion
+        # output available process elements in the accordion
         for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
 
             my $ElementMethod = $Element . 'ListGet';
@@ -1790,7 +1790,7 @@ sub _ShowEdit {
             );
         }
 
-        # ouput available process elements in the accordion
+        # output available process elements in the accordion
         for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
 
             my $ElementMethod = $Element . 'ListGet';
@@ -2170,7 +2170,7 @@ sub _GetProcessData {
         );
         $ProcessData{Activities}->{$ActivityEntityID} = $Activity;
 
-        # get all used activity dialogs
+        # get all used activity dialogues
         for my $ActivityDialogEntityID ( @{ $Activity->{ActivityDialogs} } ) {
 
             my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogGet(
