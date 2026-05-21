@@ -247,9 +247,9 @@ my @Tests = (
         AgentLastname         => 'Doe',
         SystemAddressRealname => 'Foo\\"Bar\\"',
         Result                => {
-            SystemAddressName          => qq|"Foo\\"Bar\\"" <$SystemAddressEmail>|,
-            AgentNameSystemAddressName => qq|"John Doe via Foo\\"Bar\\"" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            SystemAddressName          => qq|"Foo\\\\\\"Bar\\\\\\"" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via Foo\\\\\\"Bar\\\\\\"" <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
     {
@@ -259,9 +259,9 @@ my @Tests = (
         AgentLastname         => 'Doe',
         SystemAddressRealname => 'F,oo\\"Bar\\"',
         Result                => {
-            SystemAddressName          => qq|"F,oo\\"Bar\\"" <$SystemAddressEmail>|,
-            AgentNameSystemAddressName => qq|"John Doe via F,oo\\"Bar\\"" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            SystemAddressName          => qq|"F,oo\\\\\\"Bar\\\\\\"" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via F,oo\\\\\\"Bar\\\\\\"" <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
     {
