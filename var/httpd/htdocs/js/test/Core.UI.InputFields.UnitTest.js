@@ -345,7 +345,7 @@ Core.UI.InputFields = (function (Namespace) {
         /*
         * Remove test elements from the page
         */
-        QUnit.done(function () { //eslint-disable-line no-undef
+        QUnit.done(function () {
             $('#TestForm').remove();
         });
     };

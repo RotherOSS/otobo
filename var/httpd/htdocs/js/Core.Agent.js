@@ -379,7 +379,7 @@ Core.Agent = (function (TargetNS) {
             var SearchFrontend = Core.Config.Get('SearchFrontend');
             if (SearchFrontend) {
                 try {
-                    eval(SearchFrontend); //eslint-disable-line no-eval
+                    eval(SearchFrontend);
                 }
                 catch(Error) {
                     $.noop(Error);
@@ -765,7 +765,7 @@ Core.Agent = (function (TargetNS) {
 
         // Initializes pagination event function on widgets that have pagination
         if (typeof WidgetContainers !== 'undefined') {
-            $.each(WidgetContainers, function (Index, Value) {
+            $.each(WidgetContainers, function (_Index, Value) {
                 if (typeof Core.Config.Get('PaginationData' + Value.NameForm) !== 'undefined') {
                     PaginationEvent(Value);
 

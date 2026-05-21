@@ -1433,10 +1433,10 @@ sub _TicketCreate {
     # Create article and optionally send email.
 
     my $ArticleMethodRef;
-    my $To      = $Article->{To} // '';
+    my $To      = $Article->{To}   // '';
     my $From    = $Article->{From} // '';
-    my $Cc      = $Article->{Cc} // '';
-    my $Bcc     = $Article->{Bcc} // '';
+    my $Cc      = $Article->{Cc}   // '';
+    my $Bcc     = $Article->{Bcc}  // '';
     my $Subject = $Article->{Subject} || '';
 
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');

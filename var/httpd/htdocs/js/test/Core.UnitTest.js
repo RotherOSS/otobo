@@ -21,7 +21,7 @@ var Core = Core || {};
 // nofilter(TidyAll::Plugin::OTOBO::JavaScript::FileNameUnitTest)
 Core.UnitTest = (function (Namespace) {
 
-    QUnit.done(function () { //eslint-disable-line no-undef
+    QUnit.done(function () {
         $('#qunit-testresult').addClass('complete');
     });
 
