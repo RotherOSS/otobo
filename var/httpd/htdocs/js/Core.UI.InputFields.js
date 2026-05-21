@@ -1373,8 +1373,6 @@ Core.UI.InputFields = (function (TargetNS) {
                 $SearchObj.outerWidth(SelectWidth).show();
             }
 
-        
-
             // For performance reasons:
             // Do not initialize modern inputfields on selects with many entries
             if ($(SelectObj).children('option').length > Config.MaxNumberOfOptions) {

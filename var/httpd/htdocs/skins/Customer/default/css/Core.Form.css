@@ -23,8 +23,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 fieldset.ModularForm {
+    --FormRowGap: 32px;
     --AddRemoveButtonWidth: calc( 14.36 / 14 ) * 1em; /* at 14px font size, the buttons are 14.36px wide */
     --AddRemoveButtonGap: 0.3em;
+
     --AddRemoveButtonRowWidth: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
     --AddRemoveButtonRowSpace: var(--AddRemoveButtonRowWidth) * 0.25; /* space between multivalue buttons and fields */
 
@@ -32,7 +34,7 @@ fieldset.ModularForm {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+    gap: var(--FormRowGap);
     width: 66%;
     margin: 0 auto;
 }
@@ -42,12 +44,34 @@ fieldset.ModularForm p {
     width: 100%;
 }
 
+fieldset.ModularForm .Row.MultiColumn {
+    display: grid;
+    column-gap: 16px;
+}
+
+fieldset.ModularForm .Row.MultiColumn > * {
+    min-width: 0; /* to prevent overflow of the fields in case of long labels or values */
+}
+
 fieldset.ModularForm .FieldCell {
     position: relative; /* to allow for positioning and sizing relative to the field cell */
 }
 
 fieldset.ModularForm .Field {
     width: calc(100% - (var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace)));
+}
+
+fieldset.ModularForm label {
+    max-width: calc(
+        100% - (
+            var(--AddRemoveButtonRowWidth) + 
+            var(--AddRemoveButtonRowSpace) +
+            var(--HorizontalInputFieldPadding) * 2
+        )
+    );
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*
@@ -529,39 +553,13 @@ fieldset .AsteriskExplanation {
  * @subsection Dynamic Field Sets
  */
 
-.FieldCell div.DFSetOuterField {
-    height: auto;
-    display: block;
-}
-
-.FieldCell .Field.DFSetOuterField + label {
-    position: absolute;
-    z-index: 1;
-    display: block;
-    top: -6px;
-    left: 24px;
-    width: fit-content;
-}
-
 .DynamicFieldSet {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     border: solid 1px var(--colTextLight);
     border-radius: 10px;
-    padding-left: 32px;
-    padding-bottom: 40px;
-    padding-right: 8px;
-}
-
-.DynamicFieldSet .Row_DynamicField {
-    width: calc( 100% - 40px );
-    margin-left: 0px;
-}
-
-.DynamicFieldSet .Row_DynamicField.MultiColumn {
-    width: 100%;
-}
-
-.DynamicFieldSet .Row_DynamicField .Field {
-    width: 100%;
+    padding: 8px;
 }
 
 /* IE */
