@@ -33,14 +33,13 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $Helper               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
-        my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-        my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-        my $ProcessObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+        my $Helper                 = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+        my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+        my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
         my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-        my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+        my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
 
         $Kernel::OM->ObjectParamAdd(
             $Helper => {
@@ -50,7 +49,7 @@ $Selenium->RunTest(
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin' ],
+            Groups => ['admin'],
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -62,41 +61,41 @@ $Selenium->RunTest(
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID         = $Helper->GetRandomID();
         my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
-            EntityID    => "ActivityDialog-$RandomID",
-            Name        => 'Some activity dialog',
-            Config => {
+            EntityID => "ActivityDialog-$RandomID",
+            Name     => 'Some activity dialog',
+            Config   => {
                 DescriptionLong => '',
-                RequiredLock => 0,
-                Permission => '',
-                Fields => {
-                                Article => {
-                                                DescriptionLong => '',
-                                                Config => {
-                                                            IsVisibleForCustomer => '0',
-                                                            StandardTemplates => '1',
-                                                            CommunicationChannel => 'Internal',
-                                                            TimeUnits => '0'
-                                                            },
-                                                Display => '1',
-                                                DefaultValue => '',
-                                                DescriptionShort => ''
-                                            }
-                            },
+                RequiredLock    => 0,
+                Permission      => '',
+                Fields          => {
+                    Article => {
+                        DescriptionLong => '',
+                        Config          => {
+                            IsVisibleForCustomer => '0',
+                            StandardTemplates    => '1',
+                            CommunicationChannel => 'Internal',
+                            TimeUnits            => '0'
+                        },
+                        Display          => '1',
+                        DefaultValue     => '',
+                        DescriptionShort => ''
+                    }
+                },
                 SubmitAdviceText => '',
                 SubmitButtonText => '',
                 DescriptionShort => 'Some description',
-                Interface => [
-                                    'AgentInterface'
-                                ],
+                Interface        => [
+                    'AgentInterface'
+                ],
                 DirectSubmit => 0,
-                FieldOrder => [
-                                    'Article'
-                                ],
+                FieldOrder   => [
+                    'Article'
+                ],
                 InputFieldDefinition => ''
             },
-            UserID      => 1,
+            UserID => 1,
         );
         ok(
             $ActivityDialogID,
@@ -104,14 +103,14 @@ $Selenium->RunTest(
         );
 
         my $ActivityID = $ActivityObject->ActivityAdd(
-            EntityID    => "Activity-$RandomID",
-            Name        => 'Some Activity',
-            Config      => {
-                        'ActivityDialog' => {
-                                              '1' => "ActivityDialog-$RandomID"
-                                            }
+            EntityID => "Activity-$RandomID",
+            Name     => 'Some Activity',
+            Config   => {
+                'ActivityDialog' => {
+                    '1' => "ActivityDialog-$RandomID"
+                }
             },
-            UserID      => 1,
+            UserID => 1,
         );
         ok(
             $ActivityDialogID,
@@ -119,24 +118,24 @@ $Selenium->RunTest(
         );
 
         my $ProcessEntityID = "Process-$RandomID";
-        my $ProcessID = $ProcessObject->ProcessAdd(
+        my $ProcessID       = $ProcessObject->ProcessAdd(
             EntityID => $ProcessEntityID,
-            UserID => 1,
-            Layout => {
-                        "Activity-$RandomID" => {
-                            'left' => 166,
-                            'top' => '46.421875'
-                        }
+            UserID   => 1,
+            Layout   => {
+                "Activity-$RandomID" => {
+                    'left' => 166,
+                    'top'  => '46.421875'
+                }
             },
             StateEntityID => 'S1',
-            Config => {
-                        'Path' => {
-                                    "Activity-$RandomID" => {}
-                                    },
-                        StartActivityDialog => "ActivityDialog-$RandomID",
-                        Description => 'Some process of mine',
-                        StartActivity => "Activity-$RandomID"
-                        },
+            Config        => {
+                'Path' => {
+                    "Activity-$RandomID" => {}
+                },
+                StartActivityDialog => "ActivityDialog-$RandomID",
+                Description         => 'Some process of mine',
+                StartActivity       => "Activity-$RandomID"
+            },
             Name => "Process $RandomID"
         );
         ok(
@@ -154,23 +153,23 @@ $Selenium->RunTest(
         # create process templates
         my @StandardTemplateIDs;
         my @StandardTemplateValues;
-        for my $Index (1 .. 5) {
+        for my $Index ( 1 .. 5 ) {
             my $StandardTemplateText = "Standard Template Text $Index";
-            my $StandardTemplateID = $StandardTemplateObject->StandardTemplateAdd(
-                Name => "Template-$RandomID-$Index",
-                ContentType => 'text/html',
-                ID => '',
-                ValidID => '1',
-                Template => $StandardTemplateText,
+            my $StandardTemplateID   = $StandardTemplateObject->StandardTemplateAdd(
+                Name         => "Template-$RandomID-$Index",
+                ContentType  => 'text/html',
+                ID           => '',
+                ValidID      => '1',
+                Template     => $StandardTemplateText,
                 TemplateType => 'ProcessDialog',
-                Comment => '',
-                UserID => 1,
+                Comment      => '',
+                UserID       => 1,
             );
             ok(
                 $StandardTemplateID,
                 "Created Standard Template - ID $StandardTemplateID"
             );
-            for my $QueueID (1 .. 4) {
+            for my $QueueID ( 1 .. 4 ) {
                 $QueueObject->QueueStandardTemplateMemberAdd(
                     QueueID            => $QueueID,
                     StandardTemplateID => $StandardTemplateID,
@@ -178,7 +177,7 @@ $Selenium->RunTest(
                     UserID             => 1,
                 );
             }
-            push @StandardTemplateIDs, $StandardTemplateID;
+            push @StandardTemplateIDs,    $StandardTemplateID;
             push @StandardTemplateValues, $StandardTemplateText;
         }
 
@@ -195,7 +194,7 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript => "return \$('#StandardTemplateID').length > 0;",
-            );        
+            );
 
             # select template
             $Selenium->execute_script(
@@ -205,7 +204,7 @@ $Selenium->RunTest(
             $Selenium->WaitFor(
                 JavaScript => "return \$('#RichText').val();",
                 Timeout    => 5,
-            );        
+            );
 
             # check template text
             is(
