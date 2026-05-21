@@ -100,8 +100,8 @@ my @Tests = (
         SystemAddressRealname => 'Test',
         Result                => {
             SystemAddressName          => qq|Test <$SystemAddressEmail>|,
-            AgentNameSystemAddressName => qq|John Doe via Test <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via Test" <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
 
     },
@@ -112,9 +112,9 @@ my @Tests = (
         AgentLastname         => 'Doe',
         SystemAddressRealname => 'four words real name',
         Result                => {
-            SystemAddressName          => qq|four words real name <$SystemAddressEmail>|,
-            AgentNameSystemAddressName => qq|John Doe via four words real name <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            SystemAddressName          => qq|"four words real name" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via four words real name" <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
 
     },
@@ -128,7 +128,7 @@ my @Tests = (
         Result                => {
             SystemAddressName          => qq|" real, name ,  with,commas" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via  real, name ,  with,commas" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
     {
@@ -140,7 +140,7 @@ my @Tests = (
         Result                => {
             SystemAddressName          => qq|"company.com" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via company.com" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
     {
@@ -200,7 +200,7 @@ my @Tests = (
         Result                => {
             SystemAddressName          => qq|"Foo[Bar]" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Foo[Bar]" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
     {
@@ -212,7 +212,7 @@ my @Tests = (
         Result                => {
             SystemAddressName          => qq|"Foo:Bar" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Foo:Bar" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
     {
@@ -273,7 +273,7 @@ my @Tests = (
         Result                => {
             SystemAddressName          => qq|"Chocolate Bar 🍫" <$SystemAddressEmail>|,
             AgentNameSystemAddressName => qq|"John Doe via Chocolate Bar 🍫" <$SystemAddressEmail>|,
-            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+            AgentName                  => qq|"John Doe" <$SystemAddressEmail>|,
         },
     },
 );
