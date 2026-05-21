@@ -279,7 +279,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    subtest "$Test->{Name} (line $Test->{Line}" => sub {
+    subtest "$Test->{Name} (line $Test->{Line})" => sub {
 
         $SystemAddressObject->SystemAddressUpdate(
             %SystemAddressData,
