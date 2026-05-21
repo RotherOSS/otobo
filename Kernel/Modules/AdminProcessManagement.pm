@@ -1910,7 +1910,7 @@ sub _ShowEdit {
             TransitionAction  => $ProcessDump->{TransitionAction},
             PopupPathActivity => $LayoutObject->{Baselink}
                 . 'Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ProcessEntityID='
-                . ($ProcessData->{EntityID} || '') . ';',
+                . ( $ProcessData->{EntityID} || '' ) . ';',
             PopupPathPath => $LayoutObject->{Baselink} . 'Action=AdminProcessManagementPath;Subaction=PathEdit;',
         }
     );
