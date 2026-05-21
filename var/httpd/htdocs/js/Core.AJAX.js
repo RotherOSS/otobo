@@ -564,6 +564,7 @@ Core.AJAX = (function (TargetNS) {
      *      Toggles visibility of fields
      */
     function HideShowFields(Visibility) {
+
         for ( var i = 0; i < Visibility.length; i++ ) {
             var FieldInfo = Visibility[i],
                 Field = $( '#' + FieldInfo[0] );
@@ -768,8 +769,20 @@ Core.AJAX = (function (TargetNS) {
                 // handle set-inner fields
                 if (InnerFields.length) {
                     let VisibilityStructure = [];
+                    let IsVisible = function(FieldName) {
+
+                        FieldName = FieldName.replace(/(_[0-9]+)*$/,'');
+                        for( var Index = 0; Index < Visibility.length; Index++) {
+                            let VisibilityItem = Visibility[Index];
+                            if(FieldName == VisibilityItem[0] ) {
+                                return VisibilityItem[1];
+                            }
+                        }
+                        return 1;
+                    };
+
                     InnerFields.forEach(function(FieldName) {
-                        VisibilityStructure.push([FieldName, '1']);
+                        VisibilityStructure.push([FieldName, IsVisible(FieldName)]);
                     });
                     HideShowFields(VisibilityStructure);
                 }
