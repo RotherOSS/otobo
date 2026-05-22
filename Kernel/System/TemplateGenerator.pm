@@ -315,13 +315,16 @@ sub Sender {
         }
     }
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get sender attributes
     my %Address = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress(
         QueueID => $Param{QueueID},
     );
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    # This is the not quoted RealName
+    my $Phrase = $Address{Phrase};
 
     # check config for agent real name
     my $UseAgentRealName = $ConfigObject->Get('Ticket::DefineEmailFrom');
@@ -339,8 +342,8 @@ sub Sender {
             # check for user data
             if ( $UserData{UserFullname} ) {
 
-                # rewrite RealName
-                $Address{RealName} = "$UserData{UserFullname}";
+                # rewrite the phrase, no need to care about quoting
+                $Phrase = $UserData{UserFullname};
             }
         }
 
@@ -350,15 +353,9 @@ sub Sender {
             # check for user data
             if ( $UserData{UserFullname} ) {
 
-                # rewrite RealName
-                my $Separator = ' ' . $ConfigObject->Get('Ticket::DefineEmailFromSeparator');
-
-                # $Address{RealName} comes from GetSystemAddress() which might already have added double quotes.
-                # Let's strip those before constructing a new RealName aka phrase.
-                $Address{RealName} =~ s/^"(.*)"$/$1/;
-
-                # prepend the user name to the real name
-                $Address{RealName} = $UserData{UserFullname} . $Separator . ' ' . $Address{RealName};
+                # prepend the user name and the separator, e.g. 'via', to the real name
+                my $Separator = $ConfigObject->Get('Ticket::DefineEmailFromSeparator');
+                $Phrase = "$UserData{UserFullname} $Separator $Phrase";
             }
         }
     }
@@ -368,7 +365,7 @@ sub Sender {
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     return $EmailAddressObject->Format(
-        Realname => $Address{RealName},
+        Realname => $Phrase,
         Address  => $Address{Email},
     );
 }
