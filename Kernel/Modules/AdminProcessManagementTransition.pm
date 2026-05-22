@@ -557,18 +557,17 @@ sub _ShowEdit {
 
     $Param{FreshConditionFieldType} = $LayoutObject->BuildSelection(
         Data => {
-            'String' => Translatable('String'),
-
-            # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-            # TODO: implement a possibility to enter the data in a correct way in the GUI
-            #'Hash'   => 'Hash',
-            #'Array'  => 'Array',
-            'Regexp' => Translatable('Regular expression'),
-            'Module' => Translatable('Transition validation module')
+            'String'    => Translatable('Exact match'),
+            'AllString' => Translatable('Exact match - all'),
+            'NotString' => Translatable('Exact match - negated'),
+            'Regexp'    => Translatable('Regular expression'),
+            'AllRegexp' => Translatable('Regular expression - all'),
+            'NotRegexp' => Translatable('Regular expression - negated'),
+            'Module'    => Translatable('Transition validation module'),
         },
         SelectedID   => 'String',
         Name         => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
-        Sort         => 'AlphanumericKey',
+        Sort         => 'AlphanumericValue',
         PossibleNone => 1,
         Class        => 'Validate_Required Modernize',
         Translation  => 1,
@@ -624,17 +623,16 @@ sub _ShowEdit {
                 my %FieldData          = %{ $ConditionData{Fields}->{$Field} };
                 my $ConditionFieldType = $LayoutObject->BuildSelection(
                     Data => {
-                        'String' => Translatable('String'),
-
-                        # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-                        # TODO: implement a possibility to enter the data in a correct way in the GUI
-                        #'Hash'   => 'Hash',
-                        #'Array'  => 'Array',
-                        'Regexp' => Translatable('Regular expression'),
-                        'Module' => Translatable('Transition validation module')
+                        'String'    => Translatable('Exact match'),
+                        'AllString' => Translatable('Exact match - all'),
+                        'NotString' => Translatable('Exact match - negated'),
+                        'Regexp'    => Translatable('Regular expression'),
+                        'AllRegexp' => Translatable('Regular expression - all'),
+                        'NotRegexp' => Translatable('Regular expression - negated'),
+                        'Module'    => Translatable('Transition validation module'),
                     },
                     Name         => "ConditionFieldType[$Condition][$Field]",
-                    Sort         => 'AlphanumericKey',
+                    Sort         => 'AlphanumericValue',
                     Translation  => 1,
                     PossibleNone => 1,
                     Class        => 'Validate_Required Modernize',
@@ -698,17 +696,16 @@ sub _ShowEdit {
 
         $Param{ConditionFieldType} = $LayoutObject->BuildSelection(
             Data => {
-                'String' => Translatable('String'),
-
-                # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-                # TODO: implement a possibility to enter the data in a correct way in the GUI
-                #'Hash'   => 'Hash',
-                #'Array'  => 'Array',
-                'Regexp' => Translatable('Regular expression'),
-                'Module' => Translatable('Transition validation module')
+                'String'    => Translatable('Exact match'),
+                'AllString' => Translatable('Exact match - all'),
+                'NotString' => Translatable('Exact match - negated'),
+                'Regexp'    => Translatable('Regular expression'),
+                'AllRegexp' => Translatable('Regular expression - all'),
+                'NotRegexp' => Translatable('Regular expression - negated'),
+                'Module'    => Translatable('Transition validation module'),
             },
             Name        => 'ConditionFieldType[_INDEX_][_FIELDINDEX_]',
-            Sort        => 'AlphanumericKey',
+            Sort        => 'AlphanumericValue',
             Class       => 'Modernize',
             Translation => 1,
         );

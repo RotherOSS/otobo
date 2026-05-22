@@ -405,6 +405,18 @@ sub TransitionCheck {
 
             FIELDLNAME:
             for my $FieldName ( sort keys %{ $ActualCondition->{Fields} } ) {
+                if ( $FieldName =~ /(\w+)::(\w+)/ ) {
+                    my @ValueList;
+                    for my $Elem ( $Param{Data}->{$1}->@* ) {
+                        if ( ref $Elem->{$2} eq 'ARRAY' ) {
+                            push @ValueList, $Elem->{$2}->@*;
+                        }
+                        else {
+                            push @ValueList, $Elem->{$2};
+                        }
+                    }
+                    $Param{Data}->{$FieldName} = \@ValueList;
+                }
 
                 # If we have just a String transform it into string check condition.
                 if ( ref $ActualCondition->{Fields}->{$FieldName} eq '' ) {
@@ -445,6 +457,10 @@ sub TransitionCheck {
                     && $FieldType ne 'Array'
                     && $FieldType ne 'Regexp'
                     && $FieldType ne 'Module'
+                    && $FieldType ne 'NotString'
+                    && $FieldType ne 'NotRegexp'
+                    && $FieldType ne 'AllString'
+                    && $FieldType ne 'AllRegexp'
                     )
                 {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -510,6 +526,229 @@ sub TransitionCheck {
                         }
                     }
                     if ($Match) {
+                        $FieldSuccess++;
+
+                        $Self->DebugLog(
+                            MessageType    => 'Match',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'String',
+                            MatchValue     => $MatchValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Successful check if we just need one matching Condition to make this
+                        #   Transition valid.
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+
+                            $Self->DebugLog(
+                                MessageType      => 'Success',
+                                TransitionName   => $Transitions->{$TransitionEntityID}->{Name},
+                                ConditionName    => $ConditionName,
+                                ConditionType    => $CondType,
+                                ConditionLinking => $ConditionLinking,
+                            );
+
+                            return $TransitionEntityID;
+                        }
+
+                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                    }
+                    else {
+                        $FieldFail++;
+
+                        my $UnmatchedValue = $Param{Data}->{$FieldName};
+                        if ( ref $Param{Data}->{$FieldName} eq 'ARRAY' ) {
+                            $UnmatchedValue = 'Any of [' . join( ', ', @{ $Param{Data}->{$FieldName} } ) . ']';
+                        }
+
+                        $Self->DebugLog(
+                            MessageType    => 'NoMatch',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'String',
+                            MatchValue     => $UnmatchedValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Failed check if we have all 'and' conditions.
+                        next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
+
+                        # Try next Condition if all Condition Fields have to be true.
+                        next CONDITIONNAME if $CondType eq 'and';
+                    }
+                    next FIELDLNAME;
+                }
+                elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'NotString' ) {
+
+                    # if our Check contains anything else than a string we can't check
+                    #   Special Condition: if Match contains '0' we can check.
+                    if (
+                        (
+                            !$ActualCondition->{Fields}->{$FieldName}->{Match}
+                            && $ActualCondition->{Fields}->{$FieldName}->{Match} ne '0'
+                        )
+                        || ref $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        )
+                    {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  =>
+                                "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
+                                . " be a String if Type is set to String!",
+                        );
+                        return;
+                    }
+
+                    my $NoneMatches = !defined $Param{Data}->{$FieldName};
+                    my $MatchValue;
+
+                    # Make sure there is data to compare.
+                    if (
+                        defined $Param{Data}->{$FieldName}
+                        && defined $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        )
+                    {
+
+                        # Check if field data is a string and compare directly.
+                        if (
+                            ref $Param{Data}->{$FieldName} eq ''
+                            && $ActualCondition->{Fields}->{$FieldName}->{Match} ne $Param{Data}->{$FieldName}
+                            )
+                        {
+                            $NoneMatches = 1;
+                            $MatchValue  = $Param{Data}->{$FieldName};
+                        }
+
+                        # Otherwise check if field data is an array and compare if all elements match.
+                        elsif ( ref $Param{Data}->{$FieldName} eq 'ARRAY' ) {
+
+                            $NoneMatches = 1;
+                            ITEM:
+                            for my $Item ( @{ $Param{Data}->{$FieldName} } ) {
+                                if ( $ActualCondition->{Fields}->{$FieldName}->{Match} eq $Item ) {
+                                    $NoneMatches = 0;
+                                    $MatchValue  = "Item: [$Item]";
+                                    last ITEM;
+                                }
+                            }
+                        }
+                    }
+                    if ($NoneMatches) {
+                        $FieldSuccess++;
+
+                        $Self->DebugLog(
+                            MessageType    => 'Match',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'String',
+                            MatchValue     => $MatchValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Successful check if we just need one matching Condition to make this
+                        #   Transition valid.
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+
+                            $Self->DebugLog(
+                                MessageType      => 'Success',
+                                TransitionName   => $Transitions->{$TransitionEntityID}->{Name},
+                                ConditionName    => $ConditionName,
+                                ConditionType    => $CondType,
+                                ConditionLinking => $ConditionLinking,
+                            );
+
+                            return $TransitionEntityID;
+                        }
+
+                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                    }
+                    else {
+                        $FieldFail++;
+
+                        my $UnmatchedValue = $Param{Data}->{$FieldName};
+                        if ( ref $Param{Data}->{$FieldName} eq 'ARRAY' ) {
+                            $UnmatchedValue = 'Any of [' . join( ', ', @{ $Param{Data}->{$FieldName} } ) . ']';
+                        }
+
+                        $Self->DebugLog(
+                            MessageType    => 'NoMatch',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'String',
+                            MatchValue     => $UnmatchedValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Failed check if we have all 'and' conditions.
+                        next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
+
+                        # Try next Condition if all Condition Fields have to be true.
+                        next CONDITIONNAME if $CondType eq 'and';
+                    }
+                    next FIELDLNAME;
+                }
+
+                elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'AllString' ) {
+
+                    # if our Check contains anything else than a string we can't check
+                    #   Special Condition: if Match contains '0' we can check.
+                    if (
+                        (
+                            !$ActualCondition->{Fields}->{$FieldName}->{Match}
+                            && $ActualCondition->{Fields}->{$FieldName}->{Match} ne '0'
+                        )
+                        || ref $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        )
+                    {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  =>
+                                "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
+                                . " be a String if Type is set to String!",
+                        );
+                        return;
+                    }
+
+                    my $AllMatch;
+                    my $MatchValue;
+
+                    # Make sure there is data to compare.
+                    if (
+                        defined $Param{Data}->{$FieldName}
+                        && defined $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        )
+                    {
+
+                        # Check if field data is a string and compare directly.
+                        if (
+                            ref $Param{Data}->{$FieldName} eq ''
+                            && $ActualCondition->{Fields}->{$FieldName}->{Match} eq $Param{Data}->{$FieldName}
+                            )
+                        {
+                            $AllMatch   = 1;
+                            $MatchValue = $Param{Data}->{$FieldName};
+                        }
+
+                        # Otherwise check if field data is an array with data and compare whether all elements match.
+                        elsif ( IsArrayRefWithData( $Param{Data}->{$FieldName} ) ) {
+
+                            $AllMatch = 1;
+                            ITEM:
+                            for my $Item ( @{ $Param{Data}->{$FieldName} } ) {
+                                if ( $ActualCondition->{Fields}->{$FieldName}->{Match} ne $Item ) {
+                                    $AllMatch   = 0;
+                                    $MatchValue = "Item: [$Item]";
+                                    last ITEM;
+                                }
+                            }
+                        }
+                    }
+                    if ($AllMatch) {
                         $FieldSuccess++;
 
                         $Self->DebugLog(
@@ -781,6 +1020,254 @@ sub TransitionCheck {
                     }
 
                     if ($Match) {
+                        $FieldSuccess++;
+
+                        $Self->DebugLog(
+                            MessageType    => 'Match',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'Regexp',
+                            MatchValue     => $MatchValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Successful check if we just need one matching Condition to make this Transition valid.
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+
+                            $Self->DebugLog(
+                                MessageType      => 'Success',
+                                TransitionName   => $Transitions->{$TransitionEntityID}->{Name},
+                                ConditionName    => $ConditionName,
+                                ConditionType    => $CondType,
+                                ConditionLinking => $ConditionLinking,
+                            );
+
+                            return $TransitionEntityID;
+                        }
+
+                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                    }
+                    else {
+                        $FieldFail++;
+
+                        my $UnmatchedValue = $Param{Data}->{$FieldName};
+                        if ( ref $Param{Data}->{$FieldName} eq 'ARRAY' ) {
+                            $UnmatchedValue = 'Any of [' . join( ', ', @{ $Param{Data}->{$FieldName} } ) . ']';
+                        }
+
+                        $Self->DebugLog(
+                            MessageType    => 'NoMatch',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'Regexp',
+                            MatchValue     => $UnmatchedValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Failed check if we have all 'and' conditions.
+                        next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
+
+                        # Try next Condition if all Condition Fields have to be true.
+                        next CONDITIONNAME if $CondType eq 'and';
+                    }
+                    next FIELDLNAME;
+                }
+                elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'NotRegexp' )
+                {
+
+                    # If our Check contains anything else then a string we can't check.
+                    if (
+                        !$ActualCondition->{Fields}->{$FieldName}->{Match}
+                        ||
+                        (
+                            ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne 'Regexp'
+                            && ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne ''
+                        )
+                        )
+                    {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  =>
+                                "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
+                                . " be a Regular expression if Type is set to Regexp!",
+                        );
+                        return;
+                    }
+
+                    # Precompile Regexp if is a string.
+                    if ( ref $ActualCondition->{Fields}->{$FieldName}->{Match} eq '' ) {
+                        my $Match = $ActualCondition->{Fields}->{$FieldName}->{Match};
+
+                        eval {
+                            $ActualCondition->{Fields}->{$FieldName}->{Match} = qr{$Match};
+                        };
+                        if ($@) {
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                Priority => 'error',
+                                Message  => $@,
+                            );
+                            return;
+                        }
+                    }
+
+                    my $NoneMatches = !defined $Param{Data}->{$FieldName};
+                    my $MatchValue;
+
+                    # Make sure there is data to compare.
+                    if ( defined $Param{Data}->{$FieldName} ) {
+
+                        # Check if field data is a string and compare directly.
+                        if (
+                            ref $Param{Data}->{$FieldName} eq ''
+                            && $Param{Data}->{$FieldName} !~ $ActualCondition->{Fields}->{$FieldName}->{Match}
+                            )
+                        {
+                            $NoneMatches = 1;
+                            $MatchValue  = $Param{Data}->{$FieldName};
+                        }
+
+                        # Otherwise check if field data is and array and compare each element until one match.
+                        elsif ( ref $Param{Data}->{$FieldName} eq 'ARRAY' ) {
+
+                            $NoneMatches = 1;
+                            ITEM:
+                            for my $Item ( @{ $Param{Data}->{$FieldName} } ) {
+                                if ( $Item =~ $ActualCondition->{Fields}->{$FieldName}->{Match} ) {
+                                    $NoneMatches = 0;
+                                    $MatchValue  = "Item: [$Item]";
+                                    last ITEM;
+                                }
+                            }
+                        }
+                    }
+
+                    if ($NoneMatches) {
+                        $FieldSuccess++;
+
+                        $Self->DebugLog(
+                            MessageType    => 'Match',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'Regexp',
+                            MatchValue     => $MatchValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Successful check if we just need one matching Condition to make this Transition valid.
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+
+                            $Self->DebugLog(
+                                MessageType      => 'Success',
+                                TransitionName   => $Transitions->{$TransitionEntityID}->{Name},
+                                ConditionName    => $ConditionName,
+                                ConditionType    => $CondType,
+                                ConditionLinking => $ConditionLinking,
+                            );
+
+                            return $TransitionEntityID;
+                        }
+
+                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                    }
+                    else {
+                        $FieldFail++;
+
+                        my $UnmatchedValue = $Param{Data}->{$FieldName};
+                        if ( ref $Param{Data}->{$FieldName} eq 'ARRAY' ) {
+                            $UnmatchedValue = 'Any of [' . join( ', ', @{ $Param{Data}->{$FieldName} } ) . ']';
+                        }
+
+                        $Self->DebugLog(
+                            MessageType    => 'NoMatch',
+                            TransitionName => $Transitions->{$TransitionEntityID}->{Name},
+                            ConditionName  => $ConditionName,
+                            FieldName      => $FieldName,
+                            MatchType      => 'Regexp',
+                            MatchValue     => $UnmatchedValue,
+                            MatchCondition => $ActualCondition->{Fields}->{$FieldName}->{Match}
+                        );
+
+                        # Failed check if we have all 'and' conditions.
+                        next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
+
+                        # Try next Condition if all Condition Fields have to be true.
+                        next CONDITIONNAME if $CondType eq 'and';
+                    }
+                    next FIELDLNAME;
+                }
+                elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'AllRegexp' )
+                {
+
+                    # If our Check contains anything else then a string we can't check.
+                    if (
+                        !$ActualCondition->{Fields}->{$FieldName}->{Match}
+                        ||
+                        (
+                            ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne 'Regexp'
+                            && ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne ''
+                        )
+                        )
+                    {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  =>
+                                "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
+                                . " be a Regular expression if Type is set to Regexp!",
+                        );
+                        return;
+                    }
+
+                    # Precompile Regexp if is a string.
+                    if ( ref $ActualCondition->{Fields}->{$FieldName}->{Match} eq '' ) {
+                        my $Match = $ActualCondition->{Fields}->{$FieldName}->{Match};
+
+                        eval {
+                            $ActualCondition->{Fields}->{$FieldName}->{Match} = qr{$Match};
+                        };
+                        if ($@) {
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                Priority => 'error',
+                                Message  => $@,
+                            );
+                            return;
+                        }
+                    }
+
+                    my $AllMatch;
+                    my $MatchValue;
+
+                    # Make sure there is data to compare.
+                    if ( $Param{Data}->{$FieldName} ) {
+
+                        # Check if field data is a string and compare directly.
+                        if (
+                            ref $Param{Data}->{$FieldName} eq ''
+                            && $Param{Data}->{$FieldName} =~ $ActualCondition->{Fields}->{$FieldName}->{Match}
+                            )
+                        {
+                            $AllMatch   = 1;
+                            $MatchValue = $Param{Data}->{$FieldName};
+                        }
+
+                        # Otherwise check if field data is an array with data and compare whether all elements match.
+                        elsif ( IsArrayRefWithData( $Param{Data}->{$FieldName} ) ) {
+
+                            $AllMatch = 1;
+                            ITEM:
+                            for my $Item ( @{ $Param{Data}->{$FieldName} } ) {
+                                if ( $Item !~ $ActualCondition->{Fields}->{$FieldName}->{Match} ) {
+                                    $AllMatch   = 0;
+                                    $MatchValue = "Item: [$Item]";
+                                    last ITEM;
+                                }
+                            }
+                        }
+                    }
+
+                    if ($AllMatch) {
                         $FieldSuccess++;
 
                         $Self->DebugLog(
