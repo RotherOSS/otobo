@@ -308,7 +308,126 @@
                 </fieldset>
             </div>
         </div>
-    </div>
+        <div class="WidgetSimple Collapsed">
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Toggle this widget") | html %]">
+                        <i class="fa fa-caret-right"></i>
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                </div>
+        
+                <h2>
+                    [% Translate('Transition Reference for "Fields" Settings') | html %]
+                </h2>
+            </div>
+        
+            <div class="Content">
+                <dl>
+        
+                    <dt>[% Translate("Name") | html %]:</dt>
+                    <dd>
+                        [% Translate('Name of the ticket attribute that should be used for validation. In general, all attributes returned by the TicketGet function can be used.') | html %]
+                    </dd>
+        
+                    <dt>[% Translate("Type") | html %]:</dt>
+                    <dd>
+        
+                        <p>
+                            [% Translate('There are several possibilities to validate whether this transition is valid.') | html %]
+                        </p>
+        
+                        <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+                            <tr>
+                                <td style="width:200px; vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Exact match') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('Value must exactly match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must exactly match the string specified in "Value".') | html %]
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td style="vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Exact match - all') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must exactly match the string specified in "Value".') | html %]
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td style="vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Exact match - negated') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('Value must not match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the string specified in "Value".') | html %]
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td style="vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Regular Expression') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('Value must contain a matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must match the regular expression specified in "Value".') | html %]
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td style="vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Regular Expression - all') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must match the regular expression specified in "Value".') | html %]
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td style="vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Regular Expression - negated') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('Value must contain a non-matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the regular expression specified in "Value".') | html %]
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td style="vertical-align:top; padding:6px 12px 6px 0;">
+                                    <strong>"[% Translate('Transition validation module') | html %]"</strong>
+                                </td>
+                                <td style="padding:6px 0;">
+                                    [% Translate('"Name" is currently irrelevant, "Value" must contain the path to the module, usually Kernel::System::Process::Transition::<TA_Name>.') | html %]
+                                </td>
+                            </tr>
+                        </table>
+        
+                    </dd>
+        
+                    <dt>[% Translate("Value") | html %]:</dt>
+                    <dd>
+                        [% Translate("Value must always contain a string or a regular expression used for comparison.") | html %]
+                    </dd>
+        
+                    <dt>[% Translate("Examples") | html %]:</dt>
+                    <dd>
+                        <table style="width:100%; border-collapse:collapse; margin-top:1px;">
+                            <tr>
+                                <td style="padding:6px 0;">
+                                    [% Translate('The process ticket should move to the next process step as soon as a status containing "closed" in its name is set. Therefore, configure Name="State", Type="Regular Expression" and Value="closed" (or the long form "^.*closed.*$").') | html %]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 0;">
+                                    [% Translate('If a Dynamic Field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a Dynamic Field of type "Set", the following syntax can be used: ') | html %] <strong>"DynamicField_&lt;FieldNameSet&gt;::&lt;DynamicFieldName&gt;"</strong>.
+                                </td>
+                            </tr>
+                        </table>
+                    </dd>
+        
+                </dl>
+            </div>
+        </div>
     <div class="Footer">
         <button class="Primary CallForAction" id="Submit" title="[% Translate("Save") | html %]" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
     </div>
