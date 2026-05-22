@@ -418,7 +418,7 @@ sub EditFieldValueGet {
         };
     }
 
-    # for this field the normal return an the ReturnValueStructure are the same
+    # for this field the normal return and the ReturnValueStructure are the same
     return $Value;
 }
 

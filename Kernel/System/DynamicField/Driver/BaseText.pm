@@ -250,7 +250,7 @@ sub ValueValidate {
         }
     }
 
-    # There was no ealy exit, thus the Value is fine
+    # There was no early exit, thus the Value is fine
     return 1;
 }
 
@@ -498,7 +498,7 @@ sub EditFieldValueGet {
         };
     }
 
-    # for this field the normal return an the ReturnValueStructure are the same
+    # for this field the normal return and the ReturnValueStructure are the same
     return $Value;
 }
 
