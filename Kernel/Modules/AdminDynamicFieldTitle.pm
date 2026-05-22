@@ -357,7 +357,7 @@ sub _Change {
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
-        %${DynamicFieldData},
+        $DynamicFieldData->%*,
         %Config,
         ID             => $FieldID,
         Mode           => 'Change',
@@ -912,13 +912,10 @@ sub _ShowScreen {
         TemplateFile => 'AdminDynamicFieldTitle',
         Data         => {
             %Param,
-            FilterStrg            => $FilterStrg,
-            ValidityStrg          => $ValidityStrg,
-            DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
-            ReadonlyInternalField => $ReadonlyInternalField,
-
-            #FontStyle             => $FontStyle,
-            #FontWeight            => $FontWeight,
+            FilterStrg                => $FilterStrg,
+            ValidityStrg              => $ValidityStrg,
+            DynamicFieldOrderStrg     => $DynamicFieldOrderStrg,
+            ReadonlyInternalField     => $ReadonlyInternalField,
             FontSize                  => $FontSize,
             FontColor                 => $FontColor,
             FontTemplate              => $FontTemplate,
