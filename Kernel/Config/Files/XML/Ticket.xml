@@ -4972,7 +4972,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Translatable="1">Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).</Description>
-        <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
+        <Navigation>Frontend::Agent::View</Navigation>
         <Value>
             <Item ValueType="Textarea">[% Data.Salutation | html %]
 [% Data.StdResponse | html %]
@@ -4985,14 +4985,14 @@
     </Setting>
     <Setting Name="Ticket::Frontend::Quote" Required="0" Valid="1">
         <Description Translatable="1">Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.</Description>
-        <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
+        <Navigation>Frontend::Agent::View</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&gt;</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::ResponseQuoteMaxLines" Required="0" Valid="0">
         <Description Translatable="1">Defines the maximum number of quoted lines to be added to responses.</Description>
-        <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
+        <Navigation>Frontend::Agent::View</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[1-9][0-9]*$">99</Item>
         </Value>
