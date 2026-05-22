@@ -127,12 +127,13 @@ sub Run {
         my $MappingConfig = $WebserviceData->{Config}->{$CommunicationType}->
             {$ActionType}->{$Action}->{$Direction}->{Config};
 
-        $Mapping{Template}              = $MappingConfig->{Template};
-        $Mapping{DataInclude}           = $MappingConfig->{DataInclude};
-        $Mapping{PreRegExFilter}        = $MappingConfig->{PreRegExFilter};
-        $Mapping{PreRegExValueCounter}  = $MappingConfig->{PreRegExValueCounter};
-        $Mapping{PostRegExFilter}       = $MappingConfig->{PostRegExFilter};
-        $Mapping{PostRegExValueCounter} = $MappingConfig->{PostRegExValueCounter};
+        $Mapping{Template}                  = $MappingConfig->{Template};
+        $Mapping{DataInclude}               = $MappingConfig->{DataInclude};
+        $Mapping{PreRegExFilter}            = $MappingConfig->{PreRegExFilter};
+        $Mapping{PreRegExValueCounter}      = $MappingConfig->{PreRegExValueCounter};
+        $Mapping{PostRegExFilter}           = $MappingConfig->{PostRegExFilter};
+        $Mapping{PostRegExValueCounter}     = $MappingConfig->{PostRegExValueCounter};
+        $Mapping{EnableExtendedXSLTMapping} = $MappingConfig->{EnableExtendedXSLTMapping};
 
         return $Self->_ShowEdit(
             %Param,
@@ -182,12 +183,13 @@ sub Run {
         }
 
         my %NewMapping;
-        $NewMapping{Template}              = $GetParam->{Template};
-        $NewMapping{DataInclude}           = $GetParam->{DataInclude};
-        $NewMapping{PreRegExFilter}        = $GetParam->{PreRegExFilter};
-        $NewMapping{PreRegExValueCounter}  = $GetParam->{PreRegExValueCounter};
-        $NewMapping{PostRegExFilter}       = $GetParam->{PostRegExFilter};
-        $NewMapping{PostRegExValueCounter} = $GetParam->{PostRegExValueCounter};
+        $NewMapping{Template}                  = $GetParam->{Template};
+        $NewMapping{DataInclude}               = $GetParam->{DataInclude};
+        $NewMapping{PreRegExFilter}            = $GetParam->{PreRegExFilter};
+        $NewMapping{PreRegExValueCounter}      = $GetParam->{PreRegExValueCounter};
+        $NewMapping{PostRegExFilter}           = $GetParam->{PostRegExFilter};
+        $NewMapping{PostRegExValueCounter}     = $GetParam->{PostRegExValueCounter};
+        $NewMapping{EnableExtendedXSLTMapping} = $GetParam->{EnableExtendedXSLTMapping};
 
         # Set new mapping.
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config} = \%NewMapping;
@@ -379,6 +381,26 @@ sub _ShowEdit {
         Type => 'Post',
     );
 
+    my %EnableExtendedXSLTMappingValues = (
+        0 => $LayoutObject->{LanguageObject}->Translate('Disabled'),
+        1 => $LayoutObject->{LanguageObject}->Translate('Enabled'),
+    );
+
+    my $EnableExtendedXSLTMapping = $LayoutObject->BuildSelection(
+        Data        => \%EnableExtendedXSLTMappingValues,
+        Name        => 'EnableExtendedXSLTMapping',
+        SelectedID  => $MappingConfig->{EnableExtendedXSLTMapping} // 0,
+        Translation => 1,
+        Class       => 'Modernize',
+    );
+
+    $LayoutObject->Block(
+        Name => 'ConfigBlockExtendedXSLTMapping',
+        Data => {
+            EnableExtendedXSLTMapping => $EnableExtendedXSLTMapping,
+        },
+    );
+
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminGenericInterfaceMappingXSLT',
         Data         => {
@@ -454,7 +476,7 @@ sub _GetParams {
         $GetParam->{ $Type . 'RegExFilter' }       = \@RegExConfig;
         $GetParam->{ $Type . 'RegExValueCounter' } = scalar @RegExConfig;
     }
-
+    $GetParam->{EnableExtendedXSLTMapping} = $ParamObject->GetParam( Param => 'EnableExtendedXSLTMapping' ) // 0;
     return $GetParam;
 }
 

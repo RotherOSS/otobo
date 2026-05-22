@@ -346,7 +346,7 @@ sub Map {
         );
     }
 
-    my $EnableExtendedXSLTMappingAttributes = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Mapping::EnableExtendedXSLTMappingAttributes');
+    my $EnableExtendedXSLTMappingAttributes = $Config->{EnableExtendedXSLTMapping} // 0;
 
     # Convert data back to Perl structure.
     my $ReturnData = eval {

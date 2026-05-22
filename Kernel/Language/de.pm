@@ -10054,7 +10054,7 @@ Ihr Helpdesk-Team
         'responsible' => 'Verantwortlicher',
         'reverse' => 'umgekehrt',
         'stats' => 'Stats',
-
+        "Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an 'otoboXslType' XML attribue. Possible Values for that attribute are 'int', 'bool', 'float', and 'array'." => "Erweitertes XSLT Mapping erlaubt fein grnaulierte Konfiguration von XSLT Mappings. Wenn aktiviert kann der Daten-Typ der resultierenden JSON Elemente mithilfe eines 'otoboXslType' XML Attributes festgeleget werden. Mögliche Werte für das Attribut sind 'int', 'bool', 'float', und 'array'.",
     };
 
     $Self->{JavaScriptStrings} = [
