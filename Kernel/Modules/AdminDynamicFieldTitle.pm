@@ -789,7 +789,7 @@ sub _ShowScreen {
         SelectedValue => $SelectedTemplate || '',
         PossibleNone  => 0,
         Translation   => 0,
-        Class         => 'FontTemplateSelected',
+        Class         => 'Modernize FontTemplateSelected',
     );
 
     # define tooltip
