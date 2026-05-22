@@ -111,11 +111,34 @@ sub new {
 
 =head2 GetSystemAddress()
 
-get a queue system email address as hash (Email, RealName)
+get a queue system email address as hash.
 
     my %Address = $QueueObject->GetSystemAddress(
         QueueID => 123,
     );
+
+The attributes of the returned hash are
+
+=over 4
+
+=item Email: the address part of the system address
+
+=item RealName: the quoted phrase of the system address
+
+=item Phrase: the unquoted phrase of the system address
+
+=back
+
+When the address is 'gustl@testanything.org' and the phrase is 'August, Ausprobierer' we get:
+
+    my %Address = (
+        Email    => q{gustl@testanything.org},
+        RealName => q{"August, Ausprobierer"},
+        Phrase   => q{August, Ausprobierer},
+    );
+
+This means that "$Address{RealName} <$Address{Email}>" is a valid email. And the unquoted C<Phrase>
+can be used in C<Kernel::System::EmailAddress::Format()>.
 
 =cut
 
@@ -136,11 +159,14 @@ sub GetSystemAddress {
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Address{Email}    = $Row[0];
-        $Address{RealName} = $Row[1];
+        $Address{Email} = $Row[0];
+
+        # Return the unquoted phrase for use with Kernel::System::EmailAddress.
+        $Address{Phrase} = $Row[1];
     }
 
-    # prepare realname quote
+    # prepare realname quote, for constructing emails like "$Address{RealName} <$Address{Email}>".
+    $Address{RealName} = $Address{Phrase};
     if ( $Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
         $Address{RealName} =~ s/"/\"/g;
         $Address{RealName} = '"' . $Address{RealName} . '"';
