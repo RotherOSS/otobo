@@ -319,13 +319,12 @@ sub EditFieldRender {
             Text => $ValueItem,
         );
 
-        $FieldTemplateData{ValueEscaped} = $ValueEscaped;
-
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
                 %Error,
+                ValueEscaped => $ValueEscaped,
             },
         );
     }
