@@ -775,7 +775,7 @@ Core.AJAX = (function (TargetNS) {
                         for( var Index = 0; Index < Visibility.length; Index++) {
                             let VisibilityItem = Visibility[Index];
                             if(FieldName == VisibilityItem[0] ) {
-                                return VisibilityItem[1];
+                                return VisibilityItem[1] ? 1 : 0;
                             }
                         }
                         return 1;
