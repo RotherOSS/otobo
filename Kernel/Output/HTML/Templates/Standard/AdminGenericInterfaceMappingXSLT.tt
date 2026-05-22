@@ -336,6 +336,29 @@
             </div>
 [% RenderBlockEnd("ConfigBlockRegExFilter") %]
 
+[% RenderBlockStart("ConfigBlockExtendedXSLTMapping") %]
+            <div class="WidgetSimple [% Data.Collapsed | html %]" id="ExtendedXSLTMapping[% Data.Type | html %]">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Enable Extended XSLT Mapping") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Extended XSLT Mapping") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike FixedLabel">
+                        <label for="Filter">[% Translate("Enable") | html %]:</label>
+                        <div class="Field">
+                            [% Data.EnableExtendedXSLTMapping %]
+                            <p class="FieldExplanation">[% Translate("Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an 'otoboXslType' XML attribue. Possible Values for that attribute are 'int', 'bool', 'float', and 'array'.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+[% RenderBlockEnd("ConfigBlockExtendedXSLTMapping") %]
+
+
+
 [% RenderBlockEnd("ConfigBlock") %]
 
             <fieldset class="TableLike">
