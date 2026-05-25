@@ -1622,16 +1622,16 @@ DISTRIBUTIONS
       Guard 1.023
     requirements:
       ExtUtils::MakeMaker 0
-  HTML-Parser-3.83
-    pathname: O/OA/OALDERS/HTML-Parser-3.83.tar.gz
+  HTML-Parser-3.85
+    pathname: O/OA/OALDERS/HTML-Parser-3.85.tar.gz
     provides:
-      HTML::Entities 3.83
-      HTML::Filter 3.83
-      HTML::HeadParser 3.83
-      HTML::LinkExtor 3.83
-      HTML::Parser 3.83
-      HTML::PullParser 3.83
-      HTML::TokeParser 3.83
+      HTML::Entities 3.85
+      HTML::Filter 3.85
+      HTML::HeadParser 3.85
+      HTML::LinkExtor 3.85
+      HTML::Parser 3.85
+      HTML::PullParser 3.85
+      HTML::TokeParser 3.85
     requirements:
       Carp 0
       Exporter 0
@@ -2419,7 +2419,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -3556,66 +3555,67 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Template-Toolkit-3.102
-    pathname: T/TO/TODDR/Template-Toolkit-3.102.tar.gz
+  Template-Toolkit-3.105
+    pathname: T/TO/TODDR/Template-Toolkit-3.105.tar.gz
     provides:
-      Template 3.102
-      Template::App::ttree 2.91
-      Template::Base 3.100
-      Template::Config 3.100
-      Template::Constants 3.100
-      Template::Context 3.100
-      Template::Directive 3.100
-      Template::Document 3.100
-      Template::Exception 3.100
-      Template::Filters 3.100
-      Template::Grammar 3.100
-      Template::Iterator 3.100
-      Template::Monad::Assert 3.100
-      Template::Monad::Scalar 3.100
-      Template::Namespace::Constants 3.100
-      Template::Parser 3.100
-      Template::Perl 3.100
-      Template::Plugin 3.100
-      Template::Plugin::Assert 3.100
-      Template::Plugin::Datafile 3.100
-      Template::Plugin::Date 3.100
-      Template::Plugin::Date::Calc 3.100
-      Template::Plugin::Date::Manip 3.100
-      Template::Plugin::Directory 3.100
-      Template::Plugin::Dumper 3.100
-      Template::Plugin::File 3.100
-      Template::Plugin::Filter 3.100
-      Template::Plugin::Format 3.100
-      Template::Plugin::HTML 3.100
-      Template::Plugin::Image 3.100
-      Template::Plugin::Iterator 3.100
-      Template::Plugin::Math 3.100
-      Template::Plugin::Pod 3.100
-      Template::Plugin::Procedural 3.100
-      Template::Plugin::Scalar 3.100
-      Template::Plugin::String 3.100
-      Template::Plugin::Table 3.100
-      Template::Plugin::URL 3.100
-      Template::Plugin::View 3.100
-      Template::Plugin::Wrap 3.100
-      Template::Plugins 3.100
-      Template::Provider 3.100
-      Template::Service 3.100
-      Template::Stash 3.100
-      Template::Stash::Context 3.100
+      Template 3.105
+      Template::App::ttree 3.105
+      Template::Base 3.105
+      Template::Config 3.105
+      Template::Constants 3.105
+      Template::Context 3.105
+      Template::Directive 3.105
+      Template::Document 3.105
+      Template::Exception 3.105
+      Template::Filters 3.105
+      Template::Grammar 3.105
+      Template::Iterator 3.105
+      Template::Monad::Assert 3.105
+      Template::Monad::Scalar 3.105
+      Template::Namespace::Constants 3.105
+      Template::Parser 3.105
+      Template::Perl 3.105
+      Template::Plugin 3.105
+      Template::Plugin::Assert 3.105
+      Template::Plugin::Datafile 3.105
+      Template::Plugin::Date 3.105
+      Template::Plugin::Date::Calc 3.105
+      Template::Plugin::Date::Manip 3.105
+      Template::Plugin::Directory 3.105
+      Template::Plugin::Dumper 3.105
+      Template::Plugin::File 3.105
+      Template::Plugin::Filter 3.105
+      Template::Plugin::Format 3.105
+      Template::Plugin::HTML 3.105
+      Template::Plugin::Image 3.105
+      Template::Plugin::Iterator 3.105
+      Template::Plugin::Math 3.105
+      Template::Plugin::Pod 3.105
+      Template::Plugin::Procedural 3.105
+      Template::Plugin::Scalar 3.105
+      Template::Plugin::String 3.105
+      Template::Plugin::Table 3.105
+      Template::Plugin::URL 3.105
+      Template::Plugin::View 3.105
+      Template::Plugin::Wrap 3.105
+      Template::Plugins 3.105
+      Template::Provider 3.105
+      Template::Service 3.105
+      Template::Stash 3.105
+      Template::Stash::Context 3.105
       Template::Stash::XS undef
-      Template::Test 3.100
-      Template::TieString 3.100
-      Template::Toolkit 3.100
-      Template::VMethods 3.100
-      Template::View 3.100
+      Template::Test 3.105
+      Template::TieString 3.105
+      Template::Toolkit 3.105
+      Template::VMethods 3.105
+      Template::View 3.105
     requirements:
       AppConfig 1.56
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.48
       File::Spec 0.8
       File::Temp 0.12
       Scalar::Util 0
+      perl 5.010
   Term-ReadLine-Gnu-1.47
     pathname: H/HA/HAYASHI/Term-ReadLine-Gnu-1.47.tar.gz
     provides:
@@ -4159,57 +4159,60 @@ DISTRIBUTIONS
       Exporter 0
       Module::Build 0.4005
       perl 5.008001
-  WWW-RobotRules-6.02
-    pathname: G/GA/GAAS/WWW-RobotRules-6.02.tar.gz
+  WWW-RobotRules-6.03
+    pathname: O/OA/OALDERS/WWW-RobotRules-6.03.tar.gz
     provides:
-      WWW::RobotRules 6.02
-      WWW::RobotRules::AnyDBM_File 6.00
-      WWW::RobotRules::InCore 6.02
+      WWW::RobotRules 6.03
+      WWW::RobotRules::AnyDBM_File 6.03
+      WWW::RobotRules::DB_File 6.03
+      WWW::RobotRules::InCore 6.03
     requirements:
       AnyDBM_File 0
+      Carp 0
       ExtUtils::MakeMaker 0
       Fcntl 0
       URI 1.10
       perl 5.008001
-  XML-LibXML-2.0210
-    pathname: S/SH/SHLOMIF/XML-LibXML-2.0210.tar.gz
+      strict 0
+  XML-LibXML-2.0213
+    pathname: T/TO/TODDR/XML-LibXML-2.0213.tar.gz
     provides:
-      XML::LibXML 2.0210
-      XML::LibXML::Attr 2.0210
-      XML::LibXML::AttributeHash 2.0210
-      XML::LibXML::Boolean 2.0210
-      XML::LibXML::CDATASection 2.0210
-      XML::LibXML::Comment 2.0210
-      XML::LibXML::Common 2.0210
-      XML::LibXML::Devel 2.0210
-      XML::LibXML::Document 2.0210
-      XML::LibXML::DocumentFragment 2.0210
-      XML::LibXML::Dtd 2.0210
-      XML::LibXML::Element 2.0210
-      XML::LibXML::ErrNo 2.0210
-      XML::LibXML::Error 2.0210
-      XML::LibXML::InputCallback 2.0210
-      XML::LibXML::Literal 2.0210
-      XML::LibXML::NamedNodeMap 2.0210
-      XML::LibXML::Namespace 2.0210
-      XML::LibXML::Node 2.0210
-      XML::LibXML::NodeList 2.0210
-      XML::LibXML::Number 2.0210
-      XML::LibXML::PI 2.0210
-      XML::LibXML::Pattern 2.0210
-      XML::LibXML::Reader 2.0210
-      XML::LibXML::RegExp 2.0210
-      XML::LibXML::RelaxNG 2.0210
-      XML::LibXML::SAX 2.0210
-      XML::LibXML::SAX::AttributeNode 2.0210
-      XML::LibXML::SAX::Builder 2.0210
-      XML::LibXML::SAX::Generator 2.0210
-      XML::LibXML::SAX::Parser 2.0210
-      XML::LibXML::Schema 2.0210
-      XML::LibXML::Text 2.0210
-      XML::LibXML::XPathContext 2.0210
-      XML::LibXML::XPathExpression 2.0210
-      XML::LibXML::_SAXParser 2.0210
+      XML::LibXML 2.0213
+      XML::LibXML::Attr 2.0213
+      XML::LibXML::AttributeHash 2.0213
+      XML::LibXML::Boolean 2.0213
+      XML::LibXML::CDATASection 2.0213
+      XML::LibXML::Comment 2.0213
+      XML::LibXML::Common 2.0213
+      XML::LibXML::Devel 2.0213
+      XML::LibXML::Document 2.0213
+      XML::LibXML::DocumentFragment 2.0213
+      XML::LibXML::Dtd 2.0213
+      XML::LibXML::Element 2.0213
+      XML::LibXML::ErrNo 2.0213
+      XML::LibXML::Error 2.0213
+      XML::LibXML::InputCallback 2.0213
+      XML::LibXML::Literal 2.0213
+      XML::LibXML::NamedNodeMap 2.0213
+      XML::LibXML::Namespace 2.0213
+      XML::LibXML::Node 2.0213
+      XML::LibXML::NodeList 2.0213
+      XML::LibXML::Number 2.0213
+      XML::LibXML::PI 2.0213
+      XML::LibXML::Pattern 2.0213
+      XML::LibXML::Reader 2.0213
+      XML::LibXML::RegExp 2.0213
+      XML::LibXML::RelaxNG 2.0213
+      XML::LibXML::SAX 2.0213
+      XML::LibXML::SAX::AttributeNode 2.0213
+      XML::LibXML::SAX::Builder 2.0213
+      XML::LibXML::SAX::Generator 2.0213
+      XML::LibXML::SAX::Parser 2.0213
+      XML::LibXML::Schema 2.0213
+      XML::LibXML::Text 2.0213
+      XML::LibXML::XPathContext 2.0213
+      XML::LibXML::XPathExpression 2.0213
+      XML::LibXML::_SAXParser 2.0213
     requirements:
       Alien::Base::Wrapper 0
       Alien::Libxml2 0.14
@@ -4233,7 +4236,6 @@ DISTRIBUTIONS
       parent 0
       perl 5.008001
       strict 0
-      vars 0
       warnings 0
   XML-LibXSLT-2.003000
     pathname: S/SH/SHLOMIF/XML-LibXSLT-2.003000.tar.gz
@@ -4265,11 +4267,11 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  XML-Parser-2.58
-    pathname: T/TO/TODDR/XML-Parser-2.58.tar.gz
+  XML-Parser-2.59
+    pathname: T/TO/TODDR/XML-Parser-2.59.tar.gz
     provides:
-      XML::Parser 2.58
-      XML::Parser::Expat 2.58
+      XML::Parser 2.59
+      XML::Parser::Expat 2.59
       XML::Parser::Style::Debug undef
       XML::Parser::Style::Objects undef
       XML::Parser::Style::Stream undef
@@ -4508,20 +4510,19 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
