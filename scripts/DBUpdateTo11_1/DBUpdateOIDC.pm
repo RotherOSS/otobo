@@ -32,6 +32,7 @@ use List::Util qw(any);
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
@@ -46,16 +47,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check if this needs to be executed
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    $DBObject->Prepare(
-        SQL   => "SELECT * FROM oidc_profiles",
-        Limit => 10
-    );
 
-    my @Names = $DBObject->GetColumnNames();
-    if ( any { $_ eq 'valid_id' } @Names ) {
-        return 1;
-    }
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    # see if OAuth2 package is installed
+    return 1 if $PackageObject->PackageIsInstalled(
+        Name => 'OAuth2',
+    );
 
     # one statement per column, so that an already existing column does not abort the update
     my @XMLStrings;
