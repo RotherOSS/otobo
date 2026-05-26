@@ -12461,6 +12461,7 @@
                 <Item>CustomerTicketMessage</Item>
                 <Item>CustomerTicketPrint</Item>
                 <Item>CustomerTicketProcess</Item>
+                <Item>CustomerTicketSearch</Item>
                 <Item>CustomerTicketZoom</Item>
                 <Item>CustomerTicketZoomReply</Item>
             </Array>
