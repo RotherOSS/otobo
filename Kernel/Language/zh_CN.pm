@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.911203814064362;
+    $Self->{Completeness}        = 0.909090909090909;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -757,13 +757,13 @@ sub Data {
         'matches string' => '',
         'Type a string to compare the selected attribute of the referenced object against.' =>
             '',
-        'Add ReferenceFilter' => '',
+        'Add Reference Filter' => '',
 
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => '动态字段管理 <-> 屏幕',
         'Overview' => '概览',
         'Default Columns Screens' => '默认屏幕列',
-        'Add DynamicField' => '添加动态字段',
+        'Add Dynamic Field' => '',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
             '你可以使用鼠标将项从左侧列表拖到右侧列表，从而将该项分配给此屏幕/字段。',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
@@ -1321,7 +1321,7 @@ sub Data {
         'The password for the privileged user.' => '特权用户的密码。',
         'Kerberos User' => '',
         'Kerberos keytab file' => '',
-        'The kerberos keytab file for the privileged user.' => '',
+        'The Kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => '使用代理选项',
         'Show or hide Proxy options to connect to the remote system.' => '显示或隐藏连接到远程系统的代理选项。',
         'Proxy Server' => '代理服务器',
@@ -2523,7 +2523,7 @@ sub Data {
         'Editing Translation' => '',
         'Translation Marked for Deletion' => '',
         'Deployed Translation' => '',
-        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+        'Changes made here only affect the system behavior after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
             '',
         'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
             '',
@@ -3577,9 +3577,8 @@ sub Data {
             '所有输入的密码都将被缓存，直到迁移完成。',
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
             ' 有权访问此页面，或具有OTOBO主目录读取权限的任何人都可以读到它们。如果中止迁移，你可以选择再次访问此页面来清除缓存。',
-        'If you need support, just ask our experts – either at' => '如果需要支持，请问询我们的专家 - 或者在',
-        'OTOBO forum' => 'OTOBO论坛',
-        'or directly via mail to' => '或者直接写邮件发到',
+        'If you need support, just ask our experts – either at %sOTOBO forum%s or directly via mail to %ssales@otobo.io%s.' =>
+            '',
         'Cached data found' => '发现缓存数据',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             '你将从上次退出的位置继续进行迁移，当然如果不需要，你也可以放弃以前的进程。',
@@ -4154,7 +4153,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
-        'No valid dynamic field "%s."' => '',
+        'No valid dynamic field "%s".' => '',
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
@@ -5056,7 +5055,7 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
             '',
-        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+        'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.' =>
             '',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
@@ -5551,7 +5550,7 @@ sub Data {
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => '',
         'Select the group of the agents.' => '',
-        'External-source key' => '',
+        'External source key' => '',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             '',
 
@@ -5634,7 +5633,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Need OTRSData->%s!' => '需要 OTRSData->%s！',
-        'Can\'t access OTRS Home: %s!' => '不能访问OTRS Home: %s！',
+        'Can\'t access OTRS home directory: %s!' => '',
         'All needed files copied and migrated, perfect!' => '所有需要的文件都已经复制并迁移了，完美！',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -5647,7 +5646,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
         'Check if OTOBO version is correct.' => '检查OTOBO的版本是否正确。',
         'Check if OTOBO and OTRS connect is possible.' => '检查OTOBO和OTRS能否连接。',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '无法从 OTRSHome: %s 打开RELEASE文件！',
+        'Can\'t open RELEASE file from OTRS home directory: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '检查OTOBO 和 OTRS 的版本是否正确。',
         '%s does not exist!' => '%s 不存在！',
         'No OTOBO system found!' => '没发现OTOBO系统！',
@@ -5670,10 +5669,10 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '迁移配置设置。',
-        'An error occurred during SysConfig data migration or no configuration exists.' =>
-            'SysConfig数据迁移时发生错误或配置不存在。',
-        'An error occurred during SysConfig migration when writing XML to DB.' =>
-            '将XML写入DB时，在SysConfig迁移期间发生一个错误。',
+        'An error occurred during system configuration data migration or no configuration exists.' =>
+            '',
+        'An error occurred during system configuration migration when writing XML to DB.' =>
+            '',
         'SysConfig data migration completed.' => 'SysConfig数据迁移完成了。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5684,10 +5683,11 @@ sub Data {
         'Migrate database table notification.' => '迁移数据库表通知。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-        'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '无法从 OTRSHome: %s打开Kernel/Config.pm文件！',
+        'Can\'t open Kernel/Config.pm file from OTRS home directory: %s!' =>
+            '',
         'Check if Kernel/Config.pm exists in OTOBO home.' => '检查OTOBO主页中是否存在Kernel / Config.pm。',
         'Kernel/Config.pm exists in OTOBO home' => 'OTOBO主页中是否存在Kernel / Config.pm',
-        'Check if we are able to connect to OTRS Home.' => '检查我们能否连接到OTRS Home。',
+        'Check if we are able to connect to OTRS home directory.' => '',
         'Can\'t connect to OTRS file directory.' => '无法连接到OTRS文件目录。',
         'Connect to OTRS file directory is possible.' => '可能可以连接到OTRS文件目录。',
 
@@ -6875,13 +6875,13 @@ Thanks for your help!
         'Activate Elasticsearch.' => '激活Elasticsearch。',
         'Activate the customer frontend.' => '',
         'Activate the public frontend.' => '',
-        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
-            '在DynamicField块之外激活DynamicField的呈现。',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '包含最早工单的队列激活闪烁提醒机制。',
         'Activates lost password feature for agents, in the agent interface.' =>
             '在服务人员界面中，激活忘记密码功能。',
         'Activates lost password feature for customers.' => '在客户界面中，激活忘记密码功能。',
+        'Activates rendering of dynamic fields outside of the dynamic field block.' =>
+            '',
         'Activates support for customer and customer user groups.' => '激活对客户和客户用户组的支持。',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
             '在详情视图中激活信件过滤器以指定显示的信件。',
@@ -7185,8 +7185,9 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '云服务的传输层管理模块注册。',
         'Collect support data for asynchronous plug-in modules.' => '收集异步插件模块的支持数据。',
-        'Color definitions for Agent interface highcontrast skin.' => '',
-        'Color definitions for Customer Interface highcontrast skin.' => '',
+        'Color definitions for agent interface high contrast skin.' => '',
+        'Color definitions for customer interface high contrast skin.' =>
+            '',
         'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
             '',
         'Color definitions for the customer interface.' => '客户界面的颜色定义。',
@@ -7302,7 +7303,9 @@ Thanks for your help!
             '显示给还没有工单的客户的网页定制文本（如果您需要翻译这些文本，将它们添加到定制翻译模块）。',
         'Customer Administration' => '客户管理',
         'Customer Companies' => '客户单位',
+        'Customer Company' => '',
         'Customer Dashboard' => '客户仪表盘',
+        'Customer Dashboard Info Tile' => '',
         'Customer Dynamic Field Database Detailed Search' => '客户动态字段数据库详情搜索',
         'Customer Dynamic Field Database Details' => '客户动态字段数据库详情',
         'Customer Dynamic Field Database Search' => '客户动态字段数据库搜索',
@@ -7334,8 +7337,6 @@ Thanks for your help!
         'Customer ticket search.' => '客户工单搜索。',
         'Customer ticket zoom' => '客户工单详情',
         'Customer user search' => '客户用户搜索',
-        'CustomerCompany' => '',
-        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => '客户ID搜索',
         'CustomerName' => '客户名称',
         'CustomerUser' => '客户',
@@ -8212,6 +8213,7 @@ Thanks for your help!
         'Dynamic Field Contents' => '',
         'Dynamic Field Information' => '',
         'Dynamic Field Labels' => '',
+        'Dynamic Field Screen' => '',
         'Dynamic Field Set' => '',
         'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => '动态字段复选框后端GUI',
@@ -8300,7 +8302,6 @@ Thanks for your help!
         'DynamicField' => 'DynamicField（动态字段）',
         'DynamicField backend registration.' => '动态字段后端注册。',
         'DynamicField object registration.' => '动态字段对象注册。',
-        'DynamicFieldScreen' => '动态字段窗口DynamicFieldScreen',
         'DynamicField_%s' => 'DynamicField_%s',
         'E-Mail Outbound' => '外发邮件',
         'Edit Customer Companies.' => '编辑客户单位。',
@@ -8407,14 +8408,14 @@ Thanks for your help!
             '通过代理获取软件包，覆盖“WebUserAgent::Proxy”设置。',
         'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
             '客户公司索引的字段，用于公司全文搜索。字段也被存储，但是对于整体功能不是必需的。',
-        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
-            '工单索引的字段，用于工单的全文搜索，这个字段也会被存储，但是对于整体功能不是必需的。如果添加了可以更新的字段（尤其是DynamicFields），则必须将它们各自的更新事件添加到Elasticsearch Webservice的TicketManagement调用程序！',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
+            '',
         'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             '客户公司索引中存储的字段，除了全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。',
         'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             '客户用户索引中存储的字段，除了全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。',
-        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
-            '存储在工单索引中的字段除了用于全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。如果添加了可以更新的字段（尤其是DynamicFields），则必须将它们各自的更新事件添加到Elasticsearch Webservice的TicketManagement调用程序！',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
+            '',
         'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
             '票证索引中要搜索的字段也会被存储，但是对于整体功能不是必需的。',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
@@ -8468,10 +8469,10 @@ Thanks for your help!
         'Frontend module registration for the customer interface.' => '客户界面的前端模块注册。',
         'Frontend module registration for the public interface.' => '公共界面的前端模块注册。',
         'Full value' => '全值',
+        'Fulltext Elasticsearch' => '',
         'Fulltext index regex filters to remove parts of the text.' => '全文索引正则表达式过滤器用来删除部分文本。',
         'Fulltext search' => '全文搜索',
         'Fulltext search using Elasticsearch.' => '用Elasticsearch进行全文搜索。',
-        'FulltextES' => '全文弹性搜索FulltextES',
         'Galician' => '加利西亚语',
         'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -9497,6 +9498,7 @@ Thanks for your help!
         'Show command line output.' => '显示命令行输出。',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
             '',
+        'Show or Hide Deleted Articles' => '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '显示队列（即使队列里只有已锁定的工单）。',
         'Show the current owner in the customer interface.' => '在客户界面显示工单当前所有者。',
@@ -9504,7 +9506,6 @@ Thanks for your help!
         'Show the history for this ticket' => '显示这个工单的历史',
         'Show the ticket history' => '显示工单历史信息',
         'Show various content.' => '',
-        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '如果信件有附件，在工单详情视图显示附件数。',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9932,9 +9933,9 @@ Thanks for your help!
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
             '以下队列中的工单不会存储在Elasticsearch服务器上，要将其应用于现有工单，必须在更改此选项后通过控制台运行工单迁移。',
         'Tickets.' => '工单。',
-        'Tile registration for the CustomerDashboard. Module is required.' =>
-            '需要模块实现CustomerDashboard的注册。',
-        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
+        'Tile registration for the customer dashboard. Module is required.' =>
+            '',
+        'Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
             '',
@@ -10005,7 +10006,7 @@ Thanks for your help!
             '我们正在执行系统维护，暂时无法登录。',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '我们正在执行系统维护，很快就恢复正常使用。',
-        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
+        'We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
             '',
         'Web Service' => '网络服务',
         'Web Services' => 'Web服务',
