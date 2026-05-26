@@ -94,6 +94,10 @@ sub Run {
             Name   => 'Update mail_account table to support OIDC/OAuth2.',
             Module => 'DBUpdateOIDCMail',
         },
+        {
+            Name   => 'Deactivates the system configuration setting for CustomerTicketSearch per default.',
+            Module => 'SysConfigDeactivateCustomerTicketSearch',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
