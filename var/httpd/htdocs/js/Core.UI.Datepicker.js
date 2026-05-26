@@ -148,7 +148,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             }
         }
 
-        // Increment number of initialized datepickers on this site
+        // Increment number of initialized date pickers on this site
         DatepickerCount++;
 
         let Disabled = Attributes.Disabled || false;
@@ -288,7 +288,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             isRTL: Core.Config.Get('Datepicker.IsRTL')
         };
 
-        Options.onSelect = function (DateText, Instance) {
+        Options.onSelect = function (_DateText, Instance) {
             var Year = Instance.selectedYear,
                 Month = Instance.selectedMonth + 1,
                 Day = Instance.selectedDay;
@@ -350,7 +350,7 @@ Core.UI.Datepicker = (function (TargetNS) {
                 ErrorMessage = Core.Language.Translate('Invalid date!');
             }
 
-            // Add validation error messages for all dateselection elements
+            // Add validation error messages for all date selection elements
             Element.Year
             .after('<div id="' + Element.Day.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
             .after('<div id="' + Element.Month.attr('id') + 'Error" class="TooltipErrorMessage"><p>' + ErrorMessage + '</p></div>')
@@ -372,11 +372,11 @@ Core.UI.Datepicker = (function (TargetNS) {
             });
         };
 
-        //adjust z-index of date picker to prevent overlapping with richtexteditors
+        //adjust z-index of date picker to prevent overlapping with richtext editors
         $DatepickerElement.css('position', 'relative');
         $DatepickerElement.css('z-index', 20);
 
-        // prevent click events on date picker from bubbling to supress unintended closing
+        // prevent click events on date picker from bubbling to suppress unintended closing
         $('#ui-datepicker-div').on('click', function (event) {
             event.stopPropagation();
         });

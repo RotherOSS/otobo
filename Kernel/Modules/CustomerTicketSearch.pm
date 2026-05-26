@@ -241,9 +241,8 @@ sub Run {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # Get profile search and template data.
-    my $SaveProfile    = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
-    my $SelectTemplate = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
-    my $EraseTemplate  = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
+    my $SaveProfile   = $ParamObject->GetParam( Param => 'SaveProfile' )   || '';
+    my $EraseTemplate = $ParamObject->GetParam( Param => 'EraseTemplate' ) || '';
 
     # check for server errors
     my %ServerErrors;
@@ -874,7 +873,6 @@ sub Run {
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                my %Info    = ( %Data, %UserInfo );
                 my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
                     $Data{CreateTime} // $Data{Created},
                     'DateFormat',
@@ -1046,8 +1044,6 @@ sub Run {
             );
 
         }
-
-        my $Counter = 0;
 
         # get the ticket dynamic fields for overview display
         my $OverviewDynamicField = $DynamicFieldObject->DynamicFieldListGet(
