@@ -118,9 +118,6 @@ $Selenium->RunTest(
             ElementExists => q{//div[@class='oooLogout']/a[@title='Logout']}
         );
 
-        my $ButtonLogout = $Selenium->find_element_by_xpath(q{//a[@id='oooAvatar']});
-        ok( $ButtonLogout, 'logout button found' );
-
         # Check for footer, even though it is not visible
         my $PageSource = $Selenium->get_page_source();
         for my $CheckName ( sort keys %SourceChecks ) {
@@ -131,6 +128,19 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Key   => 'DisableLoginAutocomplete',
             Value => 0,
+        );
+
+        # expand navigation bar
+        $Selenium->WaitFor(
+            ElementExists => q{//div[@id='oooNavBarExpand']}
+        );
+        $Selenium->find_element( "#oooNavBarExpand", 'css' )->click();
+
+        my $ButtonLogout = $Selenium->find_element_by_xpath(q{//div[@class='oooLogout']/a[@title='Logout']});
+
+        # check if expand is successful
+        $Selenium->WaitFor(
+            JavaScript => q{return document.querySelector('.oooLogout a[title="Logout"]').offsetWidth > 0;}
         );
 
         # logout again
