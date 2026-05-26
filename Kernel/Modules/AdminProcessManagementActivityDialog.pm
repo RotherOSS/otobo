@@ -140,6 +140,7 @@ sub Run {
 
         # set new confguration
         $ActivityDialogData->{Name}                           = $GetParam->{Name};
+        $ActivityDialogData->{Namespace}                      = $GetParam->{Namespace};
         $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
         $ActivityDialogData->{Global}                         = $GetParam->{Global};
         $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
@@ -253,7 +254,7 @@ sub Run {
             );
         }
 
-        # unset ProcessID if necesssary
+        # unset ProcessID if necessary
         if ( $ActivityDialogData->{Global} ) {
             $ProcessEntityID = undef;
         }
@@ -261,6 +262,7 @@ sub Run {
         # otherwise save configuration and return process screen
         my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
             Name            => $ActivityDialogData->{Name},
+            Namespace       => $ActivityDialogData->{Namespace},
             EntityID        => $EntityID,
             Config          => $ActivityDialogData->{Config},
             UserID          => $Self->{UserID},
@@ -418,6 +420,7 @@ sub Run {
 
         # set new confguration
         $ActivityDialogData->{Name}                           = $GetParam->{Name};
+        $ActivityDialogData->{Namespace}                      = $GetParam->{Namespace};
         $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
         $ActivityDialogData->{Global}                         = $GetParam->{Global};
         $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
@@ -536,6 +539,7 @@ sub Run {
         my $Success = $ActivityDialogObject->ActivityDialogUpdate(
             ID              => $ActivityDialogID,
             Name            => $ActivityDialogData->{Name},
+            Namespace       => $ActivityDialogData->{Namespace},
             EntityID        => $ActivityDialogData->{EntityID},
             Config          => $ActivityDialogData->{Config},
             UserID          => $Self->{UserID},
@@ -1045,8 +1049,8 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
-        SubmitButtonText InputFieldDefinition DirectSubmit Global )
+        qw( Name Namespace EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock
+        SubmitAdviceText SubmitButtonText InputFieldDefinition DirectSubmit Global )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

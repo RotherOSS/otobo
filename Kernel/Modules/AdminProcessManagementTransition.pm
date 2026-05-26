@@ -93,9 +93,10 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new configuration
-        $TransitionData->{Name}   = $GetParam->{Name};
-        $TransitionData->{Global} = $GetParam->{Global};
-        $TransitionData->{Config} = $GetParam->{Config};
+        $TransitionData->{Name}      = $GetParam->{Name};
+        $TransitionData->{Namespace} = $GetParam->{Namespace};
+        $TransitionData->{Global}    = $GetParam->{Global};
+        $TransitionData->{Config}    = $GetParam->{Config};
 
         # check required parameters
         my %Error;
@@ -138,6 +139,7 @@ sub Run {
         # otherwise save configuration and return process screen
         my $TransitionID = $TransitionObject->TransitionAdd(
             Name            => $TransitionData->{Name},
+            Namespace       => $TransitionData->{Namespace},
             EntityID        => $EntityID,
             Config          => $TransitionData->{Config},
             UserID          => $Self->{UserID},
@@ -301,10 +303,11 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new configuration
-        $TransitionData->{Name}     = $GetParam->{Name};
-        $TransitionData->{EntityID} = $EntityID;
-        $TransitionData->{Global}   = $GetParam->{Global};
-        $TransitionData->{Config}   = $GetParam->{Config};
+        $TransitionData->{Name}      = $GetParam->{Name};
+        $TransitionData->{Namespace} = $GetParam->{Namespace};
+        $TransitionData->{EntityID}  = $EntityID;
+        $TransitionData->{Global}    = $GetParam->{Global};
+        $TransitionData->{Config}    = $GetParam->{Config};
 
         # check required parameters
         my %Error;
@@ -336,6 +339,7 @@ sub Run {
             ID              => $TransitionID,
             EntityID        => $EntityID,
             Name            => $TransitionData->{Name},
+            Namespace       => $TransitionData->{Namespace},
             Config          => $TransitionData->{Config},
             UserID          => $Self->{UserID},
             ProcessEntityID => $ProcessEntityID,
@@ -740,7 +744,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name ConditionConfig Global )
+        qw( Name Namespace ConditionConfig Global )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
