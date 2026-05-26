@@ -346,8 +346,15 @@ sub GetFieldStates {
             )
             )
         {
+            # pass a uniform ObjectID to GetFieldState() call
+            # there are supposed to be more cases in the future, and having
+            # a uniform ObjectID should reduce conditional complexity
+            # in the DF drivers where not needed
+            my $ObjectID = $Param{ConfigItemID} // $Param{TicketID};
+
             my %Content = $Param{DynamicFieldBackendObject}->GetFieldState(
                 %Param,
+                ObjectID                => $ObjectID,
                 CachedVisibility        => $CachedVisibility,
                 DynamicFieldConfig      => $DynamicFieldConfig,
                 FieldRestrictionsObject => $Self,
