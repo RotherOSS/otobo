@@ -115,7 +115,7 @@ $Selenium->RunTest(
 
         # check if login is successful
         $Selenium->WaitFor(
-            ElementExists => q{//div[@class='oooLogout']/a[@title='Logout']}
+            ElementExists => q{//div[@class='oooNavBarAvatarDesc']/a[@title='Logout']}
         );
 
         # Check for footer, even though it is not visible
@@ -136,11 +136,11 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#oooNavBarExpand", 'css' )->click();
 
-        my $ButtonLogout = $Selenium->find_element_by_xpath(q{//div[@class='oooLogout']/a[@title='Logout']});
+        my $ButtonLogout = $Selenium->find_element_by_xpath(q{//div[@class='oooNavBarAvatarDesc']/a[@title='Logout']});
 
         # check if expand is successful
         $Selenium->WaitFor(
-            JavaScript => q{return document.querySelector('.oooLogout a[title="Logout"]').offsetWidth > 0;}
+            JavaScript => q{return document.querySelector('.oooNavBarAvatarDesc a[title="Logout"]').offsetWidth > 0;}
         );
 
         # logout again
