@@ -110,9 +110,10 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new configuration
-        $ActivityData->{Name}   = $GetParam->{Name};
-        $ActivityData->{Global} = $GetParam->{Global};
-        $ActivityData->{Config} = {};
+        $ActivityData->{Name}      = $GetParam->{Name};
+        $ActivityData->{Namespace} = $GetParam->{Namespace};
+        $ActivityData->{Global}    = $GetParam->{Global};
+        $ActivityData->{Config}    = {};
 
         # set the rest of the config
         if ( IsArrayRefWithData( $GetParam->{ActivityDialogs} ) ) {
@@ -192,6 +193,7 @@ sub Run {
         # otherwise save configuration and return process screen
         my $ActivityID = $ActivityObject->ActivityAdd(
             Name            => $ActivityData->{Name},
+            Namespace       => $ActivityData->{Namespace},
             EntityID        => $EntityID,
             Config          => $ActivityData->{Config},
             UserID          => $Self->{UserID},
@@ -352,10 +354,11 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new configuration
-        $ActivityData->{Name}     = $GetParam->{Name};
-        $ActivityData->{EntityID} = $GetParam->{EntityID};
-        $ActivityData->{Global}   = $GetParam->{Global};
-        $ActivityData->{Config}   = {};
+        $ActivityData->{Name}      = $GetParam->{Name};
+        $ActivityData->{Namespace} = $GetParam->{Namespace};
+        $ActivityData->{EntityID}  = $GetParam->{EntityID};
+        $ActivityData->{Global}    = $GetParam->{Global};
+        $ActivityData->{Config}    = {};
 
         # set the rest of the config
         if ( IsArrayRefWithData( $GetParam->{ActivityDialogs} ) ) {
@@ -424,6 +427,7 @@ sub Run {
         my $Success = $ActivityObject->ActivityUpdate(
             ID              => $ActivityID,
             Name            => $ActivityData->{Name},
+            Namespace       => $ActivityData->{Namespace},
             EntityID        => $ActivityData->{EntityID},
             Config          => $ActivityData->{Config},
             UserID          => $Self->{UserID},
@@ -637,6 +641,7 @@ sub Run {
         my $Success = $ActivityObject->ActivityUpdate(
             ID              => $ActivityData->{ID},
             Name            => $ActivityData->{Name},
+            Namespace       => $ActivityData->{Namespace},
             EntityID        => $ActivityData->{EntityID},
             Config          => $ActivityData->{Config},
             UserID          => $Self->{UserID},
@@ -819,6 +824,7 @@ sub _ShowEdit {
                     EntityID        => $ActivityDialogData->{EntityID},
                     ProcessEntityID => $Param{ProcessEntityID},
                     Name            => $ActivityDialogData->{Name},
+                    Namespace       => $ActivityDialogData->{Namespace},
                     AvailableIn     => $AvailableIn,
                 },
             );
@@ -855,6 +861,7 @@ sub _ShowEdit {
                     EntityID        => $ActivityDialogData->{EntityID},
                     ProcessEntityID => $Param{ProcessEntityID},
                     Name            => $ActivityDialogData->{Name},
+                    Namespace       => $ActivityDialogData->{Namespace},
                     AvailableIn     => $AvailableIn,
                 },
             );
@@ -917,6 +924,7 @@ sub _ShowEdit {
                     EntityID        => $ActivityDialogData->{EntityID},
                     ProcessEntityID => $Param{ProcessEntityID},
                     Name            => $ActivityDialogData->{Name},
+                    Namespace       => $ActivityDialogData->{Namespace},
                     AvailableIn     => $AvailableIn,
                 },
             );
@@ -978,7 +986,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name EntityID Global )
+        qw( Name Namespace EntityID Global )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

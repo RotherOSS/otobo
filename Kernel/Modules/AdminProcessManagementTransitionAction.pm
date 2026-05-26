@@ -95,6 +95,7 @@ sub Run {
 
         # set new configuration
         $TransitionActionData->{Name}             = $GetParam->{Name};
+        $TransitionActionData->{Namespace}        = $GetParam->{Namespace};
         $TransitionActionData->{Global}           = $GetParam->{Global};
         $TransitionActionData->{Config}->{Module} = $GetParam->{Module};
         $TransitionActionData->{Config}->{Config} = $GetParam->{Config};
@@ -153,6 +154,7 @@ sub Run {
         # otherwise save configuration and return process screen
         my $TransitionActionID = $TransitionActionObject->TransitionActionAdd(
             Name            => $TransitionActionData->{Name},
+            Namespace       => $TransitionActionData->{Namespace},
             Module          => $TransitionActionData->{Module},
             EntityID        => $EntityID,
             Config          => $TransitionActionData->{Config},
@@ -317,6 +319,7 @@ sub Run {
 
         # set new configuration
         $TransitionActionData->{Name}             = $GetParam->{Name};
+        $TransitionActionData->{Namespace}        = $GetParam->{Namespace};
         $TransitionActionData->{EntityID}         = $GetParam->{EntityID};
         $TransitionActionData->{Global}           = $GetParam->{Global};
         $TransitionActionData->{Config}->{Module} = $GetParam->{Module};
@@ -365,6 +368,7 @@ sub Run {
             ID              => $TransitionActionID,
             EntityID        => $TransitionActionData->{EntityID},
             Name            => $TransitionActionData->{Name},
+            Namespace       => $TransitionActionData->{Namespace},
             Module          => $TransitionActionData->{Module},
             Config          => $TransitionActionData->{Config},
             UserID          => $Self->{UserID},
@@ -705,7 +709,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name Module EntityID Global)
+        qw( Name Namespace Module EntityID Global)
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
