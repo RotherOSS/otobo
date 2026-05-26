@@ -1997,6 +1997,7 @@
                     <Item Key="Ticket::Frontend::AgentTicketEscalationView###DefaultColumns">AgentTicketEscalationView</Item>
                     <Item Key="Ticket::Frontend::AgentTicketSearch###DefaultColumns">AgentTicketSearch</Item>
                     <Item Key="Ticket::Frontend::AgentTicketService###DefaultColumns">AgentTicketService</Item>
+                    <Item Key="Ticket::Frontend::CustomerTicketSearch###SearchOverviewDynamicField">CustomerTicketSearch</Item>
                     <!-- DefaultColumns and Dashboard Widgets -->
                     <Item Key="DashboardBackend###0100-TicketPendingReminder">DashboardWidget TicketPendingReminder</Item>
                     <Item Key="DashboardBackend###0110-TicketEscalation">DashboardWidget TicketEscalation</Item>
