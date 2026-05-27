@@ -763,7 +763,7 @@ sub GetFieldState {
         $FieldStates{NewValue} = $AttributeFieldValue;
     }
 
-    # prevent autovification
+    # prevent autovivification
     if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} } && exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues} ) {
         $FieldStates{PossibleValues}->%* = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues}->%*;
     }

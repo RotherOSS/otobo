@@ -1158,8 +1158,6 @@ sub GetFieldState {
         my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
         if ( $ParamObject && $Param{ObjectID} ) {
 
-            my $Name = "DynamicField_$SetConfig->{Name}";
-
             my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
             my $OldValues     = $BackendObject->ValueGet(
                 ObjectID           => $Param{ObjectID},
