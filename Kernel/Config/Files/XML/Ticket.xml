@@ -14910,27 +14910,6 @@ Thanks for your help!
                         <Item Key="Valid"></Item>
                     </Hash>
                 </DefaultItem>
-                <Item Key="AgentTicketArticleRestore">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleRestore</Item>
-                        <Item Key="Prio">10</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketArticleDelete">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleDelete</Item>
-                        <Item Key="Prio">20</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketArticleVersion">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion</Item>
-                        <Item Key="Prio">30</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
                 <Item Key="AgentTicketArticleEdit">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
