@@ -3663,7 +3663,7 @@ $IncludeDFConfigs[1]->{LabelEscaped}:
 $IncludeDFConfigs[1]->{LabelEscaped}:
 </label>
                                 <div class="Field">
-<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="" />
                                 </div>
                                 <div class="AddRemoveValueRow">
                                     <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
