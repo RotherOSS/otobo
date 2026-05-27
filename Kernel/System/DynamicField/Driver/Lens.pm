@@ -769,7 +769,53 @@ sub GetFieldState {
     }
     if ( IsHashRefWithData( $FieldStates{Sets} ) ) {
 
+        my $SetValue = defined $AttributeFieldValue
+            ? $AttributeFieldValue
+            : $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"};
+
+        # get set inner dynamic fields from attribute field
+        my $InnerDynamicFields = $Self->_GetIncludedDynamicFields(
+            InputFieldDefinition => $AttributeDFConfig->{Config}{Include},
+        );
+
+        # fill values with data with set value data
+        if ( IsArrayRefWithData($SetValue) ) {
+            for my $Index ( 0 .. $#{$SetValue} ) {
+
+                my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+                my $ValueItem = $SetValue->[$Index];
+                my @DFNames   = keys $ValueItem->%*;
+
+                for my $DFName (@DFNames) {
+
+                    # fill up dynamic field configs of set-inner fields
+                    if ( !exists $FieldStates{Sets}{$DFName} ) {
+                        $FieldStates{Sets}{$DFName}{DynamicFieldConfig} = $InnerDynamicFields->{$DFName};
+                    }
+
+                    # set FieldStates hash
+                    my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+                        DynamicFieldConfig => $InnerDynamicFields->{$DFName},
+                        Behavior           => 'IsACLReducible',
+                    );
+                    if ( !$IsACLReducible ) {
+                        $FieldStates{Sets}{$DFName}{FieldStates}{"${DFName}_${Index}"} = {
+                            NotACLReducible => 1,
+                            PossibleValues  => undef,
+                        };
+                    }
+
+                    # fill up values hash
+                    if ( !exists $FieldStates{Sets}{$DFName}{Values}{"${DFName}_${Index}"} ) {
+                        $FieldStates{Sets}{$DFName}{Values}{"${DFName}_${Index}"} = $ValueItem->{$DFName};
+                    }
+                }
+            }
+        }
+
         if ($NeedsReset) {
+
             my $SetValueCount     = IsArrayRefWithData( $FieldStates{NewValue} ) ? scalar $FieldStates{NewValue}->@* : 1;
             my $CompleteFieldName = $DynamicFieldConfig->{Name} . ( $DynamicFieldConfig->{ProcessSuffix} || '' );
 
@@ -900,6 +946,95 @@ sub _GetReferencedObjectID {
     }
 
     return $ObjectID->[0];
+}
+
+=head2 _GetIncludedDynamicFields($Include, $DynamicFieldObject)
+
+Helper Function for getting the Dynamic Fields from an Include, i.e.
+$DynamicFields = $GetIncludedDynamicFields->($Param{DynamicFieldConfig}{Config}{Include});
+This subroutine takes three arguments:
+$Include: a list of hash references containing information about the items to include
+$DynamicFieldObject: an object used to retrieve dynamic field information
+and returns either the DynamicFields or undef in case of an error.
+
+=cut
+
+sub _GetIncludedDynamicFields {
+    my ( $Self, %Param ) = @_;
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my %DynamicField;
+
+    # This subroutine takes a DFEntry and the DynamicFieldObject as arguments
+    # It retrieves the dynamic field definition for the given DFEntry
+    # If the definition is not available, it retrieves it from the DynamicFieldObject
+    # Returns the dynamic field definition
+    my $GetDynamicField = sub {
+
+        my ($DFEntry) = @_;
+
+        my $DynamicField = $DFEntry->{Definition} // $DynamicFieldObject->DynamicFieldGet(
+            Name => $DFEntry->{DF},
+        );
+
+        return $DynamicField;
+    };
+
+    ITEM:
+    for my $IncludeItem ( @{ $Param{InputFieldDefinition} } ) {
+
+        if ( $IncludeItem->{Grid} ) {
+
+            for my $Row ( @{ $IncludeItem->{Grid}{Rows} } ) {
+
+                DFENTRY:
+                for my $DFEntry ( $Row->@* ) {
+
+                    my $DynamicField = $GetDynamicField->($DFEntry);
+                    if ( IsHashRefWithData($DynamicField) ) {
+                        if ( $DFEntry->{Label} ) {
+                            $DynamicField->{Label} = $DFEntry->{Label};
+                        }
+                        $DynamicField->{Mandatory}      = $DFEntry->{Mandatory};
+                        $DynamicField->{Readonly}       = $DFEntry->{Readonly};
+                        $DynamicField{ $DFEntry->{DF} } = $DynamicField;
+                    }
+                    else {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  => "DynamicFieldConfig missing for field: $DFEntry->{DF}, or is not a Ticket Dynamic Field!",
+                        );
+
+                        next DFENTRY;
+                    }
+                }
+            }
+        }
+        elsif ( $IncludeItem->{DF} ) {
+
+            my $DynamicField = $GetDynamicField->($IncludeItem);
+            if ($DynamicField) {
+                if ( $IncludeItem->{Label} ) {
+                    $DynamicField->{Label} = $IncludeItem->{Label};
+                }
+                $DynamicField->{Mandatory}          = $IncludeItem->{Mandatory};
+                $DynamicField->{Readonly}           = $IncludeItem->{Readonly};
+                $DynamicField{ $IncludeItem->{DF} } = $DynamicField;
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "DynamicFieldConfig missing for field: $IncludeItem->{DF}, or is not a Ticket Dynamic Field!",
+                );
+                next ITEM;
+            }
+        }
+        else {
+            next ITEM;
+        }
+    }
+
+    return \%DynamicField;
 }
 
 1;
