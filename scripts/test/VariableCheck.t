@@ -97,6 +97,12 @@ my @NumberVariables = (
     Number13 => '1.E2.2',
     Number14 => '1.-e1',
     Number15 => '1€+1',
+
+    # tests with non-ASCII characters
+    CircledOne       => '➀',    # ➀ - U+02780 - DINGBAT CIRCLED SANS-SERIF DIGIT ONE, does not match /\d/
+    OneAndCircledOne => '1➀',
+    ArabicOne        => '١',    # ١- U+00661 - ARABIC-INDIC DIGIT ONE, matches /\d/
+    OneAndArabicOne  => '1١',
 );
 
 # test variables for ipv6 tests
@@ -555,6 +561,7 @@ my @IPv6Variables = (
     IPv6452 => '::ffff:257.1.2.3',
     IPv6453 => 'XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:1.2.3.4',
     IPv6454 => 'XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX',
+    IPv6455 => '0:0:0:0:0:0:0:४',            # ४ - U+0096A - DEVANAGARI DIGIT FOUR
 );
 
 # expected results for ipv6 tests
@@ -744,6 +751,7 @@ my @IPv6Results = (
     #        IPv6149 => 1,
     #        IPv6150 => 1,
     IPv6151 => 1,
+    IPv6455 => 1,
 );
 
 # test variables for ipv4 tests
@@ -758,6 +766,7 @@ my @IPv4Variables = (
     IPv48  => '0.0.0.256',
     IPv49  => '192..168.0',
     IPv410 => '01.23.45.67',
+    IPv411 => '1७.23.45.67',       # ७ - U+0096D - DEVANAGARI DIGIT SEVEN
 );
 
 # IsArrayRefWithData
@@ -780,10 +789,11 @@ TestTheTypeTester( 'IsHashRefWithData', $TestVariables, $ExpectedTestResults );
 
 # IsInteger
 $ExpectedTestResults = {
-    String  => 1,
-    Number1 => 1,
-    Number2 => 1,
-    Number3 => 1,
+    String          => 1,
+    Number1         => 1,
+    Number2         => 1,
+    Number3         => 1,
+    OneAndArabicOne => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -793,9 +803,10 @@ TestTheTypeTester( 'IsInteger', $TestVariables, $ExpectedTestResults );
 
 # IsIPv4Address
 $ExpectedTestResults = {
-    IPv41 => 1,
-    IPv42 => 1,
-    IPv43 => 1,
+    IPv41  => 1,
+    IPv42  => 1,
+    IPv43  => 1,
+    IPv411 => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -820,6 +831,7 @@ $ExpectedTestResults = {
     MD5Sum1 => 1,
     MD5Sum2 => 1,
     MD5Sum3 => 1,
+    MD5Sum8 => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -831,23 +843,26 @@ $TestVariables = {
     MD5Sum5 => '0123456789abcdef',
     MD5Sum6 => '000000000000000000000000000000000',
     MD5Sum7 => '000000000000000000-00000000000000',
+    MD5Sum8 => '००००००००००००००००००००००००००००००००',    # ० - U+00966 - DEVANAGARI DIGIT ZERO
 };
 TestTheTypeTester( 'IsMD5Sum', $TestVariables, $ExpectedTestResults );
 
 # IsNumber
 $ExpectedTestResults = {
-    String   => 1,
-    Number1  => 1,
-    Number2  => 1,
-    Number3  => 1,
-    Number4  => 1,
-    Number5  => 1,
-    Number6  => 1,
-    Number7  => 1,
-    Number8  => 1,
-    Number9  => 1,
-    Number10 => 1,
-    Number11 => 1,
+    String          => 1,
+    Number1         => 1,
+    Number2         => 1,
+    Number3         => 1,
+    Number4         => 1,
+    Number5         => 1,
+    Number6         => 1,
+    Number7         => 1,
+    Number8         => 1,
+    Number9         => 1,
+    Number10        => 1,
+    Number11        => 1,
+    ArabicOne       => 1,
+    OneAndArabicOne => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -857,8 +872,9 @@ TestTheTypeTester( 'IsNumber', $TestVariables, $ExpectedTestResults );
 
 # IsPositiveInteger
 $ExpectedTestResults = {
-    Number1 => 1,
-    Number2 => 1,
+    Number1         => 1,
+    Number2         => 1,
+    OneAndArabicOne => 1,
 };
 $TestVariables = {
     @CommonVariables,
