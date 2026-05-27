@@ -784,13 +784,13 @@ sub Run {
         my $ProcessName = $LayoutObject->{LanguageObject}->Translate( '%s (copy)', $ProcessData->{Name} );
 
         # generate entity ID
-        my $EntityID = $EntityObject->EntityIDGenerate(
+        my $ProcessEntityID = $EntityObject->EntityIDGenerate(
             EntityType => 'Process',
             UserID     => $Self->{UserID},
         );
 
         # show error if can't generate a new EntityID
-        if ( !$EntityID ) {
+        if ( !$ProcessEntityID ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('There was an error generating a new EntityID for this Process'),
             );
@@ -809,12 +809,12 @@ sub Run {
             );
         }
 
-        # otherwise save configuration and return to overview screen
+        # otherwise create a new process without layout and old config
         my $ProcessID = $ProcessObject->ProcessAdd(
             Name          => $ProcessName,
-            EntityID      => $EntityID,
+            EntityID      => $ProcessEntityID,
             StateEntityID => $StateEntityID,
-            Layout        => $ProcessData->{Layout},
+            Layout        => {},
             Config        => $ProcessData->{Config},
             UserID        => $Self->{UserID},
         );
@@ -829,7 +829,7 @@ sub Run {
         # set entity sync state
         my $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
-            EntityID   => $EntityID,
+            EntityID   => $ProcessEntityID,
             SyncState  => 'not_sync',
             UserID     => $Self->{UserID},
         );
@@ -838,7 +838,174 @@ sub Run {
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'There was an error setting the entity sync status for Process entity: %s', $EntityID
+                    'There was an error setting the entity sync status for Process entity: %s', $ProcessEntityID
+                ),
+            );
+        }
+
+        # maps for process-specific element EntityIDs, original->copy
+        my $ElementMap = {
+            ActivityDialog   => {},
+            Activity         => {},
+            Transition       => {},
+            TransitionAction => {},
+        };
+
+        # copy elements (ActiviyDialog before Activity, since the former is stored internally in the latter)
+        for my $Element (qw(ActivityDialog Activity Transition TransitionAction)) {
+
+            my $ElementObject = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Element );
+            my $ElementList   = $Element . 'List';
+            my $ElementGet    = $Element . 'Get';
+            my $ElementAdd    = $Element . 'Add';
+
+            ELEMENT:
+            for my $ElementID ( sort keys %{ $ElementObject->$ElementList( UserID => $Self->{UserID} ) } ) {
+                my $ElementData = $ElementObject->$ElementGet(
+                    ID     => $ElementID,
+                    UserID => $Self->{UserID},
+                );
+
+                # check if element is local to this process
+                next ELEMENT unless $ElementData && $ElementData->{ProcessEntityID} && $ElementData->{ProcessEntityID} eq $ProcessData->{EntityID};
+
+                # reassign ActivityDialogs of process-specific Activities
+                if ( $Element eq 'Activity' ) {
+
+                    if ( !$ElementData->{Config}->{ActivityDialogs} ) {
+                        my %ConfigActivityDialog;
+
+                        while ( my ( $Counter, $ActivityDialogEntityID ) = each %{ $ElementData->{Config}->{ActivityDialog} } ) {
+
+                            $ConfigActivityDialog{$Counter} = $ElementMap->{ActivityDialog}->{$ActivityDialogEntityID} || $ActivityDialogEntityID;
+                        }
+
+                        # set final config ActivityDialog value
+                        $ElementData->{Config}->{ActivityDialog} = \%ConfigActivityDialog;
+                    }
+                }
+
+                # generate entity ID
+                my $EntityID = $EntityObject->EntityIDGenerate(
+                    EntityType => $Element,
+                    UserID     => $Self->{UserID},
+                );
+
+                # show error if can't generate a new EntityID
+                if ( !$EntityID ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => Translatable('There was an error generating a new EntityID while copying an associated Element'),
+                    );
+                }
+
+                # copy Element using new ProcessEntityID
+                my $ElementID = $ElementObject->$ElementAdd(
+                    Name            => $LayoutObject->{LanguageObject}->Translate( '%s (copy)', $ElementData->{Name} ),
+                    Namespace       => $ElementData->{Namespace},
+                    EntityID        => $EntityID,
+                    Config          => $ElementData->{Config},
+                    UserID          => $Self->{UserID},
+                    ProcessEntityID => $ProcessEntityID,
+                );
+
+                # show error if can't create
+                if ( !$ElementID ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => Translatable('There was an error copying an associated Element'),
+                    );
+                }
+
+                # set entity sync state
+                my $Success = $EntityObject->EntitySyncStateSet(
+                    EntityType => $Element,
+                    EntityID   => $EntityID,
+                    SyncState  => 'not_sync',
+                    UserID     => $Self->{UserID},
+                );
+
+                # show error if can't set
+                if ( !$Success ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'There was an error setting the entity sync status for an associated Element entity: %s',
+                            $EntityID
+                        ),
+                    );
+                }
+
+                # store mapping
+                $ElementMap->{$Element}->{ $ElementData->{EntityID} } = $EntityID;
+            }
+        }
+
+        # now rebuild process layout, substituting process-specific elements
+        my %Layout;
+
+        while ( my ( $ActivityEntityID, $Position ) = each %{ $ProcessData->{Layout} } ) {
+
+            $Layout{ $ElementMap->{Activity}->{$ActivityEntityID} || $ActivityEntityID } = $Position;
+        }
+
+        # now rebuild process path config, substituting process-specific elements
+        my %ConfigPath;
+
+        while ( my ( $ActivityEntityID, $PathList ) = each %{ $ProcessData->{Config}->{Path} } ) {
+
+            my %PathList;
+
+            while ( my ( $TransitionEntityID, $PathData ) = each %{$PathList} ) {
+
+                my %Path;
+                my @TransitionAction;
+
+                for my $TransitionActionEntityID ( @{ $PathData->{TransitionAction} } ) {
+
+                    push @TransitionAction, $ElementMap->{TransitionAction}->{TransitionActionEntityID} || $TransitionActionEntityID;
+                }
+
+                $Path{ActivityEntityID} = $ElementMap->{Activity}->{ $PathData->{ActivityEntityID} } || $PathData->{ActivityEntityID};
+                $Path{TransitionAction} = \@TransitionAction;
+                $PathList{ $ElementMap->{Transition}->{$TransitionEntityID} || $TransitionEntityID } = \%Path;
+            }
+
+            $ConfigPath{ $ElementMap->{Activity}->{$ActivityEntityID} || $ActivityEntityID } = \%PathList;
+        }
+
+        # set final config value
+        $ProcessData->{Config}->{Path} = \%ConfigPath;
+
+        # save new layout and config and return to overview screen
+        $Success = $ProcessObject->ProcessUpdate(
+            ID            => $ProcessID,
+            Name          => $ProcessName,
+            EntityID      => $ProcessEntityID,
+            StateEntityID => $StateEntityID,
+            Layout        => \%Layout,
+            Config        => $ProcessData->{Config},
+            UserID        => $Self->{UserID},
+        );
+
+        # show error if can't update
+        if ( !$Success ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('There was an error updating the Process'),
+            );
+        }
+
+        # set entity sync state
+        $Success = $EntityObject->EntitySyncStateSet(
+            EntityType => 'Process',
+            EntityID   => $ProcessData->{EntityID},
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $LayoutObject->ErrorScreen(
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'There was an error setting the entity sync status for Process entity: %s',
+                    $ProcessData->{EntityID}
                 ),
             );
         }
@@ -1179,6 +1346,13 @@ sub Run {
         my $JSON;
         if ( $CheckResult->{Success} ) {
 
+            # save ProcessEntityID for later
+            my $ProcessData = $ProcessObject->ProcessGet(
+                ID     => $ProcessID,
+                UserID => $Self->{UserID},
+            );
+            my $ProcessEntityID = $ProcessData->{EntityID};
+
             my $Success = $ProcessObject->ProcessDelete(
                 ID     => $ProcessID,
                 UserID => $Self->{UserID},
@@ -1201,13 +1375,66 @@ sub Run {
                     UserID     => $Self->{UserID},
                 );
 
-                # show error if cant set
+                # show error if can't set
                 if ( !$Success ) {
                     $DeleteResult{Success} = $Success;
                     $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate(
                         'There was an error setting the entity sync status for Process entity: %s',
                         $CheckResult->{ProcessData}->{EntityID}
                     );
+                }
+
+                # clean up all elements specific to this process
+                for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
+
+                    my $ElementObject = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Element );
+                    my $ElementList   = $Element . 'List';
+                    my $ElementGet    = $Element . 'Get';
+                    my $ElementDelete = $Element . 'Delete';
+
+                    ELEMENT:
+                    for my $ElementID ( sort keys %{ $ElementObject->$ElementList( UserID => $Self->{UserID} ) } ) {
+                        my $ElementData = $ElementObject->$ElementGet(
+                            ID     => $ElementID,
+                            UserID => $Self->{UserID},
+                        );
+
+                        # check if element is specific to this process
+                        next ELEMENT unless $ElementData && $ElementData->{ProcessEntityID} && $ElementData->{ProcessEntityID} eq $ProcessEntityID;
+
+                        my $SuccessElement = $ElementObject->$ElementDelete(
+                            ID     => $ElementID,
+                            UserID => $Self->{UserID},
+                        );
+
+                        $DeleteResult{Success} = $SuccessElement;
+
+                        if ( !$SuccessElement ) {
+                            $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate(
+                                'Process: %s successfully deleted, but failed to delete an associated Element',
+                                $ProcessID
+                            );
+                        }
+                        else {
+
+                            # set entity sync state
+                            my $SuccessElement = $EntityObject->EntitySyncStateSet(
+                                EntityType => $Element,
+                                EntityID   => $ElementData->{EntityID},
+                                SyncState  => 'deleted',
+                                UserID     => $Self->{UserID},
+                            );
+
+                            # show error if can't set
+                            if ( !$SuccessElement ) {
+                                $DeleteResult{SuccessElement} = $SuccessElement;
+                                $DeleteResult{Message}        = $LayoutObject->{LanguageObject}->Translate(
+                                    'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity',
+                                    $ProcessID
+                                );
+                            }
+                        }
+                    }
                 }
             }
 
