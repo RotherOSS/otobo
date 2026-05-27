@@ -206,7 +206,12 @@ The trimming can be turned of by passing the parameter C<Raw>.
 
     my $Param = $ParamObject->GetParam(
         Param => 'ID',
-        Raw   => 1,       # optional, input data is not changed
+        Raw   => 1,                  # optional, input data is not changed
+                                     # specifying 'raw' will suppress input validation
+        Check => 'check_identifier', # optional, can be a compiled regex (qr/^abc$/) or
+                                     # a named check indetifier from K/S/Checkitem
+        Default => 'some_value',     # default value to use if input param validation
+                                     # failed. If not present an exception will be raised
     );
 
 When the parameter is not part of the query then C<undef> is returned.
@@ -246,6 +251,8 @@ sub GetParam {
     my ($Value) = $PlackRequest->parameters->get_all($Key);
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
+    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+
     # Stay compatible with CGI.pm by checking for file uploads.
     # The name of the file is returned when a file upload was found
     if ( !defined $Value && $PlackRequest->uploads->{$Key} ) {
@@ -258,10 +265,50 @@ sub GetParam {
     # no string cleaning when specifically so requested
     return $Value if $Param{Raw};
 
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('ValidateInputParams') ) {
+
+        my $Validator = $Param{Check};
+        my $Default   = $Param{Default};
+
+        if ( $Value && !$Validator ) {
+
+            my $DefaultValidator = $CheckItemObject->GetDefaultValidator( Key => $Key );
+            if ( defined $DefaultValidator ) {
+                $Validator = $DefaultValidator->{Check};
+                if ( !defined $Default ) {
+                    $Default = $DefaultValidator->{Default};
+                }
+            }
+        }
+
+        if ( $Value && $Validator ) {
+
+            my $ValidationResult = $CheckItemObject->Validate(
+                Key       => $Key,
+                Value     => $Value,
+                Default   => $Default,
+                Validator => $Validator
+            );
+
+            if ( !$ValidationResult->{Success} ) {
+
+                if ($Default) {
+                    return $Default;
+                }
+
+                die Kernel::System::Web::Exception->new(
+                    PlackResponse => Plack::Response->new( 400, [], $ValidationResult->{Error} )
+                );
+            }
+
+            $Value = $ValidationResult->{Value};
+        }
+    }
+
     # If it is a plain string, perform trimming
     return $Value unless ref \$Value eq 'SCALAR';
 
-    $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
+    $CheckItemObject->StringClean(
         StringRef => \$Value,
         TrimLeft  => 1,
         TrimRight => 1,
@@ -309,7 +356,12 @@ By default, trimming is performed on the data.
 
     my @Param = $ParamObject->GetArray(
         Param => 'ID',
-        Raw   => 1,     # optional, input data is not changed
+        Raw   => 1,                  # optional, input data is not changed
+                                     # specifying 'raw' will suppress input validation
+        Check => 'check_identifier', # optional, can be a compiled regex (qr/^abc$/) or
+                                     # a named check indetifier from K/S/Checkitem
+        Default => 'some_value',     # default value to use if input param validation
+                                     # failed. If not present an exception will be raised
     );
 
 URL and body parameters are merged. URL parameters come before body parameters
@@ -324,23 +376,70 @@ sub GetArray {
 
     return @Values if $Param{Raw};
 
-    # get check item object
-    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+    my $CheckItemObject     = $Kernel::OM->Get('Kernel::System::CheckItem');
+    my $ValidateInputParams = $Kernel::OM->Get('Kernel::Config')->Get('ValidateInputParams');
 
+    my $Validator = $Param{Check};
+    my $Default   = $Param{Default};
+    if ( $ValidateInputParams && !defined $Validator ) {
+
+        my $DefaultValidator = $CheckItemObject->GetDefaultValidator( Key => $Param{Param} );
+        if ( defined $DefaultValidator ) {
+            $Validator = $DefaultValidator->{Check};
+            if ( !defined $Default ) {
+                $Default = $DefaultValidator->{Default};
+            }
+        }
+    }
+
+    my @NewValues;
     VALUE:
     for my $Value (@Values) {
 
         # don't validate objects from file uploads
-        next VALUE if !$Value || ref \$Value ne 'SCALAR';
+        if ( !$Value || ref \$Value ne 'SCALAR' ) {
+            push @NewValues, $Value;
+            next VALUE;
+        }
 
-        $CheckItemObject->StringClean(
-            StringRef => \$Value,
-            TrimLeft  => 1,
-            TrimRight => 1,
-        );
+        if ( !$Param{Raw} && $ValidateInputParams && defined $Validator ) {
+
+            my $ValidationResult = $CheckItemObject->Validate(
+                Key       => $Param{Param},
+                Value     => $Value,
+                Default   => $Default,
+                Validator => $Validator
+            );
+
+            if ( !$ValidationResult->{Success} ) {
+
+                if ($Default) {
+
+                    push @NewValues, $Default;
+                    next VALUE;
+                }
+
+                die Kernel::System::Web::Exception->new(
+                    PlackResponse => Plack::Response->new( 400, [], $ValidationResult->{Error} )
+                );
+            }
+
+            $Value = $ValidationResult->{Value};
+        }
+
+        if ( !$Param{Raw} ) {
+
+            $CheckItemObject->StringClean(
+                StringRef => \$Value,
+                TrimLeft  => 1,
+                TrimRight => 1,
+            );
+        }
+
+        push @NewValues, $Value;
     }
 
-    return @Values;
+    return @NewValues;
 }
 
 =head2 SetArray()
