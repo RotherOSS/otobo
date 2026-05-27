@@ -676,14 +676,14 @@ sub _Mask {
         ArticleID => $Self->{ArticleID},
     );
 
-    $Param{WidgetStatus} = 'Expanded';
-
-    $LayoutObject->Block(
-        Name => 'WidgetArticle',
-        Data => \%Param,
-    );
-
     if ($ArticleEditingEnabled) {
+        $Param{WidgetStatus} = 'Expanded';
+
+        $LayoutObject->Block(
+            Name => 'WidgetArticle',
+            Data => \%Param,
+        );
+
         $Param{SubjectRequired} = 'Validate_Required';
         $Param{BodyRequired}    = 'Validate_Required';
     }
