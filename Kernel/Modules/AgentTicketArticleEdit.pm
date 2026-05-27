@@ -749,17 +749,15 @@ sub _Mask {
         $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
     }
 
-    # create email parser object
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Mode  => 'Standalone',
-        Debug => 0,
-    );
-
     # check and retrieve involved and informed agents of ReplyTo Note
     my @ReplyToUsers;
     my %ReplyToUsersHash;
     my %ReplyToUserIDs;
     if ( $Self->{ReplyToArticle} ) {
+
+        # create email parser object
+        my $EmailParserObject = Kernel::System::EmailParser->new();
+
         my @ReplyToParts = $EmailParserObject->SplitAddressLine(
             Line => $Self->{ReplyToArticleContent}->{To} || '',
         );
