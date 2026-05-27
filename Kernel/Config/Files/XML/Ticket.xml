@@ -1566,7 +1566,7 @@
             <Item ValueType="String" ValueRegex="^\d+$">10080</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::PlainView" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::PlainView" Required="1" Valid="1">
         <Description Translatable="1">Shows a link to see a zoomed email ticket in plain text.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -1590,7 +1590,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::ArticleHeadVisibleDefault" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::ArticleHeadVisibleDefault" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows the article head information in the agent zoom view.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -1637,7 +1637,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::TicketArticleFilter" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::TicketArticleFilter" Required="1" Valid="1">
         <Description Translatable="1">Activates the article filter in the zoom view to specify which articles should be shown.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -1651,7 +1651,7 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::HistoryOrder" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::HistoryOrder" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket history (reverse ordered) in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketHistory</Navigation>
         <Value>
@@ -2260,14 +2260,14 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###StripEmptyLines" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###StripEmptyLines" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Strips empty lines on the ticket preview in the queue view.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###ViewAllPossibleTickets" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###ViewAllPossibleTickets" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows all both ro and rw queues in the queue view.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
@@ -2281,21 +2281,21 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###VisualAlarms" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###VisualAlarms" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Enable highlighting queues based on ticket age.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###HighlightAge1" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###HighlightAge1" Required="1" Valid="1">
         <Description Translatable="1">Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,7}$">1440</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###HighlightAge2" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###HighlightAge2" Required="1" Valid="1">
         <Description Translatable="1">Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
@@ -2309,7 +2309,7 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###UseSubQueues" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###UseSubQueues" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Include tickets of subqueues per default when selecting a queue.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
@@ -2339,7 +2339,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketQueue###PreSort::ByPriority" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###PreSort::ByPriority" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines if a pre-sorting by priority should be done in the queue view.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
@@ -2356,14 +2356,14 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketService###StripEmptyLines" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketService###StripEmptyLines" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Strips empty lines on the ticket preview in the service view.</Description>
         <Navigation>Frontend::Agent::View::TicketService</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketService###ViewAllPossibleTickets" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketService###ViewAllPossibleTickets" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows all both ro and rw tickets in the service view.</Description>
         <Navigation>Frontend::Agent::View::TicketService</Navigation>
         <Value>
@@ -2393,7 +2393,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketService###PreSort::ByPriority" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketService###PreSort::ByPriority" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines if a pre-sorting by priority should be done in the service view.</Description>
         <Navigation>Frontend::Agent::View::TicketService</Navigation>
         <Value>
@@ -2677,14 +2677,14 @@
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###StateIDs" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###StateIDs" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Array></Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###QueueIDs" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###QueueIDs" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
@@ -2705,70 +2705,70 @@
             <Array></Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCreateTimePoint" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCreateTimePoint" Required="0" Valid="0">
         <Description Translatable="1">Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCreateTimeSlot" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCreateTimeSlot" Required="0" Valid="0">
         <Description Translatable="1">Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketChangeTimePoint" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketChangeTimePoint" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketChangeTimeSlot" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketChangeTimeSlot" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCloseTimePoint" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCloseTimePoint" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCloseTimeSlot" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketCloseTimeSlot" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketEscalationTimePoint" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketEscalationTimePoint" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketEscalationTimeSlot" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketEscalationTimeSlot" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###ArticleCreateTimePoint" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###ArticleCreateTimePoint" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Item ValueType="String"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###ArticleCreateTimeSlot" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###ArticleCreateTimeSlot" Required="0" Valid="0">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
@@ -2815,7 +2815,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsibleView###SortBy::Default" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsibleView###SortBy::Default" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default ticket attribute for ticket sorting in the responsible view of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
@@ -2829,7 +2829,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsibleView###Order::Default" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsibleView###Order::Default" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default ticket order in the responsible view of the agent interface. Up: oldest on top. Down: latest on top.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
@@ -2877,35 +2877,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###TicketType" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Service" Required="0" Valid="1">
         <Description Translatable="1">Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###ServiceMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###ServiceMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if service must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###SLAMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###SLAMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Queue" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
@@ -2919,35 +2919,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Owner" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Owner" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket owner in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###OwnerMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###OwnerMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket owner must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Responsible" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Responsible" Required="0" Valid="1">
         <Description Translatable="1">Sets the responsible agent of the ticket in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###ResponsibleMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###ResponsibleMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket responsible must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###State" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###State" Required="0" Valid="1">
         <Description Translatable="1">Sets the state of a ticket in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
@@ -2973,49 +2973,49 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###StateDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Note" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###NoteMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the default subject of a note in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Body" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the default body of a note in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Textarea"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###InvolvedAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###InformAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
@@ -3029,21 +3029,21 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###PriorityDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###PriorityDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default ticket priority in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Title" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###Title" Required="0" Valid="1">
         <Description Translatable="1">Shows the title field in the ticket free text screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
@@ -3092,14 +3092,14 @@
             <Item ValueType="String" ValueRegex="" Translatable="1">agent</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###Subject" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default subject for phone tickets in the ticket phone outbound screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###Body" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
@@ -3167,14 +3167,14 @@
             <Item ValueType="String" ValueRegex="">customer</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###Subject" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default subject for phone tickets in the ticket phone inbound screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###Body" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
@@ -3269,7 +3269,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="NewTicketInNewWindow::Enabled" Required="1" Valid="1">
+    <Setting Name="NewTicketInNewWindow::Enabled" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">If enabled, TicketPhone and TicketEmail will be open in new windows.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
@@ -3311,14 +3311,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhone###Subject" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhone###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Sets the default subject for new phone tickets (e.g. 'Phone call') in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhone###Body" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhone###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Sets the default note text for new telephone tickets. E.g 'New ticket via call' in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
@@ -3382,7 +3382,7 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###Priority" Required="1" Valid="1">
         <Description Translatable="1">Sets the default priority for new email tickets in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
@@ -3403,28 +3403,28 @@
             <Item ValueType="String" ValueRegex="" Translatable="1">agent</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly" Required="1" Valid="1">
         <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Sets the default subject for new email tickets (e.g. 'email Outbound') in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###Body" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Sets the default text for new email tickets in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Item ValueType="Textarea"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###StateDefault" Required="1" Valid="1">
         <Description Translatable="1">Sets the default next ticket state, after the creation of an email ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
@@ -3457,14 +3457,14 @@
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###ServiceMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###ServiceMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if service must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###SLAMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###SLAMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
@@ -3485,35 +3485,35 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###TicketType" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Service" Required="0" Valid="1">
         <Description Translatable="1">Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###ServiceMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###ServiceMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if service must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###SLAMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###SLAMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Queue" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
@@ -3527,35 +3527,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Owner" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Owner" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket owner in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###OwnerMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###OwnerMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket owner must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Responsible" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Responsible" Required="0" Valid="1">
         <Description Translatable="1">Sets the responsible agent of the ticket in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###ResponsibleMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###ResponsibleMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket responsible must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###State" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###State" Required="0" Valid="1">
         <Description Translatable="1">Sets the state of a ticket in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
@@ -3578,49 +3578,49 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###StateDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">closed successful</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Note" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###NoteMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Body" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Textarea"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###InvolvedAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###InformAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
@@ -3634,21 +3634,21 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###PriorityDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###PriorityDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default ticket priority in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###Title" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###Title" Required="0" Valid="1">
         <Description Translatable="1">Shows the title field in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
@@ -3690,35 +3690,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###TicketType" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Service" Required="0" Valid="1">
         <Description Translatable="1">Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###ServiceMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###ServiceMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if service must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###SLAMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###SLAMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Queue" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
@@ -3732,35 +3732,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Owner" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Owner" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket owner in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###OwnerMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###OwnerMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket owner must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Responsible" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Responsible" Required="0" Valid="1">
         <Description Translatable="1">Sets the responsible agent of the ticket in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###ResponsibleMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###ResponsibleMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket responsible must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###State" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###State" Required="0" Valid="1">
         <Description Translatable="1">Sets the state of a ticket in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
@@ -3786,49 +3786,49 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###StateDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Note" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###NoteMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Body" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Textarea"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###InvolvedAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###InformAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
@@ -3842,21 +3842,21 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###PriorityDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###PriorityDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default ticket priority in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###Title" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###Title" Required="0" Valid="1">
         <Description Translatable="1">Shows the title field in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
@@ -4014,14 +4014,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketOwner###Subject" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketOwner###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketOwner###Body" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketOwner###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
@@ -4220,14 +4220,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPending###Subject" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPending###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPending###Body" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPending###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
@@ -4436,14 +4436,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPriority###Subject" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPriority###Body" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
@@ -4643,14 +4643,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsible###Subject" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket responsible screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsible###Body" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket responsible screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
@@ -4727,28 +4727,28 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###TicketType" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket type in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###Owner" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###Owner" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket owner in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###Responsible" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###Responsible" Required="0" Valid="1">
         <Description Translatable="1">Sets the responsible agent of the ticket in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###State" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###State" Required="0" Valid="1">
         <Description Translatable="1">Sets the state of a ticket in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
@@ -4767,21 +4767,21 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###StateDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default next state of a ticket, in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###Priority" Required="0" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###PriorityDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###PriorityDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default ticket priority in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
@@ -4819,7 +4819,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###State" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###State" Required="0" Valid="1">
         <Description Translatable="1">Allows to set a new ticket state in the move ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
@@ -4843,21 +4843,21 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the move ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###Note" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###NoteMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
@@ -4885,7 +4885,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBounce###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBounce###StateDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines the default next state of a ticket after being bounced, in the ticket bounce screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBounce</Navigation>
         <Value>
@@ -4923,7 +4923,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketCompose###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketCompose###StateDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
         <Value>
@@ -4956,14 +4956,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
         <Value>
@@ -5025,35 +5025,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###TicketType" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Service" Required="0" Valid="1">
         <Description Translatable="1">Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ServiceMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ServiceMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if service must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###SLAMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###SLAMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if SLA must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Queue" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Queue" Required="0" Valid="1">
         <Description Translatable="1">Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
@@ -5067,35 +5067,35 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Owner" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Owner" Required="0" Valid="1">
         <Description Translatable="1">Sets the ticket owner in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###OwnerMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###OwnerMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket owner must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Responsible" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Responsible" Required="0" Valid="1">
         <Description Translatable="1">Sets the responsible agent of the ticket in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ResponsibleMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ResponsibleMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if ticket responsible must be selected by the agent.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###State" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###State" Required="0" Valid="1">
         <Description Translatable="1">Sets the state of a ticket in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
@@ -5121,49 +5121,49 @@
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###StateDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Note" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Note" Required="0" Valid="1">
         <Description Translatable="1">Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###NoteMandatory" Required="0" Valid="1">
         <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Subject" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Body" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Body" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Textarea"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###InvolvedAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###InformAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
@@ -5177,21 +5177,21 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Priority" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###PriorityDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###PriorityDefault" Required="0" Valid="0">
         <Description Translatable="1">Defines the default ticket priority in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Title" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Title" Required="0" Valid="1">
         <Description Translatable="1">Shows the title field in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
@@ -5288,7 +5288,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketForward###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketForward###StateDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketForward</Navigation>
         <Value>
@@ -5335,7 +5335,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###StateDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
         <Value>
@@ -5417,7 +5417,7 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly" Required="1" Valid="1">
         <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketCustomer</Navigation>
         <Value>
@@ -5660,7 +5660,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::ToolBarModule###170-Ticket::TicketResponsible" Required="0" Valid="1">
+    <Setting Name="Frontend::ToolBarModule###170-Ticket::TicketResponsible" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
@@ -5679,7 +5679,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::ToolBarModule###180-Ticket::TicketWatcher" Required="0" Valid="1">
+    <Setting Name="Frontend::ToolBarModule###180-Ticket::TicketWatcher" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
@@ -5698,7 +5698,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::ToolBarModule###190-Ticket::TicketLocked" Required="0" Valid="1">
+    <Setting Name="Frontend::ToolBarModule###190-Ticket::TicketLocked" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
@@ -5720,7 +5720,7 @@
     <!-- TODO: check if the counter is really needed, otherwise the module can be removed and use
     the standard link module
     -->
-    <Setting Name="Frontend::ToolBarModule###200-Ticket::AgentTicketService" Required="0" Valid="0">
+    <Setting Name="Frontend::ToolBarModule###200-Ticket::AgentTicketService" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
         <Description Translatable="1">Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
@@ -5746,7 +5746,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::ToolBarModule###220-Ticket::TicketSearchFulltext" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::ToolBarModule###220-Ticket::TicketSearchFulltext" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
@@ -5788,7 +5788,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="0">
         <Description Translatable="1">Fulltext search using Elasticsearch.</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
@@ -5825,7 +5825,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###15-OpenTickets" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::CustomerUser::Item###15-OpenTickets" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
@@ -5845,7 +5845,7 @@
                 </Hash>
             </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###16-OpenTicketsForCustomerUserLogin" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::CustomerUser::Item###16-OpenTicketsForCustomerUserLogin" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
@@ -5865,7 +5865,7 @@
                 </Hash>
             </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###17-ClosedTickets" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::CustomerUser::Item###17-ClosedTickets" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
@@ -5885,7 +5885,7 @@
                 </Hash>
             </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###18-ClosedTicketsForCustomerUserLogin" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::CustomerUser::Item###18-ClosedTicketsForCustomerUserLogin" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
@@ -8138,7 +8138,7 @@
             <Item ValueType="String" Translatable="1">Support Agent</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::CustomerTicketZoom###TicketInfoDisplayType" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###TicketInfoDisplayType" Required="0" Valid="1">
         <Description Translatable="1">Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the 'Information' button.</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
         <Value>
@@ -9531,28 +9531,28 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###Subject" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket move screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###Body" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###Body" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default body text for notes added in the ticket move screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
             <Item ValueType="Textarea"></Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
@@ -11789,14 +11789,14 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Admin::AdminNotificationEvent###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::Admin::AdminNotificationEvent###RichTextWidth" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Admin::AdminNotificationEvent###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::Admin::AdminNotificationEvent###RichTextHeight" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
@@ -13149,14 +13149,14 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::HTMLArticleHeightDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::HTMLArticleHeightDefault" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,4}$">100</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::HTMLArticleHeightMax" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::HTMLArticleHeightMax" Required="1" Valid="1">
         <Description Translatable="1">Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -13170,14 +13170,14 @@ Thanks for your help!
             <Item ValueType="String" ValueRegex="^[0-9]{1,5}$">400</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::MaxArticlesPerPage" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::MaxArticlesPerPage" Required="1" Valid="1">
         <Description Translatable="1">The maximal number of articles shown on a single page in AgentTicketZoom.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,5}$">1000</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::ZoomRichTextForce" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::ZoomRichTextForce" Required="1" Valid="1">
         <Description Translatable="1">Show article as rich text even if rich text writing is disabled.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -13547,7 +13547,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###DynamicField" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketSearch###Defaults###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case 'X', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: 'a text', Dropdown: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';.</Description>
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
@@ -13789,224 +13789,224 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketOwner###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketOwner###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketOwner###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketOwner###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPending###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPending###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPending###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPending###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhone###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhone###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhone###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhone###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">475</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">475</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsible###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsible###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketForward###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketForward###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketForward</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketForward###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketForward###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketForward</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketMerge</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextWidth" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextHeight" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketMerge</Navigation>
         <Value>
@@ -14563,7 +14563,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <!-- collect meta configurations -->
-    <Setting Name="Ticket::Frontend::ZoomCollectMeta" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::ZoomCollectMeta" Required="0" Valid="1">
         <Description Translatable="1">Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -15108,7 +15108,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::RedirectAfterCloseDisabled" Required="1" Valid="1" UserModificationActive="1" UserModificationPossible="1">
+    <Setting Name="Ticket::Frontend::RedirectAfterCloseDisabled" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Disables the redirection to the last screen overview / dashboard after a ticket is closed.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
@@ -15316,7 +15316,7 @@ Thanks for your help!
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" Required="0" Valid="1">
         <Description Translatable="1">Display settings to override defaults for dynamic field widget for Tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -15390,7 +15390,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBounce###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBounce###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketBounce</Navigation>
         <Value>
@@ -15412,7 +15412,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketBulk###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketBulk###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
@@ -15434,7 +15434,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketClose###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketClose###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
@@ -15456,7 +15456,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketCompose###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketCompose###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
         <Value>
@@ -15478,7 +15478,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmail###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
@@ -15500,7 +15500,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
         <Value>
@@ -15522,7 +15522,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketForward###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketForward###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketForward</Navigation>
         <Value>
@@ -15544,7 +15544,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketFreeText###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketFreeText###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
@@ -15566,7 +15566,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketMove###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketMove###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
@@ -15588,7 +15588,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketNote###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketNote###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
@@ -15610,7 +15610,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketOwner###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketOwner###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
@@ -15632,7 +15632,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPending###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPending###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
@@ -15654,7 +15654,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhone###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhone###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
@@ -15676,7 +15676,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
@@ -15698,7 +15698,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
@@ -15720,7 +15720,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketPriority###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketPriority###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
@@ -15742,7 +15742,7 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketResponsible###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketResponsible###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>

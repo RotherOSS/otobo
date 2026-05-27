@@ -457,7 +457,7 @@
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessDisplay" Required="1" Valid="1">
         <Description Translatable="1">Display settings to override defaults for Process Tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -684,7 +684,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketProcess###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketProcess###QuickDateButtons" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
         <Value>
