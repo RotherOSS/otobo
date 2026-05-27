@@ -22,7 +22,8 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Email::Valid ();
+use Email::Valid                  ();
+use Kernel::System::VariableCheck qw(:all);
 
 # OTOBO modules
 
@@ -52,7 +53,152 @@ Don't use the constructor directly, use the ObjectManager instead:
 sub new {
     my ($Type) = @_;
 
-    return bless {}, $Type;
+    my $Validators = {
+
+        # validate a string
+        string => sub {
+
+            my (%Param) = @_;
+
+            my $Key     = $Param{Key};
+            my $Value   = $Param{Value};
+            my $Default = $Param{Default};
+
+            my $CheckResult = Kernel::System::VariableCheck::IsString($Value);
+            if ( !$CheckResult ) {
+
+                my $ErrorMsg = "Invalid value for Parameter $Key', not a string.";
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $ErrorMsg,
+                );
+
+                return {
+                    Success => 0,
+                    Error   => $ErrorMsg,
+                };
+            }
+            return {
+                Success => 1,
+                Value   => $Value,
+            };
+        },
+
+        # validate a number
+        number => sub {
+
+            my (%Param) = @_;
+
+            my $Key     = $Param{Key};
+            my $Value   = $Param{Value};
+            my $Default = $Param{Default};
+
+            my $CheckResult = Kernel::System::VariableCheck::IsNumber($Value);
+            if ( !$CheckResult ) {
+
+                my $ErrorMsg = "Invalid value for Parameter $Key', not a number.";
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $ErrorMsg,
+                );
+
+                return {
+                    Success => 0,
+                    Error   => $ErrorMsg,
+                };
+            }
+            return {
+                Success => 1,
+                Value   => $Value,
+            };
+        },
+
+        # validate an integer
+        integer => sub {
+
+            my (%Param) = @_;
+
+            my $Key     = $Param{Key};
+            my $Value   = $Param{Value};
+            my $Default = $Param{Default};
+
+            my $CheckResult = Kernel::System::VariableCheck::IsInteger($Value);
+            if ( !$CheckResult ) {
+
+                my $ErrorMsg = "Invalid value for Parameter $Key', not an integer.";
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $ErrorMsg,
+                );
+
+                return {
+                    Success => 0,
+                    Error   => $ErrorMsg,
+                };
+            }
+            return {
+                Success => 1,
+                Value   => $Value,
+            };
+        },
+
+        # validate a positive integer
+        positive_integer => sub {
+
+            my (%Param) = @_;
+
+            my $Key     = $Param{Key};
+            my $Value   = $Param{Value};
+            my $Default = $Param{Default};
+
+            my $CheckResult = Kernel::System::VariableCheck::IsPositiveInteger($Value);
+            if ( !$CheckResult ) {
+
+                my $ErrorMsg = "Invalid value for Parameter $Key', not a positive integer.";
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $ErrorMsg,
+                );
+
+                return {
+                    Success => 0,
+                    Error   => $ErrorMsg,
+                };
+            }
+            return {
+                Success => 1,
+                Value   => $Value,
+            };
+        },
+    };
+
+    my $StandardParameters = {
+
+        QueueID => {
+            Check => 'positive_integer',
+
+            # Default => 1
+            # Default => -1  # not defining an default will make it throw
+        },
+        TicketID => {
+            Check => 'positive_integer',
+
+            #Default => 1
+        },
+        ArticleID => {
+            Check => 'positive_integer',
+        },
+
+    };
+
+    return bless {
+        Validators         => $Validators,
+        StandardParameters => $StandardParameters,
+    }, $Type;
 }
 
 =head2 CheckError()
@@ -334,6 +480,130 @@ sub StringClean {
     }
 
     return $Param{StringRef};
+}
+
+=head2 Validate()
+
+    Validate incoming request parameters. This is used from K/S/W/Request.pm.
+
+    my $Result = $CheckItemObject->Validate(
+        Key       => $Key,                 # web request param name
+        Value     => $Value,               # the Value as provided by Plack::Request
+        Default   => $Default,             # default value to use if validation fails,
+                                           # if not present this will throw
+        Validator => $Validator            # which validation strategy to apply,
+                                           # eg 'positive_integer' or a regex
+                                           # specified as qr/^MatchMe$/
+
+    );
+
+    where
+
+    $Result = {
+        Success => 0|1,
+        Error   => 'Some Message',         # if Success == 0
+        Value   => validate value          # if Success == 1
+    }
+
+    returns the validated value if validation has passed, otherwise returns
+    Default value if specified, or throws an exception.
+
+=cut
+
+sub Validate {
+
+    my ( $Self, %Param ) = @_;
+
+    my $Value     = $Param{Value};
+    my $Default   = $Param{Default};
+    my $Validator = $Param{Validator};
+
+    if ( ref($Validator) eq 'Regexp' ) {
+
+        return $Self->ValidateRegex(%Param);
+    }
+    else {
+
+        my $ValidationSub = $Self->{Validators}->{$Validator};
+
+        if ( !$ValidationSub ) {
+
+            return {
+                Success => 0,
+                Error   => "Invalid Validator, Validator sub '$Validator' does not exist .",
+            };
+
+        }
+        return $ValidationSub->(%Param);
+    }
+}
+
+=head2 ValidateRegex()
+
+    Validate incoming request parameters against a regex.
+
+    my $Value = $CheckItemObject->ValidateRegex(
+        Key       => $Key,                 # web request param name
+        Value     => $Value,               # the Value as provided by Plack::Request
+        Default   => $Default,             # default value to use if validation fails,
+                                           # if not present this will throw
+        Validator => $Validator            # a regex specified as qr/^MatchMe$/
+
+    );
+
+    returns the validated value if validation has passed, otherwise returns
+    Default value if specified, or throws an exception.
+
+=cut
+
+sub ValidateRegex {
+
+    my ( $Self, %Param ) = @_;
+
+    my $Key     = $Param{Key};
+    my $Value   = $Param{Value} // '';
+    my $Default = $Param{Default};
+    my $RegEx   = $Param{Validator};
+
+    my $CheckResult = $Value =~ m/$RegEx/;    # make it anchored by default, eg surround with ^..$ ?
+    if ( !$CheckResult ) {
+
+        my $ErrorMsg = "Invalid value for Parameter $Key', does not match regex.";
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $ErrorMsg,
+        );
+
+        return {
+            Success => 0,
+            Error   => $ErrorMsg,
+        };
+    }
+
+    return {
+        Success => 1,
+        Value   => $Value,
+    };
+}
+
+=head2 GetDefaultValidator()
+
+    Get default validator for given known Web Request parameter (eg TicketID).
+
+    my $Validator = $CheckItemObject->GetDefaultValidator(
+        Key       => $Key,                 # web request param name
+    );
+
+=cut
+
+sub GetDefaultValidator {
+
+    my ( $Self, %Param ) = @_;
+
+    my $Key = $Param{Key};
+
+    return $Self->{StandardParameters}->{$Key};
 }
 
 1;
