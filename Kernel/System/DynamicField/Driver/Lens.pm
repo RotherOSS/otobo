@@ -738,17 +738,15 @@ sub GetFieldState {
 
     my %FieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
         %Param,
-        InitialRun      => 1,
-        NeedsReset      => $NeedsReset,    # to bypass checks in reference driver
-        ACLPreselection => undef,
-        DynamicFields   => {
+        NeedsReset       => $NeedsReset,                                      # to bypass checks in reference driver
+        CachedVisibility => $NeedsReset ? undef : $Param{CachedVisibility},
+        DynamicFields    => {
             $DynamicFieldConfig->{Name} => {
                 $AttributeDFConfig->%*,
                 Name => $DynamicFieldConfig->{Name},
             },
         },
-        PossibleValuesOnly => 1,
-        GetParam           => {
+        GetParam => {
             $Param{GetParam}->%*,
             DynamicField => {
                 $Param{GetParam}{DynamicField}->%*,
@@ -769,6 +767,8 @@ sub GetFieldState {
     }
     if ( IsHashRefWithData( $FieldStates{Sets} ) ) {
 
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
         my $SetValue = defined $AttributeFieldValue
             ? $AttributeFieldValue
             : $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"};
@@ -781,8 +781,6 @@ sub GetFieldState {
         # fill values with data with set value data
         if ( IsArrayRefWithData($SetValue) ) {
             for my $Index ( 0 .. $#{$SetValue} ) {
-
-                my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
                 my $ValueItem = $SetValue->[$Index];
                 my @DFNames   = keys $ValueItem->%*;
