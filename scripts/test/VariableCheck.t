@@ -97,6 +97,12 @@ my @NumberVariables = (
     Number13 => '1.E2.2',
     Number14 => '1.-e1',
     Number15 => '1€+1',
+
+    # tests with non-ASCII characters
+    CircledOne       => '➀',    # ➀ - U+02780 - DINGBAT CIRCLED SANS-SERIF DIGIT ONE, does not match /\d/
+    OneAndCircledOne => '1➀',
+    ArabicOne        => '١',    # ١- U+00661 - ARABIC-INDIC DIGIT ONE, matches /\d/
+    OneAndArabicOne  => '1١',
 );
 
 # test variables for ipv6 tests
@@ -780,10 +786,11 @@ TestTheTypeTester( 'IsHashRefWithData', $TestVariables, $ExpectedTestResults );
 
 # IsInteger
 $ExpectedTestResults = {
-    String  => 1,
-    Number1 => 1,
-    Number2 => 1,
-    Number3 => 1,
+    String          => 1,
+    Number1         => 1,
+    Number2         => 1,
+    Number3         => 1,
+    OneAndArabicOne => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -836,18 +843,20 @@ TestTheTypeTester( 'IsMD5Sum', $TestVariables, $ExpectedTestResults );
 
 # IsNumber
 $ExpectedTestResults = {
-    String   => 1,
-    Number1  => 1,
-    Number2  => 1,
-    Number3  => 1,
-    Number4  => 1,
-    Number5  => 1,
-    Number6  => 1,
-    Number7  => 1,
-    Number8  => 1,
-    Number9  => 1,
-    Number10 => 1,
-    Number11 => 1,
+    String          => 1,
+    Number1         => 1,
+    Number2         => 1,
+    Number3         => 1,
+    Number4         => 1,
+    Number5         => 1,
+    Number6         => 1,
+    Number7         => 1,
+    Number8         => 1,
+    Number9         => 1,
+    Number10        => 1,
+    Number11        => 1,
+    ArabicOne       => 1,
+    OneAndArabicOne => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -857,8 +866,9 @@ TestTheTypeTester( 'IsNumber', $TestVariables, $ExpectedTestResults );
 
 # IsPositiveInteger
 $ExpectedTestResults = {
-    Number1 => 1,
-    Number2 => 1,
+    Number1         => 1,
+    Number2         => 1,
+    OneAndArabicOne => 1,
 };
 $TestVariables = {
     @CommonVariables,
