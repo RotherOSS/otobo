@@ -27,7 +27,6 @@
         <div class="[% Data.FieldClasses %]">
             [% Data.Content %]
         </div>
-        <div class="Clear"></div>
     </div>
 [% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
     <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
