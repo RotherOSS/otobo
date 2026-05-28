@@ -1280,6 +1280,8 @@ sub GetFieldState {
             );
         }
 
+        # PossibleValues are needed for display value in frontend
+        #   e.g. '"Tina Tester" <tina@example.com>' (CustomerUser MailString) vs. 'tina' (CustomerUserID)
         if ($ValueChanged) {
             return (
                 NewValue       => \@CheckedValues,
