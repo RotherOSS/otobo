@@ -765,24 +765,26 @@ sub GetFieldState {
     if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} } && exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues} ) {
         $FieldStates{PossibleValues}->%* = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues}->%*;
     }
-    if ( IsHashRefWithData( $FieldStates{Sets} ) ) {
 
-        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-        my $SetValue = defined $AttributeFieldValue
-            ? $AttributeFieldValue
-            : $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"};
-
-        # get set inner dynamic fields from attribute field
-        my $InnerDynamicFields = $Self->_GetIncludedDynamicFields(
-            InputFieldDefinition => $AttributeDFConfig->{Config}{Include},
-        );
+    # necessary clean-up to avoid interference with GetFieldState mechanism in FieldRestrictions modules
+    if ( !IsHashRefWithData( $FieldStates{Sets} ) ) {
+        delete $FieldStates{Sets};
+    }
+    elsif ($NeedsReset) {
 
         # fill values with data with set value data
-        if ( IsArrayRefWithData($SetValue) ) {
-            for my $Index ( 0 .. $#{$SetValue} ) {
+        if ( IsArrayRefWithData($AttributeFieldValue) ) {
 
-                my $ValueItem = $SetValue->[$Index];
+            my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+            # get set inner dynamic fields from attribute field
+            my $InnerDynamicFields = $Self->_GetIncludedDynamicFields(
+                InputFieldDefinition => $AttributeDFConfig->{Config}{Include},
+            );
+
+            for my $Index ( 0 .. $#{$AttributeFieldValue} ) {
+
+                my $ValueItem = $AttributeFieldValue->[$Index];
                 my @DFNames   = keys $ValueItem->%*;
 
                 for my $DFName (@DFNames) {
@@ -812,33 +814,25 @@ sub GetFieldState {
             }
         }
 
-        if ($NeedsReset) {
+        my $SetValueCount     = IsArrayRefWithData( $FieldStates{NewValue} ) ? scalar $FieldStates{NewValue}->@* : 1;
+        my $CompleteFieldName = $DynamicFieldConfig->{Name} . ( $DynamicFieldConfig->{ProcessSuffix} || '' );
 
-            my $SetValueCount     = IsArrayRefWithData( $FieldStates{NewValue} ) ? scalar $FieldStates{NewValue}->@* : 1;
-            my $CompleteFieldName = $DynamicFieldConfig->{Name} . ( $DynamicFieldConfig->{ProcessSuffix} || '' );
-
-            # add count of Set values for adding the correct number of fields in the frontend
-            $FieldStates{Sets}{ $DynamicFieldConfig->{Name} } = {
-                DynamicFieldConfig => {
-                    $AttributeDFConfig->%*,
-                    Name => $DynamicFieldConfig->{Name},
+        # add count of Set values for adding the correct number of fields in the frontend
+        $FieldStates{Sets}{ $DynamicFieldConfig->{Name} } = {
+            DynamicFieldConfig => {
+                $AttributeDFConfig->%*,
+                Name => $DynamicFieldConfig->{Name},
+            },
+            FieldStates => {
+                $CompleteFieldName => {
+                    PossibleValues  => undef,
+                    NotACLReducible => 1,
                 },
-                FieldStates => {
-                    $CompleteFieldName => {
-                        PossibleValues  => undef,
-                        NotACLReducible => 1,
-                    },
-                },
-                Values => {
-                    $CompleteFieldName => $SetValueCount,
-                },
-            };
-        }
-    }
-
-    # necessary clean-up to avoid interference with GetFieldState mechanism in FieldRestrictions modules
-    else {
-        delete $FieldStates{Sets};
+            },
+            Values => {
+                $CompleteFieldName => $SetValueCount,
+            },
+        };
     }
 
     return %FieldStates;
