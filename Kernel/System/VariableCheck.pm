@@ -132,7 +132,7 @@ Returns 1 if data matches criteria or undef otherwise.
 sub IsString {
     my $TestData = $_[0];
 
-    return if scalar @_ ne 1;
+    return if scalar @_ != 1;
     return if ref $TestData;
     return unless defined $TestData;
 
@@ -179,7 +179,7 @@ Returns 1 if data matches criteria or undef otherwise.
 sub IsArrayRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_ ne 1;
+    return if scalar @_ != 1;
     return if ref $TestData ne 'ARRAY';
     return if !@{$TestData};
 
@@ -205,7 +205,7 @@ Returns 1 if data matches criteria or undef otherwise.
 sub IsHashRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_ ne 1;
+    return if scalar @_ != 1;
     return if ref $TestData ne 'HASH';
     return if !%{$TestData};
 
@@ -362,7 +362,7 @@ sub IsIPv6Address {
         delete $Parts[-1];
     }
     return if scalar @Parts < 2 || scalar @Parts > 8;
-    return if scalar @Parts ne 8 && $TestData !~ m{ :: }xms;
+    return if scalar @Parts != 8 && $TestData !~ m{ :: }xms;
 
     # handle full addreses
     if ( @Parts == 8 ) {
@@ -533,7 +533,7 @@ sub DataIsDifferent {
         my @B = @{ $Param{Data2} };
 
         # check if the count is different
-        return 1 if $#A ne $#B;
+        return 1 if $#A != $#B;
 
         # compare array
         COUNT:
