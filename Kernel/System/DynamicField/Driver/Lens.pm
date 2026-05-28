@@ -743,7 +743,8 @@ sub GetFieldState {
         DynamicFields    => {
             $DynamicFieldConfig->{Name} => {
                 $AttributeDFConfig->%*,
-                Name => $DynamicFieldConfig->{Name},
+                ProcessSuffix => $DynamicFieldConfig->{ProcessSuffix},
+                Name          => $DynamicFieldConfig->{Name},
             },
         },
         GetParam => {
@@ -789,6 +790,8 @@ sub GetFieldState {
 
                 for my $DFName (@DFNames) {
 
+                    my $SuffixedDFName = $DFName . ( $DynamicFieldConfig->{ProcessSuffix} || '' ) . "_$Index";
+
                     # fill up dynamic field configs of set-inner fields
                     if ( !exists $FieldStates{Sets}{$DFName} ) {
                         $FieldStates{Sets}{$DFName}{DynamicFieldConfig} = $InnerDynamicFields->{$DFName};
@@ -800,15 +803,15 @@ sub GetFieldState {
                         Behavior           => 'IsACLReducible',
                     );
                     if ( !$IsACLReducible ) {
-                        $FieldStates{Sets}{$DFName}{FieldStates}{"${DFName}_${Index}"} = {
+                        $FieldStates{Sets}{$DFName}{FieldStates}{$SuffixedDFName} = {
                             NotACLReducible => 1,
                             PossibleValues  => undef,
                         };
                     }
 
                     # fill up values hash
-                    if ( !exists $FieldStates{Sets}{$DFName}{Values}{"${DFName}_${Index}"} ) {
-                        $FieldStates{Sets}{$DFName}{Values}{"${DFName}_${Index}"} = $ValueItem->{$DFName};
+                    if ( !exists $FieldStates{Sets}{$DFName}{Values}{$SuffixedDFName} ) {
+                        $FieldStates{Sets}{$DFName}{Values}{$SuffixedDFName} = $ValueItem->{$DFName};
                     }
                 }
             }
