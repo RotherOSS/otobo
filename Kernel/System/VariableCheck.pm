@@ -359,7 +359,7 @@ sub IsIPv6Address {
         shift @Parts;
     }
     if ($SkipLast) {
-        delete $Parts[-1];
+        pop @Parts;
     }
     return if scalar @Parts < 2 || scalar @Parts > 8;
     return if scalar @Parts != 8 && $TestData !~ m{ :: }xms;
