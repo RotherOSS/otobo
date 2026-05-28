@@ -26,9 +26,11 @@ fieldset.ModularForm {
     --FormRowGap: 32px;
     --AddRemoveButtonWidth: calc( 14.36 / 14 ) * 1em; /* at 14px font size, the buttons are 14.36px wide */
     --AddRemoveButtonGap: 0.3em;
+    --IconFontSize: 14px;
 
     --AddRemoveButtonRowWidth: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
     --AddRemoveButtonRowSpace: var(--AddRemoveButtonRowWidth) * 0.25; /* space between multivalue buttons and fields */
+    --FieldEndWhitespace: calc( var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace) );
 
     position: relative; /* to allow for positioning and sizing relative to the fieldset */
     display: flex;
@@ -58,17 +60,11 @@ fieldset.ModularForm .FieldCell {
 }
 
 fieldset.ModularForm .Field {
-    width: calc(100% - (var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace)));
+    width: calc(100% - var(--FieldEndWhitespace));
 }
 
 fieldset.ModularForm label {
-    max-width: calc(
-        100% - (
-            var(--AddRemoveButtonRowWidth) + 
-            var(--AddRemoveButtonRowSpace) +
-            var(--HorizontalInputFieldPadding) * 2
-        )
-    );
+    max-width: calc( 100% - ( var(--FieldEndWhitespace) + var(--HorizontalInputFieldPadding) * 2 ) );
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -103,33 +99,29 @@ div.TooltipErrorMessage {
 .AJAXLoader {
     display: inline-block;
     width: 0px;
-    height: 14px;
-    margin-bottom: 18px;
-    margin-left: 0px;
+    height: var(--IconFontSize);
     position: relative;
-    vertical-align: bottom;
 }
 
 .AJAXLoader:after {
     -webkit-animation: fa-spin 2s infinite linear;
     animation: fa-spin 2s infinite linear;
     position: absolute;
-    left: 16px;
-    top: 0px;
-    width: 14px;
+    left: calc( var(--IconFontSize) * -0.5 );
+    width: var(--IconFontSize);
     height: 100%;
-    line-height: 14px;
+    line-height: var(--IconFontSize);
     content: "\f1ce";
     font-family: FontAwesome;
-    font-size: 14px;
+    font-size: var(--IconFontSize);
     color: #7f809d;
     color: var(--colTextLight);
 }
 
-.FieldCell .AJAXLoader {
+.FieldCell .AJAXLoader {   
     position: absolute;
-    right: 42px;
-    top: 23px;
+    right: calc( var(--FieldEndWhitespace) + 8px + (var(--IconFontSize) / 2) );
+    top: calc( (var(--FieldCellHeight) / 2) - (var(--IconFontSize) / 2) );
 }
 
 /**
