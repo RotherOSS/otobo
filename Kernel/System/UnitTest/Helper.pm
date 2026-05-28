@@ -185,7 +185,9 @@ sub GetRandomNumber {
 
     my $Prefix = $PID . substr time(), -5, 5;
 
-    return $Prefix . sprintf( '%.05d', ( $GetRandomNumberPrevious{$Prefix}++ || 0 ) );
+    my $Counter = sprintf '%.05d', ( $GetRandomNumberPrevious{$Prefix}++ || 0 );
+
+    return "$Prefix$Counter";
 }
 
 =head2 GetSequentialTwoLetterString()
