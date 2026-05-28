@@ -42,37 +42,45 @@
             <input type="hidden" name="DynamicFieldID" value="[% Data.DynamicFieldID | html %]">
             <input type="hidden" name="ActivityDialogID" value="[% Data.ActivityDialogID | html %]">
 
-            <fieldset class="TableLike FixedLabel SpacingTop">
+            <fieldset class="ModularForm TableLike FixedLabel SpacingTop">
 
 [% RenderBlockStart("SearchField") %]
-                <div id="Field_[% Data.FieldName | html %]">
-                    <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
-                    <div class="Field">
-                        <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
-                        <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                <div class="Row">
+                    <div id="Field_[% Data.FieldName | html %]" class="FieldCell">
+                        <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
+                            <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                        </div>
                     </div>
                 </div>
 [% RenderBlockEnd("SearchField") %]
 [% RenderBlockStart("SearchFieldHidden") %]
-                <div id="Field_[% Data.FieldName | html %]" class="Hidden">
-                    <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
-                    <div class="Field">
-                        <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
-                        <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                <div class="Row">
+                    <div id="Field_[% Data.FieldName | html %]" class="Hidden FieldCell">
+                        <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
+                            <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                        </div>
                     </div>
                 </div>
 [% RenderBlockEnd("SearchFieldHidden") %]
 
             </fieldset>
 
-            <fieldset class="TableLike FixedLabel SpacingTop">
+            <fieldset class="ModularForm TableLike FixedLabel SpacingTop">
 
 [% RenderBlockStart("SearchFieldList") %]
-                <label for="[% Data.FieldName | html %]">[% Translate("Add an additional attribute") | html %]:</label>
-                <div class="Field">
-                    [% Data.SearchFieldList %]
-                    <a href="#" id="AddValue" class="AddButton" title="[% Translate("Add value") | html %]"> <i class="fa fa-plus-square-o"></i></a>
+                <div class="Row">
+                    <div class="FieldCell">
+                        <label for="[% Data.FieldName | html %]">[% Translate("Add an additional attribute") | html %]:</label>
+                        <div class="Field">
+                            [% Data.SearchFieldList %]
+                            <a href="#" id="AddValue" class="AddButton" title="[% Translate("Add value") | html %]"> <i class="fa fa-plus-square-o"></i></a>
+                        </div>
                     </div>
+                </div>
 [% RenderBlockEnd("SearchFieldList") %]
 
                 </fieldset>
