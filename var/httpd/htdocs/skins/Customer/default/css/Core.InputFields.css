@@ -79,13 +79,11 @@ fieldset.Columns .Column .InputField_ListContainer div {
 }
 
 /*
- * @subsection label
+ * @subsection labels
  */
 
 /* default styling */
 label,
-/* input:read-only ~ label, need readonly class */
-/* textarea:read-only ~ label, need readonly class */
 .Field.RichTextField:hover ~ label,
 .Field.RichTextField:focus ~ label {
 
@@ -128,17 +126,17 @@ label,
 
 /* hover, filled and focus form label styling */
 .Field:hover ~ label,
-.DynamicFieldDB:hover ~ label, /*TODO:test*/
-.InputField_Container:hover ~ label, /*TODO:test*/
 .Field.oooFull ~ label,
 .Field.oooSelected ~ label,
-input.DynamicFieldDB.oooFull ~ label, /* TODO: test */
-.oooDateContainer > input[type='checkbox']:checked ~ label,
+.Field.oooReadonly ~ label,
 label.oooFocus,
 .Field ~ label.oooFocus,
+.DynamicFieldDB:hover ~ label, /*TODO:test*/
+input.DynamicFieldDB.oooFull ~ label, /* TODO: test */
 .DynamicFieldDB:hover ~ label.oooFocus, /*TODO:test*/
-.InputField_Container ~ label.oooFocus, /*TODO:test*/
-.FieldCell .Field.DFSetOuterField + label {
+.oooDateContainer > input[type='checkbox']:checked ~ label /* TODO: test */,
+.FieldCell .Field.DFSetOuterField + label
+{
     border-radius: var(--FieldBorderRadius);
     top: 0;
     font-size: 10px;
@@ -147,21 +145,20 @@ label.oooFocus,
     background-color: var(--BaseBackgroundColor);
 }
 
-/* hover and filled form label color */
+/* hover, readonly and filled form label color */
 .FieldCell > .Field:hover ~ label,
-.FieldCell .DynamicFieldDB:hover ~ label, /*TODO:test*/
-.InputField_Container:hover ~ label, /*TODO:test*/
 .FieldCell > .Field.oooFull ~ label,
 .FieldCell > .Field.oooSelected ~ label,
-.FieldCell input.DynamicFieldDB.oooFull ~ label /*TODO:test*/{
+.Field.oooReadonly ~ label
+.FieldCell .DynamicFieldDB:hover ~ label, /*TODO:test*/
+.FieldCell input.DynamicFieldDB.oooFull ~ label { /* TODO: test */
     color: var(--colTextLight);
 }
 
 /* focus form label color */
 label.oooFocus,
 .FieldCell > .Field ~ label.oooFocus,
-.FieldCell > .DynamicFieldDB:hover ~ label.oooFocus, /*TODO:test*/
-.InputField_Container ~ label.oooFocus /*TODO:test*/ {
+.FieldCell > .DynamicFieldDB:hover ~ label.oooFocus { /*TODO:test*/
     color: var(--colMainLight);
 }
 

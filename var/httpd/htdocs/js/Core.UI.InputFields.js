@@ -329,6 +329,11 @@ Core.UI.InputFields = (function (TargetNS) {
             return;
         }
 
+        // add readonly class to fields
+        $(Element).find('input, textarea, select').filter('[readonly]').each(function() {
+            $(this).closest('.Field').addClass('oooReadonly');
+        });
+
         var Label = $(Element).children('label').first(),
             Checkbox = $('.Field > input[type=checkbox]', Element),
             Select = $('.Field > select', Element),
@@ -370,6 +375,9 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         TextInput.focus( function() {
+            if ( $(this).prop('readonly') ) {
+                return 1;
+            }
             Label.addClass('oooFocus');
         });
         TextInput.blur( function() {
