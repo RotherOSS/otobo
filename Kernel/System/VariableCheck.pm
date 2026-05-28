@@ -299,7 +299,7 @@ sub IsIPv4Address {
     my @Parts = split /\./, $TestData;
 
     # four parts delimited by '.' needed
-    return unless scalar @Part eq 4;
+    return unless @Parts == 4;
 
     for my $Part (@Parts) {
 
@@ -365,7 +365,7 @@ sub IsIPv6Address {
     return if scalar @Parts ne 8 && $TestData !~ m{ :: }xms;
 
     # handle full addreses
-    if ( scalar @Parts eq 8 ) {
+    if ( @Parts == 8 ) {
         my $EmptyPart;
         PART:
         for my $Part (@Parts) {
