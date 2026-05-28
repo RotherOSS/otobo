@@ -30,8 +30,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
 $Selenium->RunTest(
     sub {
 
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'CustomerFrontend::Module###CustomerTicketSearch',
