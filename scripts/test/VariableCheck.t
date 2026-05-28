@@ -561,7 +561,7 @@ my @IPv6Variables = (
     IPv6452 => '::ffff:257.1.2.3',
     IPv6453 => 'XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:1.2.3.4',
     IPv6454 => 'XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX',
-    IPv6455 => '0:0:0:0:0:0:0:४',            # ४ - U+0096A - DEVANAGARI DIGIT FOUR
+    IPv6455 => '0:0:0:0:0:0:0:४',                                   # ४ - U+0096A - DEVANAGARI DIGIT FOUR
 );
 
 # expected results for ipv6 tests
@@ -751,7 +751,6 @@ my @IPv6Results = (
     #        IPv6149 => 1,
     #        IPv6150 => 1,
     IPv6151 => 1,
-    IPv6455 => 1,
 );
 
 # test variables for ipv4 tests
@@ -789,11 +788,10 @@ TestTheTypeTester( 'IsHashRefWithData', $TestVariables, $ExpectedTestResults );
 
 # IsInteger
 $ExpectedTestResults = {
-    String          => 1,
-    Number1         => 1,
-    Number2         => 1,
-    Number3         => 1,
-    OneAndArabicOne => 1,
+    String  => 1,
+    Number1 => 1,
+    Number2 => 1,
+    Number3 => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -803,10 +801,9 @@ TestTheTypeTester( 'IsInteger', $TestVariables, $ExpectedTestResults );
 
 # IsIPv4Address
 $ExpectedTestResults = {
-    IPv41  => 1,
-    IPv42  => 1,
-    IPv43  => 1,
-    IPv411 => 1,
+    IPv41 => 1,
+    IPv42 => 1,
+    IPv43 => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -831,7 +828,6 @@ $ExpectedTestResults = {
     MD5Sum1 => 1,
     MD5Sum2 => 1,
     MD5Sum3 => 1,
-    MD5Sum8 => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -849,20 +845,18 @@ TestTheTypeTester( 'IsMD5Sum', $TestVariables, $ExpectedTestResults );
 
 # IsNumber
 $ExpectedTestResults = {
-    String          => 1,
-    Number1         => 1,
-    Number2         => 1,
-    Number3         => 1,
-    Number4         => 1,
-    Number5         => 1,
-    Number6         => 1,
-    Number7         => 1,
-    Number8         => 1,
-    Number9         => 1,
-    Number10        => 1,
-    Number11        => 1,
-    ArabicOne       => 1,
-    OneAndArabicOne => 1,
+    String   => 1,
+    Number1  => 1,
+    Number2  => 1,
+    Number3  => 1,
+    Number4  => 1,
+    Number5  => 1,
+    Number6  => 1,
+    Number7  => 1,
+    Number8  => 1,
+    Number9  => 1,
+    Number10 => 1,
+    Number11 => 1,
 };
 $TestVariables = {
     @CommonVariables,
@@ -872,9 +866,8 @@ TestTheTypeTester( 'IsNumber', $TestVariables, $ExpectedTestResults );
 
 # IsPositiveInteger
 $ExpectedTestResults = {
-    Number1         => 1,
-    Number2         => 1,
-    OneAndArabicOne => 1,
+    Number1 => 1,
+    Number2 => 1,
 };
 $TestVariables = {
     @CommonVariables,
