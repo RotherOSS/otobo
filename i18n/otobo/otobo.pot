@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-05-13 07:01+0000\n"
+"POT-Creation-Date: 2026-05-26 10:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2179,7 +2179,7 @@ msgid "Type a string to compare the selected attribute of the referenced object 
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Add ReferenceFilter"
+msgid "Add Reference Filter"
 msgstr ""
 
 #. Template: AdminDynamicFieldScreen
@@ -2195,7 +2195,7 @@ msgid "Default Columns Screens"
 msgstr ""
 
 #. Template: AdminDynamicFieldScreen
-msgid "Add DynamicField"
+msgid "Add Dynamic Field"
 msgstr ""
 
 #. Template: AdminDynamicFieldScreen
@@ -3903,7 +3903,7 @@ msgid "Kerberos keytab file"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "The kerberos keytab file for the privileged user."
+msgid "The Kerberos keytab file for the privileged user."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -7471,7 +7471,7 @@ msgid "Deployed Translation"
 msgstr ""
 
 #. Template: AdminTranslations
-msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
+msgid "Changes made here only affect the system behavior after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
 msgstr ""
 
 #. Template: AdminTranslations
@@ -10407,15 +10407,7 @@ msgid " Anyone with access to this page, or read permission for the OTOBO Home D
 msgstr ""
 
 #. Template: Intro
-msgid "If you need support, just ask our experts – either at"
-msgstr ""
-
-#. Template: Intro
-msgid "OTOBO forum"
-msgstr ""
-
-#. Template: Intro
-msgid "or directly via mail to"
+msgid "If you need support, just ask our experts – either at %sOTOBO forum%s or directly via mail to %ssales@otobo.io%s."
 msgstr ""
 
 #. Template: Intro
@@ -11919,7 +11911,7 @@ msgid "Missing Dynamic Field."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
-msgid "No valid dynamic field \"%s.\""
+msgid "No valid dynamic field \"%s\"."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
@@ -14471,7 +14463,7 @@ msgid "Registration for tile '%s' of CustomerDashboard is invalid! Order needs t
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
+msgid "Registration for tile %s of customer dashboard is invalid! Either Module or Template needed."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
@@ -15591,7 +15583,7 @@ msgid "Select the group of the agents."
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
-msgid "External-source key"
+msgid "External source key"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
@@ -15791,7 +15783,7 @@ msgid "Need OTRSData->%s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Can't access OTRS Home: %s!"
+msgid "Can't access OTRS home directory: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
@@ -15827,7 +15819,7 @@ msgid "Check if OTOBO and OTRS connect is possible."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Can't open RELEASE file from OTRSHome: %s!"
+msgid "Can't open RELEASE file from OTRS home directory: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -15895,11 +15887,11 @@ msgid "Migrate configuration settings."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occurred during SysConfig data migration or no configuration exists."
+msgid "An error occurred during system configuration data migration or no configuration exists."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occurred during SysConfig migration when writing XML to DB."
+msgid "An error occurred during system configuration migration when writing XML to DB."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -15919,7 +15911,7 @@ msgid "Migrate database table notification."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
+msgid "Can't open Kernel/Config.pm file from OTRS home directory: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
@@ -15931,7 +15923,7 @@ msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Check if we are able to connect to OTRS Home."
+msgid "Check if we are able to connect to OTRS home directory."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
@@ -18698,10 +18690,6 @@ msgid "Activate the public frontend."
 msgstr ""
 
 #. SysConfig
-msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
-msgstr ""
-
-#. SysConfig
 msgid "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr ""
 
@@ -18711,6 +18699,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
+msgstr ""
+
+#. SysConfig
+msgid "Activates rendering of dynamic fields outside of the dynamic field block."
 msgstr ""
 
 #. SysConfig
@@ -19566,11 +19558,11 @@ msgid "Collect support data for asynchronous plug-in modules."
 msgstr ""
 
 #. SysConfig
-msgid "Color definitions for Agent interface highcontrast skin."
+msgid "Color definitions for agent interface high contrast skin."
 msgstr ""
 
 #. SysConfig
-msgid "Color definitions for Customer Interface highcontrast skin."
+msgid "Color definitions for customer interface high contrast skin."
 msgstr ""
 
 #. SysConfig
@@ -19926,7 +19918,15 @@ msgid "Customer Companies"
 msgstr ""
 
 #. SysConfig
+msgid "Customer Company"
+msgstr ""
+
+#. SysConfig
 msgid "Customer Dashboard"
+msgstr ""
+
+#. SysConfig
+msgid "Customer Dashboard Info Tile"
 msgstr ""
 
 #. SysConfig
@@ -20043,14 +20043,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
-
-#. SysConfig
-msgid "CustomerCompany"
-msgstr ""
-
-#. SysConfig
-msgid "CustomerDashboard Info Tile"
 msgstr ""
 
 #. SysConfig
@@ -22014,6 +22006,10 @@ msgid "Dynamic Field Labels"
 msgstr ""
 
 #. SysConfig
+msgid "Dynamic Field Screen"
+msgstr ""
+
+#. SysConfig
 msgid "Dynamic Field Set"
 msgstr ""
 
@@ -22223,10 +22219,6 @@ msgstr ""
 
 #. SysConfig
 msgid "DynamicField object registration."
-msgstr ""
-
-#. SysConfig
-msgid "DynamicFieldScreen"
 msgstr ""
 
 #. SysConfig
@@ -22526,7 +22518,7 @@ msgid "Fields of the customer company index, used for the company fulltext searc
 msgstr ""
 
 #. SysConfig
-msgid "Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!"
+msgid "Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!"
 msgstr ""
 
 #. SysConfig
@@ -22538,7 +22530,7 @@ msgid "Fields stored in the customer user index which are used for other things 
 msgstr ""
 
 #. SysConfig
-msgid "Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!"
+msgid "Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!"
 msgstr ""
 
 #. SysConfig
@@ -22690,6 +22682,10 @@ msgid "Full value"
 msgstr ""
 
 #. SysConfig
+msgid "Fulltext Elasticsearch"
+msgstr ""
+
+#. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
 msgstr ""
 
@@ -22699,10 +22695,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
-
-#. SysConfig
-msgid "FulltextES"
 msgstr ""
 
 #. SysConfig
@@ -25394,6 +25386,10 @@ msgid "Show optional parameters in parameter list, too. If disabled, the optiona
 msgstr ""
 
 #. SysConfig
+msgid "Show or Hide Deleted Articles"
+msgstr ""
+
+#. SysConfig
 msgid "Show or Hide deleted articles."
 msgstr ""
 
@@ -25419,10 +25415,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Show various content."
-msgstr ""
-
-#. SysConfig
-msgid "ShowHideDeletedArticles"
 msgstr ""
 
 #. SysConfig
@@ -26514,11 +26506,11 @@ msgid "Tickets."
 msgstr ""
 
 #. SysConfig
-msgid "Tile registration for the CustomerDashboard. Module is required."
+msgid "Tile registration for the customer dashboard. Module is required."
 msgstr ""
 
 #. SysConfig
-msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
+msgid "Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
 msgstr ""
 
 #. SysConfig
@@ -26718,7 +26710,7 @@ msgid "We are performing scheduled maintenance. We should be back online shortly
 msgstr ""
 
 #. SysConfig
-msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
+msgid "We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgstr ""
 
 #. SysConfig

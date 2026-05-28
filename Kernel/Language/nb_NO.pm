@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.937723480333731;
+    $Self->{Completeness}        = 0.935469448584203;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -759,13 +759,13 @@ sub Data {
         'matches string' => '',
         'Type a string to compare the selected attribute of the referenced object against.' =>
             '',
-        'Add ReferenceFilter' => '',
+        'Add Reference Filter' => '',
 
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => 'Håndtering av dynamiske felt <-> skjermer',
         'Overview' => 'Oversikt',
         'Default Columns Screens' => 'Skjermer for standard kolonner',
-        'Add DynamicField' => 'Legg til dynamisk felt',
+        'Add Dynamic Field' => '',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
             'Du kan tilordne elementer til denne skjermen/feltet ved å dra elementene med musen fra venstre liste til høyre liste.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
@@ -1323,7 +1323,7 @@ sub Data {
         'The password for the privileged user.' => 'Passordet for den priviligerte brukeren.',
         'Kerberos User' => '',
         'Kerberos keytab file' => '',
-        'The kerberos keytab file for the privileged user.' => '',
+        'The Kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => 'Bruk proxy-alternativer',
         'Show or hide Proxy options to connect to the remote system.' => 'Vis eller skjul proxy-alternativer for å koble til det eksterne systemet.',
         'Proxy Server' => 'Proxy server',
@@ -2525,7 +2525,7 @@ sub Data {
         'Editing Translation' => '',
         'Translation Marked for Deletion' => '',
         'Deployed Translation' => '',
-        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+        'Changes made here only affect the system behavior after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
             '',
         'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
             '',
@@ -3579,9 +3579,8 @@ sub Data {
             'Alle angitte passord bufres til migreringen er fullført.',
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
             ' Alle med tilgang til denne siden, eller lesetillatelse for OTOBO Home Directory vil kunne lese dem. Hvis du avbryter migreringen, får du muligheten til å tømme hurtigbufferen ved å besøke denne siden igjen.',
-        'If you need support, just ask our experts – either at' => 'Hvis du trenger støtte, spør ekspertene våre – enten på',
-        'OTOBO forum' => 'OTOBO forum',
-        'or directly via mail to' => 'eller direkte på mail til',
+        'If you need support, just ask our experts – either at %sOTOBO forum%s or directly via mail to %ssales@otobo.io%s.' =>
+            '',
         'Cached data found' => 'Bufret data funnet',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Du fortsetter der du avbrøt migreringen forrige gang. Hvis du ikke ønsker dette, vennligst forkast din tidligere fremgang.',
@@ -4156,7 +4155,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
-        'No valid dynamic field "%s."' => '',
+        'No valid dynamic field "%s".' => '',
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
@@ -5058,8 +5057,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
             '',
-        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
-            'Registrering for flis %s av CustomerDashboard er ugyldig! Enten modul eller mal er nødvendig.',
+        'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
         'Need Key!' => 'Trenger nøkkel!',
@@ -5553,7 +5552,7 @@ sub Data {
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => '',
         'Select the group of the agents.' => '',
-        'External-source key' => '',
+        'External source key' => '',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             '',
 
@@ -5636,7 +5635,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Need OTRSData->%s!' => 'Trenger OTRSData->%s!',
-        'Can\'t access OTRS Home: %s!' => 'Får ikke tilgang til OTRS-hjemmesiden: %s!',
+        'Can\'t access OTRS home directory: %s!' => '',
         'All needed files copied and migrated, perfect!' => 'Alle nødvendige filer kopiert og migrert, perfekt!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -5649,7 +5648,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
         'Check if OTOBO version is correct.' => 'Sjekk om OTOBO-versjonen er riktig.',
         'Check if OTOBO and OTRS connect is possible.' => 'Sjekk om OTOBO og OTRS-tilkobling er mulig.',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => 'Kan ikke åpne RELEASE-filen fra OTRSHome: %s!',
+        'Can\'t open RELEASE file from OTRS home directory: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => 'Sjekk om OTOBO- og OTRS-versjonen er riktig.',
         '%s does not exist!' => '%s eksisterer ikke!',
         'No OTOBO system found!' => 'Ingen OTOBO-system funnet!',
@@ -5672,10 +5671,10 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migrer konfigurasjonsinnstillinger.',
-        'An error occurred during SysConfig data migration or no configuration exists.' =>
-            'Det oppstod en feil under SysConfig-datamigrering eller ingen konfigurasjon eksisterer.',
-        'An error occurred during SysConfig migration when writing XML to DB.' =>
-            'Det oppstod en feil under SysConfig-migrering ved skriving av XML til DB.',
+        'An error occurred during system configuration data migration or no configuration exists.' =>
+            '',
+        'An error occurred during system configuration migration when writing XML to DB.' =>
+            '',
         'SysConfig data migration completed.' => 'SysConfig-datamigrering fullført.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5686,10 +5685,11 @@ sub Data {
         'Migrate database table notification.' => 'Varsling om migrering av databasetabell.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-        'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => 'Kan ikke åpne Kernel/Config.pm-filen fra OTRSHome: %s!',
+        'Can\'t open Kernel/Config.pm file from OTRS home directory: %s!' =>
+            '',
         'Check if Kernel/Config.pm exists in OTOBO home.' => 'Sjekk om Kernel/Config.pm finnes i OTOBO home.',
         'Kernel/Config.pm exists in OTOBO home' => 'Kernel/Config.pm finnes i OTOBO-hjemmet',
-        'Check if we are able to connect to OTRS Home.' => 'Sjekk om vi er i stand til å koble til OTRS Home.',
+        'Check if we are able to connect to OTRS home directory.' => '',
         'Can\'t connect to OTRS file directory.' => 'Kan ikke koble til OTRS-filkatalogen.',
         'Connect to OTRS file directory is possible.' => 'Koble til OTRS filkatalog er mulig.',
 
@@ -6879,13 +6879,13 @@ Ditt Helpdesk-team
         'Activate Elasticsearch.' => 'Aktiver Elasticsearch.',
         'Activate the customer frontend.' => 'Aktiver kundegrensesnittet.',
         'Activate the public frontend.' => 'Aktiver den offentlige frontend.',
-        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
-            'Aktiverer gjengivelse av DynamicFields utenfor DynamicField-blokken.',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Slår på en blinke-mekanisme for den køen som har den eldste saken.',
         'Activates lost password feature for agents, in the agent interface.' =>
             'Slår på glemt-passord-funksjonalitet for saksbehandlere.',
         'Activates lost password feature for customers.' => 'Slår på glemt-passord-funksjonalitet for kundebrukere.',
+        'Activates rendering of dynamic fields outside of the dynamic field block.' =>
+            '',
         'Activates support for customer and customer user groups.' => 'Aktiverer støtte for kunde- og kundebrukergrupper.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
             'Slår på innleggsfilteret i zoom-visningen for å spesifisere hvilke innlegg som skal vises.',
@@ -7189,8 +7189,9 @@ Ditt Helpdesk-team
         'Cloud service admin module registration for the transport layer.' =>
             'Cloud service admin modul registrering for transportlaget.',
         'Collect support data for asynchronous plug-in modules.' => 'Samle støttedata for asynkrone plug-in-moduler.',
-        'Color definitions for Agent interface highcontrast skin.' => '',
-        'Color definitions for Customer Interface highcontrast skin.' => '',
+        'Color definitions for agent interface high contrast skin.' => '',
+        'Color definitions for customer interface high contrast skin.' =>
+            '',
         'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
             '',
         'Color definitions for the customer interface.' => 'Fargedefinisjoner for kundegrensesnittet.',
@@ -7306,7 +7307,9 @@ Ditt Helpdesk-team
             'Egendefinert tekst for siden som vises til kunder som ikke har saker ennå (hvis du trenger teksten oversatt, legg dem til i en tilpasset oversettelsesmodul).',
         'Customer Administration' => 'Kundeadministrasjon',
         'Customer Companies' => 'Kundefirma',
+        'Customer Company' => '',
         'Customer Dashboard' => 'Kunde Dashboard',
+        'Customer Dashboard Info Tile' => '',
         'Customer Dynamic Field Database Detailed Search' => 'Kundens dynamiske feltdatabase detaljert søk',
         'Customer Dynamic Field Database Details' => 'Kundens dynamiske feltdatabasedetaljer',
         'Customer Dynamic Field Database Search' => 'Kundens dynamiske feltdatabasesøk',
@@ -7338,8 +7341,6 @@ Ditt Helpdesk-team
         'Customer ticket search.' => 'Kundesakssøk.',
         'Customer ticket zoom' => 'Kundesakszoom',
         'Customer user search' => 'Kundebrukersøk',
-        'CustomerCompany' => '',
-        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => 'Kunde-ID-søk',
         'CustomerName' => 'Kundenavn',
         'CustomerUser' => 'KundeBruker',
@@ -8216,6 +8217,7 @@ Ditt Helpdesk-team
         'Dynamic Field Contents' => '',
         'Dynamic Field Information' => '',
         'Dynamic Field Labels' => '',
+        'Dynamic Field Screen' => '',
         'Dynamic Field Set' => '',
         'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => 'Dynamic Fields Checkbox Backend GUI',
@@ -8304,7 +8306,6 @@ Ditt Helpdesk-team
         'DynamicField' => 'Dynamisk felt',
         'DynamicField backend registration.' => 'Dynamisk felt-backend-registrering.',
         'DynamicField object registration.' => 'Dynamisk felt-objektregistrering.',
-        'DynamicFieldScreen' => 'DynamicFieldScreen',
         'DynamicField_%s' => 'Dynamisk felt_%s',
         'E-Mail Outbound' => 'Utgående e-post',
         'Edit Customer Companies.' => 'Rediger kundebedrifter.',
@@ -8411,14 +8412,14 @@ Ditt Helpdesk-team
             'Henter pakker via proxy. Overskriver "WebUserAgent::Proxy".',
         'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
             'Felter i kundebedriftsindeksen, brukt for selskapets fulltekstsøk. Felt lagres også, men er ikke obligatoriske for den generelle funksjonaliteten.',
-        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
-            'Felter i saksindeksen, brukt for saksfulltekstsøk. Felt lagres også, men er ikke obligatoriske for den generelle funksjonaliteten. Hvis det legges til felt som kan oppdateres (spesielt DynamicFields), må deres respektive oppdateringshendelse legges til TicketManagement-oppkalleren til Elasticsearch-netttjenesten!',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
+            '',
         'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             'Felt lagret i kundebedriftsindeksen som brukes til andre ting enn fulltekstsøk. For fullstendig funksjonalitet er alle felt obligatoriske.',
         'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             'Felt lagret i kundebrukerindeksen som brukes til andre ting enn fulltekstsøk. For fullstendig funksjonalitet er alle felt obligatoriske.',
-        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
-            'Felt lagret i saksindeksen som brukes til andre ting enn fulltekstsøk. For fullstendig funksjonalitet er alle felt obligatoriske. Hvis det legges til felt som kan oppdateres (spesielt DynamicFields), må deres respektive oppdateringshendelse legges til TicketManagement-oppkalleren til Elasticsearch-netttjenesten!',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
+            '',
         'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
             'Felter som skal søkes i saksregisteret. Felt lagres også, men er ikke obligatoriske for den generelle funksjonaliteten.',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
@@ -8472,10 +8473,10 @@ Ditt Helpdesk-team
         'Frontend module registration for the customer interface.' => 'Frontend-modulregistrering for kundegrensesnittet.',
         'Frontend module registration for the public interface.' => 'Modulregistrering for den offentlige delen.',
         'Full value' => 'Full verdi',
+        'Fulltext Elasticsearch' => '',
         'Fulltext index regex filters to remove parts of the text.' => 'Fulltekstindeksregex-filtre for å fjerne deler av teksten.',
         'Fulltext search' => 'Fulltekst-søk',
         'Fulltext search using Elasticsearch.' => 'Fulltekstsøk med Elasticsearch.',
-        'FulltextES' => 'FulltekstES',
         'Galician' => 'Galisisk',
         'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -9501,6 +9502,7 @@ Ditt Helpdesk-team
         'Show command line output.' => 'Vis kommandolinjeutdata.',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
             '',
+        'Show or Hide Deleted Articles' => '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => 'Vis køer selv når kun låste billetter er inne.',
         'Show the current owner in the customer interface.' => 'Vis gjeldende eier i kundegrensesnittet.',
@@ -9508,7 +9510,6 @@ Ditt Helpdesk-team
         'Show the history for this ticket' => 'Vis historikken for denne billetten',
         'Show the ticket history' => 'Vis saks-historikk',
         'Show various content.' => 'Vis forskjellig innhold.',
-        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             'Viser en telling av vedlegg i billettzoom, hvis artikkelen har vedlegg.',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9936,9 +9937,9 @@ Ditt Helpdesk-team
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
             'Saker i følgende køer vil ikke bli lagret på Elasticsearch-serveren. For å bruke dette på eksisterende saker, må saksmigreringen kjøres via konsollen, etter å ha endret dette alternativet.',
         'Tickets.' => 'Saker.',
-        'Tile registration for the CustomerDashboard. Module is required.' =>
-            'Flisregistrering for CustomerDashboard. Modul er nødvendig.',
-        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
+        'Tile registration for the customer dashboard. Module is required.' =>
+            '',
+        'Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
             '',
@@ -10009,7 +10010,7 @@ Ditt Helpdesk-team
             'Vi utfører et planlagt vedlikehold. Innlogging er for øyeblikket ikke tilgjengelig.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Vi utfører et planlagt vedlikehold. Sidene vil være tilgjengelig om ikke så lat for lenge.',
-        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
+        'We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
             '',
         'Web Service' => 'Nettjeneste',
         'Web Services' => 'Webtjenester',
