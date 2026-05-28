@@ -296,12 +296,12 @@ sub IsIPv4Address {
     return unless IsStringWithData(@_);
     return unless $TestData =~ m{ \A [\d\.]+ \z }xms;
 
-    my @Part = split /\./, $TestData;
+    my @Parts = split /\./, $TestData;
 
     # four parts delimited by '.' needed
     return unless scalar @Part eq 4;
 
-    for my $Part (@Part) {
+    for my $Part (@Parts) {
 
         # allow numbers 0 to 255, no leading zeroes
         return unless $Part =~ m{
@@ -354,21 +354,21 @@ sub IsIPv6Address {
         $TestData .= 'X';
         $SkipLast = 1;
     }
-    my @Part = split /:/, $TestData;
+    my @Parts = split /:/, $TestData;
     if ($SkipFirst) {
-        shift @Part;
+        shift @Parts;
     }
     if ($SkipLast) {
-        delete $Part[-1];
+        delete $Parts[-1];
     }
-    return if scalar @Part < 2 || scalar @Part > 8;
-    return if scalar @Part ne 8 && $TestData !~ m{ :: }xms;
+    return if scalar @Parts < 2 || scalar @Parts > 8;
+    return if scalar @Parts ne 8 && $TestData !~ m{ :: }xms;
 
     # handle full addreses
-    if ( scalar @Part eq 8 ) {
+    if ( scalar @Parts eq 8 ) {
         my $EmptyPart;
         PART:
-        for my $Part (@Part) {
+        for my $Part (@Parts) {
             if ( $Part eq '' ) {
                 return if $EmptyPart;
                 $EmptyPart = 1;
@@ -381,7 +381,7 @@ sub IsIPv6Address {
     # handle shorthand addresses
     my $ShortHandUsed;
     PART:
-    for my $Part (@Part) {
+    for my $Part (@Parts) {
         next PART if $Part eq 'X';
 
         # empty part means shorthand - do we already have more than one consecutive empty parts?
