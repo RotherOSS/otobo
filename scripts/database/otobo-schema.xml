@@ -2424,6 +2424,9 @@
     <Unique Name="pm_activity_entity_id">
         <UniqueColumn Name="entity_id"/>
     </Unique>
+    <ForeignKey ForeignTable="pm_process">
+        <Reference Local="process_entity_id" Foreign="entity_id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
@@ -2446,6 +2449,9 @@
     <Unique Name="pm_activity_dialog_entity_id">
         <UniqueColumn Name="entity_id"/>
     </Unique>
+    <ForeignKey ForeignTable="pm_process">
+        <Reference Local="process_entity_id" Foreign="entity_id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
@@ -2468,6 +2474,9 @@
     <Unique Name="pm_transition_entity_id">
         <UniqueColumn Name="entity_id"/>
     </Unique>
+    <ForeignKey ForeignTable="pm_process">
+        <Reference Local="process_entity_id" Foreign="entity_id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
@@ -2490,6 +2499,9 @@
     <Unique Name="pm_transition_action_entity_id">
         <UniqueColumn Name="entity_id"/>
     </Unique>
+    <ForeignKey ForeignTable="pm_process">
+        <Reference Local="process_entity_id" Foreign="entity_id"/>
+    </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
