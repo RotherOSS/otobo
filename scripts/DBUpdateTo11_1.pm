@@ -98,6 +98,10 @@ sub Run {
             Name   => 'Deactivates the system configuration setting for CustomerTicketSearch per default.',
             Module => 'SysConfigDeactivateCustomerTicketSearch',
         },
+        {
+            Name   => 'Migrate DynamicField namespaces to new system configuration structure.',
+            Module => 'SysConfigMigrateDynamicFieldNamespaces',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
