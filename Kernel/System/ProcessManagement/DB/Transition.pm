@@ -85,7 +85,7 @@ returns the id of the created Transition if success or undef otherwise
         Config          => $ConfigHashRef,         # mandatory, transition configuration to be stored in
                                                    #   YAML format
         Namespace       => 'Namespace',            # optional
-        ProcessEntityID => 123,                    # optional
+        ProcessEntityID => 'P1',                   # optional
         UserID          => 123,                    # mandatory
     );
 
@@ -279,7 +279,7 @@ Returns:
         Name            => 'some name',
         Config          => $ConfigHashRef,
         Namespace       => 'Namespace',
-        ProcessEntityID => 123,
+        ProcessEntityID => 'P1',
         CreateTime      => '2012-07-04 15:08:00',
         ChangeTime      => '2012-07-04 15:08:00',
     };
@@ -396,7 +396,7 @@ returns 1 if success or undef otherwise
         Config          => $ConfigHashRef,     # mandatory, transition configuration to be stored in
                                                #   YAML format
         Namespace       => 'Namespace',        # optional
-        ProcessEntityID => 123,                # optional
+        ProcessEntityID => 'P1',               # optional
         UserID          => 123,                # mandatory
     );
 
@@ -640,7 +640,7 @@ Returns:
             Name            => 'some name',
             Config          => $ConfigHashRef,
             Namespace       => 'Namespace',
-            ProcessEntityID => 123,
+            ProcessEntityID => 'P1',
             CreateTime      => '2012-07-04 15:08:00',
             ChangeTime      => '2012-07-04 15:08:00',
         }
@@ -650,7 +650,7 @@ Returns:
             Name            => 'some name',
             Config          => $ConfigHashRef,
             Namespace       => 'Namespace',
-            ProcessEntityID => 123,
+            ProcessEntityID => 'P1',
             CreateTime      => '2012-07-04 15:09:00',
             ChangeTime      => '2012-07-04 15:09:00',
         }

@@ -86,7 +86,7 @@ returns the id of the created activity if success or undef otherwise
         Config          => $ConfigHashRef,   # mandatory, activity configuration to be stored in YAML
                                              #   format
         Namespace       => 'Namespace',      # optional
-        ProcessEntityID => 123,              # optional
+        ProcessEntityID => 'P1',             # optional
         UserID          => 123,              # mandatory
     );
 
@@ -264,7 +264,7 @@ Returns:
         Name            => 'some name',
         Config          => $ConfigHashRef,
         Namespace       => 'Namespace',
-        ProcessEntityID => 123,
+        ProcessEntityID => 'P1',
         ActiviyDialogs  => ['AD1','AD2','AD3'],
         CreateTime      => '2012-07-04 15:08:00',
         ChangeTime      => '2012-07-04 15:08:00',
@@ -276,7 +276,7 @@ Returns:
         Name             => 'some name',
         Config          => $ConfigHashRef,
         Namespace       => 'Namespace',
-        ProcessEntityID => 123,
+        ProcessEntityID => 'P1',
         ActivityDialogs => {
             'AD1' => 'ActivityDialog1',
             'AD2' => 'ActivityDialog2',
@@ -434,7 +434,7 @@ returns 1 if success or undef otherwise
         Config          => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
                                             #   format
         Namespace       => 'Namespace',     # optional
-        ProcessEntityID => 123,             # optional
+        ProcessEntityID => 'P1',            # optional
         UserID          => 123,             # mandatory
     );
 
@@ -658,7 +658,7 @@ Returns:
             Name            => 'some name',
             Config          => $ConfigHashRef,
             Namespace       => 'Namespace',
-            ProcessEntityID => 123,
+            ProcessEntityID => 'P1',
             ActiviyDialogs  => ['AD1','AD2','AD3'],
             CreateTime      => '2012-07-04 15:08:00',
             ChangeTime      => '2012-07-04 15:08:00',
@@ -669,7 +669,7 @@ Returns:
             Name            => 'some name',
             Config          => $ConfigHashRef,
             Namespace       => 'Namespace',
-            ProcessEntityID => 123,
+            ProcessEntityID => 'P1',
             ActiviyDialogs  => ['AD3','AD4','AD5'],
             CreateTime      => '2012-07-04 15:09:00',
             ChangeTime      => '2012-07-04 15:09:00',
