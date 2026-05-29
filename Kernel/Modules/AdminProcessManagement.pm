@@ -971,7 +971,7 @@ sub Run {
             $ConfigPath{ $ElementMap->{Activity}->{$ActivityEntityID} || $ActivityEntityID } = \%PathList;
         }
 
-        # set final config value
+        # set final config path value
         $ProcessData->{Config}->{Path} = \%ConfigPath;
 
         # save new layout and config and return to overview screen
