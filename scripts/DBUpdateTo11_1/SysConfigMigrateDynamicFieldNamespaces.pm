@@ -29,6 +29,7 @@ use List::Util qw(any);
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
