@@ -107,8 +107,6 @@
 [% RenderBlockEnd("AvailableActivityDialogRow") %]
                             </ul>
                             <div class="SpacingTop">
-#                                <button>[% Translate("Create New Activity Dialog") | html %]</button>
-<!-- TODO Re-implemented as link, but it can be a button if needed (button is disabled by leading #)  -->
                                 <a href="#" data-entity="" data-id="" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogNew" class="CallForAction AsPopup_Redirect" ><span>[% Translate("Create New Activity Dialog") | html %]</span></a>
 
 
