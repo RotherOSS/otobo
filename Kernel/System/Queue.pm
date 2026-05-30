@@ -152,8 +152,12 @@ sub GetSystemAddress {
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
 
     return if !$DBObject->Prepare(
-        SQL => 'SELECT sa.value0, sa.value1 FROM system_address sa, queue sq '
-            . 'WHERE sq.id = ? AND sa.id = sq.system_address_id',
+        SQL => <<'END_SQL',
+SELECT sa.value0, sa.value1
+  FROM system_address sa, queue sq
+  WHERE sq.id = ?
+    AND sa.id = sq.system_address_id
+END_SQL
         Bind  => [ \$QueueID ],
         Limit => 1,
     );
@@ -161,7 +165,7 @@ sub GetSystemAddress {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Address{Email} = $Row[0];
 
-        # Return the unquoted phrase for use with Kernel::System::EmailAddress.
+        # Return the unquoted phrase which can be used with Kernel::System::EmailAddress.
         $Address{Phrase} = $Row[1];
     }
 
