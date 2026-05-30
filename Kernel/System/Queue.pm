@@ -64,12 +64,10 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
-
-    $Self->{QueueID} = $Param{QueueID} || '';
 
     $Self->{CacheType} = 'Queue';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -149,7 +147,7 @@ sub GetSystemAddress {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my %Address;
-    my $QueueID = $Param{QueueID} || $Self->{QueueID};
+    my $QueueID = $Param{QueueID};
 
     return if !$DBObject->Prepare(
         SQL => <<'END_SQL',
@@ -821,6 +819,7 @@ add queue with attributes
 sub QueueAdd {
     my ( $Self, %Param ) = @_;
 
+    # apply the default values which have been set up in the constructor
     # check if this request is from web and not from command line
     if ( !$Param{NoDefaultValues} ) {
         for (
@@ -829,11 +828,7 @@ sub QueueAdd {
             FollowUpID FollowUpLock DefaultSignKey Calendar)
             )
         {
-
-            # I added default values in the Load Routine
-            if ( !$Param{$_} ) {
-                $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
-            }
+            $Param{$_} ||= $Self->{QueueDefaults}->{$_} || 0;
         }
     }
 
