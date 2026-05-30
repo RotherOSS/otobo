@@ -401,10 +401,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.40
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.40.tar.gz
+  Cpanel-JSON-XS-4.41
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.41.tar.gz
     provides:
-      Cpanel::JSON::XS 4.40
+      Cpanel::JSON::XS 4.41
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -2418,7 +2418,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -3061,6 +3060,7 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
+      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -3555,60 +3555,61 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Template-Toolkit-3.105
-    pathname: T/TO/TODDR/Template-Toolkit-3.105.tar.gz
+  Template-Toolkit-3.106
+    pathname: T/TO/TODDR/Template-Toolkit-3.106.tar.gz
     provides:
-      Template 3.105
-      Template::App::ttree 3.105
-      Template::Base 3.105
-      Template::Config 3.105
-      Template::Constants 3.105
-      Template::Context 3.105
-      Template::Directive 3.105
-      Template::Document 3.105
-      Template::Exception 3.105
-      Template::Filters 3.105
-      Template::Grammar 3.105
-      Template::Iterator 3.105
-      Template::Monad::Assert 3.105
-      Template::Monad::Scalar 3.105
-      Template::Namespace::Constants 3.105
-      Template::Parser 3.105
-      Template::Perl 3.105
-      Template::Plugin 3.105
-      Template::Plugin::Assert 3.105
-      Template::Plugin::Datafile 3.105
-      Template::Plugin::Date 3.105
-      Template::Plugin::Date::Calc 3.105
-      Template::Plugin::Date::Manip 3.105
-      Template::Plugin::Directory 3.105
-      Template::Plugin::Dumper 3.105
-      Template::Plugin::File 3.105
-      Template::Plugin::Filter 3.105
-      Template::Plugin::Format 3.105
-      Template::Plugin::HTML 3.105
-      Template::Plugin::Image 3.105
-      Template::Plugin::Iterator 3.105
-      Template::Plugin::Math 3.105
-      Template::Plugin::Pod 3.105
-      Template::Plugin::Procedural 3.105
-      Template::Plugin::Scalar 3.105
-      Template::Plugin::String 3.105
-      Template::Plugin::Table 3.105
-      Template::Plugin::URL 3.105
-      Template::Plugin::View 3.105
-      Template::Plugin::Wrap 3.105
-      Template::Plugins 3.105
-      Template::Provider 3.105
-      Template::Service 3.105
-      Template::Stash 3.105
-      Template::Stash::Context 3.105
+      Template 3.106
+      Template::App::ttree 3.106
+      Template::Base 3.106
+      Template::Config 3.106
+      Template::Constants 3.106
+      Template::Context 3.106
+      Template::Directive 3.106
+      Template::Document 3.106
+      Template::Exception 3.106
+      Template::Filters 3.106
+      Template::Grammar 3.106
+      Template::Iterator 3.106
+      Template::Monad::Assert 3.106
+      Template::Monad::Scalar 3.106
+      Template::Namespace::Constants 3.106
+      Template::Parser 3.106
+      Template::Perl 3.106
+      Template::Plugin 3.106
+      Template::Plugin::Assert 3.106
+      Template::Plugin::Datafile 3.106
+      Template::Plugin::Date 3.106
+      Template::Plugin::Date::Calc 3.106
+      Template::Plugin::Date::Manip 3.106
+      Template::Plugin::Directory 3.106
+      Template::Plugin::Dumper 3.106
+      Template::Plugin::File 3.106
+      Template::Plugin::Filter 3.106
+      Template::Plugin::Format 3.106
+      Template::Plugin::HTML 3.106
+      Template::Plugin::Image 3.106
+      Template::Plugin::Iterator 3.106
+      Template::Plugin::List 3.106
+      Template::Plugin::Math 3.106
+      Template::Plugin::Pod 3.106
+      Template::Plugin::Procedural 3.106
+      Template::Plugin::Scalar 3.106
+      Template::Plugin::String 3.106
+      Template::Plugin::Table 3.106
+      Template::Plugin::URL 3.106
+      Template::Plugin::View 3.106
+      Template::Plugin::Wrap 3.106
+      Template::Plugins 3.106
+      Template::Provider 3.106
+      Template::Service 3.106
+      Template::Stash 3.106
+      Template::Stash::Context 3.106
       Template::Stash::XS undef
-      Template::Test 3.105
-      Template::TieString 3.105
-      Template::Toolkit 3.105
-      Template::VMethods 3.105
-      Template::View 3.105
+      Template::Test 3.106
+      Template::TieString 3.106
+      Template::Toolkit 3.106
+      Template::VMethods 3.106
+      Template::View 3.106
     requirements:
       AppConfig 1.56
       ExtUtils::MakeMaker 6.48
@@ -4511,7 +4512,6 @@ DISTRIBUTIONS
       Net::LDAPS 0.06
     requirements:
       Convert::ASN1 0.2
-      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
