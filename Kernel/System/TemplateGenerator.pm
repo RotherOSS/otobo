@@ -323,7 +323,7 @@ sub Sender {
         QueueID => $Param{QueueID},
     );
 
-    # This is the not quoted RealName
+    # This is the not quoted real name
     my $Phrase = $Address{Phrase};
 
     # check config for agent real name
@@ -360,12 +360,12 @@ sub Sender {
         }
     }
 
-    # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
+    # Format sender real name and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     return $EmailAddressObject->Format(
-        Realname => $Phrase,
+        RealName => $Phrase,
         Address  => $Address{Email},
     );
 }
@@ -1921,7 +1921,7 @@ sub _Replace {
 
         if ( $DataType eq 'OTOBO_CUSTOMER_' ) {
 
-            # get and prepare realname
+            # get and prepare real name
             $Tag = $Start . 'OTOBO_CUSTOMER_REALNAME';
             if ( $Param{Text} =~ /$Tag$End/i ) {
 
