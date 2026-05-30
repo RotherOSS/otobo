@@ -668,7 +668,7 @@ sub Run {
                 $CountAux         = $CountFrom . 'Error';
             }
 
-            my $Phrase      = $EmailAddressObject->GetRealname( AddressObject => $Email ) || '';
+            my $Phrase      = $EmailAddressObject->GetRealName( AddressObject => $Email ) || '';
             my $CustomerKey = '';
             if (
                 defined $CustomerDataFrom{UserEmail}
