@@ -664,7 +664,7 @@ sub SendAutoResponse {
     # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
     my $From = $EmailAddressObject->Format(
-        Realname => $AutoResponse{SenderRealname},
+        RealName => $AutoResponse{SenderRealname},
         Address  => $AutoResponse{SenderAddress},
     );
 

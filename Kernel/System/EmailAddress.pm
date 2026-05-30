@@ -211,7 +211,7 @@ or
 or
 
     my $FormattedAddress = $EmailAddressObject->Format(
-        Realname => 'Ben 🐛 Bugfinder',
+        RealName => 'Ben 🐛 Bugfinder',
         Address => 'bugfinder@testanything.org'
     );
 
@@ -249,9 +249,9 @@ sub Format {
     }
 
     # alternatively the phrase and the address can be passed
-    if ( $Param{Realname} || $Param{Address} ) {
+    if ( $Param{RealName} || $Param{Address} ) {
         return Email::Address::XS->new(
-            phrase  => $Param{Realname},
+            phrase  => $Param{RealName},
             address => $Param{Address},
         )->format;
     }

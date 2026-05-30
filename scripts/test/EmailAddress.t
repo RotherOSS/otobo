@@ -251,7 +251,7 @@ subtest 'Format()' => sub {
     );
 
     is(
-        $EmailAddressObject->Format( Realname => 'Ben 🐛 Bugfinder' ),
+        $EmailAddressObject->Format( RealName => 'Ben 🐛 Bugfinder' ),
         '',
         'only the phrase'
     );
@@ -264,7 +264,7 @@ subtest 'Format()' => sub {
 
     is(
         $EmailAddressObject->Format(
-            Realname => 'Ben 🐛 Bugfinder',
+            RealName => 'Ben 🐛 Bugfinder',
             Address  => 'bugfinder@testanything.org'
         ),
         '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
