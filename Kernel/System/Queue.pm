@@ -79,10 +79,8 @@ sub new {
         $Self->{PreferencesObject} = $GeneratorModule->new();
     }
 
-    # --------------------------------------------------- #
-    #  default queue settings                             #
-    #  these settings are used by the CLI version         #
-    # --------------------------------------------------- #
+    # default queue settings                             #
+    # these settings are used by the CLI version         #
     $Self->{QueueDefaults} = {
         Calendar            => '',
         UnlockTimeout       => 0,
@@ -822,13 +820,13 @@ sub QueueAdd {
     # apply the default values which have been set up in the constructor
     # check if this request is from web and not from command line
     if ( !$Param{NoDefaultValues} ) {
-        for (
+        for my $Key (
             qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
             FollowUpLock SystemAddressID SalutationID SignatureID
             FollowUpID FollowUpLock DefaultSignKey Calendar)
             )
         {
-            $Param{$_} ||= $Self->{QueueDefaults}->{$_} || 0;
+            $Param{$Key} ||= $Self->{QueueDefaults}->{$Key} || 0;
         }
     }
 
