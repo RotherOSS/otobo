@@ -1336,7 +1336,7 @@ sub ArticleGet {
                 ADDRESS_OBJECT:
                 for my $AddressObject ( $EmailAddressObject->ParseAddressLine( Line => $Data{$Key} ) ) {
                     my $Name =
-                        $EmailAddressObject->GetRealname( AddressObject => $AddressObject )
+                        $EmailAddressObject->GetRealName( AddressObject => $AddressObject )
                         ||
                         $EmailAddressObject->GetAddress( AddressObject => $AddressObject );
 
