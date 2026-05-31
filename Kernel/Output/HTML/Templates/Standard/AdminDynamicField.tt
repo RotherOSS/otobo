@@ -55,6 +55,14 @@
                 </div>
             </div>
 [% RenderBlockEnd("DynamicFieldObjectType") %]
+[% RenderBlockStart("DynamicFieldFieldType") %]
+            <div class="Content">
+                [% Data.DynamicFieldTypeStrg %]
+                <div class="FieldExplanation">
+                    <p>[% Translate("Filter field by field type") | html %]</p>
+                </div>
+            </div>
+[% RenderBlockEnd("DynamicFieldFieldType") %]
 [% RenderBlockStart("DynamicFieldNamespace") %]
             <div class="Content">
                 [% Data.DynamicFieldNamespaceStrg %]
