@@ -23,7 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use List::Util qw(any);
+use List::Util qw(any none);
 
 # CPAN modules
 
@@ -210,7 +210,7 @@ sub _Add {
         }
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -327,7 +327,7 @@ sub _AddAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -448,6 +448,14 @@ sub _AddAction {
             },
         );
     }
+    if ( IsStringWithData( $GetParam{FieldTypeFilter} ) ) {
+        $RedirectString .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{FieldTypeFilter},
+            },
+        );
+    }
     if ( IsStringWithData( $GetParam{NamespaceFilter} ) ) {
         $RedirectString .= ";NamespaceFilter=" . $LayoutObject->Output(
             Template => '[% Data.Filter | uri %]',
@@ -476,7 +484,7 @@ sub _Change {
         }
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -608,7 +616,7 @@ sub _ChangeAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -808,6 +816,14 @@ sub _ChangeAction {
             Template => '[% Data.Filter | uri %]',
             Data     => {
                 Filter => $GetParam{ObjectTypeFilter},
+            },
+        );
+    }
+    if ( IsStringWithData( $GetParam{FieldTypeFilter} ) ) {
+        $FilterString .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{FieldTypeFilter},
             },
         );
     }
@@ -1093,7 +1109,7 @@ sub _ShowScreen {
                 }
 
                 # skip if values are undef
-                next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+                next REFERENCEFILTERENTRY if none { defined $_ } values %FilterRow;
 
                 $LayoutObject->Block(
                     Name => 'ReferenceFilterRow',
@@ -1174,6 +1190,15 @@ sub _ShowScreen {
         );
     }
 
+    if ( IsStringWithData( $Param{FieldTypeFilter} ) ) {
+        $FilterStrg .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $Param{FieldTypeFilter},
+            },
+        );
+    }
+
     if ( IsArrayRefWithData($NamespaceList) ) {
         if ( IsStringWithData( $Param{NamespaceFilter} ) ) {
             $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
@@ -1226,7 +1251,7 @@ sub _GetParamReferenceFilterList {
             }
 
             # skip if filter values are undef
-            next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+            next REFERENCEFILTERENTRY if none { defined $_ } values %FilterRow;
 
             # is the reference filter valid?
             # TODO Check selects also

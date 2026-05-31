@@ -122,7 +122,7 @@ sub _Add {
         }
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -198,7 +198,7 @@ sub _AddAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -293,6 +293,14 @@ sub _AddAction {
             },
         );
     }
+    if ( IsStringWithData( $GetParam{FieldTypeFilter} ) ) {
+        $RedirectString .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{FieldTypeFilter},
+            },
+        );
+    }
     if ( IsStringWithData( $GetParam{NamespaceFilter} ) ) {
         $RedirectString .= ";NamespaceFilter=" . $LayoutObject->Output(
             Template => '[% Data.Filter | uri %]',
@@ -321,7 +329,7 @@ sub _Change {
         }
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -362,7 +370,7 @@ sub _Change {
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
-        %${DynamicFieldData},
+        $DynamicFieldData->%*,
         %Config,
         ID             => $FieldID,
         Mode           => 'Change',
@@ -455,7 +463,7 @@ sub _ChangeAction {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+    for my $FilterParam (qw(ObjectTypeFilter FieldTypeFilter NamespaceFilter)) {
         $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
@@ -630,6 +638,14 @@ sub _ChangeAction {
             Template => '[% Data.Filter | uri %]',
             Data     => {
                 Filter => $GetParam{ObjectTypeFilter},
+            },
+        );
+    }
+    if ( IsStringWithData( $GetParam{FieldTypeFilter} ) ) {
+        $FilterString .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{FieldTypeFilter},
             },
         );
     }
@@ -899,6 +915,15 @@ sub _ShowScreen {
             Template => '[% Data.Filter | uri %]',
             Data     => {
                 Filter => $Param{ObjectTypeFilter},
+            },
+        );
+    }
+
+    if ( IsStringWithData( $Param{FieldTypeFilter} ) ) {
+        $FilterStrg .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $Param{FieldTypeFilter},
             },
         );
     }

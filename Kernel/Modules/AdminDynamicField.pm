@@ -142,6 +142,7 @@ sub _ShowOverview {
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
     my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectTypeFilter' ) || '';
+    my $FieldTypeFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FieldTypeFilter' )  || '';
     my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'NamespaceFilter' )  || '';
 
     $Param{IncludeInvalid} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'IncludeInvalid' );
@@ -313,6 +314,27 @@ sub _ShowOverview {
         },
     );
 
+    my %FieldTypeSelection = map {
+        $_ => $LayoutObject->{LanguageObject}->Translate( $FieldTypeConfig->{$_}->{DisplayName} )
+    } keys $FieldTypeConfig->%*;
+
+    my $DynamicFieldTypeStrg = $LayoutObject->BuildSelection(
+        Data         => \%FieldTypeSelection,
+        Name         => 'DynamicFieldFieldType',
+        PossibleNone => 1,
+        Sort         => 'AlphanumericValue',
+        SelectedID   => $FieldTypeFilter,
+        Class        => 'Modernize',
+    );
+
+    $LayoutObject->Block(
+        Name => 'DynamicFieldFieldType',
+        Data => {
+            %Param,
+            DynamicFieldTypeStrg => $DynamicFieldTypeStrg,
+        },
+    );
+
     if ( IsArrayRefWithData($Namespaces) ) {
         my %NamespaceSelection = (
             '<none>' => '<' . $LayoutObject->{LanguageObject}->Translate('none') . '>',
@@ -373,6 +395,7 @@ sub _ShowOverview {
     # get filtered dynamic fields list
     my $DynamicFieldsListFiltered = $DynamicFieldObject->DynamicFieldList(
         ObjectType => $ObjectTypeFilterArrayRef,
+        FieldType  => IsStringWithData($FieldTypeFilter) ? [$FieldTypeFilter] : undef,
         Namespace  => $NamespaceFilter,
         Valid      => $Self->{IncludeInvalid} ? 0 : 1,
     );
@@ -383,6 +406,15 @@ sub _ShowOverview {
             Template => '[% Data.Filter | uri %]',
             Data     => {
                 Filter => $ObjectTypeFilter,
+            },
+        );
+    }
+
+    if ( IsStringWithData($FieldTypeFilter) ) {
+        $FilterStrg .= ";FieldTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $FieldTypeFilter,
             },
         );
     }
