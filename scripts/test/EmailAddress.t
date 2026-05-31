@@ -203,6 +203,46 @@ subtest 'GetRealName()' => sub {
         'with quoted name',
     );
 
+    note 'tests with parts of the phrase in quotes';
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce silver "gold" <medals@olympic.games>} ),
+        'gold',
+        'last word in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce "silver" gold <medals@olympic.games>} ),
+        'bronce silver gold',
+        'middle word in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce "silver gold" <medals@olympic.games>} ),
+        'silver gold',
+        'last two words in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce "silver" "gold" <medals@olympic.games>} ),
+        'silver" "gold',
+        'last two words each in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"bronce silver gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'three words in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"bronce" silver "gold" <medals@olympic.games>} ),
+        'bronce"silver"gold',
+        'first and last word in quotes',
+    );
+
+    note 'tests passing an address object';
+
     is(
         $EmailAddressObject->GetRealName(
             AddressObject => Email::Address::XS->new(
