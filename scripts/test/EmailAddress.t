@@ -193,21 +193,21 @@ subtest 'GetRealName()' => sub {
 
     is(
         $EmailAddressObject->GetRealName( Email => '"Juergen "quoted name" Weber" <juergen.weber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        'with quoted name',
+        'Juergen  quoted name  Weber',
+        q{space after 'Juergen' and before 'Weber' is protected},
     );
 
     is(
         $EmailAddressObject->GetRealName( Email => '"Juergen " quoted name " Weber" <juergen.weber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        'with quoted name',
+        'Juergen  quoted name  Weber',
+        q{space after 'Juergen' and before 'Weber' is protected, other spaces aren't},
     );
 
     note 'tests with parts of the phrase in quotes';
 
     is(
         $EmailAddressObject->GetRealName( Email => q{bronce silver "gold" <medals@olympic.games>} ),
-        'gold',
+        'bronce silver gold',
         'last word in quotes',
     );
 
@@ -219,13 +219,13 @@ subtest 'GetRealName()' => sub {
 
     is(
         $EmailAddressObject->GetRealName( Email => q{bronce "silver gold" <medals@olympic.games>} ),
-        'silver gold',
+        'bronce silver gold',
         'last two words in quotes',
     );
 
     is(
         $EmailAddressObject->GetRealName( Email => q{bronce "silver" "gold" <medals@olympic.games>} ),
-        'silver" "gold',
+        'bronce silver gold',
         'last two words each in quotes',
     );
 
@@ -237,8 +237,20 @@ subtest 'GetRealName()' => sub {
 
     is(
         $EmailAddressObject->GetRealName( Email => q{"bronce" silver "gold" <medals@olympic.games>} ),
-        'bronce"silver"gold',
+        'bronce silver gold',
         'first and last word in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"bronce""silver""gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'each word in quotes, no spaces',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"\\"bronce\\"\\"silver\\"\\"gold\\"" <medals@olympic.games>} ),
+        q{"bronce""silver""gold"},
+        'each word in quoted quotes, no spaces',
     );
 
     note 'tests passing an address object';

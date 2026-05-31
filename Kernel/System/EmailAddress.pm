@@ -169,19 +169,8 @@ sub GetRealName {
         return $Param{AddressObject}->phrase;
     }
 
-    # find "NamePart, NamePart" <some@example.com> (get not recognized by Email::Address::XS)
-    if ( $Param{Email} =~ /"(.+?)"\s+?\<.+?@.+?\..+?\>/ ) {
-        my $RealName = $1;
-
-        # removes unnecessary blank spaces, if the string has quotes.
-        # This is because of bug 6059
-        $RealName =~ s/"\s+?(.+?)\s+?"/"$1"/g;
-
-        return $RealName;
-    }
-
-    # fallback to Email::Address::XS
-    # The real name of the last address is returned, but note that usually only a single address is passed
+    # The real name of the last address is returned,
+    # this is usually fine as usually only a single address is passed.
     my $RealName;
     for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
         $RealName = $EmailSplit->phrase;
