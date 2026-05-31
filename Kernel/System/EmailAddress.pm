@@ -56,10 +56,7 @@ create a service definition module for email addresses. Do not use it directly, 
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
-    return bless {
-        ParseAddressLineCache => {},
-    }, $Type;
+    return bless {}, $Type;
 }
 
 =head2 ParseAddressLine()
@@ -78,13 +75,8 @@ Returns an array of C<Email::Address::XS> objects.
 sub ParseAddressLine {
     my ( $Self, %Param ) = @_;
 
-    my $Line  = $Param{Line};
-    my $Cache = $Self->{ParseAddressLineCache};
-
-    return $Cache->{$Line}->@* if $Cache->{$Line};
-
+    my $Line           = $Param{Line};
     my @AddressObjects = Email::Address::XS->parse($Line);
-    $Cache->{$Line} = \@AddressObjects;
 
     return @AddressObjects;
 }
