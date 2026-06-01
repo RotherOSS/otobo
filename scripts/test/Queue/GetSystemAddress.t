@@ -42,12 +42,12 @@ my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 # First create a system address for testing
 my $RandomID              = $Helper->GetRandomID;
 my $SystemAddressEmail    = join '@', $RandomID, 'example.com';
-my $SystemAddressRealname = 'Testscript ' . basename(__FILE__);
+my $SystemAddressRealname = 'Testscript ' . basename(__FILE__);    # two words, will be quoted in the formatted address
 my %SystemAddressData     = (
     Name     => $SystemAddressEmail,
     Realname => $SystemAddressRealname,
     Comment  => 'some comment',
-    QueueID  => 1,                        # system_address.queueid is not relevant for GetSystemAddress()
+    QueueID  => 1,                                                 # system_address.queueid is not relevant for GetSystemAddress()
     ValidID  => 1,
     UserID   => 1,
 );
@@ -83,9 +83,10 @@ my %InitialSystemAddress = $QueueObject->GetSystemAddress(
 is(
     \%InitialSystemAddress,
     {
-        Email    => $SystemAddressEmail,
-        RealName => $SystemAddressRealname,
-        Phrase   => $SystemAddressRealname,
+        Email            => $SystemAddressEmail,
+        Phrase           => $SystemAddressRealname,
+        FormattedAddress => qq{"$SystemAddressRealname" <$SystemAddressEmail>},
+        RealName         => $SystemAddressRealname,
     },
     'GetSystemAddress() - simple'
 );
@@ -98,9 +99,10 @@ my @Tests = (
             Name => ( $SystemAddressEmail =~ s/@/_changed@/r ),
         ],
         ExpectedSystemAddress => {
-            Email    => qq{${RandomID}_changed\@example.com},
-            RealName => $SystemAddressRealname,
-            Phrase   => $SystemAddressRealname,
+            Email            => qq{${RandomID}_changed\@example.com},
+            RealName         => $SystemAddressRealname,
+            Phrase           => $SystemAddressRealname,
+            FormattedAddress => qq{"$SystemAddressRealname" <${RandomID}_changed\@example.com>},
         },
     },
     {
@@ -110,9 +112,10 @@ my @Tests = (
             Realname => $SystemAddressRealname . '_changed',
         ],
         ExpectedSystemAddress => {
-            Email    => $SystemAddressEmail,
-            RealName => qq{${SystemAddressRealname}_changed},
-            Phrase   => qq{${SystemAddressRealname}_changed},
+            Email            => $SystemAddressEmail,
+            RealName         => qq{${SystemAddressRealname}_changed},
+            Phrase           => qq{${SystemAddressRealname}_changed},
+            FormattedAddress => qq{"${SystemAddressRealname}_changed" <$SystemAddressEmail>},
         },
     },
     {
@@ -122,9 +125,10 @@ my @Tests = (
             Realname => q{Punkt, Komma, Strich},
         ],
         ExpectedSystemAddress => {
-            Email    => $SystemAddressEmail,
-            RealName => qq{"Punkt, Komma, Strich"},
-            Phrase   => qq{Punkt, Komma, Strich},
+            Email            => $SystemAddressEmail,
+            RealName         => qq{"Punkt, Komma, Strich"},
+            Phrase           => qq{Punkt, Komma, Strich},
+            FormattedAddress => qq{"Punkt, Komma, Strich" <$SystemAddressEmail>},
         },
     },
     {
@@ -134,9 +138,62 @@ my @Tests = (
             Realname => q{Punkt: dot},
         ],
         ExpectedSystemAddress => {
-            Email    => $SystemAddressEmail,
-            RealName => qq{"Punkt: dot"},
-            Phrase   => qq{Punkt: dot},
+            Email            => $SystemAddressEmail,
+            RealName         => qq{"Punkt: dot"},
+            Phrase           => qq{Punkt: dot},
+            FormattedAddress => qq{"Punkt: dot" <$SystemAddressEmail>},
+        },
+    },
+    {
+        Line      => __LINE__,
+        Name      => 'phrase with quote',
+        Overrides => [
+            Realname => q{Punkt"dot},
+        ],
+        ExpectedSystemAddress => {
+            Email            => $SystemAddressEmail,
+            RealName         => qq{Punkt"dot},                             # sic, no quotes around phrase, the interior quote is not escaped
+            Phrase           => qq{Punkt"dot},
+            FormattedAddress => qq{"Punkt\\"dot" <$SystemAddressEmail>},
+        },
+    },
+    {
+        Line      => __LINE__,
+        Name      => 'phrase with quote and comma',
+        Overrides => [
+            Realname => q{Punkt",dot},
+        ],
+        ExpectedSystemAddress => {
+            Email            => $SystemAddressEmail,
+            RealName         => qq{"Punkt",dot"},                           # sic, the interior quote is not escaped
+            Phrase           => qq{Punkt",dot},
+            FormattedAddress => qq{"Punkt\\",dot" <$SystemAddressEmail>},
+        },
+    },
+    {
+        Line      => __LINE__,
+        Name      => 'phrase with three quotes',
+        Overrides => [
+            Realname => q{Punkt"""dot},
+        ],
+        ExpectedSystemAddress => {
+            Email            => $SystemAddressEmail,
+            RealName         => qq{Punkt"""dot},
+            Phrase           => qq{Punkt"""dot},                                 # sic, no quotes around phrase, the interior quotes are not escaped
+            FormattedAddress => qq{"Punkt\\"\\"\\"dot" <$SystemAddressEmail>},
+        },
+    },
+    {
+        Line      => __LINE__,
+        Name      => 'phrase with three quotes and a comma',
+        Overrides => [
+            Realname => q{Punkt""",dot},
+        ],
+        ExpectedSystemAddress => {
+            Email            => $SystemAddressEmail,
+            RealName         => qq{"Punkt""",dot"},                               # sic, no quotes around phrase, the interior quotes are not escaped
+            Phrase           => qq{Punkt""",dot},
+            FormattedAddress => qq{"Punkt\\"\\"\\",dot" <$SystemAddressEmail>},
         },
     },
     {
@@ -146,9 +203,10 @@ my @Tests = (
             Realname => q{one two  three   spaces},
         ],
         ExpectedSystemAddress => {
-            Email    => $SystemAddressEmail,
-            RealName => qq{one two  three   spaces},
-            Phrase   => qq{one two  three   spaces},
+            Email            => $SystemAddressEmail,
+            RealName         => qq{one two  three   spaces},
+            Phrase           => qq{one two  three   spaces},
+            FormattedAddress => qq{"one two  three   spaces" <$SystemAddressEmail>},
         },
     },
 );
