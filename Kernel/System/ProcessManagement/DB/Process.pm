@@ -1292,6 +1292,7 @@ sub ProcessDump {
         $ActivityDump{ $ActivityData->{EntityID} } = {
             ID             => $ActivityData->{ID},
             Name           => $ActivityData->{Name},
+            Namespace      => $ActivityData->{Namespace} || '',
             CreateTime     => $ActivityData->{CreateTime},
             ChangeTime     => $ActivityData->{ChangeTime},
             ActivityDialog => $ActivityData->{Config}->{ActivityDialog} || '',
@@ -1310,6 +1311,7 @@ sub ProcessDump {
 
         $ActivityDialogDump{ $ActivityDialogData->{EntityID} } = {
             Name                 => $ActivityDialogData->{Name},
+            Namespace            => $ActivityDialogData->{Namespace} || '',
             CreateTime           => $ActivityDialogData->{CreateTime},
             ChangeTime           => $ActivityDialogData->{ChangeTime},
             Interface            => $ActivityDialogData->{Config}->{Interface}            || '',
@@ -1338,6 +1340,7 @@ sub ProcessDump {
 
         $TransitionDump{ $TransitionData->{EntityID} } = {
             Name             => $TransitionData->{Name},
+            Namespace        => $TransitionData->{Namespace} || '',
             CreateTime       => $TransitionData->{CreateTime},
             ChangeTime       => $TransitionData->{ChangeTime},
             Condition        => $TransitionData->{Config}->{Condition}        || {},
@@ -1357,6 +1360,7 @@ sub ProcessDump {
 
         $TransitionActionDump{ $TransitionActionData->{EntityID} } = {
             Name       => $TransitionActionData->{Name},
+            Namespace  => $TransitionActionData->{Namespace} || '',
             CreateTime => $TransitionActionData->{CreateTime},
             ChangeTime => $TransitionActionData->{ChangeTime},
             Module     => $TransitionActionData->{Config}->{Module} || '',
