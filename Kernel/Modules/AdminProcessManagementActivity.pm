@@ -868,12 +868,13 @@ sub _ShowEdit {
             $LayoutObject->Block(
                 Name => 'AvailableActivityDialogRow',
                 Data => {
-                    ID              => $ActivityDialogData->{ID},
-                    EntityID        => $ActivityDialogData->{EntityID},
-                    ProcessEntityID => $Param{ProcessEntityID},
-                    Name            => $ActivityDialogData->{Name},
-                    Namespace       => $ActivityDialogData->{Namespace},
-                    AvailableIn     => $AvailableIn,
+                    ID                    => $ActivityDialogData->{ID},
+                    EntityID              => $ActivityDialogData->{EntityID},
+                    ProcessEntityID       => $Param{ProcessEntityID},
+                    DialogProcessEntityID => $ActivityDialogData->{ProcessEntityID},
+                    Name                  => $ActivityDialogData->{Name},
+                    Namespace             => $ActivityDialogData->{Namespace},
+                    AvailableIn           => $AvailableIn,
                 },
             );
         }
@@ -905,12 +906,13 @@ sub _ShowEdit {
             $LayoutObject->Block(
                 Name => 'AssignedActivityDialogRow',
                 Data => {
-                    ID              => $ActivityDialogData->{ID},
-                    EntityID        => $ActivityDialogData->{EntityID},
-                    ProcessEntityID => $Param{ProcessEntityID},
-                    Name            => $ActivityDialogData->{Name},
-                    Namespace       => $ActivityDialogData->{Namespace},
-                    AvailableIn     => $AvailableIn,
+                    ID                    => $ActivityDialogData->{ID},
+                    EntityID              => $ActivityDialogData->{EntityID},
+                    ProcessEntityID       => $Param{ProcessEntityID},
+                    DialogProcessEntityID => $ActivityDialogData->{ProcessEntityID},
+                    Name                  => $ActivityDialogData->{Name},
+                    Namespace             => $ActivityDialogData->{Namespace},
+                    AvailableIn           => $AvailableIn,
                 },
             );
         }
@@ -968,12 +970,13 @@ sub _ShowEdit {
             $LayoutObject->Block(
                 Name => 'AvailableActivityDialogRow',
                 Data => {
-                    ID              => $ActivityDialogData->{ID},
-                    EntityID        => $ActivityDialogData->{EntityID},
-                    ProcessEntityID => $Param{ProcessEntityID},
-                    Name            => $ActivityDialogData->{Name},
-                    Namespace       => $ActivityDialogData->{Namespace},
-                    AvailableIn     => $AvailableIn,
+                    ID                    => $ActivityDialogData->{ID},
+                    EntityID              => $ActivityDialogData->{EntityID},
+                    ProcessEntityID       => $Param{ProcessEntityID},
+                    DialogProcessEntityID => $ActivityDialogData->{ProcessEntityID},
+                    Name                  => $ActivityDialogData->{Name},
+                    Namespace             => $ActivityDialogData->{Namespace},
+                    AvailableIn           => $AvailableIn,
                 },
             );
         }
