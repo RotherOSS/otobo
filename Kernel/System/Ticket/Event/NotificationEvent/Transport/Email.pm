@@ -307,7 +307,7 @@ sub SendNotification {
             IsVisibleForCustomer => $IsVisibleForCustomer,
             HistoryType          => 'SendCustomerNotification',
             HistoryComment       => "\%\%$Recipient{UserEmail}",
-            From                 => "$Address{RealName} <$Address{Email}>",
+            From                 => $Address{FormattedAddress},
             To                   => $Recipient{UserEmail},
             Subject              => $Notification{Subject},
             Body                 => $Notification{Body},

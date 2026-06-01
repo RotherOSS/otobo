@@ -281,7 +281,7 @@ $Param{Signature}";
         my %Address = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress(
             QueueID => $Ticket{QueueID},
         );
-        $Article{From} = "$Address{RealName} <$Address{Email}>";
+        $Article{From} = $Address{FormattedAddress};
 
         # get next states
         my %NextStates = $TicketObject->TicketStateList(

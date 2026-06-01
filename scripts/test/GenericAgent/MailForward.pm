@@ -89,7 +89,9 @@ sub Run {
         }
     }
 
-    my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
+    my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress(
+        QueueID => $Ticket{QueueID},
+    );
 
     my $EmailArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
@@ -97,9 +99,9 @@ sub Run {
         %Article,
         Attachment     => \@Attachments,
         To             => scalar $Param{New}->{'TargetAddress'},
-        From           => "$FromQueue{RealName} <$FromQueue{Email}>",
+        From           => $FromQueue{FormattedAddress},
         SenderType     => 'system',
-        SenderTypeID   => undef,                                        # overwrite from %Article
+        SenderTypeID   => undef,                                   # overwrite from %Article
         HistoryType    => 'Forward',
         HistoryComment => 'Email was forwarded.',
         NoAgentNotify  => 1,

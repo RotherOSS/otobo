@@ -468,7 +468,7 @@ sub Run {
         }
 
         my %Address = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
-        $Article{From} = "$Address{RealName} <$Address{Email}>";
+        $Article{From} = $Address{FormattedAddress};
 
         # add salutation and signature to body
         if ( $LayoutObject->{BrowserRichText} ) {
