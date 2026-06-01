@@ -141,6 +141,17 @@ sub Run {
                     && $ActivityDialogsLookup{$ActivityDialogID}->{EntityID}
                     )
                 {
+                    # Check if ActivityDialog is non-global
+                    if ( $ActivityDialogsLookup{$ActivityDialogID}->{ProcessEntityID} ) {
+
+                        # Activity must then also be non-global
+                        if ( $ActivityData->{Global} || $ActivityDialogsLookup{$ActivityDialogID}->{ProcessEntityID} ne $ProcessEntityID ) {
+                            return $LayoutObject->ErrorScreen(
+                                Message => Translatable('Non-global ActivityDialogs may not be assigned to global Activities!'),
+                            );
+                        }
+                    }
+
                     my $EntityID = $ActivityDialogsLookup{$ActivityDialogID}->{EntityID};
 
                     $ConfigActivityDialog{$Counter} = $EntityID;
@@ -392,7 +403,7 @@ sub Run {
                         # Activity must then also be non-global
                         if ( $ActivityData->{Global} || $ActivityDialogsLookup{$ActivityDialogID}->{ProcessEntityID} ne $ProcessEntityID ) {
                             return $LayoutObject->ErrorScreen(
-                                Message => Translatable('There was an invalid ActivityDialog assignment!'),
+                                Message => Translatable('Non-global ActivityDialogs may not be assigned to global Activities!'),
                             );
                         }
                     }
