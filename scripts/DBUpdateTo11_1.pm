@@ -71,6 +71,10 @@ sub Run {
             Module => 'DBUpdateOIDCMail',
         },
         {
+            Name   => 'Add columns for namespace and process entity id to process element tables.',
+            Module => 'DBAddProcessColumns',
+        },
+        {
             Name   => 'Update the list of installed packages',
             Module => 'UninstallMergedPackages',
         },
