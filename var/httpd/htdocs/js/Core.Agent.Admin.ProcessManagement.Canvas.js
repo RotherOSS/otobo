@@ -216,8 +216,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             })
             .on('dblclick.Activity', function() {
                 var ConfigProcess = Core.Config.Get('ConfigProcess'),
-                    Path = ConfigProcess.PopupPathActivity + "EntityID=" + EntityID + ";ID=" + ActivityID,
-                    SessionData = Core.App.GetSessionInformation();
+                    Path = ConfigProcess.PopupPathActivity + "EntityID=" + EntityID + ";ID=" + ActivityID;
 
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(Path, 'Activity');
@@ -554,8 +553,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .show()
             .off('click')
             .on('click', function () {
-                var Path = ConfigProcess.PopupPathActivity + "EntityID=" + ElementID + ";ID=" + Activity[ElementID].ID,
-                    SessionData = Core.App.GetSessionInformation();
+                var Path = ConfigProcess.PopupPathActivity + "EntityID=" + ElementID + ";ID=" + Activity[ElementID].ID;
 
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(Path, 'Activity');
@@ -759,7 +757,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      */
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
 
-        var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+        var Config,
             ConfigProcess = Config = Core.Config.Get('ConfigProcess'),
             ProcessEntityID = $('#ProcessEntityID').val(),
             StartActivity, EndActivity, Connection,
@@ -848,8 +846,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
 
         Connection.bind('dblclick', function(ConnectionObject, Event) {
-            var EndActivityObject = ConnectionObject.endpoints[1],
-                SessionData = Core.App.GetSessionInformation();
+            var EndActivityObject = ConnectionObject.endpoints[1];
+
             // Do not open path dialog for dummy connections
             // dblclick on overlays (e.g. labels) propagate to the connection
             // prevent opening path dialog twice if clicked on label
@@ -875,14 +873,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      */
     TargetNS.HighlightTransitionLabel = function(Connection, StartActivity, EndActivity) {
 
-        var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+        var Config,
             ConfigProcess = Config = Core.Config.Get('ConfigProcess'),
             ProcessEntityID = $('#ProcessEntityID').val(),
             Path = Config.Process[ProcessEntityID].Path,
             TransitionEntityID = Connection.component.getParameter('TransitionID'),
             StartActivityID = Connection.component.sourceId,
-            PopupPath = ConfigProcess.PopupPathPath + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + TransitionEntityID + ";StartActivityID=" + StartActivityID,
-            SessionData = Core.App.GetSessionInformation();
+            PopupPath = ConfigProcess.PopupPathPath + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + TransitionEntityID + ";StartActivityID=" + StartActivityID;
 
         if (TargetNS.DragTransitionAction) {
             $(Connection.canvas).addClass('ReadyToDrop');
