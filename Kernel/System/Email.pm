@@ -301,9 +301,7 @@ sub Send {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Check from
-    if ( !$Param{From} ) {
-        $Param{From} = $ConfigObject->Get('AdminEmail') || 'otobo@localhost';
-    }
+    $Param{From} ||= $ConfigObject->Get('AdminEmail') || 'otobo@localhost';
 
     # Map ReplyTo into Reply-To if present.
     if ( $Param{ReplyTo} ) {
