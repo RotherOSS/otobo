@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use List::Util qw(none);
+use List::Util qw(any none);
 
 # CPAN modules
 
@@ -37,7 +37,9 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Namespace',
     'Kernel::System::Storage::S3',
+    'Kernel::System::SysConfig',
     'Kernel::System::YAML',
     'Kernel::System::ProcessManagement::DB::Entity',
     'Kernel::System::ProcessManagement::DB::Activity',
@@ -1556,6 +1558,9 @@ sub ProcessImport {
         );
     }
 
+    # collect namespaces to add potential missing ones
+    my %ImportNamespaces;
+
     # make sure all activities and dialogs are present
     my @UsedActivityDialogs;
     for my $ActivityEntityID ( @{ $ProcessData->{Process}->{Activities} } ) {
@@ -1572,6 +1577,10 @@ sub ProcessImport {
                 push @UsedActivityDialogs, $UsedActivityDialog;
             }
         }
+
+        if ( $ProcessData->{Activities}{$ActivityEntityID}{Namespace} ) {
+            $ImportNamespaces{ $ProcessData->{Activities}{$ActivityEntityID}{Namespace} } = 1;
+        }
     }
 
     for my $ActivityDialogEntityID (@UsedActivityDialogs) {
@@ -1579,6 +1588,10 @@ sub ProcessImport {
             return (
                 Message => "Missing data for ActivityDialog $ActivityDialogEntityID.",
             );
+        }
+
+        if ( $ProcessData->{ActivityDialogs}{$ActivityDialogEntityID}{Namespace} ) {
+            $ImportNamespaces{ $ProcessData->{ActivityDialogs}{$ActivityDialogEntityID}{Namespace} } = 1;
         }
     }
 
@@ -1589,6 +1602,10 @@ sub ProcessImport {
                 Message => "Missing data for Transition $TransitionEntityID.",
             );
         }
+
+        if ( $ProcessData->{Transitions}{$TransitionEntityID}{Namespace} ) {
+            $ImportNamespaces{ $ProcessData->{Transitions}{$TransitionEntityID}{Namespace} } = 1;
+        }
     }
 
     # make sure all transition actions are present
@@ -1598,6 +1615,93 @@ sub ProcessImport {
                 Message => "Missing data for TransitionAction $TransitionActionEntityID.",
             );
         }
+
+        if ( $ProcessData->{TransitionActions}{$TransitionActionEntityID}{Namespace} ) {
+            $ImportNamespaces{ $ProcessData->{TransitionActions}{$TransitionActionEntityID}{Namespace} } = 1;
+        }
+    }
+
+    # check if new namespaces need to be created and if so, do it
+    my @Namespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
+        Scope => 'ProcessManagement',
+    );
+
+    my @NamespacesToAdd;
+    IMPORTNAMESPACE:
+    for my $ImportNamespace ( keys %ImportNamespaces ) {
+        next IMPORTNAMESPACE if any { $_ eq $ImportNamespace } @Namespaces;
+
+        push @NamespacesToAdd, $ImportNamespace;
+    }
+
+    if (@NamespacesToAdd) {
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        my %ProcessNamespacesSetting = $SysConfigObject->SettingGet(
+            Name => 'Namespaces###ProcessManagement',
+        );
+
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            UserID    => 1,
+            Force     => 1,
+            DefaultID => $ProcessNamespacesSetting{DefaultID},
+        );
+
+        # Update setting with modified data
+        my %Result = $SysConfigObject->SettingUpdate(
+            Name           => 'Namespaces###ProcessManagement',
+            IsValid        => 1,
+            EffectiveValue => [
+                $ProcessNamespacesSetting{EffectiveValue}->@*,
+                @NamespacesToAdd,
+            ],
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => 1,
+        );
+
+        if ( !$Result{Success} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not update setting 'Namespaces###ProcessManagement'.",
+            );
+
+            return;
+        }
+
+        my $Success = $SysConfigObject->SettingUnlock(
+            UserID    => 1,
+            DefaultID => $ProcessNamespacesSetting{DefaultID},
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not unlock setting 'Namespaces###ProcessManagement'.",
+            );
+
+            return;
+        }
+
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+            Comments      => "ProcessImport - update setting 'Namespaces###ProcessManagement' with namespaces of imported process elements.",
+            UserID        => 1,
+            Force         => 1,
+            DirtySettings => ['Namespaces###ProcessManagement'],
+        );
+
+        if ( !$DeploymentResult{Success} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Deployment failed.",
+            );
+
+            return;
+        }
+
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::Config'],
+        );
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     }
 
     my %EntityMapping;
