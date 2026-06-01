@@ -332,7 +332,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         text += "<ul>";
         if (AssignedTransitionActions.length) {
             $.each(AssignedTransitionActions, function (_Key, Value) {
-                text += "<li>" + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + "</li>";
+                let Name = Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name;
+                if ( Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Namespace ) {
+                    Name = Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Namespace + ' – ' + Name;
+                }
+                text += "<li>" + Core.App.EscapeHTML(Name) + "</li>";
             });
         }
         else {
@@ -429,7 +433,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                     SelectedInterface += InterfaceValue.substring(0, 1);
                 });
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " </li>";
+
+                let Name = Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name;
+                if ( Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Namespace ) {
+                    Name = Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Namespace + ' – ' + Name;
+                }
+
+                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Name) + " </li>";
             });
         }
         else {
@@ -496,13 +506,18 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             $delete.hide();
         }
 
+        let Name = Activity[ElementID].Name;
+        if ( Activity[ElementID].Namespace ) {
+            Name = Activity[ElementID].Namespace + ' – ' + Name;
+        }
+
         $Element.append($delete);
 
         $delete
             .show()
             .off('click')
             .on('click', function () {
-                ShowRemoveEntityCanvasConfirmationDialog('Activity', Activity[ElementID].Name, ElementID, function () {
+                ShowRemoveEntityCanvasConfirmationDialog('Activity', Name, ElementID, function () {
                     TargetNS.RemoveActivity(ElementID);
                     Core.UI.Dialog.CloseDialog($('.Dialog'));
                 });
@@ -766,6 +781,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         if (typeof TransitionName === 'undefined') {
             if (Config.Transition && Config.Transition[EntityID]) {
                 TransitionName = Config.Transition[EntityID].Name;
+
+                if ( Config.Transition[EntityID].Namespace ) {
+                    TransitionName = Config.Transition[EntityID].Namespace + ' – ' + TransitionName;
+                }
             }
             else {
                 TransitionName = 'NoName';
@@ -874,9 +893,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             };
         }
 
+        let TransitionName = Config.Transition[TransitionEntityID].Name;
+        if ( Config.Transition[TransitionEntityID].Namespace ) {
+            TransitionName = Config.Transition[TransitionEntityID].Namespace + ' – ' + TransitionName;
+        }
+
         if (!$(Connection.canvas).find('.Delete').length) {
             $(Connection.canvas).append('<a class="Delete" title="' + Core.Language.Translate('Remove the Transition from this Process') + '" href="#"><i class="fa fa-trash-o"></i></a>').find('.Delete').on('click', function(Event) {
-                ShowRemoveEntityCanvasConfirmationDialog('Path', Config.Transition[TransitionEntityID].Name, TransitionEntityID, function () {
+                ShowRemoveEntityCanvasConfirmationDialog('Path', TransitionName, TransitionEntityID, function () {
                     jsPlumb.detach(Connection.component);
                     delete Path[StartActivityID][TransitionEntityID];
                     Core.UI.Dialog.CloseDialog($('.Dialog'));
@@ -989,7 +1013,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Draw all available Activities (Keys of the ProcessData-Path)
         $.each(Config.Process[ProcessEntityID].Path, function (Key) {
             if (typeof Layout[Key] !== 'undefined') {
-                TargetNS.CreateActivity(Key, Config.Activity[Key].Name, Config.Activity[Key].ID, Layout[Key].left, Layout[Key].top);
+                let Name = Config.Activity[Key].Name;
+                if ( Config.Activity[Key].Namespace ) {
+                    Name = Config.Activity[Key].Namespace + ' – ' + Name;
+                }
+                TargetNS.CreateActivity(Key, Name, Config.Activity[Key].ID, Layout[Key].left, Layout[Key].top);
             }
             else {
                 Core.Exception.Throw('Error: Activity without Layout Position!', 'ProcessError');
