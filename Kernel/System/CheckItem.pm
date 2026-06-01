@@ -196,6 +196,8 @@ sub new {
     };
 
     return bless {
+        Error              => undef,                 # only used in CheckEmail()
+        ErrorType          => undef,                 # only used in CheckEmail()
         Validators         => $Validators,
         StandardParameters => $StandardParameters,
     }, $Type;
@@ -203,7 +205,7 @@ sub new {
 
 =head2 CheckError()
 
-get the error of check item back
+gets the error from the last execution of  F<CheckEmail()>
 
     my $Error = $CheckItemObject->CheckError();
 
@@ -217,7 +219,7 @@ sub CheckError {
 
 =head2 CheckErrorType()
 
-get the error's type of check item back
+gets the error type from the last execution of  F<CheckEmail()>
 
     my $ErrorType = $CheckItemObject->CheckErrorType();
 
@@ -254,10 +256,16 @@ The methods also accepts an instance of Email::Address::XS. In this case only th
 
 No cleanup of the address is done.
 
+The error message and the error type can be retrieved with F<CheckError()> and F<ErrorType()>.
+
 =cut
 
 sub CheckEmail {
     my ( $Self, %Param ) = @_;
+
+    # reset error that was possibly set in the last call to CheckEmail()
+    undef $Self->{Error};
+    undef $Self->{ErrorType};
 
     # check needed stuff, existence is used here as Email::Address::XS overrides stringification and boolification
     if ( ( !exists $Param{Address} ) && ( !exists $Param{AddressObject} ) ) {
@@ -403,8 +411,10 @@ sub CheckEmail {
         if ( $RegExp && $Address =~ m/$RegExp/i ) {
             $Self->{Error}     = "invalid $Address (config)!";
             $Self->{ErrorType} = 'InvalidConfig';
+
             return;
         }
+
         return 1;
     }
     else {
