@@ -604,7 +604,7 @@ sub Run {
         # Check if ActivityDialog is local
         if ( $ActivityDialogsLookup{ $Param{ActivityDialog} }->{ProcessEntityID} ) {
 
-            # Activity must be then also be local
+            # Activity must then also be local
             if (
                 !$ActivityData->{ProcessEntityID}
                 || $ActivityDialogsLookup{ $Param{ActivityDialog} }->{ProcessEntityID} ne
