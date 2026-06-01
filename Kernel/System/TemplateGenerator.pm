@@ -856,7 +856,7 @@ sub AutoResponse {
         );
 
         $AutoResponse{SenderAddress}  = $Address{Name};
-        $AutoResponse{SenderRealname} = $Address{Realname};
+        $AutoResponse{SenderRealname} = $Address{Realname};    # Yes, SystemAddress() does not capitalize the 'n'
     }
 
     # get sender attributes based on queue
@@ -867,7 +867,7 @@ sub AutoResponse {
         );
 
         $AutoResponse{SenderAddress}  = $Address{Email};
-        $AutoResponse{SenderRealname} = $Address{RealName};
+        $AutoResponse{SenderRealname} = $Address{RealName};    # Yes, GetSystemAddress() does capitalize the 'N'
     }
 
     # add urls and verify to be full html document
