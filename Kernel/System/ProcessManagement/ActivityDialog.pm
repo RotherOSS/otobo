@@ -19,6 +19,12 @@ package Kernel::System::ProcessManagement::ActivityDialog;
 use strict;
 use warnings;
 
+# core modules
+use List::Util qw(any);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -162,7 +168,7 @@ sub ActivityDialogGet {
         INTERFACE:
         for my $CurrentInterface ( @{ $Param{Interface} } ) {
             if (
-                grep { $CurrentInterface eq $_ }
+                any { $CurrentInterface eq $_ }
                 @{ $ActivityDialog->{ $Param{ActivityDialogEntityID} }->{Interface} }
                 )
             {
@@ -236,7 +242,7 @@ sub ActivityDialogCompletedCheck {
     if ( !$ActivityDialog ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't get ActivtyDialog '$Param{ActivityDialogEntityID}'!",
+            Message  => "Can't get ActivityDialog '$Param{ActivityDialogEntityID}'!",
         );
         return;
     }
@@ -244,7 +250,7 @@ sub ActivityDialogCompletedCheck {
     if ( !$ActivityDialog->{Fields} || ref $ActivityDialog->{Fields} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't get fields for ActivtyDialog '$Param{ActivityDialogEntityID}'!",
+            Message  => "Can't get fields for ActivityDialog '$Param{ActivityDialogEntityID}'!",
         );
         return;
     }
