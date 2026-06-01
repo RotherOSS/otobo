@@ -526,14 +526,29 @@ Core.AJAX = (function (TargetNS) {
             // both hidden and visible input element need to be set
             var $ReferenceElement = $Element.parent().find('.DynamicFieldReference');
             if ( $ReferenceElement.length ) {
-                if ( typeof DataValue == 'object' && DataValue[0] ) {
-                    $Element.val( DataValue[0][0] );
-                    $ReferenceElement.val( DataValue[0][1] );
+
+                // data in a value element consists of:
+                //  0. Key
+                //  1. Value
+                //  2. DefaultSelected
+                //  3. Selected
+                //  4. Disabled
+                let ValueID = '',
+                    ValueDisplay = '';
+                if ( typeof DataValue == 'object' ) {
+
+                    // determine selected value - only one value is expected to be selected
+                    let FilterSelected = DataValue.filter( (Value) => Value[3] == 1 );
+
+                    if ( typeof FilterSelected == 'object' && typeof FilterSelected[0] == 'object' ) {
+                        ValueID = FilterSelected[0][0];
+                        ValueDisplay = FilterSelected[0][1];
+                    }
                 }
-                else {
-                    $Element.val( '' );
-                    $ReferenceElement.val( '' );
-                }
+
+                $Element.val(ValueID);
+                $ReferenceElement.val(ValueDisplay);
+
                 return;
             }
 
@@ -564,6 +579,7 @@ Core.AJAX = (function (TargetNS) {
      *      Toggles visibility of fields
      */
     function HideShowFields(Visibility) {
+
         for ( var i = 0; i < Visibility.length; i++ ) {
             var FieldInfo = Visibility[i],
                 Field = $( '#' + FieldInfo[0] );
@@ -768,8 +784,20 @@ Core.AJAX = (function (TargetNS) {
                 // handle set-inner fields
                 if (InnerFields.length) {
                     let VisibilityStructure = [];
+                    let IsVisible = function(FieldName) {
+
+                        FieldName = FieldName.replace(/(_[0-9]+)*$/,'');
+                        for( var Index = 0; Index < Visibility.length; Index++) {
+                            let VisibilityItem = Visibility[Index];
+                            if(FieldName == VisibilityItem[0] ) {
+                                return VisibilityItem[1] ? 1 : 0;
+                            }
+                        }
+                        return 1;
+                    };
+
                     InnerFields.forEach(function(FieldName) {
-                        VisibilityStructure.push([FieldName, '1']);
+                        VisibilityStructure.push([FieldName, IsVisible(FieldName)]);
                     });
                     HideShowFields(VisibilityStructure);
                 }

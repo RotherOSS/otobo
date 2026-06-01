@@ -149,7 +149,7 @@ sub Run {
         }
 
         my ( %GetParam, %Errors );
-        for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
+        for my $Parameter (qw(ID Name Comment ValidID TemplateType PreSelectedTicketStateID)) {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
@@ -307,7 +307,7 @@ sub Run {
 
         my ( %GetParam, %Errors );
 
-        for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
+        for my $Parameter (qw(ID Name Comment ValidID TemplateType PreSelectedTicketStateID)) {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
@@ -535,6 +535,19 @@ sub _Edit {
         }
     }
 
+    # display template state preselection
+    #   NOTE: visibility only for forward and response handled via JS
+    my %States = $Kernel::OM->Get('Kernel::System::State')->StateList(
+        UserID => $Self->{UserID},
+    );
+    $Param{States} = $LayoutObject->BuildSelection(
+        Data         => \%States,
+        Name         => 'PreSelectedTicketStateID',
+        PossibleNone => 1,
+        SelectedID   => $Param{PreSelectedTicketStateID},
+        Class        => 'Modernize',
+    );
+
     $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
@@ -633,10 +646,20 @@ sub _Overview {
             for my $Key ( sort keys %SelectedAttachmentData ) {
                 push @SelectedAttachment, $Key;
             }
+
+            # convert PreSelectedTicketStateID to string
+            my $PreSelectedTicketState = '-';
+            if ( $Data{PreSelectedTicketStateID} ) {
+                $PreSelectedTicketState = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
+                    StateID => $Data{PreSelectedTicketStateID},
+                );
+            }
+
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
-                    Valid => $ValidList{ $Data{ValidID} },
+                    Valid                  => $ValidList{ $Data{ValidID} },
+                    PreSelectedTicketState => $PreSelectedTicketState,
                     %Data,
                     Attachments => scalar @SelectedAttachment,
                 },

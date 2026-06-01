@@ -230,6 +230,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # default valid
     $Self->{DefaultValid} = 'valid';
+    $Self->{ValidateInputParams} = 1;
 
     # default language
     # (the default frontend language) [default: en]

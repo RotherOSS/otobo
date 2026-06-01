@@ -54,9 +54,10 @@ sub CheckAccess {
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Config       = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleEdit');
 
-    return if $Param{ChannelName} ne 'Internal';
-    return if $Param{Article}->{IsVisibleForCustomer};
+    return if ( $Param{Article}{IsVisibleForCustomer}     && !$Config->{ArticleCustomerVisible} );
+    return if ( $Param{Article}{SenderType} eq 'customer' && !$Config->{EditCustomerArticles} );
     return if $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
 
     # check if module is registered
@@ -67,7 +68,6 @@ sub CheckAccess {
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleEdit');
     if ( $Config->{Permission} ) {
         my $Ok = $TicketObject->TicketPermission(
             Type     => $Config->{Permission},

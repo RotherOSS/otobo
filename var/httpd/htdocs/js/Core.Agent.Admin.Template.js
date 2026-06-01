@@ -45,6 +45,29 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             window.location.href = URL;
         });
 
+        // show state selection for template types forward and response, hide otherwise
+        if ( Core.Config.Get("Subaction") == 'Add' || Core.Config.Get("Subaction") == 'Change' ) {
+
+            let TemplateType = $('#TemplateType').val();
+            if ( TemplateType == 'Answer' || TemplateType == 'Forward' ) {
+                $('#PreSelectedTicketStateID').parents('div.Field').show();
+                $('label[for="PreSelectedTicketStateID"]').show();
+            }
+
+            // bind event to toggle visibility of state selection
+            $('#TemplateType').on('change', function () {
+                let TemplateType = $('#TemplateType').val();
+                if ( TemplateType == 'Answer' || TemplateType == 'Forward' ) {
+                    $('#PreSelectedTicketStateID').parents('div.Field').show();
+                    $('label[for="PreSelectedTicketStateID"]').show();
+                }
+                else {
+                    $('#PreSelectedTicketStateID').parents('div.Field').hide();
+                    $('label[for="PreSelectedTicketStateID"]').hide();
+                }
+            });
+        }
+
         // delete template
         TargetNS.InitTemplateDelete();
     };
@@ -54,7 +77,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
      * @memberof Core.Agent.Admin.Template
      * @function
      * @description
-     *      This function deletes template on buton click.
+     *      This function deletes template on button click.
      */
     TargetNS.InitTemplateDelete = function () {
         $('.TemplateDelete').on('click', function () {

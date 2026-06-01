@@ -1551,7 +1551,7 @@ sub Run {
             }
 
             # set response preselected state
-            my %Response = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection')->StandardTemplateGet(
+            my %Response = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateGet(
                 ID => $GetParam{ResponseID},
             );
             $GetParam{StateID} ||= $Response{PreSelectedTicketStateID};

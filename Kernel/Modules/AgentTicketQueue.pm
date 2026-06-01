@@ -124,7 +124,7 @@ sub Run {
                 $FilterValue = $StoredFilters->{CustomerUserLogin}->[0] || '';
             }
             else {
-                $FilterValue = $StoredFilters->{ $ColumnName . 'IDs' }->[0] || '';
+                $FilterValue = join( ',', @{ $StoredFilters->{ $ColumnName . 'IDs' } || [] } ) || '';
             }
         }
         next COLUMNNAME if $FilterValue eq '';
@@ -141,7 +141,8 @@ sub Run {
             $GetColumnFilter{$ColumnName} = $FilterValue;
         }
         else {
-            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
+            my @FilterValue = split( /,/, $FilterValue );
+            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, @FilterValue;
             $GetColumnFilter{$ColumnName} = $FilterValue;
         }
     }
@@ -171,8 +172,16 @@ sub Run {
         next DYNAMICFIELD if $FilterValue eq '';
         next DYNAMICFIELD if $FilterValue eq 'DeleteFilter';
 
+        my @FilterValue;
+        if ( ref $FilterValue eq 'ARRAY' ) {
+            @FilterValue = $FilterValue->@*;
+        }
+        else {
+            @FilterValue = split( /,/, $FilterValue );
+        }
+
         $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
-            Equals => $FilterValue,
+            Equals => \@FilterValue,
         };
         $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
     }
@@ -586,7 +595,7 @@ sub _MaskQueueView {
     # - get queue total count -
     for my $QueueRef (@QueuesNew) {
         push @ListedQueues, $QueueRef;
-        my %Queue = %$QueueRef;
+        my %Queue = $QueueRef->%*;
         my @Queue = split /::/, $Queue{Queue};
         $HaveTotals ||= exists $Queue{Total};
 
@@ -638,7 +647,7 @@ sub _MaskQueueView {
     QUEUE:
     for my $QueueRef (@ListedQueues) {
         my $QueueStrg = '';
-        my %Queue     = %$QueueRef;
+        my %Queue     = $QueueRef->%*;
 
         # replace name of CustomQueue
         if ( $Queue{Queue} eq 'CustomQueue' ) {
@@ -739,7 +748,7 @@ sub _MaskQueueView {
 
         $QueueStrg .= '</a></li>';
 
-        if ( scalar @QueueName eq 1 ) {
+        if ( scalar @QueueName == 1 ) {
             $Param{QueueStrg} .= $QueueStrg;
         }
         elsif ( $Level >= scalar @QueueName ) {

@@ -525,7 +525,7 @@ sub FileRead {
 to write data to file system
 
     my $FileLocation = $MainObject->FileWrite(
-        Directory => 'c:\some\location',
+        Directory => '/home/somebody/somelocation',
         Filename  => 'file2write.txt',
         # or Location
         Location  => 'c:\some\location\file2write.txt',

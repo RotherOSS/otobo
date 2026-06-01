@@ -3357,6 +3357,8 @@ sub _GetIntegratedPackages {
             # future releases
             1 => [
                 'CK5-FullWindowMode',
+                'CustomerTicketSearch',
+                'ExtendedArticleEdit',
                 'HideShowForAgentTicketCompose',
                 'ImportExportCustomerCompany',
                 'ImportExportStandardObjects',

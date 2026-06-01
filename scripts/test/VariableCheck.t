@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -31,36 +32,39 @@ use Kernel::System::VariableCheck qw(:all);
 my $ExpectedTestResults = {};
 my $TestVariables       = {};
 
-my $RunTests = sub {
-    my ( $FunctionName, $Variables, $ExpectedResults ) = @_;
+sub TestTheTypeTester {
+    my ( $FunctionName, $Variables, $ExpectedToBeValid ) = @_;
 
-    for my $VariableKey ( sort keys %{$Variables} ) {
+    subtest "Testing the function '$FunctionName'" => sub {
 
-        # variable names defined for this function should return 1
-        if ( $ExpectedResults->{$VariableKey} ) {
-            ok(
-                ( \&$FunctionName )->( $Variables->{$VariableKey} ),
-                "VariableCheck $FunctionName True ($VariableKey)",
-            );
+        for my $VariableKey ( sort keys $Variables->%* ) {
+
+            # variable names defined for this function should return 1
+            if ( $ExpectedToBeValid->{$VariableKey} ) {
+                ok(
+                    ( \&$FunctionName )->( $Variables->{$VariableKey} ),
+                    "True ($VariableKey)",
+                );
+            }
+
+            # variable names not defined for this function should return undef
+            else {
+                ok(
+                    !( \&$FunctionName )->( $Variables->{$VariableKey} ),
+                    "False ($VariableKey)",
+                );
+            }
         }
 
-        # variable names not defined for this function should return undef
-        else {
-            ok(
-                !( \&$FunctionName )->( $Variables->{$VariableKey} ),
-                "VariableCheck $FunctionName False ($VariableKey)",
-            );
-        }
-    }
-
-    # all functions should only accept a single param
-    ok(
-        !( \&$FunctionName )->( undef, undef ),
-        "VariableCheck $FunctionName False (Array)",
-    );
+        # all functions should only accept a single param
+        ok(
+            !( \&$FunctionName )->( undef, undef ),
+            "VariableCheck $FunctionName False (two parameters)",
+        );
+    };
 
     return;
-};
+}
 
 # test variables for all types
 my @CommonVariables = (
@@ -93,6 +97,12 @@ my @NumberVariables = (
     Number13 => '1.E2.2',
     Number14 => '1.-e1',
     Number15 => '1€+1',
+
+    # tests with non-ASCII characters
+    CircledOne       => '➀',    # ➀ - U+02780 - DINGBAT CIRCLED SANS-SERIF DIGIT ONE, does not match /\d/
+    OneAndCircledOne => '1➀',
+    ArabicOne        => '١',    # ١- U+00661 - ARABIC-INDIC DIGIT ONE, matches /\d/
+    OneAndArabicOne  => '1١',
 );
 
 # test variables for ipv6 tests
@@ -551,6 +561,7 @@ my @IPv6Variables = (
     IPv6452 => '::ffff:257.1.2.3',
     IPv6453 => 'XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:1.2.3.4',
     IPv6454 => 'XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX',
+    IPv6455 => '0:0:0:0:0:0:0:४',                                   # ४ - U+0096A - DEVANAGARI DIGIT FOUR
 );
 
 # expected results for ipv6 tests
@@ -754,6 +765,7 @@ my @IPv4Variables = (
     IPv48  => '0.0.0.256',
     IPv49  => '192..168.0',
     IPv410 => '01.23.45.67',
+    IPv411 => '1७.23.45.67',       # ७ - U+0096D - DEVANAGARI DIGIT SEVEN
 );
 
 # IsArrayRefWithData
@@ -763,7 +775,7 @@ $ExpectedTestResults = {
 $TestVariables = {
     @CommonVariables,
 };
-$RunTests->( 'IsArrayRefWithData', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsArrayRefWithData', $TestVariables, $ExpectedTestResults );
 
 # IsHashRefWithData
 $ExpectedTestResults = {
@@ -772,7 +784,7 @@ $ExpectedTestResults = {
 $TestVariables = {
     @CommonVariables,
 };
-$RunTests->( 'IsHashRefWithData', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsHashRefWithData', $TestVariables, $ExpectedTestResults );
 
 # IsInteger
 $ExpectedTestResults = {
@@ -785,7 +797,7 @@ $TestVariables = {
     @CommonVariables,
     @NumberVariables,
 };
-$RunTests->( 'IsInteger', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsInteger', $TestVariables, $ExpectedTestResults );
 
 # IsIPv4Address
 $ExpectedTestResults = {
@@ -798,7 +810,7 @@ $TestVariables = {
     @NumberVariables,
     @IPv4Variables,
 };
-$RunTests->( 'IsIPv4Address', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsIPv4Address', $TestVariables, $ExpectedTestResults );
 
 # IsIPv6Address
 $ExpectedTestResults = {
@@ -809,7 +821,7 @@ $TestVariables = {
     @NumberVariables,
     @IPv6Variables,
 };
-$RunTests->( 'IsIPv6Address', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsIPv6Address', $TestVariables, $ExpectedTestResults );
 
 # IsMD5Sum
 $ExpectedTestResults = {
@@ -827,8 +839,9 @@ $TestVariables = {
     MD5Sum5 => '0123456789abcdef',
     MD5Sum6 => '000000000000000000000000000000000',
     MD5Sum7 => '000000000000000000-00000000000000',
+    MD5Sum8 => '००००००००००००००००००००००००००००००००',    # ० - U+00966 - DEVANAGARI DIGIT ZERO
 };
-$RunTests->( 'IsMD5Sum', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsMD5Sum', $TestVariables, $ExpectedTestResults );
 
 # IsNumber
 $ExpectedTestResults = {
@@ -849,7 +862,7 @@ $TestVariables = {
     @CommonVariables,
     @NumberVariables,
 };
-$RunTests->( 'IsNumber', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsNumber', $TestVariables, $ExpectedTestResults );
 
 # IsPositiveInteger
 $ExpectedTestResults = {
@@ -860,7 +873,7 @@ $TestVariables = {
     @CommonVariables,
     @NumberVariables,
 };
-$RunTests->( 'IsPositiveInteger', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsPositiveInteger', $TestVariables, $ExpectedTestResults );
 
 # IsString
 $ExpectedTestResults = {
@@ -880,7 +893,7 @@ $TestVariables = {
     String4 => ' ',
     String5 => "\t",
 };
-$RunTests->( 'IsString', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsString', $TestVariables, $ExpectedTestResults );
 
 # IsStringWithData
 $ExpectedTestResults = {
@@ -899,11 +912,9 @@ $TestVariables = {
     String4 => ' ',
     String5 => "\t",
 };
-$RunTests->( 'IsStringWithData', $TestVariables, $ExpectedTestResults );
+TestTheTypeTester( 'IsStringWithData', $TestVariables, $ExpectedTestResults );
 
-#
-# DataIsDifferent tests
-#
+note 'testing DataIsDifferent()';
 
 my %Hash1 = (
     key1 => '1',

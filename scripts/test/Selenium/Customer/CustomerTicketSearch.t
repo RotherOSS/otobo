@@ -32,6 +32,17 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
+            Name    => 'CustomerFrontend::Module###CustomerTicketSearch',
+            Default => 1,
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CustomerFrontend::Module###CustomerTicketSearch',
+            Value => $Setting{EffectiveValue},
+        );
+
         # Do not check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',

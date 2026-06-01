@@ -1214,8 +1214,11 @@ sub GetFieldState {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
-    return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+    # in case of lens pointing to a reference field, execution is necessary
+    if ( !$Param{NeedsReset} ) {
+        return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
+        return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+    }
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
@@ -1237,6 +1240,7 @@ sub GetFieldState {
 
         # value holds object id(s) at this point
         my @CheckedValues;
+        my %PossibleValues;
         my $ValueChanged = 0;
         ITEM:
         for my $ValueItem ( $Value->@* ) {
@@ -1261,17 +1265,33 @@ sub GetFieldState {
                 $ValueChanged = 1;
             }
             else {
+                my %Description = $Self->ObjectDescriptionGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $ValueItem,
+                );
+                $PossibleValues{$ValueItem} = $Description{Long};
                 push @CheckedValues, $ValueItem;
             }
-        }
 
-        if ($ValueChanged) {
-            return (
-                NewValue => \@CheckedValues,
+            $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+                LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+                Value        => \@CheckedValues,
             );
         }
 
-        return ();
+        # PossibleValues are needed for display value in frontend
+        #   e.g. '"Tina Tester" <tina@example.com>' (CustomerUser MailString) vs. 'tina' (CustomerUserID)
+        if ($ValueChanged) {
+            return (
+                NewValue       => \@CheckedValues,
+                PossibleValues => \%PossibleValues,
+            );
+        }
+
+        return (
+            PossibleValues => \%PossibleValues,
+        );
     }
 
     # fetch possible values for dynamic field

@@ -319,13 +319,12 @@ sub EditFieldRender {
             Text => $ValueItem,
         );
 
-        $FieldTemplateData{ValueEscaped} = $ValueEscaped;
-
         push @ResultHTML, $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
                 %Error,
+                ValueEscaped => $ValueEscaped,
             },
         );
     }
@@ -419,7 +418,7 @@ sub EditFieldValueGet {
         };
     }
 
-    # for this field the normal return an the ReturnValueStructure are the same
+    # for this field the normal return and the ReturnValueStructure are the same
     return $Value;
 }
 

@@ -56,10 +56,7 @@ create a service definition module for email addresses. Do not use it directly, 
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
-    return bless {
-        ParseAddressLineCache => {},
-    }, $Type;
+    return bless {}, $Type;
 }
 
 =head2 ParseAddressLine()
@@ -78,13 +75,8 @@ Returns an array of C<Email::Address::XS> objects.
 sub ParseAddressLine {
     my ( $Self, %Param ) = @_;
 
-    my $Line  = $Param{Line};
-    my $Cache = $Self->{ParseAddressLineCache};
-
-    return $Cache->{$Line}->@* if $Cache->{$Line};
-
+    my $Line           = $Param{Line};
     my @AddressObjects = Email::Address::XS->parse($Line);
-    $Cache->{$Line} = \@AddressObjects;
 
     return @AddressObjects;
 }
@@ -137,11 +129,11 @@ sub GetAddress {
     return;
 }
 
-=head2 GetRealname()
+=head2 GetRealName()
 
 extract the C<RealName>, that is the phrase, from a complete email address. Only a single email address should be passed.
 
-    my $Realname = $EmailAddressObject->GetRealname(
+    my $RealName = $EmailAddressObject->GetRealName(
         Email => 'Erna Extremtesterin <extremerna@testanything.org>',
     );
 
@@ -151,17 +143,17 @@ or
         'Erna Extremtesterin',
         'extremerna@testanything.org'
     );
-    my $Realname = $EmailAddressObject->GetRealname(
+    my $RealName = $EmailAddressObject->GetRealName(
         AddressObject => $AddressObject,
     );
 
 Both variants return
 
-    $Realname = 'Erna Extremtesterin'
+    $RealName = 'Erna Extremtesterin'
 
 =cut
 
-sub GetRealname {
+sub GetRealName {
     my ( $Self, %Param ) = @_;
 
     # The parameter AddressObject has precedence
@@ -169,25 +161,14 @@ sub GetRealname {
         return $Param{AddressObject}->phrase;
     }
 
-    # find "NamePart, NamePart" <some@example.com> (get not recognized by Email::Address::XS)
-    if ( $Param{Email} =~ /"(.+?)"\s+?\<.+?@.+?\..+?\>/ ) {
-        my $Realname = $1;
-
-        # removes unnecessary blank spaces, if the string has quotes.
-        # This is because of bug 6059
-        $Realname =~ s/"\s+?(.+?)\s+?"/"$1"/g;
-
-        return $Realname;
-    }
-
-    # fallback to Email::Address::XS
-    # The real name of the last address is returned, but note that usually only a single address is passed
-    my $Realname;
+    # The real name of the last address is returned,
+    # this is usually fine as usually only a single address is passed.
+    my $RealName;
     for my $EmailSplit ( $Self->ParseAddressLine( Line => $Param{Email} ) ) {
-        $Realname = $EmailSplit->phrase;
+        $RealName = $EmailSplit->phrase;
     }
 
-    return $Realname;
+    return $RealName;
 }
 
 =head2 Format()
@@ -211,7 +192,7 @@ or
 or
 
     my $FormattedAddress = $EmailAddressObject->Format(
-        Realname => 'Ben 🐛 Bugfinder',
+        RealName => 'Ben 🐛 Bugfinder',
         Address => 'bugfinder@testanything.org'
     );
 
@@ -249,9 +230,9 @@ sub Format {
     }
 
     # alternatively the phrase and the address can be passed
-    if ( $Param{Realname} || $Param{Address} ) {
+    if ( $Param{RealName} || $Param{Address} ) {
         return Email::Address::XS->new(
-            phrase  => $Param{Realname},
+            phrase  => $Param{RealName},
             address => $Param{Address},
         )->format;
     }

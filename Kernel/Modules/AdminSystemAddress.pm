@@ -242,7 +242,7 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-            # add user
+            # add system address
             my $AddressID = $SystemAddressObject->SystemAddressAdd(
                 %GetParam,
                 UserID => $Self->{UserID},

@@ -64,12 +64,13 @@ my %TemplateData = (
     ValidID      => $ValidID,
 );
 my %TemplateExpectedData = (
-    Name         => 'TestTemplate1' . $RandomID,
-    Comment      => 'TestComment1' . $RandomID,
-    Template     => 'TestTemplateContent1' . $RandomID,
-    ContentType  => 'text/plain; charset=utf-8',
-    TemplateType => 'Answer',
-    Valid        => 'valid',
+    Name                     => 'TestTemplate1' . $RandomID,
+    Comment                  => 'TestComment1' . $RandomID,
+    Template                 => 'TestTemplateContent1' . $RandomID,
+    ContentType              => 'text/plain; charset=utf-8',
+    TemplateType             => 'Answer',
+    Valid                    => 'valid',
+    PreSelectedTicketStateID => undef,
 );
 
 # create test template

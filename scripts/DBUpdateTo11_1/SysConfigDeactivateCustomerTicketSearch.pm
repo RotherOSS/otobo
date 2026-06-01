@@ -13,7 +13,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo11_0::SysConfigUpdateCustomerColors;
+package scripts::DBUpdateTo11_1::SysConfigDeactivateCustomerTicketSearch;
 
 use v5.24;
 use strict;
@@ -21,7 +21,7 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(scripts::DBUpdateTo11_0::Base);
+use parent qw(scripts::DBUpdateTo11_1::Base);
 
 # core modules
 
@@ -36,49 +36,56 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo11_0::SysConfigUpdateCustomerColors - Update customer color scheme
+scripts::DBUpdateTo11_1::SysConfigDeactivateCustomerTicketSearch - Deactivates the system configuration setting for CustomerTicketSearch per default
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    my %ColorSetting = $SysConfigObject->SettingGet(
-        Name => 'CustomerColorDefinitions',
+    my %CustomerTicketSearchSetting = $SysConfigObject->SettingGet(
+        Name => "CustomerFrontend::Module###CustomerTicketSearch",
     );
 
-    return if !%ColorSetting;
+    if ( $CustomerTicketSearchSetting{IsModified} ) {
+        $LogObject->Log(
+            Priority => 'info',
+            Message  => "Setting 'CustomerFrontend::Module###CustomerTicketSearch' already modified, doing nothing",
+        );
 
-    # return if the setting is unmodified or MainHover is already present
-    return 1 if !$ColorSetting{IsModified};
-    return 1 if $ColorSetting{EffectiveValue}{MainHover};
+        return 1;
+    }
+    if ( !$CustomerTicketSearchSetting{IsValid} ) {
+        $LogObject->Log(
+            Priority => 'info',
+            Message  => "Setting 'CustomerFrontend::Module###CustomerTicketSearch' already invalid, doing nothing",
+        );
+
+        return 1;
+    }
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,
         Force     => 1,
-        DefaultID => $ColorSetting{DefaultID},
+        DefaultID => $CustomerTicketSearchSetting{DefaultID},
     );
 
     # Update setting with modified data
     my %Result = $SysConfigObject->SettingUpdate(
-        Name           => 'CustomerColorDefinitions',
-        IsValid        => 1,
-        EffectiveValue => {
-            $ColorSetting{EffectiveValue}->%*,
-            MainHover  => $ColorSetting{EffectiveValue}{HoverDark}  // '#000099',
-            HoverDark  => $ColorSetting{EffectiveValue}{HoverLight} // '#6d83f2',
-            HoverLight => $ColorSetting{EffectiveValue}{NotifyOK}   // '#c4cdfa',
-        },
+        Name              => 'CustomerFrontend::Module###CustomerTicketSearch',
+        IsValid           => 0,
+        EffectiveValue    => $CustomerTicketSearchSetting{EffectiveValue},
         ExclusiveLockGUID => $ExclusiveLockGUID,
         UserID            => 1,
     );
 
     if ( !$Result{Success} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
-            Message  => 'Could not update setting CustomerColorDefinitions.',
+            Message  => "Could not update setting 'CustomerFrontend::Module###CustomerTicketSearch'.",
         );
 
         return;
@@ -86,27 +93,27 @@ sub Run {
 
     my $Success = $SysConfigObject->SettingUnlock(
         UserID    => 1,
-        DefaultID => $ColorSetting{DefaultID},
+        DefaultID => $CustomerTicketSearchSetting{DefaultID},
     );
 
     if ( !$Success ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
-            Message  => 'Could not unlock setting CustomerColorDefinitions.',
+            Message  => "Could not unlock setting 'CustomerFrontend::Module###CustomerTicketSearch'.",
         );
 
         return;
     }
 
     my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-        Comments      => "UpgradeTo11 - Adapt CustomerColorDefinitions.",
+        Comments      => "UpgradeTo11.1 - Deactivated setting 'CustomerFrontend::Module###CustomerTicketSearch'.",
         UserID        => 1,
         Force         => 1,
-        DirtySettings => ['CustomerColorDefinitions'],
+        DirtySettings => ['CustomerFrontend::Module###CustomerTicketSearch'],
     );
 
     if ( !$DeploymentResult{Success} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Deployment failed.",
         );

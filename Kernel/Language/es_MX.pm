@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.918504171632896;
+    $Self->{Completeness}        = 0.916393442622951;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -751,13 +751,13 @@ sub Data {
         'matches string' => '',
         'Type a string to compare the selected attribute of the referenced object against.' =>
             '',
-        'Add ReferenceFilter' => '',
+        'Add Reference Filter' => '',
 
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => 'Gestión de Campos Dinámicos <-> Pantallas',
         'Overview' => 'Resumen',
         'Default Columns Screens' => 'Columnas por defecto de Pantallas',
-        'Add DynamicField' => 'Añadir DynamicField',
+        'Add Dynamic Field' => '',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
             'Puede asignar elementos a esta Pantalla/Campo arrastrando los elementos con el ratón desde la lista de la izquierda a la de la derecha.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
@@ -1315,7 +1315,7 @@ sub Data {
         'The password for the privileged user.' => 'La contraseña para el usuario con privilegios.',
         'Kerberos User' => '',
         'Kerberos keytab file' => '',
-        'The kerberos keytab file for the privileged user.' => '',
+        'The Kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => 'Utilizar Opciones de Proxy',
         'Show or hide Proxy options to connect to the remote system.' => 'Mostrar u ocultar las opciones de Proxy para conectarse al sistema remoto.',
         'Proxy Server' => 'Servidor Proxy',
@@ -2517,7 +2517,7 @@ sub Data {
         'Editing Translation' => '',
         'Translation Marked for Deletion' => '',
         'Deployed Translation' => '',
-        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+        'Changes made here only affect the system behavior after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
             '',
         'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
             '',
@@ -3571,9 +3571,8 @@ sub Data {
             'Todas las contraseñas introducidas se almacenan en la caché hasta que finaliza la migración.',
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
             ' Cualquiera que tenga acceso a esta página, o permiso de lectura para el Directorio de Inicio de OTOBO podrá leerlos. Si aborta la migración, se le da la opción de borrar la caché visitando de nuevo esta página.',
-        'If you need support, just ask our experts – either at' => 'Si necesita ayuda, sólo tiene que pedirla a nuestros expertos - ya sea en',
-        'OTOBO forum' => 'Foro OTOBO',
-        'or directly via mail to' => 'o directamente por correo a',
+        'If you need support, just ask our experts – either at %sOTOBO forum%s or directly via mail to %ssales@otobo.io%s.' =>
+            '',
         'Cached data found' => 'Datos encontrados en caché',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Continuará donde abortó la migración la última vez. Si no quiere esto, por favor, descarte su progreso anterior.',
@@ -4148,7 +4147,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
-        'No valid dynamic field "%s."' => '',
+        'No valid dynamic field "%s".' => '',
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
@@ -5050,7 +5049,7 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
             '',
-        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+        'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.' =>
             '',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
@@ -5545,7 +5544,7 @@ sub Data {
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => '',
         'Select the group of the agents.' => '',
-        'External-source key' => '',
+        'External source key' => '',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             '',
 
@@ -5628,7 +5627,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Need OTRSData->%s!' => '¡Necesita OTRSData->%s!',
-        'Can\'t access OTRS Home: %s!' => '¡No se puede acceder a OTRS Home: %s!',
+        'Can\'t access OTRS home directory: %s!' => '',
         'All needed files copied and migrated, perfect!' => 'Todos los archivos necesarios copiados y migrados, ¡perfecto!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -5641,7 +5640,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
         'Check if OTOBO version is correct.' => 'Compruebe si la versión de OTOBO es correcta.',
         'Check if OTOBO and OTRS connect is possible.' => 'Compruebe si la conexión de OTOBO y OTRS es posible.',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '¡No se puede abrir el archivo RELEASE de OTRSHome: %s!',
+        'Can\'t open RELEASE file from OTRS home directory: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => 'Compruebe si la versión de OTOBO y OTRS es correcta.',
         '%s does not exist!' => '¡%s no existe!',
         'No OTOBO system found!' => '¡No se ha encontrado ningún sistema OTOBO!',
@@ -5664,10 +5663,10 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migrar los ajustes de configuración.',
-        'An error occurred during SysConfig data migration or no configuration exists.' =>
-            'Se ha producido un error durante la migración de datos de SysConfig o no existe ninguna configuración.',
-        'An error occurred during SysConfig migration when writing XML to DB.' =>
-            'Se ha producido un error durante la migración de SysConfig al escribir XML en la base de datos.',
+        'An error occurred during system configuration data migration or no configuration exists.' =>
+            '',
+        'An error occurred during system configuration migration when writing XML to DB.' =>
+            '',
         'SysConfig data migration completed.' => 'Se ha completado la migración de datos de SysConfig.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5678,10 +5677,11 @@ sub Data {
         'Migrate database table notification.' => 'Migrar la tabla de notificación de la base de datos.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-        'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '¡No se puede abrir el archivo Kernel/Config.pm desde OTRSHome: %s!',
+        'Can\'t open Kernel/Config.pm file from OTRS home directory: %s!' =>
+            '',
         'Check if Kernel/Config.pm exists in OTOBO home.' => 'Compruebe si Kernel/Config.pm existe en el home de OTOBO.',
         'Kernel/Config.pm exists in OTOBO home' => 'Kernel/Config.pm existe en el home de OTOBO',
-        'Check if we are able to connect to OTRS Home.' => 'Compruebe si podemos conectarnos a l home de OTRS.',
+        'Check if we are able to connect to OTRS home directory.' => '',
         'Can\'t connect to OTRS file directory.' => 'No se puede conectar al directorio de archivos OTRS.',
         'Connect to OTRS file directory is possible.' => 'La conexión al directorio de archivos OTRS es posible.',
 
@@ -6871,13 +6871,13 @@ Su equipo de asistencia técnica
         'Activate Elasticsearch.' => 'Activar Elasticsearch.',
         'Activate the customer frontend.' => '',
         'Activate the public frontend.' => '',
-        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
-            'Activa el renderizado de DynamicFields fuera del bloque DynamicField.',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Activa un mecanismo de parpadeo para la fila que contiene el ticket más antiguo.',
         'Activates lost password feature for agents, in the agent interface.' =>
             'Activa la función de contraseña perdida para agentes, en la interfaz de los mismos.',
         'Activates lost password feature for customers.' => 'Activa la función de contraseña perdida para clientes.',
+        'Activates rendering of dynamic fields outside of the dynamic field block.' =>
+            '',
         'Activates support for customer and customer user groups.' => 'Activa el soporte para el cliente y grupos de usuarios del cliente.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
             'Activa el filtro de artículos en la vista detallada para especificar qué artículos deben mostrarse.',
@@ -7181,8 +7181,9 @@ Su equipo de asistencia técnica
         'Cloud service admin module registration for the transport layer.' =>
             'Registro del módulo de administración de servicios en la nube para la capa de transporte.',
         'Collect support data for asynchronous plug-in modules.' => 'Recoge los datos de soporte de los módulos adicionales asíncronos.',
-        'Color definitions for Agent interface highcontrast skin.' => '',
-        'Color definitions for Customer Interface highcontrast skin.' => '',
+        'Color definitions for agent interface high contrast skin.' => '',
+        'Color definitions for customer interface high contrast skin.' =>
+            '',
         'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
             '',
         'Color definitions for the customer interface.' => 'Definiciones de colores para la interfaz del cliente.',
@@ -7298,7 +7299,9 @@ Su equipo de asistencia técnica
             'Texto personalizado para la página que se muestra a los clientes que aún no tienen boletos (si necesita esos textos traducidos agréguelos a un módulo de traducción personalizado).',
         'Customer Administration' => 'Administración de Clientes',
         'Customer Companies' => 'Compañías de los Clientes',
+        'Customer Company' => '',
         'Customer Dashboard' => 'Panel de control de clientes',
+        'Customer Dashboard Info Tile' => '',
         'Customer Dynamic Field Database Detailed Search' => 'Base de datos de campos dinámicos de clientes Búsqueda detallada',
         'Customer Dynamic Field Database Details' => 'Detalles de la base de datos del campo dinámico del cliente',
         'Customer Dynamic Field Database Search' => 'Búsqueda en la base de datos de campos dinámicos de clientes',
@@ -7330,8 +7333,6 @@ Su equipo de asistencia técnica
         'Customer ticket search.' => 'Búsqueda de tickets de clientes.',
         'Customer ticket zoom' => 'Zoom del ticket del cliente',
         'Customer user search' => 'Búsqueda de usuario del cliente',
-        'CustomerCompany' => '',
-        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => 'Búsqueda de CustomerID',
         'CustomerName' => 'Nombre del cliente',
         'CustomerUser' => 'Usuario Cliente',
@@ -8208,6 +8209,7 @@ Su equipo de asistencia técnica
         'Dynamic Field Contents' => '',
         'Dynamic Field Information' => '',
         'Dynamic Field Labels' => '',
+        'Dynamic Field Screen' => '',
         'Dynamic Field Set' => '',
         'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => 'Interfaz gráfica de usuario (GUI) del backend de campos dinámicos',
@@ -8296,7 +8298,6 @@ Su equipo de asistencia técnica
         'DynamicField' => 'DynamicField',
         'DynamicField backend registration.' => 'Registro del backend de DynamicField.',
         'DynamicField object registration.' => 'Registro del objeto DynamicField.',
-        'DynamicFieldScreen' => 'DynamicFieldScreen',
         'DynamicField_%s' => 'CampoDinámico_%s',
         'E-Mail Outbound' => 'Correo saliente',
         'Edit Customer Companies.' => 'Editar empresas clientes.',
@@ -8403,14 +8404,14 @@ Su equipo de asistencia técnica
             'Obtiene paquetes vía proxy. Sobrescribe "WebUserAgent::Proxy".',
         'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
             'Campos del índice de la empresa cliente, utilizados para la búsqueda de texto completo de la empresa. Los campos también se almacenan, pero no son obligatorios para la funcionalidad general.',
-        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
-            'Campos del índice del ticket, utilizados para la búsqueda de texto completo del ticket. Los campos también se almacenan, pero no son obligatorios para la funcionalidad general. Si se añaden campos que pueden actualizarse (especialmente DynamicFields), ¡su respectivo evento de actualización debe añadirse al invocador TicketManagement del servicio web de Elasticsearch!',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
+            '',
         'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             'Campos almacenados en el índice de empresa cliente que se utilizan para otras cosas además de las búsquedas de texto completo. Para la funcionalidad completa todos los campos son obligatorios.',
         'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             'Campos almacenados en el índice de usuario cliente que se utilizan para otras cosas además de las búsquedas de texto completo. Para la funcionalidad completa todos los campos son obligatorios.',
-        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
-            'Campos almacenados en el índice del ticket que se utilizan para otras cosas además de las búsquedas de texto completo. Para la funcionalidad completa todos los campos son obligatorios. Si se añaden campos que pueden ser actualizados (especialmente DynamicFields), ¡su respectivo evento de actualización tiene que ser añadido al invocador TicketManagement del servicio web de Elasticsearch!',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
+            '',
         'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
             'Campos a buscar en el índice de tickets. Los campos también se almacenan, pero no son obligatorios para la funcionalidad general.',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
@@ -8464,10 +8465,10 @@ Su equipo de asistencia técnica
         'Frontend module registration for the customer interface.' => 'Registro de módulo frontend para la interfaz del cliente.',
         'Frontend module registration for the public interface.' => 'Registro de módulo "Frontend" en la interfaz pública.',
         'Full value' => 'Valor completo',
+        'Fulltext Elasticsearch' => '',
         'Fulltext index regex filters to remove parts of the text.' => 'Filtros de índice de expresiones regulares de texto completo para eliminar partes del texto.',
         'Fulltext search' => 'Búsqueda de texto completo',
         'Fulltext search using Elasticsearch.' => 'Búsqueda de texto completo mediante Elasticsearch.',
-        'FulltextES' => 'FulltextES',
         'Galician' => 'Gallego',
         'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -9493,6 +9494,7 @@ Su equipo de asistencia técnica
         'Show command line output.' => 'Mostrar la salida de la línea de comandos.',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
             '',
+        'Show or Hide Deleted Articles' => '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => 'Mostrar colas incluso cuando sólo hay entradas bloqueadas.',
         'Show the current owner in the customer interface.' => 'Mostrar el propietario actual en la interfaz del cliente.',
@@ -9500,7 +9502,6 @@ Su equipo de asistencia técnica
         'Show the history for this ticket' => 'Mostrar el historial de este ticket',
         'Show the ticket history' => 'Mostrar el historial del ticket',
         'Show various content.' => '',
-        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             'Muestra un recuento de los archivos adjuntos en el zoom del ticket, si el artículo tiene archivos adjuntos.',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9928,9 +9929,9 @@ Su equipo de asistencia técnica
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
             'Los tickets de las siguientes colas no se almacenarán en el servidor de Elasticsearch. Para aplicar esto a los tickets existentes, hay que ejecutar la migración de tickets a través de la consola, después de cambiar esta opción.',
         'Tickets.' => 'Tickets.',
-        'Tile registration for the CustomerDashboard. Module is required.' =>
-            'El registro del mosaico para el CustomerDashboard. El módulo es necesario.',
-        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
+        'Tile registration for the customer dashboard. Module is required.' =>
+            '',
+        'Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
             '',
@@ -10001,7 +10002,7 @@ Su equipo de asistencia técnica
             'Estamos realizando un mantenimiento programado. El inicio de sesión no está disponible temporalmente.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Estamos realizando un mantenimiento programado. Deberíamos volver a estar en línea en breve.',
-        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
+        'We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
             '',
         'Web Service' => 'Servicio web',
         'Web Services' => 'Servicios web',

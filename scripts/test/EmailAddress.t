@@ -187,24 +187,76 @@ subtest 'GetAddress()' => sub {
     );
 };
 
-subtest 'GetRealname()' => sub {
+subtest 'GetRealName()' => sub {
 
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
     is(
-        $EmailAddressObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.weber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        'with quoted name',
+        $EmailAddressObject->GetRealName( Email => '"Juergen "quoted name" Weber" <juergen.weber@air.com>' ),
+        'Juergen  quoted name  Weber',
+        q{space after 'Juergen' and before 'Weber' is protected},
     );
 
     is(
-        $EmailAddressObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.weber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        'with quoted name',
+        $EmailAddressObject->GetRealName( Email => '"Juergen " quoted name " Weber" <juergen.weber@air.com>' ),
+        'Juergen  quoted name  Weber',
+        q{space after 'Juergen' and before 'Weber' is protected, other spaces aren't},
+    );
+
+    note 'tests with parts of the phrase in quotes';
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce silver "gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'last word in quotes',
     );
 
     is(
-        $EmailAddressObject->GetRealname(
+        $EmailAddressObject->GetRealName( Email => q{bronce "silver" gold <medals@olympic.games>} ),
+        'bronce silver gold',
+        'middle word in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce "silver gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'last two words in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{bronce "silver" "gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'last two words each in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"bronce silver gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'three words in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"bronce" silver "gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'first and last word in quotes',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"bronce""silver""gold" <medals@olympic.games>} ),
+        'bronce silver gold',
+        'each word in quotes, no spaces',
+    );
+
+    is(
+        $EmailAddressObject->GetRealName( Email => q{"\\"bronce\\"\\"silver\\"\\"gold\\"" <medals@olympic.games>} ),
+        q{"bronce""silver""gold"},
+        'each word in quoted quotes, no spaces',
+    );
+
+    note 'tests passing an address object';
+
+    is(
+        $EmailAddressObject->GetRealName(
             AddressObject => Email::Address::XS->new(
                 'Erna Extremtesterin',
                 'extremerna@testanything.org'
@@ -251,7 +303,7 @@ subtest 'Format()' => sub {
     );
 
     is(
-        $EmailAddressObject->Format( Realname => 'Ben 🐛 Bugfinder' ),
+        $EmailAddressObject->Format( RealName => 'Ben 🐛 Bugfinder' ),
         '',
         'only the phrase'
     );
@@ -264,7 +316,7 @@ subtest 'Format()' => sub {
 
     is(
         $EmailAddressObject->Format(
-            Realname => 'Ben 🐛 Bugfinder',
+            RealName => 'Ben 🐛 Bugfinder',
             Address  => 'bugfinder@testanything.org'
         ),
         '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',

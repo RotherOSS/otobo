@@ -562,6 +562,12 @@ sub Form {
                 %AttachmentsData,
             );
         }
+
+        # set forward preselected state
+        my %Forward = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateGet(
+            ID => $GetParam{ForwardTemplateID},
+        );
+        $GetParam{ComposeStateID} ||= $Forward{PreSelectedTicketStateID};
     }
 
     # get all attachments meta data
@@ -914,7 +920,6 @@ sub SendEmail {
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
-    my $QueueID = $Self->{QueueID};
     my %StateData;
 
     if ( $GetParam{ComposeStateID} ) {
@@ -1452,15 +1457,11 @@ sub SendEmail {
 sub AjaxUpdate {
     my ( $Self, %Param ) = @_;
 
-    my %Error;
     my %ACLCompatGetParam = %{ $Self->{ACLCompatGetParam} };
 
     my %GetParamExtended = $Self->_GetExtendedParams();
 
-    my %GetParam            = %{ $GetParamExtended{GetParam} };
-    my @MultipleCustomer    = @{ $GetParamExtended{MultipleCustomer} };
-    my @MultipleCustomerCc  = @{ $GetParamExtended{MultipleCustomerCc} };
-    my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
+    my %GetParam = %{ $GetParamExtended{GetParam} };
 
     my @ExtendedData;
 

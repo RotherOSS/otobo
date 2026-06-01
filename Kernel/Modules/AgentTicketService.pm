@@ -120,7 +120,7 @@ sub Run {
                 $FilterValue = $StoredFilters->{CustomerUserLogin}->[0] || '';
             }
             else {
-                $FilterValue = $StoredFilters->{ $ColumnName . 'IDs' }->[0] || '';
+                $FilterValue = join( ',', @{ $StoredFilters->{ $ColumnName . 'IDs' } || [] } ) || '';
             }
         }
         next COLUMNNAME if $FilterValue eq '';
@@ -137,7 +137,8 @@ sub Run {
             $GetColumnFilter{$ColumnName} = $FilterValue;
         }
         else {
-            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
+            my @FilterValue = split( /,/, $FilterValue );
+            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, @FilterValue;
             $GetColumnFilter{$ColumnName} = $FilterValue;
         }
     }
@@ -167,8 +168,16 @@ sub Run {
         next DYNAMICFIELD if $FilterValue eq '';
         next DYNAMICFIELD if $FilterValue eq 'DeleteFilter';
 
+        my @FilterValue;
+        if ( ref $FilterValue eq 'ARRAY' ) {
+            @FilterValue = $FilterValue->@*;
+        }
+        else {
+            @FilterValue = split( /,/, $FilterValue );
+        }
+
         $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
-            Equals => $FilterValue,
+            Equals => \@FilterValue,
         };
         $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
     }
@@ -643,7 +652,7 @@ sub _MaskServiceView {
     # - get Service total count -
     for my $ServiceRef (@ServicesNew) {
         push @ListedServices, $ServiceRef;
-        my %Service = %$ServiceRef;
+        my %Service = $ServiceRef->%*;
         my @Service = split /::/, $Service{Service};
 
         # remember counted/used Services
@@ -682,7 +691,7 @@ sub _MaskServiceView {
     # build Service string
     for my $ServiceRef (@ListedServices) {
         my $ServiceStrg = '';
-        my %Service     = %$ServiceRef;
+        my %Service     = $ServiceRef->%*;
 
         # replace name of CustomService
         if ( $Service{Service} eq 'CustomService' ) {

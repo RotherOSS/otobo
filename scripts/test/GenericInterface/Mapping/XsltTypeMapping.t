@@ -132,12 +132,13 @@ my $Expected = {
 
 my $MappingConfig = {
     'Config' => {
-        'DataInclude'           => [],
-        'PostRegExFilter'       => undef,
-        'PostRegExValueCounter' => undef,
-        'PreRegExFilter'        => undef,
-        'PreRegExValueCounter'  => undef,
-        'Template'              => '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+        'DataInclude'               => [],
+        'EnableExtendedXSLTMapping' => 1,
+        'PostRegExFilter'           => undef,
+        'PostRegExValueCounter'     => undef,
+        'PreRegExFilter'            => undef,
+        'PreRegExValueCounter'      => undef,
+        'Template'                  => '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output omit-xml-declaration="yes" indent="yes"/>
   <xsl:strip-space elements="*"/>
   <xsl:template match="/">
@@ -162,12 +163,6 @@ my $MappingConfig = {
     },
     'Type' => 'XSLT'
 };
-
-# set EnableExtendedXSLTMappingAttributes SysConfig to enabled
-$Kernel::OM->Get('Kernel::Config')->Set(
-    Key   => 'GenericInterface::Mapping::EnableExtendedXSLTMappingAttributes',
-    Value => 1,
-);
 
 # Test 1 - just the _ReduceTypedTreeData function in isolation
 

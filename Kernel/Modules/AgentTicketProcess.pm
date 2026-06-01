@@ -850,7 +850,10 @@ sub _RenderAjax {
 
     my @DynamicFieldAJAX = $DynamicFieldBackendObject->BuildAJAXReturn(
         DynamicFieldConfigs => $Self->{DynamicField},
-        GetParam            => $Param{GetParam},
+        GetParam            => {
+            $Param{GetParam}->%*,
+            DynamicField => $DFParam,
+        },
         DynFieldStates      => \%DynFieldStates,
     );
 

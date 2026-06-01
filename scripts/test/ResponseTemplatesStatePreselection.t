@@ -22,7 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Test2::V0;
+use Test2::V0 qw(:DEFAULT), qw(etc);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
@@ -64,7 +64,7 @@ for my $Template (@Templates) {
     my $ID = $StandardTemplateObject->StandardTemplateAdd(
         %{$Template},
     );
-    $Self->True(
+    ok(
         $ID,
         "StandardTemplateAdd() - $ID",
     );
@@ -81,91 +81,121 @@ my @Tests = (
     {
         Name   => 'Missing UserID',
         Config => {
+            Name                     => 'text' . $RandomID,
             ID                       => $AddedTemplateIDs[0],
             PreSelectedTicketStateID => 1,
             UserID                   => undef,
+            ValidID                  => 1,
+            TemplateType             => 'Answer',
+            ContentType              => 'text/plain; charset=utf-8',
         },
         Success => 0,
     },
     {
         Name   => 'Missing ID',
         Config => {
+            Name                     => 'text' . $RandomID,
             ID                       => undef,
             PreSelectedTicketStateID => 1,
             UserID                   => 1,
+            ValidID                  => 1,
+            TemplateType             => 'Answer',
+            ContentType              => 'text/plain; charset=utf-8',
         },
         Success => 0,
     },
     {
         Name   => 'First Template Ticket StateID 1',
         Config => {
+            Name                     => 'text' . $RandomID,
             ID                       => $AddedTemplateIDs[0],
             PreSelectedTicketStateID => 1,
             UserID                   => 1,
+            ValidID                  => 1,
+            TemplateType             => 'Answer',
+            ContentType              => 'text/plain; charset=utf-8',
         },
         Success         => 1,
-        ExpectedResults => {
-            ID                       => $AddedTemplateIDs[0],
-            Name                     => $Templates[0]->{Name},
-            PreSelectedTicketStateID => 1,
+        ExpectedResults => hash {
+            field 'ID'                       => $AddedTemplateIDs[0];
+            field 'Name'                     => $Templates[0]->{Name};
+            field 'PreSelectedTicketStateID' => 1;
+
+            etc();
         },
     },
     {
         Name   => 'First Template Ticket StateID 2',
         Config => {
+            Name                     => 'text' . $RandomID,
             ID                       => $AddedTemplateIDs[0],
             PreSelectedTicketStateID => 2,
             UserID                   => 1,
+            ValidID                  => 1,
+            TemplateType             => 'Answer',
+            ContentType              => 'text/plain; charset=utf-8',
         },
         Success         => 1,
-        ExpectedResults => {
-            ID                       => $AddedTemplateIDs[0],
-            Name                     => $Templates[0]->{Name},
-            PreSelectedTicketStateID => 2,
+        ExpectedResults => hash {
+            field 'ID'                       => $AddedTemplateIDs[0];
+            field 'Name'                     => $Templates[0]->{Name};
+            field 'PreSelectedTicketStateID' => 2;
+
+            etc();
         },
     },
     {
         Name   => 'First Template Ticket StateID unset',
         Config => {
-            ID     => $AddedTemplateIDs[0],
-            UserID => 1,
+            Name         => 'text' . $RandomID,
+            ID           => $AddedTemplateIDs[0],
+            UserID       => 1,
+            ValidID      => 1,
+            TemplateType => 'Answer',
+            ContentType  => 'text/plain; charset=utf-8',
         },
         Success         => 1,
-        ExpectedResults => {
-            ID                       => $AddedTemplateIDs[0],
-            Name                     => $Templates[0]->{Name},
-            PreSelectedTicketStateID => undef,
+        ExpectedResults => hash {
+            field 'ID'                       => $AddedTemplateIDs[0];
+            field 'Name'                     => $Templates[0]->{Name};
+            field 'PreSelectedTicketStateID' => undef;
+
+            etc();
         },
     },
     {
         Name   => 'Second Template Ticket StateID 1',
         Config => {
+            Name                     => 'text_second_' . $RandomID,
             ID                       => $AddedTemplateIDs[1],
             PreSelectedTicketStateID => 1,
             UserID                   => 1,
+            ValidID                  => 1,
+            TemplateType             => 'Answer',
+            ContentType              => 'text/plain; charset=utf-8',
         },
         Success         => 1,
-        ExpectedResults => {
-            ID                       => $AddedTemplateIDs[1],
-            Name                     => $Templates[1]->{Name},
-            PreSelectedTicketStateID => 1,
+        ExpectedResults => hash {
+            field 'ID'                       => $AddedTemplateIDs[1];
+            field 'Name'                     => $Templates[1]->{Name};
+            field 'PreSelectedTicketStateID' => 1;
+
+            etc();
         },
     },
 );
 
-my $ResponseTicketStatePreSelectionObject = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection');
-
 TEST:
 for my $Test (@Tests) {
 
-    my $Success = $ResponseTicketStatePreSelectionObject->StandardTemplateUpdate( %{ $Test->{Config} } );
+    my $Success = $StandardTemplateObject->StandardTemplateUpdate( %{ $Test->{Config} } );
 
     # easy compare
     if ( !$Success ) {
         $Success = 0;
     }
 
-    $Self->Is(
+    is(
         $Success,
         $Test->{Success},
         "$Test->{Name} StandardTemplateUpdate() - ",
@@ -173,11 +203,11 @@ for my $Test (@Tests) {
 
     next TEST if !$Test->{Success};
 
-    my %Data = $ResponseTicketStatePreSelectionObject->StandardTemplateGet(
+    my %Data = $StandardTemplateObject->StandardTemplateGet(
         ID => $Test->{Config}->{ID},
     );
 
-    $Self->IsDeeply(
+    is(
         \%Data,
         $Test->{ExpectedResults},
         "$Test->{Name} StandardTemplateGet() - "
@@ -189,7 +219,7 @@ for my $ID (@AddedTemplateIDs) {
     my $Delete = $StandardTemplateObject->StandardTemplateDelete(
         ID => $ID,
     );
-    $Self->True(
+    ok(
         $Delete,
         "StandardTemplateDelete() -  $ID ",
     );

@@ -4972,7 +4972,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Translatable="1">Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).</Description>
-        <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
+        <Navigation>Frontend::Agent::View</Navigation>
         <Value>
             <Item ValueType="Textarea">[% Data.Salutation | html %]
 [% Data.StdResponse | html %]
@@ -4985,14 +4985,14 @@
     </Setting>
     <Setting Name="Ticket::Frontend::Quote" Required="0" Valid="1">
         <Description Translatable="1">Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.</Description>
-        <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
+        <Navigation>Frontend::Agent::View</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&gt;</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::ResponseQuoteMaxLines" Required="0" Valid="0">
         <Description Translatable="1">Defines the maximum number of quoted lines to be added to responses.</Description>
-        <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
+        <Navigation>Frontend::Agent::View</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[1-9][0-9]*$">99</Item>
         </Value>
@@ -5135,13 +5135,6 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
-        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
@@ -5165,6 +5158,46 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###InformAgent" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket note screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Article" Required="0" Valid="1">
+        <Description Translatable="1">Defines for which article types the editing of subject, body and attachment is enabled. "Both" includes "Phone" and "Internal".</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Internal">
+                <Item ValueType="Option" Value="Phone" Translatable="1">Phone</Item>
+                <Item ValueType="Option" Value="Internal" Translatable="1">Internal</Item>
+                <Item ValueType="Option" Value="Both" Translatable="1">Both</Item>
+                <Item ValueType="Option" Value="None" Translatable="1">None</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ArticleCustomerVisible" Required="0" Valid="0">
+        <Description Translatable="1">Enables or disables the editing of articles which are visible for the customer in general.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###TimeUnits" Required="0" Valid="0">
+        <Description Translatable="1">Sets the time units in the ticket note screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###IsVisibleForCustomer" Required="0" Valid="0">
+        <Description Translatable="1">Adds customer visibility of the article to the article edit screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###EditCustomerArticles" Required="0" Valid="0">
+        <Description Translatable="1">Defines if articles written by the customer are editable.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -12179,7 +12212,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="CustomerFrontend::Module###CustomerTicketSearch" Required="0" Valid="1">
+    <Setting Name="CustomerFrontend::Module###CustomerTicketSearch" Required="0" Valid="0">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
         <Value>
@@ -12198,6 +12231,34 @@
                     <Item Key="Title" Translatable="1">Search</Item>
                 </Hash>
             </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::CustomerTicketSearch###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.TicketList.css</Item>
+                        <Item>Core.TicketOverview.css</Item>
+                        <Item>Core.AllocationList.css</Item>
+                        <Item>Core.TicketSearch.css</Item>
+                        <Item>Core.Widget.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.UI.AllocationList.js</Item>
+                        <Item>Core.Agent.TableFilters.js</Item>
+                        <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
+                        <Item>Core.Agent.DynamicFieldReferenceSearch.js</Item>
+                        <Item>Core.Customer.TicketList.js</Item>
+                        <Item>Core.Customer.Search.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketSearch###002-Ticket" Required="0" Valid="1">
@@ -12219,15 +12280,16 @@
                             <Array>
                             </Array>
                         </Item>
-                        <Item Key="Description" Translatable="1">Search.</Item>
-                        <Item Key="Name" Translatable="1">Search</Item>
+                        <Item Key="Description" Translatable="1">Search Tickets.</Item>
+                        <Item Key="Name" Translatable="1">Ticket Search.</Item>
                         <Item Key="Link">Action=CustomerTicketSearch</Item>
                         <Item Key="LinkOption"></Item>
                         <Item Key="NavBar">Ticket</Item>
-                        <Item Key="Type">Submenu</Item>
+                        <Item Key="Type">Menu</Item>
                         <Item Key="Block"></Item>
                         <Item Key="AccessKey">s</Item>
-                        <Item Key="Prio">300</Item>
+                        <Item Key="Prio">100</Item>
+                        <Item Key="svgIcon">var/httpd/htdocs/skins/Customer/default/img/magnifying-glass-solid.svg</Item>
                     </Hash>
                 </Item>
             </Array>
@@ -12432,6 +12494,7 @@
                 <Item>CustomerTicketMessage</Item>
                 <Item>CustomerTicketPrint</Item>
                 <Item>CustomerTicketProcess</Item>
+                <Item>CustomerTicketSearch</Item>
                 <Item>CustomerTicketZoom</Item>
                 <Item>CustomerTicketZoomReply</Item>
             </Array>
@@ -14007,76 +14070,6 @@ Thanks for your help!
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Module###AdminResponseTemplatesStatePreselection" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the admin interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Group">
-                        <Array>
-                            <Item>admin</Item>
-                        </Array>
-                    </Item>
-                    <Item Key="Description" Translatable="1">Manage ticket state pre-selections for response templates.</Item>
-                    <Item Key="Title" Translatable="1">Ticket state pre-selection for response templates</Item>
-                    <Item Key="NavBarName">Admin</Item>
-                </Hash>
-            </Item>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Module::AdminResponseTemplatesStatePreselection###002-ResponseTemplatesStatePreselection" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Agent.Admin.ResponseTemplatesStatePreselection.js</Item>
-                    </Array>
-                </Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Navigation###AdminResponseTemplatesStatePreselection###002-ResponseTemplatesStatePreselection" Required="0" Valid="0">
-        <Description Translatable="1">Main menu item registration.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
-        <Value>
-            <Array>
-                <DefaultItem ValueType="FrontendNavigation">
-                    <Hash>
-                    </Hash>
-                </DefaultItem>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::NavigationModule###AdminResponseTemplatesStatePreselection" Required="0" Valid="1">
-        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                        <Item>admin</Item>
-                    </Array>
-                </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
-                <Item Key="Name" Translatable="1">State pre-selection for Templates</Item>
-                <Item Key="Block">Ticket</Item>
-                <Item Key="Description" Translatable="1">Manage ticket state pre-selections for response templates.</Item>
-                <Item Key="IconBig">fa-th-list</Item>
-                <Item Key="IconSmall"></Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="DefaultOverviewColumns" Required="1" Valid="1">
         <Description Translatable="1">General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.</Description>
         <Navigation>Frontend::Agent</Navigation>
@@ -14748,6 +14741,34 @@ Thanks for your help!
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
+                <Item Key="AgentTicketArticleRestore">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleRestore</Item>
+                        <Item Key="Prio">10</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleDelete">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleDelete</Item>
+                        <Item Key="Prio">20</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleVersion">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion</Item>
+                        <Item Key="Prio">30</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleEdit">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
+                        <Item Key="Prio">40</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
                 <Item Key="AgentTicketForward">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
@@ -14819,6 +14840,13 @@ Thanks for your help!
                         <Item Key="Valid"></Item>
                     </Hash>
                 </DefaultItem>
+                <Item Key="AgentTicketArticleEdit">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
+                        <Item Key="Prio">40</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
                 <Item Key="AgentTicketCompose">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>

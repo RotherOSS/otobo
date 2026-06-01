@@ -1035,13 +1035,13 @@ sub BuildSelectionDataGet {
     my $FieldConfig            = $Param{DynamicFieldConfig}->{Config};
     my $FilteredPossibleValues = $Param{PossibleValues};
 
-    # get the possible values again as it might or might not contain the possible none and it could
-    # also be overwritten
-    my $ConfigPossibleValues = $Self->PossibleValuesGet(%Param);
-
     # check if $PossibleValues differs from configured PossibleValues
     # and show values which are not contained as disabled if TreeView => 1
     if ( $FieldConfig->{TreeView} ) {
+
+        # get the possible values again as it might or might not contain the possible none and it could
+        # also be overwritten
+        my $ConfigPossibleValues = $Self->PossibleValuesGet(%Param);
 
         if ( keys %{$ConfigPossibleValues} != keys %{$FilteredPossibleValues} ) {
 

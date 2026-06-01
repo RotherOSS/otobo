@@ -64,12 +64,10 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
-
-    $Self->{QueueID} = $Param{QueueID} || '';
 
     $Self->{CacheType} = 'Queue';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -81,10 +79,8 @@ sub new {
         $Self->{PreferencesObject} = $GeneratorModule->new();
     }
 
-    # --------------------------------------------------- #
-    #  default queue settings                             #
-    #  these settings are used by the CLI version         #
-    # --------------------------------------------------- #
+    # default queue settings                             #
+    # these settings are used by the CLI version         #
     $Self->{QueueDefaults} = {
         Calendar            => '',
         UnlockTimeout       => 0,
@@ -149,11 +145,15 @@ sub GetSystemAddress {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my %Address;
-    my $QueueID = $Param{QueueID} || $Self->{QueueID};
+    my $QueueID = $Param{QueueID};
 
     return if !$DBObject->Prepare(
-        SQL => 'SELECT sa.value0, sa.value1 FROM system_address sa, queue sq '
-            . 'WHERE sq.id = ? AND sa.id = sq.system_address_id',
+        SQL => <<'END_SQL',
+SELECT sa.value0, sa.value1
+  FROM system_address sa, queue sq
+  WHERE sq.id = ?
+    AND sa.id = sq.system_address_id
+END_SQL
         Bind  => [ \$QueueID ],
         Limit => 1,
     );
@@ -161,7 +161,7 @@ sub GetSystemAddress {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Address{Email} = $Row[0];
 
-        # Return the unquoted phrase for use with Kernel::System::EmailAddress.
+        # Return the unquoted phrase which can be used with Kernel::System::EmailAddress.
         $Address{Phrase} = $Row[1];
     }
 
@@ -817,19 +817,16 @@ add queue with attributes
 sub QueueAdd {
     my ( $Self, %Param ) = @_;
 
+    # apply the default values which have been set up in the constructor
     # check if this request is from web and not from command line
     if ( !$Param{NoDefaultValues} ) {
-        for (
+        for my $Key (
             qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
             FollowUpLock SystemAddressID SalutationID SignatureID
             FollowUpID FollowUpLock DefaultSignKey Calendar)
             )
         {
-
-            # I added default values in the Load Routine
-            if ( !$Param{$_} ) {
-                $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
-            }
+            $Param{$Key} ||= $Self->{QueueDefaults}->{$Key} || 0;
         }
     }
 

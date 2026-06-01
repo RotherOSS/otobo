@@ -951,6 +951,13 @@ sub GetFieldState {
 
     my %Return;
 
+    #  check if whole Set re-appears
+    my $WholeSetReAppears = 0;
+    if ( $Param{CachedVisibility} && $Param{CachedVisibility}{"DynamicField_$SetConfig->{Name}"} == 0 )
+    {
+        $WholeSetReAppears = 1;
+    }
+
     my $PassVisibility = 0;
     if ( $Param{CachedVisibility} ) {
         my $InnerField = ( keys $DynamicField->%* )[0];
@@ -973,10 +980,9 @@ sub GetFieldState {
         if ($PassVisibility) {
 
             # if the whole set is reappearing, we must treat all inner fields as reappearing
-            if ( $Param{CachedVisibility}{"DynamicField_$SetConfig->{Name}"} == 0 ) {
+            if ($WholeSetReAppears) {
                 %IndexVisibility = map { 'DynamicField_' . $_ => 0 } keys $DynamicField->%*;
             }
-
             else {
                 for my $Name ( keys $DynamicField->%* ) {
                     $IndexVisibility{"DynamicField_$Name"} =
@@ -1003,14 +1009,18 @@ sub GetFieldState {
         for my $Name ( keys $SetFieldStates{Fields}->%* ) {
 
             my $DFName = "DynamicField_" . $Name;
-            if ( exists $IndexVisibility{$DFName} && $IndexVisibility{$DFName} == 0 && $SetFieldStates{Visibility}{$DFName} )
+            if (
+                exists $IndexVisibility{$DFName} &&
+                $IndexVisibility{$DFName} == 0   &&
+                $SetFieldStates{Visibility}{$DFName}
+                )
             {
                 my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
-                if ( $ParamObject && $Param{TicketID} ) {
+                if ( $ParamObject && $Param{ObjectID} ) {
 
                     my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
                     my $OldValues     = $BackendObject->ValueGet(
-                        ObjectID           => $Param{TicketID},
+                        ObjectID           => $Param{ObjectID},
                         DynamicFieldConfig => $DynamicField->{$Name},
                         Set                => 1,
                         ObjectName         => undef,
@@ -1094,10 +1104,9 @@ sub GetFieldState {
         if ($PassVisibility) {
 
             # if the whole set is reappearing, we must treat all inner fields as reappearing
-            if ( $Param{CachedVisibility}{"DynamicField_$SetConfig->{Name}"} == 0 ) {
+            if ($WholeSetReAppears) {
                 %IndexVisibility = map { 'DynamicField_' . $_ => 0 } keys $DynamicField->%*;
             }
-
             else {
                 for my $Name ( keys $DynamicField->%* ) {
                     $IndexVisibility{"DynamicField_$Name"} = $Param{CachedVisibility}{"DynamicField_$Name\_Template"};
@@ -1141,6 +1150,38 @@ sub GetFieldState {
 
         for my $DFName ( keys $SetFieldStates{Visibility}->%* ) {
             $Return{Visibility}{ $DFName . '_Template' } = $SetFieldStates{Visibility}{$DFName};
+        }
+    }
+
+    if ($WholeSetReAppears) {
+
+        my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
+        if ( $ParamObject && $Param{ObjectID} ) {
+
+            my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+            my $OldValues     = $BackendObject->ValueGet(
+                ObjectID           => $Param{ObjectID},
+                DynamicFieldConfig => $SetConfig,
+                Set                => 1,
+                ObjectName         => undef,
+            ) // [];
+
+            my @InnerFields = map { $_->{DF} } $SetConfig->{Config}->{Include}->@*;
+
+            for my $SetIndex ( 0 .. $#SetValue ) {
+
+                for my $DFName (@InnerFields) {
+
+                    $Return{Sets}{$DFName}{DynamicFieldConfig} = $DynamicField->{$DFName};
+                    $Return{Sets}{$DFName}{Values}{ $DFName . "_" . $SetIndex } = $OldValues->[$SetIndex]->{$DFName};
+                    if ( !exists $Return{Sets}{$DFName}{FieldStates}{ $DFName . '_' . $SetIndex } ) {
+                        $Return{Sets}{$DFName}{FieldStates}{ $DFName . '_' . $SetIndex } = {
+                            'PossibleValues'  => undef,
+                            'NotACLReducible' => 1,
+                        };
+                    }
+                }
+            }
         }
     }
 
