@@ -25,6 +25,7 @@ use parent qw(Kernel::System::EventHandler);
 # core modules
 
 # CPAN modules
+use Email::Address::XS ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
@@ -105,6 +106,8 @@ sub new {
     return $Self;
 }
 
+=for stopwords probiert
+
 =head2 GetSystemAddress()
 
 get a queue system email address as hash.
@@ -119,22 +122,27 @@ The attributes of the returned hash are
 
 =item Email: the address part of the system address
 
-=item RealName: the quoted phrase of the system address
-
 =item Phrase: the unquoted phrase of the system address
+
+=item FormattedAddress: address that can be used in MIME header, e.g. q{"August probiert's" <gustl@testanything.org>}
+
+=item RealName: DEPRECATED the quoted phrase of the system address
 
 =back
 
 When the address is 'gustl@testanything.org' and the phrase is 'August, Ausprobierer' we get:
 
     my %Address = (
-        Email    => q{gustl@testanything.org},
-        RealName => q{"August, Ausprobierer"},
-        Phrase   => q{August, Ausprobierer},
+        Email            => q{gustl@testanything.org},
+        Phrase           => q{August, Ausprobierer},
+        FormattedAddress => q{"August, Ausprobierer" <gustl@testanything.org>},
+        RealName         => q{"August, Ausprobierer"},
     );
 
-This means that "$Address{RealName} <$Address{Email}>" is a valid email. And the unquoted C<Phrase>
-can be used in C<Kernel::System::EmailAddress::Format()>.
+The formatted address is a valid address with the phrase.
+The unquoted C<Phrase> can be used in C<Kernel::System::EmailAddress::Format()>.
+
+The quoted 'RealName' should not be used as there are issues with the proper quoting.
 
 =cut
 
@@ -165,6 +173,13 @@ END_SQL
         $Address{Phrase} = $Row[1];
     }
 
+    # getting the quoting and escaping of the phrase right
+    $Address{FormattedAddress} = Email::Address::XS->new(
+        phrase  => $Address{Phrase},
+        address => $Address{Email},
+    )->format;
+
+    # 'RealName' is deprecated as the quoting is not consistent
     # prepare realname quote, for constructing emails like "$Address{RealName} <$Address{Email}>".
     $Address{RealName} = $Address{Phrase};
     if ( $Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
