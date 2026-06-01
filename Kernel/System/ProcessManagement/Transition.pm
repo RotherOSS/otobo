@@ -405,7 +405,7 @@ sub TransitionCheck {
 
             FIELDLNAME:
             for my $FieldName ( sort keys %{ $ActualCondition->{Fields} } ) {
-                if ( $FieldName =~ /(\w+)::(\w+)/ ) {
+                if ( $FieldName =~ /(\w+)::(\w+)/ && IsArrayRefWithData( $Param{Data}->{$1} ) ) {
                     my @ValueList;
                     for my $Elem ( $Param{Data}->{$1}->@* ) {
                         if ( ref $Elem->{$2} eq 'ARRAY' ) {
