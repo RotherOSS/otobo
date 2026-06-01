@@ -83,19 +83,19 @@ sub Run {
             Module => 'DBUpdatePostMasterFilter',
         },
         {
-            Name   => 'Add process dynamic fields to ticket zoom dynamic field screen configs',
+            Name   => 'Add process dynamic fields to ticket zoom dynamic field screen configs.',
             Module => 'SysConfigUpdateTicketZoomDFScreens',
         },
         {
-            Name   => 'Add X-OTOBO-From to PostmasterX-Header',
+            Name   => 'Add X-OTOBO-From to PostmasterX-Header.',
             Module => 'SysConfigUpdatePostmasterXHeader',
         },
         {
-            Name   => 'Migrate Article::Actions system configurations to new structure',
+            Name   => 'Migrate Article::Actions system configurations to new structure.',
             Module => 'SysConfigMigrateArticleActions',
         },
         {
-            Name   => 'Update MultiValue attribute of Lens dynamic fields',
+            Name   => 'Update MultiValue attribute of Lens dynamic fields.',
             Module => 'UpdateLensDynamicFieldsMultiValue',
         },
         {

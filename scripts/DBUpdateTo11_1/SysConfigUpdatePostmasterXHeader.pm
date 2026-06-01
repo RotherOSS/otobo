@@ -31,7 +31,6 @@ use List::Util qw(any);
 # OTOBO modules
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Package',
     'Kernel::System::SysConfig',
@@ -46,7 +45,6 @@ scripts::DBUpdateTo11_1::SysConfigUpdatePostmasterXHeader - Add the key 'X-OTOBO
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # tackle agent-side setting, it is expected that the setting exists
