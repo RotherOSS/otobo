@@ -205,6 +205,7 @@ textarea,
 }
 
 input[type='text'],
+input[type='password'],
 textarea {
     display: inline-block;
     width: 100%;
@@ -213,7 +214,8 @@ textarea {
     text-align: start;
 }
 
-input[type='text'] {
+input[type='text'],
+input[type='password'] {
     font-size: var(--LabelFontSize);
     line-height: 1.25;
     letter-spacing: 0.4px;
