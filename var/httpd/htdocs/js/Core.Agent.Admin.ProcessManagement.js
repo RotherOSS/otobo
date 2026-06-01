@@ -495,8 +495,15 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                         left: Position.left,
                         top: Position.top
                     };
+
+                    // add namespace to entity
+                    let EntityName = Entity.Name;
+                    if ( Entity.Namespace ) {
+                        EntityName = Entity.Namespace + ' – ' + EntityName;
+                    }
+
                     // Draw Entity
-                    TargetNS.Canvas.CreateActivity(EntityID, Entity.Name, ActivityID, Position.left, Position.top);
+                    TargetNS.Canvas.CreateActivity(EntityID, EntityName, ActivityID, Position.left, Position.top);
 
                     // get Path length
                     for (PathKey in Path) {
@@ -1573,8 +1580,20 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // set current start and end activity (just for information purposes, not changeable)
         $.each(PathInfo, function(Activity, Transition) {
             if (Activity === StartActivityID && typeof Transition[CurrentTransitionEntityID] !== 'undefined') {
-                $('#StartActivity').attr('title', ActivityInfo[Activity].Name).text(ActivityInfo[Activity].Name);
-                $('#EndActivity').attr('title', ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name).text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
+
+                // build start activity and end activity names with namespaces
+                let StartActivityName = ActivityInfo[Activity].Name,
+                    EndActivityName = ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name;
+
+                if ( ActivityInfo[Activity].Namespace ) {
+                    StartActivityName = ActivityInfo[Activity].Namespace + ' – ' + StartActivityName;
+                }
+                if ( ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Namespace ) {
+                    EndActivityName = ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Namespace + ' – ' + EndActivityName;
+                }
+
+                $('#StartActivity').attr('title', StartActivityName).text(StartActivityName);
+                $('#EndActivity').attr('title', EndActivityName).text(EndActivityName);
 
                 StartActivityEntityID = Activity;
                 EndActivityEntityID = Transition[CurrentTransitionEntityID].ActivityEntityID;
