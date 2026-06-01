@@ -601,6 +601,32 @@ sub Run {
             );
         }
 
+        # Check if ActivityDialog is local
+        if ( $ActivityDialogsLookup{ $Param{ActivityDialog} }->{ProcessEntityID} ) {
+
+            # Activity must be then also be local
+            if (
+                !$ActivityData->{ProcessEntityID}
+                || $ActivityDialogsLookup{ $Param{ActivityDialog} }->{ProcessEntityID} ne
+                $ActivityData->{ProcessEntityID}
+                )
+            {
+                %Result = (
+                    Success => 0,
+                    Message => Translatable('Non-global ActivityDialogs may not be assigned to global Activities!'),
+                );
+
+                $JSON = $LayoutObject->JSONEncode( Data => \%Result );
+
+                return $LayoutObject->Attachment(
+                    ContentType => 'application/json',
+                    Content     => $JSON,
+                    Type        => 'inline',
+                    NoCache     => 1,
+                );
+            }
+        }
+
         # Check if ActivityDialog is already assigned to Activity
         if ( ref $ActivityData->{Config}->{ActivityDialog} eq 'HASH' ) {
 
