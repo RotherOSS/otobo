@@ -485,9 +485,9 @@ sub SendAutoResponse {
     );
 
     # return if no valid auto response exists
-    return if !$AutoResponse{Text};
-    return if !$AutoResponse{SenderRealname};
-    return if !$AutoResponse{SenderAddress};
+    return unless $AutoResponse{Text};
+    return unless $AutoResponse{SenderRealname};    # the unquoted phrase of the system address
+    return unless $AutoResponse{SenderAddress};
 
     # send if notification should be sent (not for closed tickets)!?
     my %State = $Kernel::OM->Get('Kernel::System::State')->StateGet( ID => $Ticket{StateID} );
@@ -527,6 +527,7 @@ sub SendAutoResponse {
                 . "$Ticket{TicketNumber}] ($OrigHeader{From}) because the "
                 . "sender doesn't want an auto-response (e. g. loop or precedence header)"
         );
+
         return;
     }
 
