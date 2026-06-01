@@ -1127,8 +1127,8 @@ sub Run {
 
             if ( $GetParam{Dest} && $GetParam{Dest} =~ /^(\d{1,100})\|\|.+?$/ ) {
                 $GetParam{QueueID} = $1;
-                my %Queue = $QueueObject->GetSystemAddress( QueueID => $GetParam{QueueID} );
-                $GetParam{From} = $Queue{Email};
+                my %Address = $QueueObject->GetSystemAddress( QueueID => $GetParam{QueueID} );
+                $GetParam{From} = $Address{Email};
             }
 
             my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
@@ -1309,8 +1309,8 @@ sub Run {
             $GetParam{OwnerAll} = 1;
         }
         else {
-            my %Queue = $QueueObject->GetSystemAddress( QueueID => $NewQueueID );
-            $GetParam{From} = $Queue{Email};
+            my %Address = $QueueObject->GetSystemAddress( QueueID => $NewQueueID );
+            $GetParam{From} = $Address{Email};
         }
 
         my $CustomerUser = $ParamObject->GetParam( Param => 'CustomerUser' )
@@ -2184,8 +2184,8 @@ sub Run {
         my $QueueID = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
             $QueueID = $1;
-            my %Queue = $QueueObject->GetSystemAddress( QueueID => $QueueID );
-            $GetParam{From} = $Queue{Email};
+            my %Address = $QueueObject->GetSystemAddress( QueueID => $QueueID );
+            $GetParam{From} = $Address{Email};
         }
         $GetParam{Dest}    = $Dest;
         $GetParam{QueueID} = $QueueID;
