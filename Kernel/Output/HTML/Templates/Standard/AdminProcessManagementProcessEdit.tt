@@ -65,7 +65,7 @@
                             <ul class="Tablelike" id="Activities">
 [% RenderBlockStart("ActivityRow") %]
                                 <li class="OneRow" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]">
-                                    <div class="AsBlock W80pc" title="[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %]</div>
+                                    <div class="AsBlock W80pc" title="[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %]</div>
                                     <span>
                                         <a href="#" title="[% Translate("Delete") | html %]" class="DeleteEntity DeleteActivity"><i class="fa fa-trash-o"></i></a>
                                         <a href="[% Env("Baselink") %]Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %]" title="[% Translate("Edit") | html %]" class="AsPopup PopupType_Activity"><i class="fa fa-edit"></i></a>
@@ -88,7 +88,7 @@
                             <ul class="Tablelike" id="ActivityDialogs">
 [% RenderBlockStart("ActivityDialogRow") %]
                                 <li class="OneRow" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]">
-                                    <div class="AsBlock W60pc" title="[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %]</div>
+                                    <div class="AsBlock W60pc" title="[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %]</div>
                                     <span>
                                         <a href="#" title="[% Translate("Delete") | html %]"  class="DeleteEntity DeleteActivityDialog"><i class="fa fa-trash-o"></i></a>
                                         <a href="[% Env("Baselink") %]Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %]" title="[% Translate("Edit") | html %]" class="AsPopup PopupType_ActivityDialog"><i class="fa fa-edit"></i></a>
@@ -118,7 +118,7 @@
                             <ul class="Tablelike" id="Transitions">
 [% RenderBlockStart("TransitionRow") %]
                                 <li class="OneRow" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]">
-                                    <div class="AsBlock W80pc" title="[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %]</div>
+                                    <div class="AsBlock W80pc" title="[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %]</div>
                                     <span>
                                         <a href="#" title="[% Translate("Delete") | html %]" class="DeleteEntity DeleteTransition"><i class="fa fa-trash-o"></i></a>
                                         <a href="[% Env("Baselink") %]Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %]" title="[% Translate("Edit") | html %]" class="AsPopup PopupType_Transition"><i class="fa fa-edit"></i></a>
@@ -141,7 +141,7 @@
                             <ul class="Tablelike" id="TransitionActions">
 [% RenderBlockStart("TransitionActionRow") %]
                                 <li class="OneRow" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]">
-                                    <div class="AsBlock W80pc" title="[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][[% Data.Namespace | html %]] [% END %][% Data.Name | html %]</div>
+                                    <div class="AsBlock W80pc" title="[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])">[% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %]</div>
                                     <span>
                                         <a href="#" title="[% Translate("Delete") | html %]" class="DeleteEntity DeleteTransitionAction"><i class="fa fa-trash-o"></i></a>
                                         <a href="[% Env("Baselink") %]Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %]" title="[% Translate("Edit") | html %]" class="AsPopup PopupType_TransitionAction"><i class="fa fa-edit"></i></a>
