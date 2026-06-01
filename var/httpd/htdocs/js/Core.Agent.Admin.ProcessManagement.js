@@ -1090,6 +1090,31 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
 
+        // Hide non-global ActivityDialogs if Global selection is checked
+        if ($('input#Global').is(":checked")) {
+            $('.NonGlobalDialog').each( function () {
+                $(this).hide();
+            });
+        }
+
+        // Init event handler if Global selection is changed during edit
+        $('input#Global').off('click').on('click', function () {
+            if ($(this).is(':checked')) {
+                if (Core.UI.AllocationList.GetResult('#AssignedActivityDialogs', 'dialogprocess').filter(item => item !== '').length) {
+                    alert(Core.Language.Translate("Non-global ActivityDialogs may not be assigned to global Activities!"));
+                    return false;
+                }
+                $('.NonGlobalDialog').each( function () {
+                    $(this).hide();
+                });
+            }
+            else {
+                $('.NonGlobalDialog').each( function () {
+                    $(this).show();
+                });
+            }
+        });
+
         $('#Submit').on('click', function() {
             $('#ActivityForm').submit();
         });

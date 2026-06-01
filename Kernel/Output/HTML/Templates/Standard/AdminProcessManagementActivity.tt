@@ -111,8 +111,8 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
 [% RenderBlockStart("AvailableActivityDialogRow") %]
-                                <li data-id="[% Data.ID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
-                                    [% IF Data.Namespace %][% Data.Namespace %] – [% END %][% Data.Name | html %]
+                                <li data-id="[% Data.ID | html %]" data-dialogprocess="[% Data.DialogProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]" class="[% IF Data.DialogProcessEntityID %]NonGlobalDialog[% END %]">
+                                    [% IF Data.Namespace %][% Data.Namespace %] – [% END %][% Data.Name | html %][% IF !Data.DialogProcessEntityID %] (global) [% END %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
                                         <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
@@ -135,8 +135,8 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AssignedActivityDialogs">
 [% RenderBlockStart("AssignedActivityDialogRow") %]
-                                <li data-id="[% Data.ID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
-                                    [% IF Data.Namespace %][% Data.Namespace %] – [% END %][% Data.Name | html %]
+                                <li data-id="[% Data.ID | html %]" data-dialogprocess="[% Data.DialogProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]" class="[% IF Data.DialogProcessEntityID %]NonGlobalDialog[% END %]">
+                                    [% IF Data.Namespace %][% Data.Namespace %] – [% END %][% Data.Name | html %][% IF !Data.DialogProcessEntityID %] (global) [% END %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
                                         <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
