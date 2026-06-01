@@ -1012,7 +1012,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get process layout and store it into a hidden field as JSON string
             $('input[name=ProcessLayout]').val(Core.JSON.Stringify(TargetNS.ProcessLayout));
 
-            // check if there are "open" transitions, e.g. transitions that have only a startpoint but no defined endpoint
+            // check if there are "open" transitions, e.g. transitions that have only a start point but no defined endpoint
             // these open transitions must be deleted before saving
             $.each(TargetNS.ProcessData.Process[ProcessEntityID].Path, function (_Activity, ActivityData) {
                 $.each(ActivityData, function (Transition, TransitionData) {
@@ -1077,7 +1077,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      */
     TargetNS.InitActivityEdit = function () {
         function InitListFilter(_Event, UI) {
-         // only do something, if the element was removed from the right list
+
+            // only do something, if the element was removed from the right list
             if (UI.sender.attr('id') === 'AssignedActivityDialogs') {
                 Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
             }
@@ -1268,10 +1269,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                      return false;
                                  }
 
-                                 // add the time units value to the fieldconfig
+                                 // add the time units value to the field config
                                  FieldConfigElement.Config.TimeUnits = $('#TimeUnits').val();
 
-                                 // add the standard template value to the fieldconfig
+                                 // add the standard template value to the field config
                                  FieldConfigElement.Config.StandardTemplates = '0';
                                  if ($('#StandardTemplates').prop('checked')) {
                                     FieldConfigElement.Config.StandardTemplates = '1';
@@ -1409,7 +1410,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('#ConditionAdd').on('click', function() {
             // get current parent index
             var CurrentParentIndex = parseInt($(this).prev('.WidgetSimple').first().attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''), 10),
-                // in case we add a whole new condition, the fieldindex must be 1
+                // in case we add a whole new condition, the field index must be 1
                 LastKnownFieldIndex = 1,
                 // get current index
                 ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, CurrentParentIndex + 1).replace(/_FIELDINDEX_/g, LastKnownFieldIndex);
@@ -1603,13 +1604,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
         });
 
-        // Set chosen Startactivity, Endactivity and Transition
+        // Set chosen start activity, end activity and Transition
         $('#Transition').val(CurrentTransitionEntityID);
         $('#EditPath a').data('entity', CurrentTransitionEntityID);
 
         if (AssignedTransitionActions && AssignedTransitionActions.length) {
             // Display assigned Transition Actions
-            $.each(AssignedTransitionActions, function(Index, TransitionActionEntityID) {
+            $.each(AssignedTransitionActions, function(_Index, TransitionActionEntityID) {
                 $('#AvailableTransitionActions').find('#' + TransitionActionEntityID).remove().appendTo($('#AssignedTransitionActions'));
             });
         }
@@ -1745,7 +1746,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      * @returns {Boolean} Returns false, if Config is not defined.
      * @param {Object} Config
      * @description
-     *      Update gloabl process config object after config change e.g. in popup windows.
+     *      Update global process config object after config change e.g. in popup windows.
      */
     TargetNS.UpdateConfig = function (Config) {
         if (typeof Config === 'undefined') {
