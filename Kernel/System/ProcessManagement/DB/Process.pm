@@ -21,6 +21,7 @@ use strict;
 use warnings;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -144,7 +145,7 @@ sub ProcessAdd {
     );
 
     my $EntityExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $EntityExists = 1;
     }
 
@@ -581,7 +582,7 @@ returns 1 if success or undef otherwise
         ID            => 123,             # mandatory
         EntityID      => 'P1'             # mandatory, exportable unique identifier
         Name          => 'NameOfProcess', # mandatory
-        StateentityID => 'S1',
+        StateEntityID => 'S1',
         Layout        => $LayoutHashRef,  # mandatory, diagram objects positions to be stored in
                                           #   YAML format
         Config        => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
@@ -619,7 +620,7 @@ sub ProcessUpdate {
     );
 
     my $EntityExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $EntityExists = 1;
     }
 
@@ -1242,7 +1243,7 @@ sub ProcessDump {
         return;
     }
 
-    # default valuse
+    # default value
     my $ResultType = $Param{ResultType} // 'SCALAR';
 
     if ( $ResultType eq 'FILE' ) {
@@ -1542,7 +1543,7 @@ sub ProcessImport {
 
     my @MissingDynamicFieldNames;
     for my $UsedDynamicFieldName (@UsedDynamicFields) {
-        if ( !grep { $_ eq $UsedDynamicFieldName } @PresentDynamicFieldNames ) {
+        if ( none { $_ eq $UsedDynamicFieldName } @PresentDynamicFieldNames ) {
             push @MissingDynamicFieldNames, $UsedDynamicFieldName;
         }
     }
