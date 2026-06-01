@@ -18,6 +18,7 @@ package Kernel::Modules::AdminProcessManagementPath;
 
 use strict;
 use warnings;
+use utf8;
 
 # core modules
 
@@ -303,17 +304,25 @@ sub _ShowEdit {
     my %TransitionList;
     TRANSITION:
     for my $Transition ( @{ $Self->{TransitionList} } ) {
-
         next TRANSITION unless !$Transition->{ProcessEntityID} ||
             $Transition->{ProcessEntityID} eq $Param{ProcessEntityID};
-        $TransitionList{ $Transition->{EntityID} } = $Transition->{Name};
+
+        my $Name = $Transition->{Name};
+
+        # add namespace if needed
+        if ( $Transition->{Namespace} ) {
+
+            # NOTE dash is em dash on purpose for namespace separation
+            $Name = $Transition->{Namespace} . ' — ' . $Name;
+        }
+
+        $TransitionList{ $Transition->{EntityID} } = $Name;
     }
 
     # fix sorting by names
     my @TransitionList;
     for my $TransitionID (
-        sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} }
-        keys %TransitionList
+        sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} } keys %TransitionList
         )
     {
         push @TransitionList, {
@@ -346,6 +355,7 @@ sub _ShowEdit {
                 ID              => $TransitionActionData->{ID},
                 EntityID        => $TransitionActionData->{EntityID},
                 Name            => $TransitionActionData->{Name},
+                Namespace       => $TransitionActionData->{Namespace} || '',
                 ProcessEntityID => $Param{ProcessEntityID},
             },
         );
