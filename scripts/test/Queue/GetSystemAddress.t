@@ -216,10 +216,10 @@ my @Tests = (
             Name => qq{"extra phrase" <$SystemAddressEmail>},
         ],
         ExpectedSystemAddress => {
-            Email            => qq{"extra phrase" <$SystemAddressEmail>},
+            Email            => qq{$SystemAddressEmail},
             RealName         => qq{$SystemAddressRealName},
             Phrase           => qq{$SystemAddressRealName},
-            FormattedAddress => qq{},
+            FormattedAddress => qq{"${SystemAddressRealName}" <$SystemAddressEmail>},
         },
     },
     {
@@ -229,10 +229,10 @@ my @Tests = (
             Name => qq{"extra phrase" <$SystemAddressEmail> (extra comment)},
         ],
         ExpectedSystemAddress => {
-            Email            => qq{"extra phrase" <$SystemAddressEmail> (extra comment)},
+            Email            => qq{$SystemAddressEmail},
             RealName         => qq{$SystemAddressRealName},
             Phrase           => qq{$SystemAddressRealName},
-            FormattedAddress => qq{},
+            FormattedAddress => qq{"${SystemAddressRealName}" <$SystemAddressEmail>},
         },
     },
 );
