@@ -251,7 +251,7 @@ $Selenium->RunTest(
             "ConditionFieldName stored value",
         );
         $Self->Is(
-            $Selenium->find_element(".//*[\@id='ConditionFieldType[1][$TransitionFieldName]']/option[4]")->get_value(),
+            $Selenium->find_element(".//*[\@id='ConditionFieldType[1][$TransitionFieldName]']/option[2]")->get_value(),
             "String",
             "ConditionFieldType stored value",
         );
