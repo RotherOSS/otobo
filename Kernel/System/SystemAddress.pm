@@ -16,11 +16,19 @@
 
 package Kernel::System::SystemAddress;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core module
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::EmailAddress',
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Valid',
@@ -85,12 +93,25 @@ sub SystemAddressAdd {
         }
     }
 
-    # check if a system address with this name already exists
-    if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
+    # Only the plain address is relevant
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my $Address            = $EmailAddressObject->GetAddress( Email => $Param{Name} );
+    if ( !$Address ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A system address with the name '$Param{Name}' already exists.",
+            Message  => "'$Param{Name}' is not an email address",
         );
+
+        return;
+    }
+
+    # check if a system address with this name already exists
+    if ( $Self->NameExistsCheck( Name => $Address ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A system address with the name '$Address' already exists.",
+        );
+
         return;
     }
 
@@ -98,12 +119,12 @@ sub SystemAddressAdd {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # insert new system address
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name},    \$Param{Realname}, \$Param{ValidID}, \$Param{Comment},
+            \$Address,        \$Param{Realname}, \$Param{ValidID}, \$Param{Comment},
             \$Param{QueueID}, \$Param{UserID},   \$Param{UserID},
         ],
     );
@@ -111,7 +132,7 @@ sub SystemAddressAdd {
     # get system address id
     $DBObject->Prepare(
         SQL   => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
-        Bind  => [ \$Param{Name}, \$Param{Realname}, ],
+        Bind  => [ \$Address, \$Param{Realname}, ],
         Limit => 1,
     );
 
@@ -238,18 +259,31 @@ sub SystemAddressUpdate {
         }
     }
 
+    # Only the plain address is relevant
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my $Address            = $EmailAddressObject->GetAddress( Email => $Param{Name} );
+    if ( !$Address ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "'$Param{Name}' is not an email address",
+        );
+
+        return;
+    }
+
     # Check whether another system address with this name already exists.
     if (
         $Self->NameExistsCheck(
             ID   => $Param{ID},
-            Name => $Param{Name}
+            Name => $Address,
         )
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A system address with the name '$Param{Name}' already exists.",
+            Message  => "A system address with the name '$Address' already exists.",
         );
+
         return;
     }
 
@@ -258,7 +292,7 @@ sub SystemAddressUpdate {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  =>
-                "This system address '$Param{Name}' cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).",
+                "This system address '$Address' cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).",
         );
         return;
     }
@@ -268,7 +302,7 @@ sub SystemAddressUpdate {
         SQL => 'UPDATE system_address SET value0 = ?, value1 = ?, comments = ?, valid_id = ?, '
             . ' change_time = current_timestamp, change_by = ?, queue_id = ? WHERE id = ?',
         Bind => [
-            \$Param{Name},   \$Param{Realname}, \$Param{Comment}, \$Param{ValidID},
+            \$Address,       \$Param{Realname}, \$Param{Comment}, \$Param{ValidID},
             \$Param{UserID}, \$Param{QueueID},  \$Param{ID},
         ],
     );
