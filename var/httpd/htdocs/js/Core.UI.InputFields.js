@@ -329,6 +329,11 @@ Core.UI.InputFields = (function (TargetNS) {
             return;
         }
 
+        // add readonly class to fields
+        $(Element).find('input, textarea, select').filter('[readonly]').each(function() {
+            $(this).closest('.Field').addClass('oooReadonly');
+        });
+
         var Label = $(Element).children('label').first(),
             Checkbox = $('.Field > input[type=checkbox]', Element),
             Select = $('.Field > select', Element),
@@ -349,12 +354,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // change label css for textareas
         else if ( Textarea.length > 0 ) {
-            Label.css({
-                'display': 'inline-block',
-                'vertical-align': 'top',
-                'margin-top': '24px',
-            });
-
             TextInput = Textarea;
             TextValue = Textarea.text();
         }
@@ -376,6 +375,9 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         TextInput.focus( function() {
+            if ( $(this).prop('readonly') ) {
+                return 1;
+            }
             Label.addClass('oooFocus');
         });
         TextInput.blur( function() {
@@ -1378,8 +1380,6 @@ Core.UI.InputFields = (function (TargetNS) {
                 $SelectObj.hide();
                 $SearchObj.outerWidth(SelectWidth).show();
             }
-
-        
 
             // For performance reasons:
             // Do not initialize modern inputfields on selects with many entries
