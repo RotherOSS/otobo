@@ -18,6 +18,58 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @section     Customer
  */
 
+/**
+ * @subsection    ModularForm
+ */
+
+fieldset.ModularForm {
+    --FormRowGap: 32px;
+    --AddRemoveButtonWidth: calc( 14.36 / 14 ) * 1em; /* at 14px font size, the buttons are 14.36px wide */
+    --AddRemoveButtonGap: 0.3em;
+    --IconFontSize: 14px;
+
+    --AddRemoveButtonRowWidth: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
+    --AddRemoveButtonRowSpace: var(--AddRemoveButtonRowWidth) * 0.25; /* space between multivalue buttons and fields */
+    --FieldEndWhitespace: calc( var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace) );
+
+    position: relative; /* to allow for positioning and sizing relative to the fieldset */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--FormRowGap);
+    width: 66%;
+    margin: 0 auto;
+}
+
+fieldset.ModularForm .Row,
+fieldset.ModularForm p {
+    width: 100%;
+}
+
+fieldset.ModularForm .Row.MultiColumn {
+    display: grid;
+    column-gap: 16px;
+}
+
+fieldset.ModularForm .Row.MultiColumn > * {
+    min-width: 0; /* to prevent overflow of the fields in case of long labels or values */
+}
+
+fieldset.ModularForm .FieldCell {
+    position: relative; /* to allow for positioning and sizing relative to the field cell */
+}
+
+fieldset.ModularForm .Field {
+    width: calc(100% - var(--FieldEndWhitespace));
+}
+
+fieldset.ModularForm label {
+    max-width: calc( 100% - ( var(--FieldEndWhitespace) + var(--HorizontalInputFieldPadding) * 2 ) );
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /*
  * @note    This will be displayed by Core.UI.Tooltips
  */
@@ -47,27 +99,29 @@ div.TooltipErrorMessage {
 .AJAXLoader {
     display: inline-block;
     width: 0px;
-    height: 14px;
-    margin-bottom: 18px;
-    margin-left: 0px;
+    height: var(--IconFontSize);
     position: relative;
-    vertical-align: bottom;
 }
 
 .AJAXLoader:after {
     -webkit-animation: fa-spin 2s infinite linear;
     animation: fa-spin 2s infinite linear;
     position: absolute;
-    left: 16px;
-    top: 0px;
-    width: 14px;
+    left: calc( var(--IconFontSize) * -0.5 );
+    width: var(--IconFontSize);
     height: 100%;
-    line-height: 14px;
+    line-height: var(--IconFontSize);
     content: "\f1ce";
     font-family: FontAwesome;
-    font-size: 14px;
+    font-size: var(--IconFontSize);
     color: #7f809d;
     color: var(--colTextLight);
+}
+
+.FieldCell .AJAXLoader {   
+    position: absolute;
+    right: calc( var(--FieldEndWhitespace) + 8px + (var(--IconFontSize) / 2) );
+    top: calc( (var(--FieldCellHeight) / 2) - (var(--IconFontSize) / 2) );
 }
 
 /**
@@ -446,10 +500,6 @@ table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
     display: none;
 }
 
-fieldset .AsteriskExplanation {
-    margin-left: 17%;
-}
-
 .Messenger .AsteriskExplanation {
     padding-top: 30px;
     padding-bottom: 0px;
@@ -459,31 +509,39 @@ fieldset .AsteriskExplanation {
     padding-top: 15px;
 }
 
-/* IE */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+/**
+ * @subsection MultiValue Fields
+ */
 
-    div.DnDUploadBox {
-        display: -ms-grid;
-        -ms-grid-columns: 1fr 2fr;
-        -ms-grid-rows: auto;
-    }
+.AddRemoveValueRow {
+    position: absolute;
+    right: 0px;
+    top: calc( var(--FieldCellHeight)/2 );
+    height: 1em;
+    width: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
+    margin-top: -0.5em; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--AddRemoveButtonGap);
+}
 
-    .oooDnD {
-        -ms-grid-column: 1 / 2;
-        margin-right: 16px;
-    }
+.AddRemoveValueRow .RemoveValueRow,
+.AddRemoveValueRow .AddValueRow {
+    display: block;
+    line-height: 1em;
+    height: 1em;
+}
 
-    .AttachmentListContainer {
-        -ms-grid-column: 2;
-    }
+/**
+ * @subsection Dynamic Field Sets
+ */
 
-    @supports (display: grid) {
-        div.DnDUploadBox {
-            display: grid;
-        }
-        .oooDnD {
-            margin-right: 0px;
-        }
-    }
-
+.DynamicFieldSet {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: solid 1px var(--colTextLight);
+    border-radius: 10px;
+    padding: 8px;
 }
