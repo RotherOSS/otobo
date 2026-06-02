@@ -234,8 +234,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+.Row {
+    margin-top: 40px;
+    white-space: nowrap;
+}
+
 .Row > input {
     display: inline-block;
+    box-sizing: content-box;
     height: 56px;
     font-size: 16px;
     line-height: 1.25;

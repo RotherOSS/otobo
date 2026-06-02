@@ -35,44 +35,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     --colShadowDark: rgba(0, 2, 71, 0.16);
 }
 
-/**
- * @subsection CKEditorResizeHandle
- */
-
-div.ui-resizable-s {
-    position: relative;
-    bottom: 0px;
-    width: 50px;
-    box-sizing: border-box;
-    height: 5px;
-    margin: auto;
-    margin-top: -2px;
-    border-radius: 5px;
-    background-color: var(--colBGDark);
-    cursor: s-resize;
-    overflow: hidden;
-
-    i {
-        display: block;
-        margin: auto;
-        color: var(--colTextLight);
-        text-align: center;
-        font-size: 10px;
-        margin-top: -2.5px;
-    }
-}
-
-/**
- * end @subsection CKEditorResizeHandle
- */
-
 body {
+    --DefaultLineHeight: 1.5;
+    --DefaultFontSize: 14px;
+
     font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
+    font-size: var(--DefaultFontSize);
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.5;
+    line-height: var(--DefaultLineHeight);
     letter-spacing: 0.35px;
     color: #00023c;
     color: var(--colTextDark);
@@ -230,11 +202,11 @@ ul.ui-autocomplete {
 .ui-autocomplete .ui-widget-content,
 .ui-autocomplete .ui-menu-item {
     font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
+    font-size: var(--DefaultFontSize);
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.5;
+    line-height: var(--DefaultLineHeight);
     letter-spacing: 0.35px;
     color: #00023c;
     color: var(--colTextDark);
