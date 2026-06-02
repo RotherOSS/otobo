@@ -209,6 +209,32 @@ my @Tests = (
             FormattedAddress => qq{"one two  three   spaces" <$SystemAddressEmail>},
         },
     },
+    {
+        Line      => __LINE__,
+        Name      => 'email with phrase',
+        Overrides => [
+            Name => qq{"extra phrase" <$SystemAddressEmail>},
+        ],
+        ExpectedSystemAddress => {
+            Email            => qq{"extra phrase" <$SystemAddressEmail>},
+            RealName         => qq{$SystemAddressRealName},
+            Phrase           => qq{$SystemAddressRealName},
+            FormattedAddress => qq{},
+        },
+    },
+    {
+        Line      => __LINE__,
+        Name      => 'email with phrase and comment',
+        Overrides => [
+            Name => qq{"extra phrase" <$SystemAddressEmail> (extra comment)},
+        ],
+        ExpectedSystemAddress => {
+            Email            => qq{"extra phrase" <$SystemAddressEmail> (extra comment)},
+            RealName         => qq{$SystemAddressRealName},
+            Phrase           => qq{$SystemAddressRealName},
+            FormattedAddress => qq{},
+        },
+    },
 );
 
 for my $Test (@Tests) {
