@@ -42,10 +42,10 @@ my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 # First create a system address for testing
 my $RandomID              = $Helper->GetRandomID;
 my $SystemAddressEmail    = join '@', $RandomID, 'example.com';
-my $SystemAddressRealname = 'Testscript ' . basename(__FILE__);    # two words, will be quoted in the formatted address
+my $SystemAddressRealName = 'Testscript ' . basename(__FILE__);    # two words, will be quoted in the formatted address
 my %SystemAddressData     = (
     Name     => $SystemAddressEmail,
-    Realname => $SystemAddressRealname,
+    Realname => $SystemAddressRealName,
     Comment  => 'some comment',
     QueueID  => 1,                                                 # system_address.queueid is not relevant for GetSystemAddress()
     ValidID  => 1,
@@ -84,9 +84,9 @@ is(
     \%InitialSystemAddress,
     {
         Email            => $SystemAddressEmail,
-        Phrase           => $SystemAddressRealname,
-        FormattedAddress => qq{"$SystemAddressRealname" <$SystemAddressEmail>},
-        RealName         => $SystemAddressRealname,
+        Phrase           => $SystemAddressRealName,
+        FormattedAddress => qq{"$SystemAddressRealName" <$SystemAddressEmail>},
+        RealName         => $SystemAddressRealName,
     },
     'GetSystemAddress() - simple'
 );
@@ -100,22 +100,22 @@ my @Tests = (
         ],
         ExpectedSystemAddress => {
             Email            => qq{${RandomID}_changed\@example.com},
-            RealName         => $SystemAddressRealname,
-            Phrase           => $SystemAddressRealname,
-            FormattedAddress => qq{"$SystemAddressRealname" <${RandomID}_changed\@example.com>},
+            RealName         => $SystemAddressRealName,
+            Phrase           => $SystemAddressRealName,
+            FormattedAddress => qq{"$SystemAddressRealName" <${RandomID}_changed\@example.com>},
         },
     },
     {
         Line      => __LINE__,
         Name      => 'changed the phrase',
         Overrides => [
-            Realname => $SystemAddressRealname . '_changed',
+            Realname => $SystemAddressRealName . '_changed',
         ],
         ExpectedSystemAddress => {
             Email            => $SystemAddressEmail,
-            RealName         => qq{${SystemAddressRealname}_changed},
-            Phrase           => qq{${SystemAddressRealname}_changed},
-            FormattedAddress => qq{"${SystemAddressRealname}_changed" <$SystemAddressEmail>},
+            RealName         => qq{${SystemAddressRealName}_changed},
+            Phrase           => qq{${SystemAddressRealName}_changed},
+            FormattedAddress => qq{"${SystemAddressRealName}_changed" <$SystemAddressEmail>},
         },
     },
     {
