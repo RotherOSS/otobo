@@ -277,6 +277,8 @@ $ExpectedResult->{Transition} = {
             },
         },
         ConditionLinking => 'or',
+        Namespace        => '',
+        ProcessEntityID  => '',
     },
 };
 
