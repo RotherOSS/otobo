@@ -271,12 +271,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             if ( $(window).width() < 768 ) {
                 $('#ReplyButton').hide();
             }
-            // set the position of the RTE label (Core.UI.RichTextEditor.js)
-            $(window).trigger('resize');
 
-            //set correct initial size after show()
-            let initialRTESize = window.getComputedStyle(document.querySelector(".RichTextHolder")).getPropertyValue("--RTE-init-size-large");
-            $RTE.parent().css("height", initialRTESize);
         });
 
         $('.ActivityStartButton').on('click', function(Event){
