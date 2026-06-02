@@ -102,79 +102,102 @@
             <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
 [% RenderBlockEnd("AsteriskExplanation") %]
 
-            <fieldset class="DontPrint">
+            <fieldset class="ModularForm DontPrint">
 [% RenderBlockStart("DynamicField_TitleMessage") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                    <div class="Field">
-                        [% Data.Field %]
-                    </div>
-                    [% IF Data.Tooltip %]
-                        <div class="Tooltip oooTooltip">
-                            <i class="ooofo ooofo-help"></i>
-                            <div class="Content">
-                                <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
-                            </div>
+                    <div class="FieldCell">
+                        <div class="Field">
+                            [% Data.Field %]
                         </div>
-                    [% END %]
-                    [% Data.Label %]
-                    <div class="Clear"></div>
+                        [% IF Data.Tooltip %]
+                            <div class="Tooltip oooTooltip">
+                                <i class="ooofo ooofo-help"></i>
+                                <div class="Content">
+                                    <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
+                                </div>
+                            </div>
+                        [% END %]
+                        [% Data.Label %]
+                    </div>
                 </div>
 [% RenderBlockEnd("DynamicField_TitleMessage") %]
 
                 <div class="Row">
-                    <input class="DontPrint" type="text" name="Subject" id="Subject" title="[% Translate("Subject") | html %]" value="[% Data.Subject | html %]" />
-                    <label for="Subject">
-                        [% Translate("Subject") | html %]:
-                    </label>
-                    <div class="Clear"></div>
-                </div>
-
-                <div class="RichTextHolder">
-                    <textarea title="[% Translate("Reply") | html %]" id="RichText" class="RichText DontPrint Validate_RequiredRichText [% Data.RichTextInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") | html %]">[% Data.Body | html %]</textarea>
-                    <div id="RichTextError" class="TooltipErrorMessage">
-                        <p>[% Translate("This field is required.") | html %]</p>
-                    </div>
-                    <label for="RichText" class="Mandatory">[% Translate("Text") | html %] <span class="Marker">*</span></label>
-                    <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.RichTextInvalid | html %]">
-                        <p>[% Translate("This field is required.") | html %]</p>
+                    <div class="FieldCell">
+                        <div class="Field">
+                            <input class="DontPrint" type="text" name="Subject" id="Subject" title="[% Translate("Subject") | html %]" value="[% Data.Subject | html %]" />
+                        </div>
+                        <label for="Subject">
+                            [% Translate("Subject") | html %]:
+                        </label>
                     </div>
                 </div>
 
                 <div class="Row">
-                    <div id="oooAttachments" class="Field">
-                        <div class="DnDUploadBox">
-[% INCLUDE "FormElements/CustomerAttachmentList.tt" %]
+                    <div class="FieldCell">
+                        <div class="Field RichTextField">
+                            <div class="RichTextHolder">
+                                <textarea title="[% Translate("Reply") | html %]" id="RichText" class="RichText DontPrint Validate_RequiredRichText [% Data.RichTextInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") | html %]">[% Data.Body | html %]</textarea>
+                                <div id="RichTextError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+
+                                <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.RichTextInvalid | html %]">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="RichText" class="Mandatory">[% Translate("Text") | html %] <span class="Marker">*</span></label>
+                    </div>
+                </div>
+
+                <div class="Row">
+                    <div class="FieldCell">
+                        <div id="oooAttachments" class="Field">
+                            <div class="DnDUploadBox">
+                                [% INCLUDE "FormElements/CustomerAttachmentList.tt" %]
+                            </div>
                         </div>
                     </div>
-                    <div class="Clear"></div>
                 </div>
 
 [% RenderBlockStart("DynamicField_TitleCategory") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                    <div class="Field">
-                        [% Data.Field %]
-                    </div>
-                    [% IF Data.Tooltip %]
-                        <div class="Tooltip oooTooltip">
-                            <i class="ooofo ooofo-help"></i>
-                            <div class="Content">
-                                <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
-                            </div>
+                    <div class="FieldCell">
+                        <div class="Field">
+                            [% Data.Field %]
                         </div>
-                    [% END %]
-                    [% Data.Label %]
-                    <div class="Clear"></div>
+                        [% IF Data.Tooltip %]
+                            <div class="Tooltip oooTooltip">
+                                <i class="ooofo ooofo-help"></i>
+                                <div class="Content">
+                                    <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
+                                </div>
+                            </div>
+                        [% END %]
+                        [% Data.Label %]
+                    </div>
                 </div>
 [% RenderBlockEnd("DynamicField_TitleCategory") %]
 
 [% RenderBlockStart("FollowUpState") %]
                 <div class="Row">
-                    [% Data.NextStatesStrg %] <label for="StateID">[% Translate("Next state") | html %]:</label>
+                    <div class="FieldCell">
+                        <div class="Field">
+                            [% Data.NextStatesStrg %]
+                        </div>
+                        <label for="StateID">[% Translate("Next state") | html %]:</label>
+                    </div>
                 </div>
 [% RenderBlockEnd("FollowUpState") %]
 [% RenderBlockStart("FollowUpPriority") %]
                 <div class="Row">
-                    [% Data.PriorityStrg %] <label for="PriorityID">[% Translate("Priority") | html %]:</label>
+                    <div class="FieldCell">
+                        <div class="Field">
+                            [% Data.PriorityStrg %]
+                        </div>
+                        <label for="PriorityID">[% Translate("Priority") | html %]:</label>
+                    </div>
                 </div>
 [% RenderBlockEnd("FollowUpPriority") %]
 

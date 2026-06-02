@@ -39,7 +39,7 @@
                 <form action="[% Env("CGIHandle") %]" method="get">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="LoadProfile"/>
-                    <fieldset>
+                    <fieldset class="ModularForm">
                         <div class="Row">
                             <div class="FieldCell">
                                 <div class="Field">
@@ -66,7 +66,7 @@
                     <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
                     <div class="oooSection">
                         <h3>[% Config("Ticket::Hook") %]</h3>
-                        <fieldset>
+                        <fieldset class="ModularForm">
                             <div class="Row">
                                 <div class="FieldCell">
                                     <div class="Field">
@@ -88,7 +88,7 @@
                     </div>
                     <div class="oooSection">
                         <h3>[% Translate("Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h3>
-                        <fieldset>
+                        <fieldset class="ModularForm">
 [% RenderBlockStart("SearchableArticleField") %]
                             <div class="Row">
                                 <div class="FieldCell">
@@ -120,7 +120,7 @@
                         </fieldset>
 
 [% IF Config('Ticket::Service') || Config('Ticket::Type') %]
-                        <fieldset>
+                        <fieldset class="ModularForm">
 [% IF Config('Ticket::Service') %]
                             <div class="Row">
                                 <div class="FieldCell">
@@ -143,7 +143,7 @@
 [% END %]
                         </fieldset>
 [% END %]
-                        <fieldset>
+                        <fieldset class="ModularForm">
                             <div class="Row">
                                 <div class="FieldCell">
                                     <div class="Field">
@@ -164,7 +164,7 @@
                     </div>
                     <div class="oooSection">
                         <h3>[% Translate("Time Restrictions") | html %]</h3>
-                        <fieldset class="TimeRestrictionFilters">
+                        <fieldset class="ModularForm TimeRestrictionFilters">
                             <div class="Row">
                                 <div class="FieldCell">
                                     <div class="Field">
@@ -204,7 +204,7 @@
                         </fieldset>
                     </div>
 [% RenderBlockStart("SearchInArchive") %]
-                    <fieldset>
+                    <fieldset class="ModularForm">
                         <h2>[% Translate("Ticket Archive System") | html %]</h2>
                         <div class="Row">
                             <div class="FieldCell">
@@ -239,9 +239,13 @@
                     </div>
                     <div class="oooSection">
                         <h3>[% Translate("Output to") | html %]</h3>
-                        <fieldset>
+                        <fieldset class="ModularForm">
                             <div class="Row">
-                                [% Data.ResultFormStrg %]
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        [% Data.ResultFormStrg %]
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
                     </div>

@@ -32,7 +32,6 @@
 [% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
             <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
 [% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
-        <div class="Clear"></div>
     </div>
 </div>
 [% RenderBlockEnd("rw:DynamicField") %]
