@@ -36,13 +36,16 @@
     <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="[% Data.AJAXDialog | html %]"/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
     <div class="Messenger">
-        <fieldset class="TableLike">
+        <fieldset class="ModularForm TableLike">
 
 [% RenderBlockStart("AsteriskExplanation") %]
-            <div class="Field">
-                <p class="AsteriskExplanationProcess">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+            <div class="Row">
+                <div class="FieldCell">
+                    <div class="Field">
+                        <p class="AsteriskExplanationProcess">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    </div>
+                </div>
             </div>
-            <div class="Clear"></div>
 [% RenderBlockEnd("AsteriskExplanation") %]
 
 [% RenderBlockStart("DescriptionShortAlt") %]

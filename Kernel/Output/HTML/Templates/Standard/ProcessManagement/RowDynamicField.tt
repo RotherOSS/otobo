@@ -34,7 +34,6 @@
             <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
         </div>
         [% END %]
-        <div class="Clear"></div>
     </div>
 [% RenderBlockEnd("rw:DynamicField") %]
 [% RenderBlockStart("DynamicFieldMultiValueTemplate") %]

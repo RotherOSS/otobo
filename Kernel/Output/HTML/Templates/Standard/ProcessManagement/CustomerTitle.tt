@@ -39,6 +39,5 @@
 [% RenderBlockEnd("rw:Title:DescriptionShort") %]
     <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("rw:Title") %]
