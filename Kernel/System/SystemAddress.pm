@@ -214,7 +214,7 @@ update system address with attributes
 
     $SystemAddressObject->SystemAddressUpdate(
         ID       => 1,
-        Name     => 'info@example.com',
+        Name     => 'info@example.com',   # actually the email
         Realname => 'Hotline',
         ValidID  => 1,
         QueueID  => 123,
