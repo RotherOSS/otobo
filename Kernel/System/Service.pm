@@ -28,7 +28,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Queue',
     'Kernel::System::Translations',
     'Kernel::System::Valid',
 );
@@ -1371,7 +1370,6 @@ sub ExportServices {
         }
 
         # translate IDs into names or name-like identifiers
-        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
         ATTRIBUTE:
@@ -1393,13 +1391,6 @@ sub ExportServices {
                 $ServiceData{Valid} = $Valid;
                 delete $ServiceData{ValidID};
             }
-            elsif ( $Attribute eq 'DestQueueID' ) {
-                my $Queue = $QueueObject->QueueLookup(
-                    QueueID => $ServiceData{DestQueueID},
-                );
-                $ServiceData{DestQueue} = $Queue;
-                delete $ServiceData{DestQueueID};
-            }
         }
 
         delete $ServiceData{ChangeBy};
@@ -1419,7 +1410,6 @@ sub ImportServices {
 
     my $UserID = $Self->{UserID} || $Param{UserID};
 
-    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
     my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
     my %ServiceList = $Self->ServiceList(
         Valid  => 0,
@@ -1492,11 +1482,6 @@ sub ImportServices {
         next SERVICENAME if ( !$Param{OverwriteExistingEntities} && $ServiceID );
 
         # translate named data back to IDs
-        if ( $ServiceData->{DestQueue} ) {
-            $ServiceData->{DestQueueID} = $QueueObject->QueueLookup(
-                Queue => $ServiceData->{DestQueue},
-            );
-        }
         $ServiceData->{ValidID} = $ValidObject->ValidLookup(
             Valid => $ServiceData->{Valid},
         );
