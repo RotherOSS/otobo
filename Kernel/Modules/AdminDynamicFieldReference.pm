@@ -411,6 +411,9 @@ sub _AddAction {
     # multiselect excludes multivalue
     $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
 
+    # TreeView is not allowed for AutoComplete
+    $FieldConfig{TreeView} = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 0 : $FieldConfig{TreeView};
+
     if ( any { $_->{ConfigParamName} eq 'ReferenceFilterList' } $Param{FieldTypeSettings}->@* ) {
         $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
 
@@ -734,6 +737,9 @@ sub _ChangeAction {
 
     # multiselect excludes multivalue
     $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
+
+    # TreeView is not allowed for AutoComplete
+    $FieldConfig{TreeView} = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 0 : $FieldConfig{TreeView};
 
     if ( any { $_->{ConfigParamName} eq 'ReferenceFilterList' } $Param{FieldTypeSettings}->@* ) {
         $GetParam{ReferenceFilterCounter} = $ParamObject->GetParam( Param => 'ReferenceFilterCounter' ) || 0;
