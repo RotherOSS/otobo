@@ -25,7 +25,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use List::AllUtils qw(none);
+use List::AllUtils qw(any none);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -352,7 +352,7 @@ sub _EventAdd {
 
     EVENT:
     for my $AddEvent (@AddEvents) {
-        next EVENT if grep { $AddEvent eq $_ } @ConfigEvents;
+        next EVENT if any { $AddEvent eq $_ } @ConfigEvents;
         push @ConfigEvents, $AddEvent;
     }
 
@@ -434,7 +434,7 @@ sub _EventRemove {
     my @ConfigEvents;
     EVENT:
     for my $CurrentEvent ( @{ $Events->{ $Param{Object} } } ) {
-        next EVENT if grep { $CurrentEvent eq $_ } @RemoveEvents;
+        next EVENT if any { $CurrentEvent eq $_ } @RemoveEvents;
         push @ConfigEvents, $CurrentEvent;
     }
 
@@ -456,6 +456,7 @@ sub _EventRemove {
 Returns a list of valid screens for dynamic fields.
 
     my $ValidDynamicFieldScreenList = $ZnunyHelperObject->_ValidDynamicFieldScreenListGet(
+        ObjectType => [ 'Ticket', 'Article' ],  # ARRAY ref, enables filtering by object type
         Result => 'ARRAY', # HASH or ARRAY, defaults to ARRAY
     );
 
@@ -498,6 +499,21 @@ sub _ValidDynamicFieldScreenListGet {
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
     $Param{Result} = lc( $Param{Result} // 'array' );
+    my $DFScreensFilterKey;
+    if ( $Param{ObjectType} ) {
+
+        if ( $Param{ObjectType} eq 'Ticket' ) {
+            $DFScreensFilterKey = 'Framework';
+        }
+        else {
+            my $DFScreensObjectTypesConfig = $ConfigObject->Get('DynamicFieldScreens::ObjectTypes');
+            for my $DFScreensKey ( keys $DFScreensObjectTypesConfig->%* ) {
+                if ( any { $_ eq $Param{ObjectType} } $DFScreensObjectTypesConfig->{$DFScreensKey}->@* ) {
+                    $DFScreensFilterKey = $DFScreensKey;
+                }
+            }
+        }
+    }
 
     my $ValidScreens;
     SCREEN:
@@ -514,6 +530,8 @@ sub _ValidDynamicFieldScreenListGet {
                 );
                 next REGISTRATION if !$IsInstalled;
             }
+
+            next REGISTRATION if ( $DFScreensFilterKey && $Registration ne $DFScreensFilterKey );
 
             %{ $ValidScreens->{$Screen} } = (
                 %{ $ValidScreens->{$Screen} },
@@ -1547,7 +1565,7 @@ sub _DynamicFieldsCreateIfNotExists {
 
         next DYNAMICFIELD if !IsHashRefWithData($NewDynamicField);
 
-        next DYNAMICFIELD if grep { $NewDynamicField->{Name} eq $_->{Name} } @{$DynamicFieldList};
+        next DYNAMICFIELD if any { $NewDynamicField->{Name} eq $_->{Name} } @{$DynamicFieldList};
 
         push @DynamicFieldExistsNot, $NewDynamicField;
     }
@@ -3412,7 +3430,7 @@ sub _WebserviceCreateIfNotExists {
     for my $WebserviceName ( sort keys %{$Webservices} ) {
 
         # stop if already added
-        next WEBSERVICE if grep { $WebserviceName eq $_ } sort values %{$WebserviceList};
+        next WEBSERVICE if any { $WebserviceName eq $_ } sort values %{$WebserviceList};
 
         my $WebserviceYAMLPath = $Webservices->{$WebserviceName};
 
