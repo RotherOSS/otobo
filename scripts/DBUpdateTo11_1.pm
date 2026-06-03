@@ -75,6 +75,10 @@ sub Run {
             Module => 'DBAddProcessColumns',
         },
         {
+            Name   => 'Add object_type column to acl table, with \'Ticket\' as default value.',
+            Module => 'DBAddACLObjectType',
+        },
+        {
             Name   => 'Update the list of installed packages',
             Module => 'UninstallMergedPackages',
         },
