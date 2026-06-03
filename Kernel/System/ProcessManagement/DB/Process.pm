@@ -1293,12 +1293,13 @@ sub ProcessDump {
         next ACTIVITY if !IsHashRefWithData($ActivityData);
 
         $ActivityDump{ $ActivityData->{EntityID} } = {
-            ID             => $ActivityData->{ID},
-            Name           => $ActivityData->{Name},
-            Namespace      => $ActivityData->{Namespace} || '',
-            CreateTime     => $ActivityData->{CreateTime},
-            ChangeTime     => $ActivityData->{ChangeTime},
-            ActivityDialog => $ActivityData->{Config}->{ActivityDialog} || '',
+            ID              => $ActivityData->{ID},
+            Name            => $ActivityData->{Name},
+            Namespace       => $ActivityData->{Namespace}       || '',
+            ProcessEntityID => $ActivityData->{ProcessEntityID} || '',
+            CreateTime      => $ActivityData->{CreateTime},
+            ChangeTime      => $ActivityData->{ChangeTime},
+            ActivityDialog  => $ActivityData->{Config}->{ActivityDialog} || '',
         };
     }
 
@@ -1314,7 +1315,8 @@ sub ProcessDump {
 
         $ActivityDialogDump{ $ActivityDialogData->{EntityID} } = {
             Name                 => $ActivityDialogData->{Name},
-            Namespace            => $ActivityDialogData->{Namespace} || '',
+            Namespace            => $ActivityDialogData->{Namespace}       || '',
+            ProcessEntityID      => $ActivityDialogData->{ProcessEntityID} || '',
             CreateTime           => $ActivityDialogData->{CreateTime},
             ChangeTime           => $ActivityDialogData->{ChangeTime},
             Interface            => $ActivityDialogData->{Config}->{Interface}            || '',
@@ -1343,7 +1345,8 @@ sub ProcessDump {
 
         $TransitionDump{ $TransitionData->{EntityID} } = {
             Name             => $TransitionData->{Name},
-            Namespace        => $TransitionData->{Namespace} || '',
+            Namespace        => $TransitionData->{Namespace}       || '',
+            ProcessEntityID  => $TransitionData->{ProcessEntityID} || '',
             CreateTime       => $TransitionData->{CreateTime},
             ChangeTime       => $TransitionData->{ChangeTime},
             Condition        => $TransitionData->{Config}->{Condition}        || {},
@@ -1362,12 +1365,13 @@ sub ProcessDump {
         next TRANSITIONACTION if !IsHashRefWithData($TransitionActionData);
 
         $TransitionActionDump{ $TransitionActionData->{EntityID} } = {
-            Name       => $TransitionActionData->{Name},
-            Namespace  => $TransitionActionData->{Namespace} || '',
-            CreateTime => $TransitionActionData->{CreateTime},
-            ChangeTime => $TransitionActionData->{ChangeTime},
-            Module     => $TransitionActionData->{Config}->{Module} || '',
-            Config     => $TransitionActionData->{Config}->{Config} || {},
+            Name            => $TransitionActionData->{Name},
+            Namespace       => $TransitionActionData->{Namespace}       || '',
+            ProcessEntityID => $TransitionActionData->{ProcessEntityID} || '',
+            CreateTime      => $TransitionActionData->{CreateTime},
+            ChangeTime      => $TransitionActionData->{ChangeTime},
+            Module          => $TransitionActionData->{Config}->{Module} || '',
+            Config          => $TransitionActionData->{Config}->{Config} || {},
         };
     }
 
