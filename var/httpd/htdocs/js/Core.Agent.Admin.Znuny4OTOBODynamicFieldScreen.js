@@ -40,7 +40,7 @@ Core.Agent.Admin.Znuny4OTOBODynamicFieldScreen = (function (TargetNS) {
         Core.UI.Table.InitTableFilter($('#FilterAssignedElements'), $('#AssignedElements'));
         Core.UI.Table.InitTableFilter($('#FilterAssignedRequiredElements'), $('#AssignedRequiredElements'));
 
-        $.each(['SelectAllAvailableElements', 'SelectAllDisabledElements',  'SelectAllAssignedElements', 'SelectAllAssignedRequiredElements'], function (Index, Elements) {
+        $.each(['SelectAllAvailableElements', 'SelectAllDisabledElements',  'SelectAllAssignedElements', 'SelectAllAssignedRequiredElements'], function (_Index, Elements) {
 
             $('input[type="checkbox"][name="'+Elements+'"]').bind('click', function () {
                 Core.Form.SelectAllCheckboxes($(this), $('#' + Elements));
@@ -48,7 +48,7 @@ Core.Agent.Admin.Znuny4OTOBODynamicFieldScreen = (function (TargetNS) {
         });
 
         // register all bindings
-        $.each(['AvailableElements', 'DisabledElements', 'AssignedElements', 'AssignedRequiredElements'], function (Index, ParameterName) {
+        $.each(['AvailableElements', 'DisabledElements', 'AssignedElements', 'AssignedRequiredElements'], function (_Index, ParameterName) {
 
             var Element;
             $('#AllSelected'+ ParameterName).bind('click', function () {
@@ -69,13 +69,20 @@ Core.Agent.Admin.Znuny4OTOBODynamicFieldScreen = (function (TargetNS) {
             });
         });
 
+        $( "#DynamicFieldSelectedObjectType" ).change(function() {
+            let ObjectTypeFilter = $("#DynamicFieldSelectedObjectType").val();
+            let URL = Core.Config.Get('Baselink') + 'Action=AdminDynamicFieldScreen';
+            URL += ';SelectedObjectType=' + encodeURIComponent(ObjectTypeFilter);
+            window.location = URL;
+        });
+
         $('#Submit').bind('click', function() {
             $('#Form').submit();
             return false;
         });
     };
 
-    function UpdateFields(Event, UI) {
+    function UpdateFields(_Event, UI) {
 
         var Target = $(UI.item).parent().attr('id');
 
