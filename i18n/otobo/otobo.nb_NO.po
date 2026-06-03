@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-05-26 10:37+0000\n"
+"POT-Creation-Date: 2026-06-03 15:23+0000\n"
 "PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
@@ -43,6 +43,12 @@ msgstr ""
 #. Template: AdminACL
 msgid "Actions"
 msgstr "Handlinger"
+
+#. Template: AdminACL
+#, fuzzy
+#| msgid "Object type"
+msgid "Object Type"
+msgstr "Objekt type"
 
 #. Template: AdminACL
 msgid "Create New ACL"
@@ -343,9 +349,14 @@ msgid "Calendar Import"
 msgstr "Kalenderimport"
 
 #. Template: AdminAppointmentCalendarManage
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a calendar to your "
+#| "system. The file needs to be in .yml format as exported by calendar "
+#| "management module."
 msgid ""
 "Here you can upload a configuration file to import a calendar to your "
-"system. The file needs to be in .yml format as exported by calendar "
+"system. The file needs to be in .yml format as exported by the calendar "
 "management module."
 msgstr ""
 "Her kan du laste opp en konfigurasjonsfil for å importere en kalender. Filen "
@@ -1973,9 +1984,14 @@ msgid "Import / Export"
 msgstr "Import / Eksport"
 
 #. Template: AdminDynamicFieldAdvanced
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import dynamic fields to your "
+#| "system. The file needs to be in .yml format as exported by dynamic field "
+#| "management module."
 msgid ""
 "Here you can upload a configuration file to import dynamic fields to your "
-"system. The file needs to be in .yml format as exported by dynamic field "
+"system. The file needs to be in .yml format as exported by the dynamic field "
 "management module."
 msgstr ""
 "Her kan du laste opp en konfigurasjonsfil for å importere dynamiske felt til "
@@ -2526,6 +2542,12 @@ msgid "Management of Dynamic Fields <-> Screens"
 msgstr "Håndtering av dynamiske felt <-> skjermer"
 
 #. Template: AdminDynamicFieldScreen
+#, fuzzy
+#| msgid "Filter by type"
+msgid "Filter by object type"
+msgstr "Filtrer ut fra type"
+
+#. Template: AdminDynamicFieldScreen
 msgid "Overview"
 msgstr "Oversikt"
 
@@ -2873,6 +2895,33 @@ msgstr "Filter for jobber"
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
 msgstr "Filter for jobber"
+
+#. Template: AdminGenericAgent
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a calendar to your "
+#| "system. The file needs to be in .yml format as exported by calendar "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import generic agents to your "
+"system. The file needs to be in .yml format as exported by the generic agent "
+"management module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en kalender. Filen "
+"må være på samme '.yml' format som da den ble eksportert av "
+"kalenderhåndteringsmodulen."
+
+#. Template: AdminGenericAgent
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "Generic Agents Import"
+msgstr "Administrasjon: Generisk Saksbehandler"
+
+#. Template: AdminGenericAgent
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "Generic Agents Export"
+msgstr "Administrasjon: Generisk Saksbehandler"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -3359,6 +3408,32 @@ msgstr "Antall saker påvirket"
 #. Template: AdminGenericAgent
 msgid "Age"
 msgstr "Alder"
+
+#. Template: AdminGenericAgentImportExport
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "GenericAgents"
+msgstr "Administrasjon: Generisk Saksbehandler"
+
+#. Template: AdminGenericAgentImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of generic agents to import these "
+"on another system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminGenericAgentImportExport
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "GenericAgents List"
+msgstr "Administrasjon: Generisk Saksbehandler"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Web Service Management"
@@ -4375,6 +4450,30 @@ msgid ""
 "Regular expressions defined here will be applied after the XSLT mapping."
 msgstr "Regulære uttrykk definert her vil bli brukt etter XSLT-tilordningen."
 
+#. Template: AdminGenericInterfaceMappingXSLT
+#, fuzzy
+#| msgid "XSLT Mapping"
+msgid "Enable Extended XSLT Mapping"
+msgstr "XSLT-kartlegging"
+
+#. Template: AdminGenericInterfaceMappingXSLT
+#, fuzzy
+#| msgid "XSLT Mapping"
+msgid "Extended XSLT Mapping"
+msgstr "XSLT-kartlegging"
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Enable"
+msgstr "Muliggjøre"
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid ""
+"Extended XSLT Mapping allows for more fine-grained configuration of XSLT "
+"mapping. When enabled, the resulting JSON type can be forced by spcifying an "
+"'otoboXslType' XML attribue. Possible Values for that attribute are 'int', "
+"'bool', 'float', and 'array'."
+msgstr ""
+
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
 msgstr "Legg til operasjon"
@@ -4575,6 +4674,20 @@ msgid "The Kerberos keytab file for the privileged user."
 msgstr "Passordet for den priviligerte brukeren."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "OAuth2 Functional Account"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
+#| msgid "Select"
+msgid "Select the"
+msgstr "Velg"
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Account to use for OAuth2 authentication."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
 msgstr "Bruk proxy-alternativer"
 
@@ -4759,6 +4872,16 @@ msgstr "Standard kommando"
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
 msgstr "Standard HTTP-kommando som skal brukes for forespørslene."
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Use multipart-formdata:"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid ""
+"Select Requesters to send Attachments as binary data with content-type "
+"'multipart-formdata' instead of the default Base64-encoded inline JSON."
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
@@ -5240,6 +5363,53 @@ msgstr ""
 msgid "It's useful for ASP solutions. "
 msgstr "Det er nyttig for ASP-løsninger. "
 
+#. Template: AdminGroup
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import groups to your system. "
+"The file needs to be in .yml format as exported by the group management "
+"module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminGroup
+#, fuzzy
+#| msgid "Start Import"
+msgid "Groups Import"
+msgstr "Start import"
+
+#. Template: AdminGroup
+#, fuzzy
+#| msgid "Start Export"
+msgid "Groups Export"
+msgstr "Start eksport"
+
+#. Template: AdminGroupImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of groups to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminGroupImportExport
+#, fuzzy
+#| msgid "Groups"
+msgid "Groups List"
+msgstr "Grupper"
+
 #. Template: AdminImportExport
 msgid "Import/Export Management"
 msgstr "Administrasjon av Import/Eksport"
@@ -5484,6 +5654,12 @@ msgid "Do you really want to delete this mail account?"
 msgstr "Vil du virkelig slette denne e-postkontoen?"
 
 #. Template: AdminMailAccount
+#, fuzzy
+#| msgid "Account"
+msgid "OIDC Account"
+msgstr "Konto"
+
+#. Template: AdminMailAccount
 msgid "Example: mail.example.com"
 msgstr "F.eks.: mail.eksempel.com"
 
@@ -5694,6 +5870,432 @@ msgid ""
 msgstr ""
 "Du kan bruke OTOBO-tagger som <OTOBO_TICKET_DynamicField_...> for å sette "
 "inn verdier fra gjeldende sak."
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Auto Response Management"
+msgid "OAuth2 Token Management (OIDC)"
+msgstr "Administrasjon: Autosvar"
+
+#. Template: AdminOAuthTokenStore
+msgid "OpenID Connect Functional OAuth2 Account Management"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Add Mail Account"
+msgid "Add Account"
+msgstr "Legg til e-postkonto"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Edit Mail Account"
+msgid "Edit Account "
+msgstr "Rediger e-postkonto"
+
+#. Template: AdminOAuthTokenStore
+msgid "About OIDC Functional Accounts"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"This page displays an overview of configured functional OAuth Accounts and "
+"their corresponding Token Status."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"You can test your Configuration with a click on the 'Renew' Button, which "
+"will try to fetch or refresh a new Token."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "here"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Delete account"
+msgid "Delete Account"
+msgstr "Slett konto"
+
+#. Template: AdminOAuthTokenStore
+msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Since you do not have any OIDC Provider profiles configured, you cannot add "
+"an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
+"Provider profile"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "There are no OAuth2 accounts defined."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Accounted time"
+msgid "Account Name"
+msgstr "Benyttet tid"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Process Name"
+msgid "Profile Name"
+msgstr "Prosessnavn"
+
+#. Template: AdminOAuthTokenStore
+msgid "Flow"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Has Token?"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Refresh Token Expires"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Renew Token(s)"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Renew"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Add Invoker"
+msgid "Add Invoker Account"
+msgstr "Legg til utløser"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Edit Invoker"
+msgid "Edit Invoker Account"
+msgstr "Rediger utløser"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "The name for this field should not change."
+msgid "The unique name for this Account."
+msgstr "Navnet på dette feltet skal ikke endres."
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profile"
+msgstr "Profil"
+
+#. Template: AdminOAuthTokenStore
+msgid "The OpenID Connect"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "to use for this functional account."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Event Type"
+msgid "Grant Type"
+msgstr "Hendelsestype"
+
+#. Template: AdminOAuthTokenStore
+msgid "The OAuth2 grant_type to use for acquiring tokens for this account."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Selecting 'authorization_code' will redirect you to your OpenID Connect "
+"Provider's Login Page to validate your account once you click 'Save'."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "The username if grant type is 'password'."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "The password to use if grant type is 'password'."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "OAuth2 Scopes"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Space separate list of OAuth2 scopes to use. Usual values include openid, "
+"email, profile, and roles."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "General Settings"
+msgid "Advanced Invoker Settings"
+msgstr "Generelle innstillinger"
+
+#. Template: AdminOAuthTokenStore
+msgid "Resources"
+msgstr "Ressurser"
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Optional (space seperated list) for the resource paramater if required. "
+"Leave empty unless instructed otherwise."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Remove this Parameter"
+msgid "Resource Parameter Name"
+msgstr "Fjern dette parameteret"
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Name of the resource parameter to use. Defaults to 'resource'. Do not change "
+"unless instructed."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Event Type"
+msgid "Token Type"
+msgstr "Hendelsestype"
+
+#. Template: AdminOAuthTokenStore
+msgid "The token type to use for externall API calls. Usually 'access_token'."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "OpenID Connect Profiles "
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "OpenID Connect Provider Profiles Management"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Profile"
+msgid "Add Profile"
+msgstr "Profil"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Edit Role"
+msgid "Edit Profile "
+msgstr "Endre Rolle"
+
+#. Template: AdminOIDCProfiles
+msgid "About OIDC Provider Profiles"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "This page displays an overview of configured OIDC Provider Profiles."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Delete Process"
+msgid "Delete Profile"
+msgstr "Slett prosess"
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"OpenID Connect Provider Profiles for outgoing Webservice calls "
+"(GenericInterface Invoker)"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "There are no OIDC Provider profiles defined."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Client ID"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Provider transport"
+msgid "Provider"
+msgstr "Leverandørtransport"
+
+#. Template: AdminOIDCProfiles
+msgid "Add OIDC Provider Profile"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Edit OIDC Provider Profile"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Since you are using OIDC as Authentication module, these values have been "
+"pre-populated with the OIDC Provider Configuration used for Login."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Please provide a unique name for this web service."
+msgid "The unique name for this Profile."
+msgstr "Vennligst velg et unikt navn for denne webtjenesten."
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Metadata"
+msgid "Metadata Url."
+msgstr "Metadata"
+
+#. Template: AdminOIDCProfiles
+msgid "The Well-Known Provider Metadata Url."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "The Client ID of your OAuth2 application."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Client Certificate"
+msgid "Client Secret"
+msgstr "Klientsertifikat"
+
+#. Template: AdminOIDCProfiles
+msgid "The Client Secret of your OAuth2 application."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Cache time in seconds for the DB process backend."
+msgid "Time in seconds for caching provider data."
+msgstr "Buffertid i sekunder for DB-prosessens backend."
+
+#. Template: AdminOIDCProfiles
+msgid "SSL Options (Optional)"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Add Certificate"
+msgid "SSL Certificate"
+msgstr "Legg til sertifikat"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Read certificate"
+msgid "SSL certificate path."
+msgstr "Les sertifikat"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Client Certificate Key"
+msgid "SSL Certificate Key"
+msgstr "Klientsertifikatnøkkel"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL certificate private key path."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Password"
+msgid "SSL Password"
+msgstr "Passord"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "New password"
+msgid "The SSL password."
+msgstr "Nytt passord"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL CA File"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Certification Authority (CA) Certificate"
+msgid "SSL Certificate Authority file path."
+msgstr "Sertifiseringsinstans (CA)-sertifikat"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "OTRS home directory"
+msgid "SSL CA Directory"
+msgstr "OTRS hjemmekatalog"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Certification Authority (CA) Directory"
+msgid "SSL Certificate Authority directory path."
+msgstr "Certification Authority (CA) Directory"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL Verify Hostname"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Enable or disable SSL hostname verification. Only disable for debugging "
+"purposes!"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Verify password"
+msgid "SSL Verify Mode"
+msgstr "Gjenta passord"
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Enable or disable SSL verification. Only disable for debugging purposes!"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Misc Options (Optional)"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Use Nonce"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Rand Length"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Random string length used for state and nonce parameters. Default is '22'."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Rand TTL"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Time-to-live for state and nonce in seconds. Default is '300' (5 min)."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Leeway"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Time drift allowance between servers to be allowed. Default '2' seconds."
+msgstr ""
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -6104,6 +6706,12 @@ msgid "Edit PostMaster Filter"
 msgstr "Endre Postmaster-filter"
 
 #. Template: AdminPostMasterFilter
+#, fuzzy
+#| msgid "Add PostMaster Filter"
+msgid "Include invalid PostMaster Filters"
+msgstr "Legg til Postmaster-filter"
+
+#. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
 msgstr "Filter for PostMaster-filtre"
 
@@ -6277,9 +6885,15 @@ msgid "Deploy All Processes"
 msgstr "Distribuer alle prosesser"
 
 #. Template: AdminProcessManagement
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
 msgid ""
 "Here you can upload a configuration file to import a process to your system. "
-"The file needs to be in .yml format as exported by process management module."
+"The file needs to be in .yml format as exported by the process management "
+"module."
 msgstr ""
 "Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
 "systemet ditt. Filen må være i .yml-format som eksportert av "
@@ -6369,6 +6983,10 @@ msgstr "cannot"
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
 msgstr "Aktivitetsnavn"
+
+#. Template: AdminProcessManagementActivity
+msgid "Global"
+msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
@@ -6504,6 +7122,12 @@ msgstr "Kommunikasjonskanal"
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
 msgstr "Er synlig for kunden"
+
+#. Template: AdminProcessManagementActivityDialog
+#, fuzzy
+#| msgid "Add Template"
+msgid "Standard Templates"
+msgstr "Legg til Mal"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -6785,6 +7409,133 @@ msgstr "Overgang"
 msgid "Transition Name"
 msgstr "Overgangsnavn"
 
+#. Template: AdminProcessManagementTransition
+msgid "Transition Reference for \"Fields\" Settings"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Name of the ticket attribute that should be used for validation. In general, "
+"all attributes returned by the TicketGet function can be used."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"There are several possibilities to validate whether this transition is valid."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Exact match"
+msgstr "Nøyaktig treff"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must exactly match the string. In an array (for example: Multi-Value "
+"DynamicField or DynamicField of type \"Set\"), at least one value must "
+"exactly match the string specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Exact match"
+msgid "Exact match - all"
+msgstr "Nøyaktig treff"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"\"Set\"), all values must exactly match the string specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Exact match"
+msgid "Exact match - negated"
+msgstr "Nøyaktig treff"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must not match the string. In an array (for example: Multi-Value "
+"DynamicField or DynamicField of type \"Set\"), no value may match the string "
+"specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular Expression"
+msgstr "Vanlig uttrykk"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must contain a matching regular expression. In an array (for example: "
+"Multi-Value DynamicField or DynamicField of type \"Set\"), at least one "
+"value must match the regular expression specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular Expression - all"
+msgstr "Vanlig uttrykk"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"\"Set\"), all values must match the regular expression specified in "
+"\"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular Expression - negated"
+msgstr "Vanlig uttrykk"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must contain a non-matching regular expression. In an array (for "
+"example: Multi-Value DynamicField or DynamicField of type \"Set\"), no value "
+"may match the regular expression specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Transition validation module"
+msgstr "Overgangsvalideringsmodul"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"\"Name\" is currently irrelevant, \"Value\" must contain the path to the "
+"module, usually Kernel::System::Process::Transition::<TA_Name>."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must always contain a string or a regular expression used for "
+"comparison."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Example"
+msgid "Examples"
+msgstr "Eksempel"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"The process ticket should move to the next process step as soon as a status "
+"containing \"closed\" in its name is set. Therefore, configure "
+"Name=\"State\", Type=\"Regular Expression\" and Value=\"closed\" (or the "
+"long form \"^.*closed.*$\")."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"If a Dynamic Field should be used, configure "
+"Name=\"DynamicField_<FieldName>\". To access a field inside a Dynamic Field "
+"of type \"Set\", the following syntax can be used: "
+msgstr ""
+
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
 "Please note that changing this transition action will affect the following "
@@ -6840,6 +7591,33 @@ msgstr "Filter for køer"
 #. Template: AdminQueue
 msgid "Filter for queues"
 msgstr "Filtrer for køer"
+
+#. Template: AdminQueue
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import queues to your system. "
+"The file needs to be in .yml format as exported by the queue management "
+"module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminQueue
+#, fuzzy
+#| msgid "Queues"
+msgid "Queues Import"
+msgstr "Køer"
+
+#. Template: AdminQueue
+#, fuzzy
+#| msgid "Export"
+msgid "Queues Export"
+msgstr "Eksporter"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -7026,6 +7804,26 @@ msgstr "Vis alle køer"
 msgid "Auto Responses"
 msgstr "Autosvar"
 
+#. Template: AdminQueueImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of queues to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminQueueImportExport
+#, fuzzy
+#| msgid "Request List"
+msgid "Queues List"
+msgstr "Forespørselsliste"
+
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
 msgstr "Koplinger mellom Mal og Kø"
@@ -7039,8 +7837,52 @@ msgid "Filter for templates"
 msgstr "Filter for maler"
 
 #. Template: AdminQueueTemplates
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import queue-template relations "
+"to your system. The file needs to be in .yml format as exported by the queue-"
+"template management module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminQueueTemplates
+msgid "Queue-Templates Import"
+msgstr ""
+
+#. Template: AdminQueueTemplates
+msgid "Queue-Templates Export"
+msgstr ""
+
+#. Template: AdminQueueTemplates
 msgid "Templates"
 msgstr "Maler"
+
+#. Template: AdminQueueTemplatesImportExport
+#, fuzzy
+#| msgid "Manage Template-Queue Relations"
+msgid "Queue Template Relations"
+msgstr "Koplinger mellom Mal og Kø"
+
+#. Template: AdminQueueTemplatesImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of queue-template relations to "
+"import these on another system. The configuration file is exported in yml "
+"format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
@@ -7352,18 +8194,6 @@ msgstr "Systemregistreringsdata"
 msgid "Support Data"
 msgstr "Støttedata"
 
-#. Template: AdminResponseTemplatesStatePreselection
-msgid "Manage ticket state pre-selections for response templates"
-msgstr ""
-
-#. Template: AdminResponseTemplatesStatePreselection
-msgid "Edit Response"
-msgstr ""
-
-#. Template: AdminResponseTemplatesStatePreselection
-msgid "Pre-selected ticket state"
-msgstr ""
-
 #. Template: AdminRole
 msgid "Role Management"
 msgstr "Administrasjon: Roller"
@@ -7395,6 +8225,32 @@ msgstr ""
 "saksbehandlere til rollen."
 
 #. Template: AdminRole
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import roles to your system. The "
+"file needs to be in .yml format as exported by the role management module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminRole
+#, fuzzy
+#| msgid "Calendar Import"
+msgid "Roles Import"
+msgstr "Kalenderimport"
+
+#. Template: AdminRole
+#, fuzzy
+#| msgid "Export"
+msgid "Roles Export"
+msgstr "Eksporter"
+
+#. Template: AdminRole
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new role."
 msgstr ""
@@ -7403,6 +8259,31 @@ msgstr ""
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
 msgstr "Koplinger mellom Rolle og Gruppe"
+
+#. Template: AdminRoleGroup
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import role-group relations to "
+"your system. The file needs to be in .yml format as exported by the role-"
+"group management module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminRoleGroup
+#, fuzzy
+#| msgid "Calendar Import"
+msgid "Role-Group Import"
+msgstr "Kalenderimport"
+
+#. Template: AdminRoleGroup
+msgid "Role-Group Export"
+msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "Roles"
@@ -7487,6 +8368,52 @@ msgid ""
 "calendar, users can manage the calendar itself."
 msgstr ""
 
+#. Template: AdminRoleGroupImportExport
+#, fuzzy
+#| msgid "Manage Role-Group Relations"
+msgid "Role-Group Relations"
+msgstr "Koplinger mellom Rolle og Gruppe"
+
+#. Template: AdminRoleGroupImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of role-group relations to import "
+"these on another system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminRoleGroupImportExport
+#, fuzzy
+#| msgid "Manage Role-Group Relations"
+msgid "Role-Group relations List"
+msgstr "Koplinger mellom Rolle og Gruppe"
+
+#. Template: AdminRoleImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of roles to import these on another "
+"system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminRoleImportExport
+#, fuzzy
+#| msgid "Request List"
+msgid "Roles List"
+msgstr "Forespørselsliste"
+
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
 msgstr "Koplinger mellom Saksbehandlere og Roller"
@@ -7532,8 +8459,56 @@ msgid "Filter for SLAs"
 msgstr "Filter for SLAer"
 
 #. Template: AdminSLA
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can upload a configuration file to import SLAs to your system. The "
+"file needs to be in .yml format as exported by the SLA management module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere ACLer til systemet "
+"ditt. Filen må være på .yml format som eksportert av ACL editor modulen."
+
+#. Template: AdminSLA
+#, fuzzy
+#| msgid "Import"
+msgid "SLAs Import"
+msgstr "Importer"
+
+#. Template: AdminSLA
+#, fuzzy
+#| msgid "Export"
+msgid "SLAs Export"
+msgstr "Eksporter"
+
+#. Template: AdminSLA
 msgid "Please write only numbers!"
 msgstr "Vennligst skriv kun siffer!"
+
+#. Template: AdminSLAImportExport
+msgid "SLAs"
+msgstr ""
+
+#. Template: AdminSLAImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of SLAs to import these on another "
+"system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminSLAImportExport
+#, fuzzy
+#| msgid "List"
+msgid "SLAs List"
+msgstr "Liste"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -7802,12 +8777,59 @@ msgid "Include invalid services"
 msgstr ""
 
 #. Template: AdminService
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import services to your system. "
+"The file needs to be in .yml format as exported by the service management "
+"module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminService
+#, fuzzy
+#| msgid "Services"
+msgid "Services Import"
+msgstr "Tjenester"
+
+#. Template: AdminService
+#, fuzzy
+#| msgid "Services"
+msgid "Services Export"
+msgstr "Tjenester"
+
+#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr "Tjenestenavnets maksimale lengde er 200 tegn (med undertjeneste)."
 
 #. Template: AdminService
 msgid "Sub-service of"
 msgstr "Under-tjeneste av"
+
+#. Template: AdminServiceImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of services to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminServiceImportExport
+#, fuzzy
+#| msgid "Services"
+msgid "Services List"
+msgstr "Tjenester"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -8555,6 +9577,37 @@ msgid "Don't forget to add new templates to queues."
 msgstr "Ikke glem å legge til nye maler i køene."
 
 #. Template: AdminTemplate
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import templates to your system. "
+"The file needs to be in .yml format as exported by the template management "
+"module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminTemplate
+#, fuzzy
+#| msgid "Templates"
+msgid "Templates Import"
+msgstr "Maler"
+
+#. Template: AdminTemplate
+#, fuzzy
+#| msgid "Templates"
+msgid "Templates Export"
+msgstr "Maler"
+
+#. Template: AdminTemplate
+msgid "Pre-selected ticket state"
+msgstr ""
+
+#. Template: AdminTemplate
 msgid "Attachments"
 msgstr "Vedlegg"
 
@@ -8637,6 +9690,26 @@ msgstr "Aktiver/Deaktiver alle"
 #. Template: AdminTemplateAttachment
 msgid "Link %s to selected %s"
 msgstr "Koble %s til valgt %s"
+
+#. Template: AdminTemplateImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of templates to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminTemplateImportExport
+#, fuzzy
+#| msgid "Templates"
+msgid "Templates List"
+msgstr "Maler"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
@@ -8806,6 +9879,32 @@ msgid "Filter for types"
 msgstr "Filter for typer"
 
 #. Template: AdminType
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import types to your system. The "
+"file needs to be in .yml format as exported by the type management module."
+msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for å importere en prosess til "
+"systemet ditt. Filen må være i .yml-format som eksportert av "
+"prosessadministrasjonsmodulen."
+
+#. Template: AdminType
+#, fuzzy
+#| msgid "Import"
+msgid "Types Import"
+msgstr "Importer"
+
+#. Template: AdminType
+#, fuzzy
+#| msgid "Export"
+msgid "Types Export"
+msgstr "Eksporter"
+
+#. Template: AdminType
 msgid "A type with this name already exists!"
 msgstr "En type med dette navnet finnes allerede!"
 
@@ -8820,6 +9919,30 @@ msgstr ""
 #. Template: AdminType
 msgid "This type is used in the following config settings:"
 msgstr "Denne typen brukes i følgende konfigurasjonsinnstillinger:"
+
+#. Template: AdminTypeImportExport
+msgid "Types"
+msgstr "Typer"
+
+#. Template: AdminTypeImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can export a configuration file of dynamic fields and dynamic "
+#| "field screens to import these on another system. The configuration file "
+#| "is exported in yml format."
+msgid ""
+"Here you can export a configuration file of types to import these on another "
+"system. The configuration file is exported in yml format."
+msgstr ""
+"Her kan du eksportere en konfigurasjonsfil med dynamiske felt og dynamiske "
+"feltskjermer for å importere disse på et annet system. Konfigurasjonsfilen "
+"eksporteres i yml-format."
+
+#. Template: AdminTypeImportExport
+#, fuzzy
+#| msgid "Types"
+msgid "Types List"
+msgstr "Typer"
 
 #. Template: AdminUser
 msgid "Agent Management"
@@ -9331,6 +10454,24 @@ msgstr ""
 "Etter 5 minutter, sjekk at OTOBO Daemon kjører i systemet ('bin/"
 "otobo.Daemon.pl status')."
 
+#. Template: AgentDaemonInfo
+#, fuzzy
+#| msgid "A running OTOBO Daemon is mandatory for correct system operation."
+msgid "Running the OTOBO Daemon in a Docker based installation"
+msgstr "En kjørende OTOBO agent er påkrevd for at systemet skal kjøre riktig."
+
+#. Template: AgentDaemonInfo
+msgid ""
+"Check with 'docker compose ps' whether a service with the name daemon is "
+"running."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid ""
+"When the service daemon is not running then try starting it with 'docker "
+"compose start daemon'"
+msgstr ""
+
 #. Template: AgentDashboard
 msgid "Dashboard"
 msgstr "Kontrollpanel"
@@ -9578,6 +10719,12 @@ msgstr "Legg til et ekstra attributt"
 msgid "Details view"
 msgstr "Detaljvisning"
 
+#. Template: AgentElasticsearchCommon
+#, fuzzy
+#| msgid "Elasticsearch"
+msgid "Elasticsearch Results"
+msgstr "Elasticsearch"
+
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
 msgstr "Saker"
@@ -9585,6 +10732,10 @@ msgstr "Saker"
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
 msgstr "ConfigItems"
+
+#. Template: AgentElasticsearchQuickResult
+msgid "FAQs"
+msgstr ""
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
@@ -9932,10 +11083,6 @@ msgstr ""
 "ditt."
 
 #. Template: AgentStatisticsReportsEdit
-msgid "Configure PhantomJS"
-msgstr "Konfigurer PhantomJS"
-
-#. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
 msgstr "Konfigurer GoogleChrome"
 
@@ -10233,6 +11380,12 @@ msgstr "Hvis du angir en mal, overskrives all tekst eller vedlegg."
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
 msgstr "Ugyldig tid!"
+
+#. Template: AgentTicketArticleEdit
+#, fuzzy
+#| msgid "Add Article"
+msgid "Edit Article"
+msgstr "Legg til artikkel"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
@@ -10536,6 +11689,12 @@ msgid "Solution Time"
 msgstr "Løsningstid"
 
 #. Template: AgentTicketOverviewMedium
+#, fuzzy
+#| msgid "AccountedTime"
+msgid "Accounted Time"
+msgstr "Ført tid"
+
+#. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
 msgstr "Flytt saker til annen kø"
 
@@ -10582,14 +11741,6 @@ msgstr "Vennligst oppgi minst en kunde for denne saken."
 #. Template: AgentTicketPhone
 msgid "To queue"
 msgstr "Til kø"
-
-#. Template: AgentTicketPhone
-msgid "Chat protocol"
-msgstr "Chat-protokoll"
-
-#. Template: AgentTicketPhone
-msgid "The chat will be appended as a separate article."
-msgstr "Chatten vil bli lagt ved som en egen artikkel."
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
@@ -10809,6 +11960,12 @@ msgid "Article Edited"
 msgstr ""
 
 #. Template: AgentTicketZoom
+#, fuzzy
+#| msgid "Time units"
+msgid "Time Units"
+msgstr "Tidsenheter"
+
+#. Template: AgentTicketZoom
 msgid "Important"
 msgstr "Viktig"
 
@@ -11020,6 +12177,10 @@ msgstr "Søk i saker"
 msgid "New Ticket"
 msgstr "Ny sak"
 
+#. Template: CustomerElasticsearchQuickResult
+msgid "FAQ#"
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "En feil oppstod"
@@ -11202,8 +12363,10 @@ msgid "Click here for an unfiltered list of all your tickets."
 msgstr "Klikk her for en ufiltrert liste over alle sakene dine."
 
 #. Template: CustomerTicketMessage
-msgid "Issue a new Ticket"
-msgstr "Lag en ny sak"
+#, fuzzy
+#| msgid "Create a new ticket!"
+msgid "Create a new Ticket"
+msgstr "Opprett en ny sak!"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -11222,6 +12385,12 @@ msgid "Sort"
 msgstr "Sortere"
 
 #. Template: CustomerTicketSearch
+#, fuzzy
+#| msgid "Search Ticket."
+msgid "Search for a Ticket"
+msgstr "Søk sak."
+
+#. Template: CustomerTicketSearch
 msgid "Profile"
 msgstr "Profil"
 
@@ -11236,10 +12405,6 @@ msgstr "Kunde-ID"
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
 msgstr "Fulltekstsøk i saker (f.eks. \"John*n\" eller \"Will*\")"
-
-#. Template: CustomerTicketSearch
-msgid "Types"
-msgstr "Typer"
 
 #. Template: CustomerTicketSearch
 msgid "Time Restrictions"
@@ -11278,12 +12443,12 @@ msgid "Save Search as Template?"
 msgstr "Lagre søk som mal?"
 
 #. Template: CustomerTicketSearch
-msgid "Save as Template?"
-msgstr "Lagre som mal?"
-
-#. Template: CustomerTicketSearch
 msgid "Save as Template"
 msgstr "Lagre som mal"
+
+#. Template: CustomerTicketSearch
+msgid "Save as Template?"
+msgstr "Lagre som mal?"
 
 #. Template: CustomerTicketSearch
 msgid "Pick a profile name"
@@ -11338,8 +12503,10 @@ msgid "Warning"
 msgstr "Advarsel"
 
 #. Template: TileNewTicket
-msgid "Issue%sa ticket"
-msgstr "Utsted%sen sak"
+#, fuzzy
+#| msgid "Create tickets."
+msgid "Create%sa ticket"
+msgstr "Lag saker."
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -12355,10 +13522,6 @@ msgid "Enable this setting, so it becomes effective"
 msgstr "Aktiver denne innstillingen, så den blir effektiv"
 
 #. Template: SettingsList
-msgid "Enable"
-msgstr "Muliggjøre"
-
-#. Template: SettingsList
 msgid "Reset this setting to its default state"
 msgstr "Tilbakestill denne innstillingen til standardtilstanden"
 
@@ -12785,6 +13948,14 @@ msgstr "Endre på systeminnstillingene."
 msgid "Update and extend your system with software packages."
 msgstr "Oppdater og utvid systemet med programvarepakker."
 
+#. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
+msgid "Error fetching the OAuth2 Token"
+msgstr ""
+
+#. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
+msgid "Attached OAuth2 Bearer Token"
+msgstr ""
+
 #. Perl Module: Kernel/Language.pm
 msgid "(in process)"
 msgstr "(under arbeid)"
@@ -12864,10 +14035,6 @@ msgid ""
 msgstr ""
 "Vær oppmerksom på at ACL-begrensninger vil bli ignorert for Superuser-"
 "kontoen (UserID 1)."
-
-#. Perl Module: Kernel/Modules/AdminACL.pm
-msgid "Exact match"
-msgstr "Nøyaktig treff"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
@@ -13535,6 +14702,12 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid ""
+"The dynamic field \"%s\" can not be used in sets as it is either a Set field "
+"or a Lens field pointing to a Set field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
 msgstr ""
 
@@ -13993,6 +15166,14 @@ msgstr ""
 "Utgående feilhåndteringsdata etter feilhåndtering "
 "(ProviderErrorHandlingOutput)"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "Disabled"
+msgstr "Inaktiv"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "Enabled"
+msgstr "Aktiv"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
 msgstr "Kunne ikke bestemme konfigurasjonen for operasjon %s"
@@ -14186,6 +15367,12 @@ msgid "You need %s permissions!"
 msgstr "Du trenger %s tillatelser!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+#, fuzzy
+#| msgid "Agent who created the ticket"
+msgid "Agent who created the first article"
+msgstr "Agent som opprettet saken"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
 msgstr "Agent som opprettet saken"
 
@@ -14244,6 +15431,118 @@ msgstr "Usynlig for kunden"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
 msgstr "Synlig for kunden"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "HTML body attachment is missing!"
+msgid "Account Name is missing!"
+msgstr "HTML-tekstvedlegg mangler!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Name is required!"
+msgid "Username is required!"
+msgstr "Navn er påkrevd!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Format is required!"
+msgid "Password is required!"
+msgstr "Format er påkrevd!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Accounted time by Agent"
+msgid "Account Name is taken!"
+msgstr "Utgjort tid av Saksbehandler"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Error creating contact!"
+msgid "Error creating/updating %s!"
+msgstr "Feil ved opprettelse av kontakt!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+msgid ""
+"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
+"Configuration!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+msgid ""
+"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
+"COnfiguration!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Key %s deleted!"
+msgid "Account %s deleted!"
+msgstr "Nøkkel %s slettet!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Role updated!"
+msgid "Token %s updated!"
+msgstr "Rolle oppdatert!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid OAuth State!"
+msgstr "Ugyldig dato!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Invalid Token!"
+msgid "Invalid Account %s for Token!"
+msgstr "Ugyldig bevis!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Invalid Token!"
+msgid "Invalid Issuer %s for Token %s!"
+msgstr "Ugyldig bevis!"
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+#, fuzzy
+#| msgid "Parameter %s is missing."
+msgid "Profile Name is missing!"
+msgstr "Parameter %s mangler."
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Provider metadata url is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+#, fuzzy
+#| msgid "HTML body attachment is missing!"
+msgid "Provider client id is missing!"
+msgstr "HTML-tekstvedlegg mangler!"
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Provider client secret is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Profile Name is taken!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Error creating/updating Profile %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+#, fuzzy
+#| msgid "Key %s deleted!"
+msgid "Profile %s deleted!"
+msgstr "Nøkkel %s slettet!"
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid ""
+"Profile %s could not be deleted - do you have any Functional Accounts "
+"referencing this Profile?"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -14432,16 +15731,60 @@ msgid "There was an error creating the Process"
 msgstr "Det oppsto en feil under opprettelsen av prosessen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not get data for ProcessID %s"
-msgstr "Kunne ikke hente data for prosess-ID %s"
+#, fuzzy
+#| msgid "There was an error generating a new EntityID for this Transition"
+msgid ""
+"There was an error generating a new EntityID while copying an associated "
+"Element"
+msgstr ""
+"Det oppsto en feil under generering av en ny enhets-ID for denne overgangen"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid "There was an error creating the Transition"
+msgid "There was an error copying an associated Element"
+msgstr "Det oppsto en feil da overgangen skulle opprettes"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid ""
+#| "There was an error setting the entity sync status for Transition entity: "
+#| "%s"
+msgid ""
+"There was an error setting the entity sync status for an associated Element "
+"entity: %s"
+msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"overgangsenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
 msgstr "Det oppsto en feil under oppdatering av prosessen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Could not get data for ProcessID %s"
+msgstr "Kunne ikke hente data for prosess-ID %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
 msgstr "Prosess: %s kunne ikke slettes"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid ""
+"Process: %s successfully deleted, but failed to delete an associated Element"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid ""
+#| "There was an error setting the entity sync status for Transition entity: "
+#| "%s"
+msgid ""
+"Process: %s successfully deleted, but there was an error setting the entity "
+"sync status for an associated Element entity"
+msgstr ""
+"Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for "
+"overgangsenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
@@ -14470,12 +15813,22 @@ msgid "Could not get %s"
 msgstr "Kunne ikke hente %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid "Need ProcessID!"
+msgid "Need ProcessEntityID!"
+msgstr "Trenger prosessID!"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
 msgstr "Trenger %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
 msgstr "Prosess: %s er ikke inaktiv"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
@@ -14494,12 +15847,18 @@ msgstr ""
 "aktivitetsenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Need ActivityID!"
-msgstr "Trenger aktivitets-ID!"
+#, fuzzy
+#| msgid "Need ActivityDialogID!"
+msgid "Need ActivityID and ProcessEntityID!"
+msgstr "Trenger ActivityDialogID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
 msgstr "Kunne ikke hente data for aktivitets-ID %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid "This Activity is not available to the current Process!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
@@ -14556,12 +15915,20 @@ msgstr ""
 "ActivityDialog-enheten: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-msgid "Need ActivityDialogID!"
+#, fuzzy
+#| msgid "Need ActivityDialogID!"
+msgid "Need ActivityDialogID and ProcessEntityID!"
 msgstr "Trenger ActivityDialogID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
 msgstr "Kunne ikke hente data for ActivityDialogID %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
+#| msgid "Activity dialogs are not being used in this process."
+msgid "This Activity Dialog is not available to the current Process!"
+msgstr "Aktivitetsdialoger er ikke i bruk i denne prosessen."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
@@ -14616,12 +15983,18 @@ msgstr ""
 "overgangsenhet: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "Need TransitionID!"
-msgstr "Trenger TransitionID!"
+#, fuzzy
+#| msgid "Need TransitionActionID!"
+msgid "Need TransitionID and ProcessEntityID!"
+msgstr "Trenger TransitionActionID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
 msgstr "Kunne ikke hente data for overgangs-ID %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "This Transition is not available to the current Process!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
@@ -14632,8 +16005,16 @@ msgid "Edit Transition \"%s\""
 msgstr "Rediger overgang \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "Transition validation module"
-msgstr "Overgangsvalideringsmodul"
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression - all"
+msgstr "Vanlig uttrykk"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression - negated"
+msgstr "Vanlig uttrykk"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
@@ -14658,12 +16039,24 @@ msgstr ""
 "TransitionAction-enheten: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-msgid "Need TransitionActionID!"
+#, fuzzy
+#| msgid "Need TransitionActionID!"
+msgid "Need TransitionActionID and ProcessEntityID!"
 msgstr "Trenger TransitionActionID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
 msgstr "Kunne ikke hente data for TransitionActionID %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+#, fuzzy
+#| msgid ""
+#| "This TransitionAction is already used in this Path. You cannot use it "
+#| "twice!"
+msgid "This Transition Action is not available to the current Process!"
+msgstr ""
+"Denne overgangshandlingen er allerede i bruk i denne addressen. Du kan ikke "
+"leggen den til for andre gang!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -14720,10 +16113,6 @@ msgstr "Trening"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "Utvikling"
-
-#. Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
-msgid "Template updated!"
-msgstr "Malen er oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
@@ -14989,6 +16378,10 @@ msgstr "Var ikke mulig å slette SystemMaintenance-oppføringen: %s!"
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "No permission to edit this template."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTemplate.pm
+msgid "Template updated!"
+msgstr "Malen er oppdatert!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"
@@ -15462,6 +16855,12 @@ msgstr "Ingen artikkel-ID er gitt!"
 #. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
 msgid "This action is not permitted on the article!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+#, fuzzy
+#| msgid "This feature is not available."
+msgid "This article is not editable!"
+msgstr "Denne funksjonen er ikke tilgjengelig."
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
@@ -16313,14 +17712,6 @@ msgid "Customer Realname"
 msgstr "Kundens navn"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
-msgid "Created within the last"
-msgstr "Opprettet i løpet av de siste"
-
-#. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
-msgid "Created more than ... ago"
-msgstr "Opprettet mer enn ... siden"
-
-#. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
 msgstr "Vennligst fjern følgende ord fordi de ikke kan brukes for søket:"
@@ -16865,6 +18256,12 @@ msgstr "Brukeren satte statusen sin til utilgjengelig."
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "Unavailable"
 msgstr "Utilgjengelig"
+
+#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
+#, fuzzy
+#| msgid "Search Results"
+msgid "Shown Elsticsearch Results"
+msgstr "Søkeresultat"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
@@ -17640,8 +19037,134 @@ msgstr "Kolonne"
 msgid "Pretty print the exported concatenated JSON"
 msgstr ""
 
-#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value"
+msgid "Default Queue"
+msgstr "Standardverdi"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default Ticket Type"
+msgid "Default Type"
+msgstr "Standard sakstype"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default Version"
+msgid "Default Service"
+msgstr "Standardversjon"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default"
+msgid "Default SLA"
+msgstr "Standard"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value"
+msgid "Default state"
+msgstr "Standardverdi"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default Version"
+msgid "Default priority"
+msgstr "Standardversjon"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default command"
+msgid "Default owner"
+msgstr "Standard kommando"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "new responsible"
+msgid "Default responsible"
+msgstr "ny ansvarlig"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default"
+msgid "Default lock"
+msgstr "Standard"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "CustomerID"
+msgid "Default CustomerID"
+msgstr "Kunde-ID"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Customer User ID"
+msgid "Default CustomerUserID"
+msgstr "Kundebruker-ID"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default language"
+msgid "Default ArchiveFlag"
+msgstr "Standardspråk"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value"
+msgid "Default subject"
+msgstr "Standardverdi"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default command"
+msgid "Default body"
+msgstr "Standard kommando"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default sign key"
+msgid "Default sender type"
+msgstr "Standard signeringsnøkkel"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Is visible for customer"
+msgid "Default is visible to customer"
+msgstr "Er synlig for kunden"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Empty fields indicate that the current values are kept"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Update existing appointments?"
+msgid "Do not update existing tickets"
+msgstr "Oppdater eksisterende avtaler?"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+msgid "Only update tickets of this user in the target system"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Import/Export"
+msgid "Import/Export articles"
+msgstr "Import/Eksport"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default command"
+msgid "Default Backend"
+msgstr "Standard kommando"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+msgid "Store articles on separate lines indicated by a blank first entry"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+msgid "Import/Export attachments (as the last entries per line)"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
@@ -17958,6 +19481,55 @@ msgstr ""
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
 msgstr "Importert varsling har brødtekst med mer enn 4000 tegn."
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+msgid "Error fetching Token: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+#, fuzzy
+#| msgid "Needed CertFingerprint and CAFingerprint!"
+msgid "Need ClientID and ClientSecret!"
+msgstr "Trengs CertFingerprint og CAFingerprint!"
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+msgid "Got no content when requesting Token. Response Code: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+msgid "Got no JSON object when requesting Token. Response: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+#, fuzzy
+#| msgid "Action \"%s\" not found!"
+msgid "AccountName %s not found!"
+msgstr "Handlingen \"%s\" ble ikke funnet!"
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid ""
+"No valid refresh_token for Account %s using grant_tpye 'authorization code' !"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid "Need functional account Invoker settings in SysConfig for %s."
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid ""
+"Did not receive the desired TokenType '%s' in OIDC provider response for "
+"Invoker %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid "Time left on fresh token is: %s s for Invoker %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+#, fuzzy
+#| msgid "Could not get backend for Invoker %s"
+msgid "Could not get the OAuth2 token_endpoint for Invoker "
+msgstr "Kunne ikke hente backend for Invoker %s"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -19088,14 +20660,6 @@ msgstr "Verdien er ikke riktig! Vennligst vurder å oppdatere dette feltet."
 msgid "Value doesn't satisfy regex (%s)."
 msgstr "Verdien tilfredsstiller ikke regulært uttrykk (%s)."
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-msgid "Enabled"
-msgstr "Aktiv"
-
-#. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-msgid "Disabled"
-msgstr "Inaktiv"
-
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
 msgid "System was not able to calculate user Date in OTOBOTimeZone!"
 msgstr "Systemet var ikke i stand til å beregne brukerdato i OTOBOTimeZone!"
@@ -19507,7 +21071,9 @@ msgid "default reply (after new ticket has been created)"
 msgstr "standardsvar (etter at ny sak er opprettet)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
-msgid "default reject (after follow-up and rejected of a closed ticket)"
+#, fuzzy
+#| msgid "default reject (after follow-up and rejected of a closed ticket)"
+msgid "default reject (after follow-up and rejection of a closed ticket)"
 msgstr "standard avvisning (etter oppfølging og avvisning av en lukket sak)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -20245,10 +21811,6 @@ msgid "Previous"
 msgstr "Forrige"
 
 #. JS File: Core.Agent.AppointmentCalendar
-msgid "Resources"
-msgstr "Ressurser"
-
-#. JS File: Core.Agent.AppointmentCalendar
 msgid "Su"
 msgstr "sø"
 
@@ -20692,6 +22254,10 @@ msgid "Please only select at most %s files for upload."
 msgstr "Velg maksimalt %s filer for opplasting."
 
 #. JS File: Core.UI
+msgid "Upload information"
+msgstr "Last opp informasjon"
+
+#. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
 msgstr "Følgende filer er ikke tillatt å lastes opp: %s"
 
@@ -20717,10 +22283,6 @@ msgstr "Ingen plass igjen for følgende filer: %s"
 #. JS File: Core.UI
 msgid "Available space %s of %s."
 msgstr "Tilgjengelig plass %s av %s."
-
-#. JS File: Core.UI
-msgid "Upload information"
-msgstr "Last opp informasjon"
 
 #. JS File: Core.UI
 msgid ""
@@ -20899,6 +22461,12 @@ msgid "5 Minutes"
 msgstr "5 minutter"
 
 #. SysConfig
+#, fuzzy
+#| msgid "5 days"
+msgid "7 days"
+msgstr "5 dager"
+
+#. SysConfig
 msgid "A TicketWatcher Module."
 msgstr "En TicketWatcher-modul."
 
@@ -21074,6 +22642,18 @@ msgid ""
 msgstr ""
 "Legger til år og måned på loggfilens navn. Dette gjør at man får én logg-fil "
 "per måned."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Sets the responsible agent of the ticket in the ticket note screen of the "
+#| "agent interface."
+msgid ""
+"Adds customer visibility of the article to the article edit screen of the "
+"agent interface."
+msgstr ""
+"Angir den ansvarlige agenten for billetten i billettnotatskjermen til "
+"agentgrensesnittet."
 
 #. SysConfig
 msgid ""
@@ -21836,6 +23416,12 @@ msgid "Based on global RichText setting"
 msgstr "Basert på global RichText-innstilling"
 
 #. SysConfig
+#, fuzzy
+#| msgid "BasicAuth User"
+msgid "Basic Auth"
+msgstr "BasicAuth-bruker"
+
+#. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otobo.Console.pl "
 "Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
@@ -21853,6 +23439,10 @@ msgid ""
 "PostMaster::PreFilterModule::NewTicketReject::Subject and "
 "PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From "
 "-> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Both"
 msgstr ""
 
 #. SysConfig
@@ -22333,10 +23923,6 @@ msgid "Company name which will be included in outgoing emails as an X-Header."
 msgstr "Firmanavn som vil bli inkludert i utgående e-poster som en X-Header."
 
 #. SysConfig
-msgid "Compat module for AgentZoom to AgentTicketZoom."
-msgstr "Kompat modul for AgentZoom til AgentTicketZoom."
-
-#. SysConfig
 msgid "Complex"
 msgstr "Kompleks"
 
@@ -22464,6 +24050,20 @@ msgid ""
 msgstr ""
 "Kontrollerer om flaggene for saken og artikkelen skal fjernes når en sak "
 "arkiveres."
+
+#. SysConfig
+msgid ""
+"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
+"Button Group that will be visibly seperated in the Editor.(Only used if "
+"`CustomerFrontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
+"Button Group that will be visibly seperated in the Editor.(Only used if "
+"`Frontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -22994,6 +24594,21 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Define possible namespaces for global usage (currently dynamic fields and "
+"process elements). Must only contain alphanumeric characters. A namespace "
+"must not be longer than 64 characters. Namespace plus dynamic field name "
+"must not exceed 190 characters."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Define possible namespaces specifically for process elements. Must only "
+"contain alphanumeric characters. A namespace must not be longer than 64 "
+"characters."
+msgstr ""
+
+#. SysConfig
 msgid "Define the max depth of queues."
 msgstr "Definer maksimal dybde på køer."
 
@@ -23322,10 +24937,6 @@ msgstr ""
 "kundebrukerliste."
 
 #. SysConfig
-msgid "Defines available article actions for Chat articles."
-msgstr "Definerer tilgjengelige artikkelhandlinger for Chat-artikler."
-
-#. SysConfig
 msgid "Defines available article actions for Internal articles."
 msgstr "Definerer tilgjengelige artikkelhandlinger for interne artikler."
 
@@ -23359,6 +24970,12 @@ msgstr "Definerer e-postkommunikasjonskanal."
 
 #. SysConfig
 msgid ""
+"Defines for which article types the editing of subject, body and attachment "
+"is enabled. \"Both\" includes \"Phone\" and \"Internal\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines from which ticket attributes the agent can select the result order."
 msgstr ""
 "Definerer fra hvilke saksattributter agenten kan velge resultatrekkefølgen."
@@ -23378,12 +24995,6 @@ msgid ""
 msgstr ""
 "Definerer hvordan Fra-feltet på e-poster (sendt som svar eller e-post-saker) "
 "skal se ut."
-
-#. SysConfig
-msgid ""
-"Defines if CSV-mappings are re-created on next package reinstallation or "
-"upgrade if already existent."
-msgstr ""
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the queue view."
@@ -23560,6 +25171,12 @@ msgstr ""
 "Definerer om agenter skal ha tillatelse til å logge på hvis de ikke har noen "
 "delt hemmelighet lagret i sine preferanser og derfor ikke bruker "
 "tofaktorautentisering."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Defines the parameters for the customer preferences table."
+msgid "Defines if articles written by the customer are editable."
+msgstr "Definerer parametrene for tabellen med kundepreferanser."
 
 #. SysConfig
 msgid ""
@@ -24662,6 +26279,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the dynamic field to identify tickets by for this operation. Please "
+"put in the field name only without the 'DynamicField_' prefix."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
 msgstr ""
 "Definerer de dynamiske feltene som brukes for visning på kalenderhendelser."
@@ -25535,6 +27158,12 @@ msgstr ""
 "plugin-en alltid vises og ikke kan fjernes av agenter."
 
 #. SysConfig
+#, fuzzy
+#| msgid "Defines the parameters for the customer preferences table."
+msgid "Defines the parameters for the elasticsearch widget backend."
+msgstr "Definerer parametrene for tabellen med kundepreferanser."
+
+#. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold italic monospaced font in PDF "
 "documents."
@@ -25616,20 +27245,10 @@ msgstr ""
 "= '/var/lib/wwwrun';)."
 
 #. SysConfig
-msgid ""
-"Defines the path to the Google Chrome or Chromium binary. If set, this "
-"binary will be used instead of PhantomJS::Bin."
-msgstr ""
-"Definerer banen til binærfilen Google Chrome eller Chromium. Hvis den er "
-"satt, vil denne binære filen bli brukt i stedet for PhantomJS::Bin."
-
-#. SysConfig
-msgid ""
-"Defines the path to the PhantomJS binary. You can use a static build from "
-"http://phantomjs.org/download.html for an easy installation process."
-msgstr ""
-"Definerer banen til PhantomJS-binæren. Du kan bruke en statisk build fra "
-"http://phantomjs.org/download.html for en enkel installasjonsprosess."
+#, fuzzy
+#| msgid "Defines the path to PGP binary."
+msgid "Defines the path to the Google Chrome or Chromium binary."
+msgstr "Definerer banen til binær PGP."
 
 #. SysConfig
 msgid ""
@@ -25833,11 +27452,17 @@ msgstr ""
 "feilskjermbildene til applikasjonen."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Defines the system identifier. Every ticket number and http session "
+#| "string contains this ID. This ensures that only tickets which belong to "
+#| "your system will be processed as follow-ups (useful when communicating "
+#| "between two instances of OTOBO)."
 msgid ""
-"Defines the system identifier. Every ticket number and http session string "
-"contains this ID. This ensures that only tickets which belong to your system "
-"will be processed as follow-ups (useful when communicating between two "
-"instances of OTOBO)."
+"Defines the system identifier. Every ticket number contains this ID. This "
+"ensures that only tickets which belong to your system will be processed as "
+"follow-ups (useful when communicating between two instances of OTOBO). The "
+"SystemID may also be used in HTTP session backends."
 msgstr ""
 "Definerer systemidentifikatoren. Hvert saksnummer og http-sesjonsstreng "
 "inneholder denne IDen. Dette sikrer at kun saker som tilhører systemet ditt "
@@ -26495,6 +28120,25 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Dynamic field event module that updates the MultiValue attribute of the Lens "
+"field configuration to match the MultiValue attribute of the attribute field."
+msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Dynamic fields options shown in the ticket reply section in the ticket "
+#| "zoom screen of the customer interface."
+msgid ""
+"Dynamic fields available as attributes for the settings "
+"'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown "
+"in the ticket overview screen of the customer interface."
+msgstr ""
+"Dynamiske feltalternativer vist i sakssvarseksjonen i sakszoomskjermen i "
+"kundegrensesnittet."
+
+#. SysConfig
+msgid ""
 "Dynamic fields groups for dynamic field widget. The key is the name of the "
 "group, the value contains the fields to be shown. Example: 'Key => My "
 "Group', 'Content: Name_X, NameY'."
@@ -26601,11 +28245,6 @@ msgstr "Dynamiske felt vist i saksflyttingsskjermen til agentgrensesnittet."
 #. SysConfig
 msgid "Dynamic fields shown in the ticket note screen of the agent interface."
 msgstr "Dynamiske felter vist i sakslappskjermen til agentgrensesnittet."
-
-#. SysConfig
-msgid ""
-"Dynamic fields shown in the ticket overview screen of the customer interface."
-msgstr "Dynamiske felt vist i saksoversiktsskjermen til kundegrensesnittet."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket owner screen of the agent interface."
@@ -26825,6 +28464,12 @@ msgstr ""
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
 msgstr "Aktiverer eller deaktiverer feilsøkingsmodusen over grensesnittet."
+
+#. SysConfig
+msgid ""
+"Enables or disables the editing of articles which are visible for the "
+"customer in general."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -27395,6 +29040,12 @@ msgid "Fulltext search using Elasticsearch."
 msgstr "Fulltekstsøk med Elasticsearch."
 
 #. SysConfig
+#, fuzzy
+#| msgid "Mail Account Management"
+msgid "Functional Account and Token Management."
+msgstr "Administrasjon: E-postkontoer"
+
+#. SysConfig
 msgid "Galician"
 msgstr "Galisisk"
 
@@ -27904,6 +29555,22 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
+"'SendmailModule::OAuth2Method' setting, then this setting needs to be "
+"enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
+"configured in the Admin UI 'OAuth Functional Accounts' Module."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If activated additional data such as the history and links will be read from "
+"a foreign DB containing the exported tickets and added to the imported "
+"tickets on this system. This is only available for created, not for updated "
+"tickets."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If activated, a clicked activity button will be hidden in the customer "
 "ticket zoom frontend."
 msgstr ""
@@ -28108,6 +29775,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If the accounted time units for articles are shown in the article list. Only "
+"showing if at least one article has any accounted time."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If this option is enabled, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
@@ -28240,6 +29913,16 @@ msgstr "Tilføre"
 #. SysConfig
 msgid "Interface language"
 msgstr "Språk for grensesnittet"
+
+#. SysConfig
+msgid "Interfaces for which the restoring of pending information is activated."
+msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid "Internal Chat"
+msgid "Internal"
+msgstr "Intern chat"
 
 #. SysConfig
 msgid "Internal communication channel."
@@ -28450,6 +30133,18 @@ msgid "Links appointments and tickets with a \"Normal\" type link."
 msgstr "Koble avtaler og saker med en \"normal\" lenke."
 
 #. SysConfig
+msgid ""
+"List of Active CKEditor Plugins. (Only used if "
+"`CustomerFrontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"List of Active CKEditor Plugins. (Only used if "
+"`Frontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr "Liste med CSS-filer som alltid skal lastes for agentdelen."
 
@@ -28643,15 +30338,6 @@ msgstr ""
 "Gjør at systemet sjekker at en e-postadresse er skrevet på riktig måte."
 
 #. SysConfig
-msgid ""
-"Makes the session management use html cookies. If html cookies are disabled "
-"or if the client browser disabled html cookies, then the system will work as "
-"usual and append the session id to the links."
-msgstr ""
-"Gjør at sesjoner bruker informasjonskapsler (cookies). Dersom dette er slått "
-"av på klientens nettleser vil systemet legge til sesjons-ID i lenkene."
-
-#. SysConfig
 msgid "Malay"
 msgstr "malaysisk"
 
@@ -28662,6 +30348,10 @@ msgstr ""
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
 msgstr "Administrer OTOBO Team-skytjenester."
+
+#. SysConfig
+msgid "Manage OpendID Connect OAuth2 Profiles."
+msgstr ""
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -28706,10 +30396,6 @@ msgstr "Administrer systemregistrering."
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
 msgstr "Administrer oppgaver utløst av hendelse eller tidsbasert utførelse."
-
-#. SysConfig
-msgid "Manage ticket state pre-selections for response templates."
-msgstr ""
 
 #. SysConfig
 msgid "Mark as (un)seen"
@@ -29210,6 +30896,30 @@ msgid ""
 "Number of tickets to be displayed in each page of a search result in the "
 "customer interface."
 msgstr "Antall saker som vises per side i et søkeresultat i kundeportalen."
+
+#. SysConfig
+msgid "OAUTHBEARER"
+msgstr ""
+
+#. SysConfig
+msgid "OAuth Functional Accounts"
+msgstr ""
+
+#. SysConfig
+msgid "OAuth Tokens"
+msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid "Role Management"
+msgid "OIDC Profile Management"
+msgstr "Administrasjon: Roller"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profiles"
+msgstr "Profil"
 
 #. SysConfig
 msgid "OTOBO News"
@@ -30125,6 +31835,12 @@ msgid "Process Management Transition GUI"
 msgstr "Prosessstyring Transition GUI"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Processing"
+msgid "Process dialog"
+msgstr "Behandling"
+
+#. SysConfig
 msgid "Process pending tickets."
 msgstr "Behandle ventende saker."
 
@@ -30555,10 +32271,6 @@ msgid "S/MIME Certificates"
 msgstr "S/MIME-sertifikater"
 
 #. SysConfig
-msgid "SLAs"
-msgstr ""
-
-#. SysConfig
 msgid "SSL_VERIFY_NONE - no verification of mail server host"
 msgstr ""
 
@@ -30625,10 +32337,6 @@ msgstr "Søk backend standard ruter."
 #. SysConfig
 msgid "Search backend router."
 msgstr "Søk i backend-ruter."
-
-#. SysConfig
-msgid "Search."
-msgstr "Søk."
 
 #. SysConfig
 msgid "Second Christmas Day"
@@ -31649,6 +33357,14 @@ msgstr ""
 "(Ticket::Type må være aktivert)."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Sets the ticket owner in the ticket note screen of the agent interface."
+msgid "Sets the time units in the ticket note screen of the agent interface."
+msgstr ""
+"Stiller inn billett eieren i billettnotatskjermen til agentgrensesnittet."
+
+#. SysConfig
 msgid ""
 "Sets the time zone being used internally by OTOBO to e. g. store dates and "
 "times in the database. WARNING: This setting must not be changed once set "
@@ -31725,14 +33441,6 @@ msgstr ""
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
 msgstr "Vis køer selv når kun låste billetter er inne."
-
-#. SysConfig
-msgid "Show the current owner in the customer interface."
-msgstr "Vis gjeldende eier i kundegrensesnittet."
-
-#. SysConfig
-msgid "Show the current queue in the customer interface."
-msgstr "Vis gjeldende kø i kundegrensesnittet."
 
 #. SysConfig
 msgid "Show the history for this ticket"
@@ -32440,6 +34148,12 @@ msgstr "Viser et eier-valg i telefon- og e-post-saker i agentdelen."
 
 #. SysConfig
 msgid ""
+"Shows creation date instead of age in the customer interface if ticket is "
+"older than configured value (days)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and "
 "AgentTicketCustomer."
 msgstr "Viser kundehistorikk i agentdelen."
@@ -32644,6 +34358,12 @@ msgid ""
 msgstr ""
 "Viser fullstendig beskrivelse av tidsbruk (dager, timer, minutter), hvis "
 "aktivert; eller bare første bokstav (d, h, m), hvis ikke aktivert."
+
+#. SysConfig
+msgid ""
+"Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), "
+"if enabled; or without (01.01.1970 00:01), if not enabled."
+msgstr ""
 
 #. SysConfig
 msgid "Signature data."
@@ -32971,10 +34691,6 @@ msgid "Stat#"
 msgstr "Stat#"
 
 #. SysConfig
-msgid "State pre-selection for Templates"
-msgstr ""
-
-#. SysConfig
 msgid "States"
 msgstr "Status"
 
@@ -33111,6 +34827,15 @@ msgid ""
 msgstr ""
 "Agentskallets interne navn som skal brukes i agentgrensesnittet. Vennligst "
 "sjekk tilgjengelige skins i Frontend::Agent::Skins."
+
+#. SysConfig
+msgid ""
+"The authentication method to use for SMTP Authentication, defaults to 'Basic "
+"Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the '\"SendmailModule "
+"'\"SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and "
+"set to a valid OIDC Functional Account.  OIDC Accounts can be configured in "
+"the Admin UI  'OAuth Functional Accounts' Module."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -33546,6 +35271,12 @@ msgid "Ticket Responsible."
 msgstr "Saksansvarlig."
 
 #. SysConfig
+#, fuzzy
+#| msgid "Ticket Search"
+msgid "Ticket Search."
+msgstr "Søk i saker"
+
+#. SysConfig
 msgid "Ticket States"
 msgstr ""
 
@@ -33612,10 +35343,6 @@ msgstr "Sak oversikt over en e-post."
 #. SysConfig
 msgid "Ticket split dialog."
 msgstr "Delt dialogvisning for sak."
-
-#. SysConfig
-msgid "Ticket state pre-selection for response templates"
-msgstr ""
 
 #. SysConfig
 msgid "Ticket title"
@@ -33887,6 +35614,10 @@ msgstr ""
 "standardmaler, automatiske svar og varsler."
 
 #. SysConfig
+msgid "Value map. Define a key and a value map from import file to OTOBO."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/"
 "IMAPTLS mail accounts."
@@ -34061,6 +35792,14 @@ msgstr ""
 "protokollen før du aktiverer dette alternativet."
 
 #. SysConfig
+msgid "Which units are used and shown in the overview for timeunits?"
+msgstr ""
+
+#. SysConfig
+msgid "XOAUTH2"
+msgstr ""
+
+#. SysConfig
 msgid "Yes, but hide archived tickets"
 msgstr "Ja, men skjul de arkiverte sakene"
 
@@ -34111,6 +35850,10 @@ msgstr ""
 #. SysConfig
 msgid "Zoom"
 msgstr "Detaljer"
+
+#. SysConfig
+msgid "always"
+msgstr ""
 
 #. SysConfig
 msgid "attachment"
@@ -34171,6 +35914,76 @@ msgstr "motsatt"
 #. SysConfig
 msgid "stats"
 msgstr "statistikk"
+
+#~ msgid "Configure PhantomJS"
+#~ msgstr "Konfigurer PhantomJS"
+
+#~ msgid "Chat protocol"
+#~ msgstr "Chat-protokoll"
+
+#~ msgid "The chat will be appended as a separate article."
+#~ msgstr "Chatten vil bli lagt ved som en egen artikkel."
+
+#~ msgid "Issue a new Ticket"
+#~ msgstr "Lag en ny sak"
+
+#~ msgid "Issue%sa ticket"
+#~ msgstr "Utsted%sen sak"
+
+#~ msgid "Need ActivityID!"
+#~ msgstr "Trenger aktivitets-ID!"
+
+#~ msgid "Need TransitionID!"
+#~ msgstr "Trenger TransitionID!"
+
+#~ msgid "Created within the last"
+#~ msgstr "Opprettet i løpet av de siste"
+
+#~ msgid "Created more than ... ago"
+#~ msgstr "Opprettet mer enn ... siden"
+
+#~ msgid "Compat module for AgentZoom to AgentTicketZoom."
+#~ msgstr "Kompat modul for AgentZoom til AgentTicketZoom."
+
+#~ msgid "Defines available article actions for Chat articles."
+#~ msgstr "Definerer tilgjengelige artikkelhandlinger for Chat-artikler."
+
+#~ msgid ""
+#~ "Defines the path to the Google Chrome or Chromium binary. If set, this "
+#~ "binary will be used instead of PhantomJS::Bin."
+#~ msgstr ""
+#~ "Definerer banen til binærfilen Google Chrome eller Chromium. Hvis den er "
+#~ "satt, vil denne binære filen bli brukt i stedet for PhantomJS::Bin."
+
+#~ msgid ""
+#~ "Defines the path to the PhantomJS binary. You can use a static build from "
+#~ "http://phantomjs.org/download.html for an easy installation process."
+#~ msgstr ""
+#~ "Definerer banen til PhantomJS-binæren. Du kan bruke en statisk build fra "
+#~ "http://phantomjs.org/download.html for en enkel installasjonsprosess."
+
+#~ msgid ""
+#~ "Dynamic fields shown in the ticket overview screen of the customer "
+#~ "interface."
+#~ msgstr "Dynamiske felt vist i saksoversiktsskjermen til kundegrensesnittet."
+
+#~ msgid ""
+#~ "Makes the session management use html cookies. If html cookies are "
+#~ "disabled or if the client browser disabled html cookies, then the system "
+#~ "will work as usual and append the session id to the links."
+#~ msgstr ""
+#~ "Gjør at sesjoner bruker informasjonskapsler (cookies). Dersom dette er "
+#~ "slått av på klientens nettleser vil systemet legge til sesjons-ID i "
+#~ "lenkene."
+
+#~ msgid "Search."
+#~ msgstr "Søk."
+
+#~ msgid "Show the current owner in the customer interface."
+#~ msgstr "Vis gjeldende eier i kundegrensesnittet."
+
+#~ msgid "Show the current queue in the customer interface."
+#~ msgstr "Vis gjeldende kø i kundegrensesnittet."
 
 #~ msgid "Comment code"
 #~ msgstr "Kommentarkode"

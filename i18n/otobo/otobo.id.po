@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-05-26 10:37+0000\n"
+"POT-Creation-Date: 2026-06-03 15:23+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
 "Language-Team: Indonesian (https://translate.otobo.org/projects/otobo10/"
@@ -35,6 +35,12 @@ msgstr ""
 #. Template: AdminACL
 msgid "Actions"
 msgstr "Tindakan"
+
+#. Template: AdminACL
+#, fuzzy
+#| msgid "Object type"
+msgid "Object Type"
+msgstr "Tipe objek"
 
 #. Template: AdminACL
 msgid "Create New ACL"
@@ -331,11 +337,19 @@ msgid "Calendar Import"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
 msgid ""
 "Here you can upload a configuration file to import a calendar to your "
-"system. The file needs to be in .yml format as exported by calendar "
+"system. The file needs to be in .yml format as exported by the calendar "
 "management module."
 msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -1902,11 +1916,19 @@ msgid "Import / Export"
 msgstr ""
 
 #. Template: AdminDynamicFieldAdvanced
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
 msgid ""
 "Here you can upload a configuration file to import dynamic fields to your "
-"system. The file needs to be in .yml format as exported by dynamic field "
+"system. The file needs to be in .yml format as exported by the dynamic field "
 "management module."
 msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
@@ -2433,6 +2455,12 @@ msgid "Management of Dynamic Fields <-> Screens"
 msgstr ""
 
 #. Template: AdminDynamicFieldScreen
+#, fuzzy
+#| msgid "Filter by type"
+msgid "Filter by object type"
+msgstr "Penyaringan menurut jenis"
+
+#. Template: AdminDynamicFieldScreen
 msgid "Overview"
 msgstr "Peninjauan luas"
 
@@ -2777,6 +2805,33 @@ msgstr ""
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
 msgstr ""
+
+#. Template: AdminGenericAgent
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import generic agents to your "
+"system. The file needs to be in .yml format as exported by the generic agent "
+"management module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminGenericAgent
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "Generic Agents Import"
+msgstr "Agen generik"
+
+#. Template: AdminGenericAgent
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "Generic Agents Export"
+msgstr "Agen generik"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -3265,6 +3320,31 @@ msgstr "Tiket yang terpengaruh"
 #. Template: AdminGenericAgent
 msgid "Age"
 msgstr "Usia"
+
+#. Template: AdminGenericAgentImportExport
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "GenericAgents"
+msgstr "Agen generik"
+
+#. Template: AdminGenericAgentImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of generic agents to import these "
+"on another system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminGenericAgentImportExport
+#, fuzzy
+#| msgid "GenericAgent"
+msgid "GenericAgents List"
+msgstr "Agen generik"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Web Service Management"
@@ -4173,6 +4253,26 @@ msgid ""
 "Regular expressions defined here will be applied after the XSLT mapping."
 msgstr ""
 
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Enable Extended XSLT Mapping"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Extended XSLT Mapping"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid "Enable"
+msgstr ""
+
+#. Template: AdminGenericInterfaceMappingXSLT
+msgid ""
+"Extended XSLT Mapping allows for more fine-grained configuration of XSLT "
+"mapping. When enabled, the resulting JSON type can be forced by spcifying an "
+"'otoboXslType' XML attribue. Possible Values for that attribute are 'int', "
+"'bool', 'float', and 'array'."
+msgstr ""
+
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
 msgstr ""
@@ -4371,6 +4471,20 @@ msgid "The Kerberos keytab file for the privileged user."
 msgstr "Password untuk pengguna istimewa "
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "OAuth2 Functional Account"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
+#| msgid "Select"
+msgid "Select the"
+msgstr "Pilih"
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Account to use for OAuth2 authentication."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
 msgstr ""
 
@@ -4546,6 +4660,16 @@ msgstr "Perintah default"
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
 msgstr "Perintah default HTTP digunakan untuk permintaan ."
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Use multipart-formdata:"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid ""
+"Select Requesters to send Attachments as binary data with content-type "
+"'multipart-formdata' instead of the default Base64-encoded inline JSON."
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
@@ -5013,6 +5137,52 @@ msgstr ""
 msgid "It's useful for ASP solutions. "
 msgstr "Berguna untuk solusi ASP"
 
+#. Template: AdminGroup
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import groups to your system. "
+"The file needs to be in .yml format as exported by the group management "
+"module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminGroup
+#, fuzzy
+#| msgid "Start Import"
+msgid "Groups Import"
+msgstr "Mulai Impor"
+
+#. Template: AdminGroup
+#, fuzzy
+#| msgid "Start Export"
+msgid "Groups Export"
+msgstr "Mulai Ekspor"
+
+#. Template: AdminGroupImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of groups to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminGroupImportExport
+#, fuzzy
+#| msgid "Groups"
+msgid "Groups List"
+msgstr "Grup"
+
 #. Template: AdminImportExport
 msgid "Import/Export Management"
 msgstr "Manajamen Impor/Ekspor"
@@ -5253,6 +5423,12 @@ msgid "Do you really want to delete this mail account?"
 msgstr ""
 
 #. Template: AdminMailAccount
+#, fuzzy
+#| msgid "Create Account"
+msgid "OIDC Account"
+msgstr "Menciptakan akun"
+
+#. Template: AdminMailAccount
 msgid "Example: mail.example.com"
 msgstr "Contoh: surat.contoh.com"
 
@@ -5467,6 +5643,430 @@ msgstr ""
 msgid ""
 "You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Auto Response Management"
+msgid "OAuth2 Token Management (OIDC)"
+msgstr "Manajemen Respon otomatis"
+
+#. Template: AdminOAuthTokenStore
+msgid "OpenID Connect Functional OAuth2 Account Management"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Add Mail Account"
+msgid "Add Account"
+msgstr "Tambahkan akun surat"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Edit Mail Account"
+msgid "Edit Account "
+msgstr "Ubah akun surat"
+
+#. Template: AdminOAuthTokenStore
+msgid "About OIDC Functional Accounts"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"This page displays an overview of configured functional OAuth Accounts and "
+"their corresponding Token Status."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"You can test your Configuration with a click on the 'Renew' Button, which "
+"will try to fetch or refresh a new Token."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "here"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Delete account"
+msgid "Delete Account"
+msgstr "Hapuskan akun"
+
+#. Template: AdminOAuthTokenStore
+msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Since you do not have any OIDC Provider profiles configured, you cannot add "
+"an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
+"Provider profile"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "There are no OAuth2 accounts defined."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Accounted time"
+msgid "Account Name"
+msgstr "Waktu dicatat"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Process Name"
+msgid "Profile Name"
+msgstr "Nama proses"
+
+#. Template: AdminOAuthTokenStore
+msgid "Flow"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Has Token?"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Refresh Token Expires"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Renew Token(s)"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "Renew"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Add Mail Account"
+msgid "Add Invoker Account"
+msgstr "Tambahkan akun surat"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Edit Mail Account"
+msgid "Edit Invoker Account"
+msgstr "Ubah akun surat"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "The name for this field should not change."
+msgid "The unique name for this Account."
+msgstr "Nama untuk field ini tidak dapat diubah"
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profile"
+msgstr "Profil"
+
+#. Template: AdminOAuthTokenStore
+msgid "The OpenID Connect"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "to use for this functional account."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Event Type"
+msgid "Grant Type"
+msgstr "Jenis event"
+
+#. Template: AdminOAuthTokenStore
+msgid "The OAuth2 grant_type to use for acquiring tokens for this account."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Selecting 'authorization_code' will redirect you to your OpenID Connect "
+"Provider's Login Page to validate your account once you click 'Save'."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "The username if grant type is 'password'."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "The password to use if grant type is 'password'."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid "OAuth2 Scopes"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Space separate list of OAuth2 scopes to use. Usual values include openid, "
+"email, profile, and roles."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Ticket Settings"
+msgid "Advanced Invoker Settings"
+msgstr "Pengaturan email"
+
+#. Template: AdminOAuthTokenStore
+msgid "Resources"
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Optional (space seperated list) for the resource paramater if required. "
+"Leave empty unless instructed otherwise."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Remove this Parameter"
+msgid "Resource Parameter Name"
+msgstr "Hapuskan parameter"
+
+#. Template: AdminOAuthTokenStore
+msgid ""
+"Name of the resource parameter to use. Defaults to 'resource'. Do not change "
+"unless instructed."
+msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Event Type"
+msgid "Token Type"
+msgstr "Jenis event"
+
+#. Template: AdminOAuthTokenStore
+msgid "The token type to use for externall API calls. Usually 'access_token'."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "OpenID Connect Profiles "
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "OpenID Connect Provider Profiles Management"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Profile"
+msgid "Add Profile"
+msgstr "Profil"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Edit Role"
+msgid "Edit Profile "
+msgstr "Mengubah peran"
+
+#. Template: AdminOIDCProfiles
+msgid "About OIDC Provider Profiles"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "This page displays an overview of configured OIDC Provider Profiles."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Delete Process"
+msgid "Delete Profile"
+msgstr "Menghapus proses"
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"OpenID Connect Provider Profiles for outgoing Webservice calls "
+"(GenericInterface Invoker)"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "There are no OIDC Provider profiles defined."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Client ID"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Provider transport"
+msgid "Provider"
+msgstr "Transpor penyedia"
+
+#. Template: AdminOIDCProfiles
+msgid "Add OIDC Provider Profile"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Edit OIDC Provider Profile"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Since you are using OIDC as Authentication module, these values have been "
+"pre-populated with the OIDC Provider Configuration used for Login."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Please provide a unique name for this web service."
+msgid "The unique name for this Profile."
+msgstr "Berikan nama yang unik untuk layanan web ini"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Metadata"
+msgid "Metadata Url."
+msgstr "Metadata"
+
+#. Template: AdminOIDCProfiles
+msgid "The Well-Known Provider Metadata Url."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "The Client ID of your OAuth2 application."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Client Connection Charset"
+msgid "Client Secret"
+msgstr "Koneksi klien charset"
+
+#. Template: AdminOIDCProfiles
+msgid "The Client Secret of your OAuth2 application."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Cache time in seconds for the DB process backend."
+msgid "Time in seconds for caching provider data."
+msgstr "Waktu cache di detik untuk proses backend DB."
+
+#. Template: AdminOIDCProfiles
+msgid "SSL Options (Optional)"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Add Certificate"
+msgid "SSL Certificate"
+msgstr "Tambahkan sertifikat"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Read certificate"
+msgid "SSL certificate path."
+msgstr "Baca sertifikat"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Add Certificate"
+msgid "SSL Certificate Key"
+msgstr "Tambahkan sertifikat"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL certificate private key path."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Password"
+msgid "SSL Password"
+msgstr "Kata sandi"
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "New password"
+msgid "The SSL password."
+msgstr "Kata sandi baru"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL CA File"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Certification Authority (CA) Directory"
+msgid "SSL Certificate Authority file path."
+msgstr "Buku alamat otoritas sertifikasi (CA)"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL CA Directory"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Certification Authority (CA) Directory"
+msgid "SSL Certificate Authority directory path."
+msgstr "Buku alamat otoritas sertifikasi (CA)"
+
+#. Template: AdminOIDCProfiles
+msgid "SSL Verify Hostname"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Enable or disable SSL hostname verification. Only disable for debugging "
+"purposes!"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid "Verify password"
+msgid "SSL Verify Mode"
+msgstr "verifikasi kata sandi"
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Enable or disable SSL verification. Only disable for debugging purposes!"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Misc Options (Optional)"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Use Nonce"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Rand Length"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Random string length used for state and nonce parameters. Default is '22'."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Rand TTL"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Time-to-live for state and nonce in seconds. Default is '300' (5 min)."
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "Leeway"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid ""
+"Time drift allowance between servers to be allowed. Default '2' seconds."
 msgstr ""
 
 #. Template: AdminPGP
@@ -5885,6 +6485,12 @@ msgid "Edit PostMaster Filter"
 msgstr "Ubah penyaring PostMaster"
 
 #. Template: AdminPostMasterFilter
+#, fuzzy
+#| msgid "Add PostMaster Filter"
+msgid "Include invalid PostMaster Filters"
+msgstr "Tambah penyaring PostMaster"
+
+#. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
 msgstr ""
 
@@ -6053,9 +6659,15 @@ msgid "Deploy All Processes"
 msgstr "Menyebarkan semua proses"
 
 #. Template: AdminProcessManagement
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
 msgid ""
 "Here you can upload a configuration file to import a process to your system. "
-"The file needs to be in .yml format as exported by process management module."
+"The file needs to be in .yml format as exported by the process management "
+"module."
 msgstr ""
 "Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
 "kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
@@ -6141,6 +6753,10 @@ msgstr "Aktivitas"
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
 msgstr "Nama activitas"
+
+#. Template: AdminProcessManagementActivity
+msgid "Global"
+msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
@@ -6277,6 +6893,12 @@ msgstr ""
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
 msgstr ""
+
+#. Template: AdminProcessManagementActivityDialog
+#, fuzzy
+#| msgid "Add Template"
+msgid "Standard Templates"
+msgstr "Tambahkan template"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -6553,6 +7175,133 @@ msgstr "Transisi"
 msgid "Transition Name"
 msgstr "Nama transisi"
 
+#. Template: AdminProcessManagementTransition
+msgid "Transition Reference for \"Fields\" Settings"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Name of the ticket attribute that should be used for validation. In general, "
+"all attributes returned by the TicketGet function can be used."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"There are several possibilities to validate whether this transition is valid."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Exact match"
+msgstr "Benar-benar cocok"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must exactly match the string. In an array (for example: Multi-Value "
+"DynamicField or DynamicField of type \"Set\"), at least one value must "
+"exactly match the string specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Exact match"
+msgid "Exact match - all"
+msgstr "Benar-benar cocok"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"\"Set\"), all values must exactly match the string specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Exact match"
+msgid "Exact match - negated"
+msgstr "Benar-benar cocok"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must not match the string. In an array (for example: Multi-Value "
+"DynamicField or DynamicField of type \"Set\"), no value may match the string "
+"specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular Expression"
+msgstr "ekspresi reguler"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must contain a matching regular expression. In an array (for example: "
+"Multi-Value DynamicField or DynamicField of type \"Set\"), at least one "
+"value must match the regular expression specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular Expression - all"
+msgstr "ekspresi reguler"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"\"Set\"), all values must match the regular expression specified in "
+"\"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular Expression - negated"
+msgstr "ekspresi reguler"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must contain a non-matching regular expression. In an array (for "
+"example: Multi-Value DynamicField or DynamicField of type \"Set\"), no value "
+"may match the regular expression specified in \"Value\"."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "Transition validation module"
+msgstr "Modul transisi valid"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"\"Name\" is currently irrelevant, \"Value\" must contain the path to the "
+"module, usually Kernel::System::Process::Transition::<TA_Name>."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"Value must always contain a string or a regular expression used for "
+"comparison."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid "Example"
+msgid "Examples"
+msgstr "Contoh"
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"The process ticket should move to the next process step as soon as a status "
+"containing \"closed\" in its name is set. Therefore, configure "
+"Name=\"State\", Type=\"Regular Expression\" and Value=\"closed\" (or the "
+"long form \"^.*closed.*$\")."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid ""
+"If a Dynamic Field should be used, configure "
+"Name=\"DynamicField_<FieldName>\". To access a field inside a Dynamic Field "
+"of type \"Set\", the following syntax can be used: "
+msgstr ""
+
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
 "Please note that changing this transition action will affect the following "
@@ -6608,6 +7357,33 @@ msgstr "Filter untuk Queues"
 #. Template: AdminQueue
 msgid "Filter for queues"
 msgstr ""
+
+#. Template: AdminQueue
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import queues to your system. "
+"The file needs to be in .yml format as exported by the queue management "
+"module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminQueue
+#, fuzzy
+#| msgid "Queues"
+msgid "Queues Import"
+msgstr "Antrian"
+
+#. Template: AdminQueue
+#, fuzzy
+#| msgid "Export"
+msgid "Queues Export"
+msgstr "Ekspor"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -6793,6 +7569,25 @@ msgstr ""
 msgid "Auto Responses"
 msgstr "Respon otomatis"
 
+#. Template: AdminQueueImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of queues to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminQueueImportExport
+#, fuzzy
+#| msgid "Request List"
+msgid "Queues List"
+msgstr "Daftar permintaan"
+
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
 msgstr "Mengelola hubungan Template-Queue"
@@ -6806,8 +7601,51 @@ msgid "Filter for templates"
 msgstr ""
 
 #. Template: AdminQueueTemplates
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import queue-template relations "
+"to your system. The file needs to be in .yml format as exported by the queue-"
+"template management module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminQueueTemplates
+msgid "Queue-Templates Import"
+msgstr ""
+
+#. Template: AdminQueueTemplates
+msgid "Queue-Templates Export"
+msgstr ""
+
+#. Template: AdminQueueTemplates
 msgid "Templates"
 msgstr "Klise"
+
+#. Template: AdminQueueTemplatesImportExport
+#, fuzzy
+#| msgid "Manage Template-Queue Relations"
+msgid "Queue Template Relations"
+msgstr "Mengelola hubungan Template-Queue"
+
+#. Template: AdminQueueTemplatesImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of queue-template relations to "
+"import these on another system. The configuration file is exported in yml "
+"format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
@@ -7121,18 +7959,6 @@ msgstr "Data sistem pendaftaran"
 msgid "Support Data"
 msgstr "Data pendukung"
 
-#. Template: AdminResponseTemplatesStatePreselection
-msgid "Manage ticket state pre-selections for response templates"
-msgstr ""
-
-#. Template: AdminResponseTemplatesStatePreselection
-msgid "Edit Response"
-msgstr ""
-
-#. Template: AdminResponseTemplatesStatePreselection
-msgid "Pre-selected ticket state"
-msgstr ""
-
 #. Template: AdminRole
 msgid "Role Management"
 msgstr "Tugas manajemen"
@@ -7164,6 +7990,32 @@ msgstr ""
 "tugas untuk pengguna"
 
 #. Template: AdminRole
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import roles to your system. The "
+"file needs to be in .yml format as exported by the role management module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminRole
+#, fuzzy
+#| msgid "Import"
+msgid "Roles Import"
+msgstr "Impor"
+
+#. Template: AdminRole
+#, fuzzy
+#| msgid "Export"
+msgid "Roles Export"
+msgstr "Ekspor"
+
+#. Template: AdminRole
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new role."
 msgstr ""
@@ -7173,6 +8025,29 @@ msgstr ""
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
 msgstr "Mengelola hubungan peran didalam grup"
+
+#. Template: AdminRoleGroup
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import role-group relations to "
+"your system. The file needs to be in .yml format as exported by the role-"
+"group management module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminRoleGroup
+msgid "Role-Group Import"
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Role-Group Export"
+msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "Roles"
@@ -7257,6 +8132,50 @@ msgid ""
 "calendar, users can manage the calendar itself."
 msgstr ""
 
+#. Template: AdminRoleGroupImportExport
+#, fuzzy
+#| msgid "Manage Role-Group Relations"
+msgid "Role-Group Relations"
+msgstr "Mengelola hubungan peran didalam grup"
+
+#. Template: AdminRoleGroupImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of role-group relations to import "
+"these on another system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminRoleGroupImportExport
+#, fuzzy
+#| msgid "Manage Role-Group Relations"
+msgid "Role-Group relations List"
+msgstr "Mengelola hubungan peran didalam grup"
+
+#. Template: AdminRoleImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of roles to import these on another "
+"system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminRoleImportExport
+#, fuzzy
+#| msgid "Request List"
+msgid "Roles List"
+msgstr "Daftar permintaan"
+
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
 msgstr "Mengelola hubungan Agent-Role"
@@ -7302,8 +8221,56 @@ msgid "Filter for SLAs"
 msgstr ""
 
 #. Template: AdminSLA
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can upload a configuration file to import SLAs to your system. The "
+"file needs to be in .yml format as exported by the SLA management module."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminSLA
+#, fuzzy
+#| msgid "Import"
+msgid "SLAs Import"
+msgstr "Impor"
+
+#. Template: AdminSLA
+#, fuzzy
+#| msgid "Export"
+msgid "SLAs Export"
+msgstr "Ekspor"
+
+#. Template: AdminSLA
 msgid "Please write only numbers!"
 msgstr "Silahkan tulis angka saja"
+
+#. Template: AdminSLAImportExport
+msgid "SLAs"
+msgstr ""
+
+#. Template: AdminSLAImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of SLAs to import these on another "
+"system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminSLAImportExport
+#, fuzzy
+#| msgid "List"
+msgid "SLAs List"
+msgstr "Daftar"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -7573,12 +8540,58 @@ msgid "Include invalid services"
 msgstr ""
 
 #. Template: AdminService
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import services to your system. "
+"The file needs to be in .yml format as exported by the service management "
+"module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminService
+#, fuzzy
+#| msgid "Services"
+msgid "Services Import"
+msgstr "Layanan"
+
+#. Template: AdminService
+#, fuzzy
+#| msgid "Services"
+msgid "Services Export"
+msgstr "Layanan"
+
+#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
 #. Template: AdminService
 msgid "Sub-service of"
 msgstr "Sub-layanan dari"
+
+#. Template: AdminServiceImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of services to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminServiceImportExport
+#, fuzzy
+#| msgid "Services"
+msgid "Services List"
+msgstr "Layanan"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -8277,6 +9290,37 @@ msgid "Don't forget to add new templates to queues."
 msgstr "Jangan lupa untuk menambahkan templat queues"
 
 #. Template: AdminTemplate
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import templates to your system. "
+"The file needs to be in .yml format as exported by the template management "
+"module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminTemplate
+#, fuzzy
+#| msgid "Templates"
+msgid "Templates Import"
+msgstr "Klise"
+
+#. Template: AdminTemplate
+#, fuzzy
+#| msgid "Templates"
+msgid "Templates Export"
+msgstr "Klise"
+
+#. Template: AdminTemplate
+msgid "Pre-selected ticket state"
+msgstr ""
+
+#. Template: AdminTemplate
 msgid "Attachments"
 msgstr "Lampiran"
 
@@ -8347,6 +9391,25 @@ msgstr "Beralih aktif untuk semua"
 #. Template: AdminTemplateAttachment
 msgid "Link %s to selected %s"
 msgstr "Link ke operator %s"
+
+#. Template: AdminTemplateImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of templates to import these on "
+"another system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminTemplateImportExport
+#, fuzzy
+#| msgid "Templates"
+msgid "Templates List"
+msgstr "Klise"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
@@ -8516,6 +9579,32 @@ msgid "Filter for types"
 msgstr ""
 
 #. Template: AdminType
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import a process to your "
+#| "system. The file needs to be in .yml format as exported by process "
+#| "management module."
+msgid ""
+"Here you can upload a configuration file to import types to your system. The "
+"file needs to be in .yml format as exported by the type management module."
+msgstr ""
+"Disini anda bisa memuat naik file konfigurasi untuk mengimport sebuah proses "
+"kepada sistem anda. File diperlukan didalam format .yml sebagai expor oleh "
+"modul proses manajemen"
+
+#. Template: AdminType
+#, fuzzy
+#| msgid "Import"
+msgid "Types Import"
+msgstr "Impor"
+
+#. Template: AdminType
+#, fuzzy
+#| msgid "Export"
+msgid "Types Export"
+msgstr "Ekspor"
+
+#. Template: AdminType
 msgid "A type with this name already exists!"
 msgstr "Jenis dengan nama ini sudah ada"
 
@@ -8528,6 +9617,29 @@ msgstr ""
 #. Template: AdminType
 msgid "This type is used in the following config settings:"
 msgstr ""
+
+#. Template: AdminTypeImportExport
+msgid "Types"
+msgstr "Jenis"
+
+#. Template: AdminTypeImportExport
+#, fuzzy
+#| msgid ""
+#| "Here you can upload a configuration file to import ACLs to your system. "
+#| "The file needs to be in .yml format as exported by the ACL editor module."
+msgid ""
+"Here you can export a configuration file of types to import these on another "
+"system. The configuration file is exported in yml format."
+msgstr ""
+"Disini anda dapat mengunggah file konfigurasi untuk mengimpor ACL kepada "
+"sistem anda. File tersebut harus dalam format .yml seperti yang di ekspor "
+"oleh modul editor ACL "
+
+#. Template: AdminTypeImportExport
+#, fuzzy
+#| msgid "Types"
+msgid "Types List"
+msgstr "Jenis"
 
 #. Template: AdminUser
 msgid "Agent Management"
@@ -9036,6 +10148,24 @@ msgstr ""
 "Setelah 5 menit, periksa OTOBO Daemon menjalankan dengan system (\n"
 "bin/otobo.Daemon.pl status')."
 
+#. Template: AgentDaemonInfo
+#, fuzzy
+#| msgid "A running OTOBO Daemon is mandatory for correct system operation."
+msgid "Running the OTOBO Daemon in a Docker based installation"
+msgstr "Menjalankan Daemon OTOBO adalah wajib untuk operasi sistem yang benar."
+
+#. Template: AgentDaemonInfo
+msgid ""
+"Check with 'docker compose ps' whether a service with the name daemon is "
+"running."
+msgstr ""
+
+#. Template: AgentDaemonInfo
+msgid ""
+"When the service daemon is not running then try starting it with 'docker "
+"compose start daemon'"
+msgstr ""
+
 #. Template: AgentDashboard
 msgid "Dashboard"
 msgstr "Dasbor"
@@ -9284,12 +10414,22 @@ msgstr ""
 msgid "Details view"
 msgstr ""
 
+#. Template: AgentElasticsearchCommon
+#, fuzzy
+#| msgid "Search Results"
+msgid "Elasticsearch Results"
+msgstr "Hasil pencarian"
+
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
 msgstr "Tiket"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
+msgstr ""
+
+#. Template: AgentElasticsearchQuickResult
+msgid "FAQs"
 msgstr ""
 
 #. Template: AgentInfo
@@ -9617,10 +10757,6 @@ msgid ""
 msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
-msgid "Configure PhantomJS"
-msgstr ""
-
-#. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
 msgstr ""
 
@@ -9914,6 +11050,12 @@ msgstr "Pengaturan template akan menimpa teks atau lampiran."
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
 msgstr "Waktu tidak sah!"
+
+#. Template: AgentTicketArticleEdit
+#, fuzzy
+#| msgid "Add Article"
+msgid "Edit Article"
+msgstr "Tambahkan artikel"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
@@ -10219,6 +11361,12 @@ msgid "Solution Time"
 msgstr "Solusi waktu"
 
 #. Template: AgentTicketOverviewMedium
+#, fuzzy
+#| msgid "AccountedTime"
+msgid "Accounted Time"
+msgstr "Catatanwaktu"
+
+#. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
 msgstr "Pindahkan tiket ke queue yang berbeda"
 
@@ -10265,14 +11413,6 @@ msgstr "Tolong sertakan minimal satu pelanggan untuk tiket"
 #. Template: AgentTicketPhone
 msgid "To queue"
 msgstr "Untuk queue"
-
-#. Template: AgentTicketPhone
-msgid "Chat protocol"
-msgstr "Protokol obrolan"
-
-#. Template: AgentTicketPhone
-msgid "The chat will be appended as a separate article."
-msgstr "Obroloan akan ditambahkan sebagain artikel yang terpisah"
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
@@ -10491,6 +11631,12 @@ msgid "Article Edited"
 msgstr ""
 
 #. Template: AgentTicketZoom
+#, fuzzy
+#| msgid "Time units"
+msgid "Time Units"
+msgstr "Unit waktu"
+
+#. Template: AgentTicketZoom
 msgid "Important"
 msgstr "Penting"
 
@@ -10695,6 +11841,10 @@ msgstr ""
 msgid "New Ticket"
 msgstr "Tiket baru"
 
+#. Template: CustomerElasticsearchQuickResult
+msgid "FAQ#"
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "Terjadi kesalahan"
@@ -10862,8 +12012,10 @@ msgid "Click here for an unfiltered list of all your tickets."
 msgstr ""
 
 #. Template: CustomerTicketMessage
-msgid "Issue a new Ticket"
-msgstr ""
+#, fuzzy
+#| msgid "Create a new ticket!"
+msgid "Create a new Ticket"
+msgstr "Mencipta tiket baru!"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10882,6 +12034,12 @@ msgid "Sort"
 msgstr ""
 
 #. Template: CustomerTicketSearch
+#, fuzzy
+#| msgid "Search Ticket."
+msgid "Search for a Ticket"
+msgstr "Cari Tiket."
+
+#. Template: CustomerTicketSearch
 msgid "Profile"
 msgstr "Profil"
 
@@ -10896,10 +12054,6 @@ msgstr "ID Pelanggan"
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
 msgstr ""
-
-#. Template: CustomerTicketSearch
-msgid "Types"
-msgstr "Jenis"
 
 #. Template: CustomerTicketSearch
 msgid "Time Restrictions"
@@ -10938,11 +12092,11 @@ msgid "Save Search as Template?"
 msgstr ""
 
 #. Template: CustomerTicketSearch
-msgid "Save as Template?"
+msgid "Save as Template"
 msgstr "Simpan sebagai template"
 
 #. Template: CustomerTicketSearch
-msgid "Save as Template"
+msgid "Save as Template?"
 msgstr "Simpan sebagai template"
 
 #. Template: CustomerTicketSearch
@@ -10998,8 +12152,10 @@ msgid "Warning"
 msgstr "Peringatan"
 
 #. Template: TileNewTicket
-msgid "Issue%sa ticket"
-msgstr ""
+#, fuzzy
+#| msgid "Create tickets."
+msgid "Create%sa ticket"
+msgstr "Membuat tiket "
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -11974,10 +13130,6 @@ msgid "Enable this setting, so it becomes effective"
 msgstr ""
 
 #. Template: SettingsList
-msgid "Enable"
-msgstr ""
-
-#. Template: SettingsList
 msgid "Reset this setting to its default state"
 msgstr ""
 
@@ -12394,6 +13546,14 @@ msgstr "Ubah pengaturan konfigurasi sistem."
 msgid "Update and extend your system with software packages."
 msgstr "Memperbarui dan memperluas sistem Anda dengan paket perangkat lunak."
 
+#. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
+msgid "Error fetching the OAuth2 Token"
+msgstr ""
+
+#. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
+msgid "Attached OAuth2 Bearer Token"
+msgstr ""
+
 #. Perl Module: Kernel/Language.pm
 msgid "(in process)"
 msgstr "Sedang diproses"
@@ -12471,10 +13631,6 @@ msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
 msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminACL.pm
-msgid "Exact match"
-msgstr "Benar-benar cocok"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
@@ -13138,6 +14294,12 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid ""
+"The dynamic field \"%s\" can not be used in sets as it is either a Set field "
+"or a Lens field pointing to a Set field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
 msgstr ""
 
@@ -13591,6 +14753,14 @@ msgid ""
 "(ProviderErrorHandlingOutput)"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "Disabled"
+msgstr "Cacat"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "Enabled"
+msgstr "Diaktifkan"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
 msgstr "Tidak dapat menentukan konfigurasi untuk operasi %s"
@@ -13782,6 +14952,12 @@ msgid "You need %s permissions!"
 msgstr "Anda perlu %s izin!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+#, fuzzy
+#| msgid "Agent who owns the ticket"
+msgid "Agent who created the first article"
+msgstr "Agen yang mempunyai tiket"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
 msgstr ""
 
@@ -13839,6 +15015,112 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+msgid "Account Name is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Name is required!"
+msgid "Username is required!"
+msgstr "Nama dibutuhkan!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Format is required!"
+msgid "Password is required!"
+msgstr "Format dibutuhkan!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Accounted time by Agent"
+msgid "Account Name is taken!"
+msgstr "Waktu dipertanggungjawabkan oleh agen"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+msgid "Error creating/updating %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+msgid ""
+"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
+"Configuration!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+msgid ""
+"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
+"COnfiguration!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Key %s deleted!"
+msgid "Account %s deleted!"
+msgstr "Kunci %s hapus!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Role updated!"
+msgid "Token %s updated!"
+msgstr "Peran telah di perbarui!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Invalid date!"
+msgid "Invalid OAuth State!"
+msgstr "Tanggal tidak sah!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Invalid Token!"
+msgid "Invalid Account %s for Token!"
+msgstr "Token tidak sah!"
+
+#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid "Invalid Token!"
+msgid "Invalid Issuer %s for Token %s!"
+msgstr "Token tidak sah!"
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+#, fuzzy
+#| msgid "Parameter %s is missing."
+msgid "Profile Name is missing!"
+msgstr "Parameter %s hilang"
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Provider metadata url is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Provider client id is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Provider client secret is missing!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Profile Name is taken!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid "Error creating/updating Profile %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+#, fuzzy
+#| msgid "Key %s deleted!"
+msgid "Profile %s deleted!"
+msgstr "Kunci %s hapus!"
+
+#. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+msgid ""
+"Profile %s could not be deleted - do you have any Functional Accounts "
+"referencing this Profile?"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
@@ -14026,16 +15308,57 @@ msgid "There was an error creating the Process"
 msgstr "Ada kesalahan saat membuat Proses"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Could not get data for ProcessID %s"
-msgstr "Tidak dapat data untuk proses ID: %s"
+#, fuzzy
+#| msgid "There was an error generating a new EntityID for this Transition"
+msgid ""
+"There was an error generating a new EntityID while copying an associated "
+"Element"
+msgstr "Terjadi kesalahan menghasilkan ID Entitas baru untuk Transisi ini"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid "There was an error creating the Transition"
+msgid "There was an error copying an associated Element"
+msgstr "Ada kesalahan saat membuat Transisi"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid ""
+#| "There was an error setting the entity sync status for Transition entity: "
+#| "%s"
+msgid ""
+"There was an error setting the entity sync status for an associated Element "
+"entity: %s"
+msgstr ""
+"Terjadi kesalahan pengaturan status sinkronisasi untuk entitas Transisi: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
 msgstr "Terjadi kesalahan memperbarui Proses"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Could not get data for ProcessID %s"
+msgstr "Tidak dapat data untuk proses ID: %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
 msgstr "Proses: %s tidak bisa dihapus"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid ""
+"Process: %s successfully deleted, but failed to delete an associated Element"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid ""
+#| "There was an error setting the entity sync status for Transition entity: "
+#| "%s"
+msgid ""
+"Process: %s successfully deleted, but there was an error setting the entity "
+"sync status for an associated Element entity"
+msgstr ""
+"Terjadi kesalahan pengaturan status sinkronisasi untuk entitas Transisi: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
@@ -14063,12 +15386,22 @@ msgid "Could not get %s"
 msgstr "Tidak dapat %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
+#| msgid "Need ProcessID!"
+msgid "Need ProcessEntityID!"
+msgstr "Perlu Proses ID!"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
 msgstr "Membutuhkan %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
 msgstr "Proses: %s tidak aktif"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
@@ -14085,12 +15418,18 @@ msgstr ""
 "Terjadi kesalahan pengaturan status sinkronisasi untuk entitas Kegiatan: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Need ActivityID!"
-msgstr "Membutuhkan ActivityID!"
+#, fuzzy
+#| msgid "Need ActivityDialogID!"
+msgid "Need ActivityID and ProcessEntityID!"
+msgstr "Perlu ID aktivitas dialog"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
 msgstr "Tidak bisa mendapatkan data untuk ActivityID %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid "This Activity is not available to the current Process!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
@@ -14145,12 +15484,20 @@ msgstr ""
 "Dialog :%s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-msgid "Need ActivityDialogID!"
+#, fuzzy
+#| msgid "Need ActivityDialogID!"
+msgid "Need ActivityDialogID and ProcessEntityID!"
 msgstr "Perlu ID aktivitas dialog"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
 msgstr "Tidak bisa mendapatkan data untuk dialog Kegiatan"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
+#| msgid "Activity dialogs are not being used in this process."
+msgid "This Activity Dialog is not available to the current Process!"
+msgstr "Aktivitas dialog tidak digunakan didalam proses ini"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
@@ -14203,12 +15550,18 @@ msgstr ""
 "Terjadi kesalahan pengaturan status sinkronisasi untuk entitas Transisi: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "Need TransitionID!"
-msgstr "Membutuhkan TansisiID!"
+#, fuzzy
+#| msgid "Need TransitionActionID!"
+msgid "Need TransitionID and ProcessEntityID!"
+msgstr "Membutuhkan TransisiAksiID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
 msgstr "Tidak bisa mendapatkan data untuk dialihkan %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid "This Transition is not available to the current Process!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
@@ -14219,8 +15572,16 @@ msgid "Edit Transition \"%s\""
 msgstr "Edit transisi \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "Transition validation module"
-msgstr "Modul transisi valid"
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression - all"
+msgstr "ekspresi reguler"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+#, fuzzy
+#| msgid "Regular expression"
+msgid "Regular expression - negated"
+msgstr "ekspresi reguler"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
@@ -14244,12 +15605,24 @@ msgstr ""
 "entitas: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-msgid "Need TransitionActionID!"
+#, fuzzy
+#| msgid "Need TransitionActionID!"
+msgid "Need TransitionActionID and ProcessEntityID!"
 msgstr "Membutuhkan TransisiAksiID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
 msgstr "Tidak bisa mendapatkan data untuk TransitionActionID%s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+#, fuzzy
+#| msgid ""
+#| "This TransitionAction is already used in this Path. You cannot use it "
+#| "twice!"
+msgid "This Transition Action is not available to the current Process!"
+msgstr ""
+"TransitionAction telah digunakan didalam path. Anda tidak bisa "
+"menggunakannya 2 kali"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -14308,10 +15681,6 @@ msgstr "Latihan"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
-msgid "Template updated!"
-msgstr "Template diperbarui!"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
@@ -14572,6 +15941,10 @@ msgstr "Itu tidak mungkin untuk menghapus entri Pemeliharaan Sistem :%s!"
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "No permission to edit this template."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminTemplate.pm
+msgid "Template updated!"
+msgstr "Template diperbarui!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"
@@ -15046,6 +16419,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
 msgid "This action is not permitted on the article!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+#, fuzzy
+#| msgid "This feature is disabled!"
+msgid "This article is not editable!"
+msgstr "Feature ini dinonaktifkan!"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
@@ -15882,14 +17261,6 @@ msgid "Customer Realname"
 msgstr "Namaasli pelanggan"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
-msgid "Created within the last"
-msgstr "Dibuat dalam terakhir"
-
-#. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
-msgid "Created more than ... ago"
-msgstr "Dibuat lebih dari .... yang lalu"
-
-#. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
 msgstr "Tolong hapuskan kalimat berikut karena tidak dapat dicari"
@@ -16425,6 +17796,12 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "Unavailable"
 msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
+#, fuzzy
+#| msgid "Search Results"
+msgid "Shown Elsticsearch Results"
+msgstr "Hasil pencarian"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
@@ -17182,8 +18559,134 @@ msgstr "Kolom"
 msgid "Pretty print the exported concatenated JSON"
 msgstr ""
 
-#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value"
+msgid "Default Queue"
+msgstr "Nilai default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default Ticket Type"
+msgid "Default Type"
+msgstr "Jenis Tiket "
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Edit default services"
+msgid "Default Service"
+msgstr "Ubah layanan default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default"
+msgid "Default SLA"
+msgstr "Default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value"
+msgid "Default state"
+msgstr "Nilai default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Set new priority"
+msgid "Default priority"
+msgstr "Atur prioritas baru"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default command"
+msgid "Default owner"
+msgstr "Perintah default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "new responsible"
+msgid "Default responsible"
+msgstr "Tanggung Jawab baru"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default"
+msgid "Default lock"
+msgstr "Default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "CustomerID"
+msgid "Default CustomerID"
+msgstr "ID Pelanggan"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "CustomerUser"
+msgid "Default CustomerUserID"
+msgstr "nasabah Pengguna"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default language"
+msgid "Default ArchiveFlag"
+msgstr "Bahasa default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value"
+msgid "Default subject"
+msgstr "Nilai default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default command"
+msgid "Default body"
+msgstr "Perintah default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default sign key"
+msgid "Default sender type"
+msgstr "kunci tanda "
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default value for NameX"
+msgid "Default is visible to customer"
+msgstr "Nilai default untuk nama"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Empty fields indicate that the current values are kept"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Could not update the field %s"
+msgid "Do not update existing tickets"
+msgstr "Tidak dapat memperbarui field %s"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+msgid "Only update tickets of this user in the target system"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Import/Export"
+msgid "Import/Export articles"
+msgstr "Impor/Ekspor"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+#, fuzzy
+#| msgid "Default command"
+msgid "Default Backend"
+msgstr "Perintah default"
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+msgid "Store articles on separate lines indicated by a blank first entry"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+msgid "Import/Export attachments (as the last entries per line)"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
@@ -17478,6 +18981,55 @@ msgstr ""
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+msgid "Error fetching Token: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+#, fuzzy
+#| msgid "Needed CertFingerprint and CAFingerprint!"
+msgid "Need ClientID and ClientSecret!"
+msgstr "Dibutuhkan Cert Sidik Jari dan CA Fingerprint!"
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+msgid "Got no content when requesting Token. Response Code: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+msgid "Got no JSON object when requesting Token. Response: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+#, fuzzy
+#| msgid "Action \"%s\" not found!"
+msgid "AccountName %s not found!"
+msgstr "Action \"%s\" tidak ditemukan!"
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid ""
+"No valid refresh_token for Account %s using grant_tpye 'authorization code' !"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid "Need functional account Invoker settings in SysConfig for %s."
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid ""
+"Did not receive the desired TokenType '%s' in OIDC provider response for "
+"Invoker %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+msgid "Time left on fresh token is: %s s for Invoker %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+#, fuzzy
+#| msgid "Could not determine config for invoker %s"
+msgid "Could not get the OAuth2 token_endpoint for Invoker "
+msgstr "tidak dapat menentukan konfigurasi untuk Invoker %s"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -18582,14 +20134,6 @@ msgstr ""
 msgid "Value doesn't satisfy regex (%s)."
 msgstr ""
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-msgid "Enabled"
-msgstr "Diaktifkan"
-
-#. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-msgid "Disabled"
-msgstr "Cacat"
-
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
 msgid "System was not able to calculate user Date in OTOBOTimeZone!"
 msgstr ""
@@ -18998,7 +20542,9 @@ msgid "default reply (after new ticket has been created)"
 msgstr "balasan default (setelah tiket baru telah dibuat)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
-msgid "default reject (after follow-up and rejected of a closed ticket)"
+#, fuzzy
+#| msgid "default reject (after follow-up and rejected of a closed ticket)"
+msgid "default reject (after follow-up and rejection of a closed ticket)"
 msgstr ""
 "Default menolak (setelah tindak lanjut dan menolak dari tiket tertutup)"
 
@@ -19711,10 +21257,6 @@ msgid "Previous"
 msgstr "Sebelumnya"
 
 #. JS File: Core.Agent.AppointmentCalendar
-msgid "Resources"
-msgstr ""
-
-#. JS File: Core.Agent.AppointmentCalendar
 msgid "Su"
 msgstr "Minggu"
 
@@ -20151,6 +21693,10 @@ msgid "Please only select at most %s files for upload."
 msgstr ""
 
 #. JS File: Core.UI
+msgid "Upload information"
+msgstr ""
+
+#. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
 msgstr ""
 
@@ -20172,10 +21718,6 @@ msgstr ""
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
-msgstr ""
-
-#. JS File: Core.UI
-msgid "Upload information"
 msgstr ""
 
 #. JS File: Core.UI
@@ -20353,6 +21895,12 @@ msgid "5 Minutes"
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid "days"
+msgid "7 days"
+msgstr "hari"
+
+#. SysConfig
 msgid "A TicketWatcher Module."
 msgstr "Modul Sebuah TicketWatcher "
 
@@ -20527,6 +22075,18 @@ msgid ""
 msgstr ""
 "Menambahkan akhiran dengan tahun aktual dan bulan ke file log OTOBO. Sebuah "
 "file log untuk setiap bulan akan dibuat."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Sets the responsible agent of the ticket in the ticket note screen of the "
+#| "agent interface."
+msgid ""
+"Adds customer visibility of the article to the article edit screen of the "
+"agent interface."
+msgstr ""
+"Set agen yang bertanggung jawab dari tiket di layar catatan tiket dari "
+"antarmuka agen."
 
 #. SysConfig
 msgid ""
@@ -21256,6 +22816,10 @@ msgid "Based on global RichText setting"
 msgstr "Berdasarkan pengaturan global Rich Text "
 
 #. SysConfig
+msgid "Basic Auth"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otobo.Console.pl "
 "Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
@@ -21271,6 +22835,10 @@ msgid ""
 "PostMaster::PreFilterModule::NewTicketReject::Subject and "
 "PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From "
 "-> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Both"
 msgstr ""
 
 #. SysConfig
@@ -21699,10 +23267,6 @@ msgstr ""
 "Nama perusahaan yang akan dimasukkan dalam email keluar sebagai X-header."
 
 #. SysConfig
-msgid "Compat module for AgentZoom to AgentTicketZoom."
-msgstr "Modul compat untuk Agen Zoom ke Agen Tiket Zoom."
-
-#. SysConfig
 msgid "Complex"
 msgstr "Rumits"
 
@@ -21823,6 +23387,20 @@ msgid ""
 msgstr ""
 "Kontrol jika bendera tiket dan artikel dilihat dikeluarkan ketika tiket "
 "diarsipkan."
+
+#. SysConfig
+msgid ""
+"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
+"Button Group that will be visibly seperated in the Editor.(Only used if "
+"`CustomerFrontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
+"Button Group that will be visibly seperated in the Editor.(Only used if "
+"`Frontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -22343,6 +23921,21 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Define possible namespaces for global usage (currently dynamic fields and "
+"process elements). Must only contain alphanumeric characters. A namespace "
+"must not be longer than 64 characters. Namespace plus dynamic field name "
+"must not exceed 190 characters."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Define possible namespaces specifically for process elements. Must only "
+"contain alphanumeric characters. A namespace must not be longer than 64 "
+"characters."
+msgstr ""
+
+#. SysConfig
 msgid "Define the max depth of queues."
 msgstr "Tentukan max kedalaman antrian."
 
@@ -22660,10 +24253,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines available article actions for Chat articles."
-msgstr ""
-
-#. SysConfig
 msgid "Defines available article actions for Internal articles."
 msgstr ""
 
@@ -22697,6 +24286,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines for which article types the editing of subject, body and attachment "
+"is enabled. \"Both\" includes \"Phone\" and \"Internal\"."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines from which ticket attributes the agent can select the result order."
 msgstr ""
 "Mendefinisikan dari mana atribut tiket agen dapat memilih urutan hasil."
@@ -22716,12 +24311,6 @@ msgid ""
 msgstr ""
 "Mendefinisikan bagaimana  'lapangan/field' dari email (dikirim dari jawaban "
 "dan tiket email) akan terlihat seperti yang ditetapkan"
-
-#. SysConfig
-msgid ""
-"Defines if CSV-mappings are re-created on next package reinstallation or "
-"upgrade if already existent."
-msgstr ""
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the queue view."
@@ -22912,6 +24501,12 @@ msgstr ""
 "Mendefinisikan jika agen harus diizinkan untuk login jika mereka tidak "
 "memiliki rahasia bersama disimpan dalam preferensi mereka dan oleh karena "
 "itu tidak menggunakan 2 faktor yang otentik"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Defines the parameters for the customer preferences table."
+msgid "Defines if articles written by the customer are editable."
+msgstr "Mendefinisikan parameter untuk tabel preferensi pelanggan."
 
 #. SysConfig
 msgid ""
@@ -23953,6 +25548,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the dynamic field to identify tickets by for this operation. Please "
+"put in the field name only without the 'DynamicField_' prefix."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
 msgstr ""
 "Mendefinisikan bidang dinamis yang digunakan untuk menampilkan pada acara "
@@ -24770,6 +26371,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid "Defines the parameters for the customer preferences table."
+msgid "Defines the parameters for the elasticsearch widget backend."
+msgstr "Mendefinisikan parameter untuk tabel preferensi pelanggan."
+
+#. SysConfig
 msgid ""
 "Defines the path and TTF-File to handle bold italic monospaced font in PDF "
 "documents."
@@ -24852,16 +26459,10 @@ msgstr ""
 "($ENV{HOME} = '/var/lib/wwwrun';)."
 
 #. SysConfig
-msgid ""
-"Defines the path to the Google Chrome or Chromium binary. If set, this "
-"binary will be used instead of PhantomJS::Bin."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Defines the path to the PhantomJS binary. You can use a static build from "
-"http://phantomjs.org/download.html for an easy installation process."
-msgstr ""
+#, fuzzy
+#| msgid "Defines the path to PGP binary."
+msgid "Defines the path to the Google Chrome or Chromium binary."
+msgstr "Mendefinisikan jalan untuk binari PGP "
 
 #. SysConfig
 msgid ""
@@ -25053,11 +26654,17 @@ msgstr ""
 "dimana terjadi kesalahan pada aplikasi."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Defines the system identifier. Every ticket number and http session "
+#| "string contains this ID. This ensures that only tickets which belong to "
+#| "your system will be processed as follow-ups (useful when communicating "
+#| "between two instances of OTOBO)."
 msgid ""
-"Defines the system identifier. Every ticket number and http session string "
-"contains this ID. This ensures that only tickets which belong to your system "
-"will be processed as follow-ups (useful when communicating between two "
-"instances of OTOBO)."
+"Defines the system identifier. Every ticket number contains this ID. This "
+"ensures that only tickets which belong to your system will be processed as "
+"follow-ups (useful when communicating between two instances of OTOBO). The "
+"SystemID may also be used in HTTP session backends."
 msgstr ""
 "Mendefinisikan sistem identifier. Setiap nomor tiket dan sesi http string "
 "berisi ID ini. Hal ini memastikan bahwa hanya tiket yang milik sistem anda "
@@ -25675,6 +27282,19 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Dynamic field event module that updates the MultiValue attribute of the Lens "
+"field configuration to match the MultiValue attribute of the attribute field."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Dynamic fields available as attributes for the settings "
+"'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown "
+"in the ticket overview screen of the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Dynamic fields groups for dynamic field widget. The key is the name of the "
 "group, the value contains the fields to be shown. Example: 'Key => My "
 "Group', 'Content: Name_X, NameY'."
@@ -25766,11 +27386,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket note screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Dynamic fields shown in the ticket overview screen of the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -25982,6 +27597,12 @@ msgstr ""
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
 msgstr "Mengaktifkan atau menonaktifkan mode debug lebih antarmuka front end."
+
+#. SysConfig
+msgid ""
+"Enables or disables the editing of articles which are visible for the "
+"customer in general."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26502,6 +28123,12 @@ msgid "Fulltext search using Elasticsearch."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid "Mail Account Management"
+msgid "Functional Account and Token Management."
+msgstr "Akun surat managemen"
+
+#. SysConfig
 msgid "Galician"
 msgstr "Galician"
 
@@ -26984,6 +28611,22 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
+"'SendmailModule::OAuth2Method' setting, then this setting needs to be "
+"enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
+"configured in the Admin UI 'OAuth Functional Accounts' Module."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If activated additional data such as the history and links will be read from "
+"a foreign DB containing the exported tickets and added to the imported "
+"tickets on this system. This is only available for created, not for updated "
+"tickets."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If activated, a clicked activity button will be hidden in the customer "
 "ticket zoom frontend."
 msgstr ""
@@ -27168,6 +28811,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If the accounted time units for articles are shown in the article list. Only "
+"showing if at least one article has any accounted time."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If this option is enabled, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
@@ -27288,6 +28937,16 @@ msgstr "Input"
 #. SysConfig
 msgid "Interface language"
 msgstr "bahasa antarmuka"
+
+#. SysConfig
+msgid "Interfaces for which the restoring of pending information is activated."
+msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid "Internal Chat"
+msgid "Internal"
+msgstr "Obrolan didalam"
 
 #. SysConfig
 msgid "Internal communication channel."
@@ -27499,6 +29158,18 @@ msgid "Links appointments and tickets with a \"Normal\" type link."
 msgstr ""
 
 #. SysConfig
+msgid ""
+"List of Active CKEditor Plugins. (Only used if "
+"`CustomerFrontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"List of Active CKEditor Plugins. (Only used if "
+"`Frontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr "Daftar file CSS untuk selalu dimuat ke antarmuka agen."
 
@@ -27687,16 +29358,6 @@ msgstr ""
 "untuk mengirimkan telepon atau email tiket."
 
 #. SysConfig
-msgid ""
-"Makes the session management use html cookies. If html cookies are disabled "
-"or if the client browser disabled html cookies, then the system will work as "
-"usual and append the session id to the links."
-msgstr ""
-"Membuat manajemen sesi cookie penggunaan html. Jika html cookies "
-"dinonaktifkan atau jika cookies html browser klien dinonaktifkan, maka "
-"sistem akan bekerja seperti biasa dan menambahkan sesi id ke link."
-
-#. SysConfig
 msgid "Malay"
 msgstr "Melayu"
 
@@ -27706,6 +29367,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
+msgstr ""
+
+#. SysConfig
+msgid "Manage OpendID Connect OAuth2 Profiles."
 msgstr ""
 
 #. SysConfig
@@ -27751,10 +29416,6 @@ msgstr "Mengelola sistem pendaftaran."
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
 msgstr "Mengelola tugas dipicu oleh peristiwa atau waktu eksekusi berdasarkan."
-
-#. SysConfig
-msgid "Manage ticket state pre-selections for response templates."
-msgstr ""
 
 #. SysConfig
 msgid "Mark as (un)seen"
@@ -28242,6 +29903,30 @@ msgid ""
 msgstr ""
 "Jumlah tiket yang akan ditampilkan di setiap halaman hasil pencarian di "
 "antarmuka pelanggan."
+
+#. SysConfig
+msgid "OAUTHBEARER"
+msgstr ""
+
+#. SysConfig
+msgid "OAuth Functional Accounts"
+msgstr ""
+
+#. SysConfig
+msgid "OAuth Tokens"
+msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid "Role Management"
+msgid "OIDC Profile Management"
+msgstr "Tugas manajemen"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profiles"
+msgstr "Profil"
 
 #. SysConfig
 msgid "OTOBO News"
@@ -28936,6 +30621,12 @@ msgid "Process Management Transition GUI"
 msgstr "Proses manajemen transisi GUI"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Process name"
+msgid "Process dialog"
+msgstr "Nama proses"
+
+#. SysConfig
 msgid "Process pending tickets."
 msgstr "Proses pending tiket"
 
@@ -29335,10 +31026,6 @@ msgid "S/MIME Certificates"
 msgstr "Sertifikat S/MIME"
 
 #. SysConfig
-msgid "SLAs"
-msgstr ""
-
-#. SysConfig
 msgid "SSL_VERIFY_NONE - no verification of mail server host"
 msgstr ""
 
@@ -29399,10 +31086,6 @@ msgstr "Cari backend default router."
 #. SysConfig
 msgid "Search backend router."
 msgstr "Cari router backend."
-
-#. SysConfig
-msgid "Search."
-msgstr "Mencari"
 
 #. SysConfig
 msgid "Second Christmas Day"
@@ -30334,6 +32017,13 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Sets the ticket owner in the ticket note screen of the agent interface."
+msgid "Sets the time units in the ticket note screen of the agent interface."
+msgstr "Menetapkan pemilik tiket di layar catatan tiket dari antarmuka agen."
+
+#. SysConfig
 msgid ""
 "Sets the time zone being used internally by OTOBO to e. g. store dates and "
 "times in the database. WARNING: This setting must not be changed once set "
@@ -30405,14 +32095,6 @@ msgstr ""
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
 msgstr "Tampilkan antrian bahkan ketika tiket hanya terkunci dalam."
-
-#. SysConfig
-msgid "Show the current owner in the customer interface."
-msgstr "Tampilkan pemilik saat ini di antarmuka pelanggan."
-
-#. SysConfig
-msgid "Show the current queue in the customer interface."
-msgstr "Tampilkan antrian saat ini di antarmuka pelanggan."
 
 #. SysConfig
 msgid "Show the history for this ticket"
@@ -31075,6 +32757,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Shows creation date instead of age in the customer interface if ticket is "
+"older than configured value (days)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and "
 "AgentTicketCustomer."
 msgstr ""
@@ -31269,6 +32957,12 @@ msgstr ""
 msgid ""
 "Shows time use complete description (days, hours, minutes), if enabled; or "
 "just first letter (d, h, m), if not enabled."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), "
+"if enabled; or without (01.01.1970 00:01), if not enabled."
 msgstr ""
 
 #. SysConfig
@@ -31588,10 +33282,6 @@ msgid "Stat#"
 msgstr "Stat#"
 
 #. SysConfig
-msgid "State pre-selection for Templates"
-msgstr ""
-
-#. SysConfig
 msgid "States"
 msgstr "Kondisi"
 
@@ -31724,6 +33414,15 @@ msgid ""
 msgstr ""
 "agen menguliti Nama internal yang harus digunakan dalam antarmuka agen. "
 "Silakan periksa kulit yang tersedia di  Frontend::Agent::Skins."
+
+#. SysConfig
+msgid ""
+"The authentication method to use for SMTP Authentication, defaults to 'Basic "
+"Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the '\"SendmailModule "
+"'\"SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and "
+"set to a valid OIDC Functional Account.  OIDC Accounts can be configured in "
+"the Admin UI  'OAuth Functional Accounts' Module."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -32130,6 +33829,12 @@ msgid "Ticket Responsible."
 msgstr "Penanggung jawab tiket"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Ticket Merge."
+msgid "Ticket Search."
+msgstr "Tiket digabungkan"
+
+#. SysConfig
 msgid "Ticket States"
 msgstr ""
 
@@ -32193,10 +33898,6 @@ msgstr "Tampilan tiket polos di email"
 
 #. SysConfig
 msgid "Ticket split dialog."
-msgstr ""
-
-#. SysConfig
-msgid "Ticket state pre-selection for response templates"
 msgstr ""
 
 #. SysConfig
@@ -32444,6 +34145,10 @@ msgstr ""
 "tangan, template standar, tanggapan otomatis dan pemberitahuan."
 
 #. SysConfig
+msgid "Value map. Define a key and a value map from import file to OTOBO."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/"
 "IMAPTLS mail accounts."
@@ -32594,6 +34299,14 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Which units are used and shown in the overview for timeunits?"
+msgstr ""
+
+#. SysConfig
+msgid "XOAUTH2"
+msgstr ""
+
+#. SysConfig
 msgid "Yes, but hide archived tickets"
 msgstr "Ya, tapi sembunyikan tiket yang telah di arsipkan."
 
@@ -32640,6 +34353,10 @@ msgstr ""
 #. SysConfig
 msgid "Zoom"
 msgstr "Zoom"
+
+#. SysConfig
+msgid "always"
+msgstr ""
 
 #. SysConfig
 msgid "attachment"
@@ -32700,6 +34417,45 @@ msgstr "Mundur"
 #. SysConfig
 msgid "stats"
 msgstr "statistik"
+
+#~ msgid "Chat protocol"
+#~ msgstr "Protokol obrolan"
+
+#~ msgid "The chat will be appended as a separate article."
+#~ msgstr "Obroloan akan ditambahkan sebagain artikel yang terpisah"
+
+#~ msgid "Need ActivityID!"
+#~ msgstr "Membutuhkan ActivityID!"
+
+#~ msgid "Need TransitionID!"
+#~ msgstr "Membutuhkan TansisiID!"
+
+#~ msgid "Created within the last"
+#~ msgstr "Dibuat dalam terakhir"
+
+#~ msgid "Created more than ... ago"
+#~ msgstr "Dibuat lebih dari .... yang lalu"
+
+#~ msgid "Compat module for AgentZoom to AgentTicketZoom."
+#~ msgstr "Modul compat untuk Agen Zoom ke Agen Tiket Zoom."
+
+#~ msgid ""
+#~ "Makes the session management use html cookies. If html cookies are "
+#~ "disabled or if the client browser disabled html cookies, then the system "
+#~ "will work as usual and append the session id to the links."
+#~ msgstr ""
+#~ "Membuat manajemen sesi cookie penggunaan html. Jika html cookies "
+#~ "dinonaktifkan atau jika cookies html browser klien dinonaktifkan, maka "
+#~ "sistem akan bekerja seperti biasa dan menambahkan sesi id ke link."
+
+#~ msgid "Search."
+#~ msgstr "Mencari"
+
+#~ msgid "Show the current owner in the customer interface."
+#~ msgstr "Tampilkan pemilik saat ini di antarmuka pelanggan."
+
+#~ msgid "Show the current queue in the customer interface."
+#~ msgstr "Tampilkan antrian saat ini di antarmuka pelanggan."
 
 #~ msgid "Example Template"
 #~ msgstr "Contoh template"
