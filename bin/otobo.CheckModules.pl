@@ -585,7 +585,7 @@ my @NeededModules = (
         VersionRequired => '>= 4.0',
         Comment         => 'correct and fast JSON support',
         InstTypes       => {
-            aptget => 'libcpanel-jsperl',
+            aptget => 'libcpanel-json-xs-perl',
             emerge => 'dev-perl/Cpanel-JSON-XS',
             zypper => 'perl-Cpanel-JSON-XS',
             ports  => 'converters/p5-Cpanel-JSON-XS',
