@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.84053651266766;
+    $Self->{Completeness}        = 0.80487106017192;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -48,6 +48,7 @@ sub Data {
         'Filter by valid state' => '',
         'Include invalid ACLs' => '',
         'Actions' => 'إجراءات',
+        'Object Type' => '',
         'Create New ACL' => 'إنشاء ACL جديد',
         'Deploy ACLs' => 'تشغل ACLs',
         'Export ACLs' => 'تصدير ACLs',
@@ -130,8 +131,8 @@ sub Data {
         'Add new Calendar' => 'إضافة تقويم جديد',
         'Import Appointments' => 'إستيراد مواعيد',
         'Calendar Import' => 'إستيراد تقويم',
-        'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'هنا يمكنك رفع ملف تهيئة لإستيراد تقويم إلى نظامك. الملف يجب أن يكون إمتداده بتنسيق ( yml ) كما تم تصديره بموديول إدارة التقويم.',
+        'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by the calendar management module.' =>
+            '',
         'Overwrite existing entities' => 'الكتابة فوق الإدخالات الموجودة',
         'Upload calendar configuration' => 'رفع ملف تهيئة تقويم',
         'Import Calendar' => 'استيراد تقويم',
@@ -593,8 +594,8 @@ sub Data {
 
         # Template: AdminDynamicFieldAdvanced
         'Import / Export' => 'استيراد/تصدير',
-        'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            'هنا يمكنك تحميل ملف تكوين لاستيراد الحقول الديناميكية إلى نظامك. يجب أن يكون الملف بتنسيق . yml كما تم تصديره بواسطة الوحدة النمطية لإدارة الحقول الديناميكية.',
+        'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by the dynamic field management module.' =>
+            '',
         'DynamicFields Import' => 'استيراد حقول ديناميكية',
         'DynamicFields Export' => 'تصدير الحقول الديناميكية',
         'Dynamic Fields Screens' => 'أسطح الحقول الديناميكية',
@@ -757,6 +758,7 @@ sub Data {
 
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => 'إدارة الحقول الديناميكية <-> شاشات',
+        'Filter by object type' => '',
         'Overview' => 'نظرة عامة',
         'Default Columns Screens' => 'شاشات الأعمدة الافتراضية',
         'Add Dynamic Field' => '',
@@ -865,6 +867,10 @@ sub Data {
         'Include invalid jobs' => '',
         'Filter for Jobs' => 'تصفية للوظائف',
         'Filter for jobs' => 'تصفية للوظائف',
+        'Here you can upload a configuration file to import generic agents to your system. The file needs to be in .yml format as exported by the generic agent management module.' =>
+            '',
+        'Generic Agents Import' => '',
+        'Generic Agents Export' => '',
         'Last run' => 'آخر تشغيل',
         'Run Now!' => 'تشغيل الآن!',
         'Delete this task' => 'حذف هذا الطلب',
@@ -988,6 +994,12 @@ sub Data {
             'تحذير:٪ s تذاكر متأثرة، ولكن يمكن تغيير ٪s فقط أثناء تنفيذ الأمر!',
         'Affected Tickets' => 'التذاكر المتأثرة',
         'Age' => 'عمر البطاقة',
+
+        # Template: AdminGenericAgentImportExport
+        'GenericAgents' => '',
+        'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'GenericAgents List' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'GenericInterface - إدارة خدمة الويب',
@@ -1263,6 +1275,11 @@ sub Data {
             'يتم تطبيق التعبيرات العادية المعرفة هنا قبل تعيين XSLT.',
         'Regular expressions defined here will be applied after the XSLT mapping.' =>
             'يتم تطبيق التعبيرات العادية المعرفة هنا بعد تعيين XSLT.',
+        'Enable Extended XSLT Mapping' => '',
+        'Extended XSLT Mapping' => '',
+        'Enable' => 'تمكين',
+        'Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an \'otoboXslType\' XML attribue. Possible Values for that attribute are \'int\', \'bool\', \'float\', and \'array\'.' =>
+            '',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add Operation' => 'إضافة عملية',
@@ -1318,6 +1335,9 @@ sub Data {
         'Kerberos User' => '',
         'Kerberos keytab file' => '',
         'The Kerberos keytab file for the privileged user.' => '',
+        'OAuth2 Functional Account' => '',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
         'Use Proxy Options' => 'استخدام خيارات الوكيل',
         'Show or hide Proxy options to connect to the remote system.' => 'إظهار خيارات الوكيل أو إخفاؤها للاتصال بالنظام البعيد.',
         'Proxy Server' => 'مخدم بروكسي',
@@ -1364,6 +1384,9 @@ sub Data {
             'أمر HTTP محدد لاستخدامه للطلبات مع هذا المستحضر (اختياري).',
         'Default command' => 'الأمر الافتراضي',
         'The default HTTP command to use for the requests.' => 'أمر HTTP الافتراضي المراد استخدامه للطلبات.',
+        'Use multipart-formdata:' => '',
+        'Select Requesters to send Attachments as binary data with content-type \'multipart-formdata\' instead of the default Base64-encoded inline JSON.' =>
+            '',
         'Additional request headers (all invokers)' => 'رؤوس طلبات إضافية (جميع المستدعين)',
         'Additional request headers (invoker specific)' => 'رؤوس طلبات إضافية (خاص بالمستدعى)',
         'Remove all headers for this invoker' => 'إزالة كافة الرؤوس لهذا المستدعي',
@@ -1502,6 +1525,15 @@ sub Data {
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'إنشاء مجموعات جديدة للتعامل مع أذونات الوصول لمجموعات مختلفة من الوكلاء (مثل قسم المشتريات، قسم الدعم، قسم المبيعات، ...). ',
         'It\'s useful for ASP solutions. ' => 'هذا مفيد لحلول ASP. ',
+        'Here you can upload a configuration file to import groups to your system. The file needs to be in .yml format as exported by the group management module.' =>
+            '',
+        'Groups Import' => '',
+        'Groups Export' => '',
+
+        # Template: AdminGroupImportExport
+        'Here you can export a configuration file of groups to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Groups List' => '',
 
         # Template: AdminImportExport
         'Import/Export Management' => '',
@@ -1570,6 +1602,7 @@ sub Data {
         'Delete account' => 'حذف الحساب',
         'Fetch mail' => 'جلب البريد',
         'Do you really want to delete this mail account?' => 'هل أنت متأكد أنك تريد حذف حساب البريد الإلكتروني هذا؟',
+        'OIDC Account' => '',
         'Example: mail.example.com' => 'مثال: mail.example.com',
         'IMAP Folder' => 'مجلد IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1633,6 +1666,114 @@ sub Data {
         'Use comma or semicolon to separate email addresses.' => 'استخدم الفواصل أو الفاصلة المنقوطة للفصل بين عناوين البريد الإلكتروني.',
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'يمكنك استخدام علامات OTOBO مثل <..._OTOBO_TICKET_DynamicField> لإدراج قيم التذكرة الحالية.',
+
+        # Template: AdminOAuthTokenStore
+        'OAuth2 Token Management (OIDC)' => '',
+        'OpenID Connect Functional OAuth2 Account Management' => '',
+        'Add Account' => '',
+        'Edit Account ' => '',
+        'About OIDC Functional Accounts' => '',
+        'This page displays an overview of configured functional OAuth Accounts and their corresponding Token Status.' =>
+            '',
+        'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
+            '',
+        'You can create OIDC Profiles to connect to your OIDC Functional Account' =>
+            '',
+        'here' => '',
+        'Delete Account' => '',
+        'OIDC Functional Accounts and their active OAuth2 Tokens' => '',
+        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. Xou have to first configure at least one OIDC Provider profile' =>
+            '',
+        'There are no OAuth2 accounts defined.' => '',
+        'Account Name' => '',
+        'Profile Name' => '',
+        'Flow' => '',
+        'Has Token?' => '',
+        'Refresh Token Expires' => '',
+        'Renew Token(s)' => '',
+        'Renew' => '',
+        'Add Invoker Account' => '',
+        'Edit Invoker Account' => '',
+        'The unique name for this Account.' => '',
+        'OIDC Profile' => '',
+        'The OpenID Connect' => '',
+        'to use for this functional account.' => '',
+        'Grant Type' => '',
+        'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
+            '',
+        'Selecting \'authorization_code\' will redirect you to your OpenID Connect Provider\'s Login Page to validate your account once you click \'Save\'.' =>
+            '',
+        'The username if grant type is \'password\'.' => '',
+        'The password to use if grant type is \'password\'.' => '',
+        'OAuth2 Scopes' => '',
+        'Space separate list of OAuth2 scopes to use. Usual values include openid, email, profile, and roles.' =>
+            '',
+        'Advanced Invoker Settings' => '',
+        'Resources' => 'موارد',
+        'Optional (space seperated list) for the resource paramater if required. Leave empty unless instructed otherwise.' =>
+            '',
+        'Resource Parameter Name' => '',
+        'Name of the resource parameter to use. Defaults to \'resource\'. Do not change unless instructed.' =>
+            '',
+        'Token Type' => '',
+        'The token type to use for externall API calls. Usually \'access_token\'.' =>
+            '',
+
+        # Template: AdminOIDCProfiles
+        'OpenID Connect Profiles ' => '',
+        'OpenID Connect Provider Profiles Management' => '',
+        'Add Profile' => '',
+        'Edit Profile ' => '',
+        'About OIDC Provider Profiles' => '',
+        'This page displays an overview of configured OIDC Provider Profiles.' =>
+            '',
+        'You can connect OIDC Profiles with a OIDC Functional Account' =>
+            '',
+        'Delete Profile' => '',
+        'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
+            '',
+        'There are no OIDC Provider profiles defined.' => '',
+        'Client ID' => '',
+        'Provider' => '',
+        'Add OIDC Provider Profile' => '',
+        'Edit OIDC Provider Profile' => '',
+        'Since you are using OIDC as Authentication module, these values have been pre-populated with the OIDC Provider Configuration used for Login.' =>
+            '',
+        'The unique name for this Profile.' => '',
+        'Metadata Url.' => '',
+        'The Well-Known Provider Metadata Url.' => '',
+        'The Client ID of your OAuth2 application.' => '',
+        'Client Secret' => '',
+        'The Client Secret of your OAuth2 application.' => '',
+        'Time in seconds for caching provider data.' => '',
+        'SSL Options (Optional)' => '',
+        'SSL Certificate' => '',
+        'SSL certificate path.' => '',
+        'SSL Certificate Key' => '',
+        'SSL certificate private key path.' => '',
+        'SSL Password' => '',
+        'The SSL password.' => '',
+        'SSL CA File' => '',
+        'SSL Certificate Authority file path.' => '',
+        'SSL CA Directory' => '',
+        'SSL Certificate Authority directory path.' => '',
+        'SSL Verify Hostname' => '',
+        'Enable or disable SSL hostname verification. Only disable for debugging purposes!' =>
+            '',
+        'SSL Verify Mode' => '',
+        'Enable or disable SSL verification. Only disable for debugging purposes!' =>
+            '',
+        'Misc Options (Optional)' => '',
+        'Use Nonce' => '',
+        'Rand Length' => '',
+        'Random string length used for state and nonce parameters. Default is \'22\'.' =>
+            '',
+        'Rand TTL' => '',
+        'Time-to-live for state and nonce in seconds. Default is \'300\' (5 min).' =>
+            '',
+        'Leeway' => '',
+        'Time drift allowance between servers to be allowed. Default \'2\' seconds.' =>
+            '',
 
         # Template: AdminPGP
         'PGP Management' => 'إدارة PGP',
@@ -1753,6 +1894,7 @@ sub Data {
         'PostMaster Filter Management' => 'إدارة عامل التصفية Postmaster',
         'Add PostMaster Filter' => 'أضف عامل تصفية PostMaster',
         'Edit PostMaster Filter' => 'تحرير عامل تصفية PostMaster',
+        'Include invalid PostMaster Filters' => '',
         'Filter for PostMaster Filters' => 'تصفية لفلاتر PostMaster',
         'Filter for PostMaster filters' => 'تصفية لفلاتر PostMaster',
         'Search through PostMaster filters' => '',
@@ -1801,8 +1943,8 @@ sub Data {
         'Filter for processes' => 'تصفية العمليات',
         'Create New Process' => 'إنشاء عملية جديدة',
         'Deploy All Processes' => 'وضع جميع العمليات موضع التنفيذ',
-        'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            'هنا يمكنك تحميل ملف تكوين لاستيراد عملية إلى نظامك. يجب أن يكون الملف بتنسيق YML، تمامًا كما يتم تصديره بواسطة إدارة العملية.',
+        'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by the process management module.' =>
+            '',
         'Upload process configuration' => 'تحميل تكوين عملية',
         'Import process configuration' => 'تكوين عملية الاستيراد',
         'Ready2Adopt Processes' => 'عمليات Ready2Adopt',
@@ -1826,6 +1968,7 @@ sub Data {
             'تحذير: ستؤثر التغييرات في هذا النشاط على العمليات التالية',
         'Activity' => 'نَشَاطٌ',
         'Activity Name' => 'اسم النشاط',
+        'Global' => '',
         'Activity Dialogs' => 'حوارات النشاط',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             'يمكنك تخصيص مربعات حوار النشاط لهذا النشاط عن طريق تحريك العناصر من القائمة اليسرى إلى القائمة اليمنى بالماوس.',
@@ -1863,6 +2006,7 @@ sub Data {
         'Assigned Fields' => 'الحقول المعينة',
         'Communication Channel' => 'قناة الاتصال',
         'Is visible for customer' => 'مرئي للعملاء',
+        'Standard Templates' => '',
         'Display' => 'إِظْهار',
 
         # Template: AdminProcessManagementPath
@@ -1944,6 +2088,39 @@ sub Data {
             'يرجى ملاحظة أن تغيير هذا الانتقال سيؤثر على العمليات التالية',
         'Transition' => 'اِنْتِقالٌ',
         'Transition Name' => 'اسم الانتقال',
+        'Transition Reference for "Fields" Settings' => '',
+        'Name of the ticket attribute that should be used for validation. In general, all attributes returned by the TicketGet function can be used.' =>
+            '',
+        'There are several possibilities to validate whether this transition is valid.' =>
+            '',
+        'Exact match' => 'تطابق تام',
+        'Value must exactly match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must exactly match the string specified in "Value".' =>
+            '',
+        'Exact match - all' => '',
+        'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must exactly match the string specified in "Value".' =>
+            '',
+        'Exact match - negated' => '',
+        'Value must not match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the string specified in "Value".' =>
+            '',
+        'Regular Expression' => '',
+        'Value must contain a matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must match the regular expression specified in "Value".' =>
+            '',
+        'Regular Expression - all' => '',
+        'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must match the regular expression specified in "Value".' =>
+            '',
+        'Regular Expression - negated' => '',
+        'Value must contain a non-matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the regular expression specified in "Value".' =>
+            '',
+        'Transition validation module' => 'وحدة التحقق من صحة الانتقال',
+        '"Name" is currently irrelevant, "Value" must contain the path to the module, usually Kernel::System::Process::Transition::<TA_Name>.' =>
+            '',
+        'Value must always contain a string or a regular expression used for comparison.' =>
+            '',
+        'Examples' => '',
+        'The process ticket should move to the next process step as soon as a status containing "closed" in its name is set. Therefore, configure Name="State", Type="Regular Expression" and Value="closed" (or the long form "^.*closed.*$").' =>
+            '',
+        'If a Dynamic Field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a Dynamic Field of type "Set", the following syntax can be used: ' =>
+            '',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
@@ -1962,6 +2139,10 @@ sub Data {
         'Include invalid queues' => '',
         'Filter for Queues' => 'تصفية لقوائم الانتظار',
         'Filter for queues' => 'تصفية لقوائم الانتظار',
+        'Here you can upload a configuration file to import queues to your system. The file needs to be in .yml format as exported by the queue management module.' =>
+            '',
+        'Queues Import' => '',
+        'Queues Export' => '',
         'A queue with this name already exists!' => 'توجد قائمة انتظار بهذا الاسم بالفعل!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             'قائمة الانتظار هذه موجودة في إعداد SysConfig. مطلوب تأكيد لتحديث الإعداد إلى قائمة الانتظار الجديدة!',
@@ -2011,11 +2192,25 @@ sub Data {
         'Show All Queues' => 'إظهار جميع قوائم الانتظار',
         'Auto Responses' => 'الردود التلقائية',
 
+        # Template: AdminQueueImportExport
+        'Here you can export a configuration file of queues to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Queues List' => '',
+
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'إدارة تخصيص القوالب لقوائم الانتظار',
         'Filter for Templates' => 'تصفية القوالب',
         'Filter for templates' => 'تصفية القوالب',
+        'Here you can upload a configuration file to import queue-template relations to your system. The file needs to be in .yml format as exported by the queue-template management module.' =>
+            '',
+        'Queue-Templates Import' => '',
+        'Queue-Templates Export' => '',
         'Templates' => 'نماذج',
+
+        # Template: AdminQueueTemplatesImportExport
+        'Queue Template Relations' => '',
+        'Here you can export a configuration file of queue-template relations to import these on another system. The configuration file is exported in yml format.' =>
+            '',
 
         # Template: AdminRegistration
         'System Registration Management' => 'إدارة تسجيل النظام',
@@ -2103,11 +2298,6 @@ sub Data {
         'System Registration Data' => 'بيانات تسجيل النظام',
         'Support Data' => 'بيانات الدعم',
 
-        # Template: AdminResponseTemplatesStatePreselection
-        'Manage ticket state pre-selections for response templates' => '',
-        'Edit Response' => '',
-        'Pre-selected ticket state' => '',
-
         # Template: AdminRole
         'Role Management' => 'إدارة الأدوار',
         'Add Role' => 'إضافة دور',
@@ -2117,11 +2307,19 @@ sub Data {
         'Filter for roles' => 'تصفية الأدوار',
         'Create a role and put groups in it. Then add the role to the users.' =>
             'إنشاء دور ووضع المجموعات فيه. ثم أضف الدور إلى المستخدمين.',
+        'Here you can upload a configuration file to import roles to your system. The file needs to be in .yml format as exported by the role management module.' =>
+            '',
+        'Roles Import' => '',
+        'Roles Export' => '',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
             'لا توجد أدوار محددة. الرجاء استخدام الزر "إضافة" لإنشاء دور جديد.',
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'إدارة تعيينات الأدوار للمجموعات',
+        'Here you can upload a configuration file to import role-group relations to your system. The file needs to be in .yml format as exported by the role-group management module.' =>
+            '',
+        'Role-Group Import' => '',
+        'Role-Group Export' => '',
         'Roles' => 'ادوار',
         'Select the role:group permissions.' => 'حدد الدور:أذونات المجموعة.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -2147,6 +2345,17 @@ sub Data {
         'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
             '',
 
+        # Template: AdminRoleGroupImportExport
+        'Role-Group Relations' => '',
+        'Here you can export a configuration file of role-group relations to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Role-Group relations List' => '',
+
+        # Template: AdminRoleImportExport
+        'Here you can export a configuration file of roles to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Roles List' => '',
+
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'إدارة العلاقات بين الوكيل والدور',
         'Add Agent' => 'إضافة وكيل',
@@ -2161,7 +2370,17 @@ sub Data {
         'Add SLA' => 'إضافة اتفاقية مستوى الخدمة',
         'Include invalid SLAs' => '',
         'Filter for SLAs' => 'تصفية لاتفاقيات مستوى الخدمة',
+        'Here you can upload a configuration file to import SLAs to your system. The file needs to be in .yml format as exported by the SLA management module.' =>
+            '',
+        'SLAs Import' => '',
+        'SLAs Export' => '',
         'Please write only numbers!' => 'الرجاء كتابة الأرقام فقط!',
+
+        # Template: AdminSLAImportExport
+        'SLAs' => '',
+        'Here you can export a configuration file of SLAs to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'SLAs List' => '',
 
         # Template: AdminSMIME
         'S/MIME Management' => 'إدارة S/MIME',
@@ -2244,9 +2463,18 @@ sub Data {
         'Add Service' => 'إضافة خدمة',
         'Edit Service' => 'تحرير الخدمة',
         'Include invalid services' => '',
+        'Here you can upload a configuration file to import services to your system. The file needs to be in .yml format as exported by the service management module.' =>
+            '',
+        'Services Import' => '',
+        'Services Export' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'الحد الأقصى لطول اسم الخدمة هو 200 حرف (مع الخدمة الفرعية).',
         'Sub-service of' => 'الخدمة الفرعية ل',
+
+        # Template: AdminServiceImportExport
+        'Here you can export a configuration file of services to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Services List' => '',
 
         # Template: AdminSession
         'Session Management' => 'إدارة الجلسة',
@@ -2478,6 +2706,11 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'القالب هو نص قياسي يمكن أن يساعد وكلاؤك في إنشاء التذاكر أو الرد عليها أو إعادة توجيهها بشكل أسرع.',
         'Don\'t forget to add new templates to queues.' => 'لا تنس تعيين قوالب جديدة لقوائم الانتظار.',
+        'Here you can upload a configuration file to import templates to your system. The file needs to be in .yml format as exported by the template management module.' =>
+            '',
+        'Templates Import' => '',
+        'Templates Export' => '',
+        'Pre-selected ticket state' => '',
         'Attachments' => 'ملفات مرفقه',
         'Delete this entry' => 'حذف هذا الإدخال',
         'Do you really want to delete this template?' => 'هل تريد حقًا حذف هذا النموذج؟',
@@ -2499,6 +2732,11 @@ sub Data {
         'Manage Template-Attachment Relations' => 'إدارة علاقات المرفقات بالقوالب',
         'Toggle active for all' => 'التبديل النشط للجميع',
         'Link %s to selected %s' => 'ربط ٪s ب٪s (محدد)',
+
+        # Template: AdminTemplateImportExport
+        'Here you can export a configuration file of templates to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Templates List' => '',
 
         # Template: AdminTicketMask
         'Ticket Mask Management' => '',
@@ -2545,10 +2783,20 @@ sub Data {
         'Include invalid types' => '',
         'Filter for Types' => 'تصفية الأنواع',
         'Filter for types' => 'تصفية الأنواع',
+        'Here you can upload a configuration file to import types to your system. The file needs to be in .yml format as exported by the type management module.' =>
+            '',
+        'Types Import' => '',
+        'Types Export' => '',
         'A type with this name already exists!' => 'يوجد بالفعل نوع بهذا الاسم!',
         'This type is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
             'هذا النوع موجود في إعداد SysConfig، يلزم تأكيد تحديث الإعدادات للإشارة إلى النوع الجديد!',
         'This type is used in the following config settings:' => 'يستخدم هذا النوع في إعدادات التكوين التالية:',
+
+        # Template: AdminTypeImportExport
+        'Types' => 'أنواع',
+        'Here you can export a configuration file of types to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'Types List' => '',
 
         # Template: AdminUser
         'Agent Management' => 'إدارة الوكلاء',
@@ -2706,6 +2954,11 @@ sub Data {
             'قم بتنفيذ \'٪s start\' للتأكد من أن وظائف cron الخاصة بالمستخدم \'otobo\' نشطة.',
         'After 5 minutes, check that the OTOBO Daemon is running in the system (\'bin/otobo.Daemon.pl status\').' =>
             'بعد 5 دقائق، تحقق من تشغيل برنامج OTOBO Daemon في النظام ("bin / otobo.Daemon.pl status").',
+        'Running the OTOBO Daemon in a Docker based installation' => '',
+        'Check with \'docker compose ps\' whether a service with the name daemon is running.' =>
+            '',
+        'When the service daemon is not running then try starting it with \'docker compose start daemon\'' =>
+            '',
 
         # Template: AgentDashboard
         'Dashboard' => 'نَظْرَة عامة',
@@ -2806,9 +3059,13 @@ sub Data {
         # Template: AgentDynamicFieldDBDetails
         'Details view' => 'عرض التفاصيل',
 
+        # Template: AgentElasticsearchCommon
+        'Elasticsearch Results' => '',
+
         # Template: AgentElasticsearchQuickResult
         'Tickets' => 'تذاكر',
         'ConfigItems' => 'عناصر التكوين',
+        'FAQs' => '',
 
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'تأكيد الأخبار أو الترخيص أو التغييرات.',
@@ -2924,7 +3181,6 @@ sub Data {
             'يمكنك هنا دمج العديد من الإحصائيات في تقرير واحد وإنشاء ملف PDF منه يدويًا أو تلقائيًا في أوقات محددة مسبقًا.',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
             'ملاحظة: يمكنك فقط تحديد المخططات كتنسيق إخراج الإحصائيات إذا كان لديك أحد ملفات العرض التي تم تكوينها على نظامك.',
-        'Configure PhantomJS' => 'تكوين PhantomJS',
         'Configure GoogleChrome' => 'تكوين GoogleChrome',
         'General settings' => 'الإعدادات العامة',
         'Automatic generation settings' => 'إعدادات الإنشاء التلقائي',
@@ -3009,6 +3265,9 @@ sub Data {
         'Text Template' => 'قالب النص',
         'Setting a template will overwrite any text or attachment.' => 'سيؤدي تحديد قالب إلى حذف النص أو المرفقات الموجودة.',
         'Invalid time!' => 'وقت غير صالح!',
+
+        # Template: AgentTicketArticleEdit
+        'Edit Article' => '',
 
         # Template: AgentTicketArticleVersionView
         'Viewing Article Version#%s of current Article: #%s %s' => '',
@@ -3117,6 +3376,7 @@ sub Data {
         'First Response Time' => 'وقت الاستجابة الأول',
         'Update Time' => 'وقت التحديث',
         'Solution Time' => 'وقت الحل',
+        'Accounted Time' => '',
         'Move ticket to a different queue' => 'نقل التذكرة إلى قائمة انتظار مختلفة',
         'Change queue' => 'تغيير قائمة الانتظار',
 
@@ -3137,8 +3397,6 @@ sub Data {
         'Create New Phone Ticket' => 'إنشاء تذكرة هاتف جديدة',
         'Please include at least one customer for the ticket.' => 'يرجى تضمين عميل واحد على الأقل للتذكرة.',
         'To queue' => 'إلى قائمة الانتظار',
-        'Chat protocol' => 'بروتوكول المحادثة',
-        'The chat will be appended as a separate article.' => 'سيتم إلحاق الدردشة كمقالة منفصلة.',
 
         # Template: AgentTicketPhoneCommon
         'Phone Call for %s%s%s' => 'مكالمة هاتفية ل ٪s٪s٪s',
@@ -3206,6 +3464,7 @@ sub Data {
         'Unread articles' => 'مقالات غير مقروءة',
         'Via' => 'عَنْ طَرِيق',
         'Article Edited' => '',
+        'Time Units' => '',
         'Important' => 'مُهِمّ',
         'Unread Article!' => 'مقالة غير مقروءة!',
         'Incoming message' => 'رسالة واردة',
@@ -3284,6 +3543,9 @@ sub Data {
         'Ticket Search' => 'البحث عن التذكرة',
         'New Ticket' => 'تذكرة جديدة',
 
+        # Template: CustomerElasticsearchQuickResult
+        'FAQ#' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'حدث خطأ',
 
@@ -3343,7 +3605,7 @@ sub Data {
         'Click here for an unfiltered list of all your tickets.' => 'انقر هنا للحصول على قائمة غير مفلترة بجميع تذاكرك.',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => 'إنشاء تذكرة جديدة',
+        'Create a new Ticket' => '',
         'Service level agreement' => 'إتفاقية مستوى الخدمة',
 
         # Template: CustomerTicketOverview
@@ -3352,11 +3614,11 @@ sub Data {
         'Sort' => 'فَرَزَ',
 
         # Template: CustomerTicketSearch
+        'Search for a Ticket' => '',
         'Profile' => 'ملف تعريف',
         'e. g. 10*5155 or 105658*' => 'على سبيل المثال 10*5155 أو *105658',
         'CustomerID' => 'رقم العميل',
         'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => 'بحث النص الكامل في التذاكر (على سبيل المثال. "John*n" أو "Will*"',
-        'Types' => 'أنواع',
         'Time Restrictions' => 'قيود الوقت',
         'No time settings' => 'لا توجد إعدادات للوقت',
         'All' => 'الكل',
@@ -3366,8 +3628,8 @@ sub Data {
         'Only tickets created between' => 'فقط التذاكر التي تم إنشاؤها بين',
         'Ticket Archive System' => 'نظام أرشيف التذاكر',
         'Save Search as Template?' => 'هل تريد حفظ البحث كقالب؟',
-        'Save as Template?' => 'هل تريد الحفظ كقالب؟',
         'Save as Template' => 'حفظ كقالب',
+        'Save as Template?' => 'هل تريد الحفظ كقالب؟',
         'Pick a profile name' => 'حدد اسم ملف التعريف',
         'Output to' => 'الإخراج حسب',
 
@@ -3395,7 +3657,7 @@ sub Data {
         'Warning' => 'تحذير',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => 'إنشاء تذكرة s%',
+        'Create%sa ticket' => '',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'معلومات الحدث',
@@ -3743,7 +4005,6 @@ sub Data {
         'Disable this setting, so it is no longer effective' => 'تعطيل الإعداد بحيث لا يعود له أي تأثير',
         'Disable' => 'تعطيل',
         'Enable this setting, so it becomes effective' => 'تمكين هذا الإعداد، بحيث يصبح فعالا',
-        'Enable' => 'تمكين',
         'Reset this setting to its default state' => 'إعادة تعيين الإعداد إلى الإعداد الافتراضي',
         'Reset setting' => 'إعادة تعيين الإعداد',
         'Allow users to adapt this setting from within their personal preferences' =>
@@ -3903,6 +4164,10 @@ sub Data {
         'Edit the system configuration settings.' => 'تحرير إعدادات تكوين النظام.',
         'Update and extend your system with software packages.' => 'قم بتحديث النظام الخاص بك وتوسيعه باستخدام حزم البرامج.',
 
+        # Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
+        'Error fetching the OAuth2 Token' => '',
+        'Attached OAuth2 Bearer Token' => '',
+
         # Perl Module: Kernel/Language.pm
         '(in process)' => '(قيد التنفيذ)',
 
@@ -3926,7 +4191,6 @@ sub Data {
         '%s (copy) %s' => '٪s (نسخة) ٪s',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'يرجى ملاحظة أن قيود ACL لا تنطبق على حساب المستخدم المتميز (UserID 1).',
-        'Exact match' => 'تطابق تام',
         'Negated exact match' => 'نفي المطابقة التامة',
         'Regular expression' => 'تعبير نمطي',
         'Regular expression (ignore case)' => 'التعبير النمطي (تجاهل حالة الأحرف)',
@@ -4152,6 +4416,8 @@ sub Data {
         'No valid dynamic field "%s".' => '',
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
+        'The dynamic field "%s" can not be used in sets as it is either a Set field or a Lens field pointing to a Set field.' =>
+            '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
         'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
             '',
@@ -4296,6 +4562,8 @@ sub Data {
             'بيانات الاستجابة الصادرة قبل التعيين (ProviderResponseInput)',
         'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
             'بيانات معالج أخطاء الصادر بعد معالجة الخطأ (ProviderErrorHandlingOutput)',
+        'Disabled' => 'غير مُفَعّل',
+        'Enabled' => 'نَشَّطَ',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'تعذر تحديد التكوين للعملية ٪s',
@@ -4360,6 +4628,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'No permission to edit this ticket notification.' => '',
         'You need %s permissions!' => 'تحتاج إلى أذونات %s!',
+        'Agent who created the first article' => '',
         'Agent who created the ticket' => 'الوكيل الذي أنشأ التذكرة',
         'Agent who owns the ticket' => 'الوكيل الذي يملك التذكرة',
         'Agent who is responsible for the ticket' => 'الوكيل المسؤول عن التذكرة',
@@ -4376,6 +4645,33 @@ sub Data {
         'Only send outside working hours' => '',
         'Invisible to customer' => 'غير مرئي للعميل',
         'Visible to customer' => 'مرئي للعميل',
+
+        # Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+        'Account Name is missing!' => '',
+        'Username is required!' => '',
+        'Password is required!' => '',
+        'Account Name is taken!' => '',
+        'Error creating/updating %s!' => '',
+        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
+            '',
+        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!' =>
+            '',
+        'Account %s deleted!' => '',
+        'Token %s updated!' => '',
+        'Invalid OAuth State!' => '',
+        'Invalid Account %s for Token!' => '',
+        'Invalid Issuer %s for Token %s!' => '',
+
+        # Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
+        'Profile Name is missing!' => '',
+        'Provider metadata url is missing!' => '',
+        'Provider client id is missing!' => '',
+        'Provider client secret is missing!' => '',
+        'Profile Name is taken!' => '',
+        'Error creating/updating Profile %s!' => '',
+        'Profile %s deleted!' => '',
+        'Profile %s could not be deleted - do you have any Functional Accounts referencing this Profile?' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -4435,9 +4731,18 @@ sub Data {
             'حدث خطأ أثناء إنشاء EntityID جديد لهذه العملية',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID للحالة غير نشط غير موجود',
         'There was an error creating the Process' => 'حدث خطأ أثناء إنشاء العملية',
-        'Could not get data for ProcessID %s' => 'تعذر تعريف البيانات لمعرف العملية ٪s',
+        'There was an error generating a new EntityID while copying an associated Element' =>
+            '',
+        'There was an error copying an associated Element' => '',
+        'There was an error setting the entity sync status for an associated Element entity: %s' =>
+            '',
         'There was an error updating the Process' => 'حدث خطأ أثناء تحديث العملية',
+        'Could not get data for ProcessID %s' => 'تعذر تعريف البيانات لمعرف العملية ٪s',
         'Process: %s could not be deleted' => 'تعذر حذف العملية: ٪s',
+        'Process: %s successfully deleted, but failed to delete an associated Element' =>
+            '',
+        'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity' =>
+            '',
         'There was an error synchronizing the processes.' => 'حدث خطأ أثناء مزامنة العمليات.',
         'The %s:%s is still in use' => 'لا يزال ٪s:٪s قيد الاستخدام',
         'The %s:%s has a different EntityID' => 'يحتوي ٪s:٪s على معرف كيان مختلف',
@@ -4445,17 +4750,21 @@ sub Data {
         'There was an error setting the entity sync status for %s entity: %s' =>
             'حدث خطأ أثناء تعيين حالة مزامنة الكيان للكيان ٪s: ٪s',
         'Could not get %s' => 'تعذر الحصول على ٪s',
+        'Need ProcessEntityID!' => '',
         'Need %s!' => 'الحاجة إلى ٪s!',
         'Process: %s is not Inactive' => 'العملية: ٪s ليست غير نشطة',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+        'Non-global ActivityDialogs may not be assigned to global Activities!' =>
+            '',
         'There was an error generating a new EntityID for this Activity' =>
             'حدث خطأ أثناء إنشاء EntityID جديد لهذا النشاط',
         'There was an error creating the Activity' => 'حدث خطأ أثناء إنشاء النشاط',
         'There was an error setting the entity sync status for Activity entity: %s' =>
             'حدث خطأ أثناء تعيين حالة مزامنة الكيان لكيان النشاط: ٪s',
-        'Need ActivityID!' => 'يلزم معرف النشاط!',
+        'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'تعذر الحصول على بيانات ل ActivityID ٪s',
+        'This Activity is not available to the current Process!' => '',
         'There was an error updating the Activity' => 'حدث خطأ أثناء تحديث النشاط',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'المعلمات المفقودة: تحتاج إلى مربع حوار النشاط والنشاط!',
         'Activity not found!' => 'لم يتم العثور على النشاط!',
@@ -4472,8 +4781,10 @@ sub Data {
         'There was an error creating the ActivityDialog' => 'حدث خطأ أثناء إنشاء مربع حوار النشاط',
         'There was an error setting the entity sync status for ActivityDialog entity: %s' =>
             'حدث خطأ أثناء تعيين حالة المزامنة لمربع حوار النشاط ٪s',
-        'Need ActivityDialogID!' => 'تحتاج إلى ActivityDialogID!',
+        'Need ActivityDialogID and ProcessEntityID!' => '',
         'Could not get data for ActivityDialogID %s' => 'تعذر الحصول على بيانات ل ActivityDialogID ٪s',
+        'This Activity Dialog is not available to the current Process!' =>
+            '',
         'There was an error updating the ActivityDialog' => 'حدث خطأ أثناء تحديث مربع حوار النشاط',
         'Edit Activity Dialog "%s"' => 'تحرير مربع حوار النشاط "٪s"',
         'Agent Interface' => 'واجهة الوكيل',
@@ -4492,11 +4803,13 @@ sub Data {
         'There was an error creating the Transition' => 'حدث خطأ أثناء إنشاء الانتقال',
         'There was an error setting the entity sync status for Transition entity: %s' =>
             'حدث خطأ أثناء تعيين حالة مزامنة الكيان لكيان الانتقال: ٪s',
-        'Need TransitionID!' => 'بحاجة إلى معرف الانتقال!',
+        'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'تعذر تعريف البيانات لمعرف الانتقال ٪s',
+        'This Transition is not available to the current Process!' => '',
         'There was an error updating the Transition' => 'حدث خطأ أثناء تحديث الانتقال',
         'Edit Transition "%s"' => 'تحرير الانتقال "٪s"',
-        'Transition validation module' => 'وحدة التحقق من صحة الانتقال',
+        'Regular expression - all' => '',
+        'Regular expression - negated' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
         'At least one valid config parameter is required.' => 'مطلوب معلمة تكوين صالحة واحدة على الأقل.',
@@ -4505,8 +4818,10 @@ sub Data {
         'There was an error creating the TransitionAction' => 'حدث خطأ أثناء إنشاء الانتقال',
         'There was an error setting the entity sync status for TransitionAction entity: %s' =>
             'حدث خطأ أثناء إعداد حالة المزامنة للإجراء الانتقالي ٪s',
-        'Need TransitionActionID!' => 'بحاجة إلى معرف إجراء النقل!',
+        'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'تعذر العثور على بيانات ل ٪s معرف إجراء الانتقال',
+        'This Transition Action is not available to the current Process!' =>
+            '',
         'There was an error updating the TransitionAction' => 'حدث خطأ أثناء تحديث الانتقال',
         'Edit Transition Action "%s"' => 'تحرير إجراء الانتقال "٪s"',
         'Error: Not all keys seem to have values or vice versa.' => 'خطأ: لا يبدو أن كل المفاتيح لها قيم أو العكس.',
@@ -4529,9 +4844,6 @@ sub Data {
         'Test' => 'إختبار',
         'Training' => 'تَدْرِيبٌ',
         'Development' => 'تَطْوِيرٌ',
-
-        # Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
-        'Template updated!' => 'تم تحديث القالب!',
 
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => 'تم تحديث الدور!',
@@ -4636,6 +4948,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
         'No permission to edit this template.' => '',
+        'Template updated!' => 'تم تحديث القالب!',
         'Template added!' => 'تمت إضافة القالب!',
 
         # Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
@@ -4794,6 +5107,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'لا يوجد ArticleID!',
         'This action is not permitted on the article!' => '',
+        'This article is not editable!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5085,8 +5399,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'اسم العميل',
-        'Created within the last' => 'تم إنشاؤه في آخر',
-        'Created more than ... ago' => 'تم إنشاؤه قبل أكثر من ...',
         'Please remove the following words because they cannot be used for the search:' =>
             'الرجاء إزالة الكلمات التالية لأنه لا يمكن إستخدامها للبحث:',
 
@@ -5304,6 +5616,9 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
         'User set their status to unavailable.' => 'قام المستخدم بتعيين حالته إلى "غير متوفر".',
         'Unavailable' => 'غير متوفر',
+
+        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
+        'Shown Elsticsearch Results' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'قياسي',
@@ -5607,8 +5922,31 @@ sub Data {
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
 
-        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
+        'Default Queue' => '',
+        'Default Type' => '',
+        'Default Service' => '',
+        'Default SLA' => '',
+        'Default state' => '',
+        'Default priority' => '',
+        'Default owner' => '',
+        'Default responsible' => '',
+        'Default lock' => '',
+        'Default CustomerID' => '',
+        'Default CustomerUserID' => '',
+        'Default ArchiveFlag' => '',
+        'Default subject' => '',
+        'Default body' => '',
+        'Default sender type' => '',
+        'Default is visible to customer' => '',
         'Empty fields indicate that the current values are kept' => '',
+        'Do not update existing tickets' => '',
+        'Only update tickets of this user in the target system' => '',
+        'Import/Export articles' => '',
+        'Default Backend' => '',
+        'Store articles on separate lines indicated by a blank first entry' =>
+            '',
+        'Import/Export attachments (as the last entries per line)' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => 'التحقق من معقولية قاعدة البيانات.',
@@ -5734,6 +6072,23 @@ sub Data {
             'تعذر قراءة ملف تكوين الإشعار. يرجى التأكد من صحة الملف.',
         'Imported notification has body text with more than 4000 characters.' =>
             'يحتوي الإخطار المدرج على نص أساسي يتكون من أكثر من 4000 حرف.',
+
+        # Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
+        'Error fetching Token: %s' => '',
+        'Need ClientID and ClientSecret!' => '',
+        'Got no content when requesting Token. Response Code: %s' => '',
+        'Got no JSON object when requesting Token. Response: %s' => '',
+
+        # Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+        'AccountName %s not found!' => '',
+        'No valid refresh_token for Account %s using grant_tpye \'authorization code\' !' =>
+            '',
+        'Need functional account Invoker settings in SysConfig for %s.' =>
+            '',
+        'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
+            '',
+        'Time left on fresh token is: %s s for Invoker %s!' => '',
+        'Could not get the OAuth2 token_endpoint for Invoker ' => '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'غير مثبت',
@@ -6186,10 +6541,6 @@ sub Data {
         'Value is not correct! Please, consider updating this field.' => 'القيمة غير صحيحة! الرجاء، النظر في تحديث هذا الحقل.',
         'Value doesn\'t satisfy regex (%s).' => 'لا تفي القيمة بالقيمة regex (‎%s).',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-        'Enabled' => 'نَشَّطَ',
-        'Disabled' => 'غير مُفَعّل',
-
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
         'System was not able to calculate user Date in OTOBOTimeZone!' =>
             'تعذر حساب تاريخ المستخدم في المنطقة الزمنية OTOBO!',
@@ -6327,8 +6678,8 @@ sub Data {
         'Auto remove will be sent out after a customer removed the request.' =>
             'يتم إرسال "الإزالة التلقائية" بعد أن يزيل المستخدم العميل الطلب.',
         'default reply (after new ticket has been created)' => 'الاستجابة الافتراضية (بعد إنشاء تذكرة جديدة)',
-        'default reject (after follow-up and rejected of a closed ticket)' =>
-            'الرفض القياسي (بعد تلقي الرد على تذكرة مغلقة ورفضه)',
+        'default reject (after follow-up and rejection of a closed ticket)' =>
+            '',
         'default follow-up (after a ticket follow-up has been added)' => 'الاستجابة الافتراضية (بعد تلقي رد على تذكرة)',
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             'الرفض الافتراضي/إنشاء تذكرة جديدة (بعد تلقي رد على تذكرة مغلقة وإنشاء تذكرة جديدة)',
@@ -6585,7 +6936,6 @@ sub Data {
         'Timeline Week' => 'أسبوع المخطط الزمني',
         'Timeline Day' => 'يوم المخطط الزمني',
         'Previous' => 'رجوع',
-        'Resources' => 'موارد',
         'Su' => 'الأَحَدِ',
         'Mo' => 'الاثْنَيْنِ',
         'Tu' => 'الثُّلاَثَاءِ',
@@ -6778,6 +7128,7 @@ sub Data {
         'Sorry, you can only upload one file here.' => 'عذرا، يمكنك تحميل ملف واحد فقط هنا.',
         'Sorry, you can only upload %s files.' => 'عذرا، يمكنك تحميل ملفات ‎%s فقط.',
         'Please only select at most %s files for upload.' => 'الرجاء تحديد حد أقصى من ‎%s مِلَفّ (ملفات) للتحميل.',
+        'Upload information' => 'تحميل المعلومات',
         'The following files are not allowed to be uploaded: %s' => 'يجب عدم تعديل الملفات التالية: ‎%s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             'تتجاوز الملفات التالية الحد الأقصى للحجم لكل ملف (‎%s) ولم يتم تحديثها: ‎%s',
@@ -6785,7 +7136,6 @@ sub Data {
             'تم تحميل الملفات التالية بالفعل ولم تتم معالجتها مرة أخرى: ‎%s',
         'No space left for the following files: %s' => 'لا تتوفر مساحة للملفات التالية: ‎%s',
         'Available space %s of %s.' => 'المساحة المتوفرة ‎%s من ‎%s.',
-        'Upload information' => 'تحميل المعلومات',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             'حدث خطأ غير معروف عند حذف المرفق. الرجاء المحاولة مرة أخرى. إذا استمر الخطأ، الرجاء الاتصال بمسؤول النظام.',
 
@@ -6859,6 +7209,7 @@ Thanks for your help!
         '30 Minutes' => '30 دقيقة',
         '300 (Beginner)' => '300 (مبتدئ)',
         '5 Minutes' => '5 دقائق',
+        '7 days' => '',
         'A TicketWatcher Module.' => 'وحدة مراقبة التذاكر.',
         'A Website' => 'موقع ويب',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -6906,6 +7257,8 @@ Thanks for your help!
         'Added web request from customer.' => 'تمت إضافة طلب العميل عبر واجهة الويب.',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
             'إضافة لاحقة مع السنة والشهر الفعليين إلى ملف سجل OTOBO. سيتم إنشاء ملف سجل لكل شهر.',
+        'Adds customer visibility of the article to the article edit screen of the agent interface.' =>
+            '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'يضيف عنوان البريد الإلكتروني للعملاء إلى المستلمين في واجهة "TicketCompose" لواجهة الوكيل. لن تتم إضافة عنوان البريد الإلكتروني للعملاء إذا كان نوع المقالة هو البريد الإلكتروني الداخلي.',
         'Adds the one time vacation days for the indicated calendar.' => 'إضافة أيام الإجازة لمرة واحدة للتقويم المشار إليه.',
@@ -7101,10 +7454,12 @@ Thanks for your help!
             'تعيين مدير التذاكر تلقائيا (إذا لم يتم تعيينه بعد) بعد تحديث المالك الأول.',
         'Avatar' => 'الصورة الرمزية (Avatar)',
         'Based on global RichText setting' => 'استنادا إلى إعداد النص المنسق العام',
+        'Basic Auth' => '',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'إعدادات فهرس النص الكامل الأساسية. نفذ "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" لإنشاء فهرس جديد.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
             '',
+        'Both' => '',
         'Bounced to "%s".' => 'تم الإرسال إلى "%s".',
         'Bulgarian' => 'بلغارية',
         'Bulk Action' => 'تنفيذ جماعي',
@@ -7218,7 +7573,6 @@ Thanks for your help!
         'Company Tickets.' => 'تذاكر الشركة.',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'اسم الشركة، الذي يجب تعيينه X-Header في رسائل البريد الإلكتروني الصادرة.',
-        'Compat module for AgentZoom to AgentTicketZoom.' => 'وحدة انتقال AgentZoom إلى AgentTicketZoom.',
         'Complex' => 'معقد',
         'Compose' => 'كَتَبَ',
         'Configure Processes.' => 'تكوين العمليات.',
@@ -7255,6 +7609,10 @@ Thanks for your help!
             'التحكم في ما إذا كان سيتم إستخدام حقل الإكمال التلقائي لتحديد معرف العميل في واجهة AdminCustomerUser.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'التحكم في حالة إزالة علامات التذاكر والمقالة التي تم عرضها عند أرشفة التذكرة.',
+        'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
+            '',
+        'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
+            '',
         'Converts HTML mails into text messages.' => 'تحويل رسائل بريد HTML إلى رسائل نصية.',
         'Create New process ticket.' => 'إنشاء تذكرة عملية جديدة.',
         'Create Templates for AdminDynamicFieldTitle.' => 'إنشاء قوالب ل AdminDynamicFieldTitle.',
@@ -7381,6 +7739,10 @@ Thanks for your help!
             'تعريف اسم الحقل الديناميكي لوقت البدء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
         'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             '',
+        'Define possible namespaces for global usage (currently dynamic fields and process elements). Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
+            '',
+        'Define possible namespaces specifically for process elements. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters.' =>
+            '',
         'Define the max depth of queues.' => 'حدد الحد الأقصى لعمق قوائم الانتظار.',
         'Define the queue comment 2.' => 'يحدد تعليق قائمة الانتظار 2.',
         'Define the service comment 2.' => 'حدد تعليق الخدمة 2.',
@@ -7453,7 +7815,6 @@ Thanks for your help!
             'يصف رمزا يحتوي على رابط إلى موقع خرائط Google على الويب مع الموقع الحالي كوجهة مقابلة في واجهة معالجة المواعيد.',
         'Defines an overview module to show the address book view of a customer user list.' =>
             'يحدد وحدة نمطية للنظرة العامة تعرض طريقة عرض دفتر عناوين لقائمة مستخدمي العملاء.',
-        'Defines available article actions for Chat articles.' => 'يضبط إجراءات العناصر المتوفرة لعناصر الدردشة.',
         'Defines available article actions for Internal articles.' => 'تعريف إجراءات المقالات المتاحة للمقالات الداخلية.',
         'Defines available article actions for Phone articles.' => 'تعريف إجراءات المقالات المتاحة لمقالات الهاتف.',
         'Defines available article actions for e-mail articles.' => '',
@@ -7462,14 +7823,14 @@ Thanks for your help!
         'Defines chat communication channel.' => 'يحدد قناة اتصال الدردشة.',
         'Defines default headers for outgoing emails.' => 'يضبط الرؤوس الافتراضية لرسائل البريد الإلكتروني الصادرة.',
         'Defines email communication channel.' => 'يحدد قناة اتصال البريد الإلكتروني.',
+        'Defines for which article types the editing of subject, body and attachment is enabled. "Both" includes "Phone" and "Internal".' =>
+            '',
         'Defines from which ticket attributes the agent can select the result order.' =>
             'تحديد سمات التذاكر التي يمكن للوكيل تحديد ترتيب النتائج منها.',
         'Defines groups for preferences items.' => 'يحدد المجموعات للإعدادات الشخصية.',
         'Defines how many deployments the system should keep.' => 'تحديد عدد عمليات النشر التي يجب على النظام الاحتفاظ بها.',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'يحدد الشكل الذي يجب أن يبدو عليه الحقل "من:" في رسائل البريد الإلكتروني (المرسلة من الردود وتذاكر البريد الإلكتروني).',
-        'Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.' =>
-            '',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
             'تحديد ما إذا كان يجب فرز عرض قائمة الانتظار مسبقا حسب الأولوية.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
@@ -7509,6 +7870,7 @@ Thanks for your help!
             'يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك.',
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'يتحكم في ما إذا كان الوكلاء الذين لم يخزنوا سرًا مشتركًا في إعداداتهم وبالتالي لا يستخدمون المصادقة الثنائية مسموح لهم بتسجيل الدخول إلى النظام.',
+        'Defines if articles written by the customer are editable.' => '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'يتحكم في ما إذا كان يُسمح للعملاء الذين لم يخزنوا سرًا مشتركًا في إعداداتهم وبالتالي لا يستخدمون المصادقة الثنائية بتسجيل الدخول إلى النظام.',
         'Defines if parent-child translations for queues and services should be generated automatically.' =>
@@ -7780,6 +8142,8 @@ Thanks for your help!
             'يحدد الرؤية الافتراضية للمقالة للعميل لهذه العملية.',
         'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             'يحدد النمط المعروض بواسطة الحقل "من" في الملاحظات المرئية للعملاء. يمكن تعريف اسم الوكيل الافتراضي في إعداد ‎Ticket::Frontend::CustomerTicketZoom###DefaultAgentName.',
+        'Defines the dynamic field to identify tickets by for this operation. Please put in the field name only without the \'DynamicField_\' prefix.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'يحدد الحقول الديناميكية المستخدمة لعرض أحداث التقويم.',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7992,6 +8356,8 @@ Thanks for your help!
             'يضبط المعلمات للواجهة الخلفية للوحة القيادة. يحدد "الحد" عدد الإدخالات التي يتم عرضها افتراضيًا. تقيد "المجموعة" الوصول إلى البيانات المعنية (على سبيل المثال: Group: admin;group1;group2;). تحدد "Default" ما إذا كانت dashlet نشطة بشكل افتراضي أو يجب تنشيطها يدويًا بواسطة المستخدم. يحدد "CacheTTL" وقت التخزين المؤقت ل dashlet بالدقائق. باستخدام "Mandatory"، يمكن تكوين dashlet بحيث لا يتمكن المستخدمون من إخفائها.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'يضبط المعلمات للواجهة الخلفية للوحة القيادة. يحدد "الحد" عدد الإدخالات التي يتم عرضها افتراضيًا. تقيد "المجموعة" الوصول إلى البيانات المعنية (على سبيل المثال: Group: admin;group1;group2;). تحدد "افتراضي" ما إذا كانت dashlet نشطة بشكل افتراضي أو يجب تنشيطها يدويًا بواسطة المستخدم. يحدد "CacheTTLLocal" وقت التخزين المؤقت ل dashlet بالدقائق. باستخدام "Mandatory"، يمكن تكوين dashlet بحيث لا يتمكن المستخدمون من إخفائها.',
+        'Defines the parameters for the elasticsearch widget backend.' =>
+            '',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             'يحدد المسار وملف TTF للتعامل مع الخطوط الغامقة والمائلة أحادية المسافة في مستندات PDF.',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
@@ -8013,10 +8379,7 @@ Thanks for your help!
         'Defines the path to PGP binary.' => 'يضبط المسار إلى ملف PGP الثنائي.',
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'يحدد المسار إلى open ssl binary. قد يتطلب HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).',
-        'Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.' =>
-            'يحدد المسار إلى Google Chrome أو Chromium Binary. عند تحديده، يتم استخدام binary بدلاً من PhantomJS::Bin.',
-        'Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.' =>
-            'يحدد المسار إلى ملف PhantomJS binary. يمكنك استخدام إصدار ثابت من http://phantomjs.org/download.html لعملية تثبيت سهلة.',
+        'Defines the path to the Google Chrome or Chromium binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'يضبط مقدار الوقت، بالدقائق، قبل وضع علامة على الوكيل على أنه "بالخارج" بسبب عدم النشاط (على سبيل المثال، في widget "المستخدمون الذين قاموا بتسجيل الدخول" أو في الدردشة).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8068,8 +8431,8 @@ Thanks for your help!
             'يحدد موضوع إجراء الإغلاق السريع، والذي يتم استخدامه في سجل التذكرة في واجهة الوكيل.',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'يحدد عنوان البريد الإلكتروني لمسؤول النظام. يتم عرضه في رسائل الخطأ.',
-        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            'يحدد معرف النظام. يحتوي كل رقم تذكرة وجلسة HTTP على هذا المعرف. هذا يضمن أن التذاكر التي تنتمي إلى نظام التذاكر الخاص بك فقط هي التي يتم تضمينها في نظام التذاكر (مفيد عند الاتصال بين مثيلين من OTOBO).',
+        'Defines the system identifier. Every ticket number contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO). The SystemID may also be used in HTTP session backends.' =>
+            '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'تحدد السمة "الهدف" لارتباط إلى قاعدة بيانات العملاء الخارجيين. على سبيل المثال، "AsPopup PopupType_TicketAction".',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -8232,6 +8595,10 @@ Thanks for your help!
             '',
         'Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.' =>
             '',
+        'Dynamic field event module that updates the MultiValue attribute of the Lens field configuration to match the MultiValue attribute of the attribute field.' =>
+            '',
+        'Dynamic fields available as attributes for the settings \'Ticket::Frontend::CustomerTicketCategories###DynamicField\', which are shown in the ticket overview screen of the customer interface.' =>
+            '',
         'Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -8265,8 +8632,6 @@ Thanks for your help!
             'الحقول الديناميكية المراد إدخالها في شاشة نقل التذكرة في منطقة الوكيل.',
         'Dynamic fields shown in the ticket note screen of the agent interface.' =>
             'الحقول الديناميكية المراد إدخالها في شاشة إنشاء ملاحظة في منطقة الوكيل.',
-        'Dynamic fields shown in the ticket overview screen of the customer interface.' =>
-            'الحقول الديناميكية المعروضة في نظرة عامة على التذاكر لمنطقة العميل.',
         'Dynamic fields shown in the ticket owner screen of the agent interface.' =>
             'الحقول الديناميكية المراد إدخالها في شاشة تبديل المالك في منطقة الوكيل.',
         'Dynamic fields shown in the ticket pending screen of the agent interface.' =>
@@ -8329,6 +8694,8 @@ Thanks for your help!
             'تبديل التخزين المؤقت للقالب أو إيقاف تشغيله. تحذير: لا تقم بتعطيل التخزين المؤقت للقالب على أنظمة الإنتاج، لأن ذلك قد يتسبب في تدهور الأداء بشكل كبير. يجب إيقاف تشغيل هذا الإعداد فقط لاستكشاف الأخطاء وإصلاحها!',
         'Enables or disables the debug mode for translations module.' => '',
         'Enables or disables the debug mode over frontend interface.' => 'تمكين أو تعطيل وضع التصحيح (debug) للواجهة الأمامية.',
+        'Enables or disables the editing of articles which are visible for the customer in general.' =>
+            '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'تمكين ميزة "مراقبة التذاكر" أو تعطيلها التي تتيح لك مشاهدة التذاكر دون أن تكون مالكها أو مسئولة عنها.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
@@ -8471,6 +8838,7 @@ Thanks for your help!
         'Fulltext index regex filters to remove parts of the text.' => 'مرشح Regex لفهرس النص الكامل لإزالة أجزاء من النص.',
         'Fulltext search' => 'بحث كامل في النص',
         'Fulltext search using Elasticsearch.' => 'بحث النص الكامل مع بحث Elasticsearch.',
+        'Functional Account and Token Management.' => '',
         'Galician' => 'الجاليكية',
         'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -8593,6 +8961,10 @@ Thanks for your help!
             'إذا تم تحديد "bcrypt" على أنها CryptType، فسيتم استخدام معلمة التكلفة التي تم إدخالها هنا للحساب.الحد الأقصى للقيمة المدعومة هو 31.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'إذا تم تكوين "ملف" ك LogModule، فيجب تخزين ملف السجل هنا. إذا لم يكن الملف موجودا، فسيقوم النظام بإنشائه تلقائيًا.',
+        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI \'OAuth Functional Accounts\' Module.' =>
+            '',
+        'If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.' =>
+            '',
         'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
             '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
@@ -8644,6 +9016,8 @@ Thanks for your help!
             'إذا تم تعيينه، استخدام هذا العنوان كرأس مرسل مغلف في إشعارات البريد الصادر. إذا لم يتم تحديد أي عنوان، يتم ترك الرأس فارغا (ما لم يتم تعيين SendmailNotificationEnvelopeFrom::FallbackToEmailFrom).',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'إذا تم تعيينه، استخدام هذا العنوان كرأس مرسل المغلف في الرسائل الصادرة (وليس الإشعارات، انظر أدناه). إذا لم يتم تحديد عنوان، فإن مرسل المغلف (envelope) يتوافق مع عنوان البريد الإلكتروني المخزن في قائمة الانتظار.',
+        'If the accounted time units for articles are shown in the article list. Only showing if at least one article has any accounted time.' =>
+            '',
         'If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent.' =>
             'إذا تم تنشيط هذا الخيار، إرسال رد تلقائي للتذاكر التي تم إنشاؤها عبر الواجهة الخارجية أو واجهة الوكيل، بشرط تعيين ذلك في تكوين قائمة الانتظار. إذا لم يتم تنشيط هذا الخيار، فلن يتم إرسال أي ردود تلقائية.',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -8676,6 +9050,9 @@ Thanks for your help!
         'Inline' => 'مضمنه',
         'Input' => 'إدْخَالٌ',
         'Interface language' => 'لغة الواجهة',
+        'Interfaces for which the restoring of pending information is activated.' =>
+            '',
+        'Internal' => '',
         'Internal communication channel.' => 'قناة الاتصال الداخلية.',
         'International Workers\' Day' => 'يوم العمال العالمي',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -8722,6 +9099,10 @@ Thanks for your help!
         'Links 2 tickets with a "Normal" type link.' => 'يربط 2 تذاكر مع نوع الارتباط "عادي".',
         'Links 2 tickets with a "ParentChild" type link.' => 'ربط تذكرتين مع نوع الارتباط "الوالدين والطفل".',
         'Links appointments and tickets with a "Normal" type link.' => 'ربط المواعيد والتذاكر برابط "عادي".',
+        'List of Active CKEditor Plugins. (Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
+            '',
+        'List of Active CKEditor Plugins. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
+            '',
         'List of CSS files to always be loaded for the agent interface.' =>
             'قائمة ملفات CSS التي يجب تحميلها دائما في واجهة الوكيل.',
         'List of CSS files to always be loaded for the customer interface.' =>
@@ -8777,11 +9158,10 @@ Thanks for your help!
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'يتحقق من إدخال MX لعنوان البريد الإلكتروني قبل إرسال بريد إلكتروني أو إرسال تذكرة هاتف.',
         'Makes the application check the syntax of email addresses.' => 'يتحقق من بناء جملة عناوين البريد الإلكتروني (syntax).',
-        'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
-            'يستخدم ملفات تعريف الارتباط HTML لإدارة الجلسة. إذا تم تعطيل ملفات تعريف ارتباط HTML أو تعطيل ملفات تعريف ارتباط HTML في المتصفح، فإن النظام يعمل كالمعتاد ويلحق معرف الجلسة والروابط.',
         'Malay' => 'ماليزية',
         'Manage Customer Dashboard Info Tile Entries' => '',
         'Manage OTOBO Team cloud services.' => 'إدارة الخدمات السحابية لفريق OTOBO.',
+        'Manage OpendID Connect OAuth2 Profiles.' => '',
         'Manage PGP keys for email encryption.' => 'إدارة مفاتيح PGP لتشفير البريد الإلكتروني.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'إدارة حسابات POP3 أو IMAP لاسترداد البريد الإلكتروني.',
         'Manage S/MIME certificates for email encryption.' => 'إدارة شهادات S/MIME لتشفير البريد الإلكتروني.',
@@ -8793,7 +9173,6 @@ Thanks for your help!
         'Manage support data.' => 'إدارة بيانات الدعم.',
         'Manage system registration.' => 'إدارة سجل النظام.',
         'Manage tasks triggered by event or time based execution.' => 'إدارة المهام القائمة على الحدث أو الوقت.',
-        'Manage ticket state pre-selections for response templates.' => '',
         'Mark as (un)seen' => '',
         'Mark as Spam!' => 'حددها كرساله غير مرغوب فيها (Spam)!',
         'Mark as seen' => '',
@@ -8928,6 +9307,11 @@ Thanks for your help!
             'عدد التذاكر لكل صفحة في نتائج البحث في منطقة الوكيل.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'عدد التذاكر المراد عرضها لكل صفحة في نتيجة بحث في واجهة العميل.',
+        'OAUTHBEARER' => '',
+        'OAuth Functional Accounts' => '',
+        'OAuth Tokens' => '',
+        'OIDC Profile Management' => '',
+        'OIDC Profiles' => '',
         'OTOBO News' => 'أخبار من OTOBO',
         'OTOBO Team Services' => 'خدمات فريق OTOBO',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -9085,6 +9469,7 @@ Thanks for your help!
         'Process Management Path GUI' => '',
         'Process Management Transition Action GUI' => '',
         'Process Management Transition GUI' => '',
+        'Process dialog' => '',
         'Process pending tickets.' => '',
         'ProcessID' => '',
         'Processes & Automation' => '',
@@ -9202,7 +9587,6 @@ Thanks for your help!
             'يشغّل النظام في وضع "التجربة". إذا تم تمكينه، يمكن للعملاء تعديل التفضيلات، مثل اختيار اللغة والسمة عبر واجهة الويب الخاصة بالعميل. تكون هذه التغييرات صالحة فقط للجلسة الحالية. لن يتمكن العملاء من تغيير كلمات مرورهم.',
         'Russian' => 'الروسية',
         'S/MIME Certificates' => 'شهادات S/MIME',
-        'SLAs' => '',
         'SSL_VERIFY_NONE - no verification of mail server host' => 'SSL_VERIFY_NONE - لا يتم التحقق من مضيف خادم البريد',
         'SSL_VERIFY_PEER - verify the mail server host' => 'SSL_VERIFY_PEER - التحقق من مضيف خادم البريد',
         'Salutations' => 'تحيات',
@@ -9218,7 +9602,6 @@ Thanks for your help!
         'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
-        'Search.' => '',
         'Second Christmas Day' => '',
         'Second Queue' => '',
         'Select after which period ticket overviews should refresh automatically.' =>
@@ -9480,6 +9863,8 @@ Thanks for your help!
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
             '',
+        'Sets the time units in the ticket note screen of the agent interface.' =>
+            '',
         'Sets the time zone being used internally by OTOBO to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
             '',
         'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTOBO time zone and the user\'s time zone.' =>
@@ -9499,8 +9884,6 @@ Thanks for your help!
         'Show or Hide Deleted Articles' => '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
-        'Show the current owner in the customer interface.' => '',
-        'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => '',
         'Show the ticket history' => '',
         'Show various content.' => '',
@@ -9621,6 +10004,8 @@ Thanks for your help!
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',
+        'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>
+            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -9678,6 +10063,8 @@ Thanks for your help!
         'Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.' =>
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
+            '',
+        'Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), if enabled; or without (01.01.1970 00:01), if not enabled.' =>
             '',
         'Signature data.' => '',
         'Signatures' => 'التوقيعات',
@@ -9759,7 +10146,6 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => '',
-        'State pre-selection for Templates' => '',
         'States' => 'الحالة',
         'Statistics overview.' => '',
         'Statistics reports.' => '',
@@ -9795,6 +10181,8 @@ Thanks for your help!
             '',
         'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
+            '',
+        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  \'OAuth Functional Accounts\' Module.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             '',
@@ -9906,6 +10294,7 @@ Thanks for your help!
         'Ticket Priority.' => '',
         'Ticket Queue Overview' => '',
         'Ticket Responsible.' => '',
+        'Ticket Search.' => '',
         'Ticket States' => '',
         'Ticket Title' => '',
         'Ticket Types' => '',
@@ -9924,7 +10313,6 @@ Thanks for your help!
         'Ticket overview' => '',
         'Ticket plain view of an email.' => '',
         'Ticket split dialog.' => '',
-        'Ticket state pre-selection for response templates' => '',
         'Ticket title' => '',
         'Ticket zoom view.' => '',
         'TicketNumber' => '',
@@ -9991,6 +10379,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
+        'Value map. Define a key and a value map from import file to OTOBO.' =>
+            '',
         'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
             '',
         'Vietnam' => '',
@@ -10029,6 +10419,9 @@ Thanks for your help!
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
+        'Which units are used and shown in the overview for timeunits?' =>
+            '',
+        'XOAUTH2' => '',
         'Yes, but hide archived tickets' => '',
         'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
@@ -10042,6 +10435,7 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'Zoom' => 'تكبير',
+        'always' => '',
         'attachment' => 'مُرْفَقٌ',
         'bounce' => '',
         'compose' => '',
