@@ -354,9 +354,10 @@ sub Run {
                         $LayoutObject->Block(
                             Name => 'AssignedDialogsRow',
                             Data => {
-                                Name      => $ProcessData->{ActivityDialogs}{$AssignedDialogEntityID}{Name},
-                                Namespace => $ProcessData->{ActivityDialogs}{$AssignedDialogEntityID}{Namespace},
-                                EntityID  => $AssignedDialogEntityID,
+                                Name            => $ProcessData->{ActivityDialogs}{$AssignedDialogEntityID}{Name},
+                                Namespace       => $ProcessData->{ActivityDialogs}{$AssignedDialogEntityID}{Namespace},
+                                ProcessEntityID => $ProcessData->{ActivityDialogs}{$AssignedDialogEntityID}{ProcessEntityID},
+                                EntityID        => $AssignedDialogEntityID,
                             },
                         );
                     }
