@@ -60,6 +60,7 @@ sub Run {
 
         $Self->{IncludeInvalid} = $Param{IncludeInvalid};
     }
+    $Param{ObjectType} = $ParamObject->GetParam( Param => 'ObjectType' ) || 'Ticket';
 
     my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
@@ -185,7 +186,7 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams();
 
-        # set new confguration
+        # set new configuration
         $ACLData->{Name}           = $GetParam->{Name};
         $ACLData->{Comment}        = $GetParam->{Comment};
         $ACLData->{Description}    = $GetParam->{Description};
@@ -226,6 +227,7 @@ sub Run {
             StopAfterMatch => $ACLData->{StopAfterMatch},
             ValidID        => $ACLData->{ValidID},
             UserID         => $Self->{UserID},
+            ObjectType     => $Param{ObjectType},
         );
 
         # show error if can't create
@@ -236,7 +238,7 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID;ObjectType=$Param{ObjectType}" );
     }
 
     # ------------------------------------------------------------ #
@@ -294,13 +296,13 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        # get webserice configuration
+        # get webservice configuration
         my $ACLData;
 
         # get parameter from web browser
         my $GetParam = $Self->_GetParams();
 
-        # set new confguration
+        # set new configuration
         $ACLData->{Name}           = $GetParam->{Name};
         $ACLData->{Comment}        = $GetParam->{Comment};
         $ACLData->{Description}    = $GetParam->{Description};
@@ -308,6 +310,7 @@ sub Run {
         $ACLData->{ValidID}        = $GetParam->{ValidID};
         $ACLData->{ConfigMatch}    = $GetParam->{ConfigMatch}  || '';
         $ACLData->{ConfigChange}   = $GetParam->{ConfigChange} || '';
+        $ACLData->{ObjectType}     = $GetParam->{ObjectType}   || 'Ticket';
 
         # check required parameters
         my %Error;
@@ -346,6 +349,7 @@ sub Run {
             ConfigMatch    => $ACLData->{ConfigMatch}  || '',
             ConfigChange   => $ACLData->{ConfigChange} || '',
             UserID         => $Self->{UserID},
+            ObjectType     => $Param{ObjectType},
         );
 
         # show error if can't update
@@ -364,13 +368,13 @@ sub Run {
             # if the user would like to continue editing the ACL, just redirect to the edit screen
             return $LayoutObject->Redirect(
                 OP =>
-                    "Action=AdminACL;Subaction=ACLEdit;ID=$ACLID"
+                    "Action=AdminACL;Subaction=ACLEdit;ID=$ACLID;ObjectType=$Param{ObjectType}"
             );
         }
         else {
 
             # otherwise return to overview
-            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action};ObjectType=$Param{ObjectType}" );
         }
     }
 
@@ -385,6 +389,7 @@ sub Run {
             ResultType => 'FILE',
             Location   => $Location,
             UserID     => $Self->{UserID},
+            ObjectType => $Param{ObjectType},
         );
 
         if ($ACLDumpSuccess) {
@@ -394,12 +399,12 @@ sub Run {
             # remove preselection cache TODO: rebuild the cache properly (a simple $FieldRestrictionsObject->SetACLPreselectionCache(); uses the old ACLs)
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             $CacheObject->Delete(
-                Type => 'TicketACL',      # only [a-zA-Z0-9_] chars usable
+                Type => $Param{ObjectType} . 'ACL',    # only [a-zA-Z0-9_] chars usable
                 Key  => 'Preselection',
             );
 
             if ($Success) {
-                return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+                return $LayoutObject->Redirect( OP => "Action=$Self->{Action};ObjectType=$Param{ObjectType}" );
             }
             else {
 
@@ -440,7 +445,8 @@ sub Run {
             );
 
             my %DeleteResult = (
-                Success => $Success,
+                Success    => $Success,
+                ObjectType => $Param{ObjectType},
             );
 
             if ( !$Success ) {
@@ -481,7 +487,7 @@ sub Run {
         my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
         my $ACLData;
         my $ACLSingleData;
-        my $Filename = 'Export_ACL.yml';
+        my $Filename = 'Export_' . $Param{ObjectType} . '_ACL.yml';
 
         if ($ACLID) {
 
@@ -499,7 +505,7 @@ sub Run {
             my $ACLName = $ACLSingleData->{Name};
             $ACLName =~ s{[^a-zA-Z0-9-_]}{_}xmsg;    # cleanup name for saving
 
-            $Filename = 'Export_ACL_' . $ACLName . '.yml';
+            $Filename = 'Export_' . $Param{ObjectType} . '_ACL_' . $ACLName . '.yml';
             $ACLData  = [$ACLSingleData];
         }
         else {
@@ -510,8 +516,9 @@ sub Run {
             my @ValidListIDs = grep { $ValidList{$_} } sort keys %ValidList;
 
             $ACLData = $ACLObject->ACLListGet(
-                UserID   => 1,
-                ValidIDs => \@ValidListIDs,
+                UserID      => 1,
+                ValidIDs    => \@ValidListIDs,
+                ObjectTypes => [ $Param{ObjectType} ],
             );
         }
 
@@ -572,6 +579,7 @@ sub Run {
             StopAfterMatch => $ACLData->{StopAfterMatch} || 0,
             ValidID        => $ACLData->{ValidID},
             UserID         => $Self->{UserID},
+            ObjectType     => $Param{ObjectType},
         );
 
         # show error if can't create
@@ -582,7 +590,7 @@ sub Run {
         }
 
         # return to overview
-        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};ObjectType=$Param{ObjectType}" );
     }
 
     # ------------------------------------------------------------ #
@@ -605,7 +613,7 @@ sub _ShowOverview {
 
     if ( $Self->{UserID} == 1 ) {
 
-        # show error notfy, don't work with user id 1
+        # show error notify, don't work with user id 1
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
             Info     =>
@@ -630,10 +638,23 @@ sub _ShowOverview {
         push @ValidIDs, $ValidLookup{'invalid'};
     }
 
+    $Param{ObjectTypeSelectionStrg} = $LayoutObject->BuildSelection(
+        Name => 'ObjectType',
+        Data => {
+            Ticket     => 'Ticket',
+            ConfigItem => 'ITSM ConfigItem',
+        },
+        PossibleNone  => 0,
+        Translation   => 0,
+        SelectedValue => $Param{ObjectType} || 'Ticket',
+        Class         => 'Modernize W75pc',
+    );
+
     # get ACL list
     my $ACLList = $ACLObject->ACLList(
-        UserID   => $Self->{UserID},
-        ValidIDs => \@ValidIDs,
+        UserID      => $Self->{UserID},
+        ValidIDs    => \@ValidIDs,
+        ObjectTypes => [ $Param{ObjectType} ],
     );
 
     if ( IsHashRefWithData($ACLList) ) {
@@ -711,8 +732,6 @@ sub _ShowEdit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    # for compatability with ITSMConfigurationManagement
-    $Param{ObjectType} = 'Ticket';
     my $ConfigPrefix = $Param{ObjectType} eq 'ConfigItem' ? 'ITSMConfigItem' : '';
 
     my $ACLKeysLevel1Match = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel1Match' ) || {};
@@ -875,9 +894,6 @@ sub _ShowEdit {
         Value => \@ACLEditPossibleActionsList,
     );
 
-    # for compatability with ITSMConfigurationManagement
-    delete $Param{ObjectType};
-
     $Output .= $LayoutObject->Output(
         TemplateFile => "AdminACL$Param{Action}",
         Data         => {
@@ -899,7 +915,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name EntityID Comment Description StopAfterMatch ValidID ConfigMatch ConfigChange )
+        qw( Name ObjectType EntityID Comment Description StopAfterMatch ValidID ConfigMatch ConfigChange )
         )
     {
         $GetParam->{$ParamName} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName )

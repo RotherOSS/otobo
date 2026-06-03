@@ -16,7 +16,7 @@
 
 package Kernel::System::ACL::DB::ACL;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 
@@ -95,6 +95,7 @@ returns the id of the created ACL if success or undef otherwise
         ConfigChange   => $ConfigChangeHashRef, # optional
         ValidID        => 1,                    # mandatory
         UserID         => 123,                  # mandatory
+        ObjectType     => 'Ticket',             # optional (currently Ticket or ConfigItem, defaults to Ticket)
     );
 
 Returns:
@@ -105,6 +106,9 @@ Returns:
 
 sub ACLAdd {
     my ( $Self, %Param ) = @_;
+
+    # set default for object type
+    $Param{ObjectType} //= 'Ticket';
 
     # check needed stuff
     for my $Key (qw(Name ValidID UserID)) {
@@ -166,7 +170,7 @@ sub ACLAdd {
     );
 
     my $ACLExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $ACLExists = 1;
     }
 
@@ -182,11 +186,11 @@ sub ACLAdd {
     return if !$DBObject->Do(
         SQL => '
             INSERT INTO acl ( name, comments, description, stop_after_match, config_match,
-                config_change, valid_id, create_time, create_by, change_time, change_by )
-            VALUES (?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+                config_change, valid_id, object_type, create_time, create_by, change_time, change_by )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name},   \$Param{Comment}, \$Param{Description}, \$Param{StopAfterMatch},
-            \$ConfigMatch,   \$ConfigChange,   \$Param{ValidID},
+            \$ConfigMatch,   \$ConfigChange,   \$Param{ValidID},     \$Param{ObjectType},
             \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -297,6 +301,7 @@ Returns:
         StopAfterMatch => 1,
         ConfigMatch    => $ConfigMatchHashRef,
         ConfigChange   => $ConfigChangeHashRef,
+        ObjectType     => ('Ticket'|'ConfigItem')
         ValidID        => 1,
         CreateTime     => '2012-07-04 15:08:00',
         ChangeTime     => '2012-07-04 15:08:00',
@@ -308,6 +313,9 @@ Returns:
 
 sub ACLGet {
     my ( $Self, %Param ) = @_;
+
+    # set default for object type
+    $Param{ObjectType} //= 'Ticket';
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
@@ -352,7 +360,7 @@ sub ACLGet {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT id, name, comments, description, stop_after_match, valid_id, config_match,
-                    config_change, create_time, change_time, create_by, change_by
+                    config_change, object_type, create_time, change_time, create_by, change_by
                 FROM acl
                 WHERE id = ?',
             Bind  => [ \$Param{ID} ],
@@ -363,7 +371,7 @@ sub ACLGet {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT id, name, comments, description, stop_after_match, valid_id, config_match,
-                    config_change, create_time, change_time, create_by, change_by
+                    config_change, object_type, create_time, change_time, create_by, change_by
                 FROM acl
                 WHERE name = ?',
             Bind  => [ \$Param{Name} ],
@@ -396,10 +404,11 @@ sub ACLGet {
             ValidID        => $Data[5],
             ConfigMatch    => $ConfigMatch,
             ConfigChange   => $ConfigChange,
-            CreateTime     => $Data[8],
-            ChangeTime     => $Data[9],
-            CreateBy       => $Data[10],
-            ChangeBy       => $Data[11],
+            ObjectType     => $Data[8],
+            CreateTime     => $Data[9],
+            ChangeTime     => $Data[10],
+            CreateBy       => $Data[11],
+            ChangeBy       => $Data[12],
         );
     }
 
@@ -408,7 +417,7 @@ sub ACLGet {
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-    # convert UserIDs outside of fetchrowArray, otherwise UserLooukup will rise some warnings
+    # convert UserIDs outside of fetchrowArray, otherwise UserLookup will rise some warnings
     my $CreateUser = $UserObject->UserLookup( UserID => $Data{CreateBy} );
     my $ChangeUser = $UserObject->UserLookup( UserID => $Data{ChangeBy} );
     $Data{CreateBy} = $CreateUser;
@@ -504,7 +513,7 @@ sub ACLUpdate {
     );
 
     my $ACLExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $ACLExists = 1;
     }
 
@@ -594,6 +603,7 @@ get an ACL list
     my $List = $ACLObject->ACLList(
         ValidIDs        => ['1','2'],           # optional, to filter ACLs that match listed valid IDs
         UserID          => 1,
+        ObjectTypes     => ['Ticket']           # optional, currently Ticket or ConfigItem
     );
 
     Returns:
@@ -623,12 +633,19 @@ sub ACLList {
     else {
         $ValidIDsStrg = join ',', @{ $Param{ValidIDs} };
     }
+    my $ObjectTypesStrg;
+    if ( !IsArrayRefWithData( $Param{ObjectTypes} ) ) {
+        $ObjectTypesStrg = 'ALL';
+    }
+    else {
+        $ObjectTypesStrg = join ',', @{ $Param{ObjectTypes} };
+    }
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # check cache
-    my $CacheKey = 'ACLList::ValidIDs::' . $ValidIDsStrg;
+    my $CacheKey = 'ACLList::ValidIDs::' . $ValidIDsStrg . '::ObjectTypes::' . $ObjectTypesStrg;
     my $Cache    = $CacheObject->Get(
         Type => 'ACLEditor_ACL',
         Key  => $CacheKey,
@@ -642,12 +659,22 @@ sub ACLList {
             SELECT id, name
             FROM acl ';
 
+    my $GlueStrg = 'WHERE';
     if ( $ValidIDsStrg ne 'ALL' ) {
 
         my $ValidIDsStrgDB = join ',', map { $DBObject->Quote( $_, 'Integer' ) }
             @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
+        $GlueStrg = 'AND';
+    }
+
+    if ( IsArrayRefWithData( $Param{ObjectTypes} ) ) {
+
+        my $ObjectTypesStrgDB = join ',', map { "'" . $DBObject->Quote($_) . "'" } $Param{ObjectTypes}->@*;
+
+        $SQL .= "$GlueStrg object_type IN ($ObjectTypesStrgDB)";
+
     }
 
     return if !$DBObject->Prepare( SQL => $SQL );
@@ -674,6 +701,7 @@ get an ACL list with all ACL details
     my $List = $ACLObject->ACLListGet(
         UserID   => 1,
         ValidIDs => ['1','2'], # optional, to filter ACLs that match listed valid IDs
+        ObjectType      => ['Ticket']           # optional, currently Ticket or ConfigItem
     );
 
 Returns:
@@ -689,6 +717,7 @@ Returns:
             ConfigChange  => $ConfigChangeHashRef,
             CreateTime    => '2012-07-04 15:08:00',
             ChangeTime    => '2012-07-04 15:08:00',
+            ObjectTypes   => ['Ticket'],
         },
         {
             ID            => 123,
@@ -700,6 +729,7 @@ Returns:
             ConfigChange  => $ConfigChangeHashRef,
             CreateTime    => '2012-07-04 15:08:00',
             ChangeTime    => '2012-07-04 15:08:00',
+            ObjectType    => 'ConfigItem',
         },
     ];
 
@@ -724,12 +754,19 @@ sub ACLListGet {
     else {
         $ValidIDsStrg = join ',', @{ $Param{ValidIDs} };
     }
+    my $ObjectTypesStrg;
+    if ( !IsArrayRefWithData( $Param{ObjectTypes} ) ) {
+        $ObjectTypesStrg = 'ALL';
+    }
+    else {
+        $ObjectTypesStrg = join ',', @{ $Param{ObjectTypes} };
+    }
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # check cache
-    my $CacheKey = 'ACLListGet::ValidIDs::' . $ValidIDsStrg;
+    my $CacheKey = 'ACLListGet::ValidIDs::' . $ValidIDsStrg . '::ObjectTypes::' . $ObjectTypesStrg;
     my $Cache    = $CacheObject->Get(
         Type => 'ACLEditor_ACL',
         Key  => $CacheKey,
@@ -743,12 +780,23 @@ sub ACLListGet {
             SELECT id
             FROM acl ';
 
+    my $GlueStrg = 'WHERE';
     if ( $ValidIDsStrg ne 'ALL' ) {
 
         my $ValidIDsStrgDB = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
+        $GlueStrg = 'AND';
     }
+
+    if ( IsArrayRefWithData( $Param{ObjectTypes} ) ) {
+
+        my $ObjectTypesStrgDB = join ',', map { "'" . $DBObject->Quote($_) . "'" } $Param{ObjectTypes}->@*;
+
+        $SQL .= "$GlueStrg object_type IN ($ObjectTypesStrgDB)";
+
+    }
+
     $SQL .= 'ORDER BY id';
 
     # SQL
@@ -874,86 +922,94 @@ sub ACLDump {
         }
     }
 
-    # get valid ACLs
-    my $ACLList = $Self->ACLListGet(
-        UserID   => 1,
-        ValidIDs => [1],
-    );
+    my $PMFileOutput = <<~'END_PM_FILE';    ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
+    # OTOBO config file (automatically generated)
+    # VERSION:1.1
+    package Kernel::Config::Files::ZZZACL;
+    use strict;
+    use warnings;
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+    use utf8;
+    sub Load {
+        my ($File, $Self) = @_;
 
-    my %ACLDump;
+    END_PM_FILE
+    for my $ObjectType (qw(Ticket ConfigItem)) {
 
-    ACL:
-    for my $ACLData ( @{$ACLList} ) {
-
-        next ACL if !IsHashRefWithData($ACLData);
-
-        my $Properties;
-        my $PropertiesDatabase;
-        if ( IsHashRefWithData( $ACLData->{ConfigMatch} ) ) {
-            $Properties         = $ACLData->{ConfigMatch}->{Properties};
-            $PropertiesDatabase = $ACLData->{ConfigMatch}->{PropertiesDatabase};
-        }
-
-        my $Possible;
-        my $PossibleAdd;
-        my $PossibleNot;
-        if ( IsHashRefWithData( $ACLData->{ConfigChange} ) ) {
-            $Possible    = $ACLData->{ConfigChange}->{Possible};
-            $PossibleAdd = $ACLData->{ConfigChange}->{PossibleAdd};
-            $PossibleNot = $ACLData->{ConfigChange}->{PossibleNot};
-        }
-
-        $ACLDump{ $ACLData->{Name} } = {
-            CreateTime => $ACLData->{CreateTime},
-            ChangeTime => $ACLData->{ChangeTime},
-            CreateBy   => $ACLData->{CreateBy},
-            ChangeBy   => $ACLData->{ChangeBy},
-            Comment    => $ACLData->{Comment},
-            Values     => {
-                StopAfterMatch     => $ACLData->{StopAfterMatch} || 0,
-                Properties         => $Properties                || {},
-                PropertiesDatabase => $PropertiesDatabase        || {},
-                Possible           => $Possible                  || {},
-                PossibleAdd        => $PossibleAdd               || {},
-                PossibleNot        => $PossibleNot               || {},
-            },
-        };
-    }
-
-    # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'ACLEditor_ACL',
-    );
-
-    my $ACLItemsOutput = '';
-    for my $ACLName ( sort keys %ACLDump ) {
-
-        # create output
-        $ACLItemsOutput .= $Self->_ACLItemOutput(
-            Key        => $ACLName,
-            Value      => $ACLDump{$ACLName}{Values},
-            Comment    => $ACLDump{$ACLName}{Comment},
-            CreateTime => $ACLDump{$ACLName}{CreateTime},
-            ChangeTime => $ACLDump{$ACLName}{ChangeTime},
-            CreateBy   => $ACLDump{$ACLName}{CreateBy},
-            ChangeBy   => $ACLDump{$ACLName}{ChangeBy},
+        # get valid ACLs
+        my $ACLList = $Self->ACLListGet(
+            UserID      => 1,
+            ValidIDs    => [1],
+            ObjectTypes => [$ObjectType],
         );
-    }
 
-    # build comment (therefore we need to trick out the filter)
-    my $PMFileOutput = sprintf <<'END_PM_FILE', $ACLItemsOutput;
-# OTOBO config file (automatically generated)
-# VERSION:1.1
-package Kernel::Config::Files::ZZZACL;
-use strict;
-use warnings;
-no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-use utf8;
-sub Load {
-    my ($File, $Self) = @_;
+        my %ACLDump;
 
+        ACL:
+        for my $ACLData ( @{$ACLList} ) {
+
+            next ACL if !IsHashRefWithData($ACLData);
+
+            my $Properties;
+            my $PropertiesDatabase;
+            if ( IsHashRefWithData( $ACLData->{ConfigMatch} ) ) {
+                $Properties         = $ACLData->{ConfigMatch}->{Properties};
+                $PropertiesDatabase = $ACLData->{ConfigMatch}->{PropertiesDatabase};
+            }
+
+            my $Possible;
+            my $PossibleAdd;
+            my $PossibleNot;
+            if ( IsHashRefWithData( $ACLData->{ConfigChange} ) ) {
+                $Possible    = $ACLData->{ConfigChange}->{Possible};
+                $PossibleAdd = $ACLData->{ConfigChange}->{PossibleAdd};
+                $PossibleNot = $ACLData->{ConfigChange}->{PossibleNot};
+            }
+
+            $ACLDump{ $ACLData->{Name} } = {
+                CreateTime => $ACLData->{CreateTime},
+                ChangeTime => $ACLData->{ChangeTime},
+                CreateBy   => $ACLData->{CreateBy},
+                ChangeBy   => $ACLData->{ChangeBy},
+                Comment    => $ACLData->{Comment},
+                Values     => {
+                    StopAfterMatch     => $ACLData->{StopAfterMatch} || 0,
+                    Properties         => $Properties                || {},
+                    PropertiesDatabase => $PropertiesDatabase        || {},
+                    Possible           => $Possible                  || {},
+                    PossibleAdd        => $PossibleAdd               || {},
+                    PossibleNot        => $PossibleNot               || {},
+                },
+            };
+        }
+
+        # delete cache
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ACLEditor_ACL',
+        );
+
+        my $ACLItemsOutput = '';
+        for my $ACLName ( sort keys %ACLDump ) {
+
+            # create output
+            $ACLItemsOutput .= $Self->_ACLItemOutput(
+                Key        => $ACLName,
+                Value      => $ACLDump{$ACLName}{Values},
+                Comment    => $ACLDump{$ACLName}{Comment},
+                CreateTime => $ACLDump{$ACLName}{CreateTime},
+                ChangeTime => $ACLDump{$ACLName}{ChangeTime},
+                CreateBy   => $ACLDump{$ACLName}{CreateBy},
+                ChangeBy   => $ACLDump{$ACLName}{ChangeBy},
+                ObjectType => $ObjectType,
+            );
+        }
+
+        # build comment (therefore we need to trick out the filter)
+        $PMFileOutput .= sprintf <<'END_PM_FILE', $ACLItemsOutput;
 %s
-
+END_PM_FILE
+    }
+    $PMFileOutput .= <<'END_PM_FILE';
     return;
 }
 1;
@@ -1088,6 +1144,7 @@ sub ACLImport {
                 StopAfterMatch => $ACL->{StopAfterMatch},
                 ValidID        => $ACL->{ValidID} || 1,
                 UserID         => $Param{UserID},
+                ObjectType     => $ACL->{ObjectType} || 'Ticket',
             );
 
             if ($Success) {
@@ -1100,8 +1157,9 @@ sub ACLImport {
     }
 
     # update preselection cache
-    my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
-    $FieldRestrictionsObject->SetACLPreselectionCache();
+    for my $ACLType (qw(Ticket ITSMConfigItem)) {
+        $Kernel::OM->Get( 'Kernel::System::' . $ACLType . '::FieldRestrictions' )->SetACLPreselectionCache();
+    }
 
     return {
         Success     => 1,
@@ -1138,6 +1196,7 @@ converts an ACL structure to perl code suitable to be saved on a perl file.
             StopAfterMatch => 0,                            # 0 or 1
         },
         Comment    => 'some comment',
+        ObjectType => 'Ticket',
         CreateTime => '2014-06-03 19:03:57',
         ChangeTime => '2014-06-03 19:51:17',
         CreateBy   => 'some user login',
@@ -1150,7 +1209,7 @@ returns:
         # Created: 2014-06-03 19:03:57 (some user login)
         # Changed: 2014-06-03 19:51:17 (some user login)
         # Comment: some comment
-        $Self->{TicketAcl}->{"100-Example-ACL"} = {
+        $Self->{$Param{ObjectType} . 'Acl'}->{"100-Example-ACL"} = {
           \\'Possible\\' => {
             \\'Ticket\\' => {
               \\'Queue\\' => [
@@ -1180,6 +1239,9 @@ returns:
 sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
+    # set default for object type
+    $Param{ObjectType} //= 'Ticket';
+
     # those params are expected to only contain one line
     for my $Key (qw( CreateBy ChangeBy Comment )) {
         ( $Param{$Key} ) = $Param{$Key} =~ /(.+?)$/m;
@@ -1202,7 +1264,7 @@ sub _ACLItemOutput {
     my $Name = $Param{Key};
     $Name =~ s{\\}{\\\\}xmsg;
     $Name =~ s{\'}{\\'}xmsg;
-    my $Key = '$Self->{TicketAcl}->{\'' . $Name . '\'}';
+    my $Key = '$Self->{' . $Param{ObjectType} . 'Acl}->{\'' . $Name . '\'}';
 
     $Output =~ s{\$VAR1}{$Key}mxs;
 

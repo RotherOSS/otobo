@@ -7,6 +7,7 @@
     <Column Name="name" Required="true" Type="VARCHAR" Size="191"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="description" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="object_type" Required="true" Default="Ticket" Type="VARCHAR" Size="100" />
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="stop_after_match" Required="false" Type="SMALLINT"/>
     <!-- configs stored as YAML like in the web service configuration -->

@@ -38,7 +38,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];ObjectType=[% Data.ObjectType | html %]" class="CallForAction Fullsize Center Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -65,6 +65,7 @@
                 <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="ACLNewAction"/>
+                    <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]"/>
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                         <div class="Field">
