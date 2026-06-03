@@ -32,6 +32,14 @@
             <div class="Header">
                 <h2>[% Translate("Actions") | html %]</h2>
             </div>
+[% RenderBlockStart("DynamicFieldObjectType") %]
+            <div class="Content">
+                [% Data.DynamicFieldObjectTypeStrg %]
+                <div class="FieldExplanation">
+                    <p>[% Translate("Filter by object type") | html %]</p>
+                </div>
+            </div>
+[% RenderBlockEnd("DynamicFieldObjectType") %]
             <div class="Content">
                 <ul class="ActionList">
                     <li>
