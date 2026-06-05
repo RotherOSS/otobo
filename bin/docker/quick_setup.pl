@@ -94,9 +94,12 @@ The admin password of the database.
 
 =item authentication-plugin
 
-This option is currently only supported for MariaDB and MySQL databases.
-Possible values are 'mysql_native_password', 'caching_sha2_password', 'ed25519', and 'parsec'.
-The default is 'mysql_native_password'.
+This option is only needed and supported for MariaDB and MySQL databases.
+For MySQL the possible values are 'mysql_native_password' and 'caching_sha2_password'.
+For MariaDB 'mysql_native_password', 'ed25519', and 'parsec' are supported.
+The default is to use the default authentication plugin. The default plugin is currently
+'mysql_native_password' for both MariaDB and MySQL. But the default plugin
+is subject to change in future versions of MariaDB and MySQL.
 
 =item http-type
 
@@ -163,20 +166,21 @@ use Const::Fast             qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                                            # print help
-    my $DBPassword;                                          # required
-    my $AuthenticationPlugin   = 'mysql_native_password';    # only supported for MySQL
-    my $HTTPPort               = 80;                         # only used for success message
-    my $SystemID               = 10;                         # distinguish between different installations
-    my $ActivateElasticsearch  = 0;                          # must be explicitly enabled
-    my $AddUser                = 0;                          # must be explicitly enabled
-    my $AddAdminUser           = 0;                          # must be explicitly enabled
-    my $AgentsAreOnRotheraTime = 0;                          # must be explicitly enabled
-    my $AddCustomerUser        = 0;                          # must be explicitly enabled
-    my $AddCalendar            = 0;                          # must be explicitly enabled
-    my $HttpType               = 'https';                    # the SysConfig setting HttpType
-    my $FQDN                   = 'yourhost.example.com';     # the SysConfig setting FQDN
-    my $ActivateSyncWithS3     = 0;                          # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                                           # print help
+    my $DBPassword;                                         # required
+    my $AuthenticationPlugin   = 'default';                 # authentication plugin is only supported for MariaDB and MySQL
+                                                            # 'default' indicates that the default plugin of the DBMS is used
+    my $HTTPPort               = 80;                        # only used for success message
+    my $SystemID               = 10;                        # distinguish between different installations
+    my $ActivateElasticsearch  = 0;                         # must be explicitly enabled
+    my $AddUser                = 0;                         # must be explicitly enabled
+    my $AddAdminUser           = 0;                         # must be explicitly enabled
+    my $AgentsAreOnRotheraTime = 0;                         # must be explicitly enabled
+    my $AddCustomerUser        = 0;                         # must be explicitly enabled
+    my $AddCalendar            = 0;                         # must be explicitly enabled
+    my $HttpType               = 'https';                   # the SysConfig setting HttpType
+    my $FQDN                   = 'yourhost.example.com';    # the SysConfig setting FQDN
+    my $ActivateSyncWithS3     = 0;                         # activate S3 in the SysConfig, still experimental
 
     GetOptions(
         'help'                    => \$HelpFlag,
@@ -576,43 +580,28 @@ sub DBCreateUserAndDatabase {
     #
     # An explicit statement for user creation is needed because MySQL 8 no longer
     # supports implicit user creation via the 'GRANT PRIVILEGES' statement.
-    # Also note that there are multiple authentication plugins for MySQL/MariaDB.
-    # 'mysql_native_password' works without an encrypted DB connection and is used per default here.
-    # The advantage is that no encryption keys have to be set up.
+    # Also note that there are multiple authentication plugins for MariaDB and MySQLB.
     #
-    # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therefore
-    # a case switch must be used here.
+    # The syntax for CREATE USER is mostly the same between MySQL and MariaDB.
+    # A case distinction must bu made only for MariaDBs ed25519.
     #
     # Different authentication plugins are supported for different database systems.
     my @CreateUserSQLs;
-    {
+    if ( !$Param{AuthenticationPlugin} || $Param{AuthenticationPlugin} eq 'default' ) {
 
-        # Use portable way of getting the name of the database system.
-        # Previously this was done using attributes of the database handle,
-        # but the prefixes of the attributes differ with different database driver modules.
-        #
-        # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
-        my $DbmsName = $DBHandle->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
-        if ( $DbmsName =~ m/mariadb/i ) {
-            if ( $Param{AuthenticationPlugin} eq 'mysql_native_password' ) {
-                push @CreateUserSQLs,
-                    "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
-            }
-            else {
+        # Use the default authentication plugin, works for MariaDB and MySQL
+        push @CreateUserSQLs,
+            "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
+    }
+    else {
 
-                # This is the regular CREATE USER statement where the authenication plugin is specified.
-                # This SQL statement works for 'ed25519' since MariaDB 10.4. 'mysql_native_password' and 'PARSEC'
-                # are also covered.
-                # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
-                # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
-                push @CreateUserSQLs,
-                    "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
-            }
-        }
-        else {
-            push @CreateUserSQLs,
-                "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} BY '$Param{OTOBODBPassword}'";
-        }
+        # This is the regular CREATE USER statement where the authenication plugin is specified.
+        # This SQL statement works for 'ed25519' since MariaDB 10.4. 'mysql_native_password' and 'PARSEC'
+        # are also covered.
+        # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+        # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
+        push @CreateUserSQLs,
+            "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} AS PASSWORD('$Param{OTOBODBPassword}')";
     }
 
     my @Statements = (
