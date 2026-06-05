@@ -94,8 +94,8 @@ The admin password of the database.
 
 =item authentication-plugin
 
-This is currently only supported for MariaDB and MySQL databases.
-Possible values are 'mysql_native_password', 'caching_sha2_password', and 'ed25519'.
+This option is currently only supported for MariaDB and MySQL databases.
+Possible values are 'mysql_native_password', 'caching_sha2_password', 'ed25519', and 'parsec'.
 The default is 'mysql_native_password'.
 
 =item http-type
@@ -607,6 +607,10 @@ sub DBCreateUserAndDatabase {
                     "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING '$Using'";
             }
             else {
+
+                # This is the regular CREATE USER statement where the authenication plugin is specified.
+                # This SQL statement works for 'PARSEC'. No special case needed.
+                # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
                 push @CreateUserSQLs,
                     "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
             }
