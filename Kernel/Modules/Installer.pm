@@ -39,7 +39,7 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object and initialize with the passed params
+    # Allocate a new hash for the instance and initialize it with the passed parameters.
     return bless {%Param}, $Type;
 }
 
@@ -111,6 +111,7 @@ sub Run {
     my $StepCounter;
 
     # Build header - but only if we're not in AJAX mode.
+    # 'CheckRequirements' is the only subaction that is called from JS and returns JSON
     if ( $Self->{Subaction} ne 'CheckRequirements' ) {
         $LayoutObject->Block(
             Name => 'Steps',
@@ -1273,7 +1274,7 @@ sub CheckDBRequirements {
     if ( $RequiredVersion{ $Param{DBType} } ) {
 
         # Compare versions with version.pm as this module is always available. It is a core module.
-        # MariaDB reports version like 10.5.20-MariaDB-1:10.5.20+maria~ubu2004. That string needs to be normlized.
+        # MariaDB reports version like 10.5.20-MariaDB-1:10.5.20+maria~ubu2004. That string needs to be normalized.
         my $ReportedVersion = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_VER} );
         my $DBType          = $Param{DBType};
         if ( $ReportedVersion =~ m/MariaDB/ ) {
@@ -1347,7 +1348,7 @@ sub CheckDBRequirements {
         }
     }
 
-    # Delete not necessary key/value pairs.
+    # Delete key/value pairs which should not be included in the sent json
     delete $Result{DB};
     delete $Result{DBH};
 
