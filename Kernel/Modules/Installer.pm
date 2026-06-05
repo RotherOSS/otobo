@@ -1300,7 +1300,7 @@ sub CheckDBRequirements {
     }
 
     # Check max_allowed_packet for MySQL
-    if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
 
         # max_allowed_packet should be at least 64 MB
         my $MySQLMaxAllowedPacketRecommended = 64;
@@ -1316,7 +1316,7 @@ sub CheckDBRequirements {
     }
 
     # Check innodb_log_file_size.
-    if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
 
         my $MySQLInnoDBLogFileSize            = 0;
         my $MySQLInnoDBLogFileSizeMinimum     = 256;
@@ -1431,16 +1431,11 @@ sub CheckMailConfiguration {
 
         # Check outbound mail configuration.
         my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
-
-        my $Status = 'Successful';
-
         %Result = $SendObject->Check(
             CommunicationLogObject => $CommunicationLogObject,
         );
 
-        if ( !$Result{Successful} ) {
-            $Status = 'Failed';
-        }
+        my $Status = $Result{Successful} ? 'Successful' : 'Failed';
 
         my $CommunicationLogSuccess = $CommunicationLogObject->CommunicationStop(
             Status => $Status,
