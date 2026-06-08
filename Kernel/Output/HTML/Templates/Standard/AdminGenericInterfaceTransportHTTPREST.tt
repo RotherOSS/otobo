@@ -259,9 +259,8 @@
                                     <div class="Field">
                                         [% Data.OAuthAccountNamesStrg %]
                                         <p class="FieldExplanation">
-                                        [% Translate("Select the") | html %]
-                                        <a target="_blank" href="?Action=AdminOAuthTokenStore">OIDC</a>
-                                        [% Translate("Account to use for OAuth2 authentication.") | html %]
+                                        [% Translate("Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:") | html %]
+                                        <a target="_blank" href="?Action=AdminOAuthTokenStore">[% Translate("OAuth2 Functional Accounts") | html %]</a>.
                                         </p>
                                     </div>
                                     <div class="Clear"></div>

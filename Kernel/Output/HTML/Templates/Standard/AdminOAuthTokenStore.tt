@@ -54,8 +54,8 @@
                 <br>
                 <br>
                 <p>
-                    [% Translate("You can create OIDC Profiles to connect to your OIDC Functional Account") | html %]
-                    <a href="?Action=AdminOIDCProfiles">[% Translate("here") | html %]</a>.
+                    [% Translate("OIDC Profiles to link your OIDC Functional Account to can be created here:") | html %]
+                    <a href="?Action=AdminOIDCProfiles">[% Translate("OAuth2 OIDC Profiles") | html %]</a>.
                 </p>
                 <br>
                 <br>
@@ -89,8 +89,8 @@
                 <h2>[% Translate("OIDC Functional Accounts and their active OAuth2 Tokens") | html %] ([% Data.AllItemsCount | html %] [% Translate("total") | html %])</h2>
                 [% IF Data.HasProfiles == 0 %]
                 <br>
-                <p>[% Translate("Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. Xou have to first configure at least one OIDC Provider profile") | html %]
-                    <a href="?Action=AdminOIDCProfiles">here</a>.
+                <p>[% Translate("Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:") | html %]
+                    <a href="?Action=AdminOIDCProfiles">[% Translate("OIDC Profiles") | html %]</a>.
                 </p>
                 [% END %]
             </div>
@@ -192,9 +192,10 @@
                         <div class="Field">
                             [% Data.ProviderNames %]
                             <p class="FieldExplanation">
-                                [% Translate("The OpenID Connect") | html %]
-                                <a target='_blank' href="?Action=AdminSystemConfigurationGroup;RootNavigation=Core::Auth::OpenIDConnect">Provider</a>
-                                [% Translate("to use for this functional account.") | html %]
+                                [% Translate("The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:") | html %]
+                                <a target='_blank' href="?Action=AdminOIDCProfiles">
+                                [% Translate("OIDC Profiles") | html %]
+                                </a>.
                             </p>
                         </div>
                         <div class="Clear"></div>
