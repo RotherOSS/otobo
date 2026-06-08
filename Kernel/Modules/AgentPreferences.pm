@@ -465,7 +465,7 @@ sub Run {
             # OverriddenFileName is used only in Admin interface.
             delete $Setting->{OverriddenFileName};
 
-            # If the setting is overriden in the *.pm file, take it as default and update IsModified.
+            # If the setting is overridden in the *.pm file, take it as default and update IsModified.
             my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
                 SettingName => $Setting->{Name},
             );
@@ -539,7 +539,7 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # Return user favourite system configuration settings.
+    # Return user favorite system configuration settings.
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UserSystemConfigurationFavourites' ) {
 
@@ -677,7 +677,7 @@ sub AgentPreferencesForm {
             # OverriddenFileName is used only in Admin interface.
             delete $Setting->{OverriddenFileName};
 
-            # If the setting is overriden in the *.pm file, take it as default and update IsModified.
+            # If the setting is overridden in the *.pm file, take it as default and update IsModified.
             my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
                 SettingName => $Setting->{Name},
             );
@@ -972,7 +972,7 @@ sub _SettingReset {
                 TargetUserID => $Self->{CurrentUserID},
             );
 
-            # If the setting is overriden in the *.pm file, take it as default and update IsModified.
+            # If the setting is overridden in the *.pm file, take it as default and update IsModified.
             my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
                 SettingName => $SettingName,
             );
