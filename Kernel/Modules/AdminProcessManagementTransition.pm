@@ -131,11 +131,6 @@ sub Run {
             );
         }
 
-        # unset ProcessID if necessary
-        if ( $TransitionData->{Global} ) {
-            $ProcessEntityID = undef;
-        }
-
         # otherwise save configuration and return process screen
         my $TransitionID = $TransitionObject->TransitionAdd(
             Name            => $TransitionData->{Name},
@@ -143,7 +138,7 @@ sub Run {
             EntityID        => $EntityID,
             Config          => $TransitionData->{Config},
             UserID          => $Self->{UserID},
-            ProcessEntityID => $ProcessEntityID,
+            ProcessEntityID => $TransitionData->{Global} ? undef : $ProcessEntityID,
         );
 
         # show error if can't create
@@ -185,9 +180,10 @@ sub Run {
         if ( $Redirect && $Redirect eq '1' ) {
 
             $Self->_PushSessionScreen(
-                ID        => $TransitionID,
-                EntityID  => $EntityID,
-                Subaction => 'TransitionEdit'    # always use edit screen
+                ID              => $TransitionID,
+                EntityID        => $EntityID,
+                ProcessEntityID => $ProcessEntityID,
+                Subaction       => 'TransitionEdit'    # always use edit screen
             );
 
             my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
@@ -329,11 +325,6 @@ sub Run {
             );
         }
 
-        # unset ProcessID if necessary
-        if ( $TransitionData->{Global} ) {
-            $ProcessEntityID = undef;
-        }
-
         # otherwise save configuration and return to overview screen
         my $Success = $TransitionObject->TransitionUpdate(
             ID              => $TransitionID,
@@ -342,7 +333,7 @@ sub Run {
             Namespace       => $TransitionData->{Namespace},
             Config          => $TransitionData->{Config},
             UserID          => $Self->{UserID},
-            ProcessEntityID => $ProcessEntityID,
+            ProcessEntityID => $TransitionData->{Global} ? undef : $ProcessEntityID,
         );
 
         # show error if can't update
@@ -384,9 +375,10 @@ sub Run {
         if ( $Redirect && $Redirect eq '1' ) {
 
             $Self->_PushSessionScreen(
-                ID        => $TransitionID,
-                EntityID  => $TransitionData->{EntityID},
-                Subaction => 'TransitionEdit'               # always use edit screen
+                ID              => $TransitionID,
+                EntityID        => $TransitionData->{EntityID},
+                ProcessEntityID => $ProcessEntityID,
+                Subaction       => 'TransitionEdit'               # always use edit screen
             );
 
             my $RedirectAction          = $ParamObject->GetParam( Param => 'PopupRedirectAction' )          || '';
@@ -800,10 +792,11 @@ sub _PushSessionScreen {
 
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
-        Action    => $Self->{Action} || '',
-        Subaction => $Param{Subaction},
-        ID        => $Param{ID},
-        EntityID  => $Param{EntityID},
+        Action          => $Self->{Action} || '',
+        Subaction       => $Param{Subaction},
+        ID              => $Param{ID},
+        EntityID        => $Param{EntityID},
+        ProcessEntityID => $Param{ProcessEntityID},
     };
 
     # convert screens path to string (JSON)
