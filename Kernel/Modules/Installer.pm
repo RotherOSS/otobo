@@ -164,6 +164,8 @@ sub Run {
     }
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $DbmsName;
+    my $ED25519Available;
 
     # Print intro form.
     my $Title = $LayoutObject->{LanguageObject}->Translate('Install OTOBO');
@@ -280,6 +282,35 @@ sub Run {
             %Result = $Self->CheckDBRequirements(
                 %DBCredentials,
             );
+
+            # Get and check params and connect to DB as database admin
+            my %Result = $Self->ConnectToDB(%DBCredentials);
+
+            my %DB;
+            my $DBH;
+            if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
+                $LayoutObject->FatalError(
+                    Message => $Result{Message},
+                    Comment => $Result{Comment},
+                );
+            }
+            else {
+                %DB  = %{ $Result{DB} };
+                $DBH = $Result{DBH};
+            }
+            $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
+            my $Plugin = $DBH->selectrow_hashref(
+                "
+                    SELECT plugin_name, plugin_status
+                    FROM information_schema.plugins
+                    WHERE plugin_name = 'ed25519'
+                    AND plugin_status = 'ACTIVE'
+                    LIMIT 1
+                "
+            );
+
+            $ED25519Available = ( $Plugin ? 1 : 0 );
         }
 
         # Check mail configuration.
@@ -292,9 +323,12 @@ sub Run {
             %Result = (
                 Successful => 0,
                 Message    => Translatable('Unknown Check!'),
-                Comment    => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
+                Comment    => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode )
             );
         }
+
+        $Result{DbmsName}         = $DbmsName;
+        $Result{ED25519Available} = $ED25519Available;
 
         # Return JSON-String because of AJAX-Mode.
         my $OutputJSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -332,10 +366,42 @@ sub Run {
                 },
             );
             if ( $DBInstallType eq 'CreateDB' ) {
+
+                my %DBCredentials;
+                for my $Param (
+                    qw(DBUser DBPassword DBType DBName DBSID DBPort InstallType OTOBODBUser OTOBODBPassword)
+                    )
+                {
+                    $DBCredentials{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
+                }
+
+                #$DBCredentials{DBHost} = 'db';
+
+                # Get and check params and connect to DB as database admin
+                #my %Result = $Self->ConnectToDB(%DBCredentials);
+
+                my %AuthPlugins;
+                my $DefaultAuthPlugin;
+                my %DB;
+                my $DBH;
+
+                %AuthPlugins = (
+                    'mysql_native_password' => 'mysql_native_password (default)',
+                );
+                $DefaultAuthPlugin = 'mysql_native_password';
+
+                my $AuthPluginsList = $LayoutObject->BuildSelection(
+                    Data       => \%AuthPlugins,
+                    Name       => 'AuthPlugin',
+                    Class      => 'Modernize',
+                    SelectedID => $DefaultAuthPlugin
+                );
+
                 $LayoutObject->Block(
                     Name => 'DatabaseMySQLCreate',
                     Data => {
-                        Password => $GeneratedPassword,
+                        AuthPlugin => $AuthPluginsList,
+                        Password   => $GeneratedPassword,
                     },
                 );
             }
@@ -518,6 +584,9 @@ sub Run {
                 # a case switch must be used here.
                 #
                 # For now only 'mysql_native_password' is supported for different database systems.
+                my $OTOBODBUser     = $ParamObject->GetParam( Param => 'OTOBODBUser' );
+                my $OTOBODBPassword = $ParamObject->GetParam( Param => 'OTOBODBPassword' );
+                my $AuthPlugin      = $ParamObject->GetParam( Param => 'AuthPlugin' );
                 my @CreateUserSQLs;
                 {
                     # Use portable way of getting the name of the database system.
@@ -525,22 +594,69 @@ sub Run {
                     # but the prefixes of the attributes differ with different database driver modules.
                     #
                     # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
-                    my $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
+                    my %DBCredentials;
+                    for my $Param (
+                        qw(DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTOBODBUser OTOBODBPassword)
+                        )
+                    {
+                        $DBCredentials{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
+                    }
+
+                    # Get and check params and connect to DB as database admin
+                    my %Result = $Self->ConnectToDB(%DBCredentials);
+
+                    my %DB;
+                    my $DBH;
+                    if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
+                        $LayoutObject->FatalError(
+                            Message => $Result{Message},
+                            Comment => $Result{Comment},
+                        );
+                    }
+                    else {
+                        %DB  = %{ $Result{DB} };
+                        $DBH = $Result{DBH};
+                    }
+                    $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
                     if ( $DbmsName =~ m/mariadb/i ) {
-                        push @CreateUserSQLs,
-                            "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'";
+                        if ( $AuthPlugin eq 'mysql_native_password' ) {
+                            push @CreateUserSQLs,
+                                "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED BY '$OTOBODBPassword'";
+                        }
+                        elsif ( $AuthPlugin eq 'ed25519' ) {
+                            my ( $DBHandle, $Message ) = DBConnectAsRoot(
+                                DBPassword => $ParamObject->GetParam( Param => 'DBPassword' ),
+                                DBName     => $ParamObject->GetParam( Param => 'DBName' ),
+                            );
+
+                            if ( !$DBHandle ) {
+                                return 0, $Message;
+                            }
+
+                            # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+                            $DBHandle->do(q{CREATE FUNCTION ed25519_password RETURNS STRING SONAME "auth_ed25519.so"});
+                            my ($Using) = $DBHandle->selectrow_array( 'SELECT ed25519_password(?)', undef, $OTOBODBPassword );
+                            push @CreateUserSQLs,
+                                "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin USING '$Using'";
+                        }
+                        else {
+                            push @CreateUserSQLs,
+                                "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin USING PASSWORD('$OTOBODBPassword')";
+                        }
                     }
                     else {
                         push @CreateUserSQLs,
-                            "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'";
+                            "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin BY '$OTOBODBPassword'";
                     }
-                }
 
-                @Statements = (
-                    "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
-                    @CreateUserSQLs,
-                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
-                );
+                    @Statements = (
+                        "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
+                        @CreateUserSQLs,
+                        "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
+                    );
+                }
             }
 
             # Set DSN for Config.pm.
@@ -1594,6 +1710,29 @@ sub _CheckConfig {
         Force   => 1,
         CleanUp => 1,
     );
+}
+
+sub DBConnectAsRoot {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { !$Param{$_} } qw(DBPassword ) ) {
+        my $SubName = subname(__SUB__);
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    # actually connect as root
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $DSN          = $ConfigObject->Get('DatabaseDSN');
+
+    # in quick setup we don't want to specify a database that might not exist yet
+    $DSN =~ s/(?<=database=).*?(?=;)//i;
+
+    my $DBHandle = DBI->connect( $DSN, 'root', $Param{DBPassword} );
+
+    return 0, $DBI::errstr unless $DBHandle;
+    return $DBHandle, "connected to '$DSN' as root";
 }
 
 1;

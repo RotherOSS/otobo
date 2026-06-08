@@ -47,6 +47,12 @@ Core.Installer = (function (TargetNS) {
             $('#FormDBSubmit').removeAttr('disabled').removeClass('Disabled');
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
+            Core.UI.InputFields.InitSelect($('#AuthPlugin'));
+            if (json.DbmsName === 'MariaDB' && json.ED25519Available) {
+                document.getElementById('AuthPlugin').innerHTML +=
+                    '<option value="ed25519">ed25519</option>';
+            }
+            Core.UI.InputFields.InitSelect($('#AuthPlugin'));
         }
     }
 
