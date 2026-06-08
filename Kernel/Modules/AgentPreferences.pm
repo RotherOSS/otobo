@@ -133,15 +133,12 @@ sub Run {
         # check preferences setting
         my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
-        GROUP:
         for my $Group (@Groups) {
             if ( !$Preferences{$Group} ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
                 );
             }
-
-            next GROUP unless ( $Self->{CurrentUserID} != $EditUserID || $Preferences{$Group}{Active} );
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
