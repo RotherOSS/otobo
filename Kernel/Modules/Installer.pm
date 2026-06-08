@@ -164,6 +164,7 @@ sub Run {
     }
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $DbmsName;
 
     # Print intro form.
     my $Title = $LayoutObject->{LanguageObject}->Translate('Install OTOBO');
@@ -292,7 +293,7 @@ sub Run {
             %Result = (
                 Successful => 0,
                 Message    => Translatable('Unknown Check!'),
-                Comment    => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
+                Comment    => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode )
             );
         }
 
@@ -332,10 +333,25 @@ sub Run {
                 },
             );
             if ( $DBInstallType eq 'CreateDB' ) {
+
+                # this selection list will be updated later by JS
+                my %AuthPlugins = (
+                    'mysql_native_password' => 'mysql_native_password (default)',
+                );
+                my $DefaultAuthPlugin = 'mysql_native_password';
+
+                my $AuthPluginsList = $LayoutObject->BuildSelection(
+                    Data       => \%AuthPlugins,
+                    Name       => 'AuthPlugin',
+                    Class      => 'Modernize',
+                    SelectedID => $DefaultAuthPlugin
+                );
+
                 $LayoutObject->Block(
                     Name => 'DatabaseMySQLCreate',
                     Data => {
-                        Password => $GeneratedPassword,
+                        AuthPlugin => $AuthPluginsList,
+                        Password   => $GeneratedPassword,
                     },
                 );
             }
@@ -518,6 +534,9 @@ sub Run {
                 # a case switch must be used here.
                 #
                 # For now only 'mysql_native_password' is supported for different database systems.
+                my $OTOBODBUser     = $ParamObject->GetParam( Param => 'OTOBODBUser' );
+                my $OTOBODBPassword = $ParamObject->GetParam( Param => 'OTOBODBPassword' );
+                my $AuthPlugin      = $ParamObject->GetParam( Param => 'AuthPlugin' );
                 my @CreateUserSQLs;
                 {
                     # Use portable way of getting the name of the database system.
@@ -525,22 +544,36 @@ sub Run {
                     # but the prefixes of the attributes differ with different database driver modules.
                     #
                     # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
-                    my $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
+                    $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
                     if ( $DbmsName =~ m/mariadb/i ) {
-                        push @CreateUserSQLs,
-                            "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'";
+                        if ( $AuthPlugin eq 'mysql_native_password' ) {
+                            push @CreateUserSQLs,
+                                "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED BY '$OTOBODBPassword'";
+                        }
+                        else {
+
+                            # This is the regular CREATE USER statement where the authentication plugin is specified.
+                            # This SQL statement works for 'ed25519' since MariaDB 10.4. 'mysql_native_password' and 'PARSEC'
+                            # are also covered.
+                            # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+                            # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
+                            push @CreateUserSQLs,
+                                "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin USING PASSWORD('$OTOBODBPassword')";
+                        }
                     }
                     else {
                         push @CreateUserSQLs,
-                            "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'";
+                            "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin BY '$OTOBODBPassword'";
                     }
-                }
 
-                @Statements = (
-                    "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
-                    @CreateUserSQLs,
-                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
-                );
+                    @Statements = (
+                        "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
+                        @CreateUserSQLs,
+                        "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
+                    );
+                }
             }
 
             # Set DSN for Config.pm.
@@ -1347,6 +1380,20 @@ sub CheckDBRequirements {
             }
         }
     }
+
+    $Result{DbmsName} = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
+    my $Plugin = $Result{DBH}->selectrow_hashref(
+        "
+            SELECT plugin_name, plugin_status
+            FROM information_schema.plugins
+            WHERE plugin_name = 'ed25519'
+            AND plugin_status = 'ACTIVE'
+            LIMIT 1
+        "
+    );
+
+    $Result{ED25519Available} = ( $Plugin ? 1 : 0 );
 
     # Delete key/value pairs which should not be included in the sent json
     delete $Result{DB};
