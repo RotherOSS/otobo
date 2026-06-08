@@ -115,6 +115,13 @@
                     </div>
                     <div id="RepeatOTOBODBPasswordError" class="TooltipErrorMessage"><p>[% Translate("Passwords do not match") | html %]!</p></div>
                     <div class="Clear"></div>
+
+                    <label for="AuthPlugin">[% Translate("Authentication Plugin") | html %]:</label>
+                    <div class="Field">
+                        [% Data.AuthPlugin %]
+                    </div>
+                    <div class="Clear"></div>
+
                     <h4>
                         [% Translate("Database") | html %]
                     </h4>
