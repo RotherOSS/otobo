@@ -492,6 +492,7 @@ sub _ShowEdit {
                 Subaction       => $Self->{ScreensPath}->[-1]->{Subaction}       || '',
                 ID              => $Self->{ScreensPath}->[-1]->{ID}              || '',
                 EntityID        => $Self->{ScreensPath}->[-1]->{EntityID}        || '',
+                ProcessEntityID => $Self->{ScreensPath}->[-1]->{ProcessEntityID} || '',
                 StartActivityID => $Self->{ScreensPath}->[-1]->{StartActivityID} || '',
             },
         );

@@ -24,7 +24,7 @@
 [% RenderBlockEnd("ClosePopup") %]
 [% RenderBlockStart("GoBack") %]
         <p>
-            <a class="GoBack" href="[% Env("Baselink") %]Action=[% Data.Action | uri %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];StartActivityID=[% Data.StartActivityID | uri %]">[% Translate("Go Back") | html %]</a>
+            <a class="GoBack" href="[% Env("Baselink") %]Action=[% Data.Action | uri %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];StartActivityID=[% Data.StartActivityID | uri %]">[% Translate("Go Back") | html %]</a>
         </p>
 [% RenderBlockEnd("GoBack") %]
     </div>
