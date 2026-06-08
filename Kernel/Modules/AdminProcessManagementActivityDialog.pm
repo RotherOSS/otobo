@@ -254,11 +254,6 @@ sub Run {
             );
         }
 
-        # unset ProcessID if necessary
-        if ( $ActivityDialogData->{Global} ) {
-            $ProcessEntityID = undef;
-        }
-
         # otherwise save configuration and return process screen
         my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
             Name            => $ActivityDialogData->{Name},
@@ -266,7 +261,7 @@ sub Run {
             EntityID        => $EntityID,
             Config          => $ActivityDialogData->{Config},
             UserID          => $Self->{UserID},
-            ProcessEntityID => $ProcessEntityID,
+            ProcessEntityID => $ActivityDialogData->{Global} ? undef : $ProcessEntityID,
         );
 
         # show error if can't create
@@ -308,9 +303,10 @@ sub Run {
         if ( $Redirect && $Redirect eq '1' ) {
 
             $Self->_PushSessionScreen(
-                ID        => $ActivityDialogID,
-                EntityID  => $ActivityDialogData->{EntityID},
-                Subaction => 'ActivityDialogEdit'               # always use edit screen
+                ID              => $ActivityDialogID,
+                EntityID        => $ActivityDialogData->{EntityID},
+                ProcessEntityID => $ProcessEntityID,
+                Subaction       => 'ActivityDialogEdit'               # always use edit screen
             );
 
             my $RedirectField = $ParamObject->GetParam( Param => 'PopupRedirectID' ) || '';
@@ -530,11 +526,6 @@ sub Run {
             );
         }
 
-        # unset ProcessID if necessary
-        if ( $ActivityDialogData->{Global} ) {
-            $ProcessEntityID = undef;
-        }
-
         # otherwise save configuration and return to overview screen
         my $Success = $ActivityDialogObject->ActivityDialogUpdate(
             ID              => $ActivityDialogID,
@@ -543,7 +534,7 @@ sub Run {
             EntityID        => $ActivityDialogData->{EntityID},
             Config          => $ActivityDialogData->{Config},
             UserID          => $Self->{UserID},
-            ProcessEntityID => $ProcessEntityID,
+            ProcessEntityID => $ActivityDialogData->{Global} ? undef : $ProcessEntityID,
         );
 
         # show error if can't update
@@ -585,9 +576,10 @@ sub Run {
         if ( $Redirect && $Redirect eq '1' ) {
 
             $Self->_PushSessionScreen(
-                ID        => $ActivityDialogID,
-                EntityID  => $ActivityDialogData->{EntityID},
-                Subaction => 'ActivityDialogEdit'               # always use edit screen
+                ID              => $ActivityDialogID,
+                EntityID        => $ActivityDialogData->{EntityID},
+                ProcessEntityID => $ProcessEntityID,
+                Subaction       => 'ActivityDialogEdit'               # always use edit screen
             );
 
             my $RedirectField = $ParamObject->GetParam( Param => 'PopupRedirectID' ) || '';
@@ -1122,10 +1114,11 @@ sub _PushSessionScreen {
 
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
-        Action    => $Self->{Action} || '',
-        Subaction => $Param{Subaction},
-        ID        => $Param{ID},
-        EntityID  => $Param{EntityID},
+        Action          => $Self->{Action} || '',
+        Subaction       => $Param{Subaction},
+        ID              => $Param{ID},
+        EntityID        => $Param{EntityID},
+        ProcessEntityID => $Param{ProcessEntityID},
     };
 
     # convert screens path to string (JSON)
