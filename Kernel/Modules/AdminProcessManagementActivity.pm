@@ -863,10 +863,10 @@ sub _ShowEdit {
                 Data => {
                     ID                    => $ActivityDialogData->{ID},
                     EntityID              => $ActivityDialogData->{EntityID},
-                    ProcessEntityID       => $Param{ProcessEntityID},
                     DialogProcessEntityID => $ActivityDialogData->{ProcessEntityID},
                     Name                  => $ActivityDialogData->{Name},
                     Namespace             => $ActivityDialogData->{Namespace},
+                    ProcessEntityID       => $Param{ProcessEntityID},
                     AvailableIn           => $AvailableIn,
                 },
             );
@@ -901,10 +901,10 @@ sub _ShowEdit {
                 Data => {
                     ID                    => $ActivityDialogData->{ID},
                     EntityID              => $ActivityDialogData->{EntityID},
-                    ProcessEntityID       => $Param{ProcessEntityID},
                     DialogProcessEntityID => $ActivityDialogData->{ProcessEntityID},
                     Name                  => $ActivityDialogData->{Name},
                     Namespace             => $ActivityDialogData->{Namespace},
+                    ProcessEntityID       => $Param{ProcessEntityID},
                     AvailableIn           => $AvailableIn,
                 },
             );
@@ -965,10 +965,10 @@ sub _ShowEdit {
                 Data => {
                     ID                    => $ActivityDialogData->{ID},
                     EntityID              => $ActivityDialogData->{EntityID},
-                    ProcessEntityID       => $Param{ProcessEntityID},
                     DialogProcessEntityID => $ActivityDialogData->{ProcessEntityID},
                     Name                  => $ActivityDialogData->{Name},
                     Namespace             => $ActivityDialogData->{Namespace},
+                    ProcessEntityID       => $Param{ProcessEntityID},
                     AvailableIn           => $AvailableIn,
                 },
             );
