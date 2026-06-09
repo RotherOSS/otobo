@@ -39,6 +39,8 @@ requires 'File::chmod';
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';
 
+requires 'HTTP::Tiny';
+
 # Required for SSL connections to web and mail servers
 # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
 requires 'IO::Socket::SSL';
@@ -278,6 +280,11 @@ feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
 
 };
 
+feature 'div:iocompress', 'Support for feature div:iocompress' => sub {
+    requires 'IO::Compress';
+
+};
+
 feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
@@ -399,6 +406,8 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
+
+    requires 'IO::Compress';
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', '>= 0.23';
