@@ -149,6 +149,23 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.008008
+  Archive-Tar-3.12
+    pathname: B/BI/BINGOS/Archive-Tar-3.12.tar.gz
+    provides:
+      Archive::Tar 3.12
+      Archive::Tar::Constant 3.12
+      Archive::Tar::File 3.12
+    requirements:
+      Compress::Zlib 2.015
+      ExtUtils::MakeMaker 0
+      File::Spec 0.82
+      IO::Compress::Base 2.015
+      IO::Compress::Bzip2 2.015
+      IO::Compress::Gzip 2.015
+      IO::Zlib 1.01
+      Test::Harness 2.26
+      Test::More 0
+      perl 5.005030
   Archive-Zip-1.68
     pathname: P/PH/PHRED/Archive-Zip-1.68.tar.gz
     provides:
@@ -343,6 +360,12 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Compress-Raw-Bzip2-2.218
+    pathname: P/PM/PMQS/Compress-Raw-Bzip2-2.218.tar.gz
+    provides:
+      Compress::Raw::Bzip2 2.218
+    requirements:
+      ExtUtils::MakeMaker 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
@@ -395,10 +418,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.41
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.41.tar.gz
+  Cpanel-JSON-XS-4.42
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.42.tar.gz
     provides:
-      Cpanel::JSON::XS 4.41
+      Cpanel::JSON::XS 4.42
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -646,8 +669,8 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.647
-    pathname: H/HM/HMBRAND/DBI-1.647.tgz
+  DBI-1.648
+    pathname: H/HM/HMBRAND/DBI-1.648.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -660,15 +683,15 @@ DISTRIBUTIONS
       DBD::ExampleP::db 12.014311
       DBD::ExampleP::dr 12.014311
       DBD::ExampleP::st 12.014311
-      DBD::File 0.44
-      DBD::File::DataSource::File 0.44
-      DBD::File::DataSource::Stream 0.44
-      DBD::File::Statement 0.44
-      DBD::File::Table 0.44
-      DBD::File::TableSource::FileSystem 0.44
-      DBD::File::db 0.44
-      DBD::File::dr 0.44
-      DBD::File::st 0.44
+      DBD::File 0.45
+      DBD::File::DataSource::File 0.45
+      DBD::File::DataSource::Stream 0.45
+      DBD::File::Statement 0.45
+      DBD::File::Table 0.45
+      DBD::File::TableSource::FileSystem 0.45
+      DBD::File::db 0.45
+      DBD::File::dr 0.45
+      DBD::File::st 0.45
       DBD::Gofer 0.015327
       DBD::Gofer::Policy::Base 0.010088
       DBD::Gofer::Policy::classic 0.010088
@@ -703,7 +726,7 @@ DISTRIBUTIONS
       DBD::Sponge::dr 12.010003
       DBD::Sponge::st 12.010003
       DBDI 12.015129
-      DBI 1.647
+      DBI 1.648
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -743,7 +766,7 @@ DISTRIBUTIONS
       DBI::SQL::Nano::Table_ 1.015544
       DBI::Util::CacheMemory 0.010315
       DBI::Util::_accessor 0.009479
-      DBI::common 1.647
+      DBI::common 1.648
     requirements:
       ExtUtils::MakeMaker 6.48
       Test::Simple 0.90
@@ -1703,19 +1726,19 @@ DISTRIBUTIONS
       HTTP::Date 0
       Module::Build::Tiny 0.035
       perl 5.008001
-  HTTP-Message-7.01
-    pathname: O/OA/OALDERS/HTTP-Message-7.01.tar.gz
+  HTTP-Message-7.02
+    pathname: O/OA/OALDERS/HTTP-Message-7.02.tar.gz
     provides:
-      HTTP::Config 7.01
-      HTTP::Headers 7.01
-      HTTP::Headers::Auth 7.01
-      HTTP::Headers::ETag 7.01
-      HTTP::Headers::Util 7.01
-      HTTP::Message 7.01
-      HTTP::Request 7.01
-      HTTP::Request::Common 7.01
-      HTTP::Response 7.01
-      HTTP::Status 7.01
+      HTTP::Config 7.02
+      HTTP::Headers 7.02
+      HTTP::Headers::Auth 7.02
+      HTTP::Headers::ETag 7.02
+      HTTP::Headers::Util 7.02
+      HTTP::Message 7.02
+      HTTP::Request 7.02
+      HTTP::Request::Common 7.02
+      HTTP::Response 7.02
+      HTTP::Status 7.02
     requirements:
       Carp 0
       Clone 0.46
@@ -1760,6 +1783,23 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       HTTP::Headers 6
       perl 5.008001
+  HTTP-Tiny-0.096
+    pathname: H/HA/HAARG/HTTP-Tiny-0.096.tar.gz
+    provides:
+      HTTP::Tiny 0.096
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      Fcntl 0
+      IO::Socket 0
+      MIME::Base64 0
+      Socket 0
+      Time::HiRes 0
+      Time::Local 0
+      bytes 0
+      perl 5.006
+      strict 0
+      warnings 0
   Hash-MultiValue-0.16
     pathname: A/AR/ARISTOTLE/Hash-MultiValue-0.16.tar.gz
     provides:
@@ -1784,6 +1824,47 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::Simple 0.45
+  IO-Compress-2.220
+    pathname: P/PM/PMQS/IO-Compress-2.220.tar.gz
+    provides:
+      Compress::Zlib 2.220
+      File::GlobMapper 1.001
+      IO::Compress 2.220
+      IO::Compress::Adapter::Bzip2 2.220
+      IO::Compress::Adapter::Deflate 2.220
+      IO::Compress::Adapter::Identity 2.220
+      IO::Compress::Base 2.220
+      IO::Compress::Base::Common 2.220
+      IO::Compress::Bzip2 2.220
+      IO::Compress::Deflate 2.220
+      IO::Compress::Gzip 2.220
+      IO::Compress::Gzip::Constants 2.220
+      IO::Compress::RawDeflate 2.220
+      IO::Compress::Zip 2.220
+      IO::Compress::Zip::Constants 2.220
+      IO::Compress::Zlib::Constants 2.220
+      IO::Compress::Zlib::Extra 2.220
+      IO::Uncompress::Adapter::Bunzip2 2.220
+      IO::Uncompress::Adapter::Identity 2.220
+      IO::Uncompress::Adapter::Inflate 2.220
+      IO::Uncompress::AnyInflate 2.220
+      IO::Uncompress::AnyUncompress 2.220
+      IO::Uncompress::Base 2.220
+      IO::Uncompress::Bunzip2 2.220
+      IO::Uncompress::Gunzip 2.220
+      IO::Uncompress::Inflate 2.220
+      IO::Uncompress::RawInflate 2.220
+      IO::Uncompress::Unzip 2.220
+      U64 2.220
+      Zlib::OldDeflate 2.220
+      Zlib::OldInflate 2.220
+    requirements:
+      Compress::Raw::Bzip2 2.218
+      Compress::Raw::Zlib 2.218
+      Encode 0
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      Time::Local 0
   IO-HTML-1.004
     pathname: C/CJ/CJM/IO-HTML-1.004.tar.gz
     provides:
@@ -2561,8 +2642,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.45
-    pathname: S/SR/SRI/Mojolicious-9.45.tar.gz
+  Mojolicious-9.46
+    pathname: S/SR/SRI/Mojolicious-9.46.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2632,7 +2713,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.45
+      Mojolicious 9.46
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
