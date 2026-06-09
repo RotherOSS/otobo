@@ -251,6 +251,9 @@ eval {
 };
 $OSDist //= $^O;
 
+# For development the OS can be mocked
+#$OSDist = 'redhat';
+
 # extract command line parameters
 my $DoPrintAllModules;
 my $DoPrintInstCommand;
@@ -1590,6 +1593,7 @@ sub CollectPackageInfo {
 
 sub GetInstallCommand {
     my ($Module) = @_;
+
     my $CMD;
     my $SubCMD;
     my $Package;
@@ -1601,7 +1605,7 @@ sub GetInstallCommand {
     if ($InstType) {
 
         # gets the install command for installation type
-        # e.g. ppm install %s
+        # e.g. 'apt-get install -y %s'
         # default is the CPAN install command
         # e.g. cpanm %s
         $CMD    = $InstTypeToCMD{$InstType}->{CMD};
