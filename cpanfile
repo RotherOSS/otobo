@@ -201,6 +201,11 @@ feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
 
 };
 
+feature 'div:iocompress', 'Support for feature div:iocompress' => sub {
+    requires 'IO::Compress';
+
+};
+
 feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
@@ -319,6 +324,8 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
+
+    requires 'IO::Compress';
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', '>= 0.23';
