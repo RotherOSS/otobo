@@ -3364,6 +3364,7 @@ sub _GetIntegratedPackages {
                 'ImportExportStandardObjects',
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
                 'PostMasterXFromHeader',
+                'ProcessTicketTemplates',
                 'RestorePendingInformation',
                 'RotherOSS-AccountedTimeInViews',
                 'TicketUpdateOperationExternalIdentifier',
