@@ -80,7 +80,7 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams();
 
-        $PathData->{ProcessEntityID}    = $GetParam->{ProcessEntityID}    || $GetParam->{ID};
+        $PathData->{ProcessEntityID}    = $GetParam->{ProcessEntityID};
         $PathData->{TransitionEntityID} = $GetParam->{TransitionEntityID} || $GetParam->{EntityID};
         $PathData->{StartActivityID}    = $GetParam->{StartActivityID};
 
@@ -161,31 +161,11 @@ sub Run {
             my $RedirectEntityID        = $ParamObject->GetParam( Param => 'PopupRedirectEntityID' )        || '';
             my $RedirectProcessEntityID = $ParamObject->GetParam( Param => 'PopupRedirectProcessEntityID' ) || '';
 
-            # when redirecting to the transition dialog, we need the new TransitionID
-            # because the ID was possibly changed in this dialog
-            # the value is stored in data-entity
-            # when redirecting to the transition action dialog, data-entity contains
-            # the transition action ID, but still we need the transition ID for going back
-
-            my $EntityID;
-
-            if (
-                $RedirectSubaction eq 'TransitionActionEdit'
-                || $RedirectSubaction eq 'TransitionActionNew'
-                )
-            {
-                $EntityID = $TransferData->{TransitionEntityID};
-            }
-            elsif ( $RedirectSubaction eq 'TransitionEdit' ) {
-                $EntityID = $RedirectEntityID;
-            }
-
             $Self->_PushSessionScreen(
-                ID              => $TransferData->{ProcessEntityID},    # abuse!
                 ProcessEntityID => $TransferData->{ProcessEntityID},
-                EntityID        => $EntityID,
+                EntityID        => $DataToMerge->{NewTransitionEntityID},
                 StartActivityID => $GetParam->{StartActivityID},
-                Subaction       => 'PathEdit'                           # always use edit screen
+                Subaction       => 'PathEdit'                               # always use edit screen
             );
 
             # get transition id
@@ -394,7 +374,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( ID EntityID ProcessData TransitionInfo ProcessEntityID StartActivityID TransitionEntityID )
+        qw( EntityID ProcessData TransitionInfo ProcessEntityID StartActivityID TransitionEntityID )
         )
     {
         $GetParam->{$ParamName} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName )
@@ -446,7 +426,6 @@ sub _PushSessionScreen {
     push @{ $Self->{ScreensPath} }, {
         Action          => $Self->{Action} || '',
         Subaction       => $Param{Subaction},
-        ID              => $Param{ID},
         ProcessEntityID => $Param{ProcessEntityID},
         EntityID        => $Param{EntityID},
         StartActivityID => $Param{StartActivityID},
