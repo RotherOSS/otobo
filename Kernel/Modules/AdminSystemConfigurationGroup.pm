@@ -121,7 +121,7 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # Send only useful setting attributes to reduce ammount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transferred in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked Error ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
@@ -176,7 +176,7 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # Send only useful setting attributes to reduce ammount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transferred in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked Error ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
@@ -300,7 +300,7 @@ sub Run {
             UserID          => $Self->{UserID},
         );
 
-        # Send only useful setting attributes to reduce amount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transferred in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
