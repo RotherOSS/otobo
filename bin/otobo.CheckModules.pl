@@ -346,10 +346,11 @@ my @NeededModules = (
     # Core
     {
         # In Perl core since Perl 5.9.3
-        Module    => 'Archive::Tar',
-        Required  => 1,
-        Comment   => 'Required for compressed file generation (in perlcore).',
-        InstTypes => {
+        Module                => 'Archive::Tar',
+        Required              => 1,
+        DockerVersionRequired => 3.12,             # CPANSA-Archive-Tar-2026-42496, CPANSA-Archive-Tar-2026-9538 CPANSA-Archive-Tar-2026-42497
+        Comment               => 'Required for compressed file generation (in perlcore).',
+        InstTypes             => {
             aptget => 'perl',
             emerge => 'perl-core/Archive-Tar',
             zypper => 'perl-Archive-Tar',
