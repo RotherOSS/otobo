@@ -189,6 +189,11 @@ requires 'Const::Fast';
 
 # };
 
+# feature 'div:iocompress', 'Support for feature div:iocompress' => sub {
+    requires 'IO::Compress', '2.220';
+
+# };
+
 # feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';

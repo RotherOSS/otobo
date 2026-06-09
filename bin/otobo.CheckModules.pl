@@ -207,6 +207,7 @@ my %IsDockerFeature = (
     'db:sqlite'          => 1,
     'devel:encoding'     => 1,
     'devel:test'         => 1,
+    'div:iocompress'     => 1,
     'div:locallib'       => 1,
     'div:zlib'           => 1,
     'gazelle'            => 1,
@@ -984,6 +985,16 @@ my @NeededModules = (
     },
 
     # Feature div
+    {
+        # IO::Compress is in Perl core since 5.41.3
+        # but specific modules of the IO::Compress dist have been in core since 5.9.3
+        # So, for Docker the current version is required, but not for native installations
+        # CPANSA-IO-Compress-2026-48962, CPANSA-IO-Compress-2025-15649, CPANSA-IO-Compress-2026-48959
+        Module                => 'IO::Compress',
+        DockerVersionRequired => '2.220',
+        Features              => ['div:iocompress'],
+        InstTypes             => {},
+    },
     {
         Module          => 'Encode::HanExtra',
         VersionRequired => '>= 0.23',
