@@ -401,10 +401,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.41
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.41.tar.gz
+  Cpanel-JSON-XS-4.42
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.42.tar.gz
     provides:
-      Cpanel::JSON::XS 4.41
+      Cpanel::JSON::XS 4.42
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -650,8 +650,8 @@ DISTRIBUTIONS
       Devel::CheckLib 1.09
       ExtUtils::MakeMaker 0
       perl 5.008001
-  DBI-1.647
-    pathname: H/HM/HMBRAND/DBI-1.647.tgz
+  DBI-1.648
+    pathname: H/HM/HMBRAND/DBI-1.648.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -664,15 +664,15 @@ DISTRIBUTIONS
       DBD::ExampleP::db 12.014311
       DBD::ExampleP::dr 12.014311
       DBD::ExampleP::st 12.014311
-      DBD::File 0.44
-      DBD::File::DataSource::File 0.44
-      DBD::File::DataSource::Stream 0.44
-      DBD::File::Statement 0.44
-      DBD::File::Table 0.44
-      DBD::File::TableSource::FileSystem 0.44
-      DBD::File::db 0.44
-      DBD::File::dr 0.44
-      DBD::File::st 0.44
+      DBD::File 0.45
+      DBD::File::DataSource::File 0.45
+      DBD::File::DataSource::Stream 0.45
+      DBD::File::Statement 0.45
+      DBD::File::Table 0.45
+      DBD::File::TableSource::FileSystem 0.45
+      DBD::File::db 0.45
+      DBD::File::dr 0.45
+      DBD::File::st 0.45
       DBD::Gofer 0.015327
       DBD::Gofer::Policy::Base 0.010088
       DBD::Gofer::Policy::classic 0.010088
@@ -707,7 +707,7 @@ DISTRIBUTIONS
       DBD::Sponge::dr 12.010003
       DBD::Sponge::st 12.010003
       DBDI 12.015129
-      DBI 1.647
+      DBI 1.648
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -747,7 +747,7 @@ DISTRIBUTIONS
       DBI::SQL::Nano::Table_ 1.015544
       DBI::Util::CacheMemory 0.010315
       DBI::Util::_accessor 0.009479
-      DBI::common 1.647
+      DBI::common 1.648
     requirements:
       ExtUtils::MakeMaker 6.48
       Test::Simple 0.90
@@ -1693,19 +1693,19 @@ DISTRIBUTIONS
       HTTP::Date 0
       Module::Build::Tiny 0.035
       perl 5.008001
-  HTTP-Message-7.01
-    pathname: O/OA/OALDERS/HTTP-Message-7.01.tar.gz
+  HTTP-Message-7.02
+    pathname: O/OA/OALDERS/HTTP-Message-7.02.tar.gz
     provides:
-      HTTP::Config 7.01
-      HTTP::Headers 7.01
-      HTTP::Headers::Auth 7.01
-      HTTP::Headers::ETag 7.01
-      HTTP::Headers::Util 7.01
-      HTTP::Message 7.01
-      HTTP::Request 7.01
-      HTTP::Request::Common 7.01
-      HTTP::Response 7.01
-      HTTP::Status 7.01
+      HTTP::Config 7.02
+      HTTP::Headers 7.02
+      HTTP::Headers::Auth 7.02
+      HTTP::Headers::ETag 7.02
+      HTTP::Headers::Util 7.02
+      HTTP::Message 7.02
+      HTTP::Request 7.02
+      HTTP::Request::Common 7.02
+      HTTP::Response 7.02
+      HTTP::Status 7.02
     requirements:
       Carp 0
       Clone 0.46
@@ -2418,6 +2418,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2559,8 +2560,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.45
-    pathname: S/SR/SRI/Mojolicious-9.45.tar.gz
+  Mojolicious-9.46
+    pathname: S/SR/SRI/Mojolicious-9.46.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2630,7 +2631,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.45
+      Mojolicious 9.46
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -3060,7 +3061,6 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
-      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -4511,7 +4511,9 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
