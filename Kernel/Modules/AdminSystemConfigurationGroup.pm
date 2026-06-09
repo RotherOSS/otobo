@@ -123,7 +123,7 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # Send only useful setting attributes to reduce ammount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transferred in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked Error ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
@@ -178,7 +178,7 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # Send only useful setting attributes to reduce ammount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transferred in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked Error ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
@@ -307,7 +307,7 @@ sub Run {
             UserID          => $Self->{UserID},
         );
 
-        # Send only useful setting attributes to reduce amount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transferred in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
@@ -612,12 +612,17 @@ sub Run {
         pop @SettingStructure;
 
         my %Result;
-        for my $Needed (qw(Name Key)) {
-            if ( !$Needed ) {
-                $Result{Error} = Translatable("Missing setting $Needed.");
-
-                return $LayoutObject->JSONReply( Data => \%Result );
-            }
+        if ( !$SettingName ) {
+            $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Missing setting name!",
+            );
+            return $Self->_ReturnJSON( Response => \%Result );
+        }
+        if ( !$Key ) {
+            $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "Missing setting key!",
+            );
+            return $Self->_ReturnJSON( Response => \%Result );
         }
 
         my %Setting = $SysConfigObject->SettingGet(
