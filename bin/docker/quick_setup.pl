@@ -598,18 +598,12 @@ sub DBCreateUserAndDatabase {
                 push @CreateUserSQLs,
                     "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
             }
-            elsif ( $Param{AuthenticationPlugin} eq 'ed25519' ) {
-
-                # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
-                $DBHandle->do(q{CREATE FUNCTION ed25519_password RETURNS STRING SONAME "auth_ed25519.so"});
-                my ($Using) = $DBHandle->selectrow_array( 'SELECT ed25519_password(?)', undef, $Param{OTOBODBPassword} );
-                push @CreateUserSQLs,
-                    "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING '$Using'";
-            }
             else {
 
                 # This is the regular CREATE USER statement where the authenication plugin is specified.
-                # This SQL statement works for 'PARSEC'. No special case needed.
+                # This SQL statement works for 'ed25519' since MariaDB 10.4. 'mysql_native_password' and 'PARSEC'
+                # are also covered.
+                # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
                 # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
                 push @CreateUserSQLs,
                     "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
