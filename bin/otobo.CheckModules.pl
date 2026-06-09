@@ -472,6 +472,13 @@ my @NeededModules = (
         },
     },
     {
+        # in Perl core since 5.13.9
+        Module                => 'HTTP::Tiny',
+        Required              => 1,
+        DockerVersionRequired => 0.096,
+        InstTypes             => {},
+    },
+    {
         Module    => 'List::AllUtils',
         Required  => 1,
         InstTypes => {

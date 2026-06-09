@@ -27,6 +27,8 @@ requires 'Digest::SHA';
 
 requires 'File::chmod';
 
+requires 'HTTP::Tiny';
+
 requires 'List::AllUtils';
 
 # Required for SSL connections to web and mail servers
