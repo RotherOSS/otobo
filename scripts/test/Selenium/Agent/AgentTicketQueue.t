@@ -234,6 +234,10 @@ $Selenium->RunTest(
                 HistoryComment       => 'Customer sent an email',
                 UserID               => $TestUserID,
             );
+            $Self->True(
+                $ArticleID,
+                "Article is created - ID $ArticleID",
+            );
         }
 
         # Login as test user.
@@ -414,7 +418,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.ColumnSettingsTrigger[title*=\"Status\"]').click();");
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ColumnFilterState:visible').length;"
+                "return typeof(\$) === 'function' && \$('#ColumnFilterState_Search:visible').length;"
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -431,7 +435,7 @@ $Selenium->RunTest(
             "'new' state is not available as filter selection."
         );
 
-        # Naviage to test queue view with sub-queue.
+        # Navigate to test queue view with sub-queue.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[1]->{QueueID};View=Small;UseSubQueues=1;"
         );
@@ -440,7 +444,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.ColumnSettingsTrigger[title*=\"Status\"]').click();");
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ColumnFilterState:visible').length;"
+                "return typeof(\$) === 'function' && \$('#ColumnFilterState_Search:visible').length;"
         );
         $Selenium->WaitFor(
             JavaScript =>
