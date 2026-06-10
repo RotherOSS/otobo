@@ -61,7 +61,6 @@ my %FailureIsAccepted = (
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
     'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32::Registry is not available, but never mind as Win32 is not supported',
-    'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'      => 'HTTP::GHTTP is not required',
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
