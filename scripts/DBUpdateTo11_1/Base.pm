@@ -50,7 +50,7 @@ This modules provides methods for the task modules that are located in F<scripts
 
 =head2 new()
 
-The constructor provided by the base module and used in F<scripts/DBUpdateTo11.0.pm>.
+The constructor is provided by the base module and is used in F<scripts/DBUpdateTo11.1.pm>.
 
     my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_1::' . $Task->{Module} )->Run;
 
