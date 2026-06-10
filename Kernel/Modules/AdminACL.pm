@@ -638,12 +638,16 @@ sub _ShowOverview {
         push @ValidIDs, $ValidLookup{'invalid'};
     }
 
+    my %ObjectTypes = (
+        Ticket => 'Ticket',
+    );
+    if ( $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled( Name => 'ITSMConfigurationManagement' ) ) {
+        $ObjectTypes{ConfigItem} = 'ITSM ConfigItem';
+    }
+
     $Param{ObjectTypeSelectionStrg} = $LayoutObject->BuildSelection(
-        Name => 'ObjectType',
-        Data => {
-            Ticket     => 'Ticket',
-            ConfigItem => 'ITSM ConfigItem',
-        },
+        Name          => 'ObjectType',
+        Data          => \%ObjectTypes,
         PossibleNone  => 0,
         Translation   => 0,
         SelectedValue => $Param{ObjectType} || 'Ticket',
