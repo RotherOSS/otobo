@@ -26,7 +26,7 @@ ARCHIVE_DIR="install"
 
 if ! command -v cpanm &> /dev/null; then
     echo "cpanm not found. Installing using dnf..."
-    
+
     if [ "$EUID" -ne 0 ]; then
         echo "Installatin failed. Please provide sudo credentials."
         sudo dnf install -y perl-App-cpanminus
