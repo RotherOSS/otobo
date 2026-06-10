@@ -25,7 +25,7 @@ use utf8;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use Config; # import %Config
+use Config;    # import %Config
 use Cwd qw(abs_path);
 
 # CPAN modules
@@ -122,17 +122,17 @@ sub Run {
 
         ADVISORY:
         for my $Advisory ( $Dist->{advisories}->@* ) {
-            my $Evaluation        = $Evaluations{$Advisory->{id}};
+            my $Evaluation        = $Evaluations{ $Advisory->{id} };
             my $EvaluationApplies = $Evaluation ? 1 : 0;
 
             # some advisories are relevant only in special cases
-            if ( $Evaluation ) {
+            if ($Evaluation) {
                 if ( $Evaluation->{only_relevant_for_32bit_perl} && !$Config{use64bitall} ) {
-                    $EvaluationApplies = 0; # evaluation does not apply on 32bit Perl
+                    $EvaluationApplies = 0;    # evaluation does not apply on 32bit Perl
                 }
             }
 
-            if ( $EvaluationApplies ) {
+            if ($EvaluationApplies) {
                 $Advisory->{otobo_evaluation} = $Evaluation;
                 $NumRelevantAdvisories += $Evaluation->{is_relevant_for_otobo};
             }
