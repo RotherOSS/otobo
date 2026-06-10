@@ -5331,25 +5331,6 @@ sub _ConfiguredRepositoryDefinitionGet {
 
     return () if !%RepositoryList;
 
-    # we will not provide individual repos per version starting with OTOBO 11.0 - this section can be removed with OTOBO 11.1
-    my @Matches = grep { $_ =~ m{https://ftp\.otobo\.org/pub/otobo/packages-itsm/bundle\d}msxi } sort keys %RepositoryList;
-
-    return %RepositoryList if !@Matches;
-
-    my $CurrentITSMRepository = "https://ftp.otobo.org/pub/otobo/packages-itsm/";
-
-    # Delete all old ITSM repositories, but leave the current if exists
-    for my $Repository (@Matches) {
-        if ( $Repository ne $CurrentITSMRepository ) {
-            delete $RepositoryList{$Repository};
-        }
-    }
-
-    return %RepositoryList if exists $RepositoryList{$CurrentITSMRepository};
-
-    # Make sure that current ITSM repository is in the list.
-    $RepositoryList{$CurrentITSMRepository} = "OTOBO::ITSM Addons";
-
     return %RepositoryList;
 }
 
