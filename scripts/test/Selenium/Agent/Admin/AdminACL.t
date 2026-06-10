@@ -348,7 +348,7 @@ JAVASCRIPT
             'Check for .AddAll element',
         );
 
-        # Add all possible prefix values to check for inputed values see bug#12854
+        # Add all possible prefix values to check for given values see bug#12854
         # ( https://bugs.otrs.org/show_bug.cgi?id=12854 ).
         $Count = 1;
         for my $Prefix ( '[Not]', '[RegExp]', '[regexp]', '[NotRegExp]', '[Notregexp]' ) {
@@ -370,8 +370,10 @@ JAVASCRIPT
             Value   => 2,
         );
 
-        my @AclID1     = split /ID=/, $Selenium->get_current_url;
-        my $ACLfirstID = $AclID1[1];
+        my $ACLID1;
+        if ( $Selenium->get_current_url =~ /ID=([0-9]+);/ ) {
+            $ACLID1 = $1;
+        }
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
@@ -393,8 +395,10 @@ JAVASCRIPT
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        my @AclID2      = split /ID=/, $Selenium->get_current_url;
-        my $ACLSecondID = $AclID2[1];
+        my $ACLID2;
+        if ( $Selenium->get_current_url =~ /ID=([0-9]+);/ ) {
+            $ACLID2 = $1;
+        }
 
         # Click 'Save and Finish'.
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
@@ -461,7 +465,7 @@ JAVASCRIPT
         # Create another copy of the same ACL, see bug#13204 (https://bugs.otrs.org/show_bug.cgi?id=13204).
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")->VerifiedClick();
 
-        # Verify there are both copied ACL's.
+        # Verify there are both copied ACLs.
         push @TestACLNames,
             $LanguageObject->Translate( '%s (copy) %s', $TestACLNames[0], 1 ),
             $LanguageObject->Translate( '%s (copy) %s', $TestACLNames[0], 2 );
@@ -488,7 +492,7 @@ JAVASCRIPT
         # Create dynamic field.
         my $DynamicFieldObject     = $Kernel::OM->Get('Kernel::System::DynamicField');
         my $RandomID               = $Helper->GetRandomID();
-        my $DynamicFieldName       = "Produkt$RandomID";
+        my $DynamicFieldName       = "Product$RandomID";
         my $DynamicFieldDropDownID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => $DynamicFieldName,
             Label      => $DynamicFieldName,
@@ -568,7 +572,7 @@ JAVASCRIPT
 
         # Update ACL, disable dynamic fields.
         $Success = $ACLObject->ACLUpdate(
-            ID           => $ACLfirstID,
+            ID           => $ACLID1,
             Name         => $TestACLNames[0],
             Comment      => '',
             Description  => '',
@@ -589,12 +593,12 @@ JAVASCRIPT
         );
         $Self->True(
             $Success,
-            "ACLID $ACLfirstID updated",
+            "ACLID $ACLID1 updated",
         );
 
         # Update ACL, enable dynamic fields for specific queue.
         $Success = $ACLObject->ACLUpdate(
-            ID             => $ACLSecondID,
+            ID             => $ACLID2,
             Name           => $TestACLNames[1],
             Description    => '',
             StopAfterMatch => 0,
@@ -626,7 +630,7 @@ JAVASCRIPT
         );
         $Self->True(
             $Success,
-            "ACLID $ACLSecondID updated",
+            "ACLID $ACLID2 updated",
         );
 
         # Create ticket with queue other then ACL queue.
