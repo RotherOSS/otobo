@@ -45,19 +45,16 @@ $Helper->ConfigSettingChange(
     Value => $Setting{DefaultValue},
 );
 
-my @FrameworkVersionParts = split /\./, $Kernel::OM->Get('Kernel::Config')->Get('Version');
-my $FrameworkVersion      = $FrameworkVersionParts[0];
-
 my @Tests = (
     {
         Name           => 'No Repositories',
         ConfigSet      => {},
         Success        => 1,
         ExpectedResult => {
-            'https://ftp.otobo.org/pub/otobo/packages-thirdparty/' => 'ThirdParty Addons',
-            'https://ftp.otobo.org/pub/otobo/packages/'            => 'OTOBO Addons',
-            'https://otopar.perl-services.de/std/'                 => 'OTOpar Addons',
-            'https://ftp.otobo.org/pub/otobo/packages-itsm/'       => 'OTOBO::ITSM Addons'
+            'https://ftp.otobo.org/pub/otobo/packages-thirdparty/'    => 'ThirdParty Addons',
+            'https://ftp.otobo.org/pub/otobo/packages/'               => 'OTOBO Addons',
+            'https://otopar.perl-services.de/std/'                    => 'OTOpar Addons',
+            'https://ftp.otobo.org/pub/otobo/packages-itsm/bundle10/' => 'ITSM Bundle',
         },
     },
 );
