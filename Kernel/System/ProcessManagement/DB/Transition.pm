@@ -459,6 +459,31 @@ sub TransitionUpdate {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # validate ProcessEntityID
+    if ( $Param{ProcessEntityID} ) {
+        return if !$DBObject->Prepare(
+            SQL => '
+                SELECT id
+                FROM pm_process
+                WHERE entity_id = ?',
+            Bind  => [ \$Param{ProcessEntityID} ],
+            Limit => 1,
+        );
+
+        my $ProcessEntityExists;
+        while ( $DBObject->FetchrowArray() ) {
+            $ProcessEntityExists = 1;
+        }
+
+        if ( !$ProcessEntityExists ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Failed to add process-specific element to '$Param{ProcessEntityID}': No such process!",
+            );
+            return;
+        }
+    }
+
     # check if EntityID already exists
     return if !$DBObject->Prepare(
         SQL => "
@@ -541,7 +566,7 @@ sub TransitionUpdate {
             && $CurrentName eq $Param{Name}
             && $CurrentConfig eq $Config
             && $CurrentNamespace eq $Param{Namespace}
-            && $CurrentProcessEntityID eq $Param{ProcessEntityID};
+            && $CurrentProcessEntityID eq ( $Param{ProcessEntityID} // '' );
     }
 
     # sql
