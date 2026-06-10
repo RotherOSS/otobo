@@ -5323,8 +5323,6 @@ sub _ConfiguredRepositoryDefinitionGet {
         %RepositoryList = ( %RepositoryList, $Self->PackageOnlineRepositories() );
     }
 
-    return () if !%RepositoryList;
-
     return %RepositoryList;
 }
 
