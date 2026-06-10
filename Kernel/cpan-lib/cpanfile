@@ -108,7 +108,7 @@ requires 'Module::Refresh', '== 0.17';
 requires 'Mozilla::CA', '== 20250602';
 
 # needed by LWP::Protocol::https
-requires 'Net::HTTP', '== 6.17';
+requires 'Net::HTTP', '== 6.24';
 
 # needed by Kernel::System::PDF
 requires 'PDF::API2', '== 2.048';
