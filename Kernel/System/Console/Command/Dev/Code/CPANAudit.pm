@@ -25,6 +25,7 @@ use utf8;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
+use Config; # import %Config
 use Cwd qw(abs_path);
 
 # CPAN modules
@@ -121,17 +122,23 @@ sub Run {
 
         ADVISORY:
         for my $Advisory ( $Dist->{advisories}->@* ) {
-            my $AdvisoryId = $Advisory->{id};
+            my $Evaluation        = $Evaluations{$Advisory->{id}};
+            my $EvaluationApplies = $Evaluation ? 1 : 0;
 
-            if ( $Evaluations{$AdvisoryId} ) {
-                $Advisory->{otobo_evaluation} = $Evaluations{$AdvisoryId};
-                $NumRelevantAdvisories += $Evaluations{$AdvisoryId}->{is_relevant_for_otobo};
-
-                next ADVISORY;
+            # some advisories are relevant only in special cases
+            if ( $Evaluation ) {
+                if ( $Evaluation->{only_relevant_for_32bit_perl} && !$Config{use64bitall} ) {
+                    $EvaluationApplies = 0; # evaluation does not apply on 32bit Perl
+                }
             }
 
-            # no OTOBO evaluation
-            $NumRelevantAdvisories += 1;
+            if ( $EvaluationApplies ) {
+                $Advisory->{otobo_evaluation} = $Evaluation;
+                $NumRelevantAdvisories += $Evaluation->{is_relevant_for_otobo};
+            }
+            else {
+                $NumRelevantAdvisories++;
+            }
         }
     }
 
@@ -164,11 +171,11 @@ In Docker based installations the commands /opt/otobo/bin/docker/carton and /usr
 have been patched to download source via HTTPS.
 END_REASON
 
-        'debian_unimportant' => <<'END_REASON',
+        debian_unimportant => <<'END_REASON',
 Debian has classified the urgency of this advisory as unimportant. OTOBO does the same.
 END_REASON
 
-        'ldaps' => <<'END_REASON',
+        ldaps => <<'END_REASON',
 The advisory is about default settings in the underlying module Net::LDAPS. In OTOBO the admin
 is responsible for setting up the connection to the LDAP server.
 END_REASON
@@ -176,6 +183,10 @@ END_REASON
         'xsendfile' => <<'END_REASON',
 The advisory is about the Plack middlewarx Plack::Middleware::XSendfile. This middleware is not used
 in OTOBO.
+END_REASON
+
+        thirtytwo_bit_perl => <<'END_REASON',
+The advisory is only relevant for 32bit builds of Perl. But this is a 64bit build of Perl.
 END_REASON
     );
 
@@ -203,6 +214,11 @@ END_REASON
         'CPANSA-Plack-2026-7381' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{xsendfile},
+        },
+        'CPANSA-perl-2026-8376' => {
+            only_relevant_for_32bit_perl => 1,
+            is_relevant_for_otobo        => 0,
+            reason                       => $Reason{thirtytwo_bit_perl},
         },
         ;
 }
