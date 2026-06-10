@@ -510,7 +510,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by LWP::Protocol::https',
             'Module'          => 'Net::HTTP',
             'Required'        => 1,
-            'VersionRequired' => '== 6.17',
+            'VersionRequired' => '== 6.24',
         },
         {
             'Comment'         => 'needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.1.x',

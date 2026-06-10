@@ -117,7 +117,7 @@ requires 'Module::Refresh', '== 0.17';
 requires 'Mozilla::CA', '== 20250602';
 
 # needed by LWP::Protocol::https
-requires 'Net::HTTP', '== 6.17';
+requires 'Net::HTTP', '== 6.24';
 
 # needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.1.x
 requires 'Net::IMAP::Simple', '== 1.2209';
