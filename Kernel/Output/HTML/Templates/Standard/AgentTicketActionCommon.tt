@@ -211,7 +211,7 @@
                                 <div class="Field">
                                     [% Data.OwnerStrg %]
             [% IF Data.OwnerMandatory %]
-                                    <div id="NewOwnerIDError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>                    
+                                    <div id="NewOwnerIDError" class="TooltipErrorMessage"><p>[% Translate("Please set a new owner!") | html %]</p></div>
             [% END %]
                                     <div id="NewOwnerIDServerError" class="TooltipErrorMessage"><p>[% Translate("Owner invalid.") | html %]</p></div>
                                 </div>
@@ -451,9 +451,9 @@
                             <div class="Row">
                                 <div class="FieldCell">
                                     <label>[% Translate("Attachments") | html %]:</label>
-                                        <div class="Field">
+                                    <div class="Field">
         [% INCLUDE "FormElements/AttachmentList.tt" %]
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -493,7 +493,7 @@
                 </div>
     [% RenderBlockEnd("WidgetArticle") %]
             </div>
-            
+
             <div class="Footer">
                 <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]">
                     <span><i class="fa fa-check-square-o"></i> [% Translate("Submit") | html %]</span>
