@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Package',
     'Kernel::System::Storage::S3',
     'Kernel::System::Ticket::FieldRestrictions',
     'Kernel::System::User',
@@ -934,7 +935,12 @@ sub ACLDump {
         my ($File, $Self) = @_;
 
     END_PM_FILE
-    for my $ObjectType (qw(Ticket ConfigItem)) {
+
+    my @ObjectTypes = qw(Ticket);
+    if ( $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled( Name => 'ITSMConfigurationManagement' ) ) {
+        push @ObjectTypes, 'ITSMConfigItem';
+    }
+    for my $ObjectType (@ObjectTypes) {
 
         # get valid ACLs
         my $ACLList = $Self->ACLListGet(
@@ -1156,8 +1162,13 @@ sub ACLImport {
         }
     }
 
+    my @ObjectTypes = qw(Ticket);
+    if ( $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled( Name => 'ITSMConfigurationManagement' ) ) {
+        push @ObjectTypes, 'ITSMConfigItem';
+    }
+
     # update preselection cache
-    for my $ACLType (qw(Ticket ITSMConfigItem)) {
+    for my $ACLType (@ObjectTypes) {
         $Kernel::OM->Get( 'Kernel::System::' . $ACLType . '::FieldRestrictions' )->SetACLPreselectionCache();
     }
 
