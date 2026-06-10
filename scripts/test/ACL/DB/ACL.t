@@ -106,6 +106,7 @@ my @Tests = (
         Name   => 'ACLAdd Test 8: Valid data',
         Config => {
             Name           => "ACL-$RandomID",
+            ObjectType     => 'Ticket',
             UserID         => $UserID,
             Comment        => 'Comment',
             StopAfterMatch => 1,
@@ -356,6 +357,7 @@ for my $Test (@Tests) {
             ID           => 1,
             Name         => "ACL-$RandomID",
             Comment      => 'Comment',
+            ObjectType   => 'Ticket',
             ValidID      => 1,
             ConfigMatch  => { 'Possible' => {} },
             ConfigChange => undef,
@@ -384,6 +386,7 @@ for my $Test (@Tests) {
             ID             => $AddedACLList[0],
             Name           => "ACL-$RandomID -U",
             Comment        => 'Comment234',
+            ObjectType     => 'Ticket',
             Description    => '',
             ValidID        => 2,
             ConfigMatch    => { 'Properties' => {} },
@@ -723,7 +726,7 @@ $Self->IsDeeply(
 );
 
 # check cache
-my $CacheKey = 'ACLListGet::ValidIDs::ALL';
+my $CacheKey = 'ACLListGet::ValidIDs::ALL::ObjectTypes::ALL';
 
 my $Cache = $CacheObject->Get(
     Type => 'ACLEditor_ACL',
