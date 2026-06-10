@@ -1,7 +1,9 @@
 package HTTP::Config;
-$HTTP::Config::VERSION = '6.13';
+
 use strict;
 use warnings;
+
+our $VERSION = '7.02';
 
 use URI;
 
@@ -153,8 +155,12 @@ my %MATCH = (
     m_header__ => sub {
         my($v, $k, $uri, $request, $response) = @_;
         return unless $request;
-        return 1 if $request->header($k) eq $v;
-        return 1 if $response && $response->header($k) eq $v;
+        my $req_header = $request->header($k);
+        return 1 if defined($req_header) && $req_header eq $v;
+        if ($response) {
+            my $res_header = $response->header($k);
+            return 1 if defined($res_header) && $res_header eq $v;
+        }
         return 0;
     },
     m_response_attr__ => sub {
@@ -243,7 +249,7 @@ HTTP::Config - Configuration for request and response objects
 
 =head1 VERSION
 
-version 6.13
+version 7.02
 
 =head1 SYNOPSIS
 
@@ -297,7 +303,7 @@ You can either pass separate key/value pairs or a hash reference.
 =item $conf->remove( %spec )
 
 Removes (and returns) the entries that have matches for all the key/value pairs in %spec.
-If %spec is empty this will match all entries; so it will empty the configuation object.
+If %spec is empty this will match all entries; so it will empty the configuration object.
 
 =item $conf->matching( $uri, $request, $response )
 
@@ -438,7 +444,7 @@ Gisle Aas <gisle@activestate.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 1994-2017 by Gisle Aas.
+This software is copyright (c) 1994 by Gisle Aas.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

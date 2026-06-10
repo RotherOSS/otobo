@@ -1,13 +1,15 @@
 package LWP::Protocol::data;
-$LWP::Protocol::data::VERSION = '6.26';
+
 # Implements access to data:-URLs as specified in RFC 2397
 
 use strict;
 
+our $VERSION = '6.83';
+
 require HTTP::Response;
 require HTTP::Status;
 
-use base qw(LWP::Protocol);
+use parent qw(LWP::Protocol);
 
 use HTTP::Date qw(time2str);
 require LWP;  # needs version number

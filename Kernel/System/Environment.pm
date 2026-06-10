@@ -429,10 +429,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.02',
         },
         {
-            'Comment'         => 'removed in OTOBO 11.0.x',
+            'Comment'         => 'required by LWP 6.83, removed from Kernel/cpan-lib in OTOBO 11.0.x',
             'Module'          => 'HTTP::Message',
             'Required'        => 1,
-            'VersionRequired' => '== 6.13',
+            'VersionRequired' => '== 7.02',
         },
         {
             'Comment'         => 'needed by console commands',
@@ -489,10 +489,11 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.11',
         },
         {
-            'Comment'         => 'removed in OTOBO 11.0.x',
+            # CPANSA-libwww-perl-2017-01, CPANSA-libwww-perl-2026-8368
+            'Comment'         => 'removed from Kernel/cpan-lib in OTOBO 11.0.x',
             'Module'          => 'LWP',
             'Required'        => 1,
-            'VersionRequired' => '== 6.26',
+            'VersionRequired' => '== 6.83',
         },
         {
             'Comment'         => 'needed in frontend and system OTOBO modules',
@@ -558,7 +559,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by LWP::Protocol::https',
             'Module'          => 'Net::HTTP',
             'Required'        => 1,
-            'VersionRequired' => '== 6.17',
+            'VersionRequired' => '== 6.24',
         },
         {
             'Comment'         => 'needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.1.x',
