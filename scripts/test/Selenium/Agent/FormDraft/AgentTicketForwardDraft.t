@@ -389,7 +389,7 @@ $Selenium->RunTest(
         # Verify current test user name as From.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('.TableLike .Field:contains(\"$TestUserLogin\")').length === 1;"
+                "return \$('.Field:contains(\"$TestUserLogin\")').length === 1;"
             ),
             "From correct is '$TestUserLogin'."
         );
@@ -420,7 +420,7 @@ $Selenium->RunTest(
         # Verify current second test user name as From.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('.TableLike .Field:contains(\"$TestUserLogin2\")').length === 1;"
+                "return \$('.Field:contains(\"$TestUserLogin2\")').length === 1;"
             ),
             "From correct is '$TestUserLogin2'."
         );
