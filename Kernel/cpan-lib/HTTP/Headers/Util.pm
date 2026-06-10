@@ -1,9 +1,11 @@
 package HTTP::Headers::Util;
-$HTTP::Headers::Util::VERSION = '6.13';
+
 use strict;
 use warnings;
 
-use base 'Exporter';
+our $VERSION = '7.02';
+
+use Exporter 5.57 'import';
 
 our @EXPORT_OK=qw(split_header_words _split_header_words join_header_words);
 
@@ -48,7 +50,7 @@ sub _split_header_words
 		push(@res, [@cur]) if @cur;
 		@cur = ();
 	    }
-	    elsif (s/^\s*;// || s/^\s+//) {
+	    elsif (s/^\s*;// || s/^\s+// || s/^=//) {
 		# continue
 	    }
 	    else {
@@ -101,7 +103,7 @@ HTTP::Headers::Util - Header value parsing utility functions
 
 =head1 VERSION
 
-version 6.13
+version 7.02
 
 =head1 SYNOPSIS
 
@@ -197,7 +199,7 @@ Gisle Aas <gisle@activestate.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 1994-2017 by Gisle Aas.
+This software is copyright (c) 1994 by Gisle Aas.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

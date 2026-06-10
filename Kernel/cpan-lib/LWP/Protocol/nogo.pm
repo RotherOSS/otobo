@@ -4,12 +4,14 @@ package LWP::Protocol::nogo;
 #   LWP::Protocol::implementor(that_scheme, 'LWP::Protocol::nogo');
 # For then on, attempts to access URLs with that scheme will generate
 # a 500 error.
-$LWP::Protocol::nogo::VERSION = '6.26';
+
 use strict;
+
+our $VERSION = '6.83';
 
 require HTTP::Response;
 require HTTP::Status;
-use base qw(LWP::Protocol);
+use parent qw(LWP::Protocol);
 
 sub request {
     my($self, $request) = @_;

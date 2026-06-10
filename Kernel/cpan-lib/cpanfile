@@ -77,8 +77,8 @@ requires 'HTML::Scrubber', '== 0.20';
 # removed in OTOBO 11.0.x
 requires 'HTTP::Date', '== 6.02';
 
-# removed in OTOBO 11.0.x
-requires 'HTTP::Message', '== 6.13';
+# required by LWP 6.83, removed from Kernel/cpan-lib in OTOBO 11.0.x
+requires 'HTTP::Message', '== 7.02';
 
 # needed by console commands
 requires 'IO::Interactive', '== 1.022';
@@ -107,8 +107,8 @@ requires 'Locale::Codes', '== 3.86';
 # needed by webservices
 requires 'LWP::Protocol::https', '== 6.11';
 
-# removed in OTOBO 11.0.x
-requires 'LWP', '== 6.26';
+# removed from Kernel/cpan-lib in OTOBO 11.0.x
+requires 'LWP', '== 6.83';
 
 # needed in frontend and system OTOBO modules
 requires 'Mail::Address', '== 2.18';
@@ -141,7 +141,7 @@ requires 'Module::Refresh', '== 0.17';
 requires 'Mozilla::CA', '== 20250602';
 
 # needed by LWP::Protocol::https
-requires 'Net::HTTP', '== 6.17';
+requires 'Net::HTTP', '== 6.24';
 
 # needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.1.x
 requires 'Net::IMAP::Simple', '== 1.2209';

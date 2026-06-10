@@ -1,5 +1,7 @@
 package LWP::MemberMixin;
-$LWP::MemberMixin::VERSION = '6.26';
+
+our $VERSION = '6.83';
+
 sub _elem {
     my $self = shift;
     my $elem = shift;
@@ -21,7 +23,7 @@ LWP::MemberMixin - Member access mixin class
 =head1 SYNOPSIS
 
  package Foo;
- use base qw(LWP::MemberMixin);
+ use parent qw(LWP::MemberMixin);
 
 =head1 DESCRIPTION
 

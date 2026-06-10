@@ -1,8 +1,11 @@
 package HTTP::Headers;
-$HTTP::Headers::VERSION = '6.13';
+
 use strict;
 use warnings;
 
+our $VERSION = '7.02';
+
+use Clone qw(clone);
 use Carp ();
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
@@ -296,19 +299,6 @@ sub _process_newline {
 }
 
 
-
-if (eval { require Storable; 1 }) {
-    *clone = \&Storable::dclone;
-} else {
-    *clone = sub {
-	my $self = shift;
-	my $clone = HTTP::Headers->new;
-	$self->scan(sub { $clone->push_header(@_);} );
-	$clone;
-    };
-}
-
-
 sub _date_header
 {
     require HTTP::Date;
@@ -473,7 +463,7 @@ HTTP::Headers - Class encapsulating HTTP Message headers
 
 =head1 VERSION
 
-version 6.13
+version 7.02
 
 =head1 SYNOPSIS
 
@@ -533,7 +523,8 @@ means that you can update several fields with a single invocation.
 The $value argument may be a plain string or a reference to an array
 of strings for a multi-valued field. If the $value is provided as
 C<undef> then the field is removed.  If the $value is not given, then
-that header field will remain unchanged.
+that header field will remain unchanged. In addition to being a string,
+$value may be something that stringifies.
 
 The old value (or values) of the last of the header fields is returned.
 If no such field exists C<undef> will be returned.
@@ -874,7 +865,7 @@ Gisle Aas <gisle@activestate.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 1994-2017 by Gisle Aas.
+This software is copyright (c) 1994 by Gisle Aas.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
