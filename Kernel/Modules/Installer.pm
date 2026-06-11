@@ -164,7 +164,6 @@ sub Run {
     }
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $DbmsName;
 
     # Print intro form.
     my $Title = $LayoutObject->{LanguageObject}->Translate('Install OTOBO');
@@ -544,8 +543,7 @@ sub Run {
                     # but the prefixes of the attributes differ with different database driver modules.
                     #
                     # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
-
-                    $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+                    my $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
 
                     if ( $DbmsName =~ m/mariadb/i ) {
                         if ( $AuthPlugin eq 'mysql_native_password' ) {
@@ -1381,6 +1379,7 @@ sub CheckDBRequirements {
         }
     }
 
+    # not really used by the recipient, but useful information when inspecting the traffic
     $Result{DbmsName} = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
 
     my $Plugin = $Result{DBH}->selectrow_hashref(
