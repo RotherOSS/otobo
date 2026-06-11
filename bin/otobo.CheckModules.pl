@@ -1427,7 +1427,7 @@ sub Check {
 
     print '  ' x ( $Depends + 1 );
     print "o $Module->{Module}";
-    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
+    my $Length = 40 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
     # $Metadata is undefined when the module is not found in @INC
