@@ -110,6 +110,10 @@ sub Run {
             Name   => 'Migrate DynamicField namespaces to new system configuration structure.',
             Module => 'SysConfigMigrateDynamicFieldNamespaces',
         },
+        {
+            Name   => 'Deprecate MailAccountOAuth2 Package if present.',
+            Module => 'DeprecateMailAccountOAuth2',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
