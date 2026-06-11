@@ -346,6 +346,7 @@ sub SettingRender {
         Disabled      => $Param{RW} ? 0 : 1,
         SelectedValue => $EffectiveValue,
         Title         => $Param{Name},
+        Translation   => 0,
         OptionTitle   => 1,
         Class         => "$Param{Class} Modernize",
     );
@@ -424,6 +425,7 @@ sub AddItem {
         ID            => $Param{Name} . $Param{IDSuffix},
         SelectedValue => $Param{DefaultItem}->{Content},
         Title         => $Param{Name},
+        Translation   => 0,
         OptionTitle   => 1,
         Class         => "$Param{Class} Modernize Entry",
     );
