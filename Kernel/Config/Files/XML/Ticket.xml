@@ -12240,11 +12240,11 @@
             <Hash>
                 <Item Key="CSS">
                     <Array>
+                        <Item>Core.Widget.css</Item>
                         <Item>Core.TicketList.css</Item>
                         <Item>Core.TicketOverview.css</Item>
                         <Item>Core.AllocationList.css</Item>
                         <Item>Core.TicketSearch.css</Item>
-                        <Item>Core.Widget.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
