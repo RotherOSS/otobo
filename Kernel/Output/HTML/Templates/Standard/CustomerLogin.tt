@@ -87,31 +87,32 @@
                     <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
-                    <div class="Row">
-                        <input autocorrect="off" autocapitalize="off" autocomplete="[% Data.UserNameAutocomplete %]" title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
-                        <label for="User">[% Translate("User name") | html %]</label>
-                    </div>
-                    <div class="Row">
-                        <input title="[% Translate("Your password") | html %]" type="password" name="Password" id="Password" autocomplete="[% Data.PasswordAutocomplete %]" />
-                        <label for="Password">[% Translate("Password") | html %]</label>
-[% RenderBlockStart("LostPasswordLink") %]
-                        <div class="Option">
-                            <a href="#Reset" class="ooo10g" id="ForgotPassword">[% Translate("Forgot password?") | html %]</a>
+                    <fieldset class="SimpleForm">
+                        <div class="Row">
+                            <input autocorrect="off" autocapitalize="off" autocomplete="[% Data.UserNameAutocomplete %]" title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
+                            <label for="User">[% Translate("User name") | html %]</label>
                         </div>
-[% RenderBlockEnd("LostPasswordLink") %]
-                    </div>
+                        <div class="Row">
+                            <input title="[% Translate("Your password") | html %]" type="password" name="Password" id="Password" autocomplete="[% Data.PasswordAutocomplete %]" />
+                            <label for="Password">[% Translate("Password") | html %]</label>
+    [% RenderBlockStart("LostPasswordLink") %]
+                            <div class="Option">
+                                <a href="#Reset" class="ooo10g" id="ForgotPassword">[% Translate("Forgot password?") | html %]</a>
+                            </div>
+    [% RenderBlockEnd("LostPasswordLink") %]
+                        </div>
 
 [% RenderBlockStart("AuthTwoFactor") %]
-                    <div class="Row">
-                        <input title="[% Translate("Your 2 Factor Token") | html %]" type="text" name="TwoFactorToken" id="TwoFactorToken" />
-                        <label for="TwoFactorToken">[% Translate("2 Factor Token") | html %]</label>
-                    </div>
+                        <div class="Row">
+                            <input title="[% Translate("Your 2 Factor Token") | html %]" type="text" name="TwoFactorToken" id="TwoFactorToken" />
+                            <label for="TwoFactorToken">[% Translate("2 Factor Token") | html %]</label>
+                        </div>
 [% RenderBlockEnd("AuthTwoFactor") %]
 
-                    <div class="Row">
-                        <button type="submit" value="[% Translate("Log In") | html %]" disabled>[% Translate("Log In") | html %]</button>
-                    </div>
-                    <div class="Clear"></div>
+                        <div class="Row">
+                            <button type="submit" value="[% Translate("Log In") | html %]" disabled>[% Translate("Log In") | html %]</button>
+                        </div>
+                    </fieldset>
                 </form>
 [% RenderBlockStart("CreateAccountLink") %]
                 <a id="oooRegister" class="ooo12g" href="#Signup">[% Translate("Request Account") | html %]</a>
@@ -127,14 +128,15 @@
                 <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerLostPassword" />
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]" />
-                    <div class="Row">
-                        <input title="[% Translate("Your User Name") | html %]" type="text" id="ResetUser" name="User" maxlength="150" />
-                        <label for="ResetUser">[% Translate("User name") | html %]</label>
-                    </div>
-                    <div class="Row">
-                        <button type="submit" value="[% Translate("Submit") | html %]" disabled>[% Translate("Submit") | html %]</button>
-                    </div>
-                    <div class="Clear"></div>
+                    <fieldset class="SimpleForm">
+                        <div class="Row">
+                            <input title="[% Translate("Your User Name") | html %]" type="text" id="ResetUser" name="User" maxlength="150" />
+                            <label for="ResetUser">[% Translate("User name") | html %]</label>
+                        </div>
+                        <div class="Row">
+                            <button type="submit" value="[% Translate("Submit") | html %]" disabled>[% Translate("Submit") | html %]</button>
+                        </div>
+                    </fieldset>
                 </form>
 #                <p>[% Translate("A new password will be sent to your email address.") | html %]</p>
             </div>
@@ -149,34 +151,34 @@
                 <form class="Floating Validate" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
-                    <div class="Row">
-                        <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" class="W50pc" value="[% Data.UserTitle | html %]"/>
-                        <label for="Title">[% Translate("Title or salutation") | html %]</label>
-                    </div>
-                    <div class="Row">
-                        <input title="[% Translate("Your First Name") | html %]" name="Firstname" type="text" id="FirstName" maxlength="100" value="[% Data.UserFirstname | html %]" class="W50pc Validate_Required"/>
-                        <label class="Mandatory" for="FirstName"><span class="Marker">*</span> [% Translate("Firstname") | html %]</label>
-                        <div id="FirstNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Row">
-                        <input title="[% Translate("Your Last Name") | html %]" name="Lastname" type="text" id="LastName" maxlength="100" value="[% Data.UserLastname | html %]" class="W50pc Validate_Required"/>
-                        <label class="Mandatory" for="LastName"><span class="Marker">*</span> [% Translate("Lastname") | html %]</label>
-                        <div id="LastNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Row">
-                        <input title="[% Translate("Your email address (this will become your username)") | html %]" name="Email" type="[% Env("EmailFieldType") | html %]" id="Email" maxlength="150" value="[% Data.UserEmail | html %]" class="W100pc Validate_Required Validate_Email"/>
-                        <label class="Mandatory" for="Email"><span class="Marker">*</span> [% Translate("Email") | html %]</label>
-                        <div id="EmailError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Row">
-                        <button id="CreateAccount" type="submit" value="[% Translate("Create") | html %]" disabled>[% Translate("Create") | html %]</button>
-                    </div>
-                    <div class="Clear"></div>
+                    <fieldset class="SimpleForm">
+                        <div class="Row">
+                            <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" class="W50pc" value="[% Data.UserTitle | html %]"/>
+                            <label for="Title">[% Translate("Title or salutation") | html %]</label>
+                        </div>
+                        <div class="Row">
+                            <input title="[% Translate("Your First Name") | html %]" name="Firstname" type="text" id="FirstName" maxlength="100" value="[% Data.UserFirstname | html %]" class="W50pc Validate_Required"/>
+                            <label class="Mandatory" for="FirstName"><span class="Marker">*</span> [% Translate("Firstname") | html %]</label>
+                            <div id="FirstNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Row">
+                            <input title="[% Translate("Your Last Name") | html %]" name="Lastname" type="text" id="LastName" maxlength="100" value="[% Data.UserLastname | html %]" class="W50pc Validate_Required"/>
+                            <label class="Mandatory" for="LastName"><span class="Marker">*</span> [% Translate("Lastname") | html %]</label>
+                            <div id="LastNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Row">
+                            <input title="[% Translate("Your email address (this will become your username)") | html %]" name="Email" type="[% Env("EmailFieldType") | html %]" id="Email" maxlength="150" value="[% Data.UserEmail | html %]" class="W100pc Validate_Required Validate_Email"/>
+                            <label class="Mandatory" for="Email"><span class="Marker">*</span> [% Translate("Email") | html %]</label>
+                            <div id="EmailError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Row">
+                            <button id="CreateAccount" type="submit" value="[% Translate("Create") | html %]" disabled>[% Translate("Create") | html %]</button>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
 [% END %]
 [% RenderBlockEnd("CreateAccount") %]
-            <div class="Clear"></div>
         </div> <!-- /SlideArea -->
     </div>
 </div>

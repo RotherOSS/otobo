@@ -16,6 +16,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 @media only screen and (max-width: 767px) {
 
     #oooSearchBox {
+        --SearchInputPaddingLeft: 32px;
+
         white-space: nowrap;
     }
 
@@ -28,7 +30,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #oooSearch {
         display: inline-block;
         width: calc( 100% - 3px );
-        padding-left: 32px;
+        padding-left: var(--SearchInputPaddingLeft);
         height: 32px;
         background-color: #f7f7f9;
         background-color: var(--colBGLight);
@@ -46,7 +48,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooSearchLabel {
         position: relative;
-        left: -100%;
+        left: calc( -1 * (100% - var(--SearchInputPaddingLeft) ) );
         font-size: 14px;
     }
 
