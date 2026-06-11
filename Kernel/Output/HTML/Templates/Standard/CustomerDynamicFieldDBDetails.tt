@@ -25,18 +25,14 @@
                 <h2>[% Data.DynamicFieldName | html %] - [% Translate("Details view") | html %]</h2>
             </div>
 
-            <fieldset class="TableLike" id="FilterFieldset" field="DynamicField_[% Data.DynamicFieldName | html %]">
-
+            <div class="DBDetails">
 [% RenderBlockStart("DetailsRow") %]
-                <div>
-                    <label for="FieldFilter[% Data.ColumnHead | html %]">[% Data.ColumnHead | html %]:</label>
-                    <div class="Field">
-                        [% Data.ColumnData | html %]
-                    </div>
+                <div class="DBDetailsRow">
+                    <p>[% Data.ColumnHead | html %]:</p>
+                    <p>[% Data.ColumnData | html %]</p>
                 </div>
 [% RenderBlockEnd("DetailsRow") %]
-
-            </fieldset>
+            </div>
         </div>
 [% RenderBlockEnd("DetailsOverview") %]
     </div>

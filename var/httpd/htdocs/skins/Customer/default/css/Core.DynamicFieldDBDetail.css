@@ -23,29 +23,25 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding: 0px 24px;
     }
 
-    fieldset.TableLike {
-        padding: 8px;
-    }
-
-    fieldset.TableLike > div {
-        padding-bottom: 16px;
+    form {
+        margin-top: 24px;
     }
 
     .Field {
         display: inline-block;
     }
 
-    .Field > input,
     .Field > select {
-        height: 24px;
+        box-sizing: border-box;
+        height: var(--FieldCellHeight);
         border-radius: 10px;
-        padding: 1px 1px 1px 16px;
+        padding: 1px 16px;
         min-width: 140px;
+        border: solid 1px var(--colTextLight);
     }
 
-    .Field > select {
-        border: solid 1px #7f809d;
-        border: solid 1px var(--colTextLight);
+    .FieldCell > a {
+        display: inline-block;
     }
 
     #Search {
@@ -84,6 +80,32 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #ResultTable th,
     #ResultTable td {
         padding: 1px 4px;
+    }
+
+    .DBDetails {
+        margin-top: 24px;
+        max-width: 90%;
+
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .DBDetailsRow > * {
+        display: inline-block;
+    }
+
+    .DBDetailsRow > p:first-child {
+        margin-right: 8px;
+
+        font-size: var(--LabelFontSize);
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: var(--LabelLineHeight);
+        letter-spacing: var(--LabelLetterSpacing);
+        text-align: left;
+        color: var(--colTextLight);
     }
 
 } /* end @media */
