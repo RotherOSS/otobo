@@ -483,6 +483,7 @@ sub Run {
             },
         );
 
+        # SQL statements for creating the otobo database and the otobo user
         my @Statements;
 
         # Create database, add user.
@@ -565,13 +566,13 @@ sub Run {
                         push @CreateUserSQLs,
                             "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin BY '$OTOBODBPassword'";
                     }
-
-                    @Statements = (
-                        "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
-                        @CreateUserSQLs,
-                        "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
-                    );
                 }
+
+                @Statements = (
+                    "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
+                    @CreateUserSQLs,
+                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
+                );
             }
 
             # Set DSN for Config.pm.
