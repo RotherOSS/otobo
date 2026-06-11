@@ -48,8 +48,10 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        my $ProcessRandom  = 'Process' . $Helper->GetRandomID();
-        my $ActivityRandom = 'Activity' . $Helper->GetRandomID();
+        my $ProcessRandom         = 'Process' . $Helper->GetRandomID();
+        my $ActivityRandom        = 'Activity' . $Helper->GetRandomID();
+        my $ActivityDialogRandom  = 'ActivityDialog' . $Helper->GetRandomID();
+        my $ActivityDialogRandom2 = $ActivityDialogRandom . '2';
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
@@ -127,6 +129,17 @@ $Selenium->RunTest(
             $ActivityID = $Row[0];
         }
 
+        # Get test ProcessEntityID.
+        my $ProcessQuoted = $DBObject->Quote($ProcessRandom);
+        $DBObject->Prepare(
+            SQL  => "SELECT entity_id FROM pm_process WHERE name = ?",
+            Bind => [ \$ProcessQuoted ]
+        );
+        my $ProcessEntityID;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ProcessEntityID = $Row[0];
+        }
+
         # Check for stored value and edit test Activity.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityEdit;ID=$ActivityID' )]")->click();
         $Selenium->WaitFor( WindowCount => 2 );
@@ -141,7 +154,75 @@ $Selenium->RunTest(
             "#Name stored value",
         );
 
-        $Selenium->find_element( "#Name",   'css' )->send_keys("edit");
+        $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
+
+        # Create global ActivityDialog
+        my $ActivityDialogNewButton = "//a[contains(.,\'Create New Activity Dialog\')]";
+        $Selenium->WaitFor( ElementExists => $ActivityDialogNewButton );
+        $Selenium->find_element($ActivityDialogNewButton)->VerifiedClick();
+
+        # Input fields and submit.
+        $Selenium->find_element( "#Name",             'css' )->send_keys($ActivityDialogRandom);
+        $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys($ActivityDialogRandom);
+        $Selenium->find_element( "#Submit",           'css' )->VerifiedClick();
+
+        # Create non-global ActivityDialog
+        $Selenium->find_element($ActivityDialogNewButton)->VerifiedClick();
+
+        # Input fields and submit.
+        $Selenium->find_element( "#Name",             'css' )->send_keys($ActivityDialogRandom2);
+        $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys($ActivityDialogRandom2);
+        $Selenium->find_element( "#Global",           'css' )->click();
+        $Selenium->find_element( "#Submit",           'css' )->VerifiedClick();
+
+        # Check if ActivityDialog2 is non-global
+        my $ActivityDialogQuoted2 = $DBObject->Quote($ActivityDialogRandom2);
+        $DBObject->Prepare(
+            SQL  => "SELECT process_entity_id FROM pm_activity_dialog WHERE name = ?",
+            Bind => [ \$ActivityDialogQuoted2 ]
+        );
+        my $ActivityDialogProcessEntityID;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ActivityDialogProcessEntityID = $Row[0];
+        }
+        $Self->Is(
+            $ActivityDialogProcessEntityID,
+            $ProcessEntityID,
+            "ProcessEntityID stored in db column",
+        );
+
+        # Check for created test ActivityDialogs in AvailableActivityDialogs list.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#AvailableActivityDialogs li:contains($ActivityDialogRandom)').length"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('ul#AvailableActivityDialogs li:contains($ActivityDialogRandom2)').length"
+        );
+
+        # Only the global ActivityDialog should be displayed
+        $Self->True(
+            $Selenium->find_element("//li[contains(., '$ActivityDialogRandom (global)')]")->is_displayed(),
+            "$ActivityDialogRandom ActivityDialog found on page",
+        );
+        $Self->False(
+            $Selenium->find_element("//li[contains(., '$ActivityDialogRandom2')]")->is_displayed(),
+            "$ActivityDialogRandom2 ActivityDialog not found on page",
+        );
+
+        # Toggling global selection displays non-global ActivityDialog
+        $Selenium->find_element( "#Global", 'css' )->click();
+
+        $Selenium->WaitFor(
+            JavaScript => qq{
+                return typeof(\$) === 'function' && \$("li:contains('$ActivityDialogRandom2')").filter(":visible").length
+            }
+        );
+
+        # Assign both ActivitDialogs
+        $DB::single = 1;
+
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Return to main window after the popup is closed, as the popup sends commands to the main window.
