@@ -165,13 +165,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-size: 16px;
 }
 
-.PWRow > input {
+.PWRow #UserSMIMEKey {
     border: none;
     background: none;
     padding-left: 8px;
     padding-top: 8px;
     color: #00023c;
     color: var(--colTextDark);
+}
+
+.PWRow label[for="UserSMIMEKey"] {
+    display: none;
 }
 
 /* IE */
