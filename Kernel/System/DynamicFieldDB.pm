@@ -663,7 +663,7 @@ sub DatabaseSearchDetails {
     my @PossibleValuesKeys;
 
     KEY:
-    for my $Key ( sort keys %{$PreparedPossibleValues} ) {
+    for my $Key ( sort { $a <=> $b } keys %{$PreparedPossibleValues} ) {
 
         next KEY if !$Key;
 
