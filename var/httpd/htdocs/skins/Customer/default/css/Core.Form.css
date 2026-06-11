@@ -27,9 +27,10 @@ fieldset.ModularForm {
     --AddRemoveButtonWidth: calc( 14.36 / 14 ) * 1em; /* at 14px font size, the buttons are 14.36px wide */
     --AddRemoveButtonGap: 0.3em;
     --IconFontSize: 14px;
+    --HorizontalWidgetPadding: 40px;
 
     --AddRemoveButtonRowWidth: calc( var(--AddRemoveButtonWidth) * 2 + var(--AddRemoveButtonGap) );
-    --AddRemoveButtonRowSpace: var(--AddRemoveButtonRowWidth) * 0.25; /* space between multivalue buttons and fields */
+    --AddRemoveButtonRowSpace: calc( var(--AddRemoveButtonRowWidth) * 0.25 ); /* space between multivalue buttons and fields */
     --FieldEndWhitespace: calc( var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace) );
 
     position: relative; /* to allow for positioning and sizing relative to the fieldset */
@@ -39,6 +40,10 @@ fieldset.ModularForm {
     gap: var(--FormRowGap);
     width: 66%;
     margin: 0 auto;
+}
+
+.oooWidget fieldset.ModularForm {
+    width: 100%;
 }
 
 fieldset.ModularForm .Row,
@@ -68,6 +73,10 @@ fieldset.ModularForm label {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+fieldset.SimpleForm .Row {
+    position: relative;
 }
 
 /*
@@ -499,14 +508,6 @@ table.AttachmentList > .oooRetracted .oooLess {
 table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
     display: none;
 }
-
-/*
-
-fieldset .AsteriskExplanation {
-    margin-left: 17%;
-}
-
-*/
 
 .Messenger .AsteriskExplanation {
     padding-top: 30px;

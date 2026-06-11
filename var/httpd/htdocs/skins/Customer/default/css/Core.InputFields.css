@@ -60,10 +60,6 @@ fieldset.Columns .Column .InputField_ListContainer div {
     overflow: visible;
 }
 
-.FieldTemplate { /* TODO: unused? */
-    display: none;
-}
-
 .MultiValue_Template {
     display: none !important;
 }
@@ -83,10 +79,8 @@ fieldset.Columns .Column .InputField_ListContainer div {
  */
 
 /* default styling */
-label,
-.Field.RichTextField:hover ~ label,
-.Field.RichTextField:focus ~ label {
 
+label {
     /* padding */
     padding-left: var(--HorizontalLabelPadding);
     padding-right: var(--HorizontalLabelPadding);
@@ -101,6 +95,11 @@ label,
     letter-spacing: var(--LabelLetterSpacing);
     text-align: left;
     color: var(--colTextLight);
+}
+
+form label,
+.Field.RichTextField:hover ~ label,
+.Field.RichTextField:focus ~ label {
 
     /* layout */
     position: absolute;
@@ -125,12 +124,16 @@ label,
 }
 
 /* hover, filled and focus form label styling */
+.SimpleForm input:hover ~ label,
+.SimpleForm input.oooFull ~ label,
+.SimpleForm input.oooSelected ~ label,
+.SimpleForm input.oooReadonly ~ label,
+
 .Field:hover ~ label,
 .Field.oooFull ~ label,
 .Field.oooSelected ~ label,
 .Field.oooReadonly ~ label,
-label.oooFocus,
-.Field ~ label.oooFocus,
+form label.oooFocus,
 .DynamicFieldDB:hover ~ label, /*TODO:test*/
 input.DynamicFieldDB.oooFull ~ label, /* TODO: test */
 .DynamicFieldDB:hover ~ label.oooFocus, /*TODO:test*/
@@ -283,8 +286,6 @@ textarea.Error.Error:focus,
 .FieldCell .InputField_InputContainer,
 .FieldCell .oooTitle {
     min-height: var(--FieldCellHeight);
-    /*height: 100%;
-    width: 100%;*/
 }
 
 .FieldCell .Field > select {
@@ -480,9 +481,6 @@ div.InputField_Selection > .Remove {
 }
 
  .RichTextHolder {
-    /*display: flex;
-    flex-direction: column;
-    justify-content: stretch;*/
     margin-top: 0px;
     padding-top: var(--FieldCellHeight);
     border-radius: var(--FieldBorderRadius);
@@ -531,6 +529,10 @@ div.InputField_Selection > .Remove {
     right: calc( var(--AddRemoveButtonRowWidth) + var(--AddRemoveButtonRowSpace) + 12px );
     top: calc( var(--FieldCellHeight)/2 );
     margin-top: calc( var(--DBSearchButtonHeight)/-2 );
+}
+
+fieldset.ModularForm .DynamicFieldDB ~ .Field {
+    width: 100%;
 }
 
 /* readonly */
