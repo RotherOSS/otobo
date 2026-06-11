@@ -18,7 +18,7 @@ package Kernel::Modules::Installer;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
@@ -1382,15 +1382,13 @@ sub CheckDBRequirements {
     # not really used by the recipient, but useful information when inspecting the traffic
     $Result{DbmsName} = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
 
-    my $Plugin = $Result{DBH}->selectrow_hashref(
-        "
-            SELECT plugin_name, plugin_status
-            FROM information_schema.plugins
-            WHERE plugin_name = 'ed25519'
+    my $Plugin = $Result{DBH}->selectrow_hashref(<<~'END_SQL');
+        SELECT plugin_name, plugin_status
+          FROM information_schema.plugins
+          WHERE plugin_name = 'ed25519'
             AND plugin_status = 'ACTIVE'
-            LIMIT 1
-        "
-    );
+          LIMIT 1
+        END_SQL
 
     $Result{ED25519Available} = ( $Plugin ? 1 : 0 );
 
