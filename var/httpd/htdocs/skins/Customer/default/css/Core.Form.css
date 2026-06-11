@@ -40,6 +40,7 @@ fieldset.ModularForm {
     gap: var(--FormRowGap);
     width: 66%;
     margin: 0 auto;
+    padding-top: 1em; /* to make sure the first input field label is completely visible in :hover / :focus etc states */
 }
 
 .oooWidget fieldset.ModularForm {
