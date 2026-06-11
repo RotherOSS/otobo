@@ -48,12 +48,12 @@
                                 <label for="Profile">[% Translate("Search template") | html %]</label>
                             </div>
                         </div>
+                        <div class="Row ActionRow">
+                            <button name="SelectTemplate" class="oooM" type="submit" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
+                            <button name="EraseTemplate" class="oooM" type="submit" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
+                            <button name="SearchTemplate" class="oooM" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+                        </div>
                     </fieldset>
-                    <div class="Row ActionRow">
-                        <button name="SelectTemplate" class="oooM" type="submit" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
-                        <button name="EraseTemplate" class="oooM" type="submit" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
-                        <button name="SearchTemplate" class="oooM" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
-                    </div>
                 </form>
             </div>
             <div class="oooWidget oooTicketSearchForm">
@@ -218,7 +218,7 @@
 [% RenderBlockEnd("SearchInArchive") %]
                     <div class="oooSection">
                         <h3>[% Translate("Save Search as Template?") | html %]</h3>
-                        <fieldset>
+                        <fieldset class="ModularForm">
                             <div class="Row">
                                 <div class="FieldCell">
                                     <div class="Field">
