@@ -565,3 +565,11 @@ button.oooM.ActivitySubmitButton {
     background-color: #000099;
     background-color: var(--colMainHover);
 }
+
+/*
+ * @subsection Reply
+ */
+
+fieldset.ModularForm {
+    width: auto;
+}
