@@ -126,11 +126,13 @@ END_BASH
 ENV OTOBO_USER=otobo
 ENV OTOBO_GROUP=otobo
 ENV OTOBO_HOME=/opt/otobo
+WORKDIR /opt/otobo_install/otobo_next
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
 # Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
 # The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
 # won't be copied. Instead Kernel/Config.pm.docker.dist will be copied to Kernel/Config.pm in entrypoint.sh.
+WORKDIR /opt/otobo_install
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
 WORKDIR /opt/otobo_install/otobo_next
 
