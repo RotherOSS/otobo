@@ -104,5 +104,6 @@ runs:
             GIT_COMMIT=${{ env.otobo_commit }}
           target: ${{ inputs.target }}
           tags: ${{ inputs.dockerhub_tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # disable caching as there have been problem with build the web image
+          #cache-from: type=gha
+          #cache-to: type=gha,mode=max
