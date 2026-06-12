@@ -449,7 +449,11 @@ $Selenium->RunTest(
             $Selenium->switch_to_frame($DetailsIframe);
 
             # Check Elements
-            $Selenium->find_element( "fieldset[field='DynamicField_TestDatabase']", 'css' );
+            is(
+                $Selenium->execute_script('return $("div.Header > h2:contains(\'TestDatabase\')").length;'),
+                1,
+                "Detail View found"
+            );
 
             $Selenium->switch_to_parent_frame();
             $Selenium->find_element( ".Close", 'css' )->click();
@@ -650,7 +654,11 @@ $Selenium->RunTest(
         $Selenium->switch_to_frame($DetailsIframe);
 
         # Check Elements
-        $Selenium->find_element( "fieldset[field='DynamicField_TestDatabase']", 'css' );
+        is(
+            $Selenium->execute_script('return $("div.Header > h2:contains(\'TestDatabase\')").length;'),
+            1,
+            "Detail View found"
+        );
 
         $Selenium->switch_to_parent_frame();
         $Selenium->find_element( ".Close", 'css' )->click();
