@@ -58,7 +58,7 @@
                     <strong>[% Translate("Match settings") | html %]</strong>: [% Translate("Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    <strong>[% Translate("Change settings") | html %]</strong>: [% Translate("Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list.") | html %]
+                    <strong>[% Translate("Change settings") | html %]</strong>: [% Translate("Set up what you want to change if the criteria match. Keep in mind that 'Possible' is an exclusive white list, 'PossibleAdd' a white list, 'PossibleNot' a black list. 'Possible' also hides the empty value, which you could add again with '[empty]'.") | html %]
                 </p>
                 <p class="FieldExplanation">
                     [% Translate("Check the official %sdocumentation%s.") | html | ReplacePlaceholders('<a href="https://doc.otobo.org/manual/admin/11.1/en/content/administration-area/processes-automation/access-control-lists.html" target="_blank">', '</a>')  %]
