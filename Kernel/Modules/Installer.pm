@@ -543,13 +543,30 @@ sub Run {
                 }
                 else {
 
-                    # This is the regular CREATE USER statement where the authenication plugin is specified.
-                    # This SQL statement works for 'ed25519' since MariaDB 10.4. 'mysql_native_password' and 'PARSEC'
-                    # are also covered.
-                    # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
-                    # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
-                    push @CreateUserSQLs,
-                        "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin USING PASSWORD('$OTOBODBPassword')";
+                    # Use portable way of getting the name of the database system.
+                    # Previously this was done using attributes of the database handle,
+                    # but the prefixes of the attributes differ with different database driver modules.
+                    #
+                    # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
+                    my $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+
+                    if ( $DbmsName =~ m/mariadb/i ) {
+
+                        # This is the CREATE USER statement where the authenication plugin is specified.
+                        # This SQL statement works for 'ed25519' since MariaDB 10.4. 'mysql_native_password' and 'PARSEC'
+                        # are also covered.
+                        # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+                        # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
+                        push @CreateUserSQLs,
+                            "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin USING PASSWORD('$OTOBODBPassword')";
+                    }
+                    else {
+
+                        # The MySQL case.
+                        # "USING PASSWORD('...')" is not supported
+                        push @CreateUserSQLs,
+                            "CREATE USER `$OTOBODBUser`\@`$Host` IDENTIFIED WITH $AuthPlugin BY '$OTOBODBPassword'";
+                    }
                 }
 
                 @Statements = (
