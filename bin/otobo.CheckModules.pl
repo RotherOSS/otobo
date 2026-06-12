@@ -1427,6 +1427,8 @@ sub Check {
 
     print '  ' x ( $Depends + 1 );
     print "o $Module->{Module}";
+
+    # The spacing is chosen to accomodate the long package name Plack::Middleware::Profiler::NYTProf
     my $Length = 40 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
 
