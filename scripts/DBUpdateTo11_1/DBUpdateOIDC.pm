@@ -60,7 +60,7 @@ sub Run {
     push @XMLStrings, <<'END_XML';
         <TableCreate Name="oidc_profiles">
             <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
-            <Column Name="name" Required="true" Size="256" Type="VARCHAR" />
+            <Column Name="name" Required="true" Size="255" Type="VARCHAR" />
             <Column Name="client_id" Required="true" Size="1024" Type="VARCHAR" />
             <Column Name="client_secret" Required="true" Size="2048" Type="VARCHAR" />
             <Column Name="redirect_uri" Required="true" Size="4096" Type="VARCHAR" />
@@ -90,14 +90,14 @@ END_XML
     push @XMLStrings, <<'END_XML';
         <TableCreate Name="oidc_functional_accounts">
             <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
-            <Column Name="name" Required="true" Size="256" Type="VARCHAR" />
+            <Column Name="name" Required="true" Size="255" Type="VARCHAR" />
             <Column Name="oidc_profile_id" Required="true" Type="INTEGER" />
             <Column Name="grant_type" Required="true" Size="128" Type="VARCHAR" />
             <Column Name="scopes" Required="true" Size="4096" Type="VARCHAR" />
             <Column Name="resources" Required="true" Size="4096" Type="VARCHAR" />
             <Column Name="resource_param_name" Required="true" Size="128" Type="VARCHAR" />
-            <Column Name="username" Required="false" Size="256" Type="VARCHAR" />
-            <Column Name="passwd" Required="false" Size="256" Type="VARCHAR" />
+            <Column Name="username" Required="false" Size="255" Type="VARCHAR" />
+            <Column Name="passwd" Required="false" Size="255" Type="VARCHAR" />
             <Column Name="token_type" Required="true" Size="64" Type="VARCHAR" />
             <Column Name="create_time" Required="true" Type="DATE" />
             <Column Name="create_by" Required="true" Type="INTEGER" />
