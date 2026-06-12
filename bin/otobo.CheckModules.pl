@@ -1644,7 +1644,9 @@ sub Check {
     my ( $Module, $NoColors ) = @_;
 
     print "  o $Module->{Module}";
-    my $Length = 33 - length( $Module->{Module} );
+
+    # The spacing is chosen to accomodate the long package name Plack::Middleware::Profiler::NYTProf
+    my $Length = 40 - ( length( $Module->{Module} );
     print '.' x $Length;
 
     # $Metadata is undefined when the module is not found in @INC

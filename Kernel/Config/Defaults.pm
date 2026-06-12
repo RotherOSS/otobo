@@ -509,7 +509,9 @@ sub LoadDefaults {
     # example values: AuthSyncBackend, AuthSyncBackend2
 #    $Self->{'AuthModule::UseSyncBackend'} = '';
 
-    # password crypt type (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
+    # crypt type of user passwords in the database (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
+    # It is discouraged to change this setting. The internally used default is 'sha2'.
+    # At least 'md5', 'apr1', 'crypt', and 'plain' are considered to be not really secure.
 #    $Self->{'AuthModule::DB::CryptType'} = 'sha2';
 
     # If "bcrypt" was selected for CryptType, use cost specified here for bcrypt hashing.
@@ -1516,7 +1518,9 @@ via the Preferences button after logging in.
     # if you use odbc or you want to define a database type (without autodetection)
 #    $Self->{'Customer::AuthModule::DB::Type'} = 'mysql';
 
-    # password crypt type (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
+    # crypt type of customer passwords in the database (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
+    # It is discouraged to change this setting. The internally used default is 'sha2'.
+    # At least 'md5', 'apr1', 'crypt', and 'plain' are considered to be not really secure.
 #    $Self->{'Customer::AuthModule::DB::CryptType'} = 'sha2';
 
     # This is an example configuration for an LDAP auth. backend.
