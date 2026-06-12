@@ -193,6 +193,10 @@ END_REASON
 The advisory is about the module Text::LineFold. This module is not used in OTOBO.
 It is installed only because it is included in Unicode::LineBreak.
 Unicode::LineBreak is installed because Unicode::GCString is needed by the test suite.
+
+        crypt_with_md5 => <<'END_REASON',
+The advisory is relevant only when customer or user passwords are stored in the database in MD5 crypted form.
+Using MD5 for crypting passwords is discouraged in OTOBO. Therefore this advisory is not relevant in regular installations.
 END_REASON
     );
 
@@ -229,6 +233,9 @@ END_REASON
         'CPANSA-Unicode-LineBreak-2026-8594' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{text_linefold},
+        'CPANSA-Crypt-PasswdMD5-2026-6659' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{crypt_with_md5},
         },
         ;
 }

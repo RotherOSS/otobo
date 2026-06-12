@@ -1724,7 +1724,7 @@ sub SetPassword {
     }
 
     # crypt with unix_md5_crypt
-    elsif ( $CryptType eq 'md5' || !$CryptType ) {
+    elsif ( $CryptType eq 'md5' ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
         $EncodeObject->EncodeOutput( \$Pw );
