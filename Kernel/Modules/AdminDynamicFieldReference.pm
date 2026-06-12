@@ -23,7 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use List::Util qw(any);
+use List::Util qw(any none);
 
 # CPAN modules
 
@@ -1094,7 +1094,7 @@ sub _ShowScreen {
                 }
 
                 # skip if values are undef
-                next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+                next REFERENCEFILTERENTRY if none { defined $_ } values %FilterRow;
 
                 $LayoutObject->Block(
                     Name => 'ReferenceFilterRow',
@@ -1227,7 +1227,7 @@ sub _GetParamReferenceFilterList {
             }
 
             # skip if filter values are undef
-            next REFERENCEFILTERENTRY if !grep { defined $_ } values %FilterRow;
+            next REFERENCEFILTERENTRY if none { defined $_ } values %FilterRow;
 
             # is the reference filter valid?
             # TODO Check selects also
