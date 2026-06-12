@@ -1367,15 +1367,15 @@ sub CheckDBRequirements {
     # not really used by the recipient, but useful information when inspecting the traffic
     $Result{DbmsName} = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
 
-    my $Plugin = $Result{DBH}->selectrow_hashref(<<~'END_SQL');
-        SELECT plugin_name, plugin_status
-          FROM information_schema.plugins
-          WHERE plugin_name = 'ed25519'
-            AND plugin_status = 'ACTIVE'
-          LIMIT 1
-        END_SQL
-
-    $Result{ED25519Available} = ( $Plugin ? 1 : 0 );
+    $Result{AvailablePlugins} = $Result{DBH}->selectall_arrayref(
+        "
+            SELECT plugin_name
+              FROM information_schema.plugins
+              WHERE plugin_type = 'AUTHENTICATION'
+                AND plugin_status = 'ACTIVE'
+                AND plugin_name IN ('ed25519', 'parsec')
+        "
+    );
 
     # Delete key/value pairs which should not be included in the sent json
     delete $Result{DB};
