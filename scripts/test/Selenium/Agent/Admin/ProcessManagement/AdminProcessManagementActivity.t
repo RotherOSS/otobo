@@ -175,11 +175,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Global",           'css' )->click();
         $Selenium->find_element( "#Submit",           'css' )->VerifiedClick();
 
-        # Check if ActivityDialog2 is non-global
-        my $ActivityDialogQuoted2 = $DBObject->Quote($ActivityDialogRandom2);
+        # Check if ActivityDialog is global
+        my $ActivityDialogQuoted = $DBObject->Quote($ActivityDialogRandom);
         $DBObject->Prepare(
             SQL  => "SELECT process_entity_id FROM pm_activity_dialog WHERE name = ?",
-            Bind => [ \$ActivityDialogQuoted2 ]
+            Bind => [ \$ActivityDialogQuoted ]
         );
         my $ActivityDialogProcessEntityID;
         while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -187,6 +187,22 @@ $Selenium->RunTest(
         }
         $Self->Is(
             $ActivityDialogProcessEntityID,
+            undef,
+            "ProcessEntityID stored in db column",
+        );
+
+        # Check if ActivityDialog2 is non-global
+        my $ActivityDialogQuoted2 = $DBObject->Quote($ActivityDialogRandom2);
+        $DBObject->Prepare(
+            SQL  => "SELECT process_entity_id FROM pm_activity_dialog WHERE name = ?",
+            Bind => [ \$ActivityDialogQuoted2 ]
+        );
+        my $ActivityDialogProcessEntityID2;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ActivityDialogProcessEntityID2 = $Row[0];
+        }
+        $Self->Is(
+            $ActivityDialogProcessEntityID2,
             $ProcessEntityID,
             "ProcessEntityID stored in db column",
         );
@@ -220,9 +236,97 @@ $Selenium->RunTest(
             }
         );
 
-        # Assign both ActivitDialogs
-        $DB::single = 1;
+        # Get ID of ActivityDialogs for DragAndDrop
+        $DBObject->Prepare(
+            SQL  => "SELECT id FROM pm_activity_dialog WHERE name = ?",
+            Bind => [ \$ActivityDialogQuoted ]
+        );
+        my $ActivityDialogID;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ActivityDialogID = $Row[0];
+        }
+        $DBObject->Prepare(
+            SQL  => "SELECT id FROM pm_activity_dialog WHERE name = ?",
+            Bind => [ \$ActivityDialogQuoted2 ]
+        );
+        my $ActivityDialogID2;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ActivityDialogID2 = $Row[0];
+        }
 
+        # Assign both ActivityDialogs
+        $Selenium->DragAndDrop(
+            Element      => "#AvailableActivityDialogs li[data-id=\"$ActivityDialogID\"]",
+            Target       => '#AssignedActivityDialogs',
+            TargetOffset => {
+                X => 10,
+                Y => 10,
+            },
+        );
+        $Selenium->DragAndDrop(
+            Element      => "#AvailableActivityDialogs li[data-id=\"$ActivityDialogID2\"]",
+            Target       => '#AssignedActivityDialogs',
+            TargetOffset => {
+                X => 10,
+                Y => 10,
+            },
+        );
+
+        # Toggling global selection throws alert
+        $Selenium->find_element( "#Global", 'css' )->click();
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for non-global ActivityDialog assigned to global Activity not found';
+
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/Non-global ActivityDialogs may not be assigned to global Activities!/,
+            'Non-global ActivityDialog warning is shown'
+        );
+
+        # Accept the alert to continue with the tests.
+        $Selenium->accept_alert();
+
+        # Edit an ActivityDialog through redirect
+        $Selenium->find_element( "#AssignedActivityDialogs li[data-id=\"$ActivityDialogID\"] a[data-subaction='ActivityDialogEdit']", 'css' )->click();
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for current ActivityEdit state being saved not found';
+
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?/,
+            'Warning for saving current ActivityEdit state is shown'
+        );
+
+        # Accept alert.
+        $Selenium->accept_alert();
+
+        # Go back without editing.
+        $Selenium->WaitFor( ElementExists => q{//a[@class='GoBack']} );
+        $Selenium->find_element(q{//a[@class='GoBack']})->VerifiedClick();
+
+        # Verify Activity name edit.
+        $Self->Is(
+            $Selenium->find_element( '#Name', 'css' )->get_value(),
+            $ActivityRandom . 'edit',
+            "#Name stored value after redirect",
+        );
+
+        # Repeat with Submit instead of GoBack.
+        $Selenium->find_element( "#AssignedActivityDialogs li[data-id=\"$ActivityDialogID\"] a[data-subaction='ActivityDialogEdit']", 'css' )->click();
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for current ActivityEdit state being saved not found';
+
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?/,
+            'Warning for saving current ActivityEdit state is shown'
+        );
+
+        # Accept alert.
+        $Selenium->accept_alert();
+
+        # Submit without editing.
+        $Selenium->WaitFor( ElementExists => [ "#Submit", 'css' ] );
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        # Return to ProcessEdit screen.
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Return to main window after the popup is closed, as the popup sends commands to the main window.
