@@ -188,6 +188,11 @@ END_REASON
         thirtytwo_bit_perl => <<'END_REASON',
 The advisory is only relevant for 32bit builds of Perl. But this is a 64bit build of Perl.
 END_REASON
+
+        crypt_with_md5 => <<'END_REASON',
+The advisory is relevant only when customer or user passwords are stored in the database in MD5 crypted form.
+Using MD5 for crypting passwords is discouraged in OTOBO. Therefore this advisory is not relevant in regular installations.
+END_REASON
     );
 
     return
@@ -219,6 +224,10 @@ END_REASON
             only_relevant_for_32bit_perl => 1,
             is_relevant_for_otobo        => 0,
             reason                       => $Reason{thirtytwo_bit_perl},
+        },
+        'CPANSA-Crypt-PasswdMD5-2026-6659' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{crypt_with_md5},
         },
         ;
 }
