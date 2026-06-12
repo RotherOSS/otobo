@@ -174,8 +174,7 @@ RUN rm -rf /var/lib/apt/lists/*
 # Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
 # The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
 # won't be copied. Instead Kernel/Config.pm.docker.dist will be copied to Kernel/Config.pm in entrypoint.sh.
-COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next_dummy
-RUN mv /opt/otobo_install/otobo_next_dummy /opt/otobo_install/otobo_next
+COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
 WORKDIR /opt/otobo_install/otobo_next
 
 # In a running installation additional Perl modules from CPAN might be needed. These be installed
