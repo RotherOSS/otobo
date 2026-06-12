@@ -32,8 +32,6 @@ use List::Util qw(any);
 # OTOBO modules
 
 our @ObjectDependencies = (
-    'Kernel::System::DB',
-    'Kernel::System::Log',
 );
 
 =head1 NAME

@@ -34,7 +34,6 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
-    'Kernel::System::Log',
 );
 
 =head1 NAME
