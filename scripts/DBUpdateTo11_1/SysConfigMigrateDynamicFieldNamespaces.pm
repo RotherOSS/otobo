@@ -56,6 +56,8 @@ sub Run {
             Priority => 'error',
             Message  => "Could not fetch setting 'DynamicField::Namespaces' - aborting."
         );
+
+        return;
     }
 
     # report success if value is empty
@@ -70,6 +72,8 @@ sub Run {
             Priority => 'error',
             Message  => "Could not fetch setting 'Namespaces###DynamicField' - aborting."
         );
+
+        return;
     }
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
