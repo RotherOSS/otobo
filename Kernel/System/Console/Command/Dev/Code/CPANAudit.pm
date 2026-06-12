@@ -233,6 +233,7 @@ END_REASON
         'CPANSA-Unicode-LineBreak-2026-8594' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{text_linefold},
+        },
         'CPANSA-Crypt-PasswdMD5-2026-6659' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{crypt_with_md5},
