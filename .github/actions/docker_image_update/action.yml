@@ -87,9 +87,8 @@ runs:
             GIT_COMMIT=${{ env.otobo_commit }}
           target: ${{ inputs.target }}
           tags: ${{ env.otobo_ref }}
-          # disable caching as there have been problem with build the web image
-          #cache-from: type=gha
-          #cache-to: type=gha,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       -
         # Show some files in the image just to check sanity.
