@@ -48,11 +48,19 @@ Core.Installer = (function (TargetNS) {
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
             Core.UI.InputFields.InitSelect($('#AuthPlugin'));
-            if (json.DbmsName === 'MariaDB' && json.ED25519Available) {
-                document.getElementById('AuthPlugin').innerHTML +=
-                    '<option value="ed25519">ed25519</option>';
-            }
-            Core.UI.InputFields.InitSelect($('#AuthPlugin'));
+            var $Select = $('#AuthPlugin');
+            $.each(json.AvailablePlugins, function(Index, Item) {
+                var Plugin = Item[0];
+
+                if ($Select.find('option[value="' + Plugin + '"]').length === 0) {
+                    $Select.append(
+                        $('<option>', {
+                            value: Plugin,
+                            text: Plugin
+                        })
+                    );
+                }
+            });
         }
     }
 
