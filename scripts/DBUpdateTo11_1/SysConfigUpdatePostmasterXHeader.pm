@@ -32,7 +32,6 @@ use List::Util qw(any);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
-    'Kernel::System::Package',
     'Kernel::System::SysConfig',
 );
 

@@ -33,7 +33,6 @@ use List::Util qw(any);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
-    'Kernel::System::Log',
 );
 
 =head1 NAME

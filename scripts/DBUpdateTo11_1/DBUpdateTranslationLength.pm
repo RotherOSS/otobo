@@ -25,8 +25,6 @@ use utf8;
 use parent qw(scripts::DBUpdateTo11_1::Base);
 
 our @ObjectDependencies = (
-    'Kernel::System::DB',
-    'Kernel::System::Log',
 );
 
 =head1 NAME

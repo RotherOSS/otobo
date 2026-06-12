@@ -34,7 +34,6 @@ use List::Util qw(uniq);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
-    'Kernel::System::DB',
     'Kernel::System::Package',
 );
 

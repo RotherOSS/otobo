@@ -32,7 +32,6 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
-    'Kernel::System::Package',
     'Kernel::System::SysConfig',
 );
 
