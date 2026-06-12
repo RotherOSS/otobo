@@ -114,6 +114,10 @@ sub Run {
             Name   => 'Deprecate MailAccountOAuth2 Package if present.',
             Module => 'DeprecateMailAccountOAuth2',
         },
+        {
+            Name   => 'Migrate package setting \'TimeShowCreatedAt\' to core setting.',
+            Module => 'SysConfigMigrateTimeShowCreatedAt',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
