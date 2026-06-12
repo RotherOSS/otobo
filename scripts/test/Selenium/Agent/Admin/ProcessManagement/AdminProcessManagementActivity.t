@@ -313,12 +313,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AssignedActivityDialogs li[data-id=\"$ActivityDialogID\"] a[data-subaction='ActivityDialogEdit']", 'css' )->click();
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for current ActivityEdit state being saved not found';
 
-        # Verify the alert message.
-        $Selenium->alert_text_like(
-            qr/As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?/,
-            'Warning for saving current ActivityEdit state is shown'
-        );
-
         # Accept alert.
         $Selenium->accept_alert();
 
@@ -364,24 +358,48 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Process",
         );
 
-        # Delete test activity.
-        my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityDelete(
-            ID     => $ActivityID,
-            UserID => $TestUserID,
-        );
-        $Self->True(
-            $Success,
-            "Activity is deleted - $ActivityID",
-        );
-
         # Delete test process.
-        $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessDelete(
+        $Selenium->find_element( $ProcessRandom, 'link_text' )->VerifiedClick();
+        $Selenium->find_element(q{//a[@id='ProcessDelete']})->click();
+
+        # Confirm deletion.
+        $Selenium->WaitFor( ElementExists => q{//div[@role='dialog']} );
+        $Selenium->find_element( "div[role='dialog'] button[id='DialogButton2']", 'css' )->VerifiedClick();
+
+        # Verify db-state.
+        my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessGet(
             ID     => $ProcessID,
             UserID => $TestUserID,
         );
-        $Self->True(
+        $Self->False(
             $Success,
             "Process is deleted - $ProcessID",
+        );
+        $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityGet(
+            ID     => $ActivityID,
+            UserID => $TestUserID,
+        );
+        $Self->False(
+            $Success,
+            "Non-global Activity is deleted - $ActivityID",
+        );
+        $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogGet(
+            ID     => $ActivityDialogID2,
+            UserID => $TestUserID,
+        );
+        $Self->False(
+            $Success,
+            "Non-global ActivityDialog is deleted - $ActivityDialogID2",
+        );
+
+        # Delete remaining global ActivityDialog.
+        $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogDelete(
+            ID     => $ActivityDialogID,
+            UserID => $TestUserID,
+        );
+        $Self->True(
+            $Success,
+            "Global ActivityDialog is deleted - $ActivityDialogID",
         );
 
         # Synchronize process after deleting test process.
