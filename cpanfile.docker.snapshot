@@ -2499,6 +2499,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2825,10 +2826,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.54
-    pathname: N/NL/NLNETLABS/Net-DNS-1.54.tar.gz
+  Net-DNS-1.55
+    pathname: N/NL/NLNETLABS/Net-DNS-1.55.tar.gz
     provides:
-      Net::DNS 1.54
+      Net::DNS 1.55
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2005
       Net::DNS::DomainName1035 2005
@@ -2839,7 +2840,7 @@ DISTRIBUTIONS
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2043
+      Net::DNS::Parameters 2046
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2854,8 +2855,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CERT 2042
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2043
-      Net::DNS::RR::DELEGI 2043
+      Net::DNS::RR::DELEG 2046
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2042
@@ -2924,10 +2924,10 @@ DISTRIBUTIONS
       Net::DNS::RR::X25 2002
       Net::DNS::RR::ZONEMD 2003
       Net::DNS::Resolver 2017
-      Net::DNS::Resolver::Base 2031
+      Net::DNS::Resolver::Base 2049
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
-      Net::DNS::Resolver::UNIX 2007
+      Net::DNS::Resolver::UNIX 2046
       Net::DNS::Resolver::android 2007
       Net::DNS::Resolver::cygwin 2002
       Net::DNS::Resolver::os2 2007
