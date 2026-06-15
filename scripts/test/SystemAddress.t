@@ -333,6 +333,58 @@ $Self->False(
         because it is used in one or more queue(s) or auto response(s)",
 );
 
-# Cleanup is done by RestoreDatabase.
+subtest 'SystemAddressIsLocalAddress' => sub {
+
+    #my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @AddressTests = (
+        {
+            # not local because the address was updated
+            Address         => $SystemAddressEmail,
+            ExpectedIsLocal => 0,
+        },
+        {
+            # local because that is the updated address
+            Address         => '2' . $SystemAddressEmail,
+            ExpectedIsLocal => 0,
+        },
+        {
+            Address         => $SystemAddressEmail2,
+            ExpectedIsLocal => 1,
+        },
+        {
+            Address         => "dummy$SystemAddressEmail",
+            ExpectedIsLocal => 0,
+        },
+        {
+            Address         => "dummy$SystemAddressEmail2",
+            ExpectedIsLocal => 0,
+        },
+        {
+            Address         => 'Postmaster',
+            ExpectedIsLocal => 0,
+        },
+    );
+    for my $Test (@AddressTests) {
+        my $IsLocalAddress = $SystemAddressObject->SystemAddressIsLocalAddress(
+            Address => $Test->{Address},
+        );
+        is(
+            ( $IsLocalAddress ? 1 : 0 ),
+            $Test->{ExpectedIsLocal},
+            "Address $Test->{Address} is local"
+        );
+
+        # This will be enabled in rel-11_1
+        #my ($AddressObject) = $EmailAddressObject->ParseAddressLine( Line => $Test->{Address} );
+        #my $IsLocalAddressObject = $SystemAddressObject->SystemAddressIsLocalAddress(
+        #    AddressObject => $AddressObject,
+        #);
+        #is(
+        #    ($IsLocalAddressObject ? 1 : 0),
+        #    $Test->{ExpectedIsLocal},
+        #    "Address object $Test->{Address} is local"
+        #);
+    }
+};
 
 done_testing;
