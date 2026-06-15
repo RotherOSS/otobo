@@ -1347,12 +1347,67 @@ sub Run {
         my $JSON;
         if ( $CheckResult->{Success} ) {
 
-            # save ProcessEntityID for later
+            # get ProcessEntityID
             my $ProcessData = $ProcessObject->ProcessGet(
                 ID     => $ProcessID,
                 UserID => $Self->{UserID},
             );
             my $ProcessEntityID = $ProcessData->{EntityID};
+
+            # delete non-global elements of the process
+            for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
+
+                my $ElementObject = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Element );
+                my $ElementList   = $Element . 'List';
+                my $ElementGet    = $Element . 'Get';
+                my $ElementDelete = $Element . 'Delete';
+
+                ELEMENT:
+                for my $ElementID ( sort keys %{ $ElementObject->$ElementList( UserID => $Self->{UserID} ) } ) {
+                    my $ElementData = $ElementObject->$ElementGet(
+                        ID     => $ElementID,
+                        UserID => $Self->{UserID},
+                    );
+
+                    # check if element is specific to this process
+                    next ELEMENT unless $ElementData && $ElementData->{ProcessEntityID} && $ElementData->{ProcessEntityID} eq $ProcessEntityID;
+
+                    my $Success = $ElementObject->$ElementDelete(
+                        ID     => $ElementID,
+                        UserID => $Self->{UserID},
+                    );
+
+                    my %DeleteResult = (
+                        Success => $Success,
+                    );
+
+                    if ( !$Success ) {
+                        $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate(
+                            'Process: %s successfully deleted, but failed to delete an associated Element',
+                            $ProcessID
+                        );
+                    }
+                    else {
+
+                        # set entity sync state
+                        my $Success = $EntityObject->EntitySyncStateSet(
+                            EntityType => $Element,
+                            EntityID   => $ElementData->{EntityID},
+                            SyncState  => 'deleted',
+                            UserID     => $Self->{UserID},
+                        );
+
+                        # show error if can't set
+                        if ( !$Success ) {
+                            $DeleteResult{Success} = $Success;
+                            $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate(
+                                'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity',
+                                $ProcessID
+                            );
+                        }
+                    }
+                }
+            }
 
             my $Success = $ProcessObject->ProcessDelete(
                 ID     => $ProcessID,
@@ -1383,59 +1438,6 @@ sub Run {
                         'There was an error setting the entity sync status for Process entity: %s',
                         $CheckResult->{ProcessData}->{EntityID}
                     );
-                }
-
-                # clean up all elements specific to this process
-                for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
-
-                    my $ElementObject = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Element );
-                    my $ElementList   = $Element . 'List';
-                    my $ElementGet    = $Element . 'Get';
-                    my $ElementDelete = $Element . 'Delete';
-
-                    ELEMENT:
-                    for my $ElementID ( sort keys %{ $ElementObject->$ElementList( UserID => $Self->{UserID} ) } ) {
-                        my $ElementData = $ElementObject->$ElementGet(
-                            ID     => $ElementID,
-                            UserID => $Self->{UserID},
-                        );
-
-                        # check if element is specific to this process
-                        next ELEMENT unless $ElementData && $ElementData->{ProcessEntityID} && $ElementData->{ProcessEntityID} eq $ProcessEntityID;
-
-                        my $SuccessElement = $ElementObject->$ElementDelete(
-                            ID     => $ElementID,
-                            UserID => $Self->{UserID},
-                        );
-
-                        $DeleteResult{Success} = $SuccessElement;
-
-                        if ( !$SuccessElement ) {
-                            $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate(
-                                'Process: %s successfully deleted, but failed to delete an associated Element',
-                                $ProcessID
-                            );
-                        }
-                        else {
-
-                            # set entity sync state
-                            my $SuccessElement = $EntityObject->EntitySyncStateSet(
-                                EntityType => $Element,
-                                EntityID   => $ElementData->{EntityID},
-                                SyncState  => 'deleted',
-                                UserID     => $Self->{UserID},
-                            );
-
-                            # show error if can't set
-                            if ( !$SuccessElement ) {
-                                $DeleteResult{SuccessElement} = $SuccessElement;
-                                $DeleteResult{Message}        = $LayoutObject->{LanguageObject}->Translate(
-                                    'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity',
-                                    $ProcessID
-                                );
-                            }
-                        }
-                    }
                 }
             }
 
