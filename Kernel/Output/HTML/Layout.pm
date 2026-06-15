@@ -6400,7 +6400,6 @@ sub SetRichTextParameters {
 
     # get needed variables
     my $ScreenRichTextHeight = $Param{Data}->{RichTextHeight}              || $ConfigObject->Get("Frontend::RichTextHeight");
-    my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}               || $ConfigObject->Get("Frontend::RichTextWidth");
     my $RichTextType         = $Param{Data}->{RichTextType}                || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
 
@@ -6482,7 +6481,6 @@ sub SetRichTextParameters {
         Key   => 'RichText',
         Value => {
             Height => $ScreenRichTextHeight,
-            Width  => $ScreenRichTextWidth,
             Lang   => {
                 SplitQuote  => $LanguageObject->Translate('Split Quote'),
                 RemoveQuote => $LanguageObject->Translate('Remove Quote'),
@@ -6537,7 +6535,6 @@ sub CustomerSetRichTextParameters {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
 
     my $ScreenRichTextHeight = $ConfigObject->Get("Frontend::RichTextHeight");
-    my $ScreenRichTextWidth  = $ConfigObject->Get("Frontend::RichTextWidth");
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
 
     # Declare different toolbars. These declarations will be used in JavaScript.
@@ -6639,7 +6636,6 @@ sub CustomerSetRichTextParameters {
         Key   => 'RichText',
         Value => {
             Height => $ScreenRichTextHeight,
-            Width  => $ScreenRichTextWidth,
             Lang   => {
                 SplitQuote => $LanguageObject->Translate('Split Quote'),
             },

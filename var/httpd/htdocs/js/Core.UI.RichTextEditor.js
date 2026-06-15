@@ -109,9 +109,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         var ToolbarConfig;
         if ( CustomerInterface ) {
-            ToolbarConfig = /*$EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
-                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :*/
-                            CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+            ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
         }
         else {
             ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
@@ -557,11 +555,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
 
                 if (!CustomerInterface) {
-                    // set initial (maximum) Editor size as defined by System Configuration
-                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) );
+                    // set initial Editor height as defined by the System Configuration
 
-                    $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
-                    $domEditableElement.children().css("max-width", EditorWidth);
+                    $domEditableElement.css("--initial-height", Core.Config.Get("RichText.Height", 320));
                 }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);

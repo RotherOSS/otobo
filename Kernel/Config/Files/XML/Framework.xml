@@ -507,15 +507,8 @@
             <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-47.6.1/</Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
-        <Description Translatable="1">Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Frontend::Base</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
-        </Value>
-    </Setting>
     <Setting Name="Frontend::RichTextHeight" Required="1" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height for the rich text editor component. Enter number (pixels).</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
