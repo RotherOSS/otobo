@@ -411,7 +411,7 @@ sub SystemAddressIsLocalAddress {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Address} && !$Param{AddressObject} ) {
+    if ( !$Param{Address} && !defined $Param{AddressObject} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need either Address or AddressObject!'
@@ -419,7 +419,7 @@ sub SystemAddressIsLocalAddress {
 
         return;
     }
-    if ( $Param{Address} && $Param{AddressObject} ) {
+    if ( $Param{Address} && defined $Param{AddressObject} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need only one of Address or AddressObject!'
@@ -428,9 +428,14 @@ sub SystemAddressIsLocalAddress {
         return;
     }
 
-    # Traditionally this check is only looking a the bare address
+    # Traditionally this check is only looking a the bare address.
     my $Address = $Param{Address} // $Param{AddressObject}->address;
 
+    # Note that a defined address object can still give an empty address.
+    # In this case we don't claim that it is a local address.
+    return unless $Address;
+
+    # Return the found queue id, despite the method name which hints at a boolean result
     return $Self->SystemAddressQueueID(
         Address => $Address,
     );
