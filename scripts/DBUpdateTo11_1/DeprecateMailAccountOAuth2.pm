@@ -55,10 +55,10 @@ sub Run {
 
     if ($IsInstalled) {
 
-        print << 'WARNING';
-        
+        print <<'WARNING';
+
     Detected deprecated package 'MailAccount-OAuth2'.
-    The MailAccount-OAuth2 package is no longer supported 
+    The MailAccount-OAuth2 package is no longer supported
     starting OTOBO 11.1.0.
     Please migrate to using the OIDC/OAuth2
     functionality built into OTOBO core 11.1.x.

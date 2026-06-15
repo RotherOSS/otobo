@@ -70,7 +70,7 @@ my @Tests = (
         Url      => 'http://www.example.com?Item=&Item=&Item=',
         Param    => 'Item',
         Throws   => undef,
-        Expected => ['','',''],
+        Expected => [ '', '', '' ],
         Check    => 'positive_integer',
         Default  => 42,
     },

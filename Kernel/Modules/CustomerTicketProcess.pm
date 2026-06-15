@@ -501,8 +501,8 @@ sub _RenderAjax {
             $Param{GetParam}->%*,
             DynamicField => $DFParam,
         },
-        DynFieldStates      => \%DynFieldStates,
-        IDSuffix            => $Self->{IDSuffix},
+        DynFieldStates => \%DynFieldStates,
+        IDSuffix       => $Self->{IDSuffix},
     );
 
     push @JSONCollector, @DynamicFieldAJAX;
