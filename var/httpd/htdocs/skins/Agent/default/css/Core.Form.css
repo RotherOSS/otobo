@@ -1157,7 +1157,7 @@ fieldset.ModularForm {
         padding: var(--field-padding-vertical) var(--field-padding-horizontal);
     }
 
-    fieldset.ModularForm div.Field:not(.Hidden) {
+    fieldset.ModularForm .Field:not(.Hidden) {
         display: flex;
         flex-flow: row wrap;
     }
@@ -1464,7 +1464,22 @@ fieldset.ModularForm {
     display: flex;
     height: 100%;
     align-items: center;
-}
+    }
+
+    fieldset.ModularForm .Row .Field.ChoiceInput {
+        flex-direction: column;
+    }
+
+    fieldset.ModularForm .ChoiceInput > div {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5em;
+    }
+
+    fieldset.ModularForm .ChoiceInput input[type="text"] {
+        width: unset;
+        flex-basis: 1;
+    }
 
 /**
  * end @subsection New Form CSS
