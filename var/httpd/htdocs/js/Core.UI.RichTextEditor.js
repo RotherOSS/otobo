@@ -556,8 +556,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 if (!CustomerInterface) {
                     // set initial Editor height as defined by the System Configuration
-
-                    $domEditableElement.css("--initial-height", Core.Config.Get("RichText.Height", 320));
+                    let NewFormStructure = $domEditableElement.closest('fieldset.ModularForm').length > 0;
+                    if (NewFormStructure) {
+                        $domEditableElement.css("--initial-height", Core.Config.Get("RichText.Height", 320));
+                    } else {
+                        $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320) + "px");
+                    }
                 }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
