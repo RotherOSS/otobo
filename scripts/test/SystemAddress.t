@@ -14,14 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self when we are running as a standalone script.
+
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -72,7 +78,7 @@ my $QueueID2 = $QueueObject->QueueAdd(
 
 # add SystemAddress
 my $SystemAddressEmail    = $Helper->GetRandomID() . '@example.com';
-my $SystemAddressRealname = "OTOBO-Team";
+my $SystemAddressRealname = 'OTOBO-Team';
 
 my %SystemAddressData = (
     Name     => $SystemAddressEmail,
@@ -86,11 +92,7 @@ my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
     %SystemAddressData,
     UserID => 1,
 );
-
-$Self->True(
-    $SystemAddressID,
-    'SystemAddressAdd()',
-);
+ok( $SystemAddressID, 'SystemAddressAdd() - first system address' );
 
 my $SystemAddressIDWrong = $SystemAddressObject->SystemAddressAdd(
     Name     => $SystemAddressEmail,
@@ -118,10 +120,7 @@ my $SystemAddressID2       = $SystemAddressObject->SystemAddressAdd(
     UserID   => 1,
 );
 
-$Self->True(
-    $SystemAddressID2,
-    'SystemAddressAdd()',
-);
+ok( $SystemAddressID2, 'SystemAddressAdd() - second system address' );
 
 # try to update SystemAddress with existing name
 my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
@@ -336,4 +335,4 @@ $Self->False(
 
 # Cleanup is done by RestoreDatabase.
 
-$Self->DoneTesting();
+done_testing;
