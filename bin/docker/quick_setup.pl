@@ -610,7 +610,7 @@ sub DBCreateUserAndDatabase {
             # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
             # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-parsec
             push @CreateUserSQLs,
-                "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} AS PASSWORD('$Param{OTOBODBPassword}')";
+                "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
         }
         else {
 
