@@ -32,6 +32,7 @@ use List::Util qw(any);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
 );
@@ -44,6 +45,8 @@ scripts::DBUpdateTo11_1::SysConfigMigrateTimeShowCreatedAt - Copy package settin
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    return 1 unless $Kernel::OM->Get('Kernel::Config')->Get('TimeShowCreatedAt');
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
