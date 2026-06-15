@@ -334,9 +334,8 @@ $Self->False(
 );
 
 subtest 'SystemAddressIsLocalAddress' => sub {
-
-    #my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
-    my @AddressTests = (
+    my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
+    my @AddressTests       = (
         {
             # not local because the address was updated
             Address         => $SystemAddressEmail,
@@ -374,16 +373,15 @@ subtest 'SystemAddressIsLocalAddress' => sub {
             "Address $Test->{Address} is local"
         );
 
-        # This will be enabled in rel-11_1
-        #my ($AddressObject) = $EmailAddressObject->ParseAddressLine( Line => $Test->{Address} );
-        #my $IsLocalAddressObject = $SystemAddressObject->SystemAddressIsLocalAddress(
-        #    AddressObject => $AddressObject,
-        #);
-        #is(
-        #    ($IsLocalAddressObject ? 1 : 0),
-        #    $Test->{ExpectedIsLocal},
-        #    "Address object $Test->{Address} is local"
-        #);
+        my ($AddressObject) = $EmailAddressObject->ParseAddressLine( Line => $Test->{Address} );
+        my $IsLocalAddressObject = $SystemAddressObject->SystemAddressIsLocalAddress(
+            AddressObject => $AddressObject,
+        );
+        is(
+            ( $IsLocalAddressObject ? 1 : 0 ),
+            $Test->{ExpectedIsLocal},
+            "Address object $Test->{Address} is local"
+        );
     }
 };
 
