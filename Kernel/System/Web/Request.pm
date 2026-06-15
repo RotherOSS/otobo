@@ -882,6 +882,9 @@ sub LoadFormDraft {
     my $FormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
         FormDraftID => $Param{FormDraftID},
         UserID      => $Param{UserID},
+        ObjectType  => 'Ticket',
+        ObjectID    => $Self->GetParam( Param => 'TicketID' ),
+
     );
 
     return unless IsHashRefWithData($FormDraft);

@@ -200,6 +200,26 @@ sub FormDraftGet {
             ChangeBy    => $Row[8],
         );
 
+        # if no $Param{ObjectType} is provided, there is no validation
+        # this validation is important but is kept optional for backward compatibility
+        if ( $Param{ObjectType} && $FormDraft{ObjectType} ne $Param{ObjectType} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "The draft $Param{FormDraftID} is not of the type $Param{ObjectType}!",
+            );
+            return;
+        }
+
+        # if no $Param{ObjectID} is provided, there is no validation
+        # this validation is important but is kept optional for backward compatibility
+        if ( $Param{ObjectID} && $FormDraft{ObjectID} != $Param{ObjectID} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "The draft $Param{FormDraftID} does not belong to the $Param{ObjectType} $Param{ObjectID}!",
+            );
+            return;
+        }
+
         if ( $Param{GetContent} ) {
 
             my $RawContent      = $Row[9] // {};
