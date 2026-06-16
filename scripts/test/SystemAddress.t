@@ -25,11 +25,9 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
-our $Self;
-
-# get helper object
+# get needed objects
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -39,8 +37,8 @@ my $Helper              = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 
-my $QueueRand1 = $Helper->GetRandomID();
-my $QueueRand2 = $Helper->GetRandomID();
+my $QueueRand1 = $Helper->GetRandomID;
+my $QueueRand2 = $Helper->GetRandomID;
 
 my $QueueID1 = $QueueObject->QueueAdd(
     Name                => $QueueRand1,
@@ -103,8 +101,9 @@ my $SystemAddressIDWrong = $SystemAddressObject->SystemAddressAdd(
     UserID   => 1,
 );
 
-$Self->False(
+is(
     $SystemAddressIDWrong,
+    undef,
     'SystemAddressAdd() - Try to add new system address with existing system address name',
 );
 
@@ -132,15 +131,16 @@ my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
     ValidID  => 2,
     UserID   => 1,
 );
-$Self->False(
+is(
     $SystemAddressUpdate,
+    undef,
     'SystemAddressUpdate() - Try to update new system address with existing system address name',
 );
 
 my %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
 for my $Key ( sort keys %SystemAddressData ) {
-    $Self->Is(
+    is(
         $SystemAddress{$Key},
         $SystemAddressData{$Key},
         'SystemAddressGet() - $Key',
@@ -151,7 +151,7 @@ for my $Key ( sort keys %SystemAddressData ) {
 %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
 for my $Key ( sort keys %SystemAddressData ) {
-    $Self->Is(
+    is(
         $SystemAddress{$Key},
         $SystemAddressData{$Key},
         'SystemAddressGet() - $Key',
@@ -159,14 +159,14 @@ for my $Key ( sort keys %SystemAddressData ) {
 }
 
 my %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
-$Self->True(
+ok(
     exists $SystemAddressList{$SystemAddressID} && $SystemAddressList{$SystemAddressID} eq $SystemAddressEmail,
     "SystemAddressList() contains the SystemAddress $SystemAddressID",
 );
 
 # caching
 %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 1 );
-$Self->True(
+ok(
     exists $SystemAddressList{$SystemAddressID} && $SystemAddressList{$SystemAddressID} eq $SystemAddressEmail,
     "SystemAddressList() contains the SystemAddress $SystemAddressID",
 );
@@ -199,7 +199,7 @@ my @Tests = (
 );
 for my $Test (@Tests) {
     my $QueueID = $SystemAddressObject->SystemAddressQueueID( Address => $Test->{Address} );
-    $Self->Is(
+    is(
         $QueueID,
         $Test->{QueueID},
         "SystemAddressQueueID() - $Test->{Address}",
@@ -207,7 +207,7 @@ for my $Test (@Tests) {
 
     # cached
     $QueueID = $SystemAddressObject->SystemAddressQueueID( Address => $Test->{Address} );
-    $Self->Is(
+    is(
         $QueueID,
         $Test->{QueueID},
         "SystemAddressQueueID() - $Test->{Address}",
@@ -227,15 +227,12 @@ $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
     ID     => $SystemAddressID,
     UserID => 1,
 );
-$Self->True(
-    $SystemAddressUpdate,
-    'SystemAddressUpdate()',
-);
+ok( $SystemAddressUpdate, 'SystemAddressUpdate()' );
 
 %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
 for my $Key ( sort keys %SystemAddressDataUpdate ) {
-    $Self->Is(
+    is(
         $SystemAddress{$Key},
         $SystemAddressDataUpdate{$Key},
         'SystemAddressGet() - $Key',
@@ -255,11 +252,11 @@ my $SystemAddressID1 = $SystemAddressObject->SystemAddressAdd(
 # test SystemAddressQueueList() method - get all addresses
 my %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 0 );
 
-$Self->True(
+ok(
     exists $SystemQueues{$QueueID2} && $SystemQueues{$QueueID2} == $SystemAddressID,
     "SystemAddressQueueList() contains the QueueID2",
 );
-$Self->True(
+ok(
     exists $SystemQueues{$QueueID1} && $SystemQueues{$QueueID1} == $SystemAddressID1,
     "SystemAddressQueueList() contains the QueueID1",
 );
@@ -267,11 +264,11 @@ $Self->True(
 # test SystemAddressQueueList() method -  get only valid system addresses
 %SystemQueues = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressQueueList( Valid => 1 );
 
-$Self->False(
-    exists $SystemQueues{$QueueID2},
+ok(
+    !exists $SystemQueues{$QueueID2},
     "SystemAddressQueueList() does not contain the invalid QueueID2",
 );
-$Self->True(
+ok(
     exists $SystemQueues{$QueueID1} && $SystemQueues{$QueueID1} == $SystemAddressID1,
     "SystemAddressQueueList() contains the valid QueueID1",
 );
@@ -280,7 +277,7 @@ $Self->True(
 my $SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
     SystemAddressID => 1,
 );
-$Self->True(
+ok(
     $SystemAddressIsUsed,
     "SystemAddressIsUsed() - Correctly detected system address in use"
 );
@@ -288,8 +285,9 @@ $Self->True(
 $SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
     SystemAddressID => $SystemAddressID2,
 );
-$Self->False(
+is(
     $SystemAddressIsUsed,
+    undef,
     "SystemAddressIsUsed() - Correctly detected system address not in use"
 );
 
@@ -304,7 +302,7 @@ my $AutoResponse = $Kernel::OM->Get('Kernel::System::AutoResponse')->AutoRespons
     UserID      => 1,
 );
 
-$Self->True(
+ok(
     $AutoResponse,
     "AutoResponseAdd() - $AutoResponse"
 );
@@ -312,7 +310,7 @@ $Self->True(
 $SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
     SystemAddressID => $SystemAddressID2,
 );
-$Self->True(
+ok(
     $SystemAddressIsUsed,
     "SystemAddressIsUsed() - Correctly detected system address in use after adding auto response"
 );
@@ -326,8 +324,9 @@ $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
     ID       => $SystemAddressID2,
     UserID   => 1,
 );
-$Self->False(
+is(
     $SystemAddressUpdate,
+    undef,
     "SystemAddressUpdate() -
         This system address $SystemAddressID2 cannot be set to invalid,
         because it is used in one or more queue(s) or auto response(s)",
