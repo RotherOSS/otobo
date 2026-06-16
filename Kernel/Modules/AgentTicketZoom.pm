@@ -1504,7 +1504,6 @@ sub MaskAgentZoom {
         {
             my $ActionData = $ActionLookup{$Action};
 
-            SHOWNFormDraftACTIONENTRY:
             for my $ShownFormDraftActionEntry (
                 sort {
                     $a->{Title}
