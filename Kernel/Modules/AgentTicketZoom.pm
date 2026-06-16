@@ -901,7 +901,7 @@ sub MaskAgentZoom {
         TemplateTypes => 1,
     );
 
-    # get cofig object
+    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # generate shown articles
@@ -1576,7 +1576,7 @@ sub MaskAgentZoom {
         my $ProcessEntityIDField = 'DynamicField_'
             . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
-        # get the DF where the AtivityEntityID is stored
+        # get the DF where the ActivityEntityID is stored
         my $ActivityEntityIDField = 'DynamicField_'
             . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
