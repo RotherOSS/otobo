@@ -1649,7 +1649,7 @@ sub MaskAgentZoom {
             $ProcessEntityIDField = 'DynamicField_'
                 . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
-            # get the DF where the AtivityEntityID is stored
+            # get the DF where the ActivityEntityID is stored
             my $ActivityEntityIDField = 'DynamicField_'
                 . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
