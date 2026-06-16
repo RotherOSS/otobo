@@ -271,19 +271,36 @@ subtest 'Format()' => sub {
 
     my $EmailAddressObject = $Kernel::OM->Get('Kernel::System::EmailAddress');
 
-    my $AddressObject = Email::Address::XS->new(
-        'Erna Extremtesterin',
-        'extremerna@testanything.org',
-        'extreme testing is good',
-    );
-    my $FormattedAddress = $EmailAddressObject->Format(
-        AddressObject => $AddressObject,
-    );
-    is(
-        $FormattedAddress,
-        '"Erna Extremtesterin" <extremerna@testanything.org> (extreme testing is good)',
-        'Format phrase, address, and comment'
-    );
+    {
+        my $AddressObject = Email::Address::XS->new(
+            'Erna Extremtesterin',
+            'extremerna@testanything.org',
+            'extreme testing is good',
+        );
+        my $FormattedAddress = $EmailAddressObject->Format(
+            AddressObject => $AddressObject,
+        );
+        is(
+            $FormattedAddress,
+            '"Erna Extremtesterin" <extremerna@testanything.org> (extreme testing is good)',
+            'Format phrase, address, and comment'
+        );
+    }
+
+    # There might be invalid address lines without an actual address.
+    # The formatted address is then empty and the warning "Argument contains empty address"
+    # is printed.
+    {
+        my ($AddressObject) = $EmailAddressObject->ParseAddressLine( Line => 'Postmaster' );
+        my $FormattedAddress = $EmailAddressObject->Format(
+            AddressObject => $AddressObject,
+        );
+        is(
+            $FormattedAddress,
+            q{},
+            'address objecgt without address'
+        );
+    }
 
     is(
         $EmailAddressObject->Format(
