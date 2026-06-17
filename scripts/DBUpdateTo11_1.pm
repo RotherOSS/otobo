@@ -59,6 +59,10 @@ sub Run {
             Module => 'RebuildConfig',
         },
         {
+            Name   => 'Deactivate autoload modules in the SysConfig',
+            Module => 'SysConfigDeactivateAutoloadModules',
+        },
+        {
             Name   => 'Increase translation content length',
             Module => 'DBUpdateTranslationLength',
         },
