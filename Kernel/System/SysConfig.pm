@@ -760,7 +760,7 @@ Returns:
 
     $ExclusiveLockGUID = 'azzHab72wIlAXDrxHexsI5aENsESxAO7';     # Setting locked
 
-    or
+or
 
     $ExclusiveLockGUID = undef;     # Not locked
 
