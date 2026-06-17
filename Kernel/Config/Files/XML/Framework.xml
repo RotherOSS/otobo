@@ -9991,7 +9991,6 @@ via the Preferences button after logging in.
         <Value>
             <Array>
                 <DefaultItem ValueType="Entity" ValueEntityType="Queue" ValueRegex=""></DefaultItem>
-                <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Junk</Item>
             </Array>
         </Value>
     </Setting>
