@@ -43,7 +43,7 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => 'DashboardBackend',
-            Value => \%$Config,
+            Value => $Config,
         );
 
         my %EventsTicketCalendarSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
@@ -59,6 +59,15 @@ $Selenium->RunTest(
                 %{ $EventsTicketCalendarSysConfig{EffectiveValue} },
                 Default => 1,
             }
+        );
+
+        # add relevant queue to system configuration setting
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'DashboardEventsTicketCalendar###Queues',
+            Value => [
+                'Raw',
+            ],
         );
 
         # create test user and login
