@@ -649,6 +649,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # Check validation.
+        $Selenium->WaitFor( JavaScript => "return \$('#Subject').hasClass('Error');" );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Subject').hasClass('Error');"
