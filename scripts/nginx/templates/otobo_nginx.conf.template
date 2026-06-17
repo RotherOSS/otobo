@@ -1,4 +1,4 @@
-# Config for nginx serving as a reverse proxy for the OTOBO web application.
+# Config for the nginx service, serving as a reverse proxy for the OTOBO web application.
 
 # This config is based on default.conf in the nginx installation
 
