@@ -215,6 +215,15 @@ sub Run {
         }
     }
     else {
+
+        # determine value structure of setting
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => $SettingName,
+        );
+        if ( ( ref $Setting{EffectiveValue} eq 'ARRAY' ) && ( ref $EffectiveValue ne 'ARRAY' ) ) {
+            $EffectiveValue = [$EffectiveValue];
+        }
+
         my %Result = $SysConfigObject->SettingUpdate(
             Name              => $SettingName,
             EffectiveValue    => $EffectiveValue,
