@@ -47,12 +47,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /* End of additions from Core.Reset.css */
 
 .ck-content {
+
+    --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --ck-content-font-size: 12pt;
+    --ck-content-line-height: 14pt;
+    --ck-content-todo-list-checkmark-size: 14pt;
+
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.3;
+    font-size: var(--ck-content-font-size);
+    line-height: var(--ck-content-line-height);
     font-weight: normal;
-    color: #00023c;
+    color: #000000;
     margin-bottom: 0px;
 }
 
@@ -92,50 +98,48 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ck-content p {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 10pt;
 }
 
 .ck-content h1 {
-    font-size: 2em;
+    font-size: 16pt;
+    line-height: 18pt;
+    margin-top: 20pt;
+    margin-bottom: 12pt;
     font-weight: bold;
-    margin-bottom: 15px;
     color: inherit;
 } 
 
 .ck-content h2 {
-    font-size: 1.5em;
+    font-size: 14pt;
+    line-height: 16pt;
+    margin-top: 16pt;
+    margin-bottom: 10pt;
     font-weight: bold;
-    margin-bottom: 10px;
     color: inherit;
 }
 
 .ck-content h3 {
-    font-size: 1.17em;
+    font-size: 12pt;
+    line-height: 14pt;
+    margin-top: 12pt;
+    margin-bottom: 8pt;
     font-weight: bold;
-    margin-bottom: 5px;
     color: inherit;
 }
 
-.ck-content h4 {
-    font-size: 1em;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: inherit;
-}
-
-.ck-content h5 {
-    font-size: 0.83em;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: inherit;
-} 
-
+.ck-content h4,
+.ck-content h5,
 .ck-content h6 {
-    font-size: 0.67em;
-    font-weight: bold;
+    font-size: 12pt;
+    line-height: 14pt;
+    margin-top: 12pt;
+    margin-bottom: 8pt;
+    font-weight: normal !important;
+    font-style: italic;
     color: inherit;
-} 
+}
 
 .ck-content blockquote {
     font-style: normal !important;
