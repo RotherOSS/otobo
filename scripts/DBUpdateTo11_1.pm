@@ -132,7 +132,7 @@ sub Run {
 
     TASK:
     for my $Task (@Tasks) {
-        say "\tExecuting task $Count/$NumTasks '$Task->{Name}' ...";
+        say "\tExecuting task $Count/$NumTasks '$Task->{Name}' ($Task->{Module}) ...";
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo11_1::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
