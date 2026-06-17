@@ -2693,12 +2693,17 @@ sub PackageExport {
 
 =head2 PackageIsInstalled()
 
-returns true if the package is already installed
+returns true if the package is already installed.
 
-    $PackageObject->PackageIsInstalled(
+    my $IsInstalled = $PackageObject->PackageIsInstalled(
         String => $PackageString,    # Attribute String or Name is required
         Name   => $NameOfThePackage,
     );
+
+The answer is based on information from the database table I<package_repository>.
+During upgrades it is not guaranteed that the package files actually exist.
+
+Returns 0 or 1.
 
 =cut
 
@@ -2711,6 +2716,7 @@ sub PackageIsInstalled {
             Priority => 'error',
             Message  => 'Need String (PackageString) or Name (Name of the package)!',
         );
+
         return;
     }
 
