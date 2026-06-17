@@ -16,7 +16,7 @@
 
 package Kernel::System::Package;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
@@ -2722,19 +2722,17 @@ sub PackageIsInstalled {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    $DBObject->Prepare(
-        SQL => "SELECT name FROM package_repository "
-            . "WHERE name = ? AND install_status = 'installed'",
-        Bind  => [ \$Param{Name} ],
-        Limit => 1,
+    my ($Name) = $DBObject->SelectRowArray(
+        SQL => <<~'END_SQL',
+            SELECT name
+              FROM package_repository
+              WHERE name           = ?
+                AND install_status = 'installed'
+            END_SQL
+        Bind => [ \$Param{Name} ],
     );
 
-    my $Flag = 0;
-    while ( $DBObject->FetchrowArray() ) {
-        $Flag = 1;
-    }
-
-    return $Flag;
+    return defined $Name ? 1 : 0;
 }
 
 =head2 PackageInstallDefaultFiles()
