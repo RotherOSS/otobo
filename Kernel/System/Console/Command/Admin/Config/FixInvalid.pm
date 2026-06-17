@@ -279,6 +279,14 @@ sub _TryUpdateSetting {
     }
     return if !$ExclusiveLockGUID;
 
+    # determine value structure of setting
+    my %Setting = $SysConfigObject->SettingGet(
+        Name => $Param{SettingName},
+    );
+    if ( ( ref $Setting{EffectiveValue} eq 'ARRAY' ) && ( ref $Param{Value} ne 'ARRAY' ) ) {
+        $Param{Value} = [ $Param{Value} ];
+    }
+
     my %Update = $SysConfigObject->SettingUpdate(
         Name              => $Param{SettingName},
         IsValid           => 1,
