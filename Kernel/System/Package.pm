@@ -3354,7 +3354,7 @@ sub _GetIntegratedPackages {
                 'TicketTimeUnitsMandatoryOnlyWithArticle',
             ],
 
-            # future releases
+            # released in june 2026
             1 => [
                 'CK5-FullWindowMode',
                 'CustomerAgeShowCreated',
