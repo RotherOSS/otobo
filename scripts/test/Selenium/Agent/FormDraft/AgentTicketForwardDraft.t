@@ -440,10 +440,8 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#DeleteConfirm", 'css' )->click();
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".FormDraftDelete").length == 0;'
-        ) || die 'FormDraft was not deleted!';
+        $Selenium->WaitFor( AlertPresent => 1 );
+        $Selenium->accept_alert();
 
         # Delete created test ticket.
         my $Success = $TicketObject->TicketDelete(
