@@ -38,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Valid',
     'Kernel::System::Web::FormCache',
 );
 
@@ -85,6 +86,7 @@ sub new {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # create all registered backend modules
+    FIELDTYPE:
     for my $FieldType ( sort keys %{$DynamicFieldsConfig} ) {
 
         # check if the registration for each field type is valid
@@ -94,7 +96,12 @@ sub new {
                 Message  => "Registration for field type $FieldType is invalid!",
             );
 
-            return;
+            # set all fields of this field type to invalid to avoid further issues
+            $Self->_InvalidateDynamicFields(
+                FieldType => $FieldType,
+            );
+
+            next FIELDTYPE;
         }
 
         # set the backend file
@@ -107,7 +114,12 @@ sub new {
                 Message  => "Can't load dynamic field backend module for field type $FieldType!",
             );
 
-            return;
+            # set all fields of this field type to invalid to avoid further issues
+            $Self->_InvalidateDynamicFields(
+                FieldType => $FieldType,
+            );
+
+            next FIELDTYPE;
         }
 
         # create a backend object
@@ -119,7 +131,12 @@ sub new {
                 Message  => "Couldn't create a backend object for field type $FieldType!",
             );
 
-            return;
+            # set all fields of this field type to invalid to avoid further issues
+            $Self->_InvalidateDynamicFields(
+                FieldType => $FieldType,
+            );
+
+            next FIELDTYPE;
         }
 
         if ( ref $BackendObject ne $BackendModule ) {
@@ -128,7 +145,12 @@ sub new {
                 Message  => "Backend object for field type $FieldType was not created successfully!",
             );
 
-            return;
+            # set all fields of this field type to invalid to avoid further issues
+            $Self->_InvalidateDynamicFields(
+                FieldType => $FieldType,
+            );
+
+            next FIELDTYPE;
         }
 
         # remember the backend object
@@ -3442,6 +3464,52 @@ sub BuildAJAXReturn {
     }
 
     return @DynamicFieldAJAX;
+}
+
+sub _InvalidateDynamicFields {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(FieldType)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    # get all fields of this field type
+    my $DFListRef = $DynamicFieldObject->DynamicFieldListGet(
+        FieldType => $Param{FieldType},
+    );
+
+    return unless IsArrayRefWithData($DFListRef);
+
+    my $InvalidID = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
+        Valid => 'invalid',
+    );
+
+    for my $DFConfig ( $DFListRef->@* ) {
+        my $InvalidateSuccess = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldUpdate(
+            $DFConfig->%*,
+            ValidID => $InvalidID,
+            UserID  => 1,
+        );
+
+        if ( !$InvalidateSuccess ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not set dynamic field '$DFConfig->{Name}' of field type '$DFConfig->{FieldType}' to invalid!",
+            );
+        }
+    }
+
+    return 1;
 }
 
 1;
