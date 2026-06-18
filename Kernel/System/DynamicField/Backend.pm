@@ -69,7 +69,7 @@ sub new {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get the Dynamic Field Backends configuration
+    # get the Dynamic Field Backend configurations
     my $DynamicFieldsConfig = $ConfigObject->Get('DynamicFields::Driver');
 
     # check Configuration format
@@ -268,7 +268,7 @@ creates the field and label HTML to be used in edit masks.
         ServerError          => 1,                        # 0 or 1,
         ErrorMessage         => $ErrorMessage,            # Optional or a default will be used in error case
         UseDefaultValue      => 1,                        # 0 or 1, 1 default
-        OverridePossibleNone => 1,                        # Optional, 0 or 1. If defined orverrides the Possible None
+        OverridePossibleNone => 1,                        # Optional, 0 or 1. If defined overrides the Possible None
                                                           #     setting of all dynamic fields (where applies) with the
                                                           #     defined value
         ConfirmationNeeded   => 0,                        # Optional, 0 or 1, default 0. To display a confirmation element
@@ -276,7 +276,7 @@ creates the field and label HTML to be used in edit masks.
         AJAXUpdate           => 1,                        # Optional, 0 ir 1. To create JS code for field change to update
                                                           #     the form using ACLs triggered by the field.
         UpdatableFields      => [                         # Optional, to use if AJAXUpdate is 1. List of fields to display a
-            'NetxStateID',                                #     spinning wheel when reloading via AJAXUpdate.
+            'NextStateID',                                #     spinning wheel when reloading via AJAXUpdate.
             'PriorityID',
         ],
         MaxLength            => 100                       # Optional, defines the maximum number of characters on fields
@@ -2311,14 +2311,14 @@ checks if the dynamic field as an specified behavior
 
     my $HasBehavior = $BackendObject->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
-        Behavior           => 'Some Behavior',           # 'IsACLReducible' to be reduded by ACLs
+        Behavior           => 'Some Behavior',           # 'IsACLReducible' to be reduced by ACLs
                                                          #    and updatable via AJAX
                                                          # 'IsNotificationEventCondition' to be used
                                                          #     in the notification events as a
                                                          #     ticket condition
                                                          # 'IsSortable' to sort by this field in
                                                          #     "Small" overviews
-                                                         # 'IsFiltrable' to enable columnwise filtering
+                                                         # 'IsFiltrable' to enable column-wise filtering
                                                          #     in ticket lists
                                                          # 'IsStatsCondition' to be used in
                                                          #     Statistics as a condition
@@ -2326,7 +2326,7 @@ checks if the dynamic field as an specified behavior
                                                          #     the field usable in the customer
                                                          #     interface
                                                          # 'IsHTMLContent' to indicate that there is
-                                                         #     HTML content (avoid double cnversion to HTML)
+                                                         #     HTML content (avoid double conversion to HTML)
                                                          # 'IsLikeOperatorCapable' to perform likewise
                                                          #     search in ValueSearch function
                                                          # 'IsHiddenInTicketInformation' to hide the field
@@ -2334,7 +2334,7 @@ checks if the dynamic field as an specified behavior
                                                          # 'IsReferenceField' to indicate that the field
                                                          #     is of type reference
                                                          # 'IsScriptField' to indicate that the field
-                                                         #     is a script field with an evaluatable
+                                                         #     is a script field with an evaluate-able
                                                          #     expression
                                                          # 'IsSetCapable' to be used within Set fields
                                                          # 'SetsDynamicContent' to define that the field
@@ -2855,7 +2855,7 @@ The following functions should be only used if the dynamic field has IsFiltrable
 get the list of distinct values for a dynamic field from a list of tickets
 
     my $ColumnFilterValues = $BackendObject->ColumnFilterValuesGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      #DynamicField configuraction
+        DynamicFieldConfig => $DynamicFieldConfig,      #DynamicField configuration
         LayoutObject       => $LayoutObject,
         TicketIDs          => [23, 1, 56, 74],          # array ref list of ticket IDs
     );
