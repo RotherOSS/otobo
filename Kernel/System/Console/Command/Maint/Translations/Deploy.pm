@@ -41,6 +41,13 @@ sub Configure {
         'Deploy the translations. This needs to be execute as part of the upgrade procedure'
     );
 
+    $Self->AddOption(
+        Name        => 'no-report-skipped',
+        Description => 'be less verbose',
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
@@ -50,8 +57,9 @@ sub Run {
     my $ConfigObject       = $Kernel::OM->Create('Kernel::Config');
     my $TranslationsObject = $Kernel::OM->Create('Kernel::System::Translations');
 
-    my %LanguageID2Name = $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages')->%*;
+    my %LanguageID2Name = $ConfigObject->Get('DefaultUsedLanguages')->%*;
     my $NumLanguages    = scalar keys %LanguageID2Name;
+    my $BeQuiet         = $Self->GetOption('no-report-skipped');
 
     $Self->Print("Handling $NumLanguages languages\n");
 
@@ -71,7 +79,9 @@ sub Run {
             $TranslationItems->@*;
 
         if ( !%ActiveTranslations ) {
-            $Self->PrintWarning("Skipping $Name $LanguageID as there are no active translations\n");
+            if ( !$BeQuiet ) {
+                $Self->PrintWarning("Skipping $Name $LanguageID as there are no active translations\n");
+            }
             $NumSkipped++;
 
             next LANGUAGE_ID;
