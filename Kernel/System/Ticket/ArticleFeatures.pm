@@ -301,7 +301,7 @@ sub ArticleVersion {
             Bind => [ \$Param{TicketID}, \$Param{ArticleID} ]
         );
 
-        #Rollback if error ocurrs when backing up history_id <> article_id relation
+        #Rollback if error occurs when backing up history_id <> article_id relation
         if ( !$Success ) {
             $DBObject->Do(
                 SQL  => "DELETE FROM article_version WHERE id = ?",
@@ -722,7 +722,7 @@ sub VersionHistoryGet {
     $DBObject->Prepare(
         SQL => "SELECT sh.id, sh.version_create_time, usr.first_name, usr.last_name, sh.version_create_by
                 FROM article_version sh, users usr WHERE
-                sh.ticket_id = ? AND sh.source_article_id = ? AND sh.create_by = usr.id AND sh.article_delete <> 1
+                sh.ticket_id = ? AND sh.source_article_id = ? AND sh.version_create_by = usr.id AND sh.article_delete <> 1
                 ORDER BY sh.id asc",
         Bind => [ \$Param{TicketID}, \$Param{ArticleID} ],
     );
@@ -777,7 +777,7 @@ sub IsArticleEdited {
         Limit => 1
     );
 
-    while ( my @Row = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $IsEdited = 1;
     }
 
