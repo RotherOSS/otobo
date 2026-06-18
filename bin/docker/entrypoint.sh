@@ -175,16 +175,22 @@ function do_update_tasks() {
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
     {
-        echo "started $FUNCNAME()"
+        echo -n  "[$FUNCNAME] started "
         date
+        echo "[$FUNCNAME] Admin::Package::ReinstallAll"
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+        echo "[$FUNCNAME] Admin::Package::UpgradeAll"
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
+        echo "[$FUNCNAME] Maint::Config::Rebuild"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
+        echo "[$FUNCNAME] Maint::Cache::Delete"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
+        echo "[$FUNCNAME] Maint::Loader::CacheCleanup"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
+        echo "[$FUNCNAME] Maint::Translations::Deploy"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Translations::Deploy --no-report-skipped 2>&1)
+        echo -n "[$FUNCNAME] finished "
         date
-        echo "finished $FUNCNAME()"
         echo
     } >> $g_update_log
 }
