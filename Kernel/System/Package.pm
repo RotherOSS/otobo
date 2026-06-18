@@ -3363,6 +3363,7 @@ sub _GetIntegratedPackages {
                 'CK5-FullWindowMode',
                 'CustomerAgeShowCreated',
                 'CustomerTicketSearch',
+                'Elasticsearch-Extension',
                 'ExtendedArticleEdit',
                 'HideShowForAgentTicketCompose',
                 'ImportExportCustomerCompany',
