@@ -54,9 +54,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2026-05-07 03:27+0000\n"
-"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/"
+"PO-Revision-Date: 2026-06-18 17:47+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
 "de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -26655,7 +26655,7 @@ msgstr "Übersetzungen anpassen"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr "Änderungen übernehmen"
+msgstr "Übersetzungen in Betrieb nehmen"
 
 #. Template: AdminTranslations
 msgid "Translation States"
