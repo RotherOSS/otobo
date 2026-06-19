@@ -31,6 +31,7 @@ use Capture::Tiny qw(capture_stderr);
 # OTOBO modules
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
 );
@@ -74,8 +75,14 @@ sub Run {
         UserID  => 1,
     );
 
-    # Settings for the autoload Perl modules that are no longer needed in OTOBO 11.1.x
+    # The config object already exists in the OM as one has been created in Kernel::Systest::SysConfig::new()
+    my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+    my %AutoloadConfiguration = ( $ConfigObject->Get('AutoloadPerlPackages') // {} )->%*;
+
+    # Settings for the autoload Perl modules that are no longer needed in OTOBO 11.1.x.
     my @Keys = (
+
+        # autoloads from the integrated package ImportExportStandardObjects
         'AutoloadPerlPackages###003-GenericAgentImportExport',
         'AutoloadPerlPackages###003-GroupImportExport',
         'AutoloadPerlPackages###003-QueueImportExport',
@@ -88,6 +95,15 @@ sub Run {
 
     KEY:
     for my $Key (@Keys) {
+
+        # First check whether the autoload is configured as calling SettingGet()
+        # on an non-existing item causes annoying log messages.
+        # The autoloads is not configured when ImportExportStandardObjects was not installed in the source installation.
+        ( undef, my $SubKey ) = split /###/, $Key, 2;
+        my $Modules = $AutoloadConfiguration{$SubKey};
+
+        next KEY unless ref $Modules eq 'ARRAY';
+
         my %Setting = $SysConfigObject->SettingGet(
             Name => $Key,
         );
