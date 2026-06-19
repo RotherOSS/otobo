@@ -3375,6 +3375,7 @@ sub _GetIntegratedPackages {
                 'TicketUpdateOperationExternalIdentifier',
                 'OAuth2',
                 'OAuth2-Mail',
+                'Elasticsearch-FAQ',
             ],
         }
     };
