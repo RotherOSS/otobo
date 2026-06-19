@@ -82,6 +82,8 @@ sub Run {
     }
 
     if (@InvalidPackages) {
+
+        # The case of missing files seems to be not covered here
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
             $Self->AddResultInformation(
                 Label   => Translatable('Package Installation Status'),
@@ -105,26 +107,12 @@ sub Run {
     }
 
     if (@NotVerifiedPackages) {
-        if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
-            $Self->AddResultInformation(
-                Identifier => 'Verification',
-                Label      => Translatable('Package Verification Status'),
-                Value      => join( ', ', @NotVerifiedPackages ),
-                Message    => Translatable(
-                    'Some packages are not verified by the OTOBO Team.'
-                ),
-            );
-        }
-        else {
-            $Self->AddResultProblem(
-                Identifier => 'Verification',
-                Label      => Translatable('Package Verification Status'),
-                Value      => join( ', ', @NotVerifiedPackages ),
-                Message    => Translatable(
-                    'Some packages are not verified by the OTOBO Team.'
-                ),
-            );
-        }
+        $Self->AddResultInformation(
+            Identifier => 'Verification',
+            Label      => Translatable('Package Verification Status'),
+            Value      => join( ', ', @NotVerifiedPackages ),
+            Message    => Translatable('Some packages are not verified by the OTOBO Team.'),
+        );
     }
     else {
         $Self->AddResultOk(
@@ -135,22 +123,12 @@ sub Run {
     }
 
     if (@WrongFrameworkVersion) {
-        if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
-            $Self->AddResultInformation(
-                Identifier => 'FrameworkVersion',
-                Label      => Translatable('Package Framework Version Status'),
-                Value      => join( ', ', @WrongFrameworkVersion ),
-                Message    => Translatable('Some packages are not allowed for the current framework version.'),
-            );
-        }
-        else {
-            $Self->AddResultProblem(
-                Identifier => 'FrameworkVersion',
-                Label      => Translatable('Package Framework Version Status'),
-                Value      => join( ', ', @WrongFrameworkVersion ),
-                Message    => Translatable('Some packages are not allowed for the current framework version.'),
-            );
-        }
+        $Self->AddResultInformation(
+            Identifier => 'FrameworkVersion',
+            Label      => Translatable('Package Framework Version Status'),
+            Value      => join( ', ', @WrongFrameworkVersion ),
+            Message    => Translatable('Some packages are not allowed for the current framework version.'),
+        );
     }
     else {
         $Self->AddResultOk(
