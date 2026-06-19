@@ -62,7 +62,6 @@ sub Run {
         $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     };
     my $FilteredStderr = join "\n",
-        grep { $_ ne '!' }                                 # a single bang is not really interesting
         grep { $_ !~ m!Subroutine \w+ redefined! }         # in case the autoload module file exists
         grep { $_ !~ m!Can't locate Kernel/Autoload/! }    # in case the autoload module file does not exist
         split /\n/, $CapturedStderr;

@@ -2500,7 +2500,7 @@ sub AutoloadPerlPackages {
                 require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
             }
             catch {
-                print STDERR "ERROR: $_!\n";
+                say STDERR "ERROR: $_";
             }
         }
     }
