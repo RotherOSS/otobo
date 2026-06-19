@@ -188,7 +188,7 @@ function do_update_tasks() {
         echo "[$FUNCNAME] Maint::Loader::CacheCleanup"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         echo "[$FUNCNAME] Maint::Translations::Deploy"
-        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Translations::Deploy --no-report-skipped 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Translations::Deploy --hide-skipped-info 2>&1)
         echo -n "[$FUNCNAME] finished "
         date
         echo
