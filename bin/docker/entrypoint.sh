@@ -178,7 +178,7 @@ function do_update_tasks() {
         echo -n  "[$FUNCNAME] started "
         date
         echo "[$FUNCNAME] Admin::Package::ReinstallAll"
-        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll --hide-deployment-info 2>&1)
         echo "[$FUNCNAME] Admin::Package::UpgradeAll"
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
         echo "[$FUNCNAME] Maint::Config::Rebuild"
