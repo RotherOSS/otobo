@@ -1381,20 +1381,22 @@ sub CheckDBRequirements {
         }
     }
 
-    # The list of supported authentication plugins differs between MariaDB and MySQL.
-    my $DbmsName   = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
-    my $PluginList = $DbmsName eq 'MariaDB' ? q{'ed25519', 'parsec'} : q{'caching_sha2_password'};
-
     # not really used by the recipient, but useful information when inspecting the traffic
-    $Result{DbmsName} = $DbmsName;
+    $Result{DbmsName} = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
 
-    $Result{AvailablePlugins} = $Result{DBH}->selectall_arrayref(<<~"END_SQL");
-        SELECT plugin_name
-          FROM information_schema.plugins
-          WHERE plugin_type = 'AUTHENTICATION'
-            AND plugin_status = 'ACTIVE'
-            AND plugin_name IN ($PluginList)
-        END_SQL
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
+
+        # The list of supported authentication plugins differs between MariaDB and MySQL.
+        my $PluginList = $Result{DbmsName} eq 'MariaDB' ? q{'ed25519', 'parsec'} : q{'caching_sha2_password'};
+
+        $Result{AvailablePlugins} = $Result{DBH}->selectall_arrayref(<<~"END_SQL");
+            SELECT plugin_name
+              FROM information_schema.plugins
+              WHERE plugin_type = 'AUTHENTICATION'
+                AND plugin_status = 'ACTIVE'
+                AND plugin_name IN ($PluginList)
+            END_SQL
+    }
 
     # Delete key/value pairs which should not be included in the sent json
     delete $Result{DB};
