@@ -144,6 +144,7 @@ sub new {
     if ( IsHashRefWithData($DynamicFieldObjectTypeConfig) ) {
 
         # create all registered ObjectType handler modules
+        OBJECTTYPE:
         for my $ObjectType ( sort keys %{$DynamicFieldObjectTypeConfig} ) {
 
             # check if the registration for each field type is valid
@@ -153,7 +154,7 @@ sub new {
                     Message  => "Registration for object type $ObjectType is invalid!",
                 );
 
-                return;
+                next OBJECTTYPE;
             }
 
             # set the backend file
@@ -167,7 +168,7 @@ sub new {
                         "Can't load dynamic field object handler module for object type $ObjectType!",
                 );
 
-                return;
+                next OBJECTTYPE;
             }
 
             # create a backend object
@@ -182,7 +183,7 @@ sub new {
                     Message  => "Couldn't create a handler object for object type $ObjectType!",
                 );
 
-                return;
+                next OBJECTTYPE;
             }
 
             if ( ref $ObjectHandlerObject ne $ObjectHandlerModule ) {
@@ -191,7 +192,7 @@ sub new {
                     Message  => "Handler object for object type $ObjectType was not created successfully!",
                 );
 
-                return;
+                next OBJECTTYPE;
             }
 
             # remember the backend object
