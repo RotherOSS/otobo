@@ -42,7 +42,7 @@ sub Configure {
     );
 
     $Self->AddOption(
-        Name        => 'no-report-skipped',
+        Name        => 'hide-skipped-info',
         Description => 'be less verbose',
         Required    => 0,
         HasValue    => 0,
@@ -59,10 +59,10 @@ sub Run {
 
     my %LanguageID2Name = $ConfigObject->Get('DefaultUsedLanguages')->%*;
     my $NumLanguages    = scalar keys %LanguageID2Name;
-    my $BeQuiet         = $Self->GetOption('no-report-skipped');
 
     $Self->Print("Handling $NumLanguages languages\n");
 
+    my $BeLaconic = $Self->GetOption('hide-skipped-info');
     my ( $NumSkipped, $NumFailures, $NumDeployed ) = ( 0, 0, 0 );
     LANGUAGE_ID:
     for my $LanguageID ( sort keys %LanguageID2Name ) {
@@ -79,7 +79,7 @@ sub Run {
             $TranslationItems->@*;
 
         if ( !%ActiveTranslations ) {
-            if ( !$BeQuiet ) {
+            if ( !$BeLaconic ) {
                 $Self->PrintWarning("Skipping $Name $LanguageID as there are no active translations\n");
             }
             $NumSkipped++;
