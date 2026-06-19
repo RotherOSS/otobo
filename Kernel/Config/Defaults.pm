@@ -2480,7 +2480,7 @@ sub AutoloadPerlPackages {
 
         my $ConfigValue = $AutoloadConfiguration{$ConfigKey};
 
-        next CONFIGKEY if ref $ConfigValue ne 'ARRAY';
+        next CONFIGKEY unless ref $ConfigValue eq 'ARRAY';
 
         PACKAGE:
         for my $Package ( @{$ConfigValue} ) {
