@@ -1727,13 +1727,12 @@ sub DeployCheck {
                 Priority => 'error',
                 Message  => "$Needed not defined!",
             );
+
             return;
         }
     }
 
-    if ( !defined $Param{Log} ) {
-        $Param{Log} = 1;
-    }
+    $Param{Log} //= 1;
 
     my $Package   = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
