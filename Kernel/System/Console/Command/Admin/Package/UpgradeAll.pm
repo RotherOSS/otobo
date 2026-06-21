@@ -83,53 +83,6 @@ sub Run {
         return $Self->ExitCodeOk();
     }
 
-    my %RepositoryList = $PackageObject->_ConfiguredRepositoryDefinitionGet();
-
-    # Show cloud repositories if system is registered.
-    my $RepositoryCloudList;
-    my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
-        Key => 'Registration::State',
-    ) || '';
-
-    if (
-        $RegistrationState eq 'registered'
-        && !$Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled')
-        )
-    {
-
-        $Self->Print("<yellow>Getting cloud repositories information...</yellow>\n");
-
-        $RepositoryCloudList = $PackageObject->RepositoryCloudList( NoCache => 1 );
-
-        $Self->Print("  Cloud repositories... <green>Done</green>\n\n");
-    }
-    $RepositoryCloudList ||= {};
-
-    my %RepositoryListAll = ( %RepositoryList, $RepositoryCloudList->%* );
-
-    $Self->Print("<yellow>Fetching on-line repositories...</yellow>\n");
-
-    URL:
-    for my $URL ( sort keys %RepositoryListAll ) {
-
-        $Self->Print("  $RepositoryListAll{$URL}... ");
-
-        my $FromCloud = 0;
-        if ( $RepositoryCloudList->{$URL} ) {
-            $FromCloud = 1;
-        }
-
-        # TODO: is this still useful ?
-        my @OnlineList = $PackageObject->PackageOnlineList(
-            URL       => $URL,
-            Lang      => 'en',
-            Cache     => 1,
-            FromCloud => $FromCloud,
-        );
-
-        $Self->Print("<green>Done</green>\n");
-    }
-
     # Check again after repository refresh
     %IsRunningResult = $PackageObject->PackageUpgradeAllIsRunning();
 
