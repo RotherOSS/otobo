@@ -217,7 +217,12 @@ sub new {
 
         # check if module can be loaded
         if ( !$MainObject->RequireBaseClass( $Extension->{Module} ) ) {
-            die "Can't load dynamic fields backend module $Extension->{Backend}! $@";
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't load dynamic fields backend module $Extension->{Backend}! $@",
+            );
+
+            next EXTENSION;
         }
     }
 
