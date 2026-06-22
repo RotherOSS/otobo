@@ -644,6 +644,16 @@ sub Run {
                 if ( !$TicketID ) {
                     $Error{'LinkTogetherParentInvalid'} = 'ServerError';
                 }
+
+                # check permissions
+                my $Access = $TicketObject->TicketPermission(
+                    Type     => 'rw',
+                    TicketID => $TicketID,
+                    UserID   => $Self->{UserID}
+                );
+                if ( !$Access ) {
+                    $Error{'LinkTogetherParentInvalid'} = 'ServerError';
+                }
             }
 
             # call Validate() in all ticket bulk modules
