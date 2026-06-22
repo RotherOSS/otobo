@@ -172,9 +172,7 @@ sub Run {
     }
 
     if ( !$Result{Success} ) {
-        $Self->Print("\n<red>Fail.</red>\n");
-
-        return $Self->ExitCodeError();
+        $Self->Print("\n<red>Not (all) packages could be upgraded automatically, see above.</red>\n");
     }
 
     if ( IsHashRefWithData( $Result{Undeployed} ) ) {
@@ -188,6 +186,10 @@ sub Run {
     $CacheObject->Configure(
         CacheInMemory => 0,
     );
+
+    if ( !$Result{Success} ) {
+        return $Self->ExitCodeError();
+    }
 
     $Self->Print("\n<green>Done.</green>\n");
 
