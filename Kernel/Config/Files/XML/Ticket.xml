@@ -4696,7 +4696,7 @@
         <Description Translatable="1">Shows the title field in the ticket responsible screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
-            <Item ValueType="Checkbox">1</Item>
+            <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketResponsible###FormDraft" Required="0" Valid="1">
