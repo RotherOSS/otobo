@@ -54,10 +54,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-05-07 03:27+0000\n"
-"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
-">\n"
+"PO-Revision-Date: 2026-06-23 12:52+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,8 +82,6 @@ msgid "Actions"
 msgstr "Aktionen"
 
 #. Template: AdminACL
-#, fuzzy
-#| msgid "Object type"
 msgid "Object Type"
 msgstr "Objekttyp"
 
@@ -388,11 +386,6 @@ msgid "Calendar Import"
 msgstr "Kalender importieren"
 
 #. Template: AdminAppointmentCalendarManage
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a calendar to your "
-#| "system. The file needs to be in .yml format as exported by calendar "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import a calendar to your "
 "system. The file needs to be in .yml format as exported by the calendar "
@@ -2040,11 +2033,6 @@ msgid "Import / Export"
 msgstr "Import / Export"
 
 #. Template: AdminDynamicFieldAdvanced
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import dynamic fields to your "
-#| "system. The file needs to be in .yml format as exported by dynamic field "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import dynamic fields to your "
 "system. The file needs to be in .yml format as exported by the dynamic field "
@@ -2616,8 +2604,6 @@ msgstr ""
 "Objekts verglichen werden soll."
 
 #. Template: AdminDynamicFieldReference
-#, fuzzy
-#| msgid "Add ReferenceFilter"
 msgid "Add Reference Filter"
 msgstr "Referenzfilter hinzufügen"
 
@@ -2626,10 +2612,8 @@ msgid "Management of Dynamic Fields <-> Screens"
 msgstr "Verwaltung von Dynamische Feldern <-> Oberflächen"
 
 #. Template: AdminDynamicFieldScreen
-#, fuzzy
-#| msgid "Filter field by object type"
 msgid "Filter by object type"
-msgstr "Feld nach Objekttyp filtern"
+msgstr "Nach Objekttyp filtern"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2640,8 +2624,6 @@ msgid "Default Columns Screens"
 msgstr "DefaultColumns Oberflächen"
 
 #. Template: AdminDynamicFieldScreen
-#, fuzzy
-#| msgid "Add DynamicField"
 msgid "Add Dynamic Field"
 msgstr "Dynamisches Feld hinzufügen"
 
@@ -2990,31 +2972,22 @@ msgid "Filter for jobs"
 msgstr "Aufträge filtern"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a calendar to your "
-#| "system. The file needs to be in .yml format as exported by calendar "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import generic agents to your "
 "system. The file needs to be in .yml format as exported by the generic agent "
 "management module."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei hochladen, um einen Kalender in Ihr "
+"Hier können Sie eine Konfigurationsdatei hochladen, um Generic Agents in Ihr "
 "System zu importieren. Die Datei muss im .yml Format vorliegen, so wie sie "
-"in der Kalenderverwaltung exportiert wurde."
+"in der Verwaltung von Generic Agents exportiert wird."
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "GenericAgent"
 msgid "Generic Agents Import"
-msgstr "GenericAgent"
+msgstr "Import von Generic Agents"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "GenericAgent"
 msgid "Generic Agents Export"
-msgstr "GenericAgent"
+msgstr "Export von Generic Agents"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -3508,30 +3481,21 @@ msgid "Age"
 msgstr "Alter"
 
 #. Template: AdminGenericAgentImportExport
-#, fuzzy
-#| msgid "GenericAgent"
 msgid "GenericAgents"
-msgstr "GenericAgent"
+msgstr "Generic Agents"
 
 #. Template: AdminGenericAgentImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of generic agents to import these "
 "on another system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Generic Agents exportieren, um "
+"diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird "
+"im yml Format exportiert."
 
 #. Template: AdminGenericAgentImportExport
-#, fuzzy
-#| msgid "GenericAgent"
 msgid "GenericAgents List"
-msgstr "GenericAgent"
+msgstr "Liste von Generic Agents"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Web Service Management"
@@ -4580,16 +4544,12 @@ msgstr ""
 "Hier definierte reguläre Ausdrücke werden nach dem XSLT-Mapping angewendet."
 
 #. Template: AdminGenericInterfaceMappingXSLT
-#, fuzzy
-#| msgid "XSLT Mapping"
 msgid "Enable Extended XSLT Mapping"
-msgstr "XSLT-Mapping"
+msgstr "Erweitertes XSLT-Mapping aktivieren"
 
 #. Template: AdminGenericInterfaceMappingXSLT
-#, fuzzy
-#| msgid "XSLT Mapping"
 msgid "Extended XSLT Mapping"
-msgstr "XSLT-Mapping"
+msgstr "Erweitertes XSLT-Mapping"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Enable"
@@ -4602,6 +4562,11 @@ msgid ""
 "'otoboXslType' XML attribue. Possible Values for that attribute are 'int', "
 "'bool', 'float', and 'array'."
 msgstr ""
+"Das erweiterte XSLT-Mapping erlaubt eine feingranularere Konfiguration des "
+"XSLT-Mappings. Sobald es aktiviert ist, kann der resultierende JSON-Typ "
+"durch das Spezifizieren eines XML-Attributs 'otoboXslType'  erzwungen "
+"werden. Erlaubte Werte für dieses Attribut sind 'int', 'bool', 'float', und "
+"'array'."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
@@ -4799,24 +4764,20 @@ msgid "Kerberos keytab file"
 msgstr "Kerberos Keytab-Datei"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "The kerberos keytab file for the privileged user."
 msgid "The Kerberos keytab file for the privileged user."
 msgstr "Die Kerberos Keytab-Datei für den privilegierten User."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "OAuth2 Functional Account"
-msgstr ""
+msgstr "OAuth2 Funktionskonto"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "Select"
 msgid "Select the"
-msgstr "Auswahl"
+msgstr "Auswahl des"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Account to use for OAuth2 authentication."
-msgstr ""
+msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
@@ -5017,13 +4978,16 @@ msgstr "Der Standard-HTTP-Befehl für die Anfragen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use multipart-formdata:"
-msgstr ""
+msgstr "multipart-formdata verwenden:"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Select Requesters to send Attachments as binary data with content-type "
 "'multipart-formdata' instead of the default Base64-encoded inline JSON."
 msgstr ""
+"Requester auswählen um Anhänge als Binärdaten mit dem Inhaltstyp 'multipart-"
+"formdata' anstelle des standardmäßig Base64-kodierten Inline JSON zu "
+"versenden."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
@@ -6047,7 +6011,7 @@ msgstr "Verwaltung automatischer Antworten"
 
 #. Template: AdminOAuthTokenStore
 msgid "OpenID Connect Functional OAuth2 Account Management"
-msgstr ""
+msgstr "OpenID Connect Verwaltung funktioneller OAuth2-Konten"
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6063,27 +6027,33 @@ msgstr "E-Mail-Konto bearbeiten"
 
 #. Template: AdminOAuthTokenStore
 msgid "About OIDC Functional Accounts"
-msgstr ""
+msgstr "Über OIDC Funktionskonten"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "This page displays an overview of configured functional OAuth Accounts and "
 "their corresponding Token Status."
 msgstr ""
+"Diese Seite zeigt eine Übersicht über die konfigurierten funktionalen OAuth-"
+"Konten und deren entsprechenden Token-Status an."
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "You can test your Configuration with a click on the 'Renew' Button, which "
 "will try to fetch or refresh a new Token."
 msgstr ""
+"Die Konfiguration kann getestet werden mit einem Klick auf den 'Erneuern'-"
+"Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren."
 
 #. Template: AdminOAuthTokenStore
 msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
 msgstr ""
+"OIDC-Profile können erstellt werden um die Verbindung zu einem OIDC "
+"Funktionskonto herzustellen"
 
 #. Template: AdminOAuthTokenStore
 msgid "here"
-msgstr ""
+msgstr "hier"
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6093,7 +6063,7 @@ msgstr "E-Mail-Konto löschen"
 
 #. Template: AdminOAuthTokenStore
 msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
-msgstr ""
+msgstr "OIDC Funktionskonten und ihre aktiven OAuth2 Token"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
@@ -6101,10 +6071,13 @@ msgid ""
 "an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
 "Provider profile"
 msgstr ""
+"Da keine weiteren OIDC-Anbieter konfiguriert sind, kann kein OAuth2 "
+"Funktionskonto hinzugefügt werden. Zunächst muss mindestens ein OIDC "
+"Anbieterprofil konfiguriert werden"
 
 #. Template: AdminOAuthTokenStore
 msgid "There are no OAuth2 accounts defined."
-msgstr ""
+msgstr "Es sind keine OAuth2-Konten definiert."
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6120,23 +6093,23 @@ msgstr "Prozessname"
 
 #. Template: AdminOAuthTokenStore
 msgid "Flow"
-msgstr ""
+msgstr "Fluss"
 
 #. Template: AdminOAuthTokenStore
 msgid "Has Token?"
-msgstr ""
+msgstr "Hat ein Token?"
 
 #. Template: AdminOAuthTokenStore
 msgid "Refresh Token Expires"
-msgstr ""
+msgstr "Token-Ablauf aktualisieren"
 
 #. Template: AdminOAuthTokenStore
 msgid "Renew Token(s)"
-msgstr ""
+msgstr "Token erneuern"
 
 #. Template: AdminOAuthTokenStore
 msgid "Renew"
-msgstr ""
+msgstr "Erneuern"
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6164,11 +6137,11 @@ msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
 msgid "The OpenID Connect"
-msgstr ""
+msgstr "Das OpenID Connect"
 
 #. Template: AdminOAuthTokenStore
 msgid "to use for this functional account."
-msgstr ""
+msgstr "für die Verwendung dieses Funktionskontos."
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6179,30 +6152,38 @@ msgstr "Ereignistyp"
 #. Template: AdminOAuthTokenStore
 msgid "The OAuth2 grant_type to use for acquiring tokens for this account."
 msgstr ""
+"Der OAuth2 grant_type, der für die Token-Beschaffung für dieses Kontos "
+"verwendet wird."
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Selecting 'authorization_code' will redirect you to your OpenID Connect "
 "Provider's Login Page to validate your account once you click 'Save'."
 msgstr ""
+"Die Auswahl von 'authorization_code' leitet mit dem Klicken auf 'Speichern' "
+"direkt zur Login-Seite des OpenID Connect Anbieters weiter, um das Konto zu "
+"validieren."
 
 #. Template: AdminOAuthTokenStore
 msgid "The username if grant type is 'password'."
-msgstr ""
+msgstr "Der Benutzername, falls als grant_type 'Passwort' ausgewählt ist."
 
 #. Template: AdminOAuthTokenStore
 msgid "The password to use if grant type is 'password'."
 msgstr ""
+"Das zu verwendende Passwort, falls als grant_type 'Passwort' ausgewählt ist."
 
 #. Template: AdminOAuthTokenStore
 msgid "OAuth2 Scopes"
-msgstr ""
+msgstr "OAuth2 Berechtigungsumfänge (Scopes)"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Space separate list of OAuth2 scopes to use. Usual values include openid, "
 "email, profile, and roles."
 msgstr ""
+"Leerzeichen-getrennte Liste der zu verwendenden Berechtigungsumfänge (Scopes)"
+". Übliche Werte behinhalten openid, email, profile und roles."
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6241,14 +6222,16 @@ msgstr "Tickettypen"
 #. Template: AdminOAuthTokenStore
 msgid "The token type to use for externall API calls. Usually 'access_token'."
 msgstr ""
+"Der Token-Typ, der für externe API-Aufrufe verwendet wird. Üblicherweise "
+"'access_token'."
 
 #. Template: AdminOIDCProfiles
 msgid "OpenID Connect Profiles "
-msgstr ""
+msgstr "OpenID Connect Profile "
 
 #. Template: AdminOIDCProfiles
 msgid "OpenID Connect Provider Profiles Management"
-msgstr ""
+msgstr "OpenID Connect Anbieter-Profilverwaltung"
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6264,15 +6247,17 @@ msgstr "Rolle bearbeiten"
 
 #. Template: AdminOIDCProfiles
 msgid "About OIDC Provider Profiles"
-msgstr ""
+msgstr "Über OIDC Anbieter-Profile"
 
 #. Template: AdminOIDCProfiles
 msgid "This page displays an overview of configured OIDC Provider Profiles."
 msgstr ""
+"Diese Seite zeigt eine Übersicht über die konfigurierten OIDC Anbieter-"
+"Profile."
 
 #. Template: AdminOIDCProfiles
 msgid "You can connect OIDC Profiles with a OIDC Functional Account"
-msgstr ""
+msgstr "OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden"
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6285,10 +6270,12 @@ msgid ""
 "OpenID Connect Provider Profiles for outgoing Webservice calls "
 "(GenericInterface Invoker)"
 msgstr ""
+"OpenID Connect Anbieterprofile für ausgehende Webservice-Aufrufe "
+"(GenericInterface Invoker)"
 
 #. Template: AdminOIDCProfiles
 msgid "There are no OIDC Provider profiles defined."
-msgstr ""
+msgstr "Es sind keine OIDC Anbieterprofile definiert."
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6304,17 +6291,20 @@ msgstr "Provider-Transport"
 
 #. Template: AdminOIDCProfiles
 msgid "Add OIDC Provider Profile"
-msgstr ""
+msgstr "OIDC Anbieterprofil hinzufügen"
 
 #. Template: AdminOIDCProfiles
 msgid "Edit OIDC Provider Profile"
-msgstr ""
+msgstr "OIDC Anbieterprofil bearbeiten"
 
 #. Template: AdminOIDCProfiles
 msgid ""
 "Since you are using OIDC as Authentication module, these values have been "
 "pre-populated with the OIDC Provider Configuration used for Login."
 msgstr ""
+"Da OIDC bereits als Authentifizierungs-Modul verwendet wird, wurden diese "
+"Werte mit der OIDC Anbieterkonfiguration vorausgefüllt, die für den Login "
+"verwendet werden."
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6334,7 +6324,7 @@ msgstr ""
 
 #. Template: AdminOIDCProfiles
 msgid "The Client ID of your OAuth2 application."
-msgstr ""
+msgstr "Die Client ID der OAuth2-Anwendung."
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6344,7 +6334,7 @@ msgstr "Client-Zertifikat"
 
 #. Template: AdminOIDCProfiles
 msgid "The Client Secret of your OAuth2 application."
-msgstr ""
+msgstr "Das Client Secret der OAuth2-Anwendung."
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6354,7 +6344,7 @@ msgstr "Cache-Zeit in Sekunden für Datenbank Prozess-Backends."
 
 #. Template: AdminOIDCProfiles
 msgid "SSL Options (Optional)"
-msgstr ""
+msgstr "SSL Optionen (Optional)"
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6376,7 +6366,7 @@ msgstr "Client-Zertifikatschlüssel"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL certificate private key path."
-msgstr ""
+msgstr "Pfad des privaten Schlüssels zum SSL-Zertifikat."
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6392,7 +6382,7 @@ msgstr "Neues Passwort"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL CA File"
-msgstr ""
+msgstr "SSL CA-Datei"
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6423,6 +6413,8 @@ msgid ""
 "Enable or disable SSL hostname verification. Only disable for debugging "
 "purposes!"
 msgstr ""
+"SSL Hostnamen-Verifizierung aktivieren oder deaktivieren. Nur für Zwecke der "
+"Fehlersuche deaktivieren!"
 
 #. Template: AdminOIDCProfiles
 #, fuzzy
@@ -6434,27 +6426,31 @@ msgstr "SSL Verifizierungsmodus"
 msgid ""
 "Enable or disable SSL verification. Only disable for debugging purposes!"
 msgstr ""
+"SSL-Verifizierung aktivieren oder deaktivieren. Nur für Zwecke der "
+"Fehlersuche deaktivieren!"
 
 #. Template: AdminOIDCProfiles
 msgid "Misc Options (Optional)"
-msgstr ""
+msgstr "Verschiedene Optionen (Optional)"
 
 #. Template: AdminOIDCProfiles
 msgid "Use Nonce"
-msgstr ""
+msgstr "Nonce verwenden"
 
 #. Template: AdminOIDCProfiles
 msgid "Rand Length"
-msgstr ""
+msgstr "Rand-Länge"
 
 #. Template: AdminOIDCProfiles
 msgid ""
 "Random string length used for state and nonce parameters. Default is '22'."
 msgstr ""
+"Länge der zufälligen Zeichenkette, die für Status und Nonce-Parameter "
+"verwendet wird. Stand ist '22'."
 
 #. Template: AdminOIDCProfiles
 msgid "Rand TTL"
-msgstr ""
+msgstr "Rand TTL"
 
 #. Template: AdminOIDCProfiles
 msgid "Time-to-live for state and nonce in seconds. Default is '300' (5 min)."
@@ -6462,7 +6458,7 @@ msgstr ""
 
 #. Template: AdminOIDCProfiles
 msgid "Leeway"
-msgstr ""
+msgstr "Verzögerung (Leeway)"
 
 #. Template: AdminOIDCProfiles
 msgid ""
@@ -30871,7 +30867,7 @@ msgstr "Sprache Benutzeroberfläche"
 
 #. SysConfig
 msgid "Interfaces for which the restoring of pending information is activated."
-msgstr ""
+msgstr "Oberflächen, für die das Wiederherstellen der Wartezeit aktiviert ist."
 
 #. SysConfig
 #, fuzzy
@@ -31095,12 +31091,16 @@ msgid ""
 "List of Active CKEditor Plugins. (Only used if "
 "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+"Liste aktiver CKEditor-Plugins. (Wird nur verwendet, falls "
+"`CustomerFrontend::RichText::EnhancedMode` aktiviert ist)."
 
 #. SysConfig
 msgid ""
 "List of Active CKEditor Plugins. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+"Liste aktiver CKEditor-Plugins. (Wird nur verwendet, falls "
+"`Frontend::RichText::EnhancedMode` aktiviert ist)."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
@@ -31335,7 +31335,7 @@ msgstr "Cloud Services des OTOBO Team managen."
 
 #. SysConfig
 msgid "Manage OpendID Connect OAuth2 Profiles."
-msgstr ""
+msgstr "Verwaltung OpenID Connect OAuth2 Profile."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -31932,11 +31932,11 @@ msgstr ""
 
 #. SysConfig
 msgid "OAuth Functional Accounts"
-msgstr ""
+msgstr "OAuth Funktionskonten"
 
 #. SysConfig
 msgid "OAuth Tokens"
-msgstr ""
+msgstr "OAuth Token"
 
 #. SysConfig
 #, fuzzy
@@ -35258,6 +35258,8 @@ msgid ""
 "Shows creation date instead of age in the customer interface if ticket is "
 "older than configured value (days)."
 msgstr ""
+"Zeigt das Erstelldatum statt dem Alter in der Kundenoberfläche, falls das "
+"Ticket älter als der konfigurierte Wert (Tage) ist."
 
 #. SysConfig
 msgid ""
@@ -35498,6 +35500,9 @@ msgid ""
 "Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), "
 "if enabled; or without (01.01.1970 00:01), if not enabled."
 msgstr ""
+"Zeigt Zeitstempel entweder mit Lokalisierungsindikator (01.01.1970 00:01 "
+"(Europe/Berlin)), falls aktiviert, oder ohne diesen (01.01.1970 00:01), "
+"falls deaktiviert."
 
 #. SysConfig
 msgid "Signature data."
@@ -35985,6 +35990,12 @@ msgid ""
 "set to a valid OIDC Functional Account.  OIDC Accounts can be configured in "
 "the Admin UI  'OAuth Functional Accounts' Module."
 msgstr ""
+"Die Authentifizierungsmethode, die für die SMTP-Authentifizierung verwendet "
+"werden soll. Standard ist 'Basic Auth'. Falls 'XOAUTH2' oder 'OAUTHBEARER' "
+"ausgewählt ist, muss die Einstellung '\"SendmailModule "
+"'\"SendmailModule::OAuth2FunctionalAccount' aktiviert und als gültiges OIDC "
+"Funktionskonto gesetzt werden. OIDC Accounts können in der "
+"Administrationsoberfläche unter 'OAuth Funktionskonten' konfiguriert werden."
 
 #. SysConfig
 msgid ""
@@ -36161,6 +36172,9 @@ msgid ""
 "These attributes are passed when connecting to the database. A common use "
 "case is a connection which is secured by TLS."
 msgstr ""
+"Diese Attribute werden bei der Verbindung zur Datenbank weitergereicht. Ein "
+"gewöhnlicher Anwendungsfall ist eine Verbindung, die mit TLS abgesichert "
+"wird."
 
 #. SysConfig
 msgid ""
@@ -36452,7 +36466,7 @@ msgstr "Ticketstatus"
 
 #. SysConfig
 msgid "Ticket Title"
-msgstr ""
+msgstr "Tickettitel"
 
 #. SysConfig
 msgid "Ticket Types"
@@ -36921,6 +36935,13 @@ msgid ""
 "setting defines the settings that contain complex configuration hashes that "
 "should not be masked when generating the support data."
 msgstr ""
+"Werden Supportdaten mit der Supportdaten-Analyse eingesammelt, werden "
+"bestimmte Systemkonfigurationseinstellungen, die mit dem "
+"ValueType=\"Password\" versehen sind, automatisch maskiert. Dies verhindert, "
+"dass Passwörter in den Supportdaten im Klartext auftauchen. Diese "
+"Einstellung definiert die Einstellungen, die komplexe Konfigurations-Hashes "
+"beinhalten, die nicht mit der Erstellung der Supportdaten maskiert werden "
+"sollen."
 
 #. SysConfig
 msgid ""
@@ -36997,6 +37018,8 @@ msgstr ""
 #. SysConfig
 msgid "Which units are used and shown in the overview for timeunits?"
 msgstr ""
+"Welche Einheiten werden in der Zeiteinheiten-Übersicht verwendet und "
+"angezeigt?"
 
 #. SysConfig
 msgid "XOAUTH2"
@@ -37057,7 +37080,7 @@ msgstr "Inhalt"
 
 #. SysConfig
 msgid "always"
-msgstr ""
+msgstr "immer"
 
 #. SysConfig
 msgid "attachment"
