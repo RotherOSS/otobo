@@ -436,6 +436,13 @@ sub TicketSearch {
         # get fields to search
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
         my @SearchFields   = @{ $FulltextFields->{Ticket} };
+
+        # remove weights from searchfieldsm eg 'Title^3' -> 'Title'
+        for my $Index ( 0 .. $#SearchFields ) {
+
+            $SearchFields[$Index] =~ s/\^[0-9]+$//;
+        }
+
         push @SearchFields, ( map {"ArticlesExternal.$_"} @{ $FulltextFields->{Article} } );
         push @SearchFields, ( "AttachmentsExternal.Content", "AttachmentsExternal.Filename" );
 

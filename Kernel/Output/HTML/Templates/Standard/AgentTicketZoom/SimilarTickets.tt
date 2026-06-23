@@ -26,7 +26,6 @@
 [% RenderBlockStart("SimilarTickets") %]
 [% FOREACH Ticket IN Data %]
 [% FOREACH TicketID IN Ticket.keys %]
-                        <label title="[% Ticket.$TicketID.ArticlesExternal.0.From | html %]">[% Translate("Ticket") | html %] [% TicketID | html %]:</label>
                         <p class="Value" title="[% Ticket.$TicketID.ArticlesExternal.0.Body | html %]">
                             <a target="_blank" href="/otobo/index.pl?Action=AgentTicketZoom;TicketID=[% TicketID | url %]">[% Ticket.$TicketID.Title | html %]</a>
                         </p>
