@@ -89,6 +89,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     float: right;
 }
 
+.LayoutGrid > .Size1of1 {
+    width: 100%;
+}
+
 .LayoutGrid > .Size1of2 {
     width: 50%;
 }
