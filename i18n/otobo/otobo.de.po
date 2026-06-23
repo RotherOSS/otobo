@@ -55,7 +55,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
 "PO-Revision-Date: 2026-06-23 18:05+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
 "Language: de\n"
@@ -6106,10 +6106,8 @@ msgid "to use for this functional account."
 msgstr "für die Verwendung dieses Funktionskontos."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Event Type"
 msgid "Grant Type"
-msgstr "Ereignistyp"
+msgstr "Berechtigungsgewährung (Grant Type)"
 
 #. Template: AdminOAuthTokenStore
 msgid "The OAuth2 grant_type to use for acquiring tokens for this account."
@@ -6267,6 +6265,8 @@ msgstr "Metadaten-URL."
 #. Template: AdminOIDCProfiles
 msgid "The Well-Known Provider Metadata Url."
 msgstr ""
+"Standardpfad der OpenIDConnect Konfiguration (Well-Known Provider Metadata "
+"Url)."
 
 #. Template: AdminOIDCProfiles
 msgid "The Client ID of your OAuth2 application."
