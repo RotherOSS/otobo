@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-06-23 15:58+0000\n"
+"PO-Revision-Date: 2026-06-23 16:14+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -25065,39 +25065,26 @@ msgstr ""
 "länger als 190 Zeichen sein."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Define possible namespaces for dynamic fields. Must only contain "
-#| "alphanumeric characters. A namespace must not be longer than 64 "
-#| "characters. Namespace plus dynamic field name must not exceed 190 "
-#| "characters."
 msgid ""
 "Define possible namespaces for global usage (currently dynamic fields and "
 "process elements). Must only contain alphanumeric characters. A namespace "
 "must not be longer than 64 characters. Namespace plus dynamic field name "
 "must not exceed 190 characters."
 msgstr ""
-"Definieren Sie mögliche Namensräume für dynamische Felder. Darf nur "
-"alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 "
-"Zeichen sein. Namensraum plus Name des dynamischen Feldes dürfen nicht "
-"länger als 190 Zeichen sein."
+"Definieren Sie mögliche Namensräume für globale Verwendung (momentan "
+"Dynamische Felder und Prozesselemente). Darf nur alphanumerische Zeichen "
+"enthalten. Ein Namensraum darf nicht länger als 64 Zeichen sein. Namensraum "
+"plus Name des dynamischen Feldes dürfen nicht länger als 190 Zeichen sein."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Define possible namespaces for dynamic fields. Must only contain "
-#| "alphanumeric characters. A namespace must not be longer than 64 "
-#| "characters. Namespace plus dynamic field name must not exceed 190 "
-#| "characters."
 msgid ""
 "Define possible namespaces specifically for process elements. Must only "
 "contain alphanumeric characters. A namespace must not be longer than 64 "
 "characters."
 msgstr ""
-"Definieren Sie mögliche Namensräume für dynamische Felder. Darf nur "
+"Definieren Sie mögliche Namensräume speziell für Prozesselemente. Darf nur "
 "alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 "
-"Zeichen sein. Namensraum plus Name des dynamischen Feldes dürfen nicht "
-"länger als 190 Zeichen sein."
+"Zeichen sein."
 
 #. SysConfig
 msgid "Define the max depth of queues."
@@ -25481,6 +25468,8 @@ msgid ""
 "Defines for which article types the editing of subject, body and attachment "
 "is enabled. \"Both\" includes \"Phone\" and \"Internal\"."
 msgstr ""
+"Definiert, für welche Artikeltypen das Bearbeiten von Betreff, Body und "
+"Anhänge aktiviert ist. \"Beides\" beinhaltet \"Telefon\" und \"Intern\"."
 
 #. SysConfig
 msgid ""
@@ -25699,10 +25688,8 @@ msgstr ""
 "sich im System einloggen dürfen."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the parameters for the customer preferences table."
 msgid "Defines if articles written by the customer are editable."
-msgstr "Definiert die Parameter der Tabelle mit den Kunden-Einstellungen."
+msgstr "Definiert, ob von Kunden geschriebene Artikel bearbeitbar sind."
 
 #. SysConfig
 msgid ""
@@ -28091,22 +28078,17 @@ msgstr ""
 "Fehlermeldungen angezeigt."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Defines the system identifier. Every ticket number and http session "
-#| "string contains this ID. This ensures that only tickets which belong to "
-#| "your system will be processed as follow-ups (useful when communicating "
-#| "between two instances of OTOBO)."
 msgid ""
 "Defines the system identifier. Every ticket number contains this ID. This "
 "ensures that only tickets which belong to your system will be processed as "
 "follow-ups (useful when communicating between two instances of OTOBO). The "
 "SystemID may also be used in HTTP session backends."
 msgstr ""
-"Definiert die System ID. Jede Ticketnummer und HTTP Sitzung enthält diese "
-"ID. Das stellt sicher, dass nur Tickets in das Ticketsystem aufgenommen "
-"werden, welche zum eigenen Ticketsystem gehören (nützlich, wenn zwischen "
-"zwei Instanzen von OTOBO kommuniziert wird)."
+"Definiert die System ID. Jede Ticketnummer enthält diese ID. Das stellt "
+"sicher, dass nur Tickets in das Ticketsystem aufgenommen werden, welche zum "
+"eigenen Ticketsystem gehören (nützlich, wenn zwischen zwei Instanzen von "
+"OTOBO kommuniziert wird). Die System-ID kann auch in HTTP-Sitzungs-Backends "
+"verwendet werden."
 
 #. SysConfig
 msgid ""
@@ -29095,7 +29077,7 @@ msgstr "Kundenunternehmen bearbeiten"
 
 #. SysConfig
 msgid "Elasticsearch (u)"
-msgstr ""
+msgstr "Elasticsearch (u)"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
@@ -29768,10 +29750,8 @@ msgid "Full value"
 msgstr "Vollständiger Wert"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Fulltext search"
 msgid "Fulltext Elasticsearch"
-msgstr "Volltextsuche"
+msgstr "Volltext-Elasticsearch"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
@@ -29786,10 +29766,8 @@ msgid "Fulltext search using Elasticsearch."
 msgstr "Volltextsuche mit Elasticsearch."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Mail Account Management"
 msgid "Functional Account and Token Management."
-msgstr "E-Mail-Kontenverwaltung"
+msgstr "Verwaltung von Funktionskonten und Token"
 
 #. SysConfig
 msgid "Galician"
@@ -30710,10 +30688,8 @@ msgid "Interfaces for which the restoring of pending information is activated."
 msgstr "Oberflächen, für die das Wiederherstellen der Wartezeit aktiviert ist."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Internal Chat"
 msgid "Internal"
-msgstr "Chat (intern)"
+msgstr "Intern"
 
 #. SysConfig
 msgid "Internal communication channel."
@@ -31768,7 +31744,7 @@ msgstr ""
 
 #. SysConfig
 msgid "OAUTHBEARER"
-msgstr ""
+msgstr "OAUTHBEARER"
 
 #. SysConfig
 msgid "OAuth Functional Accounts"
@@ -31779,16 +31755,12 @@ msgid "OAuth Tokens"
 msgstr "OAuth Token"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Role Management"
 msgid "OIDC Profile Management"
-msgstr "Verwaltung von Rollen"
+msgstr "OIDC Profilverwaltung"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Profile"
 msgid "OIDC Profiles"
-msgstr "Profil"
+msgstr "OIDC Profile"
 
 #. SysConfig
 msgid "OTOBO News"
@@ -32708,10 +32680,8 @@ msgid "Process Management Transition GUI"
 msgstr "Prozess-Management-Übergangs Benutzeroberfläche"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Processing"
 msgid "Process dialog"
-msgstr "Wird verarbeitet"
+msgstr "Prozessdialog"
 
 #. SysConfig
 msgid "Process pending tickets."
@@ -34250,11 +34220,9 @@ msgstr ""
 "Agentenbereich (Ticket::Type muss aktiviert sein)."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Sets the ticket owner in the ticket note screen of the agent interface."
 msgid "Sets the time units in the ticket note screen of the agent interface."
-msgstr "Setzt den Besitzer im Notiz-Bildschirm für Tickets im Agentenbereich."
+msgstr ""
+"Setzt die Zeiteinheiten im Notiz-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""
