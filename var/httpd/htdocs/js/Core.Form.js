@@ -382,6 +382,11 @@ Core.Form = (function (TargetNS) {
 
                     // init modernization on select fields hidden initially
                     Core.UI.InputFields.InitSelect($('select#'+ Elem.id));
+
+                    var $Element = $('select#'+ Elem.id);
+                    if ($Element.hasClass('Modernize')) {
+                        $Element.trigger('redraw.InputField');
+                    }
                 }
             });
         });
