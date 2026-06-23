@@ -111,7 +111,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
 [% RenderBlockStart("AvailableActivityDialogRow") %]
-                                <li data-id="[% Data.ID | html %]" data-dialogprocess="[% Data.DialogProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]" class="[% IF Data.DialogProcessEntityID %]NonGlobalDialog[% END %]">
+                                <li data-id="[% Data.ID | html %]" data-dialogprocess="[% Data.DialogProcessEntityID | html %]" title="[% IF Data.Namespace %][% Translate("Namespace: %s, ", Data.Namespace) | html %][% END %][% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]" class="[% IF Data.DialogProcessEntityID %]NonGlobalDialog[% END %]">
                                     [% IF Data.Namespace %][% Data.Namespace %] – [% END %][% Data.Name | html %][% IF !Data.DialogProcessEntityID %] (global) [% END %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
@@ -135,7 +135,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AssignedActivityDialogs">
 [% RenderBlockStart("AssignedActivityDialogRow") %]
-                                <li data-id="[% Data.ID | html %]" data-dialogprocess="[% Data.DialogProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]" class="[% IF Data.DialogProcessEntityID %]NonGlobalDialog[% END %]">
+                                <li data-id="[% Data.ID | html %]" data-dialogprocess="[% Data.DialogProcessEntityID | html %]" title="[% IF Data.Namespace %][% Translate("Namespace: %s, ", Data.Namespace) | html %][% END %][% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]" class="[% IF Data.DialogProcessEntityID %]NonGlobalDialog[% END %]">
                                     [% IF Data.Namespace %][% Data.Namespace %] – [% END %][% Data.Name | html %][% IF !Data.DialogProcessEntityID %] (global) [% END %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
