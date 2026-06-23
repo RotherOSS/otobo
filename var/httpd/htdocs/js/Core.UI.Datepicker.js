@@ -206,7 +206,6 @@ Core.UI.Datepicker = (function (TargetNS) {
                     Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
 
                 }
-/* EO CustomerTicketSearch */
             } else {
                 // AgentInterface
                 Element.Year.after($DatepickerElement);
@@ -285,7 +284,7 @@ Core.UI.Datepicker = (function (TargetNS) {
                 Core.Language.Translate('Fr'),
                 Core.Language.Translate('Sa')
             ],
-            isRTL: Core.Config.Get('Datepicker.IsRTL')
+            isRTL: (Core.Config.Get('Datepicker.IsRTL') == 1) // Config value has type string, '0' evaluates to true
         };
 
         Options.onSelect = function (_DateText, Instance) {
