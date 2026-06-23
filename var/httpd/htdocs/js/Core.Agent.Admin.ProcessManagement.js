@@ -1076,19 +1076,45 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      *      Initialize activity edit screen.
      */
     TargetNS.InitActivityEdit = function () {
-        function InitListFilter(_Event, UI) {
+        function SortAvailableActivityDialogs() {
+            var $list = $('#AvailableActivityDialogs');
 
-            // only do something, if the element was removed from the right list
+            $list.children('li').sort(
+                    (a, b) => a.title.localeCompare(b.title)
+            ).appendTo($list);
+        }
+
+        function StopEvent(_Event) {
+
+            // rerun sort if element was dragged within left list
+            if ($(_Event.target).attr('id') === 'AvailableActivityDialogs') {
+                SortAvailableActivityDialogs();
+            }
+        }
+
+        function TransferEvent(_Event, UI) {
+
+            // only rerun filter and sort if the element was removed from the right list
             if (UI.sender.attr('id') === 'AssignedActivityDialogs') {
                 Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
+                SortAvailableActivityDialogs();
             }
         }
 
         // Initialize Allocation List
-        Core.UI.AllocationList.Init("#AvailableActivityDialogs, #AssignedActivityDialogs", ".AllocationList", InitListFilter);
+        Core.UI.AllocationList.Init(
+            "#AvailableActivityDialogs, #AssignedActivityDialogs",
+            ".AllocationList",
+            TransferEvent,
+            null,
+            StopEvent
+        );
 
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
+
+        // Initial sort of left list
+        SortAvailableActivityDialogs();
 
         // Hide non-global ActivityDialogs if Global selection is checked
         if ($('input#Global').is(":checked")) {
