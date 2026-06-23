@@ -682,10 +682,9 @@ ul.Path li.Transition span {
     width: 180px;
     height: 30px;
     line-height: 30px;
-    text-align: center;
+    text-align: left;
     position: absolute;
-    left: 50%;
-    margin-left: -90px;
+    left: 419px;
     top: -20px;
 }
 
