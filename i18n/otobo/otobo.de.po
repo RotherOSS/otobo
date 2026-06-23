@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-06-23 13:22+0000\n"
+"PO-Revision-Date: 2026-06-23 14:24+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -7545,24 +7545,27 @@ msgid ""
 "DynamicField or DynamicField of type \"Set\"), at least one value must "
 "exactly match the string specified in \"Value\"."
 msgstr ""
+"Der Wert muss exakt mit der Zeichenfolge übereinstimmen. In einem Array "
+"(bspw. Dynamische Felder mit Mehrfachwerten oder Dynamische Felder vom Typ "
+"\"Set\") muss mindestens ein Wert exakt mit der Zeichenfolge übereinstimmen, "
+"die in \"Wert\" definiert ist."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Exact match"
 msgid "Exact match - all"
-msgstr "Genauer Treffer"
+msgstr "Genauer Treffer - alle"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "In an array (for example: Multi-Value DynamicField or DynamicField of type "
 "\"Set\"), all values must exactly match the string specified in \"Value\"."
 msgstr ""
+"In einem Array (bspw. ein Dynamisches Feld mit Mehrfachwerten oder ein "
+"Dynamisches Feld vom Typ \"Set\"), müssen alle Werte exakt mit der "
+"Zeichenkette übereinstimmen, die in \"Wert\" angegeben ist."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Exact match"
 msgid "Exact match - negated"
-msgstr "Genauer Treffer"
+msgstr "Genauer Treffer - negiert"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7570,10 +7573,12 @@ msgid ""
 "DynamicField or DynamicField of type \"Set\"), no value may match the string "
 "specified in \"Value\"."
 msgstr ""
+"Wert darf nicht mit der Zeichenkette übereinstimmen. In einem Array (bspw. "
+"Dynamisches Feld mit Mehrfachwerten oder ein Dyanmisches Feld vom Typ "
+"\"Set\") darf kein Wert mit der in \"Wert\" definierten Zeichenkette "
+"übereinstimmen."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
 
@@ -7583,12 +7588,14 @@ msgid ""
 "Multi-Value DynamicField or DynamicField of type \"Set\"), at least one "
 "value must match the regular expression specified in \"Value\"."
 msgstr ""
+"Wert muss mit einem regulären Ausdruck (RegEx) übereinstimmen. In einem "
+"Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld "
+"vom Typ \"Set\" muss mindestens ein Wert mit dem regulären Ausdruck "
+"übereinstimmen, der in \"Wert\" definiert ist."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular Expression - all"
-msgstr "Regulärer Ausdruck"
+msgstr "Regulärer Ausdruck - alle"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7596,12 +7603,13 @@ msgid ""
 "\"Set\"), all values must match the regular expression specified in "
 "\"Value\"."
 msgstr ""
+"In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein "
+"Dynamisches Feld vom Typ \"Set\") müssen alle Werte mit dem regulären "
+"Ausdruck Übereinstimmen, der in \"Wert\" definiert ist."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular Expression - negated"
-msgstr "Regulärer Ausdruck"
+msgstr "Regulärer Ausdruck - negiert"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7609,6 +7617,10 @@ msgid ""
 "example: Multi-Value DynamicField or DynamicField of type \"Set\"), no value "
 "may match the regular expression specified in \"Value\"."
 msgstr ""
+"Wert muss einen nicht übereinstimmenden regulären Ausdruck beinhalten. In "
+"einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder Dynamisches Feld "
+"vom Typ \"Set\") darf kein Wert mit dem in \"Wert\" definierten regulären "
+"Ausdruck übereinstimmen."
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition validation module"
@@ -7619,18 +7631,20 @@ msgid ""
 "\"Name\" is currently irrelevant, \"Value\" must contain the path to the "
 "module, usually Kernel::System::Process::Transition::<TA_Name>."
 msgstr ""
+"\"Name\" ist momentan irrelevant. \"Wert\" muss den Pfad zum Modul "
+"beinhalten, üblicherweise Kernel::System::Process::Transition::<TA_Name>."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Value must always contain a string or a regular expression used for "
 "comparison."
 msgstr ""
+"Wert muss immer eine Zeichenkette oder einen regulären Ausdruck für den "
+"Vergleich beinhalten."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Example"
 msgid "Examples"
-msgstr "Beispiel"
+msgstr "Beispiele"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7639,6 +7653,10 @@ msgid ""
 "Name=\"State\", Type=\"Regular Expression\" and Value=\"closed\" (or the "
 "long form \"^.*closed.*$\")."
 msgstr ""
+"Das Prozessticket soll in den nächsten Prozessschritt übergehen, sobald ein "
+"Status mit \"closed\" (geschlossen) in seinem Namen gesetzt wird. "
+"Konfigurieren Sie daher Name=\"State\", Type=\"Regular Expression\" und "
+"Value=\"closed\" (oder in der langen Variante \"^.*closed.*$\")."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7646,6 +7664,10 @@ msgid ""
 "Name=\"DynamicField_<FieldName>\". To access a field inside a Dynamic Field "
 "of type \"Set\", the following syntax can be used: "
 msgstr ""
+"Sofern ein Dynamisches Feld verwendet werden soll, konfigurieren Sie "
+"Name=\"DynamicField_<FieldName>\". Um ein Feld innerhalb eines Dynamischen "
+"Felds vom Typ \"Set\" anzusprechen, kann die folgende Syntax verwendet "
+"werden: "
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
@@ -7704,31 +7726,22 @@ msgid "Filter for queues"
 msgstr "Filter für Queues"
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import queues to your system. "
 "The file needs to be in .yml format as exported by the queue management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Queues in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so wie sie "
+"von der Queue-Verwaltung auch exportiert wird."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid "Queues"
 msgid "Queues Import"
-msgstr "Queues"
+msgstr "Queues importieren"
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid "Export"
 msgid "Queues Export"
-msgstr "Export"
+msgstr "Queues exportieren"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -7839,8 +7852,6 @@ msgid "Will be the sender address of this queue for email answers."
 msgstr "Absenderadresse für E-Mails aus dieser Queue."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid "Is defined in Admin > System addresses."
 msgid "Is defined in Admin > Email Addresses."
 msgstr "Ist definiert unter Admin > E-Mail-Adressen."
 
@@ -7874,28 +7885,20 @@ msgid "The signature for email answers."
 msgstr "Die Signatur für E-Mail-Antworten."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "The business calendar for Unlock Time and the Escalation Times. No "
-#| "selection means the Default calendard"
 msgid ""
 "The business calendar for unlock time and the escalation times. No selection "
 "means that the default calendar is used."
 msgstr ""
-"Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl "
-"bedeutet Standardkalender"
+"Der Arbeitszeitkalender für Entsperrzeit und Eskalationszeiten. Keine "
+"Auswahl bedeutet, der Standardkalender wird verwendet."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar "
-#| "= no selection) or in Calendars 1 through 9."
 msgid ""
 "Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
-"Ist definiert unter Admin > Systemkonfiguration > Core > Time — "
-"Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9."
+"Ist definiert unter Admin > Systemkonfiguration > Core > Time "
+"(Standardkalender) oder in den Kalendern 1 bis 9."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
@@ -7931,24 +7934,17 @@ msgid "Auto Responses"
 msgstr "Automatische Antworten"
 
 #. Template: AdminQueueImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of queues to import these on "
 "another system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Queues exportieren, um diese "
+"auf einem anderen System zu importieren. Die Konfigurationsdatei wird im "
+"YAML-Format (.yml) exportiert."
 
 #. Template: AdminQueueImportExport
-#, fuzzy
-#| msgid "Request List"
 msgid "Queues List"
-msgstr "Anfrageliste"
+msgstr "Queue-Liste"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
