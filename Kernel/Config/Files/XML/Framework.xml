@@ -7884,10 +7884,10 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText">OTOBO 11.1 | Evolution</Item>
-                        <Item Key="MainText">to be determined</Item>
+                        <Item Key="HeaderText">OTOBO 11.1 | Service Management</Item>
+                        <Item Key="MainText">OTOBO 11.1 is packed with quality-of-life improvements, and delivers real added value in the areas of modelling, integration & system connectivity, and administration.</Item>
                         <Item Key="FooterText">Explore &gt;</Item>
-                        <Item Key="Link">https://otobo.io/en/service-management-plattform/helpdesk/</Item>
+                        <Item Key="Link">https://otobo.io/en/otobo-11-1/</Item>
                         <Item Key="NewTab">0</Item>
                     </Hash>
                 </Item>
