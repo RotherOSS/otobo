@@ -66,9 +66,9 @@ As this specific location as it is located on the volume that is visible from th
 
 =item Cache::Module and Cache::Redis
 
-Use Redis as the caching backend. In out of the box Docker based installation the
-Redis server is running in the same local network as the web server. The host name is
-simply I<redis> (with "Holding back the years" quietly playing in the background).
+Up to OTOBO 11.0.x the default caching backend was chosen to be Redis.
+This has changed in OTOBO 11.1.x. The default cache backend under Docker is
+now C<FileStorable> just like in native installations.
 
 =item TestHTTPHostname
 
@@ -141,9 +141,6 @@ sub Load {
     # ---------------------------------------------------- #
     $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
     $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
-    $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
-    $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
-    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
     # -------------------------------------------------#
