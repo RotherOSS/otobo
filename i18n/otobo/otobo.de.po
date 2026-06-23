@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-06-23 12:52+0000\n"
+"PO-Revision-Date: 2026-06-23 13:22+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -5482,51 +5482,35 @@ msgid "It's useful for ASP solutions. "
 msgstr "Das ist nützlich für ASP-Lösungen. "
 
 #. Template: AdminGroup
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import groups to your system. "
 "The file needs to be in .yml format as exported by the group management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Gruppen in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
+"Gruppenverwaltung auch exportiert wird."
 
 #. Template: AdminGroup
-#, fuzzy
-#| msgid "Start Import"
 msgid "Groups Import"
-msgstr "Import starten"
+msgstr "Gruppen importieren"
 
 #. Template: AdminGroup
-#, fuzzy
-#| msgid "Start Export"
 msgid "Groups Export"
-msgstr "Export starten"
+msgstr "Gruppen exportieren"
 
 #. Template: AdminGroupImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of groups to import these on "
 "another system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Gruppen exportieren, um diese "
+"auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml "
+"Format exportiert."
 
 #. Template: AdminGroupImportExport
-#, fuzzy
-#| msgid "Groups"
 msgid "Groups List"
-msgstr "Gruppen"
+msgstr "Auflistung von Gruppen"
 
 #. Template: AdminImportExport
 msgid "Import/Export Management"
@@ -5780,10 +5764,8 @@ msgid "Do you really want to delete this mail account?"
 msgstr "Möchten Sie dieses E-Mail-Konto wirklich löschen?"
 
 #. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Account"
 msgid "OIDC Account"
-msgstr "Konto"
+msgstr "OIDC Konto"
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
@@ -6004,26 +5986,20 @@ msgstr ""
 "des aktuellen Tickets einzufügen."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Auto Response Management"
 msgid "OAuth2 Token Management (OIDC)"
-msgstr "Verwaltung automatischer Antworten"
+msgstr "Verwaltung von OAuth2 Token (OIDC)"
 
 #. Template: AdminOAuthTokenStore
 msgid "OpenID Connect Functional OAuth2 Account Management"
 msgstr "OpenID Connect Verwaltung funktioneller OAuth2-Konten"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Add Mail Account"
 msgid "Add Account"
-msgstr "E-Mail-Konto hinzufügen"
+msgstr "Konto hinzufügen"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Edit Mail Account"
 msgid "Edit Account "
-msgstr "E-Mail-Konto bearbeiten"
+msgstr "Konto bearbeiten "
 
 #. Template: AdminOAuthTokenStore
 msgid "About OIDC Functional Accounts"
@@ -6056,10 +6032,8 @@ msgid "here"
 msgstr "hier"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Delete account"
 msgid "Delete Account"
-msgstr "E-Mail-Konto löschen"
+msgstr "Konto löschen"
 
 #. Template: AdminOAuthTokenStore
 msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
@@ -6080,16 +6054,12 @@ msgid "There are no OAuth2 accounts defined."
 msgstr "Es sind keine OAuth2-Konten definiert."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Accounted time"
 msgid "Account Name"
-msgstr "Erfasste Zeit"
+msgstr "Kontoname"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Process Name"
 msgid "Profile Name"
-msgstr "Prozessname"
+msgstr "Profilname"
 
 #. Template: AdminOAuthTokenStore
 msgid "Flow"
@@ -6112,28 +6082,20 @@ msgid "Renew"
 msgstr "Erneuern"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Add Invoker"
 msgid "Add Invoker Account"
-msgstr "Invoker hinzufügen"
+msgstr "Invoker-Konto hinzufügen"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Edit Invoker"
 msgid "Edit Invoker Account"
-msgstr "Invoker bearbeiten"
+msgstr "Invoker-Konto bearbeiten"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "The name for this field should not change."
 msgid "The unique name for this Account."
-msgstr "Der Name dieses Feldes sollte sich nicht ändern."
+msgstr "Der einzigartige Name für dieses Konto."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Profile"
 msgid "OIDC Profile"
-msgstr "Profil"
+msgstr "OIDC Profil"
 
 #. Template: AdminOAuthTokenStore
 msgid "The OpenID Connect"
@@ -6186,10 +6148,8 @@ msgstr ""
 ". Übliche Werte behinhalten openid, email, profile und roles."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "General Settings"
 msgid "Advanced Invoker Settings"
-msgstr "Generelle Einstellungen"
+msgstr "Erweiterte Invoker-Einstellungen"
 
 #. Template: AdminOAuthTokenStore
 msgid "Resources"
@@ -6200,24 +6160,24 @@ msgid ""
 "Optional (space seperated list) for the resource paramater if required. "
 "Leave empty unless instructed otherwise."
 msgstr ""
+"Optionale (Leerzeichen-separierte Liste) für die Ressourcen-Parameter, falls "
+"benötigt. Leer lassen, außer es gibt eine anderweitige Anweisung."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Remove this Parameter"
 msgid "Resource Parameter Name"
-msgstr "Parameter entfernen"
+msgstr "Name des Ressourcen-Parameters"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Name of the resource parameter to use. Defaults to 'resource'. Do not change "
 "unless instructed."
 msgstr ""
+"Name des Ressourcen-Parameters, der verwendet werden soll. Standard ist "
+"'ressource'. Nicht ändern, außer man wird dazu angewiesen."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Ticket Types"
 msgid "Token Type"
-msgstr "Tickettypen"
+msgstr "Token-Type"
 
 #. Template: AdminOAuthTokenStore
 msgid "The token type to use for externall API calls. Usually 'access_token'."
@@ -6234,16 +6194,12 @@ msgid "OpenID Connect Provider Profiles Management"
 msgstr "OpenID Connect Anbieter-Profilverwaltung"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Profile"
 msgid "Add Profile"
-msgstr "Profil"
+msgstr "Profil hinzufügen"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Edit Role"
 msgid "Edit Profile "
-msgstr "Rolle bearbeiten"
+msgstr "Profil bearbeiten "
 
 #. Template: AdminOIDCProfiles
 msgid "About OIDC Provider Profiles"
@@ -6260,10 +6216,8 @@ msgid "You can connect OIDC Profiles with a OIDC Functional Account"
 msgstr "OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Delete Process"
 msgid "Delete Profile"
-msgstr "Prozess löschen"
+msgstr "Profil löschen"
 
 #. Template: AdminOIDCProfiles
 msgid ""
@@ -6278,16 +6232,12 @@ msgid "There are no OIDC Provider profiles defined."
 msgstr "Es sind keine OIDC Anbieterprofile definiert."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Client Info"
 msgid "Client ID"
-msgstr "Client-Info"
+msgstr "Client-ID"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Provider transport"
 msgid "Provider"
-msgstr "Provider-Transport"
+msgstr "Provider"
 
 #. Template: AdminOIDCProfiles
 msgid "Add OIDC Provider Profile"
@@ -6307,16 +6257,12 @@ msgstr ""
 "verwendet werden."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Please provide a unique name for this web service."
 msgid "The unique name for this Profile."
-msgstr "Bitte geben Sie einen eindeutigen Namen für diesen Webservice an."
+msgstr "Bitte geben Sie einen eindeutigen Namen für dieses Profil an."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Metadata"
 msgid "Metadata Url."
-msgstr "Metadaten"
+msgstr "Metadaten-URL."
 
 #. Template: AdminOIDCProfiles
 msgid "The Well-Known Provider Metadata Url."
@@ -6327,10 +6273,8 @@ msgid "The Client ID of your OAuth2 application."
 msgstr "Die Client ID der OAuth2-Anwendung."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Client Certificate"
 msgid "Client Secret"
-msgstr "Client-Zertifikat"
+msgstr "Client-Geheimnis (Secret)"
 
 #. Template: AdminOIDCProfiles
 msgid "The Client Secret of your OAuth2 application."
@@ -6347,66 +6291,48 @@ msgid "SSL Options (Optional)"
 msgstr "SSL Optionen (Optional)"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Add Certificate"
 msgid "SSL Certificate"
-msgstr "Zertifikat hinzufügen"
+msgstr "SSL-Zertifikat"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Read certificate"
 msgid "SSL certificate path."
-msgstr "Zertifikat lesen"
+msgstr "Pfad zum SSL-Zertifikat"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Client Certificate Key"
 msgid "SSL Certificate Key"
-msgstr "Client-Zertifikatschlüssel"
+msgstr "SSL-Zertifikatsschlüssel"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL certificate private key path."
 msgstr "Pfad des privaten Schlüssels zum SSL-Zertifikat."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Password"
 msgid "SSL Password"
-msgstr "Passwort"
+msgstr "SSL-Passwort"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "New password"
 msgid "The SSL password."
-msgstr "Neues Passwort"
+msgstr "Das SSL-Passwort"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL CA File"
 msgstr "SSL CA-Datei"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Certification Authority (CA) Certificate"
 msgid "SSL Certificate Authority file path."
-msgstr "Zertifikat der Certification Authority (CA)"
+msgstr "SSL Certification Authority (CA) Dateipfad."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "OTRS home directory"
 msgid "SSL CA Directory"
-msgstr "OTRS-Home-Verzeichnis"
+msgstr "SSL CA Verzeichnis"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Certification Authority (CA) Directory"
 msgid "SSL Certificate Authority directory path."
-msgstr "Verzeichnis mit Certification Autorities (CA)"
+msgstr "SSL Certificate Autority (CA) Verzeichnispfad."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "SSL verify mode"
 msgid "SSL Verify Hostname"
-msgstr "SSL Verifizierungsmodus"
+msgstr "SSL Hostname verifizieren"
 
 #. Template: AdminOIDCProfiles
 msgid ""
@@ -6417,8 +6343,6 @@ msgstr ""
 "Fehlersuche deaktivieren!"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "SSL verify mode"
 msgid "SSL Verify Mode"
 msgstr "SSL Verifizierungsmodus"
 
@@ -6887,10 +6811,8 @@ msgid "Edit PostMaster Filter"
 msgstr "Postmaster-Filter bearbeiten"
 
 #. Template: AdminPostMasterFilter
-#, fuzzy
-#| msgid "Include invalid states"
 msgid "Include invalid PostMaster Filters"
-msgstr "Ungültige Status anzeigen"
+msgstr "Ungültige Postmaster-Filter anzeigen"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
@@ -7069,19 +6991,14 @@ msgid "Deploy All Processes"
 msgstr "Alle Prozesse in Betrieb nehmen"
 
 #. Template: AdminProcessManagement
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import a process to your system. "
 "The file needs to be in .yml format as exported by the process management "
 "module."
 msgstr ""
 "Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so "
+"wie sie vom Prozessmanagement auch exportiert wird."
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
@@ -7171,7 +7088,7 @@ msgstr "Name der Aktivität"
 
 #. Template: AdminProcessManagementActivity
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
@@ -7314,10 +7231,8 @@ msgid "Is visible for customer"
 msgstr "Ist sichtbar für Kunde"
 
 #. Template: AdminProcessManagementActivityDialog
-#, fuzzy
-#| msgid "Add Template"
 msgid "Standard Templates"
-msgstr "Vorlage hinzufügen"
+msgstr "Standard-Vorlagen"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -7601,21 +7516,24 @@ msgid "Transition Name"
 msgstr "Name des Übergangs"
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Translation Marked for Deletion"
 msgid "Transition Reference for \"Fields\" Settings"
-msgstr "Zum Löschen markierte Übersetzung"
+msgstr "Übergangs-Referenz für \"Felder\"-Einstellungen"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Name of the ticket attribute that should be used for validation. In general, "
 "all attributes returned by the TicketGet function can be used."
 msgstr ""
+"Name der Ticket-Attribute, die für die Überprüfung verwendet werden sollen. "
+"Allgemein können alle Attribute verwendet werden, die von der TicketGet-"
+"Funktion zurückgegeben werden."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "There are several possibilities to validate whether this transition is valid."
 msgstr ""
+"Es gibt mehrere Möglichkeiten um zu überprüfen, ob dieser Übergang gültig "
+"ist."
 
 #. Template: AdminProcessManagementTransition
 msgid "Exact match"
