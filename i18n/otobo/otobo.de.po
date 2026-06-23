@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-06-23 14:24+0000\n"
+"PO-Revision-Date: 2026-06-23 15:58+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -8374,16 +8374,12 @@ msgstr ""
 "vom Prozessmanagement auch exportiert wird."
 
 #. Template: AdminRole
-#, fuzzy
-#| msgid "Calendar Import"
 msgid "Roles Import"
-msgstr "Kalender importieren"
+msgstr "Rollen importieren"
 
 #. Template: AdminRole
-#, fuzzy
-#| msgid "Export"
 msgid "Roles Export"
-msgstr "Export"
+msgstr "Rollen exportieren"
 
 #. Template: AdminRole
 msgid ""
@@ -8412,14 +8408,12 @@ msgstr ""
 "vom Prozessmanagement auch exportiert wird."
 
 #. Template: AdminRoleGroup
-#, fuzzy
-#| msgid "Calendar Import"
 msgid "Role-Group Import"
-msgstr "Kalender importieren"
+msgstr "Rollen-Gruppen-Zuordnungen importieren"
 
 #. Template: AdminRoleGroup
 msgid "Role-Group Export"
-msgstr ""
+msgstr "Rollen-Gruppen-Zuordnungen exportieren"
 
 #. Template: AdminRoleGroup
 msgid "Roles"
@@ -8525,10 +8519,8 @@ msgstr ""
 "verwalten."
 
 #. Template: AdminRoleGroupImportExport
-#, fuzzy
-#| msgid "Manage Role-Group Relations"
 msgid "Role-Group Relations"
-msgstr "Zuordnungen von Rollen zu Gruppen verwalten"
+msgstr "Rollen-Gruppen-Zuordnungen"
 
 #. Template: AdminRoleGroupImportExport
 #, fuzzy
@@ -19309,36 +19301,29 @@ msgid "Queue of the ticket"
 msgstr "Ticket-Queue"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the queue of the ticket"
 msgid "Select the queue of the ticket."
-msgstr "Wählen Sie die Ticket-Queue aus"
+msgstr "Wählen Sie die Ticket-Queue aus."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Type of the ticket"
 msgstr "Ticket-Typ"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the type of the ticket"
 msgid "Select the type of the ticket."
-msgstr "Wählen Sie den Ticket-Typ aus"
+msgstr "Wählen Sie den Ticket-Typ aus."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the attribute which tickets will be searched by"
 msgid "Select the attribute which tickets will be searched by."
-msgstr "Wählen Sie aus, nach welchem Attribut die Ticket gesucht werden sollen"
+msgstr ""
+"Wählen Sie aus, nach welchem Attribut die Tickets gesucht werden sollen."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Attribute which is displayed for values"
 msgstr "Für die Werte angezeigtes Attribut"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the type of display"
 msgid "Select the type of display."
-msgstr "Wählen Sie die Anzeigeart aus"
+msgstr "Wählen Sie die Anzeigeart aus."
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column Separator"
@@ -19381,70 +19366,48 @@ msgid "Pretty print the exported concatenated JSON"
 msgstr "Druckausgabe des exportierten verknüpften JSON"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default value"
 msgid "Default Queue"
-msgstr "Standardwert"
+msgstr "Standard-Queue"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default Ticket Type"
 msgid "Default Type"
-msgstr "Standard Ticket-Typ"
+msgstr "Standard-Typ"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default Version"
 msgid "Default Service"
-msgstr "Standardversion"
+msgstr "Standard-Service"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default"
 msgid "Default SLA"
-msgstr "Standard"
+msgstr "Standard-SLA"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default value"
 msgid "Default state"
-msgstr "Standardwert"
+msgstr "Standard-Status"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default Version"
 msgid "Default priority"
-msgstr "Standardversion"
+msgstr "Standard-Priorität"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default command"
 msgid "Default owner"
-msgstr "Standardbefehl"
+msgstr "Standard-Besitzer"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "new responsible"
 msgid "Default responsible"
-msgstr "Neuer Verantwortlicher"
+msgstr "Standard-Verantwortlicher"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default"
 msgid "Default lock"
-msgstr "Standard"
+msgstr "Standard-Sperre"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Dear Customer,"
 msgid "Default CustomerID"
-msgstr "Lieber Kunde,"
+msgstr "Standard Kundennummer (CustomerID)"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Customer User ID"
 msgid "Default CustomerUserID"
-msgstr "Kundenbenutzer-Nummer"
+msgstr "Standard-Kundenbenutzer-ID"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 #, fuzzy
@@ -19453,16 +19416,12 @@ msgid "Default ArchiveFlag"
 msgstr "Standardsprache"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default value"
 msgid "Default subject"
-msgstr "Standardwert"
+msgstr "Standard-Betreff"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default command"
 msgid "Default body"
-msgstr "Standardbefehl"
+msgstr "Standard-Body"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 #, fuzzy
@@ -19471,44 +19430,36 @@ msgid "Default sender type"
 msgstr "Standard-Signierschlüssel"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Is visible for customer"
 msgid "Default is visible to customer"
-msgstr "Ist sichtbar für Kunde"
+msgstr "Standard ist sichtbar für den Kunden"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Empty fields indicate that the current values are kept"
 msgstr "Leere Felder zeigen an, dass aktuelle Werte beibehalten werden"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Update existing appointments?"
 msgid "Do not update existing tickets"
-msgstr "Existierende Termine überschreiben?"
+msgstr "Existierende Tickets nicht aktualisieren"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Only update tickets of this user in the target system"
-msgstr ""
+msgstr "Lediglich Tickets von diesem Anwender im Zielsystem aktualisieren"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Import/Export"
 msgid "Import/Export articles"
-msgstr "Import/Export"
+msgstr "Artikel importieren/exportieren"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default command"
 msgid "Default Backend"
-msgstr "Standardbefehl"
+msgstr "Standard-Backend"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Store articles on separate lines indicated by a blank first entry"
-msgstr ""
+msgstr "Artikels in separaten Zeilen mit einem leeren ersten Eintrag speichern"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Import/Export attachments (as the last entries per line)"
-msgstr ""
+msgstr "Anhänge importieren/exportieren (als letzte Einträge je Zeile)"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
@@ -19551,10 +19502,8 @@ msgid "Need OTRSData->%s!"
 msgstr "OTRSData->%s benötigt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-#, fuzzy
-#| msgid "Can't access OTRS Home: %s!"
 msgid "Can't access OTRS home directory: %s!"
-msgstr "Kann nicht auf OTRS Home: %s zugreifen!"
+msgstr "Kann nicht auf OTRS-Home-Verzeichnis: %s zugreifen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
@@ -19591,10 +19540,8 @@ msgstr ""
 "kann."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-#, fuzzy
-#| msgid "Can't open RELEASE file from OTRSHome: %s!"
 msgid "Can't open RELEASE file from OTRS home directory: %s!"
-msgstr "Kann das RELEASE File in OTRSHome: %s nicht öffnen!"
+msgstr "Kann die RELEASE-Datei im OTRS-Home-Verzeichnis: %s nicht öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
@@ -19663,26 +19610,20 @@ msgid "Migrate configuration settings."
 msgstr "Migriert die Konfigurationseinstellungen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-#, fuzzy
-#| msgid ""
-#| "An error occurred during SysConfig data migration or no configuration "
-#| "exists."
 msgid ""
 "An error occurred during system configuration data migration or no "
 "configuration exists."
 msgstr ""
-"Bei der Migration der SysConfig-Daten ist ein Fehler aufgetreten oder es ist "
-"keine Konfiguration vorhanden."
+"Bei der Migration der Systemkonfigurations-Daten ist ein Fehler aufgetreten "
+"oder es ist keine Konfiguration vorhanden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-#, fuzzy
-#| msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgid ""
 "An error occurred during system configuration migration when writing XML to "
 "DB."
 msgstr ""
-"Beim Migrieren der SysConfig-Daten ist ein Fehler beim Schreiben der XML-"
-"Werte in die DB aufgetreten."
+"Beim Migrieren der Systemkonfigurations-Daten ist ein Fehler beim Schreiben "
+"der XML-Werte in die DB aufgetreten."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
@@ -19701,10 +19642,10 @@ msgid "Migrate database table notification."
 msgstr "Migrieren der Datenbanktabelle \"notification\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-#, fuzzy
-#| msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgid "Can't open Kernel/Config.pm file from OTRS home directory: %s!"
-msgstr "Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!"
+msgstr ""
+"Kann die Datei Kernel/Config.pm aus dem OTRS-Home-Verzeichnis: %s nicht "
+"öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
@@ -19716,10 +19657,10 @@ msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr "Kernel/Config.pm ist in OTOBO verfügbar"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-#, fuzzy
-#| msgid "Check if we are able to connect to OTRS Home."
 msgid "Check if we are able to connect to OTRS home directory."
-msgstr "Überprüft, ob eine Verbindung zu OTRS Home hergestellt werden kann."
+msgstr ""
+"Überprüft, ob eine Verbindung zum OTRS-Home-Verzeichnis hergestellt werden "
+"kann."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
@@ -19837,13 +19778,11 @@ msgstr "Importierte Benachrichtigung hat einen Text mit mehr als 4000 Zeichen."
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Error fetching Token: %s"
-msgstr ""
+msgstr "Fehler bei der Token-Abholung: %s"
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
-#, fuzzy
-#| msgid "Needed CertFingerprint and CAFingerprint!"
 msgid "Need ClientID and ClientSecret!"
-msgstr "Benötige CertFingerprint und CAFingerprint!"
+msgstr "Benötige ClientID und ClientSecret!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Got no content when requesting Token. Response Code: %s"
@@ -19854,10 +19793,8 @@ msgid "Got no JSON object when requesting Token. Response: %s"
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-#, fuzzy
-#| msgid "Action \"%s\" not found!"
 msgid "AccountName %s not found!"
-msgstr "Aktion \"%s\" nicht gefunden!"
+msgstr "Kontoname \"%s\" nicht gefunden!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
@@ -21482,8 +21419,6 @@ msgid "default reply (after new ticket has been created)"
 msgstr "Standardantwort (nachdem ein neues Ticket erstellt wurde)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
-#, fuzzy
-#| msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgid "default reject (after follow-up and rejection of a closed ticket)"
 msgstr ""
 "Standardablehnung (nachdem eine Antwort auf ein geschlossenes Ticket "
@@ -22915,10 +22850,8 @@ msgid "5 Minutes"
 msgstr "5 Minuten"
 
 #. SysConfig
-#, fuzzy
-#| msgid "5 days"
 msgid "7 days"
-msgstr "5 Tage"
+msgstr "7 Tage"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
@@ -22993,13 +22926,10 @@ msgid "Activates lost password feature for customers."
 msgstr "Aktiviert die \"Passwort vergessen\" Funktion für Kunden."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Activates Rendering of DynamicFields outside of the DynamicField block."
 msgid ""
 "Activates rendering of dynamic fields outside of the dynamic field block."
 msgstr ""
-"Aktiviert das Rendern dynamischer Felder außerhalb des Blocks für dynamische "
+"Aktiviert das Rendern Dynamischer Felder außerhalb des Blocks für Dynamische "
 "Felder."
 
 #. SysConfig
@@ -23106,16 +23036,12 @@ msgstr ""
 "Protokolldatei hinzu. Für jeden Monat wird eine eigene Log-Datei erstellt."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Sets the responsible agent of the ticket in the ticket note screen of the "
-#| "agent interface."
 msgid ""
 "Adds customer visibility of the article to the article edit screen of the "
 "agent interface."
 msgstr ""
-"Setzt den verantwortlichen Agenten im Notiz-Bildschirm für Tickets im "
-"Agentenbereich."
+"Setzt die Sichtbarkeit von Artikel für Kunden im Artikel-Bearbeiten-Fenster "
+"im Agentenbereich."
 
 #. SysConfig
 msgid ""
@@ -23912,10 +23838,8 @@ msgid "Based on global RichText setting"
 msgstr "Basierend auf der globalen Richtext-Einstellung"
 
 #. SysConfig
-#, fuzzy
-#| msgid "BasicAuth User"
 msgid "Basic Auth"
-msgstr "BasicAuth-Benutzer"
+msgstr "Basic Auth"
 
 #. SysConfig
 msgid ""
@@ -23949,7 +23873,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Both"
-msgstr ""
+msgstr "Beides"
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
@@ -24276,16 +24200,12 @@ msgid "Collect support data for asynchronous plug-in modules."
 msgstr "Sammelt Support Daten für asynchrone Erweiterungen."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Color definitions for Agent interface highcontrast skin."
 msgid "Color definitions for agent interface high contrast skin."
-msgstr "Farbdefinitionen für den Skin highcontrast im Agentenbereich."
+msgstr "Farbdefinitionen für den Hoher-Kontrast-Skin im Agentenbereich."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Color definitions for Customer Interface highcontrast skin."
 msgid "Color definitions for customer interface high contrast skin."
-msgstr "Farbdefinitionen für den Skin highcontrast im Kundenbereich."
+msgstr "Farbdefinitionen für den Hoher-Kontrast-Skin im Kundenbereich."
 
 #. SysConfig
 msgid ""
@@ -24585,6 +24505,10 @@ msgid ""
 "Button Group that will be visibly seperated in the Editor.(Only used if "
 "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+"Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. "
+"Jedes Array definiert eine Button-Gruppe, die im Editor sichtbar getrennt "
+"wird. (Nur sofern die Einstellung `CustomerFrontend::RichText::EnhancedMode` "
+"aktiviert ist)."
 
 #. SysConfig
 msgid ""
@@ -24592,6 +24516,10 @@ msgid ""
 "Button Group that will be visibly seperated in the Editor.(Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+"Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. "
+"Jedes Array definiert eine Button-Gruppe, die im Editor sichtbar getrennt "
+"wird. (Nur sofern die Einstellung `Frontend::RichText::EnhancedMode` "
+"aktiviert ist)."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -24787,10 +24715,8 @@ msgid "Customer Dashboard"
 msgstr "Kunden-Dashboard"
 
 #. SysConfig
-#, fuzzy
-#| msgid "CustomerDashboard Info Tile"
 msgid "Customer Dashboard Info Tile"
-msgstr "KundenDashboard Infokachel"
+msgstr "Kunden-Dashboard Infokachel"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
