@@ -61,7 +61,7 @@ sub Run {
     }
 
     # report success if value is empty
-    return 1 unless IsArrayRefWithData( $OldDynamicFieldNamespacesSetting{EffectiveValue}->@* );
+    return 1 unless IsArrayRefWithData( $OldDynamicFieldNamespacesSetting{EffectiveValue} );
 
     # fetch new setting for updating and storing
     my %NewDynamicFieldNamespacesSetting = $SysConfigObject->SettingGet(
