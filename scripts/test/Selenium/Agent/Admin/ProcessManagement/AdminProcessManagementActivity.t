@@ -154,7 +154,8 @@ $Selenium->RunTest(
             "#Name stored value",
         );
 
-        $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
+        $Selenium->find_element( "#Name",   'css' )->send_keys("edit");
+        $Selenium->find_element( "#Global", 'css' )->click();
 
         # Create global ActivityDialog
         my $ActivityDialogNewButton = "//a[contains(.,\'Create New Activity Dialog\')]";
@@ -164,6 +165,7 @@ $Selenium->RunTest(
         # Input fields and submit.
         $Selenium->find_element( "#Name",             'css' )->send_keys($ActivityDialogRandom);
         $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys($ActivityDialogRandom);
+        $Selenium->find_element( "#Global",           'css' )->click();
         $Selenium->find_element( "#Submit",           'css' )->VerifiedClick();
 
         # Create non-global ActivityDialog
@@ -172,7 +174,6 @@ $Selenium->RunTest(
         # Input fields and submit.
         $Selenium->find_element( "#Name",             'css' )->send_keys($ActivityDialogRandom2);
         $Selenium->find_element( "#DescriptionShort", 'css' )->send_keys($ActivityDialogRandom2);
-        $Selenium->find_element( "#Global",           'css' )->click();
         $Selenium->find_element( "#Submit",           'css' )->VerifiedClick();
 
         # Check if ActivityDialog is global
