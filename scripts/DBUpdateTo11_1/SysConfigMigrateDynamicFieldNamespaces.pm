@@ -64,13 +64,14 @@ sub Run {
     return 1 unless IsArrayRefWithData( $OldDynamicFieldNamespacesSetting{EffectiveValue} );
 
     # fetch new setting for updating and storing
-    my %NewDynamicFieldNamespacesSetting = $SysConfigObject->SettingGet(
-        Name => 'Namespaces###DynamicField',
+    #   NOTE old dynamic field namespaces are migrated to new global namespaces
+    my %NewGlobalNamespacesSetting = $SysConfigObject->SettingGet(
+        Name => 'Namespaces###Global',
     );
-    if ( !%NewDynamicFieldNamespacesSetting ) {
+    if ( !%NewGlobalNamespacesSetting ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Could not fetch setting 'Namespaces###DynamicField' - aborting."
+            Message  => "Could not fetch setting 'Namespaces###Global' - aborting."
         );
 
         return;
@@ -79,12 +80,12 @@ sub Run {
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,
         Force     => 1,
-        DefaultID => $NewDynamicFieldNamespacesSetting{DefaultID},
+        DefaultID => $NewGlobalNamespacesSetting{DefaultID},
     );
 
     # Update setting with modified data
     my %Result = $SysConfigObject->SettingUpdate(
-        Name              => 'Namespaces###DynamicField',
+        Name              => 'Namespaces###Global',
         IsValid           => 1,
         EffectiveValue    => $OldDynamicFieldNamespacesSetting{EffectiveValue},
         ExclusiveLockGUID => $ExclusiveLockGUID,
@@ -94,7 +95,7 @@ sub Run {
     if ( !$Result{Success} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Could not update setting 'Namespaces###DynamicField'.",
+            Message  => "Could not update setting 'Namespaces###Global'.",
         );
 
         return;
@@ -102,23 +103,23 @@ sub Run {
 
     my $Success = $SysConfigObject->SettingUnlock(
         UserID    => 1,
-        DefaultID => $NewDynamicFieldNamespacesSetting{DefaultID},
+        DefaultID => $NewGlobalNamespacesSetting{DefaultID},
     );
 
     if ( !$Success ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Could not unlock setting 'Namespaces###DynamicField'.",
+            Message  => "Could not unlock setting 'Namespaces###Global'.",
         );
 
         return;
     }
 
     my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-        Comments      => "UpgradeTo11.1 - Copy dynamic field namespaces from 'DynamicField::Namespaces' to 'Namespaces###DynamicField'.",
+        Comments      => "UpgradeTo11.1 - Copy dynamic field namespaces from 'DynamicField::Namespaces' to 'Namespaces###Global'.",
         UserID        => 1,
         Force         => 1,
-        DirtySettings => ['Namespaces###DynamicField'],
+        DirtySettings => ['Namespaces###Global'],
     );
 
     if ( !$DeploymentResult{Success} ) {
