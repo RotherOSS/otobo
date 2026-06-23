@@ -126,6 +126,10 @@ sub Run {
             Name   => 'Enable Similar Search Widget if ES is activated',
             Module => 'EnableSimilarSearchWidgetIfESActivated',
         },
+        {
+            Name   => 'Use the caching backend from the SysConfig, FileStorable per default',
+            Module => 'RemoveElasticsearchOverride',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
