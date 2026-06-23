@@ -268,7 +268,7 @@ sub Run {
                 $Self->_EditInvoker(
                     Action => 'EditInvoker',
                     %GetParam,
-                    TokenError => $LanguageObject->Translate('Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!'),
+                    TokenError => $LanguageObject->Translate('Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!'),
                 );
 
                 $LayoutObject->Block(
