@@ -49,9 +49,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content {
 
     --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --ck-content-font-size: 12pt;
-    --ck-content-line-height: 14pt;
-    --ck-content-todo-list-checkmark-size: 14pt;
+    --ck-content-font-size: 14px;
+    --ck-content-line-height: 16px;
+    --ck-content-todo-list-checkmark-size: 16px;
 
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -91,32 +91,32 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-content p {
     margin-top: 0;
-    margin-bottom: 10pt;
+    margin-bottom: 12px;
 }
 
 .ck-content h1 {
-    font-size: 16pt;
-    line-height: 18pt;
-    margin-top: 20pt;
-    margin-bottom: 12pt;
+    font-size: 19px;
+    line-height: 21px;
+    margin-top: 24px;
+    margin-bottom: 14px;
     font-weight: bold;
     color: inherit;
 } 
 
 .ck-content h2 {
-    font-size: 14pt;
-    line-height: 16pt;
-    margin-top: 16pt;
-    margin-bottom: 10pt;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 19px;
+    margin-bottom: 12px;
     font-weight: bold;
     color: inherit;
 }
 
 .ck-content h3 {
-    font-size: 12pt;
-    line-height: 14pt;
-    margin-top: 12pt;
-    margin-bottom: 8pt;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 14px;
+    margin-bottom: 9.5px;
     font-weight: bold;
     color: inherit;
 }
@@ -124,10 +124,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content h4,
 .ck-content h5,
 .ck-content h6 {
-    font-size: 12pt;
-    line-height: 14pt;
-    margin-top: 12pt;
-    margin-bottom: 8pt;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 14px;
+    margin-bottom: 9.5px;
     font-weight: normal !important;
     font-style: italic;
     color: inherit;
@@ -144,7 +144,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content ol
 {
     padding: 0 50px;
-    margin-bottom: 10pt;
+    margin-bottom: 12px;
 }
 
 .ck-content li {
