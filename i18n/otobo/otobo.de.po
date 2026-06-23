@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-06-23 16:14+0000\n"
+"PO-Revision-Date: 2026-06-23 18:05+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -7975,11 +7975,11 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Queue-Templates Import"
-msgstr ""
+msgstr "Import von Queue-Vorlagen"
 
 #. Template: AdminQueueTemplates
 msgid "Queue-Templates Export"
-msgstr ""
+msgstr "Export von Queue-Vorlagen"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -10653,12 +10653,16 @@ msgid ""
 "Check with 'docker compose ps' whether a service with the name daemon is "
 "running."
 msgstr ""
+"Überprüfen Sie mit 'docker compose ps', ob ein Dienst mit dem Namen 'daemon' "
+"läuft."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "When the service daemon is not running then try starting it with 'docker "
 "compose start daemon'"
 msgstr ""
+"Falls der Dienst 'daemon' nicht läuft, versuchen Sie ihn mit 'docker compose "
+"start daemon' zu starten"
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -10926,7 +10930,7 @@ msgstr "ConfigItems"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "FAQs"
-msgstr ""
+msgstr "FAQs"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
@@ -12388,7 +12392,7 @@ msgstr "Neues Ticket"
 
 #. Template: CustomerElasticsearchQuickResult
 msgid "FAQ#"
-msgstr ""
+msgstr "FAQ#"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -14185,7 +14189,7 @@ msgstr "System mit Softwarepaketen aktualisieren und erweitern."
 
 #. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
 msgid "Error fetching the OAuth2 Token"
-msgstr ""
+msgstr "Fehler beim Abhohlen des OAuth2 Tokens"
 
 #. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
 msgid "Attached OAuth2 Bearer Token"
@@ -14952,6 +14956,8 @@ msgid ""
 "The dynamic field \"%s\" can not be used in sets as it is either a Set field "
 "or a Lens field pointing to a Set field."
 msgstr ""
+"Das Dynamische Feld \"%s\" kann nicht in Sets verwendet werden, da es "
+"entweder ein Set-Feld ist, oder ein Linsen-Feld, das auf ein Set-Feld zeigt."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
@@ -15787,11 +15793,11 @@ msgstr "Inhalt fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
 msgid "Profile Name is taken!"
-msgstr ""
+msgstr "Profilname ist bereits vergeben!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
 msgid "Error creating/updating Profile %s!"
-msgstr ""
+msgstr "Fehler beim Erstellen/Aktualisieren des Profils %s!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
 #, fuzzy
@@ -34294,10 +34300,8 @@ msgstr ""
 "deaktiviert, werden optionale Parameter in einer separaten Tabelle angezeigt."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Show or Hide deleted articles."
 msgid "Show or Hide Deleted Articles"
-msgstr "Gelöschte Artikel anzeigen oder verbergen."
+msgstr "Gelöschte Artikel anzeigen oder verbergen"
 
 #. SysConfig
 msgid "Show or Hide deleted articles."
@@ -36263,10 +36267,8 @@ msgid "Ticket Responsible."
 msgstr "Ticket-Verantwortlicher."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Ticket Search"
 msgid "Ticket Search."
-msgstr "Ticketsuche"
+msgstr "Ticketsuche."
 
 #. SysConfig
 msgid "Ticket States"
@@ -36364,18 +36366,11 @@ msgid "Tickets."
 msgstr "Tickets."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Tile registration for the CustomerDashboard. Module is required."
 msgid "Tile registration for the customer dashboard. Module is required."
 msgstr ""
-"Kachel-Registrierung für das CustomerDashboard. Dieses Modul wird benötigt."
+"Kachel-Registrierung für das Kunden-Dashboard. Dieses Modul wird benötigt."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Tile registration for the CustomerDashboard. Module is required. "
-#| "Optionally, an order for items can be set. The order must have the name "
-#| "of the item as key and the desired position as integer value."
 msgid ""
 "Tile registration for the customer dashboard. Module is required. "
 "Optionally, an order for items can be set. The order must have the name of "
@@ -36683,13 +36678,6 @@ msgstr ""
 "Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, "
-#| "the ticket is not only unlocked, but also handed over to the system user "
-#| "again. Thus, the behaviour is clearer, but it is no longer possible to "
-#| "read out who last edited the ticket. Please deactivate this option to "
-#| "restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgid ""
 "We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the "
 "ticket is not only unlocked, but also handed over to the system user again. "
@@ -36831,7 +36819,7 @@ msgstr ""
 
 #. SysConfig
 msgid "XOAUTH2"
-msgstr ""
+msgstr "XOAUTH2"
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
