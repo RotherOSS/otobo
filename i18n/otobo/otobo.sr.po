@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-04-14 07:17+0000\n"
+"POT-Creation-Date: 2026-06-24 13:39+0000\n"
 "PO-Revision-Date: 2026-02-21 09:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <http://translate.otobo.org/projects/otobo/otobo-10/"
@@ -13748,6 +13748,11 @@ msgid "Setting not found."
 msgstr "Подешавање није пронађено."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+msgid "Missing setting key!"
+msgstr "Недостаје назив подешавања!"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
 msgstr "Недостаје Settings!"
 
@@ -25819,9 +25824,11 @@ msgstr ""
 "назив колоне за „CustomerPassword” у табели клијената."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Уколико је одабран \"DB\" за Customer::AuthModule, неопходно је подесити тип "
 "шифровања за лозинке."

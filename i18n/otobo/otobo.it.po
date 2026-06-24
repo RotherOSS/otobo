@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-04-14 07:17+0000\n"
+"POT-Creation-Date: 2026-06-24 13:39+0000\n"
 "PO-Revision-Date: 2026-04-20 10:53+0000\n"
 "Last-Translator: Juan Tarditi <j.tarditi@tdnet.it>\n"
 "Language-Team: Italian <http://translate.otobo.org/projects/otobo/otobo-10/"
@@ -13928,6 +13928,11 @@ msgid "Setting not found."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+msgid "Missing setting key!"
+msgstr "Visualizza impostazione singola: %s"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
 msgstr ""
 
@@ -24901,7 +24906,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 
 #. SysConfig

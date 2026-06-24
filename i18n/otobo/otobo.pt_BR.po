@@ -57,7 +57,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-04-14 07:17+0000\n"
+"POT-Creation-Date: 2026-06-24 13:39+0000\n"
 "PO-Revision-Date: 2026-02-21 09:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
@@ -14108,6 +14108,11 @@ msgid "Setting not found."
 msgstr "Configuração não encontrada."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+msgid "Missing setting key!"
+msgstr "Falta nome da definição!"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
 msgstr "Faltam Definições!"
 
@@ -26221,9 +26226,11 @@ msgstr ""
 "Senha de Cliente na tabela do cliente deve ser especificada."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Se \"DB\" foi selecionado para Customer::AuthModule, o tipo de criptografia "
 "para senhas deve ser especificado."

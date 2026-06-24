@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-04-14 07:17+0000\n"
+"POT-Creation-Date: 2026-06-24 13:39+0000\n"
 "PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
@@ -13930,6 +13930,11 @@ msgid "Setting not found."
 msgstr "Finner ikke innstillingen."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+msgid "Missing setting key!"
+msgstr "Mangler innstillingsnavn!"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
 msgstr "Mangler innstillinger!"
 
@@ -26051,9 +26056,11 @@ msgstr ""
 "som skal kobles til CustomerPassword i kundetabellen."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Hvis \"DB\" ble valgt for Customer::AuthModule, må krypteringstypen for "
 "passord angis."
