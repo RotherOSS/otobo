@@ -55,7 +55,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
 "PO-Revision-Date: 2026-06-24 13:52+0000\n"
-"Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
 "Language: de\n"
@@ -4379,7 +4379,7 @@ msgstr "Zu Zeile springen"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Autocomplete"
-msgstr "Autocomplete"
+msgstr "Autovervollständigung"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
@@ -4564,9 +4564,8 @@ msgid ""
 msgstr ""
 "Das erweiterte XSLT-Mapping erlaubt eine feingranularere Konfiguration des "
 "XSLT-Mappings. Sobald es aktiviert ist, kann der resultierende JSON-Typ "
-"durch das Spezifizieren eines XML-Attributs 'otoboXslType'  erzwungen "
-"werden. Erlaubte Werte für dieses Attribut sind 'int', 'bool', 'float', und "
-"'array'."
+"durch das Spezifizieren eines XML-Attributs 'otoboXslType' erzwungen werden. "
+"Erlaubte Werte für dieses Attribut sind 'int', 'bool', 'float', und 'array'."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
@@ -5487,9 +5486,9 @@ msgid ""
 "The file needs to be in .yml format as exported by the group management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Gruppen in Ihr System "
-"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
-"Gruppenverwaltung auch exportiert wird."
+"Hier können Sie eine Konfigurationsdatei hochladen, um Gruppen in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so wie sie "
+"von der Gruppenverwaltung auch exportiert wird."
 
 #. Template: AdminGroup
 msgid "Groups Import"
@@ -5724,7 +5723,7 @@ msgid ""
 "All incoming emails with one account will be dispatched in the selected "
 "queue."
 msgstr ""
-"Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue "
+"Alle eingehenden E-Mails eines Kontos werden in die ausgewählte Queue "
 "einsortiert."
 
 #. Template: AdminMailAccount
@@ -6266,7 +6265,7 @@ msgstr "Metadaten-URL."
 msgid "The Well-Known Provider Metadata Url."
 msgstr ""
 "Standardpfad der OpenIDConnect Konfiguration (Well-Known Provider Metadata "
-"Url)."
+"URL)."
 
 #. Template: AdminOIDCProfiles
 msgid "The Client ID of your OAuth2 application."
@@ -6281,10 +6280,8 @@ msgid "The Client Secret of your OAuth2 application."
 msgstr "Das Client Secret der OAuth2-Anwendung."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Cache time in seconds for the DB process backend."
 msgid "Time in seconds for caching provider data."
-msgstr "Cache-Zeit in Sekunden für Datenbank Prozess-Backends."
+msgstr "Zeit in Sekunden für das Caching von Anbieter-Daten."
 
 #. Template: AdminOIDCProfiles
 msgid "SSL Options (Optional)"
@@ -6296,7 +6293,7 @@ msgstr "SSL-Zertifikat"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL certificate path."
-msgstr "Pfad zum SSL-Zertifikat"
+msgstr "Pfad zum SSL-Zertifikat."
 
 #. Template: AdminOIDCProfiles
 msgid "SSL Certificate Key"
@@ -6312,7 +6309,7 @@ msgstr "SSL-Passwort"
 
 #. Template: AdminOIDCProfiles
 msgid "The SSL password."
-msgstr "Das SSL-Passwort"
+msgstr "Das SSL-Passwort."
 
 #. Template: AdminOIDCProfiles
 msgid "SSL CA File"
@@ -6998,7 +6995,7 @@ msgid ""
 "The file needs to be in .yml format as exported by the process management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
+"Hier können Sie eine Konfigurationsdatei hochladen, um einen Prozess in Ihr "
 "System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so "
 "wie sie vom Prozessmanagement auch exportiert wird."
 
@@ -7733,7 +7730,7 @@ msgid ""
 "The file needs to be in .yml format as exported by the queue management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Queues in Ihr System "
+"Hier können Sie eine Konfigurationsdatei hochladen, um Queues in Ihr System "
 "zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so wie sie "
 "von der Queue-Verwaltung auch exportiert wird."
 
@@ -7966,9 +7963,10 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the queue-"
 "template management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Queue-Vorlagen-"
-"Verknüpfungen in Ihr System zu importieren. Die Datei muss im YAML-Format "
-"vorliegen, so wie sie aus Queues<->Vorlagen auch exportiert wird."
+"Hier können Sie eine Konfigurationsdatei hochladen, um die Zuordnungen von "
+"Queues zu Vorlagen in Ihr System zu importieren. Die Datei muss im YAML-"
+"Format (.yml) vorliegen, so wie sie aus der Verwaltung der Queues-Vorlagen-"
+"Zuordnung auch exportiert wird."
 
 #. Template: AdminQueueTemplates
 msgid "Queue-Templates Import"
@@ -8354,9 +8352,9 @@ msgid ""
 "Here you can upload a configuration file to import roles to your system. The "
 "file needs to be in .yml format as exported by the role management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Rollen in Ihr System "
-"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
-"Rollenverwaltung auch exportiert wird."
+"Hier können Sie eine Konfigurationsdatei hochladen, um Rollen in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so wie sie "
+"von der Rollenverwaltung auch exportiert wird."
 
 #. Template: AdminRole
 msgid "Roles Import"
@@ -8383,10 +8381,10 @@ msgid ""
 "your system. The file needs to be in .yml format as exported by the role-"
 "group management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Rollen-Gruppen "
+"Hier können Sie eine Konfigurationsdatei hochladen, um Rollen-Gruppen "
 "Zuordnungen in Ihr System zu importieren. Die Datei muss im YAML-Format "
-"vorliegen, so wie sie von der Verwaltung der Rollen-Gruppen Zuordnung auch "
-"exportiert wird."
+"(.yml) vorliegen, so wie sie von der Verwaltung der Rollen-Gruppen Zuordnung "
+"auch exportiert wird."
 
 #. Template: AdminRoleGroup
 msgid "Role-Group Import"
@@ -8886,9 +8884,9 @@ msgid ""
 "The file needs to be in .yml format as exported by the service management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Services in Ihr System "
-"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
-"Serviceverwaltung auch exportiert wird."
+"Hier können Sie eine Konfigurationsdatei hochladen, um Services in Ihr "
+"System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so "
+"wie sie von der Serviceverwaltung auch exportiert wird."
 
 #. Template: AdminService
 msgid "Services Import"
@@ -9240,15 +9238,12 @@ msgstr ""
 "verwendet."
 
 #. Template: AdminSystemAddress
-#, fuzzy
-#| msgid ""
-#| "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
 msgid ""
 "Only relevant if the postmaster mail account is set to dispatching by To-"
 "field."
 msgstr ""
-"Nur relevant, wenn das Postmaster Mail Konto auf Versand über das To: Feld "
-"gesetzt ist."
+"Nur relevant, wenn für das Postmaster-E-Mail-Konto die Verteilung über das "
+"An-Feld (To) gesetzt ist."
 
 #. Template: AdminSystemAddress
 msgid "This system address cannot be set to invalid."
@@ -9687,9 +9682,9 @@ msgid ""
 "The file needs to be in .yml format as exported by the template management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Vorlagen in Ihr System "
-"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
-"Vorlagenverwaltung auch exportiert wird."
+"Hier können Sie eine Konfigurationsdatei hochladen, um Vorlagen in Ihr "
+"System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so "
+"wie sie von der Vorlagenverwaltung auch exportiert wird."
 
 #. Template: AdminTemplate
 msgid "Templates Import"
@@ -9969,9 +9964,9 @@ msgid ""
 "Here you can upload a configuration file to import types to your system. The "
 "file needs to be in .yml format as exported by the type management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um Tickettypen in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"von der Tickettyp-Verwaltung auch exportiert wird."
+"Hier können Sie eine Konfigurationsdatei hochladen, um Tickettypen in Ihr "
+"System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so "
+"wie sie von der Tickettyp-Verwaltung auch exportiert wird."
 
 #. Template: AdminType
 msgid "Types Import"
@@ -10538,12 +10533,8 @@ msgstr ""
 "status')."
 
 #. Template: AgentDaemonInfo
-#, fuzzy
-#| msgid "A running OTOBO Daemon is mandatory for correct system operation."
 msgid "Running the OTOBO Daemon in a Docker based installation"
-msgstr ""
-"Ein laufender OTOBO Daemon ist für die korrekte Funktion des Systems "
-"erforderlich."
+msgstr "Den OTOBO Daemon in einer Docker-basierten Installation laufen lassen"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -10812,10 +10803,8 @@ msgid "Details view"
 msgstr "Detailansicht"
 
 #. Template: AgentElasticsearchCommon
-#, fuzzy
-#| msgid "Elasticsearch"
 msgid "Elasticsearch Results"
-msgstr "Elasticsearch"
+msgstr "Elasticsearch-Ergebnisse"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
@@ -11481,10 +11470,8 @@ msgid "Invalid time!"
 msgstr "Ungültige Zeitangabe!"
 
 #. Template: AgentTicketArticleEdit
-#, fuzzy
-#| msgid "Add Article"
 msgid "Edit Article"
-msgstr "Artikel hinzufügen"
+msgstr "Artikel bearbeiten"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
@@ -11797,8 +11784,6 @@ msgid "Solution Time"
 msgstr "Lösungszeit"
 
 #. Template: AgentTicketOverviewMedium
-#, fuzzy
-#| msgid "AccountedTime"
 msgid "Accounted Time"
 msgstr "Erfasste Zeit"
 
@@ -12067,8 +12052,6 @@ msgid "Article Edited"
 msgstr "Artikel bearbeitet"
 
 #. Template: AgentTicketZoom
-#, fuzzy
-#| msgid "Time units"
 msgid "Time Units"
 msgstr "Zeiteinheiten"
 
@@ -12479,10 +12462,8 @@ msgid "Click here for an unfiltered list of all your tickets."
 msgstr "Klicke hier, für eine ungefilterte Liste aller deiner Tickets."
 
 #. Template: CustomerTicketMessage
-#, fuzzy
-#| msgid "Create a new ticket!"
 msgid "Create a new Ticket"
-msgstr "Neues Ticket erstellen!"
+msgstr "Ein neues Ticket erstellen"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -12501,10 +12482,8 @@ msgid "Sort"
 msgstr "Sortieren"
 
 #. Template: CustomerTicketSearch
-#, fuzzy
-#| msgid "Search Ticket."
 msgid "Search for a Ticket"
-msgstr "Ticket suchen."
+msgstr "Nach einem Ticket suchen"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -12619,10 +12598,8 @@ msgid "Warning"
 msgstr "Warnung"
 
 #. Template: TileNewTicket
-#, fuzzy
-#| msgid "Create tickets."
 msgid "Create%sa ticket"
-msgstr "Tickets erstellen."
+msgstr "Erstelle%s ein Ticket"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -13176,14 +13153,12 @@ msgstr ""
 "diese Seite erneut auf."
 
 #. Template: Intro
-#, fuzzy
-#| msgid "If you need support, just ask our experts – either at"
 msgid ""
 "If you need support, just ask our experts – either at %sOTOBO forum%s or "
 "directly via mail to %ssales@otobo.io%s."
 msgstr ""
 "Wenn Sie Unterstützung benötigen, fragen Sie einfach unsere Experten – "
-"entweder im"
+"entweder im %sOTOBO-Forum%s oder direkt via E-Mail an %ssales@otobo.io%s."
 
 #. Template: Intro
 msgid "Cached data found"
@@ -14090,7 +14065,7 @@ msgstr "Fehler beim Abhohlen des OAuth2 Tokens"
 
 #. Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
 msgid "Attached OAuth2 Bearer Token"
-msgstr ""
+msgstr "Angehängter OAuth2 Bearer-Token"
 
 #. Perl Module: Kernel/Language.pm
 msgid "(in process)"
@@ -14835,10 +14810,8 @@ msgid "Missing Dynamic Field."
 msgstr "Fehlendes dynamisches Feld."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
-#, fuzzy
-#| msgid "No valid dynamic field \"%s.\""
 msgid "No valid dynamic field \"%s\"."
-msgstr "Kein gültiges Dynamisches Feld \"%s.\""
+msgstr "Kein gültiges Dynamisches Feld \"%s\"."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid ""
@@ -15526,10 +15499,8 @@ msgid "You need %s permissions!"
 msgstr "Sie benötigen die %s-Berechtigung!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-#, fuzzy
-#| msgid "Agent who created the ticket"
 msgid "Agent who created the first article"
-msgstr "Agent, der das Ticket erstellt hat"
+msgstr "Agent, der den ersten Artikel erstellt hat"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
@@ -15593,100 +15564,76 @@ msgid "Visible to customer"
 msgstr "Sichtbar für Kunde"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Name is missing!"
 msgid "Account Name is missing!"
-msgstr "Name fehlt!"
+msgstr "Kontoname fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Name is required!"
 msgid "Username is required!"
-msgstr "Name wird benötigt!"
+msgstr "Benutzername wird benötigt!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Format is required!"
 msgid "Password is required!"
-msgstr "Format ist erforderlich!"
+msgstr "Passwort ist erforderlich!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Accounted time by Agent"
 msgid "Account Name is taken!"
-msgstr "Zeit zugewiesen von Agent"
+msgstr "Kontoname ist bereits vergeben!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Error creating contact!"
 msgid "Error creating/updating %s!"
-msgstr "Fehler beim Anlegen des Kontakts!"
+msgstr "Fehler beim Anlegen/Aktualisieren von %s!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 msgid ""
 "Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
 "Configuration!"
 msgstr ""
+"Die OIDC Anbieterauthentifzierungs-URL zur Anmeldung kann nicht generiert "
+"werden! Ungültige OIDC-Konfiguration!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 msgid ""
 "Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
 "COnfiguration!"
 msgstr ""
+"Die OIDC Anbieterauthentifzierungs-URL zur Anmeldung kann nicht generiert "
+"werden! Ungültige OIDC-Konfiguration!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Key %s deleted!"
 msgid "Account %s deleted!"
-msgstr "Schlüssel %s gelöscht!"
+msgstr "Konto %s wurde gelöscht!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Role updated!"
 msgid "Token %s updated!"
-msgstr "Rolle aktualisiert!"
+msgstr "Token %s aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid OAuth State!"
-msgstr "Ungültige Zeitangabe!"
+msgstr "Ungültiger OAuth-Status!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Invalid Token!"
 msgid "Invalid Account %s for Token!"
-msgstr "Ungültiger Token!"
+msgstr "Ungültiges Konto %s für Token!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-#, fuzzy
-#| msgid "Invalid Token!"
 msgid "Invalid Issuer %s for Token %s!"
-msgstr "Ungültiger Token!"
+msgstr "Ungültiger Aussteller %s für Token %s!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
-#, fuzzy
-#| msgid "Name is missing!"
 msgid "Profile Name is missing!"
-msgstr "Name fehlt!"
+msgstr "Profilname fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
-#, fuzzy
-#| msgid "Group is missing!"
 msgid "Provider metadata url is missing!"
-msgstr "Gruppenauswahl fehlt!"
+msgstr "Anbieter-Metadaten-URL fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
-#, fuzzy
-#| msgid "Content is missing!"
 msgid "Provider client id is missing!"
-msgstr "Inhalt fehlt!"
+msgstr "Anbieter Client-ID fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
-#, fuzzy
-#| msgid "Content is missing!"
 msgid "Provider client secret is missing!"
-msgstr "Inhalt fehlt!"
+msgstr "Anbieter Client-Geheimnis (Secret) fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
 msgid "Profile Name is taken!"
@@ -15697,16 +15644,16 @@ msgid "Error creating/updating Profile %s!"
 msgstr "Fehler beim Erstellen/Aktualisieren des Profils %s!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
-#, fuzzy
-#| msgid "Key %s deleted!"
 msgid "Profile %s deleted!"
-msgstr "Schlüssel %s gelöscht!"
+msgstr "Profil %s gelöscht!"
 
 #. Perl Module: Kernel/Modules/AdminOIDCProfiles.pm
 msgid ""
 "Profile %s could not be deleted - do you have any Functional Accounts "
 "referencing this Profile?"
 msgstr ""
+"Profil %s konnte nicht gelöscht werden - gibt es andere Funktionskonten, die "
+"auf dieses Profil verweisen?"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -15898,32 +15845,24 @@ msgid "There was an error creating the Process"
 msgstr "Beim Erstellen des Prozesses ist ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-#, fuzzy
-#| msgid "There was an error generating a new EntityID for this Transition"
 msgid ""
 "There was an error generating a new EntityID while copying an associated "
 "Element"
 msgstr ""
-"Beim Generieren einer neuen Entity-ID für diesen Übergang ist ein Fehler "
-"aufgetreten"
+"Beim Generieren einer neuen Entity-ID ist während des Kopierens eines "
+"zugehörigen Elements ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-#, fuzzy
-#| msgid "There was an error creating the info tile entry"
 msgid "There was an error copying an associated Element"
-msgstr "Beim Erstellen des Info-Kachel-Eintrags ist ein Problem aufgetreten"
+msgstr "Beim Kopieren eines zugehörigen Elements ist ein Problem aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-#, fuzzy
-#| msgid ""
-#| "There was an error setting the entity sync status for Transition entity: "
-#| "%s"
 msgid ""
 "There was an error setting the entity sync status for an associated Element "
 "entity: %s"
 msgstr ""
-"Beim Setzen des Synchronisations-Status für Übergang %s ist ein Fehler "
-"aufgetreten"
+"Beim Setzen des Synchronisations-Status ist ein Fehler für ein zugehöriges "
+"Element %s aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
@@ -15941,17 +15880,16 @@ msgstr "Prozess %s konnte nicht gelöscht werden"
 msgid ""
 "Process: %s successfully deleted, but failed to delete an associated Element"
 msgstr ""
+"Prozess: %s erfolgreich gelöscht, aber ein zugehöriges Element konnte nicht "
+"gelöscht werden"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-#, fuzzy
-#| msgid ""
-#| "There was an error setting the entity sync status for Transition entity: "
-#| "%s"
 msgid ""
 "Process: %s successfully deleted, but there was an error setting the entity "
 "sync status for an associated Element entity"
 msgstr ""
-"Beim Setzen des Synchronisations-Status für Übergang %s ist ein Fehler "
+"Der Prozess %s wurde erfolgreich gelöscht, aber beim Setzen des "
+"Synchronisations-Status für ein zugehöriges Element ist ein Fehler "
 "aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -15981,10 +15919,8 @@ msgid "Could not get %s"
 msgstr "Konnte %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-#, fuzzy
-#| msgid "Need ProcessID!"
 msgid "Need ProcessEntityID!"
-msgstr "Benötige ProcessID!"
+msgstr "Benötige Prozess-ID (ProcessEntityID)!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
@@ -15997,6 +15933,8 @@ msgstr "Prozess: %s ist nicht aktiv"
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
 msgstr ""
+"Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten "
+"zugeordnet werden!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
@@ -16016,20 +15954,16 @@ msgstr ""
 "aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "Need ActivityDialogID!"
 msgid "Need ActivityID and ProcessEntityID!"
-msgstr "Benötige ActivityDialogID!"
+msgstr "Benötige Aktivitäts-ID (ActivityID) und Prozess-ID (ProcessEntityID)!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
 msgstr "Konnte Daten für ActivityID %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "This action is not permitted on the article!"
 msgid "This Activity is not available to the current Process!"
-msgstr "Diese Aktion ist für den Artikel nicht erlaubt!"
+msgstr "Diese Aktivität ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
@@ -16088,20 +16022,18 @@ msgstr ""
 "Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-#, fuzzy
-#| msgid "Need ActivityDialogID!"
 msgid "Need ActivityDialogID and ProcessEntityID!"
-msgstr "Benötige ActivityDialogID!"
+msgstr ""
+"Benötige Aktivitäsdialog-ID (ActivityDialogID) und Prozess-ID "
+"(ProcessEntityID)!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
 msgstr "Konnte Daten für ActivityDialogID %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-#, fuzzy
-#| msgid "Activity dialogs are not being used in this process."
 msgid "This Activity Dialog is not available to the current Process!"
-msgstr "In diesem Prozess werden keine Aktivitäts-Dialoge verwendet."
+msgstr "Dieser Aktivitätsdialog ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
@@ -16157,20 +16089,16 @@ msgstr ""
 "aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-#, fuzzy
-#| msgid "Need TransitionActionID!"
 msgid "Need TransitionID and ProcessEntityID!"
-msgstr "Benötige TransitionActionID!"
+msgstr "Benötige Übergangs-ID (TransitionID) und Prozess-ID (ProcessEntityID)!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
 msgstr "Konnte Daten für TransitionID %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-#, fuzzy
-#| msgid "This action is not permitted on the article!"
 msgid "This Transition is not available to the current Process!"
-msgstr "Diese Aktion ist für den Artikel nicht erlaubt!"
+msgstr "Dieser Übergang ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
@@ -16181,16 +16109,12 @@ msgid "Edit Transition \"%s\""
 msgstr "Bearbeite Transition %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression - all"
-msgstr "Regulärer Ausdruck"
+msgstr "Regulärer Ausdruck - alle"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular expression - negated"
-msgstr "Regulärer Ausdruck"
+msgstr "Regulärer Ausdruck - negiert"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
@@ -16215,24 +16139,18 @@ msgstr ""
 "Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-#, fuzzy
-#| msgid "Need TransitionActionID!"
 msgid "Need TransitionActionID and ProcessEntityID!"
-msgstr "Benötige TransitionActionID!"
+msgstr ""
+"Benötige Übergangsaktions-ID (TransitionActionID) und Prozess-ID "
+"(ProcessEntityID)!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
 msgstr "Konnte Daten für TransitionActionID %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-#, fuzzy
-#| msgid ""
-#| "This TransitionAction is already used in this Path. You cannot use it "
-#| "twice!"
 msgid "This Transition Action is not available to the current Process!"
-msgstr ""
-"Diese Übergangsaktion wird bereits in diesem Pfad verwendet. Sie können sie "
-"nicht erneut hinzufügen!"
+msgstr "Diese Übergangsaktion ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -17044,10 +16962,8 @@ msgid "This action is not permitted on the article!"
 msgstr "Diese Aktion ist für den Artikel nicht erlaubt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
-#, fuzzy
-#| msgid "This feature is not available."
 msgid "This article is not editable!"
-msgstr "Diese Funktion ist nicht verfügbar."
+msgstr "Dieser Artikel lässt sich nicht bearbeiten!"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
@@ -17815,27 +17731,19 @@ msgid "Can`t remove SessionID."
 msgstr "Kann SessionID nicht entfernen."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-#, fuzzy
-#| msgid ""
-#| "Registration for tile %s of CustomerDashboard is invalid! Order needs to "
-#| "be a unique number."
 msgid ""
 "Registration for tile '%s' of CustomerDashboard is invalid! Order needs to "
 "be a number and unique."
 msgstr ""
-"Registrierung für Kachel %s des Kundendashboards ist ungültig! Position muss "
-"einmalig sein."
+"Registrierung für Kachel %s des Kundendashboards ist ungültig! Reihenfolge "
+"(Order) muss eine Nummer und einzigartig sein."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-#, fuzzy
-#| msgid ""
-#| "Registration for tile %s of CustomerDashboard is invalid! Either Module "
-#| "or Template needed."
 msgid ""
 "Registration for tile %s of customer dashboard is invalid! Either Module or "
 "Template needed."
 msgstr ""
-"Registrierung der Kachel %s im Kunden-Dashboard nicht möglich! Modul oder "
+"Registrierung der Kachel %s im Kunden-Dashboard ist ungültig! Modul oder "
 "Vorlage fehlen."
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
@@ -18466,10 +18374,8 @@ msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
 #. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
-#, fuzzy
-#| msgid "Search Results"
 msgid "Shown Elsticsearch Results"
-msgstr "Suchergebnisse"
+msgstr "Gezeigte Elasticsearch-Ergebnisse"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
@@ -19090,10 +18996,8 @@ msgid "Group of the agents"
 msgstr "Agenten-Gruppe"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
-#, fuzzy
-#| msgid "Select the group of the agents"
 msgid "Select the group of the agents."
-msgstr "Wählen Sie die Gruppe der Agenten aus"
+msgstr "Wählen Sie die Gruppe der Agenten aus."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 #, fuzzy
@@ -19690,10 +19594,11 @@ msgstr "Benötige ClientID und ClientSecret!"
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Got no content when requesting Token. Response Code: %s"
 msgstr ""
+"Keinen Inhalt bei der Anforderung eines Tokens erhalten. Antwort-Code: %s"
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Got no JSON object when requesting Token. Response: %s"
-msgstr ""
+msgstr "Kein JSON-Objekt bei der Anforderung eines Tokens erhalten. Antwort: %s"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid "AccountName %s not found!"
@@ -19703,20 +19608,26 @@ msgstr "Kontoname \"%s\" nicht gefunden!"
 msgid ""
 "No valid refresh_token for Account %s using grant_tpye 'authorization code' !"
 msgstr ""
+"Kein gültiges refresh_token für das Konto %s beim Verwenden des grant_type "
+"'authorization code'!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid "Need functional account Invoker settings in SysConfig for %s."
 msgstr ""
+"Funktionskonto Invoker-Einstellungen in Systemkonfiguration für %s benötigt."
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
 "Did not receive the desired TokenType '%s' in OIDC provider response for "
 "Invoker %s!"
 msgstr ""
+"Gewünschter Token-Typ '%s' in der OIDC Anbieterantwort für den Invoker %s "
+"nicht empfangen!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid "Time left on fresh token is: %s s for Invoker %s!"
 msgstr ""
+"Übrige Zeit für den unverbrauchten Token ist: %s Sekunden für den Invoker %s!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 #, fuzzy
@@ -20151,7 +20062,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
 msgid "SSL Version"
-msgstr ""
+msgstr "SSL-Version"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -23478,8 +23389,8 @@ msgid ""
 "Allows to save current work as draft in the email outbound screen of the "
 "agent interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Bearbeitungsstands in EMailOutbound im "
-"Agenten-Interface."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands in der Oberfläche für "
+"Ausgehende E-Mails in der Agentenoberfläche."
 
 #. SysConfig
 msgid ""
@@ -25003,7 +24914,7 @@ msgstr "Lege den Servicekommentar 2 fest."
 
 #. SysConfig
 msgid "Define the sla comment 2."
-msgstr "Lege den SLA-Kommentar 2 fest."
+msgstr "Legen Sie den SLA-Kommentar 2 fest."
 
 #. SysConfig
 msgid ""
@@ -26767,6 +26678,9 @@ msgid ""
 "Defines the dynamic field to identify tickets by for this operation. Please "
 "put in the field name only without the 'DynamicField_' prefix."
 msgstr ""
+"Definiert das Dynamische Feld, wonach die Tickets für diese Handlung "
+"identifiziert werden. Bitte den Feldnamen nur ohne den 'DynamicField_' "
+"Präfix."
 
 #. SysConfig
 msgid ""
@@ -27673,10 +27587,8 @@ msgstr ""
 "konfiguriert werden, dass Nutzer es nicht ausblenden können."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the parameters for the customer preferences table."
 msgid "Defines the parameters for the elasticsearch widget backend."
-msgstr "Definiert die Parameter der Tabelle mit den Kunden-Einstellungen."
+msgstr "Definiert die Parameter für das Backend des Elasticsearch-Widgets."
 
 #. SysConfig
 msgid ""
@@ -27761,10 +27673,8 @@ msgstr ""
 "Env ($ENV{HOME} = '/var/lib/wwwrun';)."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the path to PGP binary."
 msgid "Defines the path to the Google Chrome or Chromium binary."
-msgstr "Bestimmt den Pfad zur PGP-Binärdatei."
+msgstr "Bestimmt den Pfad zur Google Chrome- oder Chromium-Binärdatei."
 
 #. SysConfig
 msgid ""
@@ -28184,8 +28094,8 @@ msgid ""
 "Defines the width for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
 msgstr ""
-"Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- "
-"(Pixel) oder Prozenwert (relativ) an."
+"Definiert die Breite der RichText-Editor Komponente in dieser Ansicht. Geben "
+"Sie einen Zahlen- (Pixel) oder Prozentwert (relativ) an."
 
 #. SysConfig
 msgid ""
@@ -28193,7 +28103,7 @@ msgid ""
 "or percent value (relative)."
 msgstr ""
 "Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- "
-"(Pixel) oder Prozenwert (relativ) an."
+"(Pixel) oder Prozentwert (relativ) an."
 
 #. SysConfig
 msgid ""
@@ -28678,16 +28588,13 @@ msgstr ""
 "Felder zu einem Set hinzugefügt werden."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Dynamic field event module that updates PartOfSet attributes of fields "
-#| "which are included in a set."
 msgid ""
 "Dynamic field event module that updates the MultiValue attribute of the Lens "
 "field configuration to match the MultiValue attribute of the attribute field."
 msgstr ""
-"Event-Modul für dynamische Felder, das PartOfSet-Attribute anpasst, wenn "
-"Felder zu einem Set hinzugefügt werden."
+"Event-Modul für dynamische Felder, welche das Merhfachwerte-Attribut der "
+"Linsen-Feldkonfiguration anpassen, um mit dem Mehrfachwerte-Attribut des "
+"Attributfelds zusammenzupassen."
 
 #. SysConfig
 #, fuzzy
@@ -29077,6 +28984,8 @@ msgid ""
 "Enables or disables the editing of articles which are visible for the "
 "customer in general."
 msgstr ""
+"Aktiviert oder deaktiviert die Bearbeitung von für Kunden sichtbaren "
+"Artikeln im Allgemeinen."
 
 #. SysConfig
 msgid ""
@@ -30202,6 +30111,10 @@ msgid ""
 "enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
 "configured in the Admin UI 'OAuth Functional Accounts' Module."
 msgstr ""
+"Sofern 'XOAUTH2' oder 'OAUTHBEARER' in der Einstellung "
+"'SendmailModule::OAuth2Method' ausgewählt ist, muss diese Einstellung "
+"aktiviert und auf ein gültiges Funktionskonto gesetzt werden. OIDC Konten "
+"können im Modul 'OAuth Funktionskonten' im Admin-Bereich konfiguriert werden."
 
 #. SysConfig
 msgid ""
@@ -30210,6 +30123,10 @@ msgid ""
 "tickets on this system. This is only available for created, not for updated "
 "tickets."
 msgstr ""
+"Sofern aktiviert, werden zusätzliche Daten wie die Historie und Links von "
+"einer Fremd-Datenbank gelesen, welche die exportierten Tickets beinhaltet "
+"und zu den importierten Ticket auf diesem System hinzugefügt. Dies "
+"funktioniert nur für neu erstellte, nicht für aktualisierte Tickets."
 
 #. SysConfig
 msgid ""
@@ -30436,6 +30353,9 @@ msgid ""
 "If the accounted time units for articles are shown in the article list. Only "
 "showing if at least one article has any accounted time."
 msgstr ""
+"Sofern erfasste Zeiteinheiten für Artikel in der Artikelliste gezeigt "
+"werden. Wird nur angezeigt, sofern für mindestens ein Artikel Zeit erfasst "
+"wurde."
 
 #. SysConfig
 msgid ""
@@ -32933,7 +32853,7 @@ msgstr "E-Mail erneut senden an \"%s\"."
 msgid ""
 "Resets and unlocks the owner of a ticket if it was moved to another queue."
 msgstr ""
-"Setzt den Besitzer eines TIckets zurück und entsperrt es, wenn das Ticket in "
+"Setzt den Besitzer eines Tickets zurück und entsperrt es, wenn das Ticket in "
 "eine andere Queue verschoben wird."
 
 #. SysConfig
@@ -34152,7 +34072,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
-msgstr "Steuert den Timeout (in Sekunden) für HTTP/FTP-Downloads."
+msgstr "Steuert den Timeout (in Sekunden) für HTTP-/FTP-Downloads."
 
 #. SysConfig
 msgid ""
@@ -35991,7 +35911,7 @@ msgid ""
 "entity id is stored."
 msgstr ""
 "Legt fest, in welchem dynamischen Feld die Aktivitäts-ID im "
-"Prozessmanagement gespeichert werden soll."
+"Prozessmanagement gespeichert wird."
 
 #. SysConfig
 msgid ""
@@ -35999,7 +35919,7 @@ msgid ""
 "entity id is stored."
 msgstr ""
 "Legt fest, in welchem dynamischen Feld die Prozess-ID im Prozessmanagement "
-"gespeichert werden soll."
+"gespeichert wird."
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
@@ -36524,6 +36444,8 @@ msgstr ""
 #. SysConfig
 msgid "Value map. Define a key and a value map from import file to OTOBO."
 msgstr ""
+"Wertzuordnung. Definieren Sie eine Schlüssel- und Wertzuordnung von der "
+"Importdatei zu OTOBO."
 
 #. SysConfig
 msgid ""
