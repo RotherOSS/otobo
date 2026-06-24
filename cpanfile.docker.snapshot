@@ -673,8 +673,8 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.648
-    pathname: H/HM/HMBRAND/DBI-1.648.tgz
+  DBI-1.649
+    pathname: H/HM/HMBRAND/DBI-1.649.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -730,7 +730,7 @@ DISTRIBUTIONS
       DBD::Sponge::dr 12.010003
       DBD::Sponge::st 12.010003
       DBDI 12.015129
-      DBI 1.648
+      DBI 1.649
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -770,7 +770,7 @@ DISTRIBUTIONS
       DBI::SQL::Nano::Table_ 1.015544
       DBI::Util::CacheMemory 0.010315
       DBI::Util::_accessor 0.009479
-      DBI::common 1.648
+      DBI::common 1.649
     requirements:
       ExtUtils::MakeMaker 6.48
       Test::Simple 0.90
@@ -2066,13 +2066,14 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  List-SomeUtils-XS-0.58
-    pathname: D/DR/DROLSKY/List-SomeUtils-XS-0.58.tar.gz
+  List-SomeUtils-XS-0.59
+    pathname: D/DR/DROLSKY/List-SomeUtils-XS-0.59.tar.gz
     provides:
-      List::SomeUtils::XS 0.58
+      List::SomeUtils::XS 0.59
     requirements:
       ExtUtils::MakeMaker 0
       XSLoader 0
+      perl 5.006
       strict 0
       warnings 0
   List-UtilsBy-0.12
@@ -3956,10 +3957,10 @@ DISTRIBUTIONS
       Test::Harness 0
       Test::More 0.92
       perl 5.006001
-  Text-CSV_XS-1.62
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.62.tgz
+  Text-CSV_XS-1.64
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.64.tgz
     provides:
-      Text::CSV_XS 1.62
+      Text::CSV_XS 1.64
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
