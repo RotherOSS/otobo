@@ -647,7 +647,7 @@ sub Run {
 
                 # check permissions
                 my $Access = $TicketObject->TicketPermission(
-                    Type     => 'rw',
+                    Type     => 'ro',
                     TicketID => $TicketID,
                     UserID   => $Self->{UserID}
                 );
