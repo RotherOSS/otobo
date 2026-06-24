@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.909090909090909;
+    $Self->{Completeness}        = 0.908359409924005;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -92,8 +92,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '为ACL设置匹配条件。\'Properties\'用于匹配工单在内存中的属性\'，而\'PropertiesDatabase\'用于匹配工单在数据库中的属性。',
         'Change settings' => '操作动作',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '当匹配条件满足时执行规定的操作动作。记住：\'Possible\'表示允许(白名单)，\'PossibleNot\'表示禁止(黑名单)。',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => '查看 %s 的官方文档 %s。',
         'Show or hide the content' => '显示或隐藏内容',
         'Edit ACL Information' => '编辑ACL信息',
@@ -4615,6 +4615,7 @@ sub Data {
         'System was not able to lock the setting!' => '系统无法锁定该设置！',
         'Missing setting name.' => '缺少设置名称。',
         'Setting not found.' => '没有找到设置。',
+        'Missing setting key!' => '',
         'Missing Settings!' => '缺少设置！',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7163,8 +7164,8 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '检查要发送的排队外发邮件。',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '通过搜索主题中的有效工单号，检查一个邮件是否是跟进到已存在的工单。',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            '检查一个电子邮件是否是具有外部工单号的，某个现有工单的后续操作，这个邮件可通过ExternalTicketNumberRecognition过滤器模块找到。',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '在跟进工单的工单编号检测时检查系统ID。如果不启用，系统ID将在使用系统后更改。',
         'Child' => '子',
@@ -8539,8 +8540,8 @@ Thanks for your help!
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，必须指定连接到客户表的DSN（数据源名称）。',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，必须指定客户表中客户密码的字段名称。',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            '如果为Customer::AuthModule（客户认证模块）选择了“DB（数据库）”，则必须指定密码的加密类型。',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，必须指定客户表中客户密钥的字段名称。',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9109,8 +9110,8 @@ Thanks for your help!
             '',
         'Rebuilds the ACL preselection cache.' => '重建ACL预选缓存。',
         'Rebuilds the escalation index.' => '重建升级索引。',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            '通过外部工单编号识别一个工单是否为已有工单的跟进。 注意：“NumberRegExp”表达式中的第一个捕获组将用作工单编号值。',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
+            '',
         'Redis server address. Example: 127.0.0.1:6379.' => 'Redis服务器地址，比如：127.0.0.1:6379。',
         'Refresh interval' => '刷新间隔',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>

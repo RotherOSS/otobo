@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.916393442622951;
+    $Self->{Completeness}        = 0.915660855312174;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -86,8 +86,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Establecer los criterios de coincidencia para esta ACL. Use \'Properties\' para coincidir con la pantalla actual o \'PropertiesDatabase\' para coincidir con los atributos del ticket actual que están en la base de datos.',
         'Change settings' => 'Cambiar configuración',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Configure lo que quiere cambiar si los criterios corresponden entre si. Tenga en cuenta que \'Possible\' es una lista blanca, \'PossibleNot\' una lista negra.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'Verifique la documentación oficial %sdocumentation%s.',
         'Show or hide the content' => 'Mostrar u ocultar el contenido',
         'Edit ACL Information' => 'Editar Información de ACL',
@@ -4609,6 +4609,7 @@ sub Data {
         'System was not able to lock the setting!' => '¡El sistema no ha podido bloquear el ajuste!',
         'Missing setting name.' => 'Falta el nombre del ajuste.',
         'Setting not found.' => 'Ajuste no encontrado.',
+        'Missing setting key!' => '',
         'Missing Settings!' => '¡Faltan ajustes!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7159,8 +7160,8 @@ Su equipo de asistencia técnica
         'Checks for queued outgoing emails to be sent.' => 'Comprueba si hay correos electrónicos salientes en cola para ser enviados.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Comprueba si un correo electrónico es un seguimiento de un ticket existente buscando en el asunto un número de ticket válido.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            'Comprueba si un correo electrónico es un seguimiento de un ticket existente con número de ticket externo que puede ser encontrado por el módulo de filtro ExternalTicketNumberRecognition.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Comprueba el SystemID en la detección del número de ticket para el seguimiento. Si no está habilitado, el SystemID se cambiará después de usar el sistema.',
         'Child' => 'Hijo',
@@ -8535,8 +8536,8 @@ Su equipo de asistencia técnica
             'Si "DB" se eligió como Customer::AuthModule, puede especificarse un DSN para la conexión con la tabla del cliente.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Si "DB" se eligió como Customer::AuthModule, puede especificarse el nombre de la columna de la tabla del cliente para la contraseña.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Si se ha seleccionado "DB" para Customer::AuthModule, se debe especificar el tipo de cifrado de las contraseñas.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Si "DB" se eligió como Customer::AuthModule, puede especificarse el nombre de la columna de la tabla del cliente para el identificador (llave).',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9105,8 +9106,8 @@ Su equipo de asistencia técnica
             '',
         'Rebuilds the ACL preselection cache.' => 'Reconstruye el caché de preselección ACL.',
         'Rebuilds the escalation index.' => 'Reconstruye el índice de escalación.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            'Reconoce si un ticket es un seguimiento de un ticket existente utilizando un número de ticket externo. Nota: el primer grupo de captura de la expresión \'NumberRegExp\' se utilizará como valor del número de ticket.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
+            '',
         'Redis server address. Example: 127.0.0.1:6379.' => 'Dirección del servidor de Redis. Ejemplo: 127.0.0.1:6379.',
         'Refresh interval' => 'Intervalo de actualización',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>

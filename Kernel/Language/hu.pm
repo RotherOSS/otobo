@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.993740685543964;
+    $Self->{Completeness}        = 0.99299657279094;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -91,8 +91,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Illesztési feltétel beállítása ehhez az ACL-hez. Használja a „Properties” értéket a jelenlegi képernyő megfeleltetéséhez, vagy a „PropertiesDatabase” értéket az adatbázisban lévő jelenlegi jegy megfeleltetéséhez.',
         'Change settings' => 'Változtatási beállítások',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'Nézze meg a hivatalos %sdokumentációt%s.',
         'Show or hide the content' => 'A tartalom megjelenítése vagy elrejtése',
         'Edit ACL Information' => 'ACL információk szerkesztése',
@@ -4614,6 +4614,7 @@ sub Data {
         'System was not able to lock the setting!' => 'A rendszer nem volt képes zárolni a beállítást!',
         'Missing setting name.' => 'Hiányzó beállításnév.',
         'Setting not found.' => 'A beállítás nem található.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'Hiányzó beállítások!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7164,8 +7165,8 @@ Az Ön ügyfélszolgálati csapata
         'Checks for queued outgoing emails to be sent.' => 'Ellenőrzi, hogy a sorba állított kimenő e-mailek el lettek-e küldve.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Azt ellenőrzi a tárgyban történő érvényes jegyszám keresésével, hogy egy e-mail egy meglévő jegy követője-e.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            'Ellenőrzi, hogy egy e-mail egy meglévő jegyre történő követés-e olyan jegyszámmal, amelyet az ExternalTicketNumberRecognition szűrőmodul megtalálhat.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Ellenőrzi a rendszer-azonosítót a jegy számának felismeréskor a követéseknél (ha nincs engedélyezve, akkor a rendszer-azonosító meg lesz változtatva a rendszer használata után).',
         'Child' => 'Gyermek',
@@ -8540,8 +8541,8 @@ Az Ön ügyfélszolgálati csapata
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor a DSN megadása kötelező az ügyféltáblához való kapcsolatnál.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a CustomerPassword oszlopnevét az ügyféltáblában.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a jelszavak titkosításának típusát.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a CustomerKey oszlopnevét az ügyféltáblában.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9110,8 +9111,8 @@ Az Ön ügyfélszolgálati csapata
             'Újraépíti az Elasticsearch indexeit. Például akkor használható, ha az ügyfél-felhasználók LDAP-on keresztül vannak hitelesítve. Ez azonban nagyon gazdaságtalan, mivel a teljes index újraépítésre kerül minden alkalommal.',
         'Rebuilds the ACL preselection cache.' => 'Újraépíti az ACL előválasztásának gyorsítótárát.',
         'Rebuilds the escalation index.' => 'Újraépíti az eszkalációs indexet.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            'Annak felismerése, ha egy jegy egy külső jegyszámot használó meglévő jegy követője. Megjegyzés: a „NumberRegExp” kifejezés első elfogási csoportja lesz használva a jegyszám értékeként.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
+            '',
         'Redis server address. Example: 127.0.0.1:6379.' => 'A Redis-kiszolgáló címe. Például: 127.0.0.1:6379.',
         'Refresh interval' => 'Frissítési időköz',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>

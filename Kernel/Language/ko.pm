@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.820119225037258;
+    $Self->{Completeness}        = 0.8196990016391;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -86,8 +86,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '이 ACL에 대한 일치 기준을 설정하십시오. \'Properties\'를 사용하여 현재 화면을 일치 시키거나 \'PropertiesDatabase\'를 사용하여 데이터베이스에있는 현재 티켓의 속성과 일치시킵니다.',
         'Change settings' => '설정 변경',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '기준이 일치하면 변경하려는 항목을 설정하십시오. Possible \'은 흰색 목록이고\'PossibleNot \'은 검은 색 목록입니다.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => '내용 보여주기/가리기',
         'Edit ACL Information' => 'ACL 정보 수정',
@@ -4609,6 +4609,7 @@ sub Data {
         'System was not able to lock the setting!' => '시스템이 설정을 잠글 수 없습니다!',
         'Missing setting name.' => '설정 이름이 없습니다.',
         'Setting not found.' => '설정을 찾을 수 없습니다.',
+        'Missing setting key!' => '',
         'Missing Settings!' => '설정이 없습니다!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7159,7 +7160,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '보낸 대기중인 보내는 전자 메일을 확인합니다.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '유효한 티켓 번호를 검색하여 전자 메일이 기존 티켓의 후속 조치인지 확인합니다.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '후속 조치를 위해 티켓 번호 검색에서 SystemID를 확인합니다. 활성화되지 않은 경우 시스템을 사용한 후 SystemID가 변경됩니다.',
@@ -8535,8 +8536,8 @@ Thanks for your help!
             'Customer :: AuthModule에 대해 "DB"를 선택한 경우 고객 테이블에 대한 연결에 대한 DSN을 지정해야합니다.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Customer :: AuthModule에 대해 "DB"가 선택되면 customer 테이블의 CustomerPassword에 대한 열 이름을 지정해야합니다.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Customer :: AuthModule에 대해 "DB"가 선택되면 암호의 암호화 유형을 지정해야합니다.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Customer :: AuthModule에 대해 "DB"가 선택되면 customer 테이블의 CustomerKey에 대한 열의 이름을 지정해야합니다.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9105,7 +9106,7 @@ Thanks for your help!
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '리프레쉬 간격',

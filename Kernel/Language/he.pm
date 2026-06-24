@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.208792846497765;
+    $Self->{Completeness}        = 0.208761734465802;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -92,7 +92,7 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
         'Change settings' => 'שנה הגדרות',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
             '',
         'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'הצג או הסתר תוכן',
@@ -4615,6 +4615,7 @@ sub Data {
         'System was not able to lock the setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
+        'Missing setting key!' => '',
         'Missing Settings!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7154,7 +7155,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
@@ -8530,7 +8531,7 @@ Thanks for your help!
             '',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             '',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             '',
@@ -9100,7 +9101,7 @@ Thanks for your help!
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'לרענן כל',

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-05-26 10:37+0000\n"
+"POT-Creation-Date: 2026-06-24 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,7 +155,7 @@ msgid "Change settings"
 msgstr ""
 
 #. Template: AdminACLEdit
-msgid "Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list."
+msgid "Set up what you want to change if the criteria match. Keep in mind that 'Possible' is an exclusive white list, 'PossibleAdd' a white list, 'PossibleNot' a black list. 'Possible' also hides the empty value, which you could add again with '[empty]'."
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -13231,6 +13231,10 @@ msgid "Setting not found."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+msgid "Missing setting key!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
 msgstr ""
 
@@ -19490,7 +19494,7 @@ msgid "Checks if an E-Mail is a followup to an existing ticket by searching the 
 msgstr ""
 
 #. SysConfig
-msgid "Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module."
+msgid "Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings \"000-ExternalTicketNumberRecognition1\" through \"000-ExternalTicketNumberRecognition4\"."
 msgstr ""
 
 #. SysConfig
@@ -22894,7 +22898,7 @@ msgid "If \"DB\" was selected for Customer::AuthModule, the column name for the 
 msgstr ""
 
 #. SysConfig
-msgid "If \"DB\" was selected for Customer::AuthModule, the encryption type of passwords must be specified."
+msgid "If \"DB\" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 
 #. SysConfig
@@ -24462,7 +24466,7 @@ msgid "Rebuilds the escalation index."
 msgstr ""
 
 #. SysConfig
-msgid "Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+msgid "Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew."
 msgstr ""
 
 #. SysConfig

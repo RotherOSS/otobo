@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.873770491803279;
+    $Self->{Completeness}        = 0.873342273878707;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -91,8 +91,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Configure critérios de coincidência para esta ACL. Use \'Properties\' para comparar dados na tela atual ou \'PropertiesDatabase\' para comparar com atributos do chamado atual que está armazenado no banco de dados.',
         'Change settings' => 'Alterar configurações',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Configure o que você quer alterar se o critério coincidir. Mantenha em mente que \'Possible\' é uma adição à lista e \'PossibleNot\', uma exclusão da lista.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'Cheque a %s documentação %s oficial.',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Edit ACL Information' => 'Editar informações da ACL',
@@ -4614,6 +4614,7 @@ sub Data {
         'System was not able to lock the setting!' => 'O sistema não conseguiu bloquear a definição!',
         'Missing setting name.' => 'Falta nome de definição.',
         'Setting not found.' => 'Configuração não encontrada.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'Faltam Definições!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7164,7 +7165,7 @@ Obrigado pela ajuda!
         'Checks for queued outgoing emails to be sent.' => 'Verifica e-mails enfileirados para envio a serem enviados.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Verifica se o e-mail é uma continuação de um ticket existente ao pesquisar no assunto por um número de ticket válido.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Verifica o ID do Sistema na detecção de número de tickets para respostas. Se não ativado, o ID do sistema será alterado após utlização do sistema.',
@@ -8540,8 +8541,8 @@ Obrigado pela ajuda!
             'Se "DB" foi selecionado para Customer::AuthModule, o DSN para conectar com a tabela de clientes deve ser especificado.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Se "DB" foi selecionado para Customer::AuthModule, o nome da coluna da Senha de Cliente na tabela do cliente deve ser especificada.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Se "DB" foi selecionado para Customer::AuthModule, o tipo de criptografia para senhas deve ser especificado.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Se "DB" foi selecionado para Customer::AuthModule, o nome da coluna da Chave de Cliente na tabela do cliente deve ser especificado.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9110,7 +9111,7 @@ Obrigado pela ajuda!
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Intervalo de atualização.',

@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.588077496274218;
+    $Self->{Completeness}        = 0.587840858292356;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -91,8 +91,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'تنظیم معیارهای تطبیق برای این ACL است. استفاده از "Properties" را برای مطابقت با صفحه نمایش فعلی یا PropertiesDatabase »برای مطابقت ویژگی بلیط فعلی که در پایگاه داده می باشد.',
         'Change settings' => 'تغییر تنظیمات',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'تنظیم آنچه که می خواهید تغییر دهید اگر بازی معیارهای. به خاطر داشته باشید که ممکن است یک لیست سفید، \'PossibleNot، یک لیست سیاه است.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'نمایش یا عدم نمایش محتوا',
         'Edit ACL Information' => '',
@@ -4614,6 +4614,7 @@ sub Data {
         'System was not able to lock the setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
+        'Missing setting key!' => '',
         'Missing Settings!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -7164,7 +7165,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'چک اگر یک ایمیل پیگیری بلیط های موجود به با جستجو در موضوع برای یک تعداد بلیط معتبر است.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
@@ -8540,7 +8541,7 @@ Thanks for your help!
             'اگر \ "DB " برای مشتریان :: AuthModule انتخاب شد، DSN برای اتصال به جدول مشتری باید مشخص شود.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'اگر \ "DB " برای مشتریان :: AuthModule انتخاب شد، نام ستون برای CustomerPassword در جدول مشتری باید مشخص شود.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'اگر \ "DB " برای مشتریان :: AuthModule انتخاب شد، نام ستون برای CustomerKey در جدول مشتری باید مشخص شود.',
@@ -9110,7 +9111,7 @@ Thanks for your help!
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'بارگذاری مجدد ورودی',
