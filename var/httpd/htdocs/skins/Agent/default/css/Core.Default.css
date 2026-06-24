@@ -1831,7 +1831,7 @@ body > div.MetaFloater > a.Close {
     }
 
     .TableFilterContainer input.AvailableFieldsFilter {
-        width: 75% !important;
+        width: 33% !important;
     }
 
     .fa {
