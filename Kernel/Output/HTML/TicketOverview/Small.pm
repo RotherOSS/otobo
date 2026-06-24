@@ -1616,6 +1616,7 @@ sub Run {
                     || $TicketColumn eq 'Priority'
                     || $TicketColumn eq 'Service'
                     || $TicketColumn eq 'SLA'
+                    || $TicketColumn eq 'Queue'
                     )
                 {
                     $BlockType = 'Translatable';
@@ -1912,6 +1913,7 @@ sub _InitialColumnFilter {
         || $Param{ColumnName} eq 'Service'
         || $Param{ColumnName} eq 'SLA'
         || $Param{ColumnName} eq 'Type'
+        || $Param{ColumnName} eq 'Queue'
         )
     {
         $TranslationOption = 1;
@@ -1930,6 +1932,7 @@ sub _InitialColumnFilter {
     my $ColumnFilterHTML = $LayoutObject->BuildSelection(
         Name        => 'ColumnFilter' . $Param{ColumnName},
         Data        => $Data,
+        TreeView    => 1,
         Class       => $Class,
         Translation => $TranslationOption,
         SelectedID  => '',
@@ -2041,7 +2044,7 @@ sub _ColumnFilterJSON {
     my $Data = [
         {
             Key   => 'DeleteFilter',
-            Value => uc $Label,
+            Value => ' DELETE FILTER',
         },
         {
             Key      => '-',
@@ -2073,6 +2076,7 @@ sub _ColumnFilterJSON {
         || $Param{ColumnName} eq 'Service'
         || $Param{ColumnName} eq 'SLA'
         || $Param{ColumnName} eq 'Type'
+        || $Param{ColumnName} eq 'Queue'
         )
     {
         $TranslationOption = 1;
