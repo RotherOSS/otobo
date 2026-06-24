@@ -1,16 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="otobo-signet" width="74.975" height="68.916" viewBox="0 0 74.975 68.916">
-    <defs>
-        <style>
-            .cls-1{isolation:isolate}.cls-2{fill:#001bff}.cls-3{fill:#00023c}
-        </style>
-    </defs>
-    <g id="Gruppe_25879" class="cls-1" data-name="Gruppe 25879">
-        <g id="Gruppe_25376" data-name="Gruppe 25376" transform="translate(18.194 4.832)">
-            <path id="Pfad_13692" d="M460.689 468.429l.457-.457 2.108-2.108a3.448 3.448 0 0 0 1.025-2.337 3.328 3.328 0 0 0-1.023-2.552 3.5 3.5 0 0 0-4.893 0l-2.108 2.108-.589.591-2.109 2.108-.005.007-30.64 30.64a3.444 3.444 0 0 0-1.025 2.337 3.331 3.331 0 0 0 1.023 2.553 3.5 3.5 0 0 0 4.893 0l32.887-32.889z" class="cls-2" data-name="Pfad 13692" transform="translate(-407.502 -459.977)"/>
-            <path id="Pfad_13693" d="M422.058 475.689l-.457-.457-2.108-2.108a3.457 3.457 0 0 0-2.337-1.027 3.328 3.328 0 0 0-2.552 1.023 3.5 3.5 0 0 0 0 4.893l2.108 2.108.591.591 2.108 2.108.007.005.023.024a3.451 3.451 0 0 0 2.339 1.025 3.327 3.327 0 0 0 2.551-1.023 3.5 3.5 0 0 0 0-4.893l-2.273-2.271z" class="cls-2" data-name="Pfad 13693" transform="translate(-413.606 -451.04)"/>
-        </g>
-        <g id="Gruppe_25377" data-name="Gruppe 25377">
-            <path id="Pfad_13694" d="M437.593 526.112A34.458 34.458 0 1 1 452 460.348a3.144 3.144 0 1 1-2.632 5.71 28.174 28.174 0 1 0 16.267 28.253 3.143 3.143 0 0 1 6.259.584 34.285 34.285 0 0 1-34.301 31.217z" class="cls-3" data-name="Pfad 13694" transform="translate(-403.135 -457.196)"/>
-        </g>
-    </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Ebene_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 233.3 233.3"
+   xml:space="preserve"
+   sodipodi:docname="Otobo_Signet_Pfau_RGB_DarkBlue.svg"
+   width="233.3"
+   height="233.3"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs5" /><sodipodi:namedview
+   id="namedview5"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="0.67344895"
+   inkscape:cx="63.850422"
+   inkscape:cy="123.98861"
+   inkscape:window-width="1235"
+   inkscape:window-height="782"
+   inkscape:window-x="0"
+   inkscape:window-y="30"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Ebene_1" />
+<style
+   type="text/css"
+   id="style1">
+	.st0{fill:#00023C;}
+</style>
+<circle
+   class="st0"
+   cx="100"
+   cy="83.300003"
+   r="50"
+   id="circle1" />
+<g
+   id="g4"
+   transform="translate(50)">
+	<circle
+   class="st0"
+   cx="16.700001"
+   cy="16.700001"
+   r="16.700001"
+   id="circle2" />
+	<circle
+   class="st0"
+   cx="50"
+   cy="16.700001"
+   r="16.700001"
+   id="circle3" />
+	<circle
+   class="st0"
+   cx="83.300003"
+   cy="16.700001"
+   r="16.700001"
+   id="circle4" />
+</g>
+<path
+   class="st0"
+   d="m 150,133.3 c 0,55.2 -44.8,100 -100,100 v -100 z"
+   id="path4" />
+<path
+   class="st0"
+   d="m 150,83.3 c 27.6,0 50,22.4 50,50 h -50 z"
+   id="path5" />
 </svg>
