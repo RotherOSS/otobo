@@ -102,8 +102,10 @@
                                 [% Translate("Ordering the elements within the list is also possible by drag 'n' drop.") | html %]
                             </p>
                         </div>
+                        <div class="Size1of1">
+                            <input type="text" id="FilterAvailableActivityDialogs" class="W33pc AvailableFieldsFilter" name="FilterAvailableActivityDialogs" value="" title="[% Translate("Filter available Activity Dialogs") | html %]" placeholder="[% Translate("Filter available Activity Dialogs") | html %]..." />
+                        </div>
                         <div class="Size1of2">
-                            <input type="text" id="FilterAvailableActivityDialogs" class="W75pc" name="FilterAvailableActivityDialogs" value="" title="[% Translate("Filter available Activity Dialogs") | html %]" placeholder="[% Translate("Filter available Activity Dialogs") | html %]..." />
                             <ul class="Tablelike W90pc SpacingTop">
                                 <li class="Header">
                                     [% Translate("Available Activity Dialogs") | html %]
@@ -128,7 +130,7 @@
                             </div>
                         </div>
                         <div class="Size1of2">
-                            <ul class="Tablelike W90pc">
+                            <ul class="Tablelike W90pc SpacingTop">
                                 <li class="Header">
                                     [% Translate("Assigned Activity Dialogs") | html %]
                                 </li>

@@ -80,7 +80,11 @@ fieldset.Columns .Column .InputField_ListContainer div {
 
 /* default styling */
 
-label {
+label,
+/* Field labels that don't change on hover/focus */
+.Field.RichTextField:hover ~ label, 
+.Field.RichTextField:focus ~ label,
+.Field.oooReadonly:not(.oooFull, .oooSelected):hover ~ label {
     /* padding */
     padding-left: var(--HorizontalLabelPadding);
     padding-right: var(--HorizontalLabelPadding);
@@ -98,8 +102,10 @@ label {
 }
 
 form label,
+/* Field labels that don't change on hover/focus */
 .Field.RichTextField:hover ~ label,
-.Field.RichTextField:focus ~ label {
+.Field.RichTextField:focus ~ label,
+.Field.oooReadonly:not(.oooFull, .oooSelected):hover ~ label {
 
     /* layout */
     position: absolute;
@@ -127,12 +133,11 @@ form label,
 .SimpleForm input:hover ~ label,
 .SimpleForm input.oooFull ~ label,
 .SimpleForm input.oooSelected ~ label,
-.SimpleForm input.oooReadonly ~ label,
 
 .Field:hover ~ label,
 .Field.oooFull ~ label,
 .Field.oooSelected ~ label,
-.Field.oooReadonly ~ label,
+.Field.oooReadonly.oooFull ~ label,
 form label.oooFocus,
 .DynamicFieldDB:hover ~ label, /*TODO:test*/
 input.DynamicFieldDB.oooFull ~ label, /* TODO: test */
@@ -148,11 +153,12 @@ input.DynamicFieldDB.oooFull ~ label, /* TODO: test */
     background-color: var(--BaseBackgroundColor);
 }
 
-/* hover, readonly and filled form label color */
+/* hover and filled form label color */
 .FieldCell > .Field:hover ~ label,
 .FieldCell > .Field.oooFull ~ label,
 .FieldCell > .Field.oooSelected ~ label,
-.Field.oooReadonly ~ label
+.Field.oooReadonly.oooFull ~ label
+.Field.oooReadonly.oooSelected ~ label,
 .FieldCell .DynamicFieldDB:hover ~ label, /*TODO:test*/
 .FieldCell input.DynamicFieldDB.oooFull ~ label { /* TODO: test */
     color: var(--colTextLight);
@@ -544,7 +550,8 @@ input[readonly] {
 }
 
 .InputField_InputContainer > input[readonly],
-.Field > input[readonly] {
+.Field > input[readonly],
+.Field textarea {
     box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }
 

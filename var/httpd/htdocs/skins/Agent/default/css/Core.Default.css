@@ -1830,6 +1830,10 @@ body > div.MetaFloater > a.Close {
         width: 100%;
     }
 
+    .TableFilterContainer input.AvailableFieldsFilter {
+        width: 33% !important;
+    }
+
     .fa {
         color: var(--colTextDark);
     }
