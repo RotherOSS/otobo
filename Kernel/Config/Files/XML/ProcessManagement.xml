@@ -684,7 +684,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketProcess###QuickDateButtons" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketProcess###QuickDateButtons" Required="0" Valid="0">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
         <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
         <Value>
