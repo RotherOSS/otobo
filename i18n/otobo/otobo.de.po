@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-03 15:23+0000\n"
+"POT-Creation-Date: 2026-06-24 13:50+0000\n"
 "PO-Revision-Date: 2026-06-24 13:52+0000\n"
 "Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
@@ -244,9 +244,15 @@ msgid "Change settings"
 msgstr "Wertänderungen"
 
 #. Template: AdminACLEdit
+#, fuzzy
+#| msgid ""
+#| "Set up what you want to change if the criteria match. Keep in mind that "
+#| "'Possible' is a white list, 'PossibleNot' a black list."
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
-"'Possible' is a white list, 'PossibleNot' a black list."
+"'Possible' is an exclusive white list, 'PossibleAdd' a white list, "
+"'PossibleNot' a black list. 'Possible' also hides the empty value, which you "
+"could add again with '[empty]'."
 msgstr ""
 "Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen "
 "zutreffen. Hierbei ist 'Possible' eine Positivliste und 'PossibleNot' eine "
@@ -4771,12 +4777,16 @@ msgid "OAuth2 Functional Account"
 msgstr "OAuth2 Funktionskonto"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Select the"
-msgstr "Auswahl des"
+msgid ""
+"Select the Functional-Account to use for OAuth2 authentication. Functional-"
+"Accounts can be configured here:"
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Account to use for OAuth2 authentication."
-msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
+#, fuzzy
+#| msgid "OAuth2 Functional Account"
+msgid "OAuth2 Functional Accounts"
+msgstr "OAuth2 Funktionskonto"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
@@ -5767,6 +5777,14 @@ msgid "OIDC Account"
 msgstr "OIDC Konto"
 
 #. Template: AdminMailAccount
+msgid "Select the"
+msgstr "Auswahl des"
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
+msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
+
+#. Template: AdminMailAccount
 msgid "Example: mail.example.com"
 msgstr "Beispiel: mail.example.com"
 
@@ -6021,14 +6039,20 @@ msgstr ""
 "Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren."
 
 #. Template: AdminOAuthTokenStore
-msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
+#, fuzzy
+#| msgid ""
+#| "You can create OIDC Profiles to connect to your OIDC Functional Account"
+msgid ""
+"OIDC Profiles to link your OIDC Functional Account to can be created here:"
 msgstr ""
 "OIDC-Profile können erstellt werden um die Verbindung zu einem OIDC "
 "Funktionskonto herzustellen"
 
 #. Template: AdminOAuthTokenStore
-msgid "here"
-msgstr "hier"
+#, fuzzy
+#| msgid "OIDC Profiles"
+msgid "OAuth2 OIDC Profiles"
+msgstr "OIDC Profile"
 
 #. Template: AdminOAuthTokenStore
 msgid "Delete Account"
@@ -6039,14 +6063,23 @@ msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
 msgstr "OIDC Funktionskonten und ihre aktiven OAuth2 Token"
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "Since you do not have any OIDC Provider profiles configured, you cannot "
+#| "add an OAuth2 Functional Account. Xou have to first configure at least "
+#| "one OIDC Provider profile"
 msgid ""
 "Since you do not have any OIDC Provider profiles configured, you cannot add "
-"an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
-"Provider profile"
+"an OAuth2 Functional Account. You have to first configure at least one OIDC "
+"Provider profile here:"
 msgstr ""
 "Da keine weiteren OIDC-Anbieter konfiguriert sind, kann kein OAuth2 "
 "Funktionskonto hinzugefügt werden. Zunächst muss mindestens ein OIDC "
 "Anbieterprofil konfiguriert werden"
+
+#. Template: AdminOAuthTokenStore
+msgid "OIDC Profiles"
+msgstr "OIDC Profile"
 
 #. Template: AdminOAuthTokenStore
 msgid "There are no OAuth2 accounts defined."
@@ -6097,12 +6130,10 @@ msgid "OIDC Profile"
 msgstr "OIDC Profil"
 
 #. Template: AdminOAuthTokenStore
-msgid "The OpenID Connect"
-msgstr "Das OpenID Connect"
-
-#. Template: AdminOAuthTokenStore
-msgid "to use for this functional account."
-msgstr "für die Verwendung dieses Funktionskontos."
+msgid ""
+"The OpenID Connect Profile to link to this functional account. OIDC Profiles "
+"can be configured here:"
+msgstr ""
 
 #. Template: AdminOAuthTokenStore
 msgid "Grant Type"
@@ -6141,8 +6172,8 @@ msgid ""
 "Space separate list of OAuth2 scopes to use. Usual values include openid, "
 "email, profile, and roles."
 msgstr ""
-"Leerzeichen-getrennte Liste der zu verwendenden Berechtigungsumfänge (Scopes)"
-". Übliche Werte behinhalten openid, email, profile und roles."
+"Leerzeichen-getrennte Liste der zu verwendenden Berechtigungsumfänge "
+"(Scopes). Übliche Werte behinhalten openid, email, profile und roles."
 
 #. Template: AdminOAuthTokenStore
 msgid "Advanced Invoker Settings"
@@ -6211,6 +6242,10 @@ msgstr ""
 #. Template: AdminOIDCProfiles
 msgid "You can connect OIDC Profiles with a OIDC Functional Account"
 msgstr "OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden"
+
+#. Template: AdminOIDCProfiles
+msgid "here"
+msgstr "hier"
 
 #. Template: AdminOIDCProfiles
 msgid "Delete Profile"
@@ -12871,6 +12906,12 @@ msgstr "Passwort wiederholen"
 msgid "Passwords do not match"
 msgstr "Passworte stimmen nicht überein"
 
+#. Template: InstallerDBmysql
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authentication Plugin"
+msgstr "Authentifizierung"
+
 #. Template: InstallerFinish
 msgid "Start page"
 msgstr "Startseite"
@@ -15592,14 +15633,6 @@ msgstr ""
 "werden! Ungültige OIDC-Konfiguration!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-msgid ""
-"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
-"COnfiguration!"
-msgstr ""
-"Die OIDC Anbieterauthentifzierungs-URL zur Anmeldung kann nicht generiert "
-"werden! Ungültige OIDC-Konfiguration!"
-
-#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 msgid "Account %s deleted!"
 msgstr "Konto %s wurde gelöscht!"
 
@@ -15873,10 +15906,6 @@ msgid "Could not get data for ProcessID %s"
 msgstr "Konnte Daten für ProzessID %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Process: %s could not be deleted"
-msgstr "Prozess %s konnte nicht gelöscht werden"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "Process: %s successfully deleted, but failed to delete an associated Element"
 msgstr ""
@@ -15891,6 +15920,10 @@ msgstr ""
 "Der Prozess %s wurde erfolgreich gelöscht, aber beim Setzen des "
 "Synchronisations-Status für ein zugehöriges Element ist ein Fehler "
 "aufgetreten"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process: %s could not be deleted"
+msgstr "Prozess %s konnte nicht gelöscht werden"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
@@ -16408,6 +16441,12 @@ msgstr "Name der Einstellung fehlt."
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
 msgstr "Einstellung nicht gefunden."
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+#| msgid "Missing setting name!"
+msgid "Missing setting key!"
+msgstr "Name der Einstellung fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
@@ -18812,6 +18851,12 @@ msgstr "Zur Liste der beobachteten Tickets hinzufügen"
 msgid "Order by"
 msgstr "Sortieren nach"
 
+#. Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+#, fuzzy
+#| msgid "Search Tickets."
+msgid "Similar Tickets"
+msgstr "Tickets suchen."
+
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
 msgstr "Neue gesperrte Tickets"
@@ -19589,7 +19634,8 @@ msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Got no JSON object when requesting Token. Response: %s"
-msgstr "Kein JSON-Objekt bei der Anforderung eines Tokens erhalten. Antwort: %s"
+msgstr ""
+"Kein JSON-Objekt bei der Anforderung eines Tokens erhalten. Antwort: %s"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid "AccountName %s not found!"
@@ -23114,6 +23160,15 @@ msgstr ""
 "das aktuelle Ticket zugewiesen ist."
 
 #. SysConfig
+#, fuzzy
+#| msgid "AgentTicketZoom widget that displays ticket data in the side bar."
+msgid ""
+"AgentTicketZoom widget that displays similar ticket data in the side bar. "
+"Elasticsearch needs to be enabled beofre you can enable this widget."
+msgstr ""
+"Widget für AgentTicketZoom, das weitere Daten des aktuellen Tickets anzeigt."
+
+#. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgstr ""
 "Widget für AgentTicketZoom, das weitere Daten des aktuellen Tickets anzeigt."
@@ -23919,11 +23974,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
-"number which can be found by ExternalTicketNumberRecognition filter module."
+"number which can be found by ExternalTicketNumberRecognition filter module. "
+"In case the module finds a new ticket, the ticket number is being written to "
+"the defined Dynamic Field. For already existing ticket, it can not set that "
+"Dynamic Field anew. Please define a rule set in the settings \"000-"
+"ExternalTicketNumberRecognition1\" through \"000-"
+"ExternalTicketNumberRecognition4\"."
 msgstr ""
-"Prüft, ob eine E-Mail ein Follow-up zu einem bestehenden Ticket mit externer "
-"Ticketnummer ist, welches mit dem ExternalTicketNumberRecognition Filter "
-"gefunden werden kann."
 
 #. SysConfig
 msgid ""
@@ -26757,14 +26814,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the height for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-"Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für "
-"die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) an."
-
-#. SysConfig
-msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
@@ -26979,6 +27028,16 @@ msgstr ""
 msgid "Defines the hours and week days to count the working time."
 msgstr ""
 "Definiert den Zeitraum und die Wochentage welche als Arbeitszeit zählen."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Defines the initial height for the rich text editor component in pixels."
+msgid ""
+"Defines the initial height for the rich text editor component. Enter number "
+"(pixels)."
+msgstr ""
+"Legt die Anfangshöhe für die Rich-Text-Editor-Komponente in Pixel fest."
 
 #. SysConfig
 msgid ""
@@ -28084,14 +28143,6 @@ msgid ""
 msgstr ""
 "Definiert die Breite der RichText-Editor Komponente in dieser Ansicht. Geben "
 "Sie einen Zahlen- (Pixel) oder Prozentwert (relativ) an."
-
-#. SysConfig
-msgid ""
-"Defines the width for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-"Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- "
-"(Pixel) oder Prozentwert (relativ) an."
 
 #. SysConfig
 msgid ""
@@ -29815,9 +29866,14 @@ msgstr ""
 "Spalte, die das Kundenpasswort enthält, hinterlegt werden."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
+#| "passwords must be specified."
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Wenn \"DB\" als Customer::AuthModule ausgewählt ist, muss hier der "
 "Verschlüsselungstyp für Passwörter hinterlegt werden."
@@ -31552,10 +31608,6 @@ msgid "OIDC Profile Management"
 msgstr "OIDC Profilverwaltung"
 
 #. SysConfig
-msgid "OIDC Profiles"
-msgstr "OIDC Profile"
-
-#. SysConfig
 msgid "OTOBO News"
 msgstr "Neues von OTOBO"
 
@@ -32569,10 +32621,17 @@ msgid "Rebuilds the escalation index."
 msgstr "Baut den Eskalationsindex neu auf."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Recognize if a ticket is a follow-up to an existing ticket using an "
+#| "external ticket number. Note: the first capturing group from the "
+#| "'NumberRegExp' expression will be used as the ticket number value."
 msgid ""
 "Recognize if a ticket is a follow-up to an existing ticket using an external "
 "ticket number. Note: the first capturing group from the 'NumberRegExp' "
-"expression will be used as the ticket number value."
+"expression will be used as the ticket number value. In case the module finds "
+"a new ticket, the ticket number is being written to the defined Dynamic "
+"Field. For already existing ticket, it can not set that Dynamic Field anew."
 msgstr ""
 "Erkennen Sie, ob ein Ticket eine Folgemaßnahme zu einem bestehenden Ticket "
 "ist, indem Sie eine externe Ticket-Nummer verwenden. Hinweis: Die erste "
@@ -34051,6 +34110,10 @@ msgid ""
 msgstr ""
 "Steuert den Timeout (in Sekunden) für Paket-Downloads. Überschreibt "
 "\"WebUserAgent::Timeout\"."
+
+#. SysConfig
+msgid "Settings for Similar Ticket Search in ES."
+msgstr ""
 
 #. SysConfig
 msgid "Settings for the customer login screen."
@@ -36727,6 +36790,43 @@ msgstr "umgekehrt"
 msgid "stats"
 msgstr "Stats"
 
+#~ msgid "The OpenID Connect"
+#~ msgstr "Das OpenID Connect"
+
+#~ msgid "to use for this functional account."
+#~ msgstr "für die Verwendung dieses Funktionskontos."
+
+#~ msgid ""
+#~ "Unable to generate OIDC Provider Authentication URL for Login. Invalid "
+#~ "OICD COnfiguration!"
+#~ msgstr ""
+#~ "Die OIDC Anbieterauthentifzierungs-URL zur Anmeldung kann nicht generiert "
+#~ "werden! Ungültige OIDC-Konfiguration!"
+
+#~ msgid ""
+#~ "Checks if an email is a follow-up to an existing ticket with external "
+#~ "ticket number which can be found by ExternalTicketNumberRecognition "
+#~ "filter module."
+#~ msgstr ""
+#~ "Prüft, ob eine E-Mail ein Follow-up zu einem bestehenden Ticket mit "
+#~ "externer Ticketnummer ist, welches mit dem "
+#~ "ExternalTicketNumberRecognition Filter gefunden werden kann."
+
+#~ msgid ""
+#~ "Defines the height for the rich text editor component. Enter number "
+#~ "(pixels) or percent value (relative)."
+#~ msgstr ""
+#~ "Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für "
+#~ "die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) "
+#~ "an."
+
+#~ msgid ""
+#~ "Defines the width for the rich text editor component. Enter number "
+#~ "(pixels) or percent value (relative)."
+#~ msgstr ""
+#~ "Definiert die Breite der RichText-Editor Komponente. Geben Sie einen "
+#~ "Zahlen- (Pixel) oder Prozentwert (relativ) an."
+
 #~ msgid "Manage ticket state pre-selections for response templates"
 #~ msgstr "Ticketstatus-Vorauswahl für Antwortvorlagen verwalten"
 
@@ -38349,8 +38449,3 @@ msgstr "Stats"
 
 #~ msgid "Notice: search in lens fields is currently disabled"
 #~ msgstr "Hinweis: Die Suche in Linsenfeldern ist derzeit deaktiviert"
-
-#~ msgid ""
-#~ "Defines the initial height for the rich text editor component in pixels."
-#~ msgstr ""
-#~ "Legt die Anfangshöhe für die Rich-Text-Editor-Komponente in Pixel fest."

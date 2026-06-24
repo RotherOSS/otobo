@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-06-03 15:23+0000\n"
+"POT-Creation-Date: 2026-06-24 13:50+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Adam Sadovsky <sadovsky.adam@gmail.com>, 2018\n"
 "Language-Team: Slovak (Slovakia) (https://translate.otobo.org/projects/"
@@ -195,9 +195,15 @@ msgid "Change settings"
 msgstr "Zmena nastavenia"
 
 #. Template: AdminACLEdit
+#, fuzzy
+#| msgid ""
+#| "Set up what you want to change if the criteria match. Keep in mind that "
+#| "'Possible' is a white list, 'PossibleNot' a black list."
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
-"'Possible' is a white list, 'PossibleNot' a black list."
+"'Possible' is an exclusive white list, 'PossibleAdd' a white list, "
+"'PossibleNot' a black list. 'Possible' also hides the empty value, which you "
+"could add again with '[empty]'."
 msgstr ""
 "Nastav, čo chceš zmeniť, ak kritériá pasujú. Mysli na to, že \"možné\" je "
 "\"white list\" a \"nemožné\" je \"black list\"."
@@ -4369,13 +4375,13 @@ msgid "OAuth2 Functional Account"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Vybrať"
+msgid ""
+"Select the Functional-Account to use for OAuth2 authentication. Functional-"
+"Accounts can be configured here:"
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Account to use for OAuth2 authentication."
+msgid "OAuth2 Functional Accounts"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -5291,6 +5297,16 @@ msgid "OIDC Account"
 msgstr "Vytvoriť účet"
 
 #. Template: AdminMailAccount
+#, fuzzy
+#| msgid "Select"
+msgid "Select the"
+msgstr "Vybrať"
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
+msgstr ""
+
+#. Template: AdminMailAccount
 msgid "Example: mail.example.com"
 msgstr ""
 
@@ -5527,12 +5543,15 @@ msgid ""
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
+msgid ""
+"OIDC Profiles to link your OIDC Functional Account to can be created here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "here"
-msgstr ""
+#, fuzzy
+#| msgid "Profile"
+msgid "OAuth2 OIDC Profiles"
+msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -5547,9 +5566,15 @@ msgstr ""
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Since you do not have any OIDC Provider profiles configured, you cannot add "
-"an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
-"Provider profile"
+"an OAuth2 Functional Account. You have to first configure at least one OIDC "
+"Provider profile here:"
 msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profiles"
+msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
 msgid "There are no OAuth2 accounts defined."
@@ -5606,11 +5631,9 @@ msgid "OIDC Profile"
 msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
-msgid "The OpenID Connect"
-msgstr ""
-
-#. Template: AdminOAuthTokenStore
-msgid "to use for this functional account."
+msgid ""
+"The OpenID Connect Profile to link to this functional account. OIDC Profiles "
+"can be configured here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
@@ -5711,6 +5734,10 @@ msgstr ""
 
 #. Template: AdminOIDCProfiles
 msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "here"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -12046,6 +12073,12 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr ""
 
+#. Template: InstallerDBmysql
+#, fuzzy
+#| msgid "Add new notification language"
+msgid "Authentication Plugin"
+msgstr "Pridaj nový notifikačný jazyk"
+
 #. Template: InstallerFinish
 msgid "Start page"
 msgstr "Prvá strana"
@@ -14629,12 +14662,6 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-msgid ""
-"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
-"COnfiguration!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 #, fuzzy
 #| msgid "Accounted time"
 msgid "Account %s deleted!"
@@ -14902,10 +14929,6 @@ msgid "Could not get data for ProcessID %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Process: %s could not be deleted"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "Process: %s successfully deleted, but failed to delete an associated Element"
 msgstr ""
@@ -14914,6 +14937,10 @@ msgstr ""
 msgid ""
 "Process: %s successfully deleted, but there was an error setting the entity "
 "sync status for an associated Element entity"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process: %s could not be deleted"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -15392,6 +15419,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+msgid "Missing setting key!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
@@ -17675,6 +17706,12 @@ msgstr "Pridaj do zoznamu sledovaných tiketov"
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Zoradiť podla"
+
+#. Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+#, fuzzy
+#| msgid "Reminder Tickets"
+msgid "Similar Tickets"
+msgstr "Pripomenuté tikety"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
@@ -21634,6 +21671,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"AgentTicketZoom widget that displays similar ticket data in the side bar. "
+"Elasticsearch needs to be enabled beofre you can enable this widget."
+msgstr ""
+
+#. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgstr ""
 
@@ -22289,7 +22332,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
-"number which can be found by ExternalTicketNumberRecognition filter module."
+"number which can be found by ExternalTicketNumberRecognition filter module. "
+"In case the module finds a new ticket, the ticket number is being written to "
+"the defined Dynamic Field. For already existing ticket, it can not set that "
+"Dynamic Field anew. Please define a rule set in the settings \"000-"
+"ExternalTicketNumberRecognition1\" through \"000-"
+"ExternalTicketNumberRecognition4\"."
 msgstr ""
 
 #. SysConfig
@@ -24482,12 +24530,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the height for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
@@ -24650,6 +24692,12 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the initial height for the rich text editor component. Enter number "
+"(pixels)."
 msgstr ""
 
 #. SysConfig
@@ -25460,12 +25508,6 @@ msgstr ""
 msgid ""
 "Defines the width for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Defines the width for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
 msgstr ""
 
 #. SysConfig
@@ -26870,7 +26912,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 
 #. SysConfig
@@ -28247,12 +28290,6 @@ msgid "OIDC Profile Management"
 msgstr "Menežment kalendára"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Profile"
-msgid "OIDC Profiles"
-msgstr "Profil"
-
-#. SysConfig
 msgid "OTOBO News"
 msgstr "OTOBO novinky"
 
@@ -29006,7 +29043,9 @@ msgstr ""
 msgid ""
 "Recognize if a ticket is a follow-up to an existing ticket using an external "
 "ticket number. Note: the first capturing group from the 'NumberRegExp' "
-"expression will be used as the ticket number value."
+"expression will be used as the ticket number value. In case the module finds "
+"a new ticket, the ticket number is being written to the defined Dynamic "
+"Field. For already existing ticket, it can not set that Dynamic Field anew."
 msgstr ""
 
 #. SysConfig
@@ -30184,6 +30223,10 @@ msgstr ""
 msgid ""
 "Sets the timeout (in seconds) for package downloads. Overwrites "
 "\"WebUserAgent::Timeout\"."
+msgstr ""
+
+#. SysConfig
+msgid "Settings for Similar Ticket Search in ES."
 msgstr ""
 
 #. SysConfig

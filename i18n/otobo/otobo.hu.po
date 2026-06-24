@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-06-03 15:23+0000\n"
+"POT-Creation-Date: 2026-06-24 13:50+0000\n"
 "PO-Revision-Date: 2026-05-17 02:01+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-11/"
@@ -204,9 +204,15 @@ msgid "Change settings"
 msgstr "Változtatási beállítások"
 
 #. Template: AdminACLEdit
+#, fuzzy
+#| msgid ""
+#| "Set up what you want to change if the criteria match. Keep in mind that "
+#| "'Possible' is a white list, 'PossibleNot' a black list."
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
-"'Possible' is a white list, 'PossibleNot' a black list."
+"'Possible' is an exclusive white list, 'PossibleAdd' a white list, "
+"'PossibleNot' a black list. 'Possible' also hides the empty value, which you "
+"could add again with '[empty]'."
 msgstr ""
 "Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen "
 "meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista."
@@ -4751,13 +4757,13 @@ msgid "OAuth2 Functional Account"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Kiválasztás"
+msgid ""
+"Select the Functional-Account to use for OAuth2 authentication. Functional-"
+"Accounts can be configured here:"
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Account to use for OAuth2 authentication."
+msgid "OAuth2 Functional Accounts"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -5755,6 +5761,16 @@ msgid "OIDC Account"
 msgstr "Fiók"
 
 #. Template: AdminMailAccount
+#, fuzzy
+#| msgid "Select"
+msgid "Select the"
+msgstr "Kiválasztás"
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
+msgstr ""
+
+#. Template: AdminMailAccount
 msgid "Example: mail.example.com"
 msgstr "Példa: mail.example.com"
 
@@ -6013,12 +6029,15 @@ msgid ""
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
+msgid ""
+"OIDC Profiles to link your OIDC Functional Account to can be created here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "here"
-msgstr ""
+#, fuzzy
+#| msgid "Profile"
+msgid "OAuth2 OIDC Profiles"
+msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -6033,9 +6052,15 @@ msgstr ""
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Since you do not have any OIDC Provider profiles configured, you cannot add "
-"an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
-"Provider profile"
+"an OAuth2 Functional Account. You have to first configure at least one OIDC "
+"Provider profile here:"
 msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profiles"
+msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
 msgid "There are no OAuth2 accounts defined."
@@ -6098,11 +6123,9 @@ msgid "OIDC Profile"
 msgstr "Profil"
 
 #. Template: AdminOAuthTokenStore
-msgid "The OpenID Connect"
-msgstr ""
-
-#. Template: AdminOAuthTokenStore
-msgid "to use for this functional account."
+msgid ""
+"The OpenID Connect Profile to link to this functional account. OIDC Profiles "
+"can be configured here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
@@ -6207,6 +6230,10 @@ msgstr ""
 
 #. Template: AdminOIDCProfiles
 msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "here"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -13012,6 +13039,12 @@ msgstr "Jelszó ismétlése"
 msgid "Passwords do not match"
 msgstr "A jelszavak nem egyeznek"
 
+#. Template: InstallerDBmysql
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authentication Plugin"
+msgstr "Hitelesítés"
+
 #. Template: InstallerFinish
 msgid "Start page"
 msgstr "Kezdőoldal"
@@ -15747,12 +15780,6 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-msgid ""
-"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
-"COnfiguration!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 #, fuzzy
 #| msgid "Key %s deleted!"
 msgid "Account %s deleted!"
@@ -16048,10 +16075,6 @@ msgid "Could not get data for ProcessID %s"
 msgstr "Nem sikerült lekérni az adatokat a folyamatazonosítóhoz: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Process: %s could not be deleted"
-msgstr "Folyamat: %s törlése nem sikerült"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "Process: %s successfully deleted, but failed to delete an associated Element"
 msgstr ""
@@ -16067,6 +16090,10 @@ msgid ""
 msgstr ""
 "Hiba történt az egyed szinkronizációs állapotának beállításakor az "
 "átmenetegyednél: %s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process: %s could not be deleted"
+msgstr "Folyamat: %s törlése nem sikerült"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
@@ -16601,6 +16628,12 @@ msgstr "Hiányzó beállításnév."
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
 msgstr "A beállítás nem található."
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+#| msgid "Missing setting name!"
+msgid "Missing setting key!"
+msgstr "Hiányzó beállításnév!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
@@ -19033,6 +19066,12 @@ msgstr "Hozzáadás a megfigyelt jegyek listájához"
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "Rendezés"
+
+#. Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+#, fuzzy
+#| msgid "Search Tickets."
+msgid "Similar Tickets"
+msgstr "Jegyek keresése."
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
@@ -23360,6 +23399,16 @@ msgstr ""
 "meg a jegyhez az oldalsávon."
 
 #. SysConfig
+#, fuzzy
+#| msgid "AgentTicketZoom widget that displays ticket data in the side bar."
+msgid ""
+"AgentTicketZoom widget that displays similar ticket data in the side bar. "
+"Elasticsearch needs to be enabled beofre you can enable this widget."
+msgstr ""
+"Ügyintézői jegynagyítás felületi elem, amely jegyadatokat jelenít az "
+"oldalsávon."
+
+#. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgstr ""
 "Ügyintézői jegynagyítás felületi elem, amely jegyadatokat jelenít az "
@@ -24188,11 +24237,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
-"number which can be found by ExternalTicketNumberRecognition filter module."
+"number which can be found by ExternalTicketNumberRecognition filter module. "
+"In case the module finds a new ticket, the ticket number is being written to "
+"the defined Dynamic Field. For already existing ticket, it can not set that "
+"Dynamic Field anew. Please define a rule set in the settings \"000-"
+"ExternalTicketNumberRecognition1\" through \"000-"
+"ExternalTicketNumberRecognition4\"."
 msgstr ""
-"Ellenőrzi, hogy egy e-mail egy meglévő jegyre történő követés-e olyan "
-"jegyszámmal, amelyet az ExternalTicketNumberRecognition szűrőmodul "
-"megtalálhat."
 
 #. SysConfig
 msgid ""
@@ -27066,14 +27117,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the height for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-"Meghatározza a Rich Text szerkesztő-összetevő magasságát. Szám (képpont) "
-"vagy százalék (relatív) értéket adjon meg."
-
-#. SysConfig
-msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
@@ -27294,6 +27337,18 @@ msgstr ""
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
 msgstr "Meghatározza az órákat és a hétköznapokat a munkaidő számításához."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Defines the height for the rich text editor component. Enter number "
+#| "(pixels) or percent value (relative)."
+msgid ""
+"Defines the initial height for the rich text editor component. Enter number "
+"(pixels)."
+msgstr ""
+"Meghatározza a Rich Text szerkesztő-összetevő magasságát. Szám (képpont) "
+"vagy százalék (relatív) értéket adjon meg."
 
 #. SysConfig
 msgid ""
@@ -28423,14 +28478,6 @@ msgid ""
 msgstr ""
 "Meghatározza a Rich Text szerkesztő-összetevő szélességét ennél a "
 "képernyőnél. Szám (képpont) vagy százalék (relatív) értéket adjon meg."
-
-#. SysConfig
-msgid ""
-"Defines the width for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-"Meghatározza a Rich Text szerkesztő-összetevő szélességét. Szám (képpont) "
-"vagy százalék (relatív) értéket adjon meg."
 
 #. SysConfig
 msgid ""
@@ -30192,9 +30239,14 @@ msgstr ""
 "adni a CustomerPassword oszlopnevét az ügyféltáblában."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
+#| "passwords must be specified."
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell "
 "adni a jelszavak titkosításának típusát."
@@ -31919,12 +31971,6 @@ msgid "OIDC Profile Management"
 msgstr "Szerepkezelés"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Profile"
-msgid "OIDC Profiles"
-msgstr "Profil"
-
-#. SysConfig
 msgid "OTOBO News"
 msgstr "OTOBO hírek"
 
@@ -32973,10 +33019,17 @@ msgid "Rebuilds the escalation index."
 msgstr "Újraépíti az eszkalációs indexet."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Recognize if a ticket is a follow-up to an existing ticket using an "
+#| "external ticket number. Note: the first capturing group from the "
+#| "'NumberRegExp' expression will be used as the ticket number value."
 msgid ""
 "Recognize if a ticket is a follow-up to an existing ticket using an external "
 "ticket number. Note: the first capturing group from the 'NumberRegExp' "
-"expression will be used as the ticket number value."
+"expression will be used as the ticket number value. In case the module finds "
+"a new ticket, the ticket number is being written to the defined Dynamic "
+"Field. For already existing ticket, it can not set that Dynamic Field anew."
 msgstr ""
 "Annak felismerése, ha egy jegy egy külső jegyszámot használó meglévő jegy "
 "követője. Megjegyzés: a „NumberRegExp” kifejezés első elfogási csoportja "
@@ -34500,6 +34553,10 @@ msgid ""
 msgstr ""
 "Beállítja az időkorlátot (másodpercben) a csomagletöltésekhez. Felülírja a "
 "„WebUserAgent::Timeout” beállítást."
+
+#. SysConfig
+msgid "Settings for Similar Ticket Search in ES."
+msgstr ""
 
 #. SysConfig
 msgid "Settings for the customer login screen."
@@ -37168,6 +37225,22 @@ msgstr "megfordítás"
 #. SysConfig
 msgid "stats"
 msgstr "statisztikák"
+
+#~ msgid ""
+#~ "Checks if an email is a follow-up to an existing ticket with external "
+#~ "ticket number which can be found by ExternalTicketNumberRecognition "
+#~ "filter module."
+#~ msgstr ""
+#~ "Ellenőrzi, hogy egy e-mail egy meglévő jegyre történő követés-e olyan "
+#~ "jegyszámmal, amelyet az ExternalTicketNumberRecognition szűrőmodul "
+#~ "megtalálhat."
+
+#~ msgid ""
+#~ "Defines the width for the rich text editor component. Enter number "
+#~ "(pixels) or percent value (relative)."
+#~ msgstr ""
+#~ "Meghatározza a Rich Text szerkesztő-összetevő szélességét. Szám (képpont) "
+#~ "vagy százalék (relatív) értéket adjon meg."
 
 #~ msgid "Manage ticket state pre-selections for response templates"
 #~ msgstr "Jegyállapot előre kiválasztásainak kezelése a válaszsablonoknál"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-06-03 15:23+0000\n"
+"POT-Creation-Date: 2026-06-24 13:50+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -193,9 +193,15 @@ msgid "Change settings"
 msgstr "설정 변경"
 
 #. Template: AdminACLEdit
+#, fuzzy
+#| msgid ""
+#| "Set up what you want to change if the criteria match. Keep in mind that "
+#| "'Possible' is a white list, 'PossibleNot' a black list."
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
-"'Possible' is a white list, 'PossibleNot' a black list."
+"'Possible' is an exclusive white list, 'PossibleAdd' a white list, "
+"'PossibleNot' a black list. 'Possible' also hides the empty value, which you "
+"could add again with '[empty]'."
 msgstr ""
 "기준이 일치하면 변경하려는 항목을 설정하십시오. Possible '은 흰색 목록이"
 "고'PossibleNot '은 검은 색 목록입니다."
@@ -4506,13 +4512,13 @@ msgid "OAuth2 Functional Account"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "선택"
+msgid ""
+"Select the Functional-Account to use for OAuth2 authentication. Functional-"
+"Accounts can be configured here:"
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Account to use for OAuth2 authentication."
+msgid "OAuth2 Functional Accounts"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -5456,6 +5462,16 @@ msgid "OIDC Account"
 msgstr "계정"
 
 #. Template: AdminMailAccount
+#, fuzzy
+#| msgid "Select"
+msgid "Select the"
+msgstr "선택"
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
+msgstr ""
+
+#. Template: AdminMailAccount
 msgid "Example: mail.example.com"
 msgstr "예 : mail.example.com"
 
@@ -5704,12 +5720,15 @@ msgid ""
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "You can create OIDC Profiles to connect to your OIDC Functional Account"
+msgid ""
+"OIDC Profiles to link your OIDC Functional Account to can be created here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "here"
-msgstr ""
+#, fuzzy
+#| msgid "Profile"
+msgid "OAuth2 OIDC Profiles"
+msgstr "프로필"
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -5724,9 +5743,15 @@ msgstr ""
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Since you do not have any OIDC Provider profiles configured, you cannot add "
-"an OAuth2 Functional Account. Xou have to first configure at least one OIDC "
-"Provider profile"
+"an OAuth2 Functional Account. You have to first configure at least one OIDC "
+"Provider profile here:"
 msgstr ""
+
+#. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profiles"
+msgstr "프로필"
 
 #. Template: AdminOAuthTokenStore
 msgid "There are no OAuth2 accounts defined."
@@ -5789,11 +5814,9 @@ msgid "OIDC Profile"
 msgstr "프로필"
 
 #. Template: AdminOAuthTokenStore
-msgid "The OpenID Connect"
-msgstr ""
-
-#. Template: AdminOAuthTokenStore
-msgid "to use for this functional account."
+msgid ""
+"The OpenID Connect Profile to link to this functional account. OIDC Profiles "
+"can be configured here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
@@ -5898,6 +5921,10 @@ msgstr ""
 
 #. Template: AdminOIDCProfiles
 msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgstr ""
+
+#. Template: AdminOIDCProfiles
+msgid "here"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -12409,6 +12436,12 @@ msgstr "비밀번호 반복"
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다."
 
+#. Template: InstallerDBmysql
+#, fuzzy
+#| msgid "Authentication"
+msgid "Authentication Plugin"
+msgstr "입증"
+
 #. Template: InstallerFinish
 msgid "Start page"
 msgstr "시작 페이지"
@@ -15026,12 +15059,6 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
-msgid ""
-"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
-"COnfiguration!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 #, fuzzy
 #| msgid "Key %s deleted!"
 msgid "Account %s deleted!"
@@ -15317,10 +15344,6 @@ msgid "Could not get data for ProcessID %s"
 msgstr "ProcessID %s에 대한 데이터를 가져올 수 없습니다."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "Process: %s could not be deleted"
-msgstr "Process : %s을 삭제할 수 없습니다."
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "Process: %s successfully deleted, but failed to delete an associated Element"
 msgstr ""
@@ -15336,6 +15359,10 @@ msgid ""
 msgstr ""
 "전환 엔티티에 대한 엔티티 동기화 상태를 설정하는 중에 오류가 발생했습니다 : "
 "%s"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "Process: %s could not be deleted"
+msgstr "Process : %s을 삭제할 수 없습니다."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
@@ -15851,6 +15878,12 @@ msgstr "설정 이름이 없습니다."
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
 msgstr "설정을 찾을 수 없습니다."
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+#, fuzzy
+#| msgid "Missing setting name!"
+msgid "Missing setting key!"
+msgstr "설정 이름이 없습니다!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
@@ -18184,6 +18217,12 @@ msgstr "시청 티켓 목록에 추가"
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
 msgstr "주문"
+
+#. Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+#, fuzzy
+#| msgid "Search Tickets."
+msgid "Similar Tickets"
+msgstr "티켓 검색."
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
@@ -22304,6 +22343,14 @@ msgid ""
 msgstr "사이드 바에 티켓에 대한 고객 정보를 표시하는 AgentTicketZoom 위젯."
 
 #. SysConfig
+#, fuzzy
+#| msgid "AgentTicketZoom widget that displays ticket data in the side bar."
+msgid ""
+"AgentTicketZoom widget that displays similar ticket data in the side bar. "
+"Elasticsearch needs to be enabled beofre you can enable this widget."
+msgstr "사이드 바에 티켓 데이터를 표시하는 AgentTicketZoom 위젯."
+
+#. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgstr "사이드 바에 티켓 데이터를 표시하는 AgentTicketZoom 위젯."
 
@@ -23039,7 +23086,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
-"number which can be found by ExternalTicketNumberRecognition filter module."
+"number which can be found by ExternalTicketNumberRecognition filter module. "
+"In case the module finds a new ticket, the ticket number is being written to "
+"the defined Dynamic Field. For already existing ticket, it can not set that "
+"Dynamic Field anew. Please define a rule set in the settings \"000-"
+"ExternalTicketNumberRecognition1\" through \"000-"
+"ExternalTicketNumberRecognition4\"."
 msgstr ""
 
 #. SysConfig
@@ -25646,14 +25698,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the height for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-"서식있는 텍스트 편집기 구성 요소의 높이를 정의합니다. 숫자 (픽셀) 또는 퍼센"
-"트 값 (상대)을 입력하십시오."
-
-#. SysConfig
-msgid ""
 "Defines the history comment for the close ticket screen action, which gets "
 "used for ticket history in the agent interface."
 msgstr ""
@@ -25867,6 +25911,18 @@ msgstr "작업 시간을 계산하기 위해 표시된 달력의 시간과 요�
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
 msgstr "근무 시간을 계산할 시간과 요일을 정의합니다."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Defines the height for the rich text editor component. Enter number "
+#| "(pixels) or percent value (relative)."
+msgid ""
+"Defines the initial height for the rich text editor component. Enter number "
+"(pixels)."
+msgstr ""
+"서식있는 텍스트 편집기 구성 요소의 높이를 정의합니다. 숫자 (픽셀) 또는 퍼센"
+"트 값 (상대)을 입력하십시오."
 
 #. SysConfig
 msgid ""
@@ -26851,14 +26907,6 @@ msgid ""
 msgstr ""
 "이 화면의 서식있는 텍스트 편집기 구성 요소의 너비를 정의합니다. 숫자 (픽셀) "
 "또는 퍼센트 값 (상대)을 입력하십시오."
-
-#. SysConfig
-msgid ""
-"Defines the width for the rich text editor component. Enter number (pixels) "
-"or percent value (relative)."
-msgstr ""
-"서식있는 텍스트 편집기 구성 요소의 너비를 정의합니다. 숫자 (픽셀) 또는 퍼센"
-"트 값 (상대)을 입력하십시오."
 
 #. SysConfig
 msgid ""
@@ -28417,9 +28465,14 @@ msgstr ""
 "CustomerPassword에 대한 열 이름을 지정해야합니다."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
+#| "passwords must be specified."
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-"passwords must be specified."
+"passwords must be specified. It is discouraged to configure the not really "
+"secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Customer :: AuthModule에 대해 \"DB\"가 선택되면 암호의 암호화 유형을 지정해야"
 "합니다."
@@ -29968,12 +30021,6 @@ msgid "OIDC Profile Management"
 msgstr "역할 관리"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Profile"
-msgid "OIDC Profiles"
-msgstr "프로필"
-
-#. SysConfig
 msgid "OTOBO News"
 msgstr "OTOBO 뉴스"
 
@@ -30917,7 +30964,9 @@ msgstr ""
 msgid ""
 "Recognize if a ticket is a follow-up to an existing ticket using an external "
 "ticket number. Note: the first capturing group from the 'NumberRegExp' "
-"expression will be used as the ticket number value."
+"expression will be used as the ticket number value. In case the module finds "
+"a new ticket, the ticket number is being written to the defined Dynamic "
+"Field. For already existing ticket, it can not set that Dynamic Field anew."
 msgstr ""
 
 #. SysConfig
@@ -32300,6 +32349,10 @@ msgid ""
 msgstr ""
 "패키지 다운로드의 시간 초과 (초)를 설정합니다. \"WebUserAgent :: Timeout\"을 "
 "덮어 씁니다."
+
+#. SysConfig
+msgid "Settings for Similar Ticket Search in ES."
+msgstr ""
 
 #. SysConfig
 msgid "Settings for the customer login screen."
@@ -34674,6 +34727,13 @@ msgstr "거꾸로"
 #. SysConfig
 msgid "stats"
 msgstr "통계"
+
+#~ msgid ""
+#~ "Defines the width for the rich text editor component. Enter number "
+#~ "(pixels) or percent value (relative)."
+#~ msgstr ""
+#~ "서식있는 텍스트 편집기 구성 요소의 너비를 정의합니다. 숫자 (픽셀) 또는 퍼"
+#~ "센트 값 (상대)을 입력하십시오."
 
 #~ msgid "Chat protocol"
 #~ msgstr "채팅 프로토콜"
