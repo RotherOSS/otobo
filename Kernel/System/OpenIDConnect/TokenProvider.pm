@@ -316,12 +316,12 @@ sub FetchToken {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need functional account Invoker settings in SysConfig for $AccountName.",
+            Message  => "Need functional account Invoker settings in System Configuration for $AccountName.",
         );
 
         return {
             Success => 0,
-            Error   => $LanguageObject->Translate( "Need functional account Invoker settings in SysConfig for %s.", $AccountName ),
+            Error   => $LanguageObject->Translate( "Need functional account Invoker settings in System Configuration for %s.", $AccountName ),
         };
     }
 
@@ -570,7 +570,7 @@ sub GetAuthURL {
     if ( !IsHashRefWithData($Account) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need functional account Invoker settings in SysConfig.',
+            Message  => 'Need functional account Invoker settings in System Configuration.',
         );
 
         return;
