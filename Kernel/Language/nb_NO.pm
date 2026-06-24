@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.895702005730659;
+    $Self->{Completeness}        = 0.894201861130995;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -95,8 +95,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Opprett matchende kriterier for denne ACL\'en. Benytt \'Egenskaper\' for å matche gjeldende skjerm eller \'EgenskapDatabase\' for å matche attributter i databasen for gjeldende sak.',
         'Change settings' => 'Endre innstillinger',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Opprett de endringene du ønsker å utføre når kriteriene matcher. Merk at \'Muligens\' er en hviteliste, mens \'MuligensIkke\' er en svarteliste.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'Sjekk offisiell %sdocumentation%s.',
         'Show or hide the content' => 'Vis eller skjul innholdet',
         'Edit ACL Information' => 'Endre ACL informasjon',
@@ -1342,8 +1342,9 @@ sub Data {
         'Kerberos keytab file' => '',
         'The Kerberos keytab file for the privileged user.' => '',
         'OAuth2 Functional Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:' =>
+            '',
+        'OAuth2 Functional Accounts' => '',
         'Use Proxy Options' => 'Bruk proxy-alternativer',
         'Show or hide Proxy options to connect to the remote system.' => 'Vis eller skjul proxy-alternativer for å koble til det eksterne systemet.',
         'Proxy Server' => 'Proxy server',
@@ -1609,6 +1610,8 @@ sub Data {
         'Fetch mail' => 'Hent e-post',
         'Do you really want to delete this mail account?' => 'Vil du virkelig slette denne e-postkontoen?',
         'OIDC Account' => '',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
         'Example: mail.example.com' => 'F.eks.: mail.eksempel.com',
         'IMAP Folder' => 'IMAP mappe',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1683,13 +1686,14 @@ sub Data {
             '',
         'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
             '',
-        'You can create OIDC Profiles to connect to your OIDC Functional Account' =>
+        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
             '',
-        'here' => '',
+        'OAuth2 OIDC Profiles' => '',
         'Delete Account' => '',
         'OIDC Functional Accounts and their active OAuth2 Tokens' => '',
-        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. Xou have to first configure at least one OIDC Provider profile' =>
+        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
             '',
+        'OIDC Profiles' => '',
         'There are no OAuth2 accounts defined.' => '',
         'Account Name' => '',
         'Profile Name' => '',
@@ -1702,8 +1706,8 @@ sub Data {
         'Edit Invoker Account' => '',
         'The unique name for this Account.' => '',
         'OIDC Profile' => '',
-        'The OpenID Connect' => '',
-        'to use for this functional account.' => '',
+        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
+            '',
         'Grant Type' => '',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
             '',
@@ -1735,6 +1739,7 @@ sub Data {
             '',
         'You can connect OIDC Profiles with a OIDC Functional Account' =>
             '',
+        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
             '',
@@ -3757,6 +3762,9 @@ sub Data {
         'Repeat Password' => 'Gjenta passord',
         'Passwords do not match' => 'Passordet stemmer ikke',
 
+        # Template: InstallerDBmysql
+        'Authentication Plugin' => '',
+
         # Template: InstallerFinish
         'Start page' => 'Startside',
         'Your OTOBO Team' => 'OTOBO-Teamet',
@@ -4660,8 +4668,6 @@ sub Data {
         'Error creating/updating %s!' => '',
         'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
             '',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!' =>
-            '',
         'Account %s deleted!' => '',
         'Token %s updated!' => '',
         'Invalid OAuth State!' => '',
@@ -4744,11 +4750,11 @@ sub Data {
             '',
         'There was an error updating the Process' => 'Det oppsto en feil under oppdatering av prosessen',
         'Could not get data for ProcessID %s' => 'Kunne ikke hente data for prosess-ID %s',
-        'Process: %s could not be deleted' => 'Prosess: %s kunne ikke slettes',
         'Process: %s successfully deleted, but failed to delete an associated Element' =>
             '',
         'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity' =>
             '',
+        'Process: %s could not be deleted' => 'Prosess: %s kunne ikke slettes',
         'There was an error synchronizing the processes.' => 'Det oppsto en feil under synkronisering av prosessene.',
         'The %s:%s is still in use' => '%s:%s er fortsatt i bruk',
         'The %s:%s has a different EntityID' => '%s:%s har en annen enhets-ID',
@@ -4929,6 +4935,7 @@ sub Data {
         'System was not able to lock the setting!' => 'Systemet kunne ikke låse innstillingen!',
         'Missing setting name.' => 'Mangler innstillingsnavn.',
         'Setting not found.' => 'Finner ikke innstillingen.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'Mangler innstillinger!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -5790,6 +5797,9 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sorter etter',
+
+        # Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+        'Similar Tickets' => '',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Nye saker under behandling',
@@ -7326,6 +7336,8 @@ Ditt Helpdesk-team
             'AgentTicketZoom-widget som viser en tabell over objekter knyttet til saken.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             'AgentTicketZoom-widget som viser kundeinformasjon for saken i sidelinjen.',
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+            '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'AgentTicketZoom-widget som viser saksdata i sidelinjen.',
         'Agents ↔ Groups' => 'Agenter ↔ Grupper',
@@ -7522,8 +7534,8 @@ Ditt Helpdesk-team
         'Checks for queued outgoing emails to be sent.' => 'Sjekker for utgående e-post i kø som skal sendes.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Sjekker om en e-post er en oppfølging av en eksisterende sak ved å søke i emnet etter et gyldig saksnummer.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            'Sjekker om en e-post er en oppfølging av en eksisterende sak med eksternt saksnummer som kan finnes av ExternalTicketNumberRecognition filtermodul.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Sjekker SystemID i saksnummerdeteksjon for oppfølging. Hvis den ikke er aktivert, vil SystemID endres etter bruk av systemet.',
         'Child' => 'Barn',
@@ -8169,8 +8181,6 @@ Ditt Helpdesk-team
             'Definerer gruppene hver kunde skal være i (hvis CustomerGroupSupport er aktivert og du ikke vil administrere hver kunde for disse gruppene).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'Definerer overskriftene som skal vises til generisk innhold for den forespurte nøkkelen.',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Definerer høyden for redigeringskomponenten for rik tekst. Skriv inn tall (piksler) eller prosentverdi (relativ).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Definerer historiekommentaren for handlingen for lukke saksskjermen, som brukes til sakshistorikk i agentgrensesnittet.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -8226,6 +8236,8 @@ Ditt Helpdesk-team
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Definerer timene og ukedagene i den angitte kalenderen, for å telle arbeidstiden.',
         'Defines the hours and week days to count the working time.' => 'Definerer timer og ukedager som telles som arbeidstid.',
+        'Defines the initial height for the rich text editor component. Enter number (pixels).' =>
+            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8479,8 +8491,6 @@ Ditt Helpdesk-team
             'Definerer de synlige låsene til en sak. MERK: Når du endrer denne innstillingen, sørg for å slette hurtigbufferen for å bruke den nye verdien. Standard: unlock, tmp_lock.',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Definerer bredden for redigeringskomponenten for rik tekst for denne skjermen. Skriv inn tall (piksler) eller prosentverdi (relativ).',
-        'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Definerer bredden for redigeringskomponenten for rik tekst. Skriv inn tall (piksler) eller prosentverdi (relativ).',
         'Defines time in minutes since last modification for drafts of specified type before they are considered expired.' =>
             'Definerer tiden i minutter siden siste endring for utkast av spesifisert type før de anses som utløpt.',
         'Defines whether to index archived tickets for fulltext searches.' =>
@@ -8911,8 +8921,8 @@ Ditt Helpdesk-team
             'Hvis "DB" er valgt som Customer::AuthModule må man spesifisere en DSN for tilkoplingen til kundetabellen.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Hvis "DB" er valgt som Customer::AuthModule må man skrive inn feltnavnet som skal kobles til CustomerPassword i kundetabellen.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Hvis "DB" ble valgt for Customer::AuthModule, må krypteringstypen for passord angis.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Hvis "DB" er valgt som Customer::AuthModule må feltnavnet som skal kobles til CustomerKey spesifiseres.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9317,7 +9327,6 @@ Ditt Helpdesk-team
         'OAuth Functional Accounts' => '',
         'OAuth Tokens' => '',
         'OIDC Profile Management' => '',
-        'OIDC Profiles' => '',
         'OTOBO News' => 'OTOBO-nyheter',
         'OTOBO Team Services' => 'OTOBO Team-tjenester',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -9498,8 +9507,8 @@ Ditt Helpdesk-team
             'Gjenoppbygger Elasticsearch-indekser. Kan brukes for eksempel hvis CustomerUsers er autentisert via LDAP. Svært ineffektiv imidlertid, ettersom hele indeksen bygges opp igjen hver gang.',
         'Rebuilds the ACL preselection cache.' => 'Gjenoppbygger ACL-forvalgsbufferen.',
         'Rebuilds the escalation index.' => 'Bygger opp eskaleringsindeksen på nytt.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            'Gjenkjenne om en sak er en oppfølging av en eksisterende sak ved hjelp av et eksternt saksnummer. Merk: den første fangstgruppen fra \'NumberRegExp\'-uttrykket vil bli brukt som saksnummerverdien.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
+            '',
         'Redis server address. Example: 127.0.0.1:6379.' => 'Redis serveradresse. Eksempel: 127.0.0.1:6379.',
         'Refresh interval' => 'Automatisk innlasting',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
@@ -9878,6 +9887,7 @@ Ditt Helpdesk-team
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Angir tidsavbrudd (i sekunder) for http/ftp-nedlastinger.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Angir tidsavbrudd (i sekunder) for pakkenedlastinger. Overskriver "WebUserAgent::Timeout".',
+        'Settings for Similar Ticket Search in ES.' => '',
         'Settings for the customer login screen.' => 'Innstillinger for kundepåloggingsskjermen.',
         'Shared Secret' => 'Delt hemmelighet',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
@@ -10679,6 +10689,7 @@ Ditt Helpdesk-team
         'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
+        'Non-global ActivityDialogs may not be assigned to global Activities!',
         'Not available',
         'Notice',
         'Notification',

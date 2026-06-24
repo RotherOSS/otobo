@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.49269340974212;
+    $Self->{Completeness}        = 0.491911238367931;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -86,8 +86,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Menetapkan kriteria penyesuaian untuk Senarai Kawalan Akses. Gunakan \'Ciri-ciri\' untuk menyesuaikan skrin semasa atau \'Ciri-ciri pangkalan data\' untuk menyesuaikan sifat-sifat tiket semasa yang berada di dalam pangkalan data.',
         'Change settings' => 'Menukar tetapan',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Tetapkan apa yang ingin anda ubah jika ciri-ciri sesuai. Ingat bahawa \'Mungkin\' ialah senarai putih, \'Tidak mungkin\' ialah senarai hitam.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Menunjukkan atau menyembunyikan kandungan',
         'Edit ACL Information' => '',
@@ -1333,8 +1333,9 @@ sub Data {
         'Kerberos keytab file' => '',
         'The Kerberos keytab file for the privileged user.' => '',
         'OAuth2 Functional Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:' =>
+            '',
+        'OAuth2 Functional Accounts' => '',
         'Use Proxy Options' => '',
         'Show or hide Proxy options to connect to the remote system.' => '',
         'Proxy Server' => 'Server Proksi',
@@ -1600,6 +1601,8 @@ sub Data {
         'Fetch mail' => 'E-Mails abholen',
         'Do you really want to delete this mail account?' => '',
         'OIDC Account' => '',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
         'Example: mail.example.com' => 'Contoh: mail.contoh.com',
         'IMAP Folder' => 'folder IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1674,13 +1677,14 @@ sub Data {
             '',
         'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
             '',
-        'You can create OIDC Profiles to connect to your OIDC Functional Account' =>
+        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
             '',
-        'here' => '',
+        'OAuth2 OIDC Profiles' => '',
         'Delete Account' => '',
         'OIDC Functional Accounts and their active OAuth2 Tokens' => '',
-        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. Xou have to first configure at least one OIDC Provider profile' =>
+        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
             '',
+        'OIDC Profiles' => '',
         'There are no OAuth2 accounts defined.' => '',
         'Account Name' => '',
         'Profile Name' => '',
@@ -1693,8 +1697,8 @@ sub Data {
         'Edit Invoker Account' => '',
         'The unique name for this Account.' => '',
         'OIDC Profile' => '',
-        'The OpenID Connect' => '',
-        'to use for this functional account.' => '',
+        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
+            '',
         'Grant Type' => '',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
             '',
@@ -1726,6 +1730,7 @@ sub Data {
             '',
         'You can connect OIDC Profiles with a OIDC Functional Account' =>
             '',
+        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
             '',
@@ -3748,6 +3753,9 @@ sub Data {
         'Repeat Password' => 'Ulang kata Laluan',
         'Passwords do not match' => 'Kata laluan tidak serasi',
 
+        # Template: InstallerDBmysql
+        'Authentication Plugin' => '',
+
         # Template: InstallerFinish
         'Start page' => 'Halaman mula',
         'Your OTOBO Team' => 'Team OTOBO anda',
@@ -4651,8 +4659,6 @@ sub Data {
         'Error creating/updating %s!' => '',
         'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
             '',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!' =>
-            '',
         'Account %s deleted!' => '',
         'Token %s updated!' => '',
         'Invalid OAuth State!' => '',
@@ -4735,11 +4741,11 @@ sub Data {
             '',
         'There was an error updating the Process' => '',
         'Could not get data for ProcessID %s' => '',
-        'Process: %s could not be deleted' => '',
         'Process: %s successfully deleted, but failed to delete an associated Element' =>
             '',
         'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity' =>
             '',
+        'Process: %s could not be deleted' => '',
         'There was an error synchronizing the processes.' => '',
         'The %s:%s is still in use' => '',
         'The %s:%s has a different EntityID' => '',
@@ -4920,6 +4926,7 @@ sub Data {
         'System was not able to lock the setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
+        'Missing setting key!' => '',
         'Missing Settings!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -5781,6 +5788,9 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Disusun mengikut',
+
+        # Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+        'Similar Tickets' => '',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Tiket Baru Dikunci',
@@ -7319,6 +7329,8 @@ dalaman.',
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             '',
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+            '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             '',
         'Agents ↔ Groups' => '',
@@ -7515,7 +7527,7 @@ dalaman.',
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Memeriksa jika emel adalah susulan kepada tiket yang sedia ada dengan mencari subjek untuk nombor tiket yang sah.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
@@ -8163,8 +8175,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Mentakrifkan ketinggian untuk komponent editor teks beraneka. Masukkan nombor (piksel) atau nilai peratus (relatif).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Mentakrifkan sejarah komen untuk tindakan skrin tiket tertutup, yang dapat digunakan untuk sejarah tiket di dalam paparan ejen.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -8220,6 +8230,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Mentakrifkan jam dan minggu hari dari kalendar yang dinyatakan, untuk mengira masa berkerja.',
         'Defines the hours and week days to count the working time.' => 'Mentakrifkan jam dan minggu hari untuk mengira masa berkerja.',
+        'Defines the initial height for the rich text editor component. Enter number (pixels).' =>
+            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8473,8 +8485,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Mentakrifkan lebar untuk komponen editor teks kaya untuk skrin ini. Masukkan nombor (piksel) atau nilai peratus (relatif).',
-        'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Mentakrifkan kelebaran untuk komponen editor teks beraneka. Masukkan nombor (piksel) atau nilai peratus (relatif).',
         'Defines time in minutes since last modification for drafts of specified type before they are considered expired.' =>
             '',
         'Defines whether to index archived tickets for fulltext searches.' =>
@@ -8905,7 +8915,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Jika "DB" dipilih untuk Customer::AuthModule, DSN untuk sambungan ke jadual pelanggan mesti ditentukan.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Jika "DB" dipilih untuk Customer::AuthModule, nama kolum untuj CustomerPassword dalam jadual pelanggan mesti ditentukan.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Jika "DB" dipilih untuk Customer::AuthModule, nama kolum untuk CustomerKey dalam  jadual pelanggan mesti ditentukan.',
@@ -9311,7 +9321,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'OAuth Functional Accounts' => '',
         'OAuth Tokens' => '',
         'OIDC Profile Management' => '',
-        'OIDC Profiles' => '',
         'OTOBO News' => 'Berita OTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -9492,7 +9501,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Tempoh selang refresh',
@@ -9872,6 +9881,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Tetapkan masa tamat (dalam saat) untuk http/ftp muat turun.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Tetapkan masa tamat (dalam saat) untuk muat turun pakej. Menggantikan "WebUserAgent::Timeout".',
+        'Settings for Similar Ticket Search in ES.' => '',
         'Settings for the customer login screen.' => '',
         'Shared Secret' => 'Rahsia Dikongsi',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
@@ -10673,6 +10683,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
+        'Non-global ActivityDialogs may not be assigned to global Activities!',
         'Not available',
         'Notice',
         'Notification',

@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.80487106017192;
+    $Self->{Completeness}        = 0.803579098067287;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -89,8 +89,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'قم بإعداد شروط التصفية لقائمة ACLs. استخدم "Properties" للتحقق من القيمة من الشاشة الحالية أو "PropertiesDatabase" لقيمة التذكرة كما تم تخزينها في قاعدة البيانات.',
         'Change settings' => 'تغيير الاعدادات',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'يضبط القيمة المتغيرة عند استيفاء شروط التصفية. حيث تكون "Possible" قائمة بيضاء و "PossibleNot" هي قائمة سلبية.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'تحقق من الوثائق الرسمية sdocumentation%s%.',
         'Show or hide the content' => 'إظهار أو إخفاء المحتوى',
         'Edit ACL Information' => 'تعديل معلومات ACL',
@@ -1336,8 +1336,9 @@ sub Data {
         'Kerberos keytab file' => '',
         'The Kerberos keytab file for the privileged user.' => '',
         'OAuth2 Functional Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:' =>
+            '',
+        'OAuth2 Functional Accounts' => '',
         'Use Proxy Options' => 'استخدام خيارات الوكيل',
         'Show or hide Proxy options to connect to the remote system.' => 'إظهار خيارات الوكيل أو إخفاؤها للاتصال بالنظام البعيد.',
         'Proxy Server' => 'مخدم بروكسي',
@@ -1603,6 +1604,8 @@ sub Data {
         'Fetch mail' => 'جلب البريد',
         'Do you really want to delete this mail account?' => 'هل أنت متأكد أنك تريد حذف حساب البريد الإلكتروني هذا؟',
         'OIDC Account' => '',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
         'Example: mail.example.com' => 'مثال: mail.example.com',
         'IMAP Folder' => 'مجلد IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1677,13 +1680,14 @@ sub Data {
             '',
         'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
             '',
-        'You can create OIDC Profiles to connect to your OIDC Functional Account' =>
+        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
             '',
-        'here' => '',
+        'OAuth2 OIDC Profiles' => '',
         'Delete Account' => '',
         'OIDC Functional Accounts and their active OAuth2 Tokens' => '',
-        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. Xou have to first configure at least one OIDC Provider profile' =>
+        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
             '',
+        'OIDC Profiles' => '',
         'There are no OAuth2 accounts defined.' => '',
         'Account Name' => '',
         'Profile Name' => '',
@@ -1696,8 +1700,8 @@ sub Data {
         'Edit Invoker Account' => '',
         'The unique name for this Account.' => '',
         'OIDC Profile' => '',
-        'The OpenID Connect' => '',
-        'to use for this functional account.' => '',
+        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
+            '',
         'Grant Type' => '',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
             '',
@@ -1729,6 +1733,7 @@ sub Data {
             '',
         'You can connect OIDC Profiles with a OIDC Functional Account' =>
             '',
+        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
             '',
@@ -3751,6 +3756,9 @@ sub Data {
         'Repeat Password' => 'كرر كلمة المرور',
         'Passwords do not match' => 'كلمات المرور غير متطابقة',
 
+        # Template: InstallerDBmysql
+        'Authentication Plugin' => '',
+
         # Template: InstallerFinish
         'Start page' => 'الصفحة الرئيسية',
         'Your OTOBO Team' => 'فريق OTOBO الخاص بك',
@@ -4654,8 +4662,6 @@ sub Data {
         'Error creating/updating %s!' => '',
         'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
             '',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!' =>
-            '',
         'Account %s deleted!' => '',
         'Token %s updated!' => '',
         'Invalid OAuth State!' => '',
@@ -4738,11 +4744,11 @@ sub Data {
             '',
         'There was an error updating the Process' => 'حدث خطأ أثناء تحديث العملية',
         'Could not get data for ProcessID %s' => 'تعذر تعريف البيانات لمعرف العملية ٪s',
-        'Process: %s could not be deleted' => 'تعذر حذف العملية: ٪s',
         'Process: %s successfully deleted, but failed to delete an associated Element' =>
             '',
         'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity' =>
             '',
+        'Process: %s could not be deleted' => 'تعذر حذف العملية: ٪s',
         'There was an error synchronizing the processes.' => 'حدث خطأ أثناء مزامنة العمليات.',
         'The %s:%s is still in use' => 'لا يزال ٪s:٪s قيد الاستخدام',
         'The %s:%s has a different EntityID' => 'يحتوي ٪s:٪s على معرف كيان مختلف',
@@ -4923,6 +4929,7 @@ sub Data {
         'System was not able to lock the setting!' => 'لا يمكن قفل الإعداد للتحرير!',
         'Missing setting name.' => 'اسم الإعداد مفقود.',
         'Setting not found.' => 'لم يتم العثور على الإعداد.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'إعدادات مفقودة!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -5784,6 +5791,9 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'ترتيب حسب',
+
+        # Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+        'Similar Tickets' => '',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'التذاكر المقفلة جديدة',
@@ -7320,6 +7330,8 @@ Thanks for your help!
             'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض حقل "الاتصال مع البيانات الديناميكية" في الشريط الجانبي.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض معلومات العميل للتذكرة في الشريط الجانبي.',
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+            '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض بيانات التذكرة في الشريط الجانبي.',
         'Agents ↔ Groups' => 'وكلاء ↔ مجموعات (Agents ↔ Groups)',
@@ -7516,8 +7528,8 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => 'تحقق من رسائل البريد الصادرة لإرسالها.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'التحقق مما إذا كان البريد الإلكتروني عبارة عن متابعة لتذكرة موجودة من خلال البحث عن رقم تذكرة صالح.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            'التحقق مما إذا كان البريد الإلكتروني عبارة عن متابعة لتذكرة موجودة برقم تذكرة خارجي يمكن العثور عليه بواسطة وحدة عامل تصفية ExternalTicketNumberRecognition.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'يتحقق من SystemID في اكتشاف رقم التذكرة للمتابعة. إذا لم يتم تمكينه ، فسيتم تغيير SystemID بعد استخدام النظام.',
         'Child' => 'فرع',
@@ -8163,8 +8175,6 @@ Thanks for your help!
             'يتحكم في المجموعات التي تريد أن يكون العميل فيها بشكل افتراضي (إذا تم تمكين CustomerGroupSupport ولا تريد التحكم في كل علاقة مجموعة للعملاء بشكل فردي).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'يحدد الرؤوس التي يتم عرضها للمحتوى العام للقيمة المطلوبة.',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'يتحكم في ارتفاع مكون محرر النص المنسق. أدخل رقمًا (للارتفاع بالبكسل) أو نسبة مئوية (لارتفاع نسبي).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'يتحكم في تعليق محفوظات إجراءات إغلاق التذاكر في واجهة الوكيل.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -8220,6 +8230,8 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'يحدد ساعات وأيام الأسبوع من التقويم المحدد لقياس وقت العمل.',
         'Defines the hours and week days to count the working time.' => 'يحدد فترة وأيام الأسبوع التي يتم احتسابها كوقت عمل.',
+        'Defines the initial height for the rich text editor component. Enter number (pixels).' =>
+            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8472,8 +8484,6 @@ Thanks for your help!
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             'يحدد أنواع القفل المرئي للتذكرة. ملاحظة: يرجى التأكد من مسح ذاكرة التخزين المؤقت عند تغيير هذا الإعداد.',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'يحدد عرض مكون محرر النص المنسق. أدخل رقمًا (بكسل) أو نسبة مئوية (نسبي).',
-        'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'يحدد عرض مكون محرر النص المنسق. أدخل رقمًا (بكسل) أو نسبة مئوية (نسبي).',
         'Defines time in minutes since last modification for drafts of specified type before they are considered expired.' =>
             'تحديد الوقت بالدقائق منذ آخر تعديل للمسودات من النوع المحدد قبل اعتبارها منتهية الصلاحية.',
@@ -8905,8 +8915,8 @@ Thanks for your help!
             'إذا تم تحديد "DB" ك Customer::AuthModule، فيجب تخزين DSN هنا للاتصال بقاعدة البيانات.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'إذا تم تحديد "DB" ك Customer::AuthModule، فيجب تخزين اسم العمود الذي يحتوي على كلمة مرور العميل هنا.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'إذا تم تحديد "DB" ك Customer::AuthModule، فيجب تخزين نوع تشفير كلمات المرور هنا.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'إذا تم تحديد "DB" ك Customer::AuthModule، فيجب تخزين اسم العمود الذي يحتوي على CustomerKey هنا.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9311,7 +9321,6 @@ Thanks for your help!
         'OAuth Functional Accounts' => '',
         'OAuth Tokens' => '',
         'OIDC Profile Management' => '',
-        'OIDC Profiles' => '',
         'OTOBO News' => 'أخبار من OTOBO',
         'OTOBO Team Services' => 'خدمات فريق OTOBO',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -9492,7 +9501,7 @@ Thanks for your help!
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '',
@@ -9872,6 +9881,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '',
+        'Settings for Similar Ticket Search in ES.' => '',
         'Settings for the customer login screen.' => '',
         'Shared Secret' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
@@ -10673,6 +10683,7 @@ Thanks for your help!
         'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
+        'Non-global ActivityDialogs may not be assigned to global Activities!',
         'Not available',
         'Notice',
         'Notification',

@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.814756446991404;
+    $Self->{Completeness}        = 0.813457408732999;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -93,8 +93,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Podesite usklađene kriterijume za ovu ACL listu. Koristite Properties tako da odgovara postojećem prikazu ekrana ili PropertiesDatabase da bi odgovarao atributima postojećeg tiketa koji su u bazi podataka.',
         'Change settings' => 'Promeni podešavanja',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Podesite ono što želite da menjate ako se kriterijumi slažu. Imajte na umu da je \'Possible\' bela lista, \'PossibleNot\' crna lista.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'Pročitajte zvaničnu %sdokumentaciju%s.',
         'Show or hide the content' => 'Pokaži ili sakrij sadržaj',
         'Edit ACL Information' => 'Uredi informacije o ACL',
@@ -1340,8 +1340,9 @@ sub Data {
         'Kerberos keytab file' => '',
         'The Kerberos keytab file for the privileged user.' => '',
         'OAuth2 Functional Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:' =>
+            '',
+        'OAuth2 Functional Accounts' => '',
         'Use Proxy Options' => 'Koristi Proxy podešavanja',
         'Show or hide Proxy options to connect to the remote system.' => 'Prikaži ili sakrij Proxy opcije za povezivanje sa udaljenim sistemom.',
         'Proxy Server' => 'Proxy server',
@@ -1607,6 +1608,8 @@ sub Data {
         'Fetch mail' => 'Preuzmi poštu',
         'Do you really want to delete this mail account?' => 'Da li stvarno želite da obrišete ovaj imejl nalog?',
         'OIDC Account' => '',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
         'Example: mail.example.com' => 'Primer: mail.example.com',
         'IMAP Folder' => 'IMAP folder',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1681,13 +1684,14 @@ sub Data {
             '',
         'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
             '',
-        'You can create OIDC Profiles to connect to your OIDC Functional Account' =>
+        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
             '',
-        'here' => '',
+        'OAuth2 OIDC Profiles' => '',
         'Delete Account' => '',
         'OIDC Functional Accounts and their active OAuth2 Tokens' => '',
-        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. Xou have to first configure at least one OIDC Provider profile' =>
+        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
             '',
+        'OIDC Profiles' => '',
         'There are no OAuth2 accounts defined.' => '',
         'Account Name' => '',
         'Profile Name' => '',
@@ -1700,8 +1704,8 @@ sub Data {
         'Edit Invoker Account' => '',
         'The unique name for this Account.' => '',
         'OIDC Profile' => '',
-        'The OpenID Connect' => '',
-        'to use for this functional account.' => '',
+        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
+            '',
         'Grant Type' => '',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
             '',
@@ -1733,6 +1737,7 @@ sub Data {
             '',
         'You can connect OIDC Profiles with a OIDC Functional Account' =>
             '',
+        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
             '',
@@ -3755,6 +3760,9 @@ sub Data {
         'Repeat Password' => 'Ponovi lozinku',
         'Passwords do not match' => 'Lozinke se ne poklapaju',
 
+        # Template: InstallerDBmysql
+        'Authentication Plugin' => '',
+
         # Template: InstallerFinish
         'Start page' => 'Početna strana',
         'Your OTOBO Team' => 'Vaš OTOBO tim',
@@ -4658,8 +4666,6 @@ sub Data {
         'Error creating/updating %s!' => '',
         'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
             '',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!' =>
-            '',
         'Account %s deleted!' => '',
         'Token %s updated!' => '',
         'Invalid OAuth State!' => '',
@@ -4742,11 +4748,11 @@ sub Data {
             '',
         'There was an error updating the Process' => 'Došlo je do greške prilikom ažuriranja Procesa',
         'Could not get data for ProcessID %s' => 'Ne mogu pribaviti podatke za ID procesa %s',
-        'Process: %s could not be deleted' => 'Proces: %s se ne može obrisati',
         'Process: %s successfully deleted, but failed to delete an associated Element' =>
             '',
         'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity' =>
             '',
+        'Process: %s could not be deleted' => 'Proces: %s se ne može obrisati',
         'There was an error synchronizing the processes.' => 'Došlo je do greške pri sinhronizaciji procesa.',
         'The %s:%s is still in use' => '%s:%s je još u upotrebi',
         'The %s:%s has a different EntityID' => '%s:%s ima različit ID entiteta',
@@ -4927,6 +4933,7 @@ sub Data {
         'System was not able to lock the setting!' => 'Sistem nije uspeo da zaključa podešavanje!',
         'Missing setting name.' => 'Nedostaje naziv podešavanja.',
         'Setting not found.' => 'Podešavanje nije pronađeno.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'Nedostaje Settings!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -5788,6 +5795,9 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortiraj po',
+
+        # Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+        'Similar Tickets' => '',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Novi zaključani tiketi',
@@ -7324,6 +7334,8 @@ Vaša tehnička podrška
             'Dodatak za AgentTicketZoom ekran koji prikazuje tabelu objekata povezanih sa tiketom.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             'Dodatak za AgentTicketZoom ekran koji prikazuje informacije o klijentu tiketa sa desne strane.',
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+            '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'Dodatak za AgentTicketZoom ekran koji prikazuje informacije o tiketu sa desne strane.',
         'Agents ↔ Groups' => 'Operateri ↔ grupe',
@@ -7520,7 +7532,7 @@ Vaša tehnička podrška
         'Checks for queued outgoing emails to be sent.' => 'Proverava zakazane imejlove za slanje.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Proverava da li je imejl nastavljanje na postojeći tiket pretragom predmeta važećih brojeva tiketa.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Proverava SystemID u detekciji broja tiketa za nastavljanja. Ako je isključeno, SystemID će biti promenjen nakon korišćenja sistema.',
@@ -8167,8 +8179,6 @@ Vaša tehnička podrška
             'Definiše podrazumevane grupe za klijente (ukoliko je CustomerGroupSupport uključen i ne želite da upravljate grupama pojedinačnih klijenata).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Određuje visinu za komponentu Rich Text Editor. Unesi broj (pikseli) ili procentualnu vrednost (relativnu).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Definiše komentar istorije za prikaz ekrana aktivnosti zatvorenog tiketa, koji se koristi za istoriju tiketa u interfejsu operatera.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -8224,6 +8234,8 @@ Vaša tehnička podrška
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Određuje sate i dane u nedelji u naznačenom kalendaru, radi računanja radnog vremena.',
         'Defines the hours and week days to count the working time.' => 'Određuje sate i dane u nedelji u naznačenom kalendaru, radi računanja radnog vremena.',
+        'Defines the initial height for the rich text editor component. Enter number (pixels).' =>
+            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8477,8 +8489,6 @@ Vaša tehnička podrška
             'Definiše',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Određuje širinu za komponentu rich text editor za ovaj prikaz ekrana. Unesi broj (pikseli) ili procentualnu vrednost (relativnu).',
-        'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Određuje širinu za komponentu rich text editor. Unesi broj (pikseli) ili procentualnu vrednost (relativnu).',
         'Defines time in minutes since last modification for drafts of specified type before they are considered expired.' =>
             'Definiše vreme u minutima od poslednje promene određenog tipa nacrta pre nego što se smatraju zastarelim.',
         'Defines whether to index archived tickets for fulltext searches.' =>
@@ -8909,8 +8919,8 @@ Vaša tehnička podrška
             'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti „DSN” za konekciju ka tabeli klijenata.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv kolone za „CustomerPassword” u tabeli klijenata.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Ukoliko je odabran "DB" za Customer::AuthModule, neophodno je podesiti tip šifrovanja za lozinke.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv kolone za „CustomerKey” u tabeli korisnika.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9315,7 +9325,6 @@ Vaša tehnička podrška
         'OAuth Functional Accounts' => '',
         'OAuth Tokens' => '',
         'OIDC Profile Management' => '',
-        'OIDC Profiles' => '',
         'OTOBO News' => 'OTOBO novosti',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -9496,8 +9505,8 @@ Vaša tehnička podrška
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            'Prepoznaje da li je tiket nastavak postojećeg tiketa korišćenjem eksternog broja tiketa. Napomena: prva RegEx grupa iz \'NumberRegExp\' izraza će biti iskorišćena kao vrednost broja tiketa.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
+            '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Interval osvežavanja',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
@@ -9876,6 +9885,7 @@ Vaša tehnička podrška
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Postavlja vremensko odlaganje (u sekundama) za http/ftp preuzimanja.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Definiše isticanje (u sekundama) za funkciju preuzimanja paketa. Preinačuje opciju "WebUserAgent::Timeout".',
+        'Settings for Similar Ticket Search in ES.' => '',
         'Settings for the customer login screen.' => '',
         'Shared Secret' => 'Deljena tajna',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
@@ -10677,6 +10687,7 @@ Vaša tehnička podrška
         'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
+        'Non-global ActivityDialogs may not be assigned to global Activities!',
         'Not available',
         'Notice',
         'Notification',

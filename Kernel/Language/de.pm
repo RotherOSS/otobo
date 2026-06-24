@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.950573065902579;
+    $Self->{Completeness}        = 0.982677165354331;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -46,7 +46,7 @@ sub Data {
         'Filter by valid state' => 'Nach Gültigkeit filtern',
         'Include invalid ACLs' => 'Ungültige ACLs anzeigen',
         'Actions' => 'Aktionen',
-        'Object Type' => '',
+        'Object Type' => 'Objekttyp',
         'Create New ACL' => 'Neue ACL erstellen',
         'Deploy ACLs' => 'ACLs in Betrieb nehmen',
         'Export ACLs' => 'ACLs exportieren',
@@ -87,8 +87,8 @@ sub Data {
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Stellt die Filterbedingungen dieser ACL ein. Verwenden Sie \'Properties\', um den Wert aus dem aktuellen Bildschirm zu prüfen oder \'PropertiesDatabase\' für den Wert des Tickets, wie es in der Datenbank gespeichert ist.',
         'Change settings' => 'Wertänderungen',
-        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen zutreffen. Hierbei ist \'Possible\' eine Positivliste und \'PossibleNot\' eine Negativliste.',
+        'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
+            '',
         'Check the official %sdocumentation%s.' => 'Überprüfen Sie die offizielle %sdocumentation%s.',
         'Show or hide the content' => 'Inhalt einblenden oder ausblenden',
         'Edit ACL Information' => 'ACL-Information bearbeiten',
@@ -130,7 +130,7 @@ sub Data {
         'Import Appointments' => 'Termine importieren',
         'Calendar Import' => 'Kalender importieren',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by the calendar management module.' =>
-            '',
+            'Hier können Sie eine Konfigurationsdatei hochladen, um einen Kalender in Ihr System zu importieren. Die Datei muss im .yml Format vorliegen, so wie sie in der Kalenderverwaltung exportiert wurde.',
         'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
         'Upload calendar configuration' => 'Kalenderkonfiguration hochladen',
         'Import Calendar' => 'Kalender importieren',
@@ -593,7 +593,7 @@ sub Data {
         # Template: AdminDynamicFieldAdvanced
         'Import / Export' => 'Import / Export',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by the dynamic field management module.' =>
-            '',
+            'Hier können Sie eine Konfigurationsdatei hochladen, um dynamische Felder auf Ihr System zu importieren. Die Datei muss im .yml-Format vorliegen, wie es von dem dynamischen Feld Verwaltungsmodul exportiert wird.',
         'DynamicFields Import' => 'Dynamische Felder importieren',
         'DynamicFields Export' => 'Dynamische Felder exportieren',
         'Dynamic Fields Screens' => 'Dynamische Felder Oberflächen',
@@ -752,14 +752,14 @@ sub Data {
         'matches string' => 'entspricht dem String',
         'Type a string to compare the selected attribute of the referenced object against.' =>
             'Geben Sie einen String ein, mit dem das gewählte Attribut des referenzierten Objekts verglichen werden soll.',
-        'Add Reference Filter' => '',
+        'Add Reference Filter' => 'Referenzfilter hinzufügen',
 
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => 'Verwaltung von Dynamische Feldern <-> Oberflächen',
-        'Filter by object type' => '',
+        'Filter by object type' => 'Nach Objekttyp filtern',
         'Overview' => 'Übersicht',
         'Default Columns Screens' => 'DefaultColumns Oberflächen',
-        'Add Dynamic Field' => '',
+        'Add Dynamic Field' => 'Dynamisches Feld hinzufügen',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
             'Sie können diese Elemente den Oberflächen/Feldern zuweisen, indem Sie sie mit der Maus aus der rechten Liste in die linke Liste verschieben.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
@@ -866,9 +866,9 @@ sub Data {
         'Filter for Jobs' => 'Aufträge filtern',
         'Filter for jobs' => 'Aufträge filtern',
         'Here you can upload a configuration file to import generic agents to your system. The file needs to be in .yml format as exported by the generic agent management module.' =>
-            '',
-        'Generic Agents Import' => '',
-        'Generic Agents Export' => '',
+            'Hier können Sie eine Konfigurationsdatei hochladen, um Generic Agents in Ihr System zu importieren. Die Datei muss im .yml Format vorliegen, so wie sie in der Verwaltung von Generic Agents exportiert wird.',
+        'Generic Agents Import' => 'Import von Generic Agents',
+        'Generic Agents Export' => 'Export von Generic Agents',
         'Last run' => 'Letzte Ausführung',
         'Run Now!' => 'Jetzt ausführen!',
         'Delete this task' => 'Diesen Auftrag löschen',
@@ -994,10 +994,10 @@ sub Data {
         'Age' => 'Alter',
 
         # Template: AdminGenericAgentImportExport
-        'GenericAgents' => '',
+        'GenericAgents' => 'Generic Agents',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
-            '',
-        'GenericAgents List' => '',
+            'Hier können Sie eine Konfigurationsdatei von Generic Agents exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
+        'GenericAgents List' => 'Liste von Generic Agents',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'GenericInterface - Webservice-Verwaltung',
@@ -1273,11 +1273,11 @@ sub Data {
             'Hier definierte reguläre Ausdrücke werden vor dem XSLT-Mapping angewendet.',
         'Regular expressions defined here will be applied after the XSLT mapping.' =>
             'Hier definierte reguläre Ausdrücke werden nach dem XSLT-Mapping angewendet.',
-        'Enable Extended XSLT Mapping' => '',
-        'Extended XSLT Mapping' => '',
+        'Enable Extended XSLT Mapping' => 'Erweitertes XSLT-Mapping aktivieren',
+        'Extended XSLT Mapping' => 'Erweitertes XSLT-Mapping',
         'Enable' => 'Aktivieren',
         'Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an \'otoboXslType\' XML attribue. Possible Values for that attribute are \'int\', \'bool\', \'float\', and \'array\'.' =>
-            'Erweitertes XSLT Mapping erlaubt fein grnaulierte Konfiguration von XSLT Mappings. Wenn aktiviert kann der Daten-Typ der resultierenden JSON Elemente mithilfe eines \'otoboXslType\' XML Attributes festgeleget werden. Mögliche Werte für das Attribut sind \'int\', \'bool\', \'float\', und \'array\'.',
+            'Das erweiterte XSLT-Mapping erlaubt eine feingranularere Konfiguration des XSLT-Mappings. Sobald es aktiviert ist, kann der resultierende JSON-Typ durch das Spezifizieren eines XML-Attributs \'otoboXslType\'  erzwungen werden. Erlaubte Werte für dieses Attribut sind \'int\', \'bool\', \'float\', und \'array\'.',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add Operation' => 'Operation hinzufügen',
@@ -1332,10 +1332,11 @@ sub Data {
         'The password for the privileged user.' => 'Dass Passwort des berechtigten Benutzers.',
         'Kerberos User' => 'Kerberos User',
         'Kerberos keytab file' => 'Kerberos Keytab-Datei',
-        'The Kerberos keytab file for the privileged user.' => '',
-        'OAuth2 Functional Account' => 'OAuth2 Benutzerkonto',
+        'The Kerberos keytab file for the privileged user.' => 'Die Kerberos Keytab-Datei für den privilegierten User.',
+        'OAuth2 Functional Account' => 'OAuth2 Funktionskonto',
+        'Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:' =>
+            'Auswahl des Benutzerkontos zu Authentifizierung via OAuth2. Funktionale OAuth2 Benutzerkonten können hier konfiguriert werden:',
         'OAuth2 Functional Accounts' => 'OAuth2 Benutzerkonten',
-        'Select the Functional-Account to use for OAuth2 authentication. Functional-Accounts can be configured here:' => 'Auswahl des Benutzerkontos zu Authentifizierung via OAuth2. Funktionale OAuth2 Benutzerkonten können hier konfiguriert werden:',
         'Use Proxy Options' => 'Proxy-Optionen verwenden',
         'Show or hide Proxy options to connect to the remote system.' => 'Optionen für die Verwendung eines Proxy zum Zugriff auf das entfernte System anzeigen oder verbergen.',
         'Proxy Server' => 'Proxy-Server',
@@ -1382,9 +1383,9 @@ sub Data {
             'Ein spezifisches HTTP-Kommando, das für Anfragen mit diesem Invoker zu verwenden ist (optional).',
         'Default command' => 'Standardbefehl',
         'The default HTTP command to use for the requests.' => 'Der Standard-HTTP-Befehl für die Anfragen.',
-        'Use multipart-formdata:' => '',
+        'Use multipart-formdata:' => 'multipart-formdata verwenden:',
         'Select Requesters to send Attachments as binary data with content-type \'multipart-formdata\' instead of the default Base64-encoded inline JSON.' =>
-            '',
+            'Requester auswählen um Anhänge als Binärdaten mit dem Inhaltstyp \'multipart-formdata\' anstelle des standardmäßig Base64-kodierten Inline JSON zu versenden.',
         'Additional request headers (all invokers)' => 'Zusätzliche Request Header (alle Invoker)',
         'Additional request headers (invoker specific)' => 'Zusätzliche Request Header (ausgewählte Invoker)',
         'Remove all headers for this invoker' => 'Alle Header für diesen Invoker entfernen',
@@ -1524,14 +1525,14 @@ sub Data {
             'Erstellen Sie neue Gruppen, um unterschiedliche Berechtigungen für verschiedene Agentengruppen zu realisieren (z. B. Einkauf, Produktion, Verkauf, ...) . ',
         'It\'s useful for ASP solutions. ' => 'Das ist nützlich für ASP-Lösungen. ',
         'Here you can upload a configuration file to import groups to your system. The file needs to be in .yml format as exported by the group management module.' =>
-            '',
-        'Groups Import' => '',
-        'Groups Export' => '',
+            'Hier können Sie eine Konfigurationdatei hochladen, um Gruppen in Ihr System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der Gruppenverwaltung auch exportiert wird.',
+        'Groups Import' => 'Gruppen importieren',
+        'Groups Export' => 'Gruppen exportieren',
 
         # Template: AdminGroupImportExport
         'Here you can export a configuration file of groups to import these on another system. The configuration file is exported in yml format.' =>
-            '',
-        'Groups List' => '',
+            'Hier können Sie eine Konfigurationsdatei von Gruppen exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
+        'Groups List' => 'Auflistung von Gruppen',
 
         # Template: AdminImportExport
         'Import/Export Management' => 'Import/Export-Verwaltung',
@@ -1600,7 +1601,9 @@ sub Data {
         'Delete account' => 'E-Mail-Konto löschen',
         'Fetch mail' => 'E-Mails abholen',
         'Do you really want to delete this mail account?' => 'Möchten Sie dieses E-Mail-Konto wirklich löschen?',
-        'OIDC Account' => '',
+        'OIDC Account' => 'OIDC Konto',
+        'Select the' => 'Auswahl des',
+        'Account to use for OAuth2 authentication.' => 'Konto, das für die OAuth2-Authentifizierung verwendet wird.',
         'Example: mail.example.com' => 'Beispiel: mail.example.com',
         'IMAP Folder' => 'IMAP-Ordner',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1666,108 +1669,112 @@ sub Data {
             'Sie können OTOBO-Tags wie <OTOBO_TICKET_DynamicField_...> nutzen, um Werte des aktuellen Tickets einzufügen.',
 
         # Template: AdminOAuthTokenStore
-        'OAuth2 Token Management (OIDC)' => 'OAuth2 Token Verwaltung',
-        'OpenID Connect Functional OAuth2 Account Management' => 'Verwaltung von OpenID Connect Benutzerkonten',
-        'Add Account' => 'Benutzerkonto hinzufügen',
-        'Edit Account ' => 'Benutzerkonto bearbeiten',
-        'About OIDC Functional Accounts' => 'OIDC Funktionale Benutzerkonten',
+        'OAuth2 Token Management (OIDC)' => 'Verwaltung von OAuth2 Token (OIDC)',
+        'OpenID Connect Functional OAuth2 Account Management' => 'OpenID Connect Verwaltung funktioneller OAuth2-Konten',
+        'Add Account' => 'Konto hinzufügen',
+        'Edit Account ' => 'Konto bearbeiten ',
+        'About OIDC Functional Accounts' => 'Über OIDC Funktionskonten',
         'This page displays an overview of configured functional OAuth Accounts and their corresponding Token Status.' =>
-            'Diese Seite zeigt eine Übersicht über die konfigurierten OAuth Konten und dem aktuellen Status hinterlegter Tokens.',
+            'Diese Seite zeigt eine Übersicht über die konfigurierten funktionalen OAuth-Konten und deren entsprechenden Token-Status an.',
         'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
-            'Ein Klick auf die \'Erneuern\' Schaltfäche wird versuchen ein Token für die jeweilige Konfiguration abzurufen bzw. zu erneuern. Hiermit kann eine Konfiguration einfach getestet werden.',
+            'Die Konfiguration kann getestet werden mit einem Klick auf den \'Erneuern\'-Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren.',
         'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
-            'OIDC Profile zur Verknüpfung mit OIDC Funktionalen Benutzer-Konten können hier erstellt werden:',
-        'Delete Account' => 'Benutzerkonto löschen',
-        'OIDC Functional Accounts and their active OAuth2 Tokens' => 'OIDC Funktionale Benutzerkonten und deren aktive OAuth2 Tokens',
+            'OIDC Profile für Funktinale Benutzerkonten können hier erstellt werden:',
+        'OAuth2 OIDC Profiles' => '',
+        'Delete Account' => 'Konto löschen',
+        'OIDC Functional Accounts and their active OAuth2 Tokens' => 'OIDC Funktionskonten und ihre aktiven OAuth2 Token',
         'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
             'Um ein OAuth2 Benuterkonto hinzuzufügen ist es notwendig zunächst mindestens ein OIDC Profil zu konfigurieren, siehe:',
-        'There are no OAuth2 accounts defined.' => 'Keine OAuth2 Benutzerkonten konfiguriert.',
-        'Account Name' => 'Benuterkontoname',
+        'OIDC Profiles' => 'OIDC Profile',
+        'There are no OAuth2 accounts defined.' => 'Es sind keine OAuth2-Konten definiert.',
+        'Account Name' => 'Kontoname',
         'Profile Name' => 'Profilname',
-        'Flow' => 'Flow',
-        'Has Token?' => 'Token vorhanden?',
-        'Refresh Token Expires' => 'Refresh Token läuft ab',
-        'Renew Token(s)' => 'Token(s) erneuern',
+        'Flow' => 'Fluss',
+        'Has Token?' => 'Hat ein Token?',
+        'Refresh Token Expires' => 'Token-Ablauf aktualisieren',
+        'Renew Token(s)' => 'Token erneuern',
         'Renew' => 'Erneuern',
-        'Add Invoker Account' => 'Invoker Konto hinzufügen',
-        'Edit Invoker Account' => 'Invoker Konto bearbeiten',
-        'The unique name for this Account.' => 'Der eindeutige Name für dieses Konto.',
+        'Add Invoker Account' => 'Invoker-Konto hinzufügen',
+        'Edit Invoker Account' => 'Invoker-Konto bearbeiten',
+        'The unique name for this Account.' => 'Der einzigartige Name für dieses Konto.',
         'OIDC Profile' => 'OIDC Profil',
-        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' => 'Auswahl des OpenID Connect Profils, welches für dieses Konto benutz werden soll. OIDC Profile können hier konfiguriert werden:',
-        'Grant Type' => 'Grant Type',
+        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
+            'Auswahl des OpenID Connect Profils, welches für dieses Konto benutz werden soll. OIDC Profile können hier konfiguriert werden:',
+        'Grant Type' => 'Berechtigungsgewährung (Grant Type)',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
-            'Der OAuth2 \'grant_type\', der für die Anforderung von Tokens für dieses Konto benutz werden soll.',
+            'Der OAuth2 grant_type, der für die Token-Beschaffung für dieses Kontos verwendet wird.',
         'Selecting \'authorization_code\' will redirect you to your OpenID Connect Provider\'s Login Page to validate your account once you click \'Save\'.' =>
-            'Die Auswahl von \'authorization_code\' führt beim Absenden des Formulars zu einem Browser-Redirect auf die Login-Seite ihres OpenID Connect Providers.',
-        'The username if grant type is \'password\'.' => 'Der Benutzername, wenn für grant_type der Wert \'password\' ausgewählt ist.',
-        'The password to use if grant type is \'password\'.' => 'Das Passwort, wenn für grant_type der Wert \'password\' ausgewählt ist.',
-        'OAuth2 Scopes' => 'OAuth2 Scopes',
+            'Die Auswahl von \'authorization_code\' leitet mit dem Klicken auf \'Speichern\' direkt zur Login-Seite des OpenID Connect Anbieters weiter, um das Konto zu validieren.',
+        'The username if grant type is \'password\'.' => 'Der Benutzername, falls als grant_type \'Passwort\' ausgewählt ist.',
+        'The password to use if grant type is \'password\'.' => 'Das zu verwendende Passwort, falls als grant_type \'Passwort\' ausgewählt ist.',
+        'OAuth2 Scopes' => 'OAuth2 Berechtigungsumfänge (Scopes)',
         'Space separate list of OAuth2 scopes to use. Usual values include openid, email, profile, and roles.' =>
-            'Leerzeichen-separierte Liste von OAuth2 \'scopes\'. Übliche Werte sind: openid, email, profile und roles.',
-        'Advanced Invoker Settings' => 'Erweiterte Invoker Einstellungen',
+            'Leerzeichen-getrennte Liste der zu verwendenden Berechtigungsumfänge (Scopes). Übliche Werte behinhalten openid, email, profile und roles.',
+        'Advanced Invoker Settings' => 'Erweiterte Invoker-Einstellungen',
         'Resources' => 'Ressourcen',
         'Optional (space seperated list) for the resource paramater if required. Leave empty unless instructed otherwise.' =>
-            'Optionale Leerzeichen-separierte Liste mit \'resource\' Parametern, sofern benötigt.',
-        'Resource Parameter Name' => 'Name des Resource Parameters',
+            'Optionale (Leerzeichen-separierte Liste) für die Ressourcen-Parameter, falls benötigt. Leer lassen, außer es gibt eine anderweitige Anweisung.',
+        'Resource Parameter Name' => 'Name des Ressourcen-Parameters',
         'Name of the resource parameter to use. Defaults to \'resource\'. Do not change unless instructed.' =>
-            'Name des Resource Parameters, Voreinstellung ist \'resource\'.',
-        'Token Type' => 'Token Typ',
+            'Name des Ressourcen-Parameters, der verwendet werden soll. Standard ist \'ressource\'. Nicht ändern, außer man wird dazu angewiesen.',
+        'Token Type' => 'Token-Type',
         'The token type to use for externall API calls. Usually \'access_token\'.' =>
-            'Auswahl des Token-Typs für externe API Aufrufe. Üblicherweise \'access_token\'.',
+            'Der Token-Typ, der für externe API-Aufrufe verwendet wird. Üblicherweise \'access_token\'.',
 
         # Template: AdminOIDCProfiles
         'OpenID Connect Profiles ' => 'OpenID Connect Profile ',
-        'OpenID Connect Provider Profiles Management' => 'Management der OpenID Connect Provider Profile',
+        'OpenID Connect Provider Profiles Management' => 'OpenID Connect Anbieter-Profilverwaltung',
         'Add Profile' => 'Profil hinzufügen',
-        'Edit Profile ' => 'Profil bearbeiten',
-        'About OIDC Provider Profiles' => 'OIDC Provider Profile',
+        'Edit Profile ' => 'Profil bearbeiten ',
+        'About OIDC Provider Profiles' => 'Über OIDC Anbieter-Profile',
         'This page displays an overview of configured OIDC Provider Profiles.' =>
-            'Diese Seite zeigt eine Übersicht über die konfigurierten OIDC Provider Profile.',
-        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
-            'OIDC Profile für Funktinale Benutzerkonten können hier erstellt werden:',
+            'Diese Seite zeigt eine Übersicht über die konfigurierten OIDC Anbieter-Profile.',
+        'You can connect OIDC Profiles with a OIDC Functional Account' =>
+            'OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden',
+        'here' => 'hier',
         'Delete Profile' => 'Profil löschen',
         'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
-            'OpenID Connect Provider Profile für ausgehende Webservice Aufrufe (GenericInterface Invoker)',
-        'There are no OIDC Provider profiles defined.' => 'Es sind keine OIDC Provider profile konfiguriert',
-        'Client ID' => 'Client ID',
+            'OpenID Connect Anbieterprofile für ausgehende Webservice-Aufrufe (GenericInterface Invoker)',
+        'There are no OIDC Provider profiles defined.' => 'Es sind keine OIDC Anbieterprofile definiert.',
+        'Client ID' => 'Client-ID',
         'Provider' => 'Provider',
-        'Add OIDC Provider Profile' => 'OIDC Provider Profil hinzufügen',
-        'Edit OIDC Provider Profile' => 'OIDC Provider Profil bearbeiten',
+        'Add OIDC Provider Profile' => 'OIDC Anbieterprofil hinzufügen',
+        'Edit OIDC Provider Profile' => 'OIDC Anbieterprofil bearbeiten',
         'Since you are using OIDC as Authentication module, these values have been pre-populated with the OIDC Provider Configuration used for Login.' =>
-            'Da OIDC als Authentifizierungsmodul konfiguriert ist, wurden einige dieser Werte aus der OIDC Provider Konfiguration für den User-Login übernommen.',
-        'The unique name for this Profile.' => 'Der eindeutige Name für dieses Profil.',
-        'Metadata Url.' => 'Webaddresse (URL) für die OIDC Metadaten des Providers.',
-        'The Well-Known Provider Metadata Url.' => 'Der \'well-known\' Metatadata URL des OIDC Providers.',
-        'The Client ID of your OAuth2 application.' => 'Die Client ID der OAuth2 Applikation.',
-        'Client Secret' => 'Client Secret',
-        'The Client Secret of your OAuth2 application.' => 'Das Client Secret der OAuth2 Applikation.',
+            'Da OIDC bereits als Authentifizierungs-Modul verwendet wird, wurden diese Werte mit der OIDC Anbieterkonfiguration vorausgefüllt, die für den Login verwendet werden.',
+        'The unique name for this Profile.' => 'Bitte geben Sie einen eindeutigen Namen für dieses Profil an.',
+        'Metadata Url.' => 'Metadaten-URL.',
+        'The Well-Known Provider Metadata Url.' => 'Standardpfad der OpenIDConnect Konfiguration (Well-Known Provider Metadata Url).',
+        'The Client ID of your OAuth2 application.' => 'Die Client ID der OAuth2-Anwendung.',
+        'Client Secret' => 'Client-Geheimnis (Secret)',
+        'The Client Secret of your OAuth2 application.' => 'Das Client Secret der OAuth2-Anwendung.',
         'Time in seconds for caching provider data.' => 'Zeit in Sekunden bis der Cache der Provider Daten abläuft.',
         'SSL Options (Optional)' => 'SSL Optionen (Optional)',
-        'SSL Certificate' => 'SSL Certificate',
-        'SSL certificate path.' => 'SSL certificate path.',
-        'SSL Certificate Key' => 'SSL Certificate Key',
-        'SSL certificate private key path.' => 'SSL certificate private key path.',
-        'SSL Password' => 'SSL Password',
-        'The SSL password.' => 'The SSL password.',
-        'SSL CA File' => 'SSL CA File',
-        'SSL Certificate Authority file path.' => 'SSL Certificate Authority file path.',
-        'SSL CA Directory' => 'SSL CA Directory',
-        'SSL Certificate Authority directory path.' => 'SSL Certificate Authority directory path.',
-        'SSL Verify Hostname' => 'SSL Verify Hostname',
+        'SSL Certificate' => 'SSL-Zertifikat',
+        'SSL certificate path.' => 'Pfad zum SSL-Zertifikat',
+        'SSL Certificate Key' => 'SSL-Zertifikatsschlüssel',
+        'SSL certificate private key path.' => 'Pfad des privaten Schlüssels zum SSL-Zertifikat.',
+        'SSL Password' => 'SSL-Passwort',
+        'The SSL password.' => 'Das SSL-Passwort',
+        'SSL CA File' => 'SSL CA-Datei',
+        'SSL Certificate Authority file path.' => 'SSL Certification Authority (CA) Dateipfad.',
+        'SSL CA Directory' => 'SSL CA Verzeichnis',
+        'SSL Certificate Authority directory path.' => 'SSL Certificate Autority (CA) Verzeichnispfad.',
+        'SSL Verify Hostname' => 'SSL Hostname verifizieren',
         'Enable or disable SSL hostname verification. Only disable for debugging purposes!' =>
-            'Enable or disable SSL hostname verification. Only disable for debugging purposes!',
-        'SSL Verify Mode' => 'SSL Verify Mode',
+            'SSL Hostnamen-Verifizierung aktivieren oder deaktivieren. Nur für Zwecke der Fehlersuche deaktivieren!',
+        'SSL Verify Mode' => 'SSL Verifizierungsmodus',
         'Enable or disable SSL verification. Only disable for debugging purposes!' =>
-            'Enable or disable SSL verification. Only disable for debugging purposes!',
-        'Misc Options (Optional)' => 'Misc Options (Optional)',
-        'Use Nonce' => 'Use Nonce',
-        'Rand Length' => 'Rand Length',
+            'SSL-Verifizierung aktivieren oder deaktivieren. Nur für Zwecke der Fehlersuche deaktivieren!',
+        'Misc Options (Optional)' => 'Verschiedene Optionen (Optional)',
+        'Use Nonce' => 'Nonce verwenden',
+        'Rand Length' => 'Rand-Länge',
         'Random string length used for state and nonce parameters. Default is \'22\'.' =>
-            'Random string length used for state and nonce parameters. Default is \'22\'.',
+            'Länge der zufälligen Zeichenkette, die für Status und Nonce-Parameter verwendet wird. Stand ist \'22\'.',
         'Rand TTL' => 'Rand TTL',
         'Time-to-live for state and nonce in seconds. Default is \'300\' (5 min).' =>
             'Time-to-live for state and nonce in seconds. Default is \'300\' (5 min).',
-        'Leeway' => 'Leeway',
+        'Leeway' => 'Verzögerung (Leeway)',
         'Time drift allowance between servers to be allowed. Default \'2\' seconds.' =>
             'Time drift allowance between servers to be allowed. Default \'2\' seconds.',
 
@@ -1890,7 +1897,7 @@ sub Data {
         'PostMaster Filter Management' => 'Postmaster-Filter-Verwaltung',
         'Add PostMaster Filter' => 'Postmaster-Filter hinzufügen',
         'Edit PostMaster Filter' => 'Postmaster-Filter bearbeiten',
-        'Include invalid PostMaster Filters' => '',
+        'Include invalid PostMaster Filters' => 'Ungültige Postmaster-Filter anzeigen',
         'Filter for PostMaster Filters' => 'Nach Postmaster Filtern suchen',
         'Filter for PostMaster filters' => 'Nach Postmaster Filtern suchen',
         'Search through PostMaster filters' => 'Postmaster-Filter durchsuchen',
@@ -1940,7 +1947,7 @@ sub Data {
         'Create New Process' => 'Neuen Prozess erstellen',
         'Deploy All Processes' => 'Alle Prozesse in Betrieb nehmen',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by the process management module.' =>
-            '',
+            'Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so wie sie vom Prozessmanagement auch exportiert wird.',
         'Upload process configuration' => 'Prozesskonfiguration hochladen',
         'Import process configuration' => 'Prozesskonfiguration importieren',
         'Ready2Adopt Processes' => 'Ready2Adopt-Prozesse',
@@ -1964,7 +1971,7 @@ sub Data {
             'Achtung: Änderungen an dieser Aktivität werden sich auf folgende Prozesse auswirken',
         'Activity' => 'Aktivität',
         'Activity Name' => 'Name der Aktivität',
-        'Global' => '',
+        'Global' => 'Global',
         'Activity Dialogs' => 'Aktivitäts-Dialoge',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             'Sie können Aktivitäts-Dialoge dieser Aktivität zuweisen, indem Sie die Elemente mit der Maus aus der linken Liste in die rechte Liste verschieben.',
@@ -2002,7 +2009,7 @@ sub Data {
         'Assigned Fields' => 'Zugewiesene Felder',
         'Communication Channel' => 'Kommunikationskanal',
         'Is visible for customer' => 'Ist sichtbar für Kunde',
-        'Standard Templates' => '',
+        'Standard Templates' => 'Standard-Vorlagen',
         'Display' => 'Anzeige',
 
         # Template: AdminProcessManagementPath
@@ -2084,39 +2091,39 @@ sub Data {
             'Achtung: Änderungen an diesem Übergang wirken sich auf folgende Prozesse aus',
         'Transition' => 'Übergang',
         'Transition Name' => 'Name des Übergangs',
-        'Transition Reference for "Fields" Settings' => '',
+        'Transition Reference for "Fields" Settings' => 'Übergangs-Referenz für "Felder"-Einstellungen',
         'Name of the ticket attribute that should be used for validation. In general, all attributes returned by the TicketGet function can be used.' =>
-            '',
+            'Name der Ticket-Attribute, die für die Überprüfung verwendet werden sollen. Allgemein können alle Attribute verwendet werden, die von der TicketGet-Funktion zurückgegeben werden.',
         'There are several possibilities to validate whether this transition is valid.' =>
-            '',
+            'Es gibt mehrere Möglichkeiten um zu überprüfen, ob dieser Übergang gültig ist.',
         'Exact match' => 'Genauer Treffer',
         'Value must exactly match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must exactly match the string specified in "Value".' =>
-            '',
-        'Exact match - all' => '',
+            'Der Wert muss exakt mit der Zeichenfolge übereinstimmen. In einem Array (bspw. Dynamische Felder mit Mehrfachwerten oder Dynamische Felder vom Typ "Set") muss mindestens ein Wert exakt mit der Zeichenfolge übereinstimmen, die in "Wert" definiert ist.',
+        'Exact match - all' => 'Genauer Treffer - alle',
         'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must exactly match the string specified in "Value".' =>
-            '',
-        'Exact match - negated' => '',
+            'In einem Array (bspw. ein Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld vom Typ "Set"), müssen alle Werte exakt mit der Zeichenkette übereinstimmen, die in "Wert" angegeben ist.',
+        'Exact match - negated' => 'Genauer Treffer - negiert',
         'Value must not match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the string specified in "Value".' =>
-            '',
-        'Regular Expression' => '',
+            'Wert darf nicht mit der Zeichenkette übereinstimmen. In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dyanmisches Feld vom Typ "Set") darf kein Wert mit der in "Wert" definierten Zeichenkette übereinstimmen.',
+        'Regular Expression' => 'Regulärer Ausdruck',
         'Value must contain a matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must match the regular expression specified in "Value".' =>
-            '',
-        'Regular Expression - all' => '',
+            'Wert muss mit einem regulären Ausdruck (RegEx) übereinstimmen. In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld vom Typ "Set" muss mindestens ein Wert mit dem regulären Ausdruck übereinstimmen, der in "Wert" definiert ist.',
+        'Regular Expression - all' => 'Regulärer Ausdruck - alle',
         'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must match the regular expression specified in "Value".' =>
-            '',
-        'Regular Expression - negated' => '',
+            'In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld vom Typ "Set") müssen alle Werte mit dem regulären Ausdruck Übereinstimmen, der in "Wert" definiert ist.',
+        'Regular Expression - negated' => 'Regulärer Ausdruck - negiert',
         'Value must contain a non-matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the regular expression specified in "Value".' =>
-            '',
+            'Wert muss einen nicht übereinstimmenden regulären Ausdruck beinhalten. In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder Dynamisches Feld vom Typ "Set") darf kein Wert mit dem in "Wert" definierten regulären Ausdruck übereinstimmen.',
         'Transition validation module' => 'Transition-Validierungs-Modul',
         '"Name" is currently irrelevant, "Value" must contain the path to the module, usually Kernel::System::Process::Transition::<TA_Name>.' =>
-            '',
+            '"Name" ist momentan irrelevant. "Wert" muss den Pfad zum Modul beinhalten, üblicherweise Kernel::System::Process::Transition::<TA_Name>.',
         'Value must always contain a string or a regular expression used for comparison.' =>
-            '',
-        'Examples' => '',
+            'Wert muss immer eine Zeichenkette oder einen regulären Ausdruck für den Vergleich beinhalten.',
+        'Examples' => 'Beispiele',
         'The process ticket should move to the next process step as soon as a status containing "closed" in its name is set. Therefore, configure Name="State", Type="Regular Expression" and Value="closed" (or the long form "^.*closed.*$").' =>
-            '',
+            'Das Prozessticket soll in den nächsten Prozessschritt übergehen, sobald ein Status mit "closed" (geschlossen) in seinem Namen gesetzt wird. Konfigurieren Sie daher Name="State", Type="Regular Expression" und Value="closed" (oder in der langen Variante "^.*closed.*$").',
         'If a Dynamic Field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a Dynamic Field of type "Set", the following syntax can be used: ' =>
-            '',
+            'Sofern ein Dynamisches Feld verwendet werden soll, konfigurieren Sie Name="DynamicField_<FieldName>". Um ein Feld innerhalb eines Dynamischen Felds vom Typ "Set" anzusprechen, kann die folgende Syntax verwendet werden: ',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
@@ -2136,9 +2143,9 @@ sub Data {
         'Filter for Queues' => 'Filter für Queues',
         'Filter for queues' => 'Filter für Queues',
         'Here you can upload a configuration file to import queues to your system. The file needs to be in .yml format as exported by the queue management module.' =>
-            '',
-        'Queues Import' => '',
-        'Queues Export' => '',
+            'Hier können Sie eine Konfigurationdatei hochladen, um Queues in Ihr System zu importieren. Die Datei muss im YAML-Format (.yml) vorliegen, so wie sie von der Queue-Verwaltung auch exportiert wird.',
+        'Queues Import' => 'Queues importieren',
+        'Queues Export' => 'Queues exportieren',
         'A queue with this name already exists!' => 'Eine Queue mit diesem Namen ist bereits vorhanden!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             'Diese Queue ist in einer SysConfig-Einstellung vorhanden. Eine Bestätigung für die Aktualisierung der Einstellung auf die neue Queue ist notwendig!',
@@ -2165,7 +2172,7 @@ sub Data {
             'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird das Ticket für den letzten Besitzer gesperrt.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
-        'Is defined in Admin > Email Addresses.' => '',
+        'Is defined in Admin > Email Addresses.' => 'Ist definiert unter Admin > E-Mail-Adressen.',
         'Default sign key' => 'Standard-Signierschlüssel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue hinzugefügt werden.',
@@ -2174,9 +2181,9 @@ sub Data {
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
-            '',
+            'Der Arbeitszeitkalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl bedeutet, der Standardkalender wird verwendet.',
         'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            '',
+            'Ist definiert unter Admin > Systemkonfiguration > Core > Time (Standardkalender) oder in den Kalendern 1 bis 9.',
         'This queue is used in the following config settings:' => 'Diese Queue wird in folgenden Konfigurationseinstellungen verwendet:',
 
         # Template: AdminQueueAutoResponse
@@ -2190,8 +2197,8 @@ sub Data {
 
         # Template: AdminQueueImportExport
         'Here you can export a configuration file of queues to import these on another system. The configuration file is exported in yml format.' =>
-            '',
-        'Queues List' => '',
+            'Hier können Sie eine Konfigurationsdatei von Queues exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im YAML-Format (.yml) exportiert.',
+        'Queues List' => 'Queue-Liste',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Zuordnung von Vorlagen zu Queues verwalten',
@@ -2199,8 +2206,8 @@ sub Data {
         'Filter for templates' => 'Filter für Vorlagen',
         'Here you can upload a configuration file to import queue-template relations to your system. The file needs to be in .yml format as exported by the queue-template management module.' =>
             '',
-        'Queue-Templates Import' => '',
-        'Queue-Templates Export' => '',
+        'Queue-Templates Import' => 'Import von Queue-Vorlagen',
+        'Queue-Templates Export' => 'Export von Queue-Vorlagen',
         'Templates' => 'Vorlagen',
 
         # Template: AdminQueueTemplatesImportExport
@@ -2305,8 +2312,8 @@ sub Data {
             'Erstellen Sie Rollen und weisen Sie Gruppen hinzu. Danach fügen Sie Benutzer zu den Rollen hinzu.',
         'Here you can upload a configuration file to import roles to your system. The file needs to be in .yml format as exported by the role management module.' =>
             '',
-        'Roles Import' => '',
-        'Roles Export' => '',
+        'Roles Import' => 'Rollen importieren',
+        'Roles Export' => 'Rollen exportieren',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
             'Bislang sind keine Rollen definiert. Bitte verwenden Sie die Schaltfläche "Rolle hinzufügen", um neue Rollen zu erstellen.',
 
@@ -2314,8 +2321,8 @@ sub Data {
         'Manage Role-Group Relations' => 'Zuordnungen von Rollen zu Gruppen verwalten',
         'Here you can upload a configuration file to import role-group relations to your system. The file needs to be in .yml format as exported by the role-group management module.' =>
             '',
-        'Role-Group Import' => '',
-        'Role-Group Export' => '',
+        'Role-Group Import' => 'Rollen-Gruppen-Zuordnungen importieren',
+        'Role-Group Export' => 'Rollen-Gruppen-Zuordnungen exportieren',
         'Roles' => 'Rollen',
         'Select the role:group permissions.' => 'Wählen Sie die Rolle:Gruppe-Berechtigungen aus.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -2342,7 +2349,7 @@ sub Data {
             'Voller Lese- und Schreibzugriff auf die Tickets in dieser Gruppe/Queue. Bei Verwendung für einen Kalender können die Benutzer den Kalender selbst verwalten.',
 
         # Template: AdminRoleGroupImportExport
-        'Role-Group Relations' => '',
+        'Role-Group Relations' => 'Rollen-Gruppen-Zuordnungen',
         'Here you can export a configuration file of role-group relations to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'Role-Group relations List' => '',
@@ -2952,9 +2959,9 @@ sub Data {
             'Prüfen Sie nach 5 Minuten, ob der OTOBO Daemon läuft (\'bin/otobo.Daemon.pl status\').',
         'Running the OTOBO Daemon in a Docker based installation' => '',
         'Check with \'docker compose ps\' whether a service with the name daemon is running.' =>
-            '',
+            'Überprüfen Sie mit \'docker compose ps\', ob ein Dienst mit dem Namen \'daemon\' läuft.',
         'When the service daemon is not running then try starting it with \'docker compose start daemon\'' =>
-            '',
+            'Falls der Dienst \'daemon\' nicht läuft, versuchen Sie ihn mit \'docker compose start daemon\' zu starten',
 
         # Template: AgentDashboard
         'Dashboard' => 'Übersicht',
@@ -3061,7 +3068,7 @@ sub Data {
         # Template: AgentElasticsearchQuickResult
         'Tickets' => 'Tickets',
         'ConfigItems' => 'ConfigItems',
-        'FAQs' => '',
+        'FAQs' => 'FAQs',
 
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Neuigkeiten, eine Lizenz oder Änderungen bestätigen.',
@@ -3540,7 +3547,7 @@ sub Data {
         'New Ticket' => 'Neues Ticket',
 
         # Template: CustomerElasticsearchQuickResult
-        'FAQ#' => '',
+        'FAQ#' => 'FAQ#',
 
         # Template: CustomerError
         'An Error Occurred' => 'Ein Fehler ist aufgetreten',
@@ -3746,6 +3753,9 @@ sub Data {
         'Generated password' => 'Generiertes Passwort',
         'Repeat Password' => 'Passwort wiederholen',
         'Passwords do not match' => 'Passworte stimmen nicht überein',
+
+        # Template: InstallerDBmysql
+        'Authentication Plugin' => '',
 
         # Template: InstallerFinish
         'Start page' => 'Startseite',
@@ -4161,7 +4171,7 @@ sub Data {
         'Update and extend your system with software packages.' => 'System mit Softwarepaketen aktualisieren und erweitern.',
 
         # Perl Module: Kernel/GenericInterface/Transport/HTTP/REST.pm
-        'Error fetching the OAuth2 Token' => '',
+        'Error fetching the OAuth2 Token' => 'Fehler beim Abhohlen des OAuth2 Tokens',
         'Attached OAuth2 Bearer Token' => '',
 
         # Perl Module: Kernel/Language.pm
@@ -4413,7 +4423,7 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             'Der Dynamische Feld-Typ "%s" des Dynamischen Felds "%s" kann in Sets nicht verwendet werden.',
         'The dynamic field "%s" can not be used in sets as it is either a Set field or a Lens field pointing to a Set field.' =>
-            '',
+            'Das Dynamische Feld "%s" kann nicht in Sets verwendet werden, da es entweder ein Set-Feld ist, oder ein Linsen-Feld, das auf ein Set-Feld zeigt.',
         'The dynamic field "%s" is already in use in a ticket mask.' => 'Das Dynamische Feld "%s" wird bereits in einer Ticketmaske verwendet.',
         'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
             'Der Objekttyp des dynamischen Feldes „%s“ stimmt nicht mit dem Objekttyp des Set Feldes überein.',
@@ -4650,8 +4660,6 @@ sub Data {
         'Error creating/updating %s!' => '',
         'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
             '',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD COnfiguration!' =>
-            '',
         'Account %s deleted!' => '',
         'Token %s updated!' => '',
         'Invalid OAuth State!' => '',
@@ -4663,8 +4671,8 @@ sub Data {
         'Provider metadata url is missing!' => '',
         'Provider client id is missing!' => '',
         'Provider client secret is missing!' => '',
-        'Profile Name is taken!' => '',
-        'Error creating/updating Profile %s!' => '',
+        'Profile Name is taken!' => 'Profilname ist bereits vergeben!',
+        'Error creating/updating Profile %s!' => 'Fehler beim Erstellen/Aktualisieren des Profils %s!',
         'Profile %s deleted!' => '',
         'Profile %s could not be deleted - do you have any Functional Accounts referencing this Profile?' =>
             '',
@@ -4734,11 +4742,11 @@ sub Data {
             '',
         'There was an error updating the Process' => 'Beim Aktualisieren des Prozesses ist ein Fehler aufgetreten',
         'Could not get data for ProcessID %s' => 'Konnte Daten für ProzessID %s nicht ermitteln',
-        'Process: %s could not be deleted' => 'Prozess %s konnte nicht gelöscht werden',
         'Process: %s successfully deleted, but failed to delete an associated Element' =>
             '',
         'Process: %s successfully deleted, but there was an error setting the entity sync status for an associated Element entity' =>
             '',
+        'Process: %s could not be deleted' => 'Prozess %s konnte nicht gelöscht werden',
         'There was an error synchronizing the processes.' => 'Beim Synchronisieren der Prozesse ist ein Fehler aufgetreten.',
         'The %s:%s is still in use' => 'Der/die/das %s:%s ist noch in Benutzung',
         'The %s:%s has a different EntityID' => 'Der/die/das %s:%s hat eine abweichende EntityID',
@@ -4919,6 +4927,7 @@ sub Data {
         'System was not able to lock the setting!' => 'Einstellung konnte nicht zur Bearbeitung gesperrt werden!',
         'Missing setting name.' => 'Name der Einstellung fehlt.',
         'Setting not found.' => 'Einstellung nicht gefunden.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'Fehlende Einstellungen!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -5781,6 +5790,9 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortieren nach',
 
+        # Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
+        'Similar Tickets' => '',
+
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Neue gesperrte Tickets',
         'Locked Tickets Reminder Reached' => 'Gesperrte Tickets, Erinnerungszeit erreicht',
@@ -5897,12 +5909,12 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
         'Queue of the ticket' => 'Ticket-Queue',
-        'Select the queue of the ticket.' => '',
+        'Select the queue of the ticket.' => 'Wählen Sie die Ticket-Queue aus.',
         'Type of the ticket' => 'Ticket-Typ',
-        'Select the type of the ticket.' => '',
-        'Select the attribute which tickets will be searched by.' => '',
+        'Select the type of the ticket.' => 'Wählen Sie den Ticket-Typ aus.',
+        'Select the attribute which tickets will be searched by.' => 'Wählen Sie aus, nach welchem Attribut die Tickets gesucht werden sollen.',
         'Attribute which is displayed for values' => 'Für die Werte angezeigtes Attribut',
-        'Select the type of display.' => '',
+        'Select the type of display.' => 'Wählen Sie die Anzeigeart aus.',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
         'Column Separator' => 'Spaltentrenner',
@@ -5919,30 +5931,30 @@ sub Data {
         'Pretty print the exported concatenated JSON' => 'Druckausgabe des exportierten verknüpften JSON',
 
         # Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-        'Default Queue' => '',
-        'Default Type' => '',
-        'Default Service' => '',
-        'Default SLA' => '',
-        'Default state' => '',
-        'Default priority' => '',
-        'Default owner' => '',
-        'Default responsible' => '',
-        'Default lock' => '',
-        'Default CustomerID' => '',
-        'Default CustomerUserID' => '',
+        'Default Queue' => 'Standard-Queue',
+        'Default Type' => 'Standard-Typ',
+        'Default Service' => 'Standard-Service',
+        'Default SLA' => 'Standard-SLA',
+        'Default state' => 'Standard-Status',
+        'Default priority' => 'Standard-Priorität',
+        'Default owner' => 'Standard-Besitzer',
+        'Default responsible' => 'Standard-Verantwortlicher',
+        'Default lock' => 'Standard-Sperre',
+        'Default CustomerID' => 'Standard Kundennummer (CustomerID)',
+        'Default CustomerUserID' => 'Standard-Kundenbenutzer-ID',
         'Default ArchiveFlag' => '',
-        'Default subject' => '',
-        'Default body' => '',
+        'Default subject' => 'Standard-Betreff',
+        'Default body' => 'Standard-Body',
         'Default sender type' => '',
-        'Default is visible to customer' => '',
+        'Default is visible to customer' => 'Standard ist sichtbar für den Kunden',
         'Empty fields indicate that the current values are kept' => 'Leere Felder zeigen an, dass aktuelle Werte beibehalten werden',
-        'Do not update existing tickets' => '',
-        'Only update tickets of this user in the target system' => '',
-        'Import/Export articles' => '',
-        'Default Backend' => '',
+        'Do not update existing tickets' => 'Existierende Tickets nicht aktualisieren',
+        'Only update tickets of this user in the target system' => 'Lediglich Tickets von diesem Anwender im Zielsystem aktualisieren',
+        'Import/Export articles' => 'Artikel importieren/exportieren',
+        'Default Backend' => 'Standard-Backend',
         'Store articles on separate lines indicated by a blank first entry' =>
-            '',
-        'Import/Export attachments (as the last entries per line)' => '',
+            'Artikels in separaten Zeilen mit einem leeren ersten Eintrag speichern',
+        'Import/Export attachments (as the last entries per line)' => 'Anhänge importieren/exportieren (als letzte Einträge je Zeile)',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => 'Plausibilitätsprüfungen der Datenbank.',
@@ -5963,7 +5975,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Need OTRSData->%s!' => 'OTRSData->%s benötigt!',
-        'Can\'t access OTRS home directory: %s!' => '',
+        'Can\'t access OTRS home directory: %s!' => 'Kann nicht auf OTRS-Home-Verzeichnis: %s zugreifen!',
         'All needed files copied and migrated, perfect!' => 'Alle Dateien wurden kopiert und migriert. Glückwunsch!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -5976,7 +5988,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
         'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
         'Check if OTOBO and OTRS connect is possible.' => 'Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann.',
-        'Can\'t open RELEASE file from OTRS home directory: %s!' => '',
+        'Can\'t open RELEASE file from OTRS home directory: %s!' => 'Kann die RELEASE-Datei im OTRS-Home-Verzeichnis: %s nicht öffnen!',
         'Check if OTOBO and OTRS version is correct.' => 'Überprüft, ob die verwendeten OTOBO- und OTRS-Versionen korrekt sind.',
         '%s does not exist!' => '%s nicht vorhanden!',
         'No OTOBO system found!' => 'Kein OTOBO-System gefunden!',
@@ -6000,9 +6012,9 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migriert die Konfigurationseinstellungen.',
         'An error occurred during system configuration data migration or no configuration exists.' =>
-            '',
+            'Bei der Migration der Systemkonfigurations-Daten ist ein Fehler aufgetreten oder es ist keine Konfiguration vorhanden.',
         'An error occurred during system configuration migration when writing XML to DB.' =>
-            '',
+            'Beim Migrieren der Systemkonfigurations-Daten ist ein Fehler beim Schreiben der XML-Werte in die DB aufgetreten.',
         'SysConfig data migration completed.' => 'Migration der SysConfig-Daten abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -6014,10 +6026,10 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRS home directory: %s!' =>
-            '',
+            'Kann die Datei Kernel/Config.pm aus dem OTRS-Home-Verzeichnis: %s nicht öffnen!',
         'Check if Kernel/Config.pm exists in OTOBO home.' => 'Überprüfen Sie, ob in OTOBO Home eine Datei Kernel/Config.pm vorhanden ist.',
         'Kernel/Config.pm exists in OTOBO home' => 'Kernel/Config.pm ist in OTOBO verfügbar',
-        'Check if we are able to connect to OTRS home directory.' => '',
+        'Check if we are able to connect to OTRS home directory.' => 'Überprüft, ob eine Verbindung zum OTRS-Home-Verzeichnis hergestellt werden kann.',
         'Can\'t connect to OTRS file directory.' => 'Kann keine Verbindung zum OTRS-Dateiverzeichnis herstellen.',
         'Connect to OTRS file directory is possible.' => 'Verbindung zum OTRS-Dateiverzeichnis ist möglich.',
 
@@ -6070,13 +6082,13 @@ sub Data {
             'Importierte Benachrichtigung hat einen Text mit mehr als 4000 Zeichen.',
 
         # Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
-        'Error fetching Token: %s' => '',
-        'Need ClientID and ClientSecret!' => '',
+        'Error fetching Token: %s' => 'Fehler bei der Token-Abholung: %s',
+        'Need ClientID and ClientSecret!' => 'Benötige ClientID und ClientSecret!',
         'Got no content when requesting Token. Response Code: %s' => '',
         'Got no JSON object when requesting Token. Response: %s' => '',
 
         # Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-        'AccountName %s not found!' => '',
+        'AccountName %s not found!' => 'Kontoname "%s" nicht gefunden!',
         'No valid refresh_token for Account %s using grant_tpye \'authorization code\' !' =>
             '',
         'Need functional account Invoker settings in SysConfig for %s.' =>
@@ -6675,7 +6687,7 @@ sub Data {
             '"Automatisches Entfernen" wird versendet, nachdem der Kundenbenutzer die Anfrage entfernt hat.',
         'default reply (after new ticket has been created)' => 'Standardantwort (nachdem ein neues Ticket erstellt wurde)',
         'default reject (after follow-up and rejection of a closed ticket)' =>
-            '',
+            'Standardablehnung (nachdem eine Antwort auf ein geschlossenes Ticket eingegangen ist und diese abgelehnt wurde)',
         'default follow-up (after a ticket follow-up has been added)' => 'Standardantwort (nachdem eine Antwort auf ein Ticket eingegangen ist)',
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             'Standardablehnung/Neues Ticket erstellt (nachdem eine Antwort auf ein geschlossenes Ticket eingegangen ist und ein neues Ticket erstellt wurde)',
@@ -7205,7 +7217,7 @@ Ihr Helpdesk-Team
         '30 Minutes' => '30 Minuten',
         '300 (Beginner)' => '300 (Anfänger)',
         '5 Minutes' => '5 Minuten',
-        '7 days' => '',
+        '7 days' => '7 Tage',
         'A TicketWatcher Module.' => 'Ein Ticket-Beobachten-Modul.',
         'A Website' => 'Eine Webseite',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -7226,7 +7238,7 @@ Ihr Helpdesk-Team
             'Aktiviert die "Passwort vergessen"-Funktion für Agenten im Agenten-Interface.',
         'Activates lost password feature for customers.' => 'Aktiviert die "Passwort vergessen" Funktion für Kunden.',
         'Activates rendering of dynamic fields outside of the dynamic field block.' =>
-            '',
+            'Aktiviert das Rendern Dynamischer Felder außerhalb des Blocks für Dynamische Felder.',
         'Activates support for customer and customer user groups.' => 'Aktiviert Unterstützung für Kunden- und Kundenbenutzergruppen.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
             'Aktiviert verschiedene Artikelfilter in der Zoomansicht, um festzulegen, welche Artikel angezeigt werden sollen.',
@@ -7254,7 +7266,7 @@ Ihr Helpdesk-Team
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
             'Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTOBO-Protokolldatei hinzu. Für jeden Monat wird eine eigene Log-Datei erstellt.',
         'Adds customer visibility of the article to the article edit screen of the agent interface.' =>
-            '',
+            'Setzt die Sichtbarkeit von Artikel für Kunden im Artikel-Bearbeiten-Fenster im Agentenbereich.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Fügt die Kunden E-Mailadresse zu den Empfängern hinzu in der "TicketCompose"-Oberfläche des Agenten-Interface hinzu. Die Kunden E-Mailadresse wird nicht hinzugefügt, wenn der Artikel-Typ \'E-Mail an intern\' ist.',
         'Adds the one time vacation days for the indicated calendar.' => 'Fügt die einmaligen Urlaubstage für den angegebenen Kalender hinzu.',
@@ -7316,6 +7328,8 @@ Ihr Helpdesk-Team
             'Widget für AgentTicketZoom, das eine Tabelle von Objekten anzeigt, die mit dem aktuellen Ticket verknüpft sind.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             'Widget für AgentTicketZoom, das Kundeninformationen des Kunden anzeigt, dem das aktuelle Ticket zugewiesen ist.',
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+            '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'Widget für AgentTicketZoom, das weitere Daten des aktuellen Tickets anzeigt.',
         'Agents ↔ Groups' => 'Agenten ↔ Gruppen',
@@ -7450,12 +7464,12 @@ Ihr Helpdesk-Team
             'Automatisches setzen eines Ticket-Verantwortlichen (wenn er noch nicht gesetzt wurde) nach dem ersten Besitzer-Update.',
         'Avatar' => 'Avatar',
         'Based on global RichText setting' => 'Basierend auf der globalen Richtext-Einstellung',
-        'Basic Auth' => '',
+        'Basic Auth' => 'Basic Auth',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Basis-Einstellungen für den Volltext-Index. Führen Sie "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" aus, um den Index neu zu erstellen.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
             'Blockiert alle eingehenden E-Mails ohne gültige Ticketnummer im Betreff mit — in diesem Beispiel — einer Absenderadresse From: @example.com. RegEx ist hier einsetzbar. In Match lässt sich eine neue Zeile ergänzen — um mehrere Felder wie To zu prüfen — ebenfalls per RegEx. Eine automatische Ablehnungsnachricht legst du über PostMaster::PreFilterModule::NewTicketReject::Body, PostMaster::PreFilterModule::NewTicketReject::Subject und PostMaster::PreFilterModule::NewTicketReject::Sender fest. Ein Match — z. B. From -> . — ist erforderlich — damit die Funktion greift.',
-        'Both' => '',
+        'Both' => 'Beides',
         'Bounced to "%s".' => 'Bounced an "%s".',
         'Bulgarian' => 'Bulgarisch',
         'Bulk Action' => 'Sammel-Aktion',
@@ -7512,8 +7526,8 @@ Ihr Helpdesk-Team
         'Checks for queued outgoing emails to be sent.' => 'Prüft auf zu sendende ausgehende E-Mails.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Prüft, ob eine E-Mail ein Follow-Up zu einem bestehenden Ticket ist, indem der Betreff nach einer gültigen Ticketnummer durchsucht wird.',
-        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            'Prüft, ob eine E-Mail ein Follow-up zu einem bestehenden Ticket mit externer Ticketnummer ist, welches mit dem ExternalTicketNumberRecognition Filter gefunden werden kann.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Ändert die SystemID in der Ticket-Nummernerkennung bei Rückfragen. Wenn nicht aktiviert, so wird die SystemID nach der Nutzung des Systems geändert.',
         'Child' => 'Kinder',
@@ -7534,9 +7548,9 @@ Ihr Helpdesk-Team
         'Cloud service admin module registration for the transport layer.' =>
             'Cloud-Service-Admin-Modulregistrierung für den Transport-Layer.',
         'Collect support data for asynchronous plug-in modules.' => 'Sammelt Support Daten für asynchrone Erweiterungen.',
-        'Color definitions for agent interface high contrast skin.' => '',
+        'Color definitions for agent interface high contrast skin.' => 'Farbdefinitionen für den Hoher-Kontrast-Skin im Agentenbereich.',
         'Color definitions for customer interface high contrast skin.' =>
-            '',
+            'Farbdefinitionen für den Hoher-Kontrast-Skin im Kundenbereich.',
         'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
             'Farbdefinitionen für die Agentenoberfläche (Standard-Skin). MainDark, -Light und Hover sind der Navigationshintergrund, Schaltflächen und einige andere Hauptelemente. Highlight sind z.B. Icons und ausgewählte Elemente in der Navbar. BG- und Textfarben sind verschiedene Hintergrund- und Textfarben. Hover-Farben werden in Auswahlen und Tabellen verwendet. Notify-Farben sind der Hintergrund von Benachrichtigungen.',
         'Color definitions for the customer interface.' => 'Farbdefinitionen für den Kundenbereich.',
@@ -7606,9 +7620,9 @@ Ihr Helpdesk-Team
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
         'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
-            '',
+            'Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. Jedes Array definiert eine Button-Gruppe, die im Editor sichtbar getrennt wird. (Nur sofern die Einstellung `CustomerFrontend::RichText::EnhancedMode` aktiviert ist).',
         'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
-            '',
+            'Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. Jedes Array definiert eine Button-Gruppe, die im Editor sichtbar getrennt wird. (Nur sofern die Einstellung `Frontend::RichText::EnhancedMode` aktiviert ist).',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Erstellt Vorlagen für AdminDynamicFieldTitle.',
@@ -7657,7 +7671,7 @@ Ihr Helpdesk-Team
         'Customer Companies' => 'Kunden',
         'Customer Company' => '',
         'Customer Dashboard' => 'Kunden-Dashboard',
-        'Customer Dashboard Info Tile' => '',
+        'Customer Dashboard Info Tile' => 'Kunden-Dashboard Infokachel',
         'Customer Dynamic Field Database Detailed Search' => 'Customer Dynamic Field Database Detailed Search',
         'Customer Dynamic Field Database Details' => 'Customer Dynamic Field Database Details',
         'Customer Dynamic Field Database Search' => 'Customer Dynamic Field Database Search',
@@ -7736,9 +7750,9 @@ Ihr Helpdesk-Team
         'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
             'Definieren Sie mögliche Namensräume für dynamische Felder. Darf nur alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 Zeichen sein. Namensraum plus Name des dynamischen Feldes dürfen nicht länger als 190 Zeichen sein.',
         'Define possible namespaces for global usage (currently dynamic fields and process elements). Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
-            '',
+            'Definieren Sie mögliche Namensräume für globale Verwendung (momentan Dynamische Felder und Prozesselemente). Darf nur alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 Zeichen sein. Namensraum plus Name des dynamischen Feldes dürfen nicht länger als 190 Zeichen sein.',
         'Define possible namespaces specifically for process elements. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters.' =>
-            '',
+            'Definieren Sie mögliche Namensräume speziell für Prozesselemente. Darf nur alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 Zeichen sein.',
         'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues.',
         'Define the queue comment 2.' => 'Definiert den 2. Queue-Kommentar.',
         'Define the service comment 2.' => 'Lege den Servicekommentar 2 fest.',
@@ -7820,7 +7834,7 @@ Ihr Helpdesk-Team
         'Defines default headers for outgoing emails.' => 'Legt die Standard-Header für ausgehende E-Mails fest.',
         'Defines email communication channel.' => 'Legt den E-Mail-Kommunikationskanal fest.',
         'Defines for which article types the editing of subject, body and attachment is enabled. "Both" includes "Phone" and "Internal".' =>
-            '',
+            'Definiert, für welche Artikeltypen das Bearbeiten von Betreff, Body und Anhänge aktiviert ist. "Beides" beinhaltet "Telefon" und "Intern".',
         'Defines from which ticket attributes the agent can select the result order.' =>
             'Definiert aus welchen Ticket-Attributen der Agent die Ergebnissortierung wählen kann.',
         'Defines groups for preferences items.' => 'Legt die Gruppen für die persönlichen Einstellungen fest.',
@@ -7866,7 +7880,7 @@ Ihr Helpdesk-Team
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Steuert, ob Agenten, die kein gemeinsames Geheimnis in ihren Einstellungen hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
-        'Defines if articles written by the customer are editable.' => '',
+        'Defines if articles written by the customer are editable.' => 'Definiert, ob von Kunden geschriebene Artikel bearbeitbar sind.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Steuert, ob Kunden, die kein gemeinsames Geheimnis in ihren Einstellungen hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
         'Defines if parent-child translations for queues and services should be generated automatically.' =>
@@ -8159,8 +8173,6 @@ Ihr Helpdesk-Team
             'Steuert die Gruppen, in denen sich ein Kunde standardmäßig befinden soll (wenn CustomerGroupSupport aktiviert ist und Sie nicht jede Gruppenbeziehung für die Kunden einzeln steuern möchten).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'Definiert die Header, die für allgemeine Inhalte für den angefragten Wert angezeigt werden.',
-        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) an.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Steuert den Historien-Kommentar für die Ticket schließen-Aktion im Agentenbereich.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -8216,6 +8228,8 @@ Ihr Helpdesk-Team
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Definiert die Stunden und Wochentage des angegebenen Kalenders um die Arbeitszeit zu messen.',
         'Defines the hours and week days to count the working time.' => 'Definiert den Zeitraum und die Wochentage welche als Arbeitszeit zählen.',
+        'Defines the initial height for the rich text editor component. Enter number (pixels).' =>
+            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             'Legt die Anfangshöhe in Pixeln für die Rich-Text-Editor-Komponente für diesen Bildschirm fest.',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8428,7 +8442,7 @@ Ihr Helpdesk-Team
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Definiert die E-Mail-Adresse des System-Administrators. Sie wird in den Fehlermeldungen angezeigt.',
         'Defines the system identifier. Every ticket number contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO). The SystemID may also be used in HTTP session backends.' =>
-            '',
+            'Definiert die System ID. Jede Ticketnummer enthält diese ID. Das stellt sicher, dass nur Tickets in das Ticketsystem aufgenommen werden, welche zum eigenen Ticketsystem gehören (nützlich, wenn zwischen zwei Instanzen von OTOBO kommuniziert wird). Die System-ID kann auch in HTTP-Sitzungs-Backends verwendet werden.',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'Definiert das \'target\'-Attribut eines Links zu einer externen Kunden-Datenbank. Z.B. \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -8468,8 +8482,6 @@ Ihr Helpdesk-Team
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             'Bestimmt die sichtbaren Sperrtypen eines Tickets. Hinweis: Bitte stellen Sie sicher, dass Sie bei Veränderung dieser Einstellung den Cache leeren.',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
-        'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines time in minutes since last modification for drafts of specified type before they are considered expired.' =>
             'Legt die Zeit in Minuten seit der letzten Änderung von Entwürfen des gewählten Typs fest, bis diese als veraltet gelten.',
@@ -8669,7 +8681,7 @@ Ihr Helpdesk-Team
         'Edit contacts with data' => 'Kontaktdaten bearbeiten',
         'Edit contacts with data.' => 'Kontaktdaten bearbeiten.',
         'Edit customer company' => 'Kundenunternehmen bearbeiten',
-        'Elasticsearch (u)' => '',
+        'Elasticsearch (u)' => 'Elasticsearch (u)',
         'Elasticsearch quick result module.' => 'Dynamische Voranzeige der Elasticsearch-Suchergebnisse.',
         'Email Addresses' => 'E-Mail-Adressen',
         'Email Outbound' => 'Ausgehende E-Mail',
@@ -8830,11 +8842,11 @@ Ihr Helpdesk-Team
         'Frontend module registration for the customer interface.' => 'Frontend-Modulregistrierung für den Kundenbereich.',
         'Frontend module registration for the public interface.' => 'Frontendmodul-Registrierung für das Public-Interface.',
         'Full value' => 'Vollständiger Wert',
-        'Fulltext Elasticsearch' => '',
+        'Fulltext Elasticsearch' => 'Volltext-Elasticsearch',
         'Fulltext index regex filters to remove parts of the text.' => 'Volltextindex-Regex-Filter, um Textteile zu entfernen.',
         'Fulltext search' => 'Volltextsuche',
         'Fulltext search using Elasticsearch.' => 'Volltextsuche mit Elasticsearch.',
-        'Functional Account and Token Management.' => '',
+        'Functional Account and Token Management.' => 'Verwaltung von Funktionskonten und Token',
         'Galician' => 'Galizisch',
         'General Label' => 'Allgemeine Übersetzungen',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -8901,8 +8913,8 @@ Ihr Helpdesk-Team
             'Wenn "DB" als Customer::AuthModule ausgewählt ist, muss hier der DSN zum Verbinden zur Datenbank hinterlegt werden.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Wenn "DB" als Customer::AuthModule ausgewählt ist, muss hier der Name der Spalte, die das Kundenpasswort enthält, hinterlegt werden.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Wenn "DB" als Customer::AuthModule ausgewählt ist, muss hier der Verschlüsselungstyp für Passwörter hinterlegt werden.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Wenn "DB" als Customer::AuthModule ausgewählt ist, muss hier der Name der Spalte, die CustomerKey enthält, hinterlegt werden.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9047,8 +9059,8 @@ Ihr Helpdesk-Team
         'Input' => 'Eingabe',
         'Interface language' => 'Sprache Benutzeroberfläche',
         'Interfaces for which the restoring of pending information is activated.' =>
-            '',
-        'Internal' => '',
+            'Oberflächen, für die das Wiederherstellen der Wartezeit aktiviert ist.',
+        'Internal' => 'Intern',
         'Internal communication channel.' => 'Interner Kommunikationskanal.',
         'International Workers\' Day' => 'Tag der Arbeit',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -9096,9 +9108,9 @@ Ihr Helpdesk-Team
         'Links 2 tickets with a "ParentChild" type link.' => 'Verknüpft 2 Tickets mit dem Linktyp "Eltern-Kind".',
         'Links appointments and tickets with a "Normal" type link.' => 'Verknüpft Termine und Tickets mit einem Link vom Typ "Normal".',
         'List of Active CKEditor Plugins. (Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
-            '',
+            'Liste aktiver CKEditor-Plugins. (Wird nur verwendet, falls `CustomerFrontend::RichText::EnhancedMode` aktiviert ist).',
         'List of Active CKEditor Plugins. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
-            '',
+            'Liste aktiver CKEditor-Plugins. (Wird nur verwendet, falls `Frontend::RichText::EnhancedMode` aktiviert ist).',
         'List of CSS files to always be loaded for the agent interface.' =>
             'Liste der CSS-Dateien, die immer im Agenten-Interface geladen werden sollen.',
         'List of CSS files to always be loaded for the customer interface.' =>
@@ -9157,7 +9169,7 @@ Ihr Helpdesk-Team
         'Malay' => 'Malaysisch',
         'Manage Customer Dashboard Info Tile Entries' => 'Verwaltung der Info-Kachel-Einträge für das Kunden-Dashboard',
         'Manage OTOBO Team cloud services.' => 'Cloud Services des OTOBO Team managen.',
-        'Manage OpendID Connect OAuth2 Profiles.' => '',
+        'Manage OpendID Connect OAuth2 Profiles.' => 'Verwaltung OpenID Connect OAuth2 Profile.',
         'Manage PGP keys for email encryption.' => 'PGP-Schlüssel für E-Mail-Verschlüsselung verwalten.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3- oder IMAP-Konten für das Abholen von E-Mail verwalten.',
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
@@ -9304,10 +9316,9 @@ Ihr Helpdesk-Team
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Anzahl der anzuzeigenen Tickets pro Seite in einem Suchergebnis in der Kundenoberfläche.',
         'OAUTHBEARER' => 'OAUTHBEARER',
-        'OAuth Functional Accounts' => 'OAuth Funktionale Benutzerkonten',
-        'OAuth Tokens' => 'OAuth Tokens',
-        'OIDC Profile Management' => 'OIDC Profile Management',
-        'OIDC Profiles' => 'OIDC Profile',
+        'OAuth Functional Accounts' => 'OAuth Funktionskonten',
+        'OAuth Tokens' => 'OAuth Token',
+        'OIDC Profile Management' => 'OIDC Profilverwaltung',
         'OTOBO News' => 'Neues von OTOBO',
         'OTOBO Team Services' => 'Services von Team OTOBO',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -9465,7 +9476,7 @@ Ihr Helpdesk-Team
         'Process Management Path GUI' => 'Prozess-Management-Pfad Benutzeroberfläche',
         'Process Management Transition Action GUI' => 'Prozess-Management Übergangs-Aktionen Benutzeroberfläche',
         'Process Management Transition GUI' => 'Prozess-Management-Übergangs Benutzeroberfläche',
-        'Process dialog' => '',
+        'Process dialog' => 'Prozessdialog',
         'Process pending tickets.' => 'Abarbeitung wartender Tickets.',
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => 'Prozesse & Automatisierung',
@@ -9488,8 +9499,8 @@ Ihr Helpdesk-Team
             'Erstellt die Elasticsearch-Indizes neu. Kann etwa verwendet werden, wenn Kundenbenutzer sich via LDAP authentifizieren. Jedoch höchst ineffizient, da jedes Mal, da der gesamte Index immer komplett neu generiert wird.',
         'Rebuilds the ACL preselection cache.' => 'Baut den Cache mit der ACL-Vorauswahl neu auf.',
         'Rebuilds the escalation index.' => 'Baut den Eskalationsindex neu auf.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            'Erkennen Sie, ob ein Ticket eine Folgemaßnahme zu einem bestehenden Ticket ist, indem Sie eine externe Ticket-Nummer verwenden. Hinweis: Die erste erfasste Gruppe aus dem Ausdruck \'NumberRegExp\' wird als Wert für die Ticket-Nummer verwendet.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
+            '',
         'Redis server address. Example: 127.0.0.1:6379.' => 'Adresse des Redis-Servers. Beispiel: 127.0.0.1:6379.',
         'Refresh interval' => 'Aktualisierungsintervall',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
@@ -9860,7 +9871,7 @@ Ihr Helpdesk-Team
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
             'Setzt den Ticket-Typ im Verantwortlicher-Bildschirm für Tickets im Agentenbereich (Ticket::Type muss aktiviert sein).',
         'Sets the time units in the ticket note screen of the agent interface.' =>
-            '',
+            'Setzt die Zeiteinheiten im Notiz-Bildschirm für Tickets im Agentenbereich.',
         'Sets the time zone being used internally by OTOBO to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
             'Legt die Zeitzone fest, die intern von OTOBO genutzt werden soll (z. B. um Datumsangaben und Zeiten in der Datenbank zu speichern). ACHTUNG: Diese Einstellung darf nicht mehr geändert werden, sobald Tickets und/oder andere Objekte erstellt wurden, die Datumsangaben enthalten.',
         'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTOBO time zone and the user\'s time zone.' =>
@@ -9868,6 +9879,7 @@ Ihr Helpdesk-Team
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Steuert den Timeout (in Sekunden) für HTTP/FTP-Downloads.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Steuert den Timeout (in Sekunden) für Paket-Downloads. Überschreibt "WebUserAgent::Timeout".',
+        'Settings for Similar Ticket Search in ES.' => '',
         'Settings for the customer login screen.' => 'Einstellungen für die Kunden-Loginoberfläche.',
         'Shared Secret' => 'Gemeinsames Geheimnis',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
@@ -9877,7 +9889,7 @@ Ihr Helpdesk-Team
         'Show command line output.' => 'Zeige Befehlszeilenausgabe.',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
             'Zeigt auch optionale Parameter in der Parameterliste an. Ist die Option deaktiviert, werden optionale Parameter in einer separaten Tabelle angezeigt.',
-        'Show or Hide Deleted Articles' => '',
+        'Show or Hide Deleted Articles' => 'Gelöschte Artikel anzeigen oder verbergen',
         'Show or Hide deleted articles.' => 'Gelöschte Artikel anzeigen oder verbergen.',
         'Show queues even when only locked tickets are in.' => 'Queues auch dann anzeigen, wenn sich darin nur gesperrte Tickets befinden.',
         'Show the history for this ticket' => 'Zeige die Historie für dieses Ticket an',
@@ -10001,7 +10013,7 @@ Ihr Helpdesk-Team
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Zeigt eine Besitzerauswahl in Telefon- und E-Mail-Tickets im Agentenbereich an.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>
-            '',
+            'Zeigt das Erstelldatum statt dem Alter in der Kundenoberfläche, falls das Ticket älter als der konfigurierte Wert (Tage) ist.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'Zeigt die andere Tickets des Kunden in AgentTicketPhone, AgentTicketEmail und AgentTicketCustomer.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -10061,7 +10073,7 @@ Ihr Helpdesk-Team
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             'Zeigt die Beschreibung der Zeitfelder in Langform (Tage, Stunden, Minuten), wenn dies aktiviert ist oder aber nur die initialen Buchstaben (T, S, M), wenn dies nicht aktiviert ist.',
         'Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), if enabled; or without (01.01.1970 00:01), if not enabled.' =>
-            '',
+            'Zeigt Zeitstempel entweder mit Lokalisierungsindikator (01.01.1970 00:01 (Europe/Berlin)), falls aktiviert, oder ohne diesen (01.01.1970 00:01), falls deaktiviert.',
         'Signature data.' => 'Signatur-Daten.',
         'Signatures' => 'Signaturen',
         'Simple' => 'Einfach',
@@ -10179,7 +10191,7 @@ Ihr Helpdesk-Team
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Der interne Name des Skins, der im Agentenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Agent::Skins.',
         'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  \'OAuth Functional Accounts\' Module.' =>
-            '',
+            'Die Authentifizierungsmethode, die für die SMTP-Authentifizierung verwendet werden soll. Standard ist \'Basic Auth\'. Falls \'XOAUTH2\' oder \'OAUTHBEARER\' ausgewählt ist, muss die Einstellung \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' aktiviert und als gültiges OIDC Funktionskonto gesetzt werden. OIDC Accounts können in der Administrationsoberfläche unter \'OAuth Funktionskonten\' konfiguriert werden.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             'Der interne Name des Skins, der im Kundenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Customer::Skins.',
         'The daemon registration for sync with S3.' => 'Daemon-Registrierung für die S3-Synchronisation.',
@@ -10224,7 +10236,7 @@ Ihr Helpdesk-Team
         'The value of the From field' => 'Der Wert des Von-Feldes',
         'Theme' => 'Schema',
         'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
-            '',
+            'Diese Attribute werden bei der Verbindung zur Datenbank weitergereicht. Ein gewöhnlicher Anwendungsfall ist eine Verbindung, die mit TLS abgesichert wird.',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             'Diese Konfigurationsoption definiert alle möglichen Oberflächen, auf denen Standard-Spalten aktiviert oder deaktiviert werden.',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>
@@ -10290,9 +10302,9 @@ Ihr Helpdesk-Team
         'Ticket Priority.' => 'Ticket-Priorität.',
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket Responsible.' => 'Ticket-Verantwortlicher.',
-        'Ticket Search.' => '',
+        'Ticket Search.' => 'Ticketsuche.',
         'Ticket States' => 'Ticketstatus',
-        'Ticket Title' => '',
+        'Ticket Title' => 'Tickettitel',
         'Ticket Types' => 'Tickettypen',
         'Ticket Watcher' => 'Ticket-Beobachter',
         'Ticket Zoom' => 'Ticket-Zoom',
@@ -10316,9 +10328,9 @@ Ihr Helpdesk-Team
             'Tickets in den folgenden Queues werden nicht auf dem Elasticsearch-Server gespeichert. Um diese Einstellung für vorhandene Tickets zu übernehmen, muss nach erfolgter Änderung eine Ticketmigration über die Konsole ausgeführt werden.',
         'Tickets.' => 'Tickets.',
         'Tile registration for the customer dashboard. Module is required.' =>
-            '',
+            'Kachel-Registrierung für das Kunden-Dashboard. Dieses Modul wird benötigt.',
         'Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
-            '',
+            'Kachelregistrierung für das Kunden-Dashboard. Das Modul wird benötigt. Optional kann eine Element-Reihenfolge definiert werden. Die Reihenfolge muss den Name des Elementes als Key und die gewünschte Position als ganze Zahl enthalten.',
         'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
             'Zeit in Sekunden die zur aktuellen Zeit hinzugefügt wird wenn eine Wartezeit ausgewählt wird. Beispiele: 86400 = 1 Tag oder 604800 = 1 Woche.',
         'To accept login information, such as an EULA or license.' => 'Um Login-Informationen zu akzeptieren, wie EULAs oder Lizenzen.',
@@ -10391,7 +10403,7 @@ Ihr Helpdesk-Team
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
         'We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
-            '',
+            'In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzer-Information nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10.0 wiederherzustellen.',
         'Web Service' => 'Webservice',
         'Web Services' => 'Webservices',
         'Welcome %s, to your OTOBO.' => 'Willkommen %s, in Deinem OTOBO.',
@@ -10400,7 +10412,7 @@ Ihr Helpdesk-Team
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Legt fest, ob ein Ticket beim Anlegen automatisch auf den anlegenden Agenten gesperrt werden soll.',
         'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
-            '',
+            'Werden Supportdaten mit der Supportdaten-Analyse eingesammelt, werden bestimmte Systemkonfigurationseinstellungen, die mit dem ValueType="Password" versehen sind, automatisch maskiert. Dies verhindert, dass Passwörter in den Supportdaten im Klartext auftauchen. Diese Einstellung definiert die Einstellungen, die komplexe Konfigurations-Hashes beinhalten, die nicht mit der Erstellung der Supportdaten maskiert werden sollen.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Wenn Tickets zusammengefasst werden, wird automatisch zu dem Ticket, das nicht länger aktiv ist, eine Notiz hinzugefügt. Hier können Sie den Textköper dieser Notiz definieren (dieser Text kann nicht durch den Agent verändert werden).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
@@ -10416,8 +10428,8 @@ Ihr Helpdesk-Team
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Legt fest, ob eine Weiterleitung aller Anfragen von http zu https erzwungen werden soll. Bitte stellen Sie sicher, dass Ihr Webserver korrekt für die Verwendung von https konfiguriert wurde, bevor Sie diese Einstellung aktivieren.',
         'Which units are used and shown in the overview for timeunits?' =>
-            '',
-        'XOAUTH2' => '',
+            'Welche Einheiten werden in der Zeiteinheiten-Übersicht verwendet und angezeigt?',
+        'XOAUTH2' => 'XOAUTH2',
         'Yes, but hide archived tickets' => 'Ja, aber archivierte Tickets verstecken',
         'Your Tickets. Your OTOBO.' => 'Deine Tickets. Dein OTOBO.',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
@@ -10431,7 +10443,7 @@ Ihr Helpdesk-Team
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diesen ausgewählten Services versendet, falls aktiviert.',
         'Zoom' => 'Inhalt',
-        'always' => '',
+        'always' => 'immer',
         'attachment' => 'Anhang',
         'bounce' => 'Umleiten',
         'compose' => 'Verfassen',
@@ -10669,6 +10681,7 @@ Ihr Helpdesk-Team
         'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
+        'Non-global ActivityDialogs may not be assigned to global Activities!',
         'Not available',
         'Notice',
         'Notification',
