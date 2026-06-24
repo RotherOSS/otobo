@@ -94,11 +94,14 @@ sub Display {
         my $CurrentParamTranslation = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
             ->Translate( $ParamLabel{$CurrentParam} );
         $HTML .= <<"HTML";
-                        <label for="$CurrentParam">$CurrentParamTranslation:</label>
-                        <div class="Field">
-                        $SelectHTML
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <label for="$CurrentParam">$CurrentParamTranslation:</label>
+                                <div class="Field">
+                                    $SelectHTML
+                                </div>
+                            </div>
                         </div>
-                        <div class="Clear"></div>
 HTML
     }
 
