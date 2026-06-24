@@ -47,6 +47,9 @@ for my $SQL (@SQL) {
     ok( $DBObject->Do( SQL => $SQL ) || 0, 'executed SQL' );
 }
 
+# MariaDB/MySQL behave differently from PostgreSQL
+my $DatabaseType = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'};
+
 my @Tests = (
     {
         Name => 'UTF8 1 byte, single byte in ASCII and latin1',
@@ -112,6 +115,15 @@ END_SQL
             diag 'MessageVarchar: ', scalar DDump $MessageVarchar;
             is( $MessageVarchar, $TestData, "SELECT test_message_varchar" );
             diag 'MessageLongblob: ', scalar DDump $MessageLongblob;
+
+            # PostgreSQL returns hex encoded data '\xc3b6n' for 'ö'. The format is called bytea.
+            if ( $DatabaseType eq 'postgresql' ) {
+                my $Hex = $MessageLongblob =~ s/^\\x//r;
+                $MessageLongblob = pack "H*", $Hex;
+                utf8::decode($MessageLongblob);
+                diag 'MessageLongblob fron bytea : ', scalar DDump $MessageLongblob;
+            }
+
             is( $MessageLongblob, $TestData, "SELECT test_message_longblob, TestData" );
             if ( utf8::is_utf8($TestData) ) {
                 isnt( $MessageLongblob, $EncodedTestData, "SELECT test_message_longblob, EncodedTestData" );
@@ -133,7 +145,15 @@ END_SQL
 
         $RowCount = 0;
         while ( my ( $MessageVarchar, $MessageLongblob ) = $DBObject->FetchrowArray ) {
-            is( $MessageVarchar,  $TestData, "SELECT test_message_varchar with WHERE" );
+            is( $MessageVarchar, $TestData, "SELECT test_message_varchar with WHERE" );
+
+            # PostgreSQL returns hex encoded data '\xc3b6n' for 'ö'. The format is called bytea.
+            if ( $DatabaseType eq 'postgresql' ) {
+                my $Hex = $MessageLongblob =~ s/^\\x//r;
+                $MessageLongblob = pack "H*", $Hex;
+                utf8::decode($MessageLongblob);
+                diag 'MessageLongblob fron bytea : ', scalar DDump $MessageLongblob;
+            }
             is( $MessageLongblob, $TestData, "SELECT test_message_longblob with WHERE, TestData" );
 
             if ( utf8::is_utf8($TestData) ) {
