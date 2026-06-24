@@ -55,7 +55,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
 "PO-Revision-Date: 2026-06-24 13:52+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
 "Language: de\n"
@@ -19000,8 +19000,6 @@ msgid "Select the group of the agents."
 msgstr "Wählen Sie die Gruppe der Agenten aus."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
-#, fuzzy
-#| msgid "External-source key"
 msgid "External source key"
 msgstr "Schlüssel der externen Quelle"
 
@@ -19026,10 +19024,8 @@ msgid "Referenced object type"
 msgstr "Referenzierter Objekt-Typ"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-#, fuzzy
-#| msgid "Select the type of the referenced object"
 msgid "Select the type of the referenced object."
-msgstr "Wählen Sie den Typ des referenzierten Objekts aus"
+msgstr "Wählen Sie den Typ des referenzierten Objekts aus."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Input mode of edit field"
@@ -19081,11 +19077,10 @@ msgid "Attribute which will be searched on autocomplete"
 msgstr "Beim Autocomplete durchsuchtes Attribut"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
-#, fuzzy
-#| msgid "Select the attribute which customer companies will be searched by"
 msgid "Select the attribute which customer companies will be searched by."
 msgstr ""
-"Wählen Sie das Attribut aus, nach dem Kundenunternehmen gesucht werden sollen"
+"Wählen Sie das Attribut aus, nach dem Kundenunternehmen gesucht werden "
+"sollen."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "This field is required or"
@@ -19217,10 +19212,8 @@ msgid "Default CustomerUserID"
 msgstr "Standard-Kundenbenutzer-ID"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default language"
 msgid "Default ArchiveFlag"
-msgstr "Standardsprache"
+msgstr "Standard Archivierungsmarkierung"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Default subject"
@@ -19231,10 +19224,8 @@ msgid "Default body"
 msgstr "Standard-Body"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default sign key"
 msgid "Default sender type"
-msgstr "Standard-Signierschlüssel"
+msgstr "Standard Absendertyp"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Default is visible to customer"
@@ -19630,10 +19621,9 @@ msgstr ""
 "Übrige Zeit für den unverbrauchten Token ist: %s Sekunden für den Invoker %s!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-#, fuzzy
-#| msgid "Could not get backend for Invoker %s"
 msgid "Could not get the OAuth2 token_endpoint for Invoker "
-msgstr "Konnte das Backend für Invoker %s nicht aufrufen"
+msgstr ""
+"Der OAuth2-Token-Endpunkt für den Invoker konnte nicht abgerufen werden. "
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -24519,8 +24509,6 @@ msgid "Customer Companies"
 msgstr "Kunden"
 
 #. SysConfig
-#, fuzzy
-#| msgid "CustomerCompany"
 msgid "Customer Company"
 msgstr "Kundenunternehmen"
 
@@ -28504,10 +28492,8 @@ msgid "Dynamic Field Labels"
 msgstr "Dynamische Feld-Label"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Dynamic Fields Screens"
 msgid "Dynamic Field Screen"
-msgstr "Dynamische Felder Oberflächen"
+msgstr "Dynamische Felder Oberfläche"
 
 #. SysConfig
 msgid "Dynamic Field Set"
@@ -28597,16 +28583,14 @@ msgstr ""
 "Attributfelds zusammenzupassen."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Dynamic fields options shown in the ticket reply section in the ticket "
-#| "zoom screen of the customer interface."
 msgid ""
 "Dynamic fields available as attributes for the settings "
 "'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown "
 "in the ticket overview screen of the customer interface."
 msgstr ""
-"Dynamische Felder zur Eingabe bei der Ticket-Beantwortung im Kundenbereich."
+"Dynamische Felder die für die Einstellung "
+"'Ticket::Frontend::CustomerTicketCategories###DynamicField' zur Verfügung "
+"stehen, welche in der Ticketübersicht im Kundenbereich angezeigt werden."
 
 #. SysConfig
 msgid ""
@@ -29290,13 +29274,6 @@ msgstr ""
 "nicht erforderlich."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Fields of the ticket index, used for the ticket fulltext search. Fields "
-#| "are also stored, but are not mandatory for the overall functionality. If "
-#| "fields are added which can be updated (especially DynamicFields), their "
-#| "respective update event has to be added to the TicketManagement invoker "
-#| "of the Elasticsearch webservice!"
 msgid ""
 "Fields of the ticket index, used for the ticket fulltext search. Fields are "
 "also stored, but are not mandatory for the overall functionality. If fields "
@@ -29331,13 +29308,6 @@ msgstr ""
 "Gesamtfunktionalität erforderlich."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Fields stored in the ticket index which are used for other things besides "
-#| "fulltext searches. For the complete functionality all fields are "
-#| "mandatory. If fields are added which can be updated (especially "
-#| "DynamicFields), their respective update event has to be added to the "
-#| "TicketManagement invoker of the Elasticsearch webservice!"
 msgid ""
 "Fields stored in the ticket index which are used for other things besides "
 "fulltext searches. For the complete functionality all fields are mandatory. "
