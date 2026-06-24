@@ -31,8 +31,11 @@ use Time::HiRes ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::ACL::DB::ACL',
     'Kernel::System::Cache',
     'Kernel::System::PID',
+    'Kernel::System::ProcessManagement::DB::Entity',
+    'Kernel::System::ProcessManagement::DB::Process',
     'Kernel::System::SysConfig',
 );
 
@@ -55,6 +58,20 @@ sub Configure {
         Required   => 0,
         HasValue   => 1,
         ValueRegex => qr/^\d+$/smx,
+    );
+
+    $Self->AddOption(
+        Name        => 'deploy-acls',
+        Description => "Write ZZZACL.pm to deploy the ACLs (e.g. after an update).",
+        Required    => 0,
+        HasValue    => 0,
+    );
+
+    $Self->AddOption(
+        Name        => 'deploy-processes',
+        Description => "Write ZZZProcessManagement.pm to deploy the processes (e.g. after an update).",
+        Required    => 0,
+        HasValue    => 0,
     );
 
     return;
@@ -132,14 +149,37 @@ sub Run {
     # Get SysConfig object.
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
+    my $Error = 0;
+
     if (
-        !$SysConfigObject->ConfigurationXML2DB(
+        $SysConfigObject->ConfigurationXML2DB(
             UserID  => 1,
             Force   => 1,
             CleanUp => $Self->GetOption('cleanup'),
         )
         )
     {
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+            Comments    => "Configuration Rebuild",
+            AllSettings => 1,
+            UserID      => 1,
+            Force       => 1,
+        );
+
+        if ( !$DeploymentResult{Success} ) {
+
+            # Disable in memory cache.
+            $CacheObject->Configure(
+                CacheInMemory => 0,
+            );
+
+            $Self->PrintError("There was a problem writing ZZZAAuto.pm.");
+
+            $Error = 1;
+        }
+    }
+
+    else {
 
         # Disable in memory cache.
         $CacheObject->Configure(
@@ -148,31 +188,72 @@ sub Run {
 
         $Self->PrintError("There was a problem writing XML to DB.");
 
-        return $Self->ExitCodeError();
-    }
-
-    my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-        Comments    => "Configuration Rebuild",
-        AllSettings => 1,
-        UserID      => 1,
-        Force       => 1,
-    );
-    if ( !$DeploymentResult{Success} ) {
-
-        # Disable in memory cache.
-        $CacheObject->Configure(
-            CacheInMemory => 0,
-        );
-
-        $Self->PrintError("There was a problem writing ZZZAAuto.pm.");
-
-        return $Self->ExitCodeError();
+        $Error = 1;
     }
 
     # Disable in memory cache.
     $CacheObject->Configure(
         CacheInMemory => 0,
     );
+
+    if ( $Self->GetOption('deploy-acls') ) {
+
+        my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+        my $Location  = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+
+        my $ACLDumpSuccess = $ACLObject->ACLDump(
+            ResultType => 'FILE',
+            Location   => $Location,
+            UserID     => 1,
+        );
+
+        if ($ACLDumpSuccess) {
+
+            if ( !$ACLObject->ACLsNeedSyncReset() ) {
+                $Self->PrintError("There was a problem resetting the ACLSync status.");
+            }
+
+            $CacheObject->Delete(
+                Type => 'TicketACL',
+                Key  => 'Preselection',
+            );
+            $CacheObject->Delete(
+                Type => 'ITSMConfigItemACL',
+                Key  => 'Preselection',
+            );
+        }
+        else {
+            $Self->PrintError("There was a problem deploying the ACLs.");
+
+            $Error = 1;
+        }
+    }
+
+    if ( $Self->GetOption('deploy-processes') ) {
+
+        my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+        my $EntityObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+        my $Location      = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
+
+        my $ProcessDumpSuccess = $ProcessObject->ProcessDump(
+            ResultType => 'FILE',
+            Location   => $Location,
+            UserID     => 1,
+        );
+
+        if ($ProcessDumpSuccess) {
+            if ( !$EntityObject->EntitySyncStatePurge( UserID => 1 ) ) {
+                $Self->PrintError("There was an error setting the process entity sync status.");
+            }
+        }
+        else {
+            $Self->PrintError("There was an error synchronizing the processes");
+
+            $Error = 1;
+        }
+    }
+
+    return $Self->ExitCodeError() if $Error;
 
     # with active S3 backend, also update the files in the file system
     $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
