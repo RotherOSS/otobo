@@ -316,7 +316,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     border: 1px solid var(--colHighlight);
     background: var(--colMainDark);
     color:var(--colMainDark);
-    overflow:auto;
+    overflow:hidden;
     resize:horizontal;
     white-space: nowrap;
     transition: all ease 0.3s;
