@@ -120,7 +120,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 ElementNameTrim = ElementName.replace(/(^[\xA0]+)/g, ''),
                 CurrentLevel = (ElementName.length - ElementNameTrim.length) / 2,
                 ChildOf = 0,
-                ElementIndex = 0,
+                ElementIndex,
                 CurrentElement;
 
             // Skip entry if no ID (should only occur for the leading empty element, '-')
@@ -236,7 +236,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Multiple = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
             ElementCount = $SelectObj.find('option').length,
             DialogTitle = $SelectObj.parent().prev('label').clone().children().remove().end().text(),
-            Elements = {},
+            Elements,
             InDialog = false,
             StyleSheetURL,
             SelectedNodesTree,
