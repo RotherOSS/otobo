@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-03 15:23+0000\n"
-"PO-Revision-Date: 2026-06-23 18:05+0000\n"
+"PO-Revision-Date: 2026-06-24 13:52+0000\n"
 "Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -6379,6 +6379,7 @@ msgstr "Rand TTL"
 #. Template: AdminOIDCProfiles
 msgid "Time-to-live for state and nonce in seconds. Default is '300' (5 min)."
 msgstr ""
+"Gültigkeitsdauer des state und nonce in Sekunden. Standard ist '300' (5 min)."
 
 #. Template: AdminOIDCProfiles
 msgid "Leeway"
@@ -6388,6 +6389,7 @@ msgstr "Verzögerung (Leeway)"
 msgid ""
 "Time drift allowance between servers to be allowed. Default '2' seconds."
 msgstr ""
+"Erlaubte Toleranz der Zeitabweichung zwischen Servern. Default '2' Sekunden."
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -7959,19 +7961,14 @@ msgid "Filter for templates"
 msgstr "Filter für Vorlagen"
 
 #. Template: AdminQueueTemplates
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import queue-template relations "
 "to your system. The file needs to be in .yml format as exported by the queue-"
 "template management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Queue-Vorlagen-"
+"Verknüpfungen in Ihr System zu importieren. Die Datei muss im YAML-Format "
+"vorliegen, so wie sie aus Queues<->Vorlagen auch exportiert wird."
 
 #. Template: AdminQueueTemplates
 msgid "Queue-Templates Import"
@@ -7986,25 +7983,18 @@ msgid "Templates"
 msgstr "Vorlagen"
 
 #. Template: AdminQueueTemplatesImportExport
-#, fuzzy
-#| msgid "Manage Template-Queue Relations"
 msgid "Queue Template Relations"
-msgstr "Zuordnung von Vorlagen zu Queues verwalten"
+msgstr "Zuordnung von Vorlagen zu Queues"
 
 #. Template: AdminQueueTemplatesImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of queue-template relations to "
 "import these on another system. The configuration file is exported in yml "
 "format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Vorlagen-Queue Verknüpfungen "
+"exportieren, um diese auf einem anderen System zu importieren. Die "
+"Konfigurationsdatei wird im yml Format exportiert."
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
@@ -8360,18 +8350,13 @@ msgstr ""
 "zu den Rollen hinzu."
 
 #. Template: AdminRole
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import roles to your system. The "
 "file needs to be in .yml format as exported by the role management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Rollen in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
+"Rollenverwaltung auch exportiert wird."
 
 #. Template: AdminRole
 msgid "Roles Import"
@@ -8393,19 +8378,15 @@ msgid "Manage Role-Group Relations"
 msgstr "Zuordnungen von Rollen zu Gruppen verwalten"
 
 #. Template: AdminRoleGroup
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import role-group relations to "
 "your system. The file needs to be in .yml format as exported by the role-"
 "group management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Rollen-Gruppen "
+"Zuordnungen in Ihr System zu importieren. Die Datei muss im YAML-Format "
+"vorliegen, so wie sie von der Verwaltung der Rollen-Gruppen Zuordnung auch "
+"exportiert wird."
 
 #. Template: AdminRoleGroup
 msgid "Role-Group Import"
@@ -8523,44 +8504,30 @@ msgid "Role-Group Relations"
 msgstr "Rollen-Gruppen-Zuordnungen"
 
 #. Template: AdminRoleGroupImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of role-group relations to import "
 "these on another system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Rollen-Gruppen Zuordnungen "
+"exportieren, um diese auf einem anderen System zu importieren. Die "
+"Konfigurationsdatei wird im yml Format exportiert."
 
 #. Template: AdminRoleGroupImportExport
-#, fuzzy
-#| msgid "Manage Role-Group Relations"
 msgid "Role-Group relations List"
-msgstr "Zuordnungen von Rollen zu Gruppen verwalten"
+msgstr "Liste der Zuordnungen von Rollen zu Gruppen"
 
 #. Template: AdminRoleImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of roles to import these on another "
 "system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Rollen exportieren, um diese "
+"auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml "
+"Format exportiert."
 
 #. Template: AdminRoleImportExport
-#, fuzzy
-#| msgid "Request List"
 msgid "Roles List"
-msgstr "Anfrageliste"
+msgstr "Liste von Rollen"
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -8607,28 +8574,20 @@ msgid "Filter for SLAs"
 msgstr "Filter für SLAs"
 
 #. Template: AdminSLA
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import ACLs to your system. "
-#| "The file needs to be in .yml format as exported by the ACL editor module."
 msgid ""
 "Here you can upload a configuration file to import SLAs to your system. The "
 "file needs to be in .yml format as exported by the SLA management module."
 msgstr ""
-"Hier können Sie über eine Konfigurationsdatei ACLs ins System importieren. "
-"Diese Datei muss das vom ACL-Editor verwendete .yml-Format haben."
+"Hier können Sie über eine Konfigurationsdatei SLAs ins System importieren. "
+"Diese Datei muss das von der SLA-Verwaltung verwendete .yml-Format haben."
 
 #. Template: AdminSLA
-#, fuzzy
-#| msgid "Import"
 msgid "SLAs Import"
-msgstr "Importieren"
+msgstr "SLAs Importieren"
 
 #. Template: AdminSLA
-#, fuzzy
-#| msgid "Export"
 msgid "SLAs Export"
-msgstr "Export"
+msgstr "SLAs Exportieren"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
@@ -8639,24 +8598,17 @@ msgid "SLAs"
 msgstr "SLAs"
 
 #. Template: AdminSLAImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of SLAs to import these on another "
 "system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von SLAs exportieren, um diese auf "
+"einem anderen System zu importieren. Die Konfigurationsdatei wird im yml "
+"Format exportiert."
 
 #. Template: AdminSLAImportExport
-#, fuzzy
-#| msgid "List"
 msgid "SLAs List"
-msgstr "Liste"
+msgstr "Liste von SLAs"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -8929,31 +8881,22 @@ msgid "Include invalid services"
 msgstr "Ungültige Services anzeigen"
 
 #. Template: AdminService
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import services to your system. "
 "The file needs to be in .yml format as exported by the service management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Services in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
+"Serviceverwaltung auch exportiert wird."
 
 #. Template: AdminService
-#, fuzzy
-#| msgid "Services"
 msgid "Services Import"
-msgstr "Services"
+msgstr "Services importieren"
 
 #. Template: AdminService
-#, fuzzy
-#| msgid "Services"
 msgid "Services Export"
-msgstr "Services"
+msgstr "Services exportieren"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
@@ -8966,24 +8909,17 @@ msgid "Sub-service of"
 msgstr "Unterservice von"
 
 #. Template: AdminServiceImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of services to import these on "
 "another system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Services exportieren, um diese "
+"auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml "
+"Format exportiert."
 
 #. Template: AdminServiceImportExport
-#, fuzzy
-#| msgid "Services"
 msgid "Services List"
-msgstr "Services"
+msgstr "Service-Liste"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -9746,31 +9682,22 @@ msgid "Don't forget to add new templates to queues."
 msgstr "Vergessen Sie nicht, neue Vorlagen den Queues zuzuordnen."
 
 #. Template: AdminTemplate
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import templates to your system. "
 "The file needs to be in .yml format as exported by the template management "
 "module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
-"System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"Hier können Sie eine Konfigurationdatei hochladen, um Vorlagen in Ihr System "
+"zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie von der "
+"Vorlagenverwaltung auch exportiert wird."
 
 #. Template: AdminTemplate
-#, fuzzy
-#| msgid "Templates"
 msgid "Templates Import"
-msgstr "Vorlagen"
+msgstr "Vorlagen importieren"
 
 #. Template: AdminTemplate
-#, fuzzy
-#| msgid "Templates"
 msgid "Templates Export"
-msgstr "Vorlagen"
+msgstr "Vorlagen exportieren"
 
 #. Template: AdminTemplate
 msgid "Pre-selected ticket state"
@@ -9862,34 +9789,25 @@ msgid "Link %s to selected %s"
 msgstr "%s zu %s (markiert) verknüpfen"
 
 #. Template: AdminTemplateImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of templates to import these on "
 "another system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Vorlagen exportieren, um diese "
+"auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml "
+"Format exportiert."
 
 #. Template: AdminTemplateImportExport
-#, fuzzy
-#| msgid "Template List"
 msgid "Templates List"
-msgstr "Vorlagenliste"
+msgstr "Vorlagen-Liste"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
 msgstr "Verwaltung der Ticketmasken"
 
 #. Template: AdminTicketMask
-#, fuzzy
-#| msgid "Edit details"
 msgid "Edit mask"
-msgstr "Details bearbeiten"
+msgstr "Maskendefinition bearbeiten"
 
 #. Template: AdminTicketMask
 msgid "Change mask definition"
@@ -9948,11 +9866,6 @@ msgid "Deployed Translation"
 msgstr "Aktive Übersetzung"
 
 #. Template: AdminTranslations
-#, fuzzy
-#| msgid ""
-#| "Changes made here only affect the system behaviour after your draft "
-#| "translations have been deployed. By deploying them, all changes will be "
-#| "written to the language files."
 msgid ""
 "Changes made here only affect the system behavior after your draft "
 "translations have been deployed. By deploying them, all changes will be "
@@ -10052,30 +9965,21 @@ msgid "Filter for types"
 msgstr "Filter für Typen"
 
 #. Template: AdminType
-#, fuzzy
-#| msgid ""
-#| "Here you can upload a configuration file to import a process to your "
-#| "system. The file needs to be in .yml format as exported by process "
-#| "management module."
 msgid ""
 "Here you can upload a configuration file to import types to your system. The "
 "file needs to be in .yml format as exported by the type management module."
 msgstr ""
-"Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr "
+"Hier können Sie eine Konfigurationdatei hochladen, um Tickettypen in Ihr "
 "System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie "
-"vom Prozessmanagement auch exportiert wird."
+"von der Tickettyp-Verwaltung auch exportiert wird."
 
 #. Template: AdminType
-#, fuzzy
-#| msgid "Import"
 msgid "Types Import"
-msgstr "Importieren"
+msgstr "Typen importieren"
 
 #. Template: AdminType
-#, fuzzy
-#| msgid "Export"
 msgid "Types Export"
-msgstr "Export"
+msgstr "Typen exportieren"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
@@ -10098,24 +10002,17 @@ msgid "Types"
 msgstr "Typen"
 
 #. Template: AdminTypeImportExport
-#, fuzzy
-#| msgid ""
-#| "Here you can export a configuration file of dynamic fields and dynamic "
-#| "field screens to import these on another system. The configuration file "
-#| "is exported in yml format."
 msgid ""
 "Here you can export a configuration file of types to import these on another "
 "system. The configuration file is exported in yml format."
 msgstr ""
-"Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und "
-"dynamischen Felder Oberflächen exportieren, um diese auf einem anderen "
-"System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert."
+"Hier können Sie eine Konfigurationsdatei von Tickettypen exportieren, um "
+"diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird "
+"im yml Format exportiert."
 
 #. Template: AdminTypeImportExport
-#, fuzzy
-#| msgid "Template List"
 msgid "Types List"
-msgstr "Vorlagenliste"
+msgstr "Typen-Liste"
 
 #. Template: AdminUser
 msgid "Agent Management"
