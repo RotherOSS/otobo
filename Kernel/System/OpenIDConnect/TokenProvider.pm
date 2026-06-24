@@ -233,12 +233,12 @@ sub Fetch {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "No valid refresh_token for Account $AccountName using grant_tpye 'authorization code' !",
+            Message  => "No valid refresh_token for Account $AccountName using grant_type 'authorization code' !",
         );
 
         return {
             Success => 0,
-            Error   => $LanguageObject->Translate( "No valid refresh_token for Account %s using grant_tpye 'authorization code' !", $AccountName ),
+            Error   => $LanguageObject->Translate( "No valid refresh_token for Account %s using grant_type 'authorization code' !", $AccountName ),
         };
     }
 
