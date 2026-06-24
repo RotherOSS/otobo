@@ -103,7 +103,7 @@
                             </p>
                         </div>
                         <div class="Size1of2">
-                            <input type="text" id="FilterAvailableActivityDialogs" class="W75pc" name="FilterAvailableActivityDialogs" value="" title="[% Translate("Filter available Activity Dialogs") | html %]" placeholder="[% Translate("Filter available Activity Dialogs") | html %]..." />
+                            <input type="text" id="FilterAvailableActivityDialogs" class="W75pc AvailableFieldsFilter" name="FilterAvailableActivityDialogs" value="" title="[% Translate("Filter available Activity Dialogs") | html %]" placeholder="[% Translate("Filter available Activity Dialogs") | html %]..." />
                             <ul class="Tablelike W90pc SpacingTop">
                                 <li class="Header">
                                     [% Translate("Available Activity Dialogs") | html %]
