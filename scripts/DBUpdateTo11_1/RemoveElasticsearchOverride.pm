@@ -58,7 +58,7 @@ sub Run {
     # Tweak Kernel/Config.pm
     my $Now    = scalar localtime;
     my $Failed = system(
-        qq!$^X -i.backup_upgrade -pe 's/(?=.*\\\$Self->{.Cache::.})/# commented out by DBUpdate-to-11.1.pl $Now /' /opt/otobo/Kernel/Config.pm!
+        qq!$^X -i.backup_upgrade -pe 's/(?=.*\\\$Self->{.Cache::)/# commented out by DBUpdate-to-11.1.pl $Now /' /opt/otobo/Kernel/Config.pm!
     );
 
     if ($Failed) {
