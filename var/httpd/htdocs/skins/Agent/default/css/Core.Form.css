@@ -1148,8 +1148,7 @@ fieldset.ModularForm {
 
     fieldset.ModularForm div.Field {
         position: relative;
-        grid-column: field;
-        overflow: hidden;
+        grid-area: field;
         width: 100%;
         height: min-content;
         min-height: var(--min-field-height);
@@ -1224,6 +1223,61 @@ fieldset.ModularForm {
 
     fieldset.ModularForm .OptionCustomerUserAddressBook {
         align-self: center;
+    }
+
+    fieldset.ModularForm .CustomerContainer, 
+    fieldset.ModularForm .CcCustomerContainer, 
+    fieldset.ModularForm .BccCustomerContainer {
+        --ContainerPadding: 8px;
+        padding: calc( var(--ContainerPadding) / 2) var(--ContainerPadding);
+    }
+
+    fieldset.ModularForm .CustomerContainer .BoxLabel, 
+    fieldset.ModularForm .CcCustomerContainer .BoxLabel, 
+    fieldset.ModularForm .BccCustomerContainer .BoxLabel {
+        display: flex;
+        top: var(--ContainerPadding);
+        bottom: var(--ContainerPadding);
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    fieldset.ModularForm .CustomerContainer > div, 
+    fieldset.ModularForm .CcCustomerContainer > div, 
+    fieldset.ModularForm .BccCustomerContainer > div {
+        margin: calc( var(--ContainerPadding) / 2) 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: calc( var(--ContainerPadding) / 2);
+    }
+
+    fieldset.ModularForm .CustomerContainer input[type="radio"], 
+    fieldset.ModularForm .CcCustomerContainer input[type="radio"], 
+    fieldset.ModularForm .BccCustomerContainer input[type="radio"] {
+        margin: 0;
+    }
+
+    fieldset.ModularForm .CustomerContainer .CcMove,
+    fieldset.ModularForm .CcCustomerContainer .CcMove,
+    fieldset.ModularForm .BccCustomerContainer .CcMove,
+    fieldset.ModularForm .CustomerContainer .BccMove,
+    fieldset.ModularForm .CcCustomerContainer .BccMove,
+    fieldset.ModularForm .BccCustomerContainer .BccMove {
+        height: 14px;
+        padding-bottom: 3px;
+    }
+
+    fieldset.ModularForm .CustomerContainer .CcMove > span,
+    fieldset.ModularForm .CcCustomerContainer .CcMove > span,
+    fieldset.ModularForm .BccCustomerContainer .CcMove > span,
+    fieldset.ModularForm .CustomerContainer .BccMove > span,
+    fieldset.ModularForm .CcCustomerContainer .BccMove > span,
+    fieldset.ModularForm .BccCustomerContainer .BccMove > span {
+        height: 11px;
+        font-size: 10px;
+        font-weight: 600;
+        border: 1.5px solid;
     }
 
     fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
