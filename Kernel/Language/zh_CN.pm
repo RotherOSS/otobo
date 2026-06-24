@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.964489537095751;
+    $Self->{Completeness}        = 0.964178158186717;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4311,6 +4311,7 @@ sub Data {
         'System was not able to lock the setting!' => '系统无法锁定该设置！',
         'Missing setting name.' => '缺少设置名称。',
         'Setting not found.' => '没有找到设置。',
+        'Missing setting key!' => '',
         'Missing Settings!' => '缺少设置！',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -8038,8 +8039,8 @@ Thanks for your help!
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，必须指定连接到客户表的DSN（数据源名称）。',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，必须指定客户表中客户密码的字段名称。',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            '如果为Customer::AuthModule（客户认证模块）选择了“DB（数据库）”，则必须指定密码的加密类型。',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，必须指定客户表中客户密钥的字段名称。',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>

@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.899175649968294;
+    $Self->{Completeness}        = 0.898874623553654;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4311,6 +4311,7 @@ sub Data {
         'System was not able to lock the setting!' => 'Sistem nije uspeo da zaključa podešavanje!',
         'Missing setting name.' => 'Nedostaje naziv podešavanja.',
         'Setting not found.' => 'Podešavanje nije pronađeno.',
+        'Missing setting key!' => '',
         'Missing Settings!' => 'Nedostaje Settings!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -8040,8 +8041,8 @@ Vaša tehnička podrška
             'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti „DSN” za konekciju ka tabeli klijenata.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv kolone za „CustomerPassword” u tabeli klijenata.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Ukoliko je odabran "DB" za Customer::AuthModule, neophodno je podesiti tip šifrovanja za lozinke.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv kolone za „CustomerKey” u tabeli korisnika.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>

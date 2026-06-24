@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.87571337983513;
+    $Self->{Completeness}        = 0.875416072277699;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4305,6 +4305,7 @@ sub Data {
         'System was not able to lock the setting!' => '시스템이 설정을 잠글 수 없습니다!',
         'Missing setting name.' => '설정 이름이 없습니다.',
         'Setting not found.' => '설정을 찾을 수 없습니다.',
+        'Missing setting key!' => '',
         'Missing Settings!' => '설정이 없습니다!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -8034,8 +8035,8 @@ Thanks for your help!
             'Customer :: AuthModule에 대해 "DB"를 선택한 경우 고객 테이블에 대한 연결에 대한 DSN을 지정해야합니다.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Customer :: AuthModule에 대해 "DB"가 선택되면 customer 테이블의 CustomerPassword에 대한 열 이름을 지정해야합니다.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Customer :: AuthModule에 대해 "DB"가 선택되면 암호의 암호화 유형을 지정해야합니다.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Customer :: AuthModule에 대해 "DB"가 선택되면 customer 테이블의 CustomerKey에 대한 열의 이름을 지정해야합니다.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>

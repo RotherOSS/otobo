@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.972098922003805;
+    $Self->{Completeness}        = 0.971786336978919;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4305,6 +4305,7 @@ sub Data {
         'System was not able to lock the setting!' => '¡El sistema no ha podido bloquear el ajuste!',
         'Missing setting name.' => 'Falta el nombre del ajuste.',
         'Setting not found.' => 'Ajuste no encontrado.',
+        'Missing setting key!' => '',
         'Missing Settings!' => '¡Faltan ajustes!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -8034,8 +8035,8 @@ Su equipo de asistencia técnica
             'Si "DB" se eligió como Customer::AuthModule, puede especificarse un DSN para la conexión con la tabla del cliente.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Si "DB" se eligió como Customer::AuthModule, puede especificarse el nombre de la columna de la tabla del cliente para la contraseña.',
-        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            'Si se ha seleccionado "DB" para Customer::AuthModule, se debe especificar el tipo de cifrado de las contraseñas.',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
+            '',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Si "DB" se eligió como Customer::AuthModule, puede especificarse el nombre de la columna de la tabla del cliente para el identificador (llave).',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
