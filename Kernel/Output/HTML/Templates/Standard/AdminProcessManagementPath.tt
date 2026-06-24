@@ -81,7 +81,7 @@
                             </p>
                         </div>
                         <div class="Size1of2">
-                            <input type="text" id="FilterAvailableTransitionActions" class="W75pc" name="FilterAvailableTransitionActions" value="" title="[% Translate("Filter available Transition Actions") | html %]" placeholder="[% Translate("Filter available Transition Actions") | html %]..." />
+                            <input type="text" id="FilterAvailableTransitionActions" class="W75pc AvailableFieldsFilter" name="FilterAvailableTransitionActions" value="" title="[% Translate("Filter available Transition Actions") | html %]" placeholder="[% Translate("Filter available Transition Actions") | html %]..." />
                             <ul class="Tablelike W90pc SpacingTop">
                                 <li class="Header">
                                     [% Translate("Available Transition Actions") | html %]

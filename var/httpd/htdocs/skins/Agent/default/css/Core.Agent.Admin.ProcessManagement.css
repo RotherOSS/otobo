@@ -708,6 +708,12 @@ div.AJAXWaiting {
     display: inline;
 }
 
+.AvailableFieldsFilter {
+    padding: 7px !important;
+    box-sizing: border-box;
+	border-radius: 10px;
+}
+
 }
 
 /**
