@@ -343,6 +343,23 @@ sub Run {
             );
         }
 
+        # prevent updating to non-global if necessary
+        if ( !$TransitionActionData->{Global} ) {
+
+            my $AffectedProcesses = $TransitionActionObject->TransitionActionUsage(
+                EntityID => $TransitionActionData->{EntityID},
+            );
+
+            for my $AffectedProcessEntityID ( sort keys %{$AffectedProcesses} ) {
+
+                if ( $AffectedProcessEntityID ne $ProcessEntityID ) {
+
+                    $Error{GlobalServerError}        = 'ServerError';
+                    $Error{GlobalServerErrorMessage} = Translatable('TransitionActions currently shared by other Processes may not be set to non-global!');
+                }
+            }
+        }
+
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
             return $Self->_ShowEdit(

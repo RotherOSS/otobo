@@ -515,6 +515,44 @@ sub Run {
             $Error{RequiredLockServerError} = 'ServerError';
         }
 
+        # prevent updating to non-global if necessary
+        if ( !$ActivityDialogData->{Global} ) {
+
+            my $AffectedActivities = $ActivityDialogObject->ActivityDialogUsage(
+                EntityID => $ActivityDialogData->{EntityID},
+            );
+
+            my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+
+            for my $AffectedActivityEntityID ( sort keys %{$AffectedActivities} ) {
+
+                my $ActivityData = $ActivityObject->ActivityGet(
+                    EntityID => $AffectedActivityEntityID,
+                    UserID   => $Self->{UserID},
+                );
+
+                if ( !$ActivityData->{ProcessEntityID} ) {
+
+                    $Error{GlobalServerError}        = 'ServerError';
+                    $Error{GlobalServerErrorMessage} = Translatable(
+                        'ActivityDialogs currently used in gobal '
+                        . 'Activities may not be set to non-global!'
+                    );
+                }
+                else {
+
+                    if ( $ActivityData->{ProcessEntityID} ne $ProcessEntityID ) {
+
+                        $Error{GlobalServerError}        = 'ServerError';
+                        $Error{GlobalServerErrorMessage} = Translatable(
+                            'ActivityDialogs currently used in non-gobal Activities '
+                            . 'of other Processes may not be set to non-global!'
+                        );
+                    }
+                }
+            }
+        }
+
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
             return $Self->_ShowEdit(
