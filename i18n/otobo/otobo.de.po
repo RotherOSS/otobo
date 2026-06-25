@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-24 13:50+0000\n"
-"PO-Revision-Date: 2026-06-24 13:52+0000\n"
+"PO-Revision-Date: 2026-06-26 07:00+0000\n"
 "Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -244,10 +244,6 @@ msgid "Change settings"
 msgstr "Wertänderungen"
 
 #. Template: AdminACLEdit
-#, fuzzy
-#| msgid ""
-#| "Set up what you want to change if the criteria match. Keep in mind that "
-#| "'Possible' is a white list, 'PossibleNot' a black list."
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is an exclusive white list, 'PossibleAdd' a white list, "
@@ -255,8 +251,10 @@ msgid ""
 "could add again with '[empty]'."
 msgstr ""
 "Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen "
-"zutreffen. Hierbei ist 'Possible' eine Positivliste und 'PossibleNot' eine "
-"Negativliste."
+"zutreffen. Hierbei ist 'Possible' eine exklusive Positivliste, 'PossibleAdd' "
+"eine Positivliste und 'PossibleNot' eine Negativliste. 'Possible' blendet "
+"auch den leeren Wert aus, welcher durch '[empty]' wieder hinzugefügt werden "
+"kann."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
@@ -4781,10 +4779,10 @@ msgid ""
 "Select the Functional-Account to use for OAuth2 authentication. Functional-"
 "Accounts can be configured here:"
 msgstr ""
+"Wähle das Funktionskonto für die OAuth2 Authentifizierung aus. "
+"Funktionskonten können hier konfiguriert werden:"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "OAuth2 Functional Account"
 msgid "OAuth2 Functional Accounts"
 msgstr "OAuth2 Funktionskonto"
 
@@ -6039,20 +6037,15 @@ msgstr ""
 "Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid ""
-#| "You can create OIDC Profiles to connect to your OIDC Functional Account"
 msgid ""
 "OIDC Profiles to link your OIDC Functional Account to can be created here:"
 msgstr ""
-"OIDC-Profile können erstellt werden um die Verbindung zu einem OIDC "
-"Funktionskonto herzustellen"
+"OIDC-Profile für die Verbindung zu einem OIDC Funktionskonto können hier "
+"erstellt werden:"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "OIDC Profiles"
 msgid "OAuth2 OIDC Profiles"
-msgstr "OIDC Profile"
+msgstr "OAuth2 OIDC Profile"
 
 #. Template: AdminOAuthTokenStore
 msgid "Delete Account"
@@ -6063,11 +6056,6 @@ msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
 msgstr "OIDC Funktionskonten und ihre aktiven OAuth2 Token"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid ""
-#| "Since you do not have any OIDC Provider profiles configured, you cannot "
-#| "add an OAuth2 Functional Account. Xou have to first configure at least "
-#| "one OIDC Provider profile"
 msgid ""
 "Since you do not have any OIDC Provider profiles configured, you cannot add "
 "an OAuth2 Functional Account. You have to first configure at least one OIDC "
@@ -6075,7 +6063,7 @@ msgid ""
 msgstr ""
 "Da keine weiteren OIDC-Anbieter konfiguriert sind, kann kein OAuth2 "
 "Funktionskonto hinzugefügt werden. Zunächst muss mindestens ein OIDC "
-"Anbieterprofil konfiguriert werden"
+"Anbieterprofil hier konfiguriert werden:"
 
 #. Template: AdminOAuthTokenStore
 msgid "OIDC Profiles"
@@ -6134,6 +6122,8 @@ msgid ""
 "The OpenID Connect Profile to link to this functional account. OIDC Profiles "
 "can be configured here:"
 msgstr ""
+"Das OpenID Connect Profil das mit diesem Funktionskonto verknüpft werden "
+"soll. OICD Profile können hier konfiguriert werden:"
 
 #. Template: AdminOAuthTokenStore
 msgid "Grant Type"
@@ -16443,10 +16433,8 @@ msgid "Setting not found."
 msgstr "Einstellung nicht gefunden."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
-#, fuzzy
-#| msgid "Missing setting name!"
 msgid "Missing setting key!"
-msgstr "Name der Einstellung fehlt!"
+msgstr "Schlüssel der Einstellung fehlt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
@@ -18852,10 +18840,8 @@ msgid "Order by"
 msgstr "Sortieren nach"
 
 #. Perl Module: Kernel/Output/HTML/TicketZoom/SimilarTickets.pm
-#, fuzzy
-#| msgid "Search Tickets."
 msgid "Similar Tickets"
-msgstr "Tickets suchen."
+msgstr "Ähnliche Tickets"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
