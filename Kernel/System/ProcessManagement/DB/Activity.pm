@@ -34,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Namespace',
     'Kernel::System::ProcessManagement::DB::ActivityDialog',
+    'Kernel::System::ProcessManagement::DB::Process',
     'Kernel::System::YAML',
 );
 
@@ -868,6 +869,52 @@ sub ActivitySearch {
     }
 
     return \@Data;
+}
+
+=head2 ActivityUsage()
+
+    Get a list of all Processes using this Activity
+
+    my $List = $ActivityObject->ActivityUsage(
+        EntityID => 'A1',
+    );
+
+    Returns:
+
+    $List = {
+        'P1' => 'Process 1',
+        'P2' => 'Process 2',
+        'P3' => 'Process 3',
+    };
+
+=cut
+
+sub ActivityUsage {
+    my ( $Self, %Param ) = @_;
+
+    # get a list of parents with all the details
+    my $List = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessListGet(
+        UserID => 1,
+    );
+
+    my %Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{Activities};
+
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{Activities} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                $Usage{ $ParentData->{EntityID} } = $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    return \%Usage;
 }
 
 1;

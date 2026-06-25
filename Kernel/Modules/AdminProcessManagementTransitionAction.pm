@@ -840,31 +840,4 @@ sub _PopupResponse {
     return $Output;
 }
 
-sub _CheckTransitionActionUsage {
-    my ( $Self, %Param ) = @_;
-
-    # get a list of parents with all the details
-    my $List = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessListGet(
-        UserID => 1,
-    );
-
-    my @Usage;
-
-    # search entity id in all parents
-    PARENT:
-    for my $ParentData ( @{$List} ) {
-        next PARENT if !$ParentData;
-        next PARENT if !$ParentData->{TransitionActions};
-        ENTITY:
-        for my $EntityID ( @{ $ParentData->{TransitionActions} } ) {
-            if ( $EntityID eq $Param{EntityID} ) {
-                push @Usage, $ParentData->{Name};
-                last ENTITY;
-            }
-        }
-    }
-
-    return \@Usage;
-}
-
 1;
