@@ -425,6 +425,23 @@ sub Run {
             $Error{NameServerErrorMessage} = Translatable('This field is required');
         }
 
+        # prevent updating to non-global if necessary
+        if ( !$ActivityData->{Global} ) {
+
+            my $AffectedProcesses = $ActivityObject->ActivityUsage(
+                EntityID => $ActivityData->{EntityID},
+            );
+
+            for my $AffectedProcessEntityID ( sort keys %{$AffectedProcesses} ) {
+
+                if ( $AffectedProcessEntityID ne $ProcessEntityID ) {
+
+                    $Error{GlobalServerError}        = 'ServerError';
+                    $Error{GlobalServerErrorMessage} = Translatable('Activities currently shared by other Processes may not be set to non-global!');
+                }
+            }
+        }
+
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
             return $Self->_ShowEdit(

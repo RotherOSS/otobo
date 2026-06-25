@@ -81,7 +81,10 @@
 
                             <label for="Global">[% Translate("Global") | html %]:</label>
                             <div class="Field">
-                                <input type="checkbox" name="Global" id="Global" value="1" [% Data.Global | html %] />
+                                <input type="checkbox" name="Global" id="Global" value="1" class="[% Data.GlobalServerError | html %]" [% Data.Global | html %] />
+                                <div id="GlobalServerError" class="TooltipErrorMessage">
+                                    <p>[% Data.GlobalServerErrorMessage | html %]</p>
+                                </div>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
