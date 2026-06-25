@@ -768,7 +768,8 @@ sub _ShowEdit {
     # get Activity information
     my $ActivityData = $Param{ActivityData} || {};
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 
     # check if last screen action is main screen
     if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
@@ -911,16 +912,16 @@ sub _ShowEdit {
         }
 
         # display other affected processes by editing this activity (if applicable)
-        my $AffectedProcesses = $Self->_CheckActivityUsage(
+        my $AffectedProcesses = $ActivityObject->ActivityUsage(
             EntityID => $ActivityData->{EntityID},
         );
 
-        if ( @{$AffectedProcesses} ) {
+        if ( values %{$AffectedProcesses} ) {
 
             $LayoutObject->Block(
                 Name => 'EditWarning',
                 Data => {
-                    ProcessList => join( ', ', @{$AffectedProcesses} ),
+                    ProcessList => join( ', ', values %{$AffectedProcesses} ),
                 }
             );
         }

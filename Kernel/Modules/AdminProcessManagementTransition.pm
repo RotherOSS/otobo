@@ -471,7 +471,8 @@ sub _ShowEdit {
     # get Transition information
     my $TransitionData = $Param{TransitionData} || {};
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
 
     # check if last screen action is main screen
     if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
@@ -650,16 +651,16 @@ sub _ShowEdit {
         }
 
         # display other affected processes by editing this activity (if applicable)
-        my $AffectedProcesses = $Self->_CheckTransitionUsage(
+        my $AffectedProcesses = $TransitionObject->TransitionUsage(
             EntityID => $TransitionData->{EntityID},
         );
 
-        if ( @{$AffectedProcesses} ) {
+        if ( values %{$AffectedProcesses} ) {
 
             $LayoutObject->Block(
                 Name => 'EditWarning',
                 Data => {
-                    ProcessList => join( ', ', @{$AffectedProcesses} ),
+                    ProcessList => join( ', ', values %{$AffectedProcesses} ),
                 }
             );
         }
