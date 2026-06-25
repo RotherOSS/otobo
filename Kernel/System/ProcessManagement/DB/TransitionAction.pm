@@ -33,6 +33,8 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Namespace',
+    'Kernel::System::ProcessManagement::DB::Transition',
+    'Kernel::System::ProcessManagement::DB::Process',
     'Kernel::System::YAML',
 );
 
@@ -780,6 +782,52 @@ sub TransitionActionListGet {
     );
 
     return \@Data;
+}
+
+=head2 TransitionActionUsage()
+
+    Get a list of all Processes using this TransitionAction
+
+    my $List = $TransitionActionObject->TransitionActionUsage(
+        EntityID => 'A1',
+    );
+
+    Returns:
+
+    $List = {
+        'P1' => 'Process 1',
+        'P2' => 'Process 2',
+        'P3' => 'Process 3',
+    };
+
+=cut
+
+sub TransitionActionUsage {
+    my ( $Self, %Param ) = @_;
+
+    # get a list of parents with all the details
+    my $List = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessListGet(
+        UserID => 1,
+    );
+
+    my %Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{TransitionActions};
+
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{TransitionActions} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                $Usage{ $ParentData->{EntityID} } = $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    return \%Usage;
 }
 
 1;

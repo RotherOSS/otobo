@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Namespace',
+    'Kernel::System::ProcessManagement::DB::Activity',
     'Kernel::System::YAML',
 );
 
@@ -781,6 +782,52 @@ sub ActivityDialogListGet {
     );
 
     return \@Data;
+}
+
+=head2 ActivityDialogUsage()
+
+    Get a list of all Activities using this ActivityDialog
+
+    my $List = $ActivityDialogObject->ActivityDialogUsage(
+        EntityID => 'AD1',
+    );
+
+    Returns:
+
+    $List = {
+        'A1' => 'Activity 1',
+        'A2' => 'Activity 2',
+        'A3' => 'Activity 3',
+    };
+
+=cut
+
+sub ActivityDialogUsage {
+    my ( $Self, %Param ) = @_;
+
+    # get a list of parents with all the details
+    my $List = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityListGet(
+        UserID => 1,
+    );
+
+    my %Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{ActivityDialogs};
+
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{ActivityDialogs} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                $Usage{ $ParentData->{EntityID} } = $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    return \%Usage;
 }
 
 1;
