@@ -127,8 +127,8 @@ sub Run {
             Module => 'EnableSimilarSearchWidgetIfESActivated',
         },
         {
-            Name   => 'Use the caching backend from the SysConfig, FileStorable per default',
-            Module => 'RemoveElasticsearchOverride',
+            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced',
+            Module => 'RemoveRedisOverride',
         },
     );
     my $NumTasks = @Tasks;
