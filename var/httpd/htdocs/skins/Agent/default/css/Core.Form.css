@@ -1258,22 +1258,22 @@ fieldset.ModularForm {
         margin: 0;
     }
 
+    fieldset.ModularForm .CcCustomerContainer .ToMove,
+    fieldset.ModularForm .BccCustomerContainer .ToMove,
     fieldset.ModularForm .CustomerContainer .CcMove,
-    fieldset.ModularForm .CcCustomerContainer .CcMove,
     fieldset.ModularForm .BccCustomerContainer .CcMove,
     fieldset.ModularForm .CustomerContainer .BccMove,
-    fieldset.ModularForm .CcCustomerContainer .BccMove,
-    fieldset.ModularForm .BccCustomerContainer .BccMove {
+    fieldset.ModularForm .CcCustomerContainer .BccMove {
         height: 14px;
         padding-bottom: 3px;
     }
 
+    fieldset.ModularForm .CcCustomerContainer .ToMove > span,
+    fieldset.ModularForm .BccCustomerContainer .ToMove > span,
     fieldset.ModularForm .CustomerContainer .CcMove > span,
-    fieldset.ModularForm .CcCustomerContainer .CcMove > span,
     fieldset.ModularForm .BccCustomerContainer .CcMove > span,
     fieldset.ModularForm .CustomerContainer .BccMove > span,
-    fieldset.ModularForm .CcCustomerContainer .BccMove > span,
-    fieldset.ModularForm .BccCustomerContainer .BccMove > span {
+    fieldset.ModularForm .CcCustomerContainer .BccMove > span {
         height: 11px;
         font-size: 10px;
         font-weight: 600;
