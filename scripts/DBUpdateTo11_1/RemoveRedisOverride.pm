@@ -13,7 +13,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo11_1::RemoveElasticsearchOverride;
+package scripts::DBUpdateTo11_1::RemoveRedisOverride;
+
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 use v5.24;
 use strict;
@@ -32,12 +34,13 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo11_1::RemoveElasticsearchOverride - no longer for the caching backend to be Elasticsearhc
+scripts::DBUpdateTo11_1::RemoveRedisOverride - no longer force Redis to be caching backend
 
 =head1 DESCRIPTION
 
-Up the OTOBO 11.0.x the caching backing was hardcoded the C<Elasticsearch> when running under Docker.
-This hard coding was done in F<Kernel/Config.pm> which overrides the settings in the SysConfig.
+Up the OTOBO 11.0.x the caching backing was hardcoded the C<Kernel::System::Cache::Redis>
+when running under Docker. This hard coding was done in F<Kernel/Config.pm>.
+This file overrides the settings in the SysConfig.
 For OTOBO 11.1.x the default caching backend is back to C<FileStorable>.
 
 =cut
