@@ -1,6 +1,9 @@
 %YAML 1.1
 ---
 
+# As of 2026-06-24 the branch rel-11_1 has become the new default branch.
+# Only the workflow on the default branch is used for the actions that are triggered by "push".
+
 # Workflow for building devel Docker images and pushing them to Docker hub.
 # See docker_image_builder_rel.yml for the workflow that builds
 # the release Docker images.
