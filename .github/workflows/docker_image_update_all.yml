@@ -13,7 +13,8 @@ name: 'DockerImageUpdateAll'
 on:
 
   # The trigger on 'workflow_dispatch' allows to start the workflow manually
-  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_all.yml
+  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_all.yml .
+  # It is recommended to run the workflow only on the default branch.
   workflow_dispatch:
 
   # Currenty there is no automatically scheduled rebuild.
@@ -39,6 +40,9 @@ jobs:
       otobo_web_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_16 }}
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
 
+      otobo_web_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_web_rel_11_1_0-beta1 }}
+      otobo_web_latest_11_1: ${{ steps.collect_summary.outputs.otobo_web_latest_11_1 }}
+
       # elasticsearch
       otobo_elasticsearch_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_15 }}
       otobo_elasticsearch_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_16 }}
@@ -49,6 +53,9 @@ jobs:
       otobo_elasticsearch_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_15 }}
       otobo_elasticsearch_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_16 }}
       otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
+
+      otobo_elasticsearch_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_1_0-beta1 }}
+      otobo_elasticsearch_latest_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_1 }}
 
       # nginx_webproxy
       otobo_nginx_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_15 }}
@@ -61,6 +68,9 @@ jobs:
       otobo_nginx_webproxy_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_16 }}
       otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
 
+      otobo_nginx_webproxy_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_1_0-beta1 }}
+      otobo_nginx_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_1 }}
+
       # nginx_kerberos_webproxy
       otobo_nginx_kerberos_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_15 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_16 }}
@@ -71,6 +81,9 @@ jobs:
       otobo_nginx_kerberos_webproxy_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_15 }}
       otobo_nginx_kerberos_webproxy_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_16 }}
       otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
+
+      otobo_nginx_kerberos_webproxy_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_1_0-beta1 }}
+      otobo_nginx_kerberos_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_1 }}
 
       # selenium_chrome
       otobo_selenium_chrome_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_15 }}
@@ -83,6 +96,9 @@ jobs:
       otobo_selenium_chrome_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_16 }}
       otobo_selenium_chrome_latest_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0 }}
 
+      otobo_selenium_chrome_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_1_0-beta1 }}
+      otobo_selenium_chrome_latest_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_1 }}
+
     strategy:
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
@@ -92,6 +108,7 @@ jobs:
         docker_tag: [
           'rel-10_1_15', 'rel-10_1_16', 'rel-10_1_17', 'latest-10_1',
           'rel-11_0_14', 'rel-11_0_15', 'rel-11_0_16', 'latest-11_0'
+          'rel-11_1_0-beta1', 'latest-11_1'
         ]
 
         exclude:
@@ -128,6 +145,9 @@ jobs:
           -
             docker_tag: 'latest-11_0'
             patch:      'rel-11_0_16'
+          -
+            docker_tag: 'latest-11_1'
+            patch:      'rel-11_1_0-beta1'
 
           # web
           # the base image perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12
