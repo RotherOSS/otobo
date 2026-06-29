@@ -151,7 +151,7 @@ for my $Config (@Configs) {
         TicketID             => $TicketID,
         IsVisibleForCustomer => 0,
         From                 => 'Some Agent <otobo@example.com>',
-        To                   => 'Suplier<suplier@example.com>',
+        To                   => 'Supplier<supplier@example.com>',
         Charset              => 'utf8',
         MimeType             => 'text/plain',
         HistoryType          => 'OwnerUpdate',
