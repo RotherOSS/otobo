@@ -45,13 +45,6 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-# Do not check RichText.
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'Frontend::RichText',
-    Value => 0,
-);
-
 # Set DefaultLanguage to UTC.
 $Helper->ConfigSettingChange(
     Valid => 1,
@@ -182,6 +175,12 @@ my %Supported = (
     Note    => 1,
 );
 
+# setup for the test case 'RichText Tag <OTOBO_AGENT_BODY[2]>'
+# Note that there is no line break after the last line.
+my $RichTestFormat = join "\n",
+    qq{Test: <blockquote type="cite">%s<br/>},
+    qq{%s</blockquote>};
+
 my @Tests = (
     {
         Name           => 'Supported tag - <OTOBO_CONFIG_ScriptAlias>',
@@ -262,6 +261,28 @@ my @Tests = (
                 $Articles[0]->{ArticleID} => "Test: > agent-Article#1-Line1\n> agent-Article#1-Line2",
                 $Articles[1]->{ArticleID} => "Test: > agent-Article#2-Line1\n> agent-Article#2-Line2",
                 $Articles[2]->{ArticleID} => "Test: > agent-Article#3-Line1\n> agent-Article#3-Line2",
+                $Articles[3]->{ArticleID} => 'Test: -',
+                $Articles[4]->{ArticleID} => 'Test: -',
+                $Articles[5]->{ArticleID} => 'Test: -',
+            },
+            Unsupported => 'Test: -',
+        }
+    },
+    {
+        Name           => 'RichText Tag <OTOBO_AGENT_BODY[2]>',
+        TemplateText   => 'Test: <OTOBO_AGENT_BODY[2]>',
+        TicketID       => $TicketID,
+        RichText       => 1,
+        TemplateResult => {
+            Note =>
+                sprintf( $RichTestFormat, 'agent-Article#3-Line1', 'agent-Article#3-Line2' ),
+            Supported => {
+                $Articles[0]->{ArticleID} =>
+                    sprintf( $RichTestFormat, 'agent-Article#1-Line1', 'agent-Article#1-Line2' ),
+                $Articles[1]->{ArticleID} =>
+                    sprintf( $RichTestFormat, 'agent-Article#2-Line1', 'agent-Article#2-Line2' ),
+                $Articles[2]->{ArticleID} =>
+                    sprintf( $RichTestFormat, 'agent-Article#3-Line1', 'agent-Article#3-Line2' ),
                 $Articles[3]->{ArticleID} => 'Test: -',
                 $Articles[4]->{ArticleID} => 'Test: -',
                 $Articles[5]->{ArticleID} => 'Test: -',
@@ -356,11 +377,28 @@ my @Tests = (
     },
 );
 
-my $StandardTemplateObject  = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
 TEST:
+my $OldRichTextSetting = 42;    # random non-boolean value
 for my $Test (@Tests) {
+
+    # Get a $TemplateGeneratorObject with appropriate RichText setting
+    # Only change the settings if different from last time through the loop
+    $Test->{RichText} //= 0;    # Make sure it's defined
+    if ( $OldRichTextSetting != $Test->{RichText} ) {
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::TemplateGenerator']
+        );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => $Test->{RichText} ? 1 : 0,
+        );
+        $OldRichTextSetting = $Test->{RichText};
+    }
+    my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+
     for my $TemplateType (qw(Answer Forward Create Note Email PhoneCall)) {
 
         # Create standard template.
