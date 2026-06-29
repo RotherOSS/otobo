@@ -20,6 +20,7 @@ package Kernel::System::TemplateGenerator;
 
 use strict;
 use warnings;
+use utf8;
 
 # core modules
 
@@ -75,8 +76,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{RichText} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::RichText');
 
@@ -1190,6 +1190,68 @@ sub NotificationEvent {
 
 =begin Internal:
 
+Private functions used by this package (not part of the documented public API).
+
+=head2 _FixMailto()
+
+A helper method which is used by the internal method C<_Replace()>.
+The complete set of parameters of C<_Replace()> is needed here as C<_Replace()>
+is called recursively.
+
+The goal is to support parameter expansion in mailto links. So
+
+  <a href="mailto:user@timezoneinfo.org?subject=OTOBO%20UserDefaultTimeZone&amp;body=%3COTOBO_CONFIG_UserDefaultTimeZone%3E">mail to timezoneinfo</a>.
+
+would be expanded to:
+
+  <a href="mailto:user@timezoneinfo.org?subject=OTOBO%20UserDefaultTimeZone&amp;body=UTC">mail to timezoneinfo</a>.
+
+=cut
+
+sub _FixMailto {
+    my ( $Self, $Param ) = @_;
+
+    # check for mailto links
+    # since the subject and body of those mailto links are
+    # uri escaped we have to uri unescape them, replace
+    # possible placeholders and then re-uri escape them
+    $Param->{Text} =~ s{
+        (href="mailto:[^\?]+\?)([^"]+")
+    }
+    {
+        my $MailToHref        = $1;
+        my $MailToHrefContent = $2;
+
+        # Nested s///egx!
+        $MailToHrefContent =~ s{
+            ((?:subject|body)=)(.+?)("|&)
+        }
+        {
+            my $SubjectOrBodyPrefix  = $1;
+            my $SubjectOrBodyContent = $2;
+            my $SubjectOrBodySuffix  = $3;
+
+            my $SubjectOrBodyContentUnescaped = uri_unescape $SubjectOrBodyContent;
+
+            # TODO: beware of recursion
+            my $SubjectOrBodyContentReplaced = $Self->_Replace(
+                $Param->%*,
+                Text     => $SubjectOrBodyContentUnescaped,
+                RichText => 0,
+            );
+
+            my $SubjectOrBodyContentEscaped = uri_escape_utf8 $SubjectOrBodyContentReplaced;
+
+            $SubjectOrBodyPrefix . $SubjectOrBodyContentEscaped . $SubjectOrBodySuffix;
+        }egx;
+
+        $MailToHref . $MailToHrefContent;
+    }egx;
+
+    # no return value needed as $RefToText is modified
+    return;
+}
+
 =head2 _Replace()
 
 replace the placeholders in the text
@@ -1210,41 +1272,8 @@ sub _Replace {
         }
     }
 
-    # check for mailto links
-    # since the subject and body of those mailto links are
-    # uri escaped we have to uri unescape them, replace
-    # possible placeholders and then re-uri escape them
-    $Param{Text} =~ s{
-        (href="mailto:[^\?]+\?)([^"]+")
-    }
-    {
-        my $MailToHref        = $1;
-        my $MailToHrefContent = $2;
-
-        # Nested s///egx!
-        $MailToHrefContent =~ s{
-            ((?:subject|body)=)(.+?)("|&)
-        }
-        {
-            my $SubjectOrBodyPrefix  = $1;
-            my $SubjectOrBodyContent = $2;
-            my $SubjectOrBodySuffix  = $3;
-
-            my $SubjectOrBodyContentUnescaped = uri_unescape $SubjectOrBodyContent;
-
-            my $SubjectOrBodyContentReplaced = $Self->_Replace(
-                %Param,
-                Text     => $SubjectOrBodyContentUnescaped,
-                RichText => 0,
-            );
-
-            my $SubjectOrBodyContentEscaped = uri_escape_utf8 $SubjectOrBodyContentReplaced;
-
-            $SubjectOrBodyPrefix . $SubjectOrBodyContentEscaped . $SubjectOrBodySuffix;
-        }egx;
-
-        $MailToHref . $MailToHrefContent;
-    }egx;
+    # handle mailto, $Param{Text} will be modified
+    $Self->_FixMailto( \%Param );
 
     my $Start = '<';
     my $End   = '>';
