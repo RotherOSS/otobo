@@ -1,4 +1,5 @@
-require v5.10;
+use v5.10;
+use utf8;
 
 package Module::Extract::VERSION;
 use strict;
@@ -8,7 +9,7 @@ no warnings;
 
 use Carp qw(carp);
 
-our $VERSION = '1.119';
+our $VERSION = '1.121';
 
 =encoding utf8
 
@@ -56,6 +57,35 @@ context, it returns the list of:
 
 =cut
 
+my( $version_pattern, $package_block_pattern);
+
+BEGIN {
+$version_pattern = qr/
+	(?<sigil>
+		[\$*]
+	)
+	(?<var>
+		(?<package>
+			[\w\:\']*
+		)
+		\b
+		VERSION
+	)
+	\b
+	.*?
+	\=
+	(?<rhs>
+		.*
+	)
+	/x;
+
+$package_block_pattern = qr/
+	\b package \s+
+	(?<package> \w[\w\:\']* ) \s+
+	(?<rhs> \S+ ) \s* [;{]
+	/x;
+}
+
 sub parse_version_safely { # stolen from PAUSE's mldistwatch, but refactored
 	my( $class, $file ) = @_;
 
@@ -70,7 +100,7 @@ sub parse_version_safely { # stolen from PAUSE's mldistwatch, but refactored
 
 	my $in_pod = 0;
 	my( $sigil, $var, $version, $line_number, $rhs );
-	while( <$fh> ) {
+	LINE: while( <$fh> ) {
 		$line_number++;
 		chomp;
 		$in_pod = /^=(?!cut)/ ? 1 : /^=cut/ ? 0 : $in_pod;
@@ -78,40 +108,18 @@ sub parse_version_safely { # stolen from PAUSE's mldistwatch, but refactored
 
 		# package NAMESPACE VERSION  <-- we handle that
 		# package NAMESPACE VERSION BLOCK
+		next unless( m/$version_pattern/ || m/$package_block_pattern/ );
 
-		next unless /
-			(?<sigil>
-				[\$*]
-			)
-			(?<var>
-				(?<package>
-					[\w\:\']*
-				)
-				\b
-				VERSION
-			)
-			\b
-			.*?
-			\=
-			(?<rhs>
-				.*
-			)
-			/x ||
-			m/
-			\b package \s+
-			(?<package> \w[\w\:\']* ) \s+
-			(?<rhs> \S+ ) \s* [;{]
-			/x;
 		( $sigil, $var, $rhs ) = @+{ qw(sigil var rhs) };
 
 		if ($sigil) {
 			$version = $class->_eval_version( $_, @+{ qw(sigil var rhs) } );
-		}
+			}
 		else {
 			$version = $class->_eval_version( $_, '$', 'VERSION', qq('$rhs') );
-		}
+			}
 
-		last;
+		last LINE;
 		}
 	$line_number = undef if eof($fh) && ! defined( $version );
 	close $fh;
@@ -126,15 +134,19 @@ sub _eval_version {
 	my( $class, $line, $sigil, $var, $rhs ) = @_;
 
 	require Safe;
-	require version;
 	local $^W = 0;
 
 	my $s = Safe->new;
 
-if (defined $Devel::Cover::VERSION) {
+	if( $rhs =~ m/\h* qv \( \h* (['"]) ([0-9.]+) \1 \h* \)/x ) {
+		$rhs = qq('$2');
+		}
+	if( defined $Devel::Cover::VERSION ) {
 		$s->share_from('main', ['&Devel::Cover::use_file']);
-	}
-	$s->reval('$VERSION = ' . $rhs);
+		}
+
+	my $command = '$VERSION = ' . $rhs;
+	$s->reval($command);
 	my $version = $s->reval('$VERSION');
 
 	return $version;
@@ -160,7 +172,7 @@ C<package> syntax.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2008-2025, brian d foy C<< <briandfoy@pobox.com> >>. All rights reserved.
+Copyright © 2008-2026, brian d foy C<< <briandfoy@pobox.com> >>. All rights reserved.
 
 You may redistribute this under the Artistic License 2.0.
 
