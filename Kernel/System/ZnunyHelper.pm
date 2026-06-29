@@ -499,18 +499,17 @@ sub _ValidDynamicFieldScreenListGet {
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
     $Param{Result} = lc( $Param{Result} // 'array' );
-    my $DFScreensFilterKey;
+    my @DFScreensFilterKeys;
     if ( $Param{ObjectType} ) {
 
         if ( $Param{ObjectType} eq 'Ticket' ) {
-            $DFScreensFilterKey = 'Framework';
+            push @DFScreensFilterKeys, 'Framework';
         }
-        else {
-            my $DFScreensObjectTypesConfig = $ConfigObject->Get('DynamicFieldScreens::ObjectTypes');
-            for my $DFScreensKey ( keys $DFScreensObjectTypesConfig->%* ) {
-                if ( any { $_ eq $Param{ObjectType} } $DFScreensObjectTypesConfig->{$DFScreensKey}->@* ) {
-                    $DFScreensFilterKey = $DFScreensKey;
-                }
+
+        my $DFScreensObjectTypesConfig = $ConfigObject->Get('DynamicFieldScreens::ObjectTypes');
+        for my $DFScreensKey ( keys $DFScreensObjectTypesConfig->%* ) {
+            if ( any { $_ eq $Param{ObjectType} } $DFScreensObjectTypesConfig->{$DFScreensKey}->@* ) {
+                push @DFScreensFilterKeys, $DFScreensKey;
             }
         }
     }
@@ -531,7 +530,7 @@ sub _ValidDynamicFieldScreenListGet {
                 next REGISTRATION if !$IsInstalled;
             }
 
-            next REGISTRATION if ( $DFScreensFilterKey && $Registration ne $DFScreensFilterKey );
+            next REGISTRATION if ( @DFScreensFilterKeys && none { $Registration ne $_ } @DFScreensFilterKeys );
 
             %{ $ValidScreens->{$Screen} } = (
                 %{ $ValidScreens->{$Screen} },
