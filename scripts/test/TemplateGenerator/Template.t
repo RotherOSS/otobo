@@ -26,6 +26,7 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -413,10 +414,10 @@ for my $Test (@Tests) {
                         Data       => $Test->{Data} // {},
                         UserID     => 1,
                     );
-                    is(
+                    TextEqOrDiff(
                         $Template,
                         $Test->{ExpectedResult},
-                        "got expected result for the ticket",
+                        'got expected result for the ticket',
                     );
                 }
                 elsif ( $Test->{TemplateResult} ) {
@@ -438,14 +439,14 @@ for my $Test (@Tests) {
                                 $ExpectedResult = $Test->{TemplateResult}->{Note};
                             }
 
-                            is(
+                            TextEqOrDiff(
                                 $Template,
                                 $ExpectedResult,
                                 "supported '$Article->{Subject}'",
                             );
                         }
                         else {
-                            is(
+                            TextEqOrDiff(
                                 $Template,
                                 $Test->{TemplateResult}->{Unsupported},
                                 "unsupported '$Article->{Subject}'",
