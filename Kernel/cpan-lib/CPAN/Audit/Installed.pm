@@ -4,7 +4,7 @@ use warnings;
 use File::Find ();
 use Cwd        ();
 
-our $VERSION = "1.001";
+our $VERSION = "1.002";
 
 sub new {
 	my( $class, %params ) = @_;
@@ -70,7 +70,7 @@ sub module_version {
 		$version = $version->numify;
 	}
 
-	return "$version";
+	return defined $version ? $version : '';
 }
 
 sub module_from_file {
