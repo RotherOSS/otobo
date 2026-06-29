@@ -14,7 +14,7 @@ use CPAN::Audit::Version;
 use CPAN::Audit::Query;
 use CPANSA::DB;
 
-our $VERSION = '20260308.002';
+our $VERSION = '20260622.001';
 
 sub new {
 	my( $class, %params ) = @_;
@@ -58,7 +58,7 @@ sub _get_db {
 	}
 
 	$rc = eval {
-		warn "CPAN::Audit::DB is deprecated. Use CPANSA::DB instead.\n";
+		warn "CPAN::Audit::DB is deprecated. Use CPANSA::DB instead. CPAN::Audit::DB will be removed in January 2027.\n";
 		require CPAN::Audit::DB
 		};
 	if ( $rc ) {

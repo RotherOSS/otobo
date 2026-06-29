@@ -28,7 +28,7 @@ requires 'Class::Inspector', '== 1.31';
 # needed by Data::ICal
 requires 'Class::ReturnValue', '== 0.55';
 
-requires 'CPAN::Audit', '== 20260308.002';
+requires 'CPAN::Audit', '== 20260622.001';
 
 # database of adbisories used by CPAN::Audit
 requires 'CPANSA::DB', '== 20260621.001';
@@ -129,7 +129,7 @@ requires 'MIME::Tools', '== 5.514';
 requires 'Module::CPANfile', '== 1.1004';
 
 # needed by CPAN::Audit, could be useful in OTOBO as well
-requires 'Module::Extract::VERSION', '== 1.119';
+requires 'Module::Extract::VERSION', '== 1.121';
 
 # needed by Crypt::Random::Source
 requires 'Module::Find', '== 0.15';
