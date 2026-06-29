@@ -98,64 +98,63 @@ my $LastCustomerSubject12 = 'Article#6-cu [...]';
 my $LastCustomerBody      = "customer-Article#6-Line1\ncustomer-Article#6-Line2\ncustomerArticle#6-Line3";
 my $LastCustomerBody1     = "> customer-Article#6-Line1";
 
-my @Configs = (
-    {
-        SenderType => 'agent',
-        Subject    => 'Article#1-agent',
-        Body       => "agent-Article#1-Line1\nagent-Article#1-Line2\nagentArticle#1-Line3",
-    },
-    {
-        SenderType => 'agent',
-        Subject    => 'Article#2-agent',
-        Body       => "agent-Article#2-Line1\nagent-Article#2-Line2\nagentArticle#2-Line3",
-    },
-    {
-        SenderType => 'agent',
-        Subject    => $LastAgentSubject,
-        Body       => $LastAgentBody,
-    },
-    {
-        SenderType => 'customer',
-        Subject    => 'Article#4-customer',
-        Body       => "customer-Article#4-Line1\ncustomer-Article#4-Line2\ncustomerArticle#4-Line3",
-    },
-    {
-        SenderType => 'customer',
-        Subject    => 'Article#5-customer',
-        Body       => "customer-Article#5-Line1\ncustomer-Article#5-Line2\ncustomerArticle#5-Line3",
-    },
-    {
-        SenderType => 'customer',
-        Subject    => $LastCustomerSubject,
-        Body       => $LastCustomerBody,
-    },
-);
-
+# create sample articles
 my @Articles;
+subtest 'create sample articles' => sub {
+    my @Configs = (
+        {
+            SenderType => 'agent',
+            Subject    => 'Article#1-agent',
+            Body       => "agent-Article#1-Line1\nagent-Article#1-Line2\nagentArticle#1-Line3",
+        },
+        {
+            SenderType => 'agent',
+            Subject    => 'Article#2-agent',
+            Body       => "agent-Article#2-Line1\nagent-Article#2-Line2\nagentArticle#2-Line3",
+        },
+        {
+            SenderType => 'agent',
+            Subject    => $LastAgentSubject,
+            Body       => $LastAgentBody,
+        },
+        {
+            SenderType => 'customer',
+            Subject    => 'Article#4-customer',
+            Body       => "customer-Article#4-Line1\ncustomer-Article#4-Line2\ncustomerArticle#4-Line3",
+        },
+        {
+            SenderType => 'customer',
+            Subject    => 'Article#5-customer',
+            Body       => "customer-Article#5-Line1\ncustomer-Article#5-Line2\ncustomerArticle#5-Line3",
+        },
+        {
+            SenderType => 'customer',
+            Subject    => $LastCustomerSubject,
+            Body       => $LastCustomerBody,
+        },
+    );
 
-for my $Config (@Configs) {
-    my $ArticleID = $ArticleBackendObject->ArticleCreate(
-        %{$Config},
-        TicketID             => $TicketID,
-        IsVisibleForCustomer => 0,
-        From                 => 'Some Agent <otobo@example.com>',
-        To                   => 'Supplier<supplier@example.com>',
-        Charset              => 'utf8',
-        MimeType             => 'text/plain',
-        HistoryType          => 'OwnerUpdate',
-        HistoryComment       => 'Some free text!',
-        UserID               => 1,
-    );
-    $Self->True(
-        $ArticleID,
-        "ArticleID $ArticleID is created"
-    );
-    my %ArticleData = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
-    );
-    push @Articles, \%ArticleData;
-}
+    for my $Config (@Configs) {
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            %{$Config},
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            From                 => 'Some Agent <otobo@example.com>',
+            To                   => 'Supplier<supplier@example.com>',
+            Charset              => 'utf8',
+            MimeType             => 'text/plain',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+        ok( $ArticleID, "ArticleID $ArticleID is created" );
+        my %ArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+        );
+        push @Articles, \%ArticleData;
+    }
+};
 
 # Get ticket and article data for tests.
 my %TicketData = $TicketObject->TicketGet(
@@ -183,15 +182,13 @@ my @Tests = (
         ExpectedResult => 'Thank you for your email. ' . $ConfigObject->Get('ScriptAlias'),
     },
     {
-        Name         => 'Supported tags - <OTOBO_TICKET_*> without TicketID',
-        TemplateText =>
-            'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>)',
+        Name           => 'Supported tags - <OTOBO_TICKET_*> without TicketID',
+        TemplateText   => 'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>)',
         ExpectedResult => 'Options of the ticket data (e. g. -, -, -)',
     },
     {
-        Name         => 'Supported tags - <OTOBO_TICKET_*>  with TicketID',
-        TemplateText =>
-            'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>, <OTOBO_TICKET_State>)',
+        Name           => 'Supported tags - <OTOBO_TICKET_*>  with TicketID',
+        TemplateText   => 'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>, <OTOBO_TICKET_State>)',
         ExpectedResult => "Options of the ticket data (e. g. $TicketNumber, $TicketID, Raw, open)",
         TicketID       => $TicketID,
     },
@@ -374,88 +371,91 @@ my @Tests = (
 
 my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
-TEST:
 my $OldRichTextSetting = 42;    # random non-boolean value
 for my $Test (@Tests) {
+    subtest $Test->{Name} => sub {
 
-    # Get a $TemplateGeneratorObject with appropriate RichText setting
-    # Only change the settings if different from last time through the loop
-    $Test->{RichText} //= 0;    # Make sure it's defined
-    if ( $OldRichTextSetting != $Test->{RichText} ) {
-        $Kernel::OM->ObjectsDiscard(
-            Objects => ['Kernel::System::TemplateGenerator']
-        );
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'Frontend::RichText',
-            Value => $Test->{RichText} ? 1 : 0,
-        );
-        $OldRichTextSetting = $Test->{RichText};
-    }
-    my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
-
-    for my $TemplateType (qw(Answer Forward Create Note Email PhoneCall)) {
-
-        # Create standard template.
-        my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
-            Name         => $Helper->GetRandomID() . '-StandardTemplate',
-            Template     => $Test->{TemplateText},
-            ContentType  => 'text/plain; charset=utf-8',
-            TemplateType => $TemplateType,
-            ValidID      => 1,
-            UserID       => 1,
-        );
-        ok( $TemplateID, "'$TemplateType' type - TemplateID $TemplateID is created" );
-
-        # Check template text.
-        if ( $Test->{ExpectedResult} ) {
-            my $Template = $TemplateGeneratorObject->Template(
-                TemplateID => $TemplateID,
-                TicketID   => $Test->{TicketID},
-                Data       => $Test->{Data} // {},
-                UserID     => 1,
+        # Get a $TemplateGeneratorObject with appropriate RichText setting
+        # Only change the settings if different from last time through the loop
+        $Test->{RichText} //= 0;    # Make sure it's defined
+        if ( $OldRichTextSetting != $Test->{RichText} ) {
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::TemplateGenerator']
             );
-            is(
-                $Template,
-                $Test->{ExpectedResult},
-                "'$TemplateType' type - $Test->{Name}",
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'Frontend::RichText',
+                Value => $Test->{RichText} ? 1 : 0,
             );
+            $OldRichTextSetting = $Test->{RichText};
         }
-        elsif ( $Test->{TemplateResult} ) {
+        my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
-            # Test for all agent and customer articles.
-            for my $Article (@Articles) {
-                my $Template = $TemplateGeneratorObject->Template(
-                    TemplateID => $TemplateID,
-                    TicketID   => $Test->{TicketID},
-                    Data       => { %TicketData, %{$Article} },
-                    UserID     => 1,
+        for my $TemplateType (qw(Answer Forward Create Note Email PhoneCall)) {
+            subtest "Template type $TemplateType" => sub {
+
+                # Create standard template.
+                my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
+                    Name         => $Helper->GetRandomID() . '-StandardTemplate',
+                    Template     => $Test->{TemplateText},
+                    ContentType  => 'text/plain; charset=utf-8',
+                    TemplateType => $TemplateType,
+                    ValidID      => 1,
+                    UserID       => 1,
                 );
+                ok( $TemplateID, "standard template is created" );
 
-                if ( $Supported{$TemplateType} ) {
-                    my $ExpectedResult = $Test->{TemplateResult}->{Supported}->{ $Article->{ArticleID} } // '';
+                # Check template text.
+                if ( $Test->{ExpectedResult} ) {
+                    my $Template = $TemplateGeneratorObject->Template(
+                        TemplateID => $TemplateID,
+                        TicketID   => $Test->{TicketID},
+                        Data       => $Test->{Data} // {},
+                        UserID     => 1,
+                    );
+                    is(
+                        $Template,
+                        $Test->{ExpectedResult},
+                        "got expected result for the ticket",
+                    );
+                }
+                elsif ( $Test->{TemplateResult} ) {
 
-                    # For Note template, there is last article data.
-                    if ( $TemplateType eq 'Note' ) {
-                        $ExpectedResult = $Test->{TemplateResult}->{Note};
+                    # Test for all agent and customer articles.
+                    for my $Article (@Articles) {
+                        my $Template = $TemplateGeneratorObject->Template(
+                            TemplateID => $TemplateID,
+                            TicketID   => $Test->{TicketID},
+                            Data       => { %TicketData, %{$Article} },
+                            UserID     => 1,
+                        );
+
+                        if ( $Supported{$TemplateType} ) {
+                            my $ExpectedResult = $Test->{TemplateResult}->{Supported}->{ $Article->{ArticleID} } // '';
+
+                            # For Note template, there is last article data.
+                            if ( $TemplateType eq 'Note' ) {
+                                $ExpectedResult = $Test->{TemplateResult}->{Note};
+                            }
+
+                            is(
+                                $Template,
+                                $ExpectedResult,
+                                "supported '$Article->{Subject}'",
+                            );
+                        }
+                        else {
+                            is(
+                                $Template,
+                                $Test->{TemplateResult}->{Unsupported},
+                                "unsupported '$Article->{Subject}'",
+                            );
+                        }
                     }
-
-                    is(
-                        $Template,
-                        $ExpectedResult,
-                        "'$TemplateType' type - $Article->{Subject} - $Test->{Name}",
-                    );
                 }
-                else {
-                    is(
-                        $Template,
-                        $Test->{TemplateResult}->{Unsupported},
-                        "'$TemplateType' type - $Article->{Subject} - $Test->{Name}",
-                    );
-                }
-            }
+            };
         }
-    }
+    };
 }
 
-done_testing();
+done_testing;
