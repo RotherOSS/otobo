@@ -25,9 +25,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -85,10 +83,7 @@ my $TicketID     = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
-    $TicketID,
-    "TicketID $TicketID is created",
-);
+ok( $TicketID, "TicketID $TicketID is created" );
 
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
     ChannelName => 'Phone',
@@ -410,10 +405,7 @@ for my $Test (@Tests) {
             ValidID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TemplateID,
-            "'$TemplateType' type - TemplateID $TemplateID is created",
-        );
+        ok( $TemplateID, "'$TemplateType' type - TemplateID $TemplateID is created" );
 
         # Check template text.
         if ( $Test->{ExpectedResult} ) {
@@ -423,7 +415,7 @@ for my $Test (@Tests) {
                 Data       => $Test->{Data} // {},
                 UserID     => 1,
             );
-            $Self->Is(
+            is(
                 $Template,
                 $Test->{ExpectedResult},
                 "'$TemplateType' type - $Test->{Name}",
@@ -448,14 +440,14 @@ for my $Test (@Tests) {
                         $ExpectedResult = $Test->{TemplateResult}->{Note};
                     }
 
-                    $Self->Is(
+                    is(
                         $Template,
                         $ExpectedResult,
                         "'$TemplateType' type - $Article->{Subject} - $Test->{Name}",
                     );
                 }
                 else {
-                    $Self->Is(
+                    is(
                         $Template,
                         $Test->{TemplateResult}->{Unsupported},
                         "'$TemplateType' type - $Article->{Subject} - $Test->{Name}",
