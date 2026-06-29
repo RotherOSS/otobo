@@ -371,8 +371,9 @@ sub PreAuth {
         TTL           => $TTL,
         CacheInMemory => 0,                       # important for distributed systems
     );
+
     my %Data = (
-        State => $RandomString . $LayoutObject->LinkEncode( $Param{RequestedURL} // '' ),
+        State => $RandomString . ($Param{RequestedURL} // '' ),
     );
 
     # store the RandomString as a CSRF cookie
