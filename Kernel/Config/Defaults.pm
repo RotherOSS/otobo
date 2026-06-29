@@ -508,8 +508,21 @@ sub LoadDefaults {
     # (take care that Net::LDAP is installed!)
 #    $Self->{AuthModule} = 'Kernel::System::Auth::LDAP';
 #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
+#        to use ldaps protocol, specify url with ldaps:// scheme
+#            for example 'ldaps://ldap.example.com'
+#        to use a port different from ldaps default (636)
+#        specify the port as part of the URL:
+#            for example 'ldaps://ldap.example.com:737'
 #    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+
+# to verify TLS certificates with ldaps protocol, configure
+#    $Self->{'AuthModule::LDAP::Params'} = {
+#        verify => 'require',
+#    };
+
+# alternatively to using ldaps, you can also use StartTLS
+#    $Self->{'AuthModule::LDAP::StartTLS'} = 'required';
 
     # Check if the user is allowed to auth in a posixGroup
     # (e. g. user needs to be in a group xyz to use otobo)
@@ -549,8 +562,6 @@ sub LoadDefaults {
 #        async   => 0,
 #        version => 3,
 #    };
-    # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
-#    $Self->{'AuthModule::LDAP::StartTLS'} = 'required';
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthModule::LDAP::Die'} = 1;
@@ -678,6 +689,20 @@ sub LoadDefaults {
     # (take care that Net::LDAP is installed!)
 #    $Self->{AuthSyncModule} = 'Kernel::System::Auth::Sync::LDAP';
 #    $Self->{'AuthSyncModule::LDAP::Host'} = 'ldap.example.com';
+#        to use ldaps protocol, specify url with ldaps:// scheme
+#            for example 'ldaps://ldap.example.com'
+#        to use a port different from ldaps default (636)
+#        specify the port as part of the URL:
+#            for example 'ldaps://ldap.example.com:737'
+
+# to verify TLS certificates with ldaps protocol, configure
+#    $Self->{'AuthSyncModule::LDAP::Params'} = {
+#        verify => 'require',
+#    };
+
+# alternatively to using ldaps, you can also use StartTLS
+#    $Self->{'AuthSyncModule::LDAP::StartTLS'} = 'required';
+
 #    $Self->{'AuthSyncModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthSyncModule::LDAP::UID'} = 'uid';
 #    $Self->{'AuthSyncModule::LDAP::GroupDN'} = 'cn=otoboallow,ou=posixGroups,dc=example,dc=com';
@@ -712,8 +737,6 @@ sub LoadDefaults {
 #        async   => 0,
 #        version => 3,
 #    };
-    # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
-#    $Self->{'AuthSyncModule::LDAP::StartTLS'} = 'required';
 
 
     # Die if backend can't work, e. g. can't connect to server.
@@ -1518,6 +1541,20 @@ via the Preferences button after logging in.
     # (take care that Net::LDAP is installed!)
 #    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
 #    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
+#        to use ldaps protocol, specify url with ldaps:// scheme
+#            for example 'ldaps://ldap.example.com'
+#        to use a port different from ldaps default (636)
+#        specify the port as part of the URL:
+#            for example 'ldaps://ldap.example.com:737'
+
+# to verify TLS certificates with ldaps protocol, configure
+#    $Self->{'Customer::AuthModule::LDAP::Params'} = {
+#        verify => 'require',
+#    };
+
+# alternatively to using ldaps, you can also use StartTLS
+#    $Self->{'Customer::AuthModule::LDAP::StartTLS'} = 'required';
+
 #    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
 
@@ -1785,7 +1822,7 @@ via the Preferences button after logging in.
 #        Module => 'Kernel::System::CustomerUser::LDAP',
 #        Params => {
 #            # ldap host
-#            Host => 'bay.csuhayward.edu',
+#            Host => 'ldaps://bay.csuhayward.edu',
 #            # ldap base dn
 #            BaseDN => 'ou=seas,o=csuh',
 #            # search scope (one|sub)
@@ -1807,6 +1844,7 @@ via the Preferences button after logging in.
 #                timeout => 120,
 #                async   => 0,
 #                version => 3,
+#                verify  => 'require', 
 #            },
 #        },
 #        # customer unique id
