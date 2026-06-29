@@ -170,7 +170,7 @@ for my $Config (@Configs) {
 }
 
 # Get ticket and article data for tests.
-my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+my %TicketData = $TicketObject->TicketGet(
     TicketID      => $TicketID,
     DynamicFields => 1,
 );
