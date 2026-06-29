@@ -32,6 +32,7 @@ use List::Util qw(any);
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
 );
@@ -45,6 +46,9 @@ scripts::DBUpdateTo11_1::SysConfigMigrateDynamicFieldNamespaces - Copy dynamic f
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # prevent error message due to invalid setting
+    return 1 unless $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # fetch old setting for checks and retrieving old value
@@ -53,11 +57,11 @@ sub Run {
     );
     if ( !%OldDynamicFieldNamespacesSetting ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
+            Priority => 'notice',
             Message  => "Could not fetch setting 'DynamicField::Namespaces' - aborting."
         );
 
-        return;
+        return 1;
     }
 
     # report success if value is empty
