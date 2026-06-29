@@ -319,9 +319,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.55',
         },
         {
+            # audit Perl code using the data provided in CPANSA::DB
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20260308.002',
+            'VersionRequired' => '== 20260622.001',
         },
         {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
@@ -467,7 +468,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
             'Module'          => 'Module::Extract::VERSION',
             'Required'        => 1,
-            'VersionRequired' => '== 1.119',
+            'VersionRequired' => '== 1.121',
         },
         {
             'Comment'         => 'needed by Crypt::Random::Source',
