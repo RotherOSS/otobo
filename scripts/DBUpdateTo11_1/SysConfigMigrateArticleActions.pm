@@ -60,11 +60,11 @@ sub Run {
         # This case also occurs on installations that were installed as 11.1.x. But in that case
         # there is no obvious reason why the migration is executed.
         $LogObject->Log(
-            Priority => 'error',
+            Priority => 'notice',
             Message  => "Could not retrieve the setting Ticket::Frontend::Article::Actions",
         );
 
-        return;
+        return 1;
     }
 
     # hardcoded content of 11.0 default config for comparison later on
