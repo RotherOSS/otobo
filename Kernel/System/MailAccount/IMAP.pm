@@ -133,11 +133,10 @@ sub Connect {
         }
 
         my $Result = $IMAPObject->Otobo_OAuth2(
-            User  => $Param{Login},
-            Token => $Token->{Token},
-            Host  => $Param{Host},
-
-            #            Port      => 143,
+            User      => $Param{Login},
+            Token     => $Token->{Token},
+            Host      => $Param{Host},
+            Port      => $IMAPObject->Port(),
             Mechanism => $Auth
         );
 
