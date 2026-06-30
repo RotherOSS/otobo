@@ -401,7 +401,11 @@
                             <div class="Field">
                                 [% Data.NextStatesStrg %]
                             </div>
+                        </div>
+                    </div>
 
+                    <div class="Row">
+                        <div class="FieldCell">
                             <label>[% Translate("Pending date") | html %]:</label>
                             <div class="Field PendingDateField">
                                 [% Data.PendingDateString %]
