@@ -40,7 +40,6 @@ our @ObjectDependencies = (
     'Kernel::System::GenericAgent',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Group',
-    'Kernel::System::ITSMConfigItem',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Namespace',
@@ -2808,12 +2807,12 @@ sub _PriorityCreateIfNotExists {
         return;
     }
 
-    my %PrioritysReversed = $PriorityObject->PriorityList(
+    my %PrioritiesReversed = $PriorityObject->PriorityList(
         Valid => 0,
     );
-    %PrioritysReversed = reverse %PrioritysReversed;
+    %PrioritiesReversed = reverse %PrioritiesReversed;
 
-    my $ItemID = $Self->_ItemReverseListGet( $Param{Name}, %PrioritysReversed );
+    my $ItemID = $Self->_ItemReverseListGet( $Param{Name}, %PrioritiesReversed );
     return $ItemID if $ItemID;
 
     return $PriorityObject->PriorityAdd(
