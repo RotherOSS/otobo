@@ -43,6 +43,7 @@ our @ObjectDependencies = (
     'Kernel::System::ITSMConfigItem',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Namespace',
     'Kernel::System::NotificationEvent',
     'Kernel::System::Package',
     'Kernel::System::PostMaster::Filter',
@@ -1701,29 +1702,27 @@ sub _DynamicFieldsCreate {
     # namespace handling
     if (%Namespaces) {
 
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        # Get current setting value.
-        my %Setting = $SysConfigObject->SettingGet(
-            Name => 'DynamicField::Namespaces',
+        # check against existing namespaces
+        #   might be the case that a used namespace exists in the global namespaces setting
+        my @ExistingNamespaces = $Kernel::OM->Get('Kernel::System::Namespace')->NamespacesList(
+            Scope => 'DynamicField',
         );
 
-        my $ExistingNamespaces = $Setting{EffectiveValue};
-        my %AllNamespaces      = (
-            ( map { $_ => 1 } $ExistingNamespaces->@* ),
-            %Namespaces,
-        );
-
-        # check if namespaces need to be changed
-        my $UpdateNamespaces = 0;
-        NEWNAMESPACE:
-        for my $NewNamespace ( keys %AllNamespaces ) {
-            if ( none { $NewNamespace eq $_ } $ExistingNamespaces->@* ) {
-                $UpdateNamespaces = 1;
-                last NEWNAMESPACE;
+        my @NamespacesToAdd;
+        for my $NewNamespace ( keys %Namespaces ) {
+            if ( none { $NewNamespace eq $_ } @ExistingNamespaces ) {
+                push @NamespacesToAdd, $NewNamespace;
             }
         }
-        if ($UpdateNamespaces) {
+
+        if (@NamespacesToAdd) {
+
+            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+            # Get current setting value.
+            my %Setting = $SysConfigObject->SettingGet(
+                Name => 'Namespaces###DynamicField',
+            );
 
             my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
                 UserID    => 1,
@@ -1733,16 +1732,16 @@ sub _DynamicFieldsCreate {
 
             # Update setting with modified data
             my %Result = $SysConfigObject->SettingUpdate(
-                Name              => 'DynamicField::Namespaces',
+                Name              => 'Namespaces###DynamicField',
                 IsValid           => 1,
-                EffectiveValue    => [ keys %AllNamespaces ],
+                EffectiveValue    => [ $Setting{EffectiveValue}->@*, @NamespacesToAdd ],
                 ExclusiveLockGUID => $ExclusiveLockGUID,
                 UserID            => 1,
             );
             if ( !$Result{Success} ) {
                 return {
                     Success      => 0,
-                    ErrorMessage => 'Could not update setting DynamicField::Namespaces.',
+                    ErrorMessage => 'Could not update setting Namespaces###DynamicField.',
                 };
             }
 
@@ -1753,15 +1752,15 @@ sub _DynamicFieldsCreate {
             if ( !$Success ) {
                 return {
                     Success      => 0,
-                    ErrorMessage => 'Could not unlock setting DynamicField::Namespaces.',
+                    ErrorMessage => 'Could not unlock setting Namespaces###DynamicField.',
                 };
             }
 
             my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-                Comments      => "DynamicFieldImport updating DynamicField::Namespaces",
+                Comments      => "DynamicFieldImport updating Namespaces###DynamicField",
                 UserID        => 1,
                 Force         => 1,
-                DirtySettings => ['DynamicField::Namespaces'],
+                DirtySettings => ['Namespaces###DynamicField'],
             );
 
             if ( !$DeploymentResult{Success} ) {
