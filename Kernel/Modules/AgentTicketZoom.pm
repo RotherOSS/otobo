@@ -344,6 +344,8 @@ sub Run {
 
     if ( $Self->{Subaction} eq 'MarkAsImportant' ) {
 
+        $LayoutObject->ChallengeTokenCheck();
+
         # Owner and Responsible can mark articles as important or remove mark
         if (
             $Self->{UserID} == $Ticket{OwnerID}

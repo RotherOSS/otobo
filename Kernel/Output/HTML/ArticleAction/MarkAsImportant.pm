@@ -92,18 +92,36 @@ sub GetConfig {
 
     my $ArticleIsImportant = $ArticleFlags{Important};
 
-    my $Link        = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID}";
     my $Description = Translatable('Mark');
     if ($ArticleIsImportant) {
         $Description = Translatable('Unmark');
     }
 
+    my @Data = (
+        {
+            Key   => 'Action',
+            Value => 'AgentTicketZoom',
+        },
+        {
+            Key   => 'Subaction',
+            Value => 'MarkAsImportant',
+        },
+        {
+            Key   => 'TicketID',
+            Value => $Param{Ticket}{TicketID},
+        },
+        {
+            Key   => 'ArticleID',
+            Value => $Param{Article}{ArticleID},
+        },
+    );
+
     # set important menu item
     my %MenuItem = (
-        ItemType    => 'Link',
+        ItemType    => 'FormPost',
         Description => $Description,
         Name        => $Description,
-        Link        => $Link,
+        Params      => \@Data,
     );
 
     return ( \%MenuItem );
