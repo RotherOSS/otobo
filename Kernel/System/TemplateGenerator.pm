@@ -317,13 +317,13 @@ sub Sender {
         }
     }
 
-    # get needed objects
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # get sender attributes
     my %Address = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress(
         QueueID => $Param{QueueID},
     );
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # This is the not quoted real name
     my $Phrase = $Address{Phrase};
@@ -1252,6 +1252,52 @@ sub _FixMailto {
     return;
 }
 
+=head2 _FindRecipientTimeZone()
+
+A helper method which is used by the internal method C<_Replace()>.
+
+=cut
+
+sub _FindRecipientTimeZone {
+    my ( $Self, $AddTimezoneInfo, $Ticket, $Recipient ) = @_;
+
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+    my %CustomerUser;
+    if ( IsHashRefWithData($Ticket) && $Ticket->{CustomerUserID} ) {
+        %CustomerUser = $CustomerUserObject->CustomerUserDataGet( User => $Ticket->{CustomerUserID} );
+    }
+
+    my %UserPreferences;
+
+    if ( $AddTimezoneInfo->{NotificationEvent} ) {
+        if ( $Recipient->{Type} eq 'Agent' ) {
+            %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+                UserID => $Recipient->{UserID},
+            );
+        }
+        elsif ( $Recipient->{Type} eq 'Customer' && $Recipient->{UserID} ) {
+            %UserPreferences = $CustomerUserObject->GetPreferences(
+                UserID => $Recipient->{UserID},
+            );
+        }
+    }
+    elsif (
+        $AddTimezoneInfo->{AutoResponse}
+        && $Ticket->{CustomerUserID}
+        && IsHashRefWithData( \%CustomerUser )
+        )
+    {
+        %UserPreferences = $CustomerUserObject->GetPreferences(
+            UserID => $Ticket->{CustomerUserID},
+        );
+    }
+
+    # fall back to the OTOBO time zone
+    return $UserPreferences{UserTimeZone} if $UserPreferences{UserTimeZone};
+    return $Kernel::OM->Create('Kernel::System::DateTime')->OTOBOTimeZoneGet();
+}
+
 =head2 _Replace()
 
 replace the placeholders in the text
@@ -1288,50 +1334,13 @@ sub _Replace {
         %Ticket = %{ $Param{TicketData} };
     }
 
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
     # Determine recipient's timezone if needed.
     my $RecipientTimeZone;
     if ( $Param{AddTimezoneInfo} ) {
-        $RecipientTimeZone = $Kernel::OM->Create('Kernel::System::DateTime')->OTOBOTimeZoneGet();
-
-        my %CustomerUser;
-        if ( IsHashRefWithData( \%Ticket ) && $Ticket{CustomerUserID} ) {
-            %CustomerUser = $CustomerUserObject->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
-        }
-
-        my %UserPreferences;
-
-        if ( $Param{AddTimezoneInfo}->{NotificationEvent} && $Param{Recipient}->{Type} eq 'Agent' ) {
-            %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
-                UserID => $Param{Recipient}->{UserID},
-            );
-        }
-        elsif (
-            $Param{AddTimezoneInfo}->{NotificationEvent}
-            && $Param{Recipient}->{Type} eq 'Customer'
-            && $Param{Recipient}->{UserID}
-            )
-        {
-            %UserPreferences = $CustomerUserObject->GetPreferences(
-                UserID => $Param{Recipient}->{UserID},
-            );
-        }
-        elsif (
-            $Param{AddTimezoneInfo}->{AutoResponse}
-            && $Ticket{CustomerUserID}
-            && IsHashRefWithData( \%CustomerUser )
-            )
-        {
-            %UserPreferences = $CustomerUserObject->GetPreferences(
-                UserID => $Ticket{CustomerUserID},
-            );
-        }
-
-        if ( $UserPreferences{UserTimeZone} ) {
-            $RecipientTimeZone = $UserPreferences{UserTimeZone};
-        }
+        $RecipientTimeZone = $Self->_FindRecipientTimeZone( $Param{AddTimezoneInfo}, \%Ticket, $Param{Recipient} );
     }
+
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # Replace Unix time format tags.
     # If language is defined, they will be converted into a correct format in below IF statement.
