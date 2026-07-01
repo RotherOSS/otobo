@@ -57,6 +57,16 @@
         <li>
             <a href="[% IF Item.Link.match('^(?!(mailto)|(http(s)?):)') %][% Env("Baselink") %][% END %][% Item.Link %]" class="[% Item.Class | html %]" [% Item.LinkParam %] title="[% Translate(Item.Description) | html %]">[% Translate(Item.Name) | html %]</a>
         </li>
+
+    [% ELSIF Item.ItemType == 'FormPost' %]
+        <li>
+            <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="PreventMultipleSubmits" id='[% Item.FormID | html %]'>
+[% FOREACH Param IN Item.Params %]
+                <input type='hidden' name='[% Param.Key | html %]' value='[% Param.Value | html %]'/>
+[% END %]
+                <button type='submit' class="Primary CallForAction" title='[% Translate(Item.Description) | html %]' style='font-size:11px'>[% Translate(Item.Name) | html %]</button>
+            </form>
+        </li>
     [% END %]
 
 [% END %]
