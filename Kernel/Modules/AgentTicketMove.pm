@@ -1502,7 +1502,7 @@ sub AgentMove {
             Errors               => $Param{DFErrors},
             Object               => {
                 CustomerID     => $Param{CustomerID},
-                CustomerUserID => $Param{CustomerIserID},
+                CustomerUserID => $Param{CustomerUserID},
                 UserID         => $Self->{UserID},
                 %DynamicFieldValues,
             },
