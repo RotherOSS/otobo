@@ -19,6 +19,8 @@ package Kernel::Modules::AdminSystemConfigurationDeployment;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -77,15 +79,6 @@ sub Run {
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-            Comments      => $Comments,
-            UserID        => $Self->{UserID},
-            AllSettings   => ($AdvancedMode) ? 1 : 0,
-            DirtySettings => $SelectedSettings || undef,
-        );
-
-        $ReturnData{Result} = \%DeploymentResult;
-
         if ( $Self->{LastEntityType} ) {
 
             # Unset Entity Type.
@@ -99,6 +92,43 @@ sub Run {
         elsif ( $SysConfigObject->can('SettingHistory') ) {
             $ReturnData{RedirectURL} = 'Action=AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistory';
         }
+
+        # permission check
+        my $DeployPermission = $Self->_IsAllowedToDeploy(
+            SelectedSettings => $SelectedSettings,
+            AdvancedMode     => $AdvancedMode,
+        );
+
+        if ( !$DeployPermission->{Allowed} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $DeployPermission->{ErrorMsg},
+            );
+
+            $ReturnData{Result} = { Success => 0 };
+
+            my $JSON = $LayoutObject->JSONEncode(
+                Data => \%ReturnData,
+            );
+
+            return $LayoutObject->Attachment(
+                ContentType => 'application/json',
+                Content     => $JSON,
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+
+        # actual deployment
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+            Comments      => $Comments,
+            UserID        => $Self->{UserID},
+            AllSettings   => ($AdvancedMode) ? 1 : 0,
+            DirtySettings => $SelectedSettings || undef,
+        );
+
+        $ReturnData{Result} = \%DeploymentResult;
 
         my $JSON = $LayoutObject->JSONEncode(
             Data => \%ReturnData,
@@ -232,6 +262,78 @@ sub Run {
         return $LayoutObject->Redirect( OP => "Action=AdminSystemConfiguration" );
     }
 
+}
+
+sub _IsAllowedToDeploy {
+
+    my ( $Self, %Param ) = @_;
+
+    my $SelectedSettings = $Param{SelectedSettings};
+    my $AdvancedMode     = $Param{AdvancedMode};
+
+    # permission check
+    my $AdminGroup      = 'admin';
+    my $GroupObject     = $Kernel::OM->Get('Kernel::System::Group');
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+    my $FrontendModule  = $ConfigObject->Get('Frontend::Module');
+
+    if (
+        IsHashRefWithData($FrontendModule)
+        &&
+        IsHashRefWithData( $FrontendModule->{AdminSystemConfiguration} )
+        )
+    {
+        if ( IsArrayRefWithData( $FrontendModule->{AdminSystemConfiguration}->{Group} ) ) {
+
+            $AdminGroup = $FrontendModule->{AdminSystemConfiguration}->{Group}->[0];
+        }
+    }
+
+    my $IsAdmin = $GroupObject->PermissionCheck(
+        UserID    => $Self->{UserID},
+        GroupName => $AdminGroup,
+        Type      => 'rw',              # ro|move_into|create|note|owner|priority|rw
+    );
+
+    # admin is always allowed to deploy
+    return { Allowed => 1 } if $IsAdmin;
+
+    # nonadmins are not allowed to deploy all
+    if ($AdvancedMode) {
+
+        return {
+            Allowed  => 0,
+            ErrorMsg => "Only admin is allowed to deploy all settings!",
+        };
+    }
+    elsif ($SelectedSettings) {
+
+        # only allow to deploy owned settings
+        for my $SelectedSettingKey ( $SelectedSettings->@* ) {
+
+            my %SelectedSetting = $SysConfigObject->SettingGet(
+                Name => $SelectedSettingKey,
+            );
+
+            if ( $SelectedSetting{IsDirty} && $SelectedSetting{ChangeBy} != $Self->{UserID} ) {
+
+                return {
+                    Allowed  => 0,
+                    ErrorMsg => "Not allowed to modify setting $SelectedSettingKey!",
+                };
+            }
+            if ( !$SelectedSetting{UserModificationPossible} ) {
+
+                return {
+                    Allowed  => 0,
+                    ErrorMsg => "$SelectedSettingKey is not user-modifiable!",
+                };
+            }
+        }
+    }
+
+    return { Allowed => 1 };
 }
 
 1;
