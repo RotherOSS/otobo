@@ -40,6 +40,7 @@ sub new {
     {
         $Self->{LoadedFormDraftID} = $Kernel::OM->Get('Kernel::System::Web::Request')->LoadFormDraft(
             FormDraftID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' ),
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         );
     }
@@ -399,6 +400,7 @@ sub Run {
         elsif ( $FormDraftAction eq 'Delete' && $GetParam{FormDraftID} ) {
             $FormDraftActionOk = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                 FormDraftID => $GetParam{FormDraftID},
+                ObjectID    => $Self->{TicketID},
                 UserID      => $Self->{UserID},
             );
         }
@@ -596,7 +598,7 @@ sub Run {
                     );
                 }
 
-                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # send a list of attachments in the upload cache back to the client-side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $Self->{FormID},
@@ -1286,6 +1288,7 @@ sub Run {
         $GetParam{FormDraftID}
         && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
             FormDraftID => $GetParam{FormDraftID},
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         )
         )
@@ -1551,7 +1554,7 @@ sub AgentMove {
             Data => {%Param},
         );
 
-        # fillup configured default vars
+        # fill-up configured default vars
         if ( $Param{Body} eq '' && $Config->{Body} ) {
             $Param{Body} = $LayoutObject->Output(
                 Template => $Config->{Body},
@@ -1679,6 +1682,7 @@ sub AgentMove {
     if ( $Self->{LoadedFormDraftID} ) {
         $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
             FormDraftID => $Self->{LoadedFormDraftID},
+            ObjectID    => $Self->{TicketID},
             GetContent  => 0,
             UserID      => $Self->{UserID},
         );

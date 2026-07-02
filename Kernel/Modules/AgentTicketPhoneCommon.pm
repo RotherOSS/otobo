@@ -44,6 +44,7 @@ sub new {
     {
         $Self->{LoadedFormDraftID} = $Kernel::OM->Get('Kernel::System::Web::Request')->LoadFormDraft(
             FormDraftID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' ),
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         );
     }
@@ -402,7 +403,7 @@ sub Run {
 
         }
 
-        # extracte dynamic field values from ticket data
+        # extract dynamic field values from ticket data
         my %TicketDFValues =
             map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
             grep { $_->{ObjectType} eq 'Ticket' }
@@ -585,6 +586,7 @@ sub Run {
             elsif ( $FormDraftAction eq 'Delete' && $GetParam{FormDraftID} ) {
                 $FormDraftActionOk = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                     FormDraftID => $GetParam{FormDraftID},
+                    ObjectID    => $Self->{TicketID},
                     UserID      => $Self->{UserID},
                 );
             }
@@ -784,7 +786,7 @@ sub Run {
                 }
             }
 
-            # extracte dynamic field values from ticket data
+            # extract dynamic field values from ticket data
             my %TicketDFValues =
                 map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
                 grep { $_->{ObjectType} eq 'Ticket' }
@@ -1030,6 +1032,7 @@ sub Run {
                 $GetParam{FormDraftID}
                 && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                     FormDraftID => $GetParam{FormDraftID},
+                    ObjectID    => $Self->{TicketID},
                     UserID      => $Self->{UserID},
                 )
                 )
@@ -1112,7 +1115,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $ElementChanged eq 'StandardTemplateID' ) {
             my @TicketAttachments;
             my $TemplateText;
@@ -1155,7 +1158,7 @@ sub Run {
                     );
                 }
 
-                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # send a list of attachments in the upload cache back to the client-side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $Self->{FormID},
@@ -1477,6 +1480,7 @@ sub _MaskPhone {
     if ( $Self->{LoadedFormDraftID} ) {
         $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
             FormDraftID => $Self->{LoadedFormDraftID},
+            ObjectID    => $Self->{TicketID},
             GetContent  => 0,
             UserID      => $Self->{UserID},
         );

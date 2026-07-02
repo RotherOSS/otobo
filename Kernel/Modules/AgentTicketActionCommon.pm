@@ -51,6 +51,7 @@ sub new {
     {
         $Self->{LoadedFormDraftID} = $ParamObject->LoadFormDraft(
             FormDraftID => $ParamObject->GetParam( Param => 'FormDraftID' ),
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         );
     }
@@ -327,6 +328,7 @@ sub Run {
     if ( $Self->{LoadedFormDraftID} ) {
         $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
             FormDraftID => $Self->{LoadedFormDraftID},
+            ObjectID    => $Self->{TicketID},
             GetContent  => 0,
             UserID      => $Self->{UserID},
         );
@@ -1526,6 +1528,7 @@ sub Run {
             $GetParam{FormDraftID}
             && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                 FormDraftID => $GetParam{FormDraftID},
+                ObjectID    => $Self->{TicketID},
                 UserID      => $Self->{UserID},
             )
             )
@@ -1929,7 +1932,7 @@ sub Run {
                     );
                 }
 
-                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # send a list of attachments in the upload cache back to the client-side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $Self->{FormID},
@@ -2011,7 +2014,7 @@ sub Run {
             $Body = $GetParam{Body} . $Body;
         }
 
-        # fillup configured default vars
+        # fill up configured default vars
         if ( $Body eq '' && $Config->{Body} ) {
             $Body = $LayoutObject->Output(
                 Template => $Config->{Body},
@@ -2102,7 +2105,7 @@ sub Run {
 
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
 
-        # gather fields which are supposed to be hidden when autoselected
+        # gather fields which are supposed to be hidden when auto-selected
         my $HideAutoselectedJSON;
         if ($Autoselect) {
             my @HideAutoselected = grep { !ref( $Autoselect->{$_} ) && $Autoselect->{$_} == 2 } keys %{$Autoselect};
@@ -2795,10 +2798,10 @@ sub _Mask {
 
                 my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
-                # fetch actions to perform prefilling for
+                # fetch actions to perform pre-filling for
                 my $RestorePendingConfig = $ConfigObject->Get("Ticket::Frontend::RestorePendingInformation");
 
-                # only prefill pending information for actions defined in the corresponding system configuration setting
+                # only pre-fill pending information for actions defined in the corresponding system configuration setting
                 my %PendingTimeSettings = ();
                 if ( $RestorePendingConfig->{Actions}->{ $Self->{Action} } ) {
 
@@ -3518,7 +3521,7 @@ sub _GetQuotedReplyBody {
                 # quote text
                 $Param{Body} = "<blockquote type=\"cite\">$Param{Body}</blockquote>\n";
 
-                # cleanup not compat. tags
+                # cleanup non-compatible tags
                 $Param{Body} = $LayoutObject->RichTextDocumentCleanup(
                     String => $Param{Body},
                 );

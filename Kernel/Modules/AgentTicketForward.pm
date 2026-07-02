@@ -44,6 +44,7 @@ sub new {
     {
         $Self->{LoadedFormDraftID} = $Kernel::OM->Get('Kernel::System::Web::Request')->LoadFormDraft(
             FormDraftID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' ),
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         );
     }
@@ -483,7 +484,7 @@ sub Form {
             # quote text
             $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";
 
-            # cleanup not compat. tags
+            # cleanup non-compatible tags
             $Data{Body} = $LayoutObject->RichTextDocumentCleanup(
                 String => $Data{Body},
             );
@@ -864,6 +865,7 @@ sub SendEmail {
         elsif ( $FormDraftAction eq 'Delete' && $GetParam{FormDraftID} ) {
             $FormDraftActionOk = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                 FormDraftID => $GetParam{FormDraftID},
+                ObjectID    => $Self->{TicketID},
                 UserID      => $Self->{UserID},
             );
         }
@@ -933,7 +935,7 @@ sub SendEmail {
     # check pending date
     if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
 
-        # create a datetime object bsed on pending date
+        # create a datetime object based on pending date
         my $PendingDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
@@ -1427,6 +1429,7 @@ sub SendEmail {
         $GetParam{FormDraftID}
         && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
             FormDraftID => $GetParam{FormDraftID},
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         )
         )
@@ -1950,6 +1953,7 @@ sub _Mask {
     if ( $Self->{LoadedFormDraftID} ) {
         $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
             FormDraftID => $Self->{LoadedFormDraftID},
+            ObjectID    => $Self->{TicketID},
             GetContent  => 0,
             UserID      => $Self->{UserID},
         );
