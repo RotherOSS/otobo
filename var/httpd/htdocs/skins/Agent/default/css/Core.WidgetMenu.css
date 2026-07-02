@@ -358,6 +358,10 @@ ul.ContextFunctions li:last-child:hover > a {
     display: inline-block;
 }
 
+.Actions form.ArticleActionForm {
+    padding: revert;
+}
+
 .Actions li.SortBy {
     padding: 5px 8px;
 }

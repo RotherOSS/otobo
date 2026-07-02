@@ -79,8 +79,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @name MarkAsSeen
      * @memberof Core.Agent.TicketZoom
      * @function
-     * @param {String} TicketID - TicketID of ticket which get's shown.
-     * @param {String} ArticleID - ArticleID of article which get's shown.
+     * @param {String} TicketID - TicketID of ticket which gets shown.
+     * @param {String} ArticleID - ArticleID of article which gets shown.
      * @param {String} [Timeout=3000] - Timeout in milliseconds
      * @description
      *      Mark an article as seen in frontend and backend.
@@ -106,7 +106,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 Data,
                 function (Response) {
                     if ( Response == 1 ) {
-                        // Mark old row as readed
+                        // Mark old row as read
                         $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
                         $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
                             $(this).closest('li').addClass('Seen');
@@ -121,7 +121,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @name IframeAutoHeight
      * @memberof Core.Agent.TicketZoom
      * @function
-     * @param {jQueryObject} $Iframe - The iframe which should be auto-heighted
+     * @param {jQueryObject} $Iframe - The iframe of which the height should be calculated and set automatically
      * @description
      *      Set iframe height automatically based on real content height and default config setting.
      */
@@ -232,12 +232,12 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
             // Scroll to new active article
             // if article is not visible and is above the visible area, move the visible area
-            // add 5px of delta for better usability (top border is definetly visible)
+            // add 5px of delta for better usability (top border is definitely visible)
             if (ActiveArticlePosY < ScrollerY) {
                 $('div.Scroller').get(0).scrollTop = ScrollerOffset + (ActiveArticlePosY - ScrollerY) - 5;
             }
             // if article is not visible and is below the visible area, move the visible area
-            // add 5px of delta for better usability (bottom border is definetly visible)
+            // add 5px of delta for better usability (bottom border is definitely visible)
             else if (ScrollerBottomY < ActiveArticleBottomY) {
                 $('div.Scroller').get(0).scrollTop = ScrollerOffset + (ActiveArticleBottomY - ScrollerBottomY) + 5;
             }
@@ -260,6 +260,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                             else if (MenuItems[ArticleIndex][Index].DropdownType === 'Reply') {
                                 Core.Agent.TicketZoom.ArticleActionMenuDropdown(MenuItems[ArticleIndex][Index].FormID, "ResponseID");
                             }
+                        }
+                        else if ( MenuItems[ArticleIndex][Index].ItemType === 'FormPost' ) {
+
+                            // bind onclick submit
+                            $('#' + MenuItems[ArticleIndex][Index].FormID + ' > a').on('click', function() {
+                                $(this).closest('form').submit();
+                            });
                         }
                     }
                 }
@@ -663,6 +670,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                             TargetNS.ArticleActionMenuDropdown(MenuItems[ArticleIndex][Index].FormID, "ResponseID");
                         }
                     }
+                    else if ( MenuItems[ArticleIndex][Index].ItemType === 'FormPost' ) {
+
+                        // bind onclick submit
+                        $('#' + MenuItems[ArticleIndex][Index].FormID + ' > a').on('click', function() {
+                            $(this).closest('form').submit();
+                        });
+                    }
                 }
             }
         }
@@ -675,7 +689,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         //   !! + "0"   evaluates to false;
         ZoomExpand = !! + Core.Config.Get('ZoomExpand');
 
-        Core.UI.Resizable.Init($('#ArticleTableBody'), ArticleTableHeight, function (Event, UI, Height) {
+        Core.UI.Resizable.Init($('#ArticleTableBody'), ArticleTableHeight, function (_Event, _UI, Height) {
             // remember new height for next reload
             window.clearTimeout(ResizeTimeoutScroller);
             ResizeTimeoutScroller = window.setTimeout(function () {
@@ -736,9 +750,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             if (!ZoomExpand) {
                 // Add active state to new row
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
-
-                // Mark old row as readed
-                //$(this).closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
 
                 // Load content of new article
                 LoadArticle($(this).find('input.ArticleInfo').val(), $(this).find('input.ArticleID').val());

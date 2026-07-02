@@ -60,11 +60,11 @@
 
     [% ELSIF Item.ItemType == 'FormPost' %]
         <li>
-            <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="PreventMultipleSubmits" id='[% Item.FormID | html %]'>
+            <form class="ArticleActionForm" title="[% Translatable(Item.Name) | html %]" action="[% Env("CGIHandle") %]" method="post" id="[% Item.FormID | html %]" enctype="multipart/form-data" class="PreventMultipleSubmits" id="[% Item.FormID | html %]">
 [% FOREACH Param IN Item.Params %]
-                <input type='hidden' name='[% Param.Key | html %]' value='[% Param.Value | html %]'/>
+                <input type="hidden" name="[% Param.Key | html %]" value="[% Param.Value | html %]" />
 [% END %]
-                <button type='submit' class="Primary CallForAction" title='[% Translate(Item.Description) | html %]' style='font-size:11px'>[% Translate(Item.Name) | html %]</button>
+                <a href="#" class="[% Item.Class | html %]" title="[% Translate(Item.Description) | html %]">[% Translate(Item.Name) | html %]</a>
             </form>
         </li>
     [% END %]

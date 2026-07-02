@@ -121,6 +121,7 @@ sub GetConfig {
         ItemType    => 'FormPost',
         Description => $Description,
         Name        => $Description,
+        FormID      => 'MarkAsImportant' . $Param{Article}{ArticleID},
         Params      => \@Data,
     );
 
