@@ -434,6 +434,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         $SearchObj.prop('readonly', false);
         $InputContainerObj.removeClass('AlreadyDisabled');
+        $SearchObj.closest('.Field').removeClass('oooReadonly');
 
         // Check if there are only empty and disabled options
         if ($SelectObj.find('option')
@@ -448,6 +449,7 @@ Core.UI.InputFields = (function (TargetNS) {
             $SearchObj
                 .attr('readonly', true)
                 .attr('title', Core.Language.Translate('Not available'));
+            $SearchObj.closest('.Field').addClass('oooReadonly');
 
             // when the original field does no longer provide any valid options,
             // we also want to remove existing selections
@@ -461,6 +463,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 .removeAttr('title')
                 .prop('readonly', false)
                 .val('');
+            $SearchObj.closest('.Field').removeClass('oooReadonly');
         }
     }
 
