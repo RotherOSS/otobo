@@ -49,6 +49,7 @@ sub new {
     {
         $Self->{LoadedFormDraftID} = $ParamObject->LoadFormDraft(
             FormDraftID => $ParamObject->GetParam( Param => 'FormDraftID' ),
+            ObjectID    => $Self->{TicketID},
             UserID      => $Self->{UserID},
         );
     }
@@ -124,7 +125,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs
+    # dependencies of standard fields which are not defined via ACLs
     $Self->{InternalDependancy} = {
     };
 
@@ -697,6 +698,7 @@ sub Run {
             elsif ( $FormDraftAction eq 'Delete' && $GetParam{FormDraftID} ) {
                 $FormDraftActionOk = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                     FormDraftID => $GetParam{FormDraftID},
+                    ObjectID    => $Self->{TicketID},
                     UserID      => $Self->{UserID},
                 );
             }
@@ -1149,7 +1151,7 @@ sub Run {
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
             next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
-            # set the object ID (TicketID or ArticleID) depending on the field configration
+            # set the object ID (TicketID or ArticleID) depending on the field configuration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
                 ? $Self->{ArticleID} || $ArticleID
                 : $Self->{TicketID};
@@ -1211,6 +1213,7 @@ sub Run {
             $GetParam{FormDraftID}
             && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                 FormDraftID => $GetParam{FormDraftID},
+                ObjectID    => $Self->{TicketID},
                 UserID      => $Self->{UserID},
             )
             )
@@ -1359,7 +1362,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     NextStateID => 'NextStateID',
                 );
@@ -1726,7 +1729,7 @@ sub Run {
                     # quote text
                     $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";
 
-                    # cleanup not compat. tags
+                    # cleanup non-compatible tags
                     $Data{Body} = $LayoutObject->RichTextDocumentCleanup(
                         String => $Data{Body},
                     );
@@ -1952,7 +1955,7 @@ sub Run {
                     String => $ResponseFormat,
                 );
 
-                # restore qdata formatting for Output replacement
+                # restore data formatting for Output replacement
                 $ResponseFormat =~ s/&quot;/"/gi;
 
                 # html quote to have it correct in edit area
@@ -1960,7 +1963,7 @@ sub Run {
                     Text => $ResponseFormat,
                 );
 
-                # restore qdata formatting for Output replacement
+                # restore data formatting for Output replacement
                 $ResponseFormat =~ s/&quot;/"/gi;
             }
 
@@ -2029,7 +2032,7 @@ sub Run {
 
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
 
-        # gather fields which are supposed to be hidden when autoselected
+        # gather fields which are supposed to be hidden when auto-selected
         my $HideAutoselectedJSON;
         if ($Autoselect) {
             my @HideAutoselected = grep { !ref( $Autoselect->{$_} ) && $Autoselect->{$_} == 2 } keys %{$Autoselect};
@@ -2100,7 +2103,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     NextStateID => 'NextStateID',
                 );
@@ -2740,6 +2743,7 @@ sub _Mask {
     if ( $Self->{LoadedFormDraftID} ) {
         $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
             FormDraftID => $Self->{LoadedFormDraftID},
+            ObjectID    => $Self->{TicketID},
             GetContent  => 0,
             UserID      => $Self->{UserID},
         );

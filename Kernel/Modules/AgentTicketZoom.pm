@@ -23,7 +23,7 @@ use utf8;
 our $ObjectManagerDisabled = 1;
 
 # core modules
-use List::Util qw(any);
+use List::Util qw(any none);
 use POSIX      qw(ceil);
 
 # CPAN modules
@@ -404,6 +404,7 @@ sub Run {
             my $FormDraftObject = $Kernel::OM->Get('Kernel::System::FormDraft');
             my $FormDraft       = $FormDraftObject->FormDraftGet(
                 FormDraftID => $FormDraftID,
+                ObjectID    => $Self->{TicketID},
                 UserID      => $Self->{UserID},
             );
 
@@ -446,6 +447,7 @@ sub Run {
                     if ( !$Response{Error} ) {
                         $Response{Success} = $FormDraftObject->FormDraftDelete(
                             FormDraftID => $FormDraftID,
+                            ObjectID    => $Self->{TicketID},
                             UserID      => $Self->{UserID},
                         );
                     }
@@ -1138,7 +1140,7 @@ sub MaskAgentZoom {
 
         next WIDGET unless $Success;
 
-        my $Module = eval { $Config->{Module}->new(%$Self) };
+        my $Module = eval { $Config->{Module}->new( $Self->%* ) };
         if ( !$Module ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1215,7 +1217,7 @@ sub MaskAgentZoom {
 
         ARTICLE:
         for my $ArticleTmp (@ArticleBoxShown) {
-            my %Article = %$ArticleTmp;
+            my %Article = $ArticleTmp->%*;
 
             $ArticleWidgetsHTML .= $Self->_ArticleItem(
                 Ticket            => \%Ticket,
@@ -1675,7 +1677,7 @@ sub MaskAgentZoom {
             # get next activity dialogs
             if ( $Ticket{$ActivityEntityIDField} ) {
 
-                # protection against autovification
+                # protection against autovivification
                 if ( IsHashRefWithData($ActivityData) && IsHashRefWithData( $ActivityData->{ActivityDialog} ) ) {
                     $NextActivityDialogs = ${ActivityData}->{ActivityDialog};
                 }
@@ -1879,7 +1881,7 @@ sub MaskAgentZoom {
                 my $ShowGroupTitle = 0;
                 for my $Field (@FieldsWidget) {
 
-                    if ( grep { $_ eq $Field->{Name} } @GroupFields ) {
+                    if ( any { $_ eq $Field->{Name} } @GroupFields ) {
 
                         $ShowGroupTitle = 1;
                         $LayoutObject->Block(
@@ -2068,7 +2070,7 @@ sub MaskAgentZoom {
         my @RemainingFieldsWidget;
         for my $Field (@FieldsWidget) {
 
-            if ( !grep { $_ eq $Field->{Name} } @FieldsInAGroup ) {
+            if ( none { $_ eq $Field->{Name} } @FieldsInAGroup ) {
                 push @RemainingFieldsWidget, $Field;
             }
         }
@@ -2553,7 +2555,7 @@ sub _ArticleTree {
 
         ARTICLE:
         for my $ArticleTmp (@ArticleBox) {
-            my %Article = %$ArticleTmp;
+            my %Article = $ArticleTmp->%*;
 
             # article filter is activated in sysconfig and there are articles
             # that passed the filter
@@ -2850,7 +2852,7 @@ sub _ArticleTree {
         {
             for my $EventType ( sort keys %{ $Self->{HistoryTypeMapping} } ) {
                 if (
-                    $EventType ne 'NewTicket' && !grep { $_ eq $EventType }
+                    $EventType ne 'NewTicket' && none { $_ eq $EventType }
                     @{ $Self->{EventTypeFilter}->{EventTypeID} }
                     )
                 {
@@ -3034,23 +3036,23 @@ sub _ArticleTree {
 
                 $Item->{Class} = 'TypeNoteInternal';
             }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAction ) {
+            elsif ( any { $_ eq $Item->{HistoryType} } @TypesTicketAction ) {
                 $Item->{Class} = 'TypeTicketAction';
             }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAutoAction ) {
+            elsif ( any { $_ eq $Item->{HistoryType} } @TypesTicketAutoAction ) {
                 $Item->{Class} = 'TypeTicketAutoAction';
             }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesInternal ) {
+            elsif ( any { $_ eq $Item->{HistoryType} } @TypesInternal ) {
                 $Item->{Class} = 'TypeNoteInternal';
             }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesIncoming ) {
+            elsif ( any { $_ eq $Item->{HistoryType} } @TypesIncoming ) {
                 $Item->{Class} = 'TypeIncoming';
             }
-            elsif ( grep { $_ eq $Item->{HistoryType} } @TypesOutgoing ) {
+            elsif ( any { $_ eq $Item->{HistoryType} } @TypesOutgoing ) {
                 $Item->{Class} = 'TypeOutgoing';
             }
 
-            if ( grep { $_ eq $Item->{HistoryType} } @TypesDodge ) {
+            if ( any { $_ eq $Item->{HistoryType} } @TypesDodge ) {
                 next HISTORYITEM;
             }
 
@@ -3078,7 +3080,7 @@ sub _ArticleTree {
             }
 
             # remove article information from types which should not display articles
-            if ( !grep { $_ eq $Item->{HistoryType} } @TypesWithArticles ) {
+            if ( none { $_ eq $Item->{HistoryType} } @TypesWithArticles ) {
                 delete $Item->{ArticleID};
             }
 
@@ -3218,7 +3220,7 @@ sub _ArticleTree {
             for my $SubItem ( sort $SortByArticle @{ $HistoryItems{$Item} } ) {
                 $SubItem->{Counter} = $ItemCounter++;
 
-                if ( grep { $_ eq $SubItem->{HistoryType} } @TypesRight ) {
+                if ( any { $_ eq $SubItem->{HistoryType} } @TypesRight ) {
                     $SubItem->{Orientation} = 'Right';
                 }
                 else {
