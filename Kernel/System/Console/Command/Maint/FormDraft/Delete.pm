@@ -92,6 +92,7 @@ sub Run {
             }
             return $Self->ExitCodeError() if !$FormDraftObject->FormDraftDelete(
                 FormDraftID => $FormDraft->{FormDraftID},
+                ObjectID    => $FormDraft->{ObjectID},
                 UserID      => 1,
             );
         }

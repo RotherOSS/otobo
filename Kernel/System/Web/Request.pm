@@ -868,7 +868,8 @@ for transparent use by frontend module.
 
     my $FormDraftID = $ParamObject->LoadFormDraft(
         FormDraftID => 123,
-        UserID  => 1,
+        ObjectID    => 123,
+        UserID      => 1,
     );
 
 =cut
@@ -876,10 +877,11 @@ for transparent use by frontend module.
 sub LoadFormDraft {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{FormDraftID} || !$Param{UserID};
+    return if !$Param{FormDraftID} || !$Param{UserID} || !$Param{ObjectID};
 
     # get draft data
     my $FormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
+        ObjectID    => $Param{ObjectID},
         FormDraftID => $Param{FormDraftID},
         UserID      => $Param{UserID},
     );
