@@ -325,7 +325,9 @@ sub _IsAdmin {
 
     # module permission check for action
     if (
-        ref $ModuleReg->{Group} eq 'ARRAY'
+        ref $ModuleReg->{GroupRo} eq 'ARRAY'
+        && !scalar @{ $ModuleReg->{GroupRo} }
+        && ref $ModuleReg->{Group} eq 'ARRAY'
         && !scalar @{ $ModuleReg->{Group} }
         )
     {
