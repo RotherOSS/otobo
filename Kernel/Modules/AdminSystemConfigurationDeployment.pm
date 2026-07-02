@@ -272,29 +272,7 @@ sub _IsAllowedToDeploy {
     my $AdvancedMode     = $Param{AdvancedMode};
 
     # permission check
-    my $AdminGroup      = 'admin';
-    my $GroupObject     = $Kernel::OM->Get('Kernel::System::Group');
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-    my $FrontendModule  = $ConfigObject->Get('Frontend::Module');
-
-    if (
-        IsHashRefWithData($FrontendModule)
-        &&
-        IsHashRefWithData( $FrontendModule->{AdminSystemConfiguration} )
-        )
-    {
-        if ( IsArrayRefWithData( $FrontendModule->{AdminSystemConfiguration}->{Group} ) ) {
-
-            $AdminGroup = $FrontendModule->{AdminSystemConfiguration}->{Group}->[0];
-        }
-    }
-
-    my $IsAdmin = $GroupObject->PermissionCheck(
-        UserID    => $Self->{UserID},
-        GroupName => $AdminGroup,
-        Type      => 'rw',              # ro|move_into|create|note|owner|priority|rw
-    );
+    my $IsAdmin = $Self->_IsAdmin();
 
     # admin is always allowed to deploy
     return { Allowed => 1 } if $IsAdmin;
@@ -308,6 +286,8 @@ sub _IsAllowedToDeploy {
         };
     }
     elsif ($SelectedSettings) {
+
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # only allow to deploy owned settings
         for my $SelectedSettingKey ( $SelectedSettings->@* ) {
@@ -334,6 +314,61 @@ sub _IsAllowedToDeploy {
     }
 
     return { Allowed => 1 };
+}
+
+sub _IsAdmin {
+
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ModuleReg    = $ConfigObject->Get('Frontend::Module')->{AdminSystemConfiguration};
+
+    # module permission check for action
+    if (
+        ref $ModuleReg->{Group} eq 'ARRAY'
+        && !scalar @{ $ModuleReg->{Group} }
+        )
+    {
+        return 1;
+    }
+    else {
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        PERMISSION:
+        for my $Permission (qw(Group)) {
+
+            my $Group = $ModuleReg->{$Permission};
+            next PERMISSION if !$Group;
+
+            if ( ref $Group eq 'ARRAY' ) {
+                INNER:
+                for my $GroupName ( @{$Group} ) {
+                    next INNER if !$GroupName;
+                    next INNER if !$GroupObject->PermissionCheck(
+                        UserID    => $Self->{UserID},
+                        GroupName => $GroupName,
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                    );
+                    return 1;
+                }
+            }
+            else {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                );
+                if ($HasPermission) {
+                    return 1;
+                }
+            }
+        }
+    }
+
+    # no permission
+    return 0;
 }
 
 1;
