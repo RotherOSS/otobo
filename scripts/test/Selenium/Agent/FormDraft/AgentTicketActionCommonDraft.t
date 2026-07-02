@@ -240,12 +240,6 @@ $Selenium->RunTest(
             {
                 Module => 'Responsible',
                 Fields => {
-                    Title => {
-                        ID     => 'Title',
-                        Type   => 'Input',
-                        Value  => 'Selenium Responsible Title',
-                        Update => 'Selenium Responsible Title - Update'
-                    },
                     Subject => {
                         ID     => 'Subject',
                         Type   => 'Input',
