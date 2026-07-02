@@ -1307,12 +1307,11 @@ replace the placeholders in the text
 sub _Replace {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Text RichText Data UserID)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(Text RichText Data UserID)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -1321,12 +1320,14 @@ sub _Replace {
     # handle mailto, $Param{Text} will be modified
     $Self->_FixMailto( \%Param );
 
-    my $Start = '<';
-    my $End   = '>';
+    # Tags look different depending on what kind of text we're working with
+    my ( $Start, $End );
     if ( $Param{RichText} ) {
-        $Start = '&lt;';
-        $End   = '&gt;';
-        $Param{Text} =~ s/(\n|\r)//g;
+        ( $Start, $End ) = ( '&lt;', '&gt;' );
+        $Param{Text} =~ s/[\n\r]//g;
+    }
+    else {
+        ( $Start, $End ) = ( '<', '>' );
     }
 
     my %Ticket;
