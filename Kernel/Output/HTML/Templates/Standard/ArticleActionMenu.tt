@@ -60,6 +60,7 @@
 
     [% ELSIF Item.ItemType == 'FormPost' %]
         <li>
+            [% # using a form here is necessary to enable the backend to perform a challenge token check on an article action %]
             <form class="ArticleActionForm" title="[% Translatable(Item.Name) | html %]" action="[% Env("CGIHandle") %]" method="post" id="[% Item.FormID | html %]" enctype="multipart/form-data" class="PreventMultipleSubmits" id="[% Item.FormID | html %]">
 [% FOREACH Param IN Item.Params %]
                 <input type="hidden" name="[% Param.Key | html %]" value="[% Param.Value | html %]" />
