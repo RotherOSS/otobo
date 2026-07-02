@@ -6368,7 +6368,8 @@
                 <Item Key="Name" Translatable="1">Quick Close</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
                 <Item Key="Action">AgentTicketQuickClose</Item>
-                <Item Key="Link">Action=AgentTicketQuickClose;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Subaction"></Item>
+                <Item Key="Type">Form</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>

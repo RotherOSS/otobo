@@ -49,7 +49,8 @@ sub Run {
     # check if frontend module registered, if not, do not show action
     if ( $Param{Config}->{Action} ) {
         my $Module = $ConfigObject->Get('Frontend::Module')->{ $Param{Config}->{Action} };
-        return if !$Module;
+
+        return unless $Module;
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -64,7 +65,8 @@ sub Run {
                 UserID   => $Self->{UserID},
                 LogNo    => 1,
             );
-            return if !$AccessOk;
+
+            return unless $AccessOk;
         }
         if ( $Config->{RequiredLock} ) {
             if (
@@ -75,7 +77,8 @@ sub Run {
                     TicketID => $Param{Ticket}->{TicketID},
                     OwnerID  => $Self->{UserID},
                 );
-                return if !$AccessOk;
+
+                return unless $AccessOk;
             }
         }
     }
@@ -104,18 +107,18 @@ sub Run {
                 Type   => $Permission,
             );
 
-            next ITEM if !%Groups;
+            next ITEM unless %Groups;
 
             my %GroupsReverse = reverse %Groups;
 
-            next ITEM if !$GroupsReverse{$Name};
+            next ITEM unless $GroupsReverse{$Name};
 
             $AccessOk = 1;
 
             last ITEM;
         }
 
-        return if !$AccessOk;
+        return unless $AccessOk;
     }
 
     # check acl
