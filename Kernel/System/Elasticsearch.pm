@@ -501,10 +501,12 @@ sub TicketSearch {
             }
         }
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => "Elasticsearch [ticket] Similar Search Query: " . $Param{MoreLikeThis}
-        );
+# Issue 5814- reduce logging, re-enable for debugging manually if needed:
+#
+#        $Kernel::OM->Get('Kernel::System::Log')->Log(
+#            Priority => 'debug',
+#            Message  => "Elasticsearch [ticket] Similar Search Query: " . $Param{MoreLikeThis}
+#        );
 
         # add queue restrictions
         push @Musts, {
@@ -564,10 +566,11 @@ sub TicketSearch {
     my $Total   = $Result->{Data}->{Total}   // 0;
     my $Records = $Result->{Data}->{Records} // [];
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'debug',
-        Message  => "Elasticsearch [ticket] Result: " . $Total . " Hits\n"
-    );
+# Issue 5814- reduce logging, re-enable for debugging manually if needed:
+#    $Kernel::OM->Get('Kernel::System::Log')->Log(
+#        Priority => 'debug',
+#        Message  => "Elasticsearch [ticket] Result: " . $Total . " Hits\n"
+#    );
 
     # convert the Elasticsearch return to the needed OTRS structure and return
 
