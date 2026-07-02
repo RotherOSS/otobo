@@ -824,6 +824,11 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             }
         });
 
+        // event on generic form
+        $('a.TicketMenuFormAction').on('click', function() {
+            $(this).closest('form').submit();
+        });
+
         // Add event bindings to all article widgets.
         ArticleDetailsEvents();
 

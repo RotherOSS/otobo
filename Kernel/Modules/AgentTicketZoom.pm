@@ -1298,7 +1298,9 @@ sub MaskAgentZoom {
                 ACL    => \%AclAction,
                 Config => $Menus{$Menu},
             );
-            next MENU if !$Item;
+
+            next MENU unless $Item;
+
             if ( $Menus{$Menu}->{PopupType} ) {
                 $Item->{Class} = "AsPopup PopupType_$Menus{$Menu}->{PopupType}";
             }
@@ -1350,7 +1352,19 @@ sub MaskAgentZoom {
                     Data => $ZoomMenuItems{$Item},
                 );
             }
+            elsif ( $ZoomMenuItems{$Item}{Config}{Type} && $ZoomMenuItems{$Item}{Config}{Type} eq 'Form' ) {
+                $LayoutObject->Block(
+                    Name => 'TicketMenuItem',
+                );
+                $LayoutObject->Block(
+                    Name => 'TicketMenuFormGeneric',
+                    Data => $ZoomMenuItems{$Item},
+                );
+            }
             else {
+                $LayoutObject->Block(
+                    Name => 'TicketMenuItem',
+                );
                 $LayoutObject->Block(
                     Name => 'TicketMenu',
                     Data => $ZoomMenuItems{$Item},
@@ -1472,12 +1486,13 @@ sub MaskAgentZoom {
     );
     ACTION:
     for my $Action (qw(AgentTicketCompose AgentTicketForward)) {
-        next ACTION if !$ConfigObject->Get('Frontend::Module')->{$Action};
-        next ACTION if !$AclActionLookup{$Action};
+
+        next ACTION unless $ConfigObject->Get('Frontend::Module')->{$Action};
+        next ACTION unless $AclActionLookup{$Action};
 
         my $Config = $ConfigObject->Get( 'Ticket::Frontend::' . $Action );
         if ( $Config->{Permission} ) {
-            next ACTION if !$TicketObject->TicketPermission(
+            next ACTION unless $TicketObject->TicketPermission(
                 Type     => $Config->{Permission},
                 TicketID => $Ticket{TicketID},
                 UserID   => $Self->{UserID},
