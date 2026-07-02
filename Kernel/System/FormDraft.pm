@@ -79,22 +79,23 @@ sub new {
 get draft attributes
 
     my $FormDraft = $FormDraftObject->FormDraftGet(
-        FormDraftID    => 123,
-        GetContent => 1,                # optional, default 1
-        UserID     => 123,
+        FormDraftID => 123,
+        ObjectID    => 123,
+        GetContent  => 1,                # optional, default 1
+        UserID      => 123,
     );
 
 Returns (with GetContent = 0):
 
     $FormDraft = {
-        FormDraftID    => 123,
-        ObjectType => 'Ticket',
-        ObjectID   => 12,
-        Action     => 'AgentTicketCompose',
-        CreateTime => '2016-04-07 15:41:15',
-        CreateBy   => 1,
-        ChangeTime => '2016-04-07 15:59:45',
-        ChangeBy   => 2,
+        FormDraftID => 123,
+        ObjectType  => 'Ticket',
+        ObjectID    => 12,
+        Action      => 'AgentTicketCompose',
+        CreateTime  => '2016-04-07 15:41:15',
+        CreateBy    => 1,
+        ChangeTime  => '2016-04-07 15:59:45',
+        ChangeBy    => 2,
     };
 
 Returns (without GetContent or GetContent = 1):
@@ -117,15 +118,15 @@ Returns (without GetContent or GetContent = 1):
             },
             ...
         ],
-        FormDraftID    => 123,
-        ObjectType => 'Ticket',
-        ObjectID   => 12,
-        Action     => 'AgentTicketCompose',
-        CreateTime => '2016-04-07 15:41:15',
-        CreateBy   => 1,
-        ChangeTime => '2016-04-07 15:59:45',
-        ChangeBy   => 2,
-        Title      => 'my draft',
+        FormDraftID => 123,
+        ObjectType  => 'Ticket',
+        ObjectID    => 12,
+        Action      => 'AgentTicketCompose',
+        CreateTime  => '2016-04-07 15:41:15',
+        CreateBy    => 1,
+        ChangeTime  => '2016-04-07 15:59:45',
+        ChangeBy    => 2,
+        Title       => 'my draft',
     };
 
 =cut
@@ -134,7 +135,7 @@ sub FormDraftGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FormDraftID UserID)) {
+    for my $Needed (qw(FormDraftID ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -155,8 +156,10 @@ sub FormDraftGet {
     }
 
     # check cache
-    my $CacheKey = 'FormDraftGet::GetContent' . $Param{GetContent} . '::ID' . $Param{FormDraftID};
-    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $CacheKey = 'FormDraftGet::GetContent' . $Param{GetContent}
+        . '::ObjectID' . $Param{ObjectID}
+        . '::ID' . $Param{FormDraftID};
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
@@ -175,12 +178,12 @@ sub FormDraftGet {
         $SQL .= ', content';
         push @EncodeColumns, 0;
     }
-    $SQL .= ' FROM form_draft WHERE id = ?';
+    $SQL .= ' FROM form_draft WHERE id = ? AND object_id = ?';
 
     # ask the database
     return if !$DBObject->Prepare(
         SQL    => $SQL,
-        Bind   => [ \$Param{FormDraftID} ],
+        Bind   => [ \$Param{FormDraftID}, \$Param{ObjectID} ],
         Limit  => 1,
         Encode => \@EncodeColumns,
     );
@@ -230,7 +233,7 @@ sub FormDraftGet {
     my $CacheKeyNoContent;
     my %FormDraftNoContent;
     if ( $Param{GetContent} ) {
-        $CacheKeyNoContent  = 'FormDraftGet::GetContent0::ID' . $Param{FormDraftID};
+        $CacheKeyNoContent  = 'FormDraftGet::GetContent0::ObjectID' . $Param{ObjectID} . '::ID' . $Param{FormDraftID};
         %FormDraftNoContent = %{ dclone( \%FormDraft ) };
         delete $FormDraftNoContent{FileData};
         delete $FormDraftNoContent{FormData};
@@ -411,6 +414,7 @@ sub FormDraftUpdate {
     # check if specified draft already exists and do sanity checks
     my $FormDraft = $Self->FormDraftGet(
         FormDraftID => $Param{FormDraftID},
+        ObjectID    => $Param{ObjectID},
         GetContent  => 0,
         UserID      => $Param{UserID},
     );
@@ -478,7 +482,8 @@ remove draft
 
     my $Success = $FormDraftObject->FormDraftDelete(
         FormDraftID => 123,
-        UserID  => 123,
+        ObjectID    => 123,
+        UserID      => 123,
     );
 
 =cut
@@ -487,7 +492,7 @@ sub FormDraftDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FormDraftID UserID)) {
+    for my $Needed (qw(FormDraftID ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -501,6 +506,7 @@ sub FormDraftDelete {
     # use database query directly (we don't need raw content)
     my $FormDraft = $Self->FormDraftGet(
         FormDraftID => $Param{FormDraftID},
+        ObjectID    => $Param{ObjectID},
         GetContent  => 0,
         UserID      => $Param{UserID},
     );
@@ -668,8 +674,8 @@ sub _DeleteAffectedCaches {
     );
     if ( $Param{FormDraftID} ) {
         push @CacheKeys,
-            'FormDraftGet::GetContent0::ID' . $Param{FormDraftID},
-            'FormDraftGet::GetContent1::ID' . $Param{FormDraftID};
+            'FormDraftGet::GetContent0::ObjectID' . $Param{ObjectID} . '::ID' . $Param{FormDraftID},
+            'FormDraftGet::GetContent1::ObjectID' . $Param{ObjectID} . '::ID' . $Param{FormDraftID};
     }
 
     # delete affected caches
