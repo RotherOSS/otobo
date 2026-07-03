@@ -107,7 +107,15 @@ my $LastAgentBody         = "agent-Article#3-Line1\nagent-Article#3-Line2\nagent
 my $LastAgentBody2        = "> agent-Article#3-Line1\n> agent-Article#3-Line2";
 my $LastCustomerSubject   = 'Article#6-customer';
 my $LastCustomerSubject12 = 'Article#6-cu [...]';
-my $LastCustomerBody      = "customer-Article#6-Line1\ncustomer-Article#6-Line2\ncustomerArticle#6-Line3";
+my $LastCustomerBody      = <<'END_BODY';
+customer-Article#6-Line1
+customer-Article#6-Line2
+customer-Article#6-Line3
+
+The customer body contains a macro for itself. This macro should not
+be substituted as that would cause recursion.
+Circular: <OTOBO_CUSTOMER_BODY[10]>
+END_BODY
 my $LastCustomerBody1     = "> customer-Article#6-Line1";
 
 my @Configs = (
