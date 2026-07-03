@@ -27,8 +27,6 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
-our $Self;
-
 # Get FormDraft object.
 my $FormDraftObject = $Kernel::OM->Get('Kernel::System::FormDraft');
 
@@ -454,4 +452,4 @@ for my $FormDraftData ( pairs %FormDraftIDToObjectID ) {
 
 # Cleanup is done by RestoreDatabase.
 
-$Self->DoneTesting();
+done_testing;
