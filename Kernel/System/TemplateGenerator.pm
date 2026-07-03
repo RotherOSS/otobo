@@ -1382,8 +1382,14 @@ sub _Replace {
 
     # Replace config options.
     my $Tag = $Start . 'OTOBO_CONFIG_';
-    $Param{Text} =~ s{$Tag(.+?)$End}{
-        my $Key   = $1;
+    $Param{Text} =~ s{
+        $Tag
+            # the key for the config
+            (?<key>.+?)
+        $End
+    }
+    {
+        my $Key   = $+{key};
         my $Value = $ConfigObject->Get($Key) // '';
 
         # Mask sensitive config options.
@@ -1412,6 +1418,7 @@ sub _Replace {
         );
     }
 
+    # modify $Param{Text}
     my $HashGlobalReplace = sub {
         my ( $Tag, %H ) = @_;
 
@@ -1441,7 +1448,17 @@ sub _Replace {
             }
         }
 
-        $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
+        $Param{Text} =~ s{
+            # grouping required here, as we might have alternations
+            (?:$Tag)
+                # case insensitiv keys
+                (?<key>$Keys)
+            $End
+        }
+        {
+            my $Key = $+{key};
+            $H{ lc $Key }
+        }xieg;
     };
 
     # get recipient data and replace it with <OTOBO_...
