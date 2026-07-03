@@ -180,7 +180,6 @@ for my $Test (@Tests) {
             ObjectType => 'Ticket',
             ObjectID   => $Test->{ObjectID},
             Action     => 'AgentTicketNote',
-            UserID     => $Test->{UserID},
         );
         is(
             scalar @{$FormDraftList},
@@ -197,7 +196,6 @@ for my $Test (@Tests) {
             FormDraftID => $FormDraftID,
             ObjectID    => $Test->{ObjectID},
             GetContent  => 1,
-            UserID      => $Test->{UserID},
         );
 
         # Verify value from FormDraftGet().
@@ -214,7 +212,6 @@ for my $Test (@Tests) {
             FormDraftID => $FormDraftID,
             ObjectID    => $Test->{ObjectID},
             GetContent  => 0,
-            UserID      => $Test->{UserID},
         );
         is(
             $FormDraft->{FileData},
@@ -411,7 +408,6 @@ for my $Test (@Tests) {
             FormDraftID => $Test->{FormDraftID},
             ObjectID    => $Test->{ObjectID},
             GetContent  => 1,
-            UserID      => $Test->{UserID},
         );
         is(
             $UpdatedFormDraft->{FormData}->{Subject},
@@ -437,7 +433,6 @@ for my $FormDraftData ( pairs %FormDraftIDToObjectID ) {
     my $FormDraftDelete = $FormDraftObject->FormDraftDelete(
         FormDraftID => $FormDraftID,
         ObjectID    => $ObjectID,
-        UserID      => 1,
     );
     ok(
         $FormDraftDelete,
@@ -449,7 +444,6 @@ for my $FormDraftData ( pairs %FormDraftIDToObjectID ) {
         FormDraftID => $FormDraftID,
         ObjectID    => $ObjectID,
         GetContent  => 1,
-        UserID      => 1,
     );
     is(
         $FormDraft->{Title},

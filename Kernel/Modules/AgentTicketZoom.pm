@@ -406,7 +406,6 @@ sub Run {
             my $FormDraft       = $FormDraftObject->FormDraftGet(
                 FormDraftID => $FormDraftID,
                 ObjectID    => $Self->{TicketID},
-                UserID      => $Self->{UserID},
             );
 
             if ( IsHashRefWithData($FormDraft) ) {
@@ -448,7 +447,6 @@ sub Run {
                         $Response{Success} = $FormDraftObject->FormDraftDelete(
                             FormDraftID => $FormDraftID,
                             ObjectID    => $Self->{TicketID},
-                            UserID      => $Self->{UserID},
                         );
                     }
                 }
@@ -1492,7 +1490,6 @@ sub MaskAgentZoom {
     my $FormDraftList = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftListGet(
         ObjectType => 'Ticket',
         ObjectID   => $Self->{TicketID},
-        UserID     => $Self->{UserID},
     );
     if ( IsArrayRefWithData($FormDraftList) ) {
         FormDraft:

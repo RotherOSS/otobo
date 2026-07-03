@@ -50,7 +50,6 @@ sub new {
         $Self->{LoadedFormDraftID} = $ParamObject->LoadFormDraft(
             FormDraftID => $ParamObject->GetParam( Param => 'FormDraftID' ),
             ObjectID    => $Self->{TicketID},
-            UserID      => $Self->{UserID},
         );
     }
 
@@ -641,7 +640,6 @@ sub Run {
                     ObjectType => 'Ticket',
                     ObjectID   => $Self->{TicketID},
                     Action     => $Self->{Action},
-                    UserID     => $Self->{UserID},
                 );
                 DRAFT:
                 for my $FormDraft ( @{$FormDraftList} ) {
@@ -699,7 +697,6 @@ sub Run {
                 $FormDraftActionOk = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                     FormDraftID => $GetParam{FormDraftID},
                     ObjectID    => $Self->{TicketID},
-                    UserID      => $Self->{UserID},
                 );
             }
 
@@ -1214,7 +1211,6 @@ sub Run {
             && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
                 FormDraftID => $GetParam{FormDraftID},
                 ObjectID    => $Self->{TicketID},
-                UserID      => $Self->{UserID},
             )
             )
         {
@@ -2745,7 +2741,6 @@ sub _Mask {
             FormDraftID => $Self->{LoadedFormDraftID},
             ObjectID    => $Self->{TicketID},
             GetContent  => 0,
-            UserID      => $Self->{UserID},
         );
 
         my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
