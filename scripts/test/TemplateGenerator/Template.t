@@ -60,6 +60,7 @@ $Helper->ConfigSettingChange(
 
 # Fiddle with the timestamp only after the config setting changes,
 # as a changed time stamp interferes with a possible interaction with S3.
+# The fixed time will be used when evaluating <OTOBO_EMAIL_DATE> tags.
 my $DateTimeObject = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
