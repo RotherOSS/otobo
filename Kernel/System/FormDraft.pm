@@ -143,6 +143,13 @@ sub FormDraftGet {
             );
             return;
         }
+        if ( !IsInteger( $Param{$Needed} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed needs to be an integer!",
+            );
+            return;
+        }
     }
 
     # determine if we should get content
@@ -296,7 +303,7 @@ sub FormDraftAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FormData ObjectType Action)) {
+    for my $Needed (qw(FormData ObjectID ObjectType Action UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -309,7 +316,7 @@ sub FormDraftAdd {
         if ( !IsInteger( $Param{$Needed} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!",
+                Message  => "$Needed needs to be an integer!",
             );
             return;
         }
@@ -392,7 +399,7 @@ sub FormDraftUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FormData ObjectType Action)) {
+    for my $Needed (qw(FormData ObjectID ObjectType Action UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -405,7 +412,7 @@ sub FormDraftUpdate {
         if ( !IsInteger( $Param{$Needed} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!",
+                Message  => "$Needed needs to be an integer!",
             );
             return;
         }
@@ -500,6 +507,13 @@ sub FormDraftDelete {
             );
             return;
         }
+        if ( !IsInteger( $Param{$Needed} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed needs to be an integer!",
+            );
+            return;
+        }
     }
 
     # get draft data as sanity check and to determine which caches should be removed
@@ -568,6 +582,13 @@ sub FormDraftListGet {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID!',
+        );
+        return;
+    }
+    if ( !IsInteger( $Param{UserID} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "UserID needs to be an integer!",
         );
         return;
     }
