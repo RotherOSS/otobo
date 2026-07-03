@@ -1190,6 +1190,7 @@ sub _Replace {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -1801,11 +1802,24 @@ sub _Replace {
             # The same key can occur multiple times, possibly with a different number of lines.
             # The last customer mail is used for <OTOBO_COMMENT> or <OTOBO_COMMENT[123]>
             # as the loop replaces the customer mail first.
-            while (
-                $Param{Text} =~ /$Start${DataType}(?:EMAIL|NOTE|BODY)\[(?<cnt>.+?)\]$End/
-                ||
-                $Param{Text} =~ /$Start(?:OTOBO_COMMENT(?:\[(?<cnt>.+?)\])?)$End/
-                )
+            $Param{Text} =~ s{
+                $Start
+                    (?:
+                        # e.g. OTOBO_COMMENT[13], OTOBO_AGENT_BODY[3], OTOBO_CUSTOMER_BODY[0]
+                        (?:
+                            (?:
+                                OTOBO_COMMENT
+                                |
+                                ${DataType}(?:EMAIL|NOTE|BODY)
+                            )
+                            \[(?<cnt>.+?)\]
+                        )
+                        |
+                        # a special case as OTOBO_COMMENT without quantifier is handled nowhere else
+                        OTOBO_COMMENT
+                    )
+                $End
+            }
             {
                 # for <OTOBO_COMMENT> truncate per default a long mail at 2500
                 # <OTOBO_CUSTOMER_BODY[0] would also yield 2500 lines
@@ -1856,10 +1870,9 @@ sub _Replace {
                     );
                 }
 
-                # replace tag
-                $Param{Text}
-                    =~ s/$Start(?:(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\]|(?:OTOBO_COMMENT(\[(.+?)\])?)))$End/$NewOldBody/;
-            }
+                # the replacement
+                $NewOldBody
+            }xeg;    # a single pass over the macros in $Param{Text}
 
             # replace <OTOBO_CUSTOMER_SUBJECT[]>  and  <OTOBO_AGENT_SUBJECT[]> tags
             $Tag = "$Start$DataType" . 'SUBJECT';
@@ -1990,7 +2003,9 @@ sub _Replace {
         $HashGlobalReplace->( "$Tag|$Tag2", %CustomerUser );
     }
 
-    # cleanup all not needed <OTOBO_CUSTOMER_DATA_ tags
+    # Clean up all not needed '<OTOBO_CUSTOMER_' and '<OTOBO_CUSTOMER_DATA_' tags.
+    # Note that this includes the tags which became part of the replace text
+    # because they were present in the macro values.
     $Param{Text} =~ s/(?:$Tag|$Tag2).+?$End/-/gi;
 
     # cleanup all not needed <OTOBO_AGENT_ tags
