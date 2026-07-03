@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
-our $Self;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::FormDraft::Delete');
 
@@ -37,7 +36,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ExitCode = $CommandObject->Execute();
 
 # just check exit code
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Maint::FormDraft::Delete exit code - without any options",
@@ -47,7 +46,7 @@ $Self->Is(
 $ExitCode = $CommandObject->Execute('expired');
 
 # just check exit code
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Maint::FormDraft::Delete exit code - with --expired option",
@@ -57,7 +56,7 @@ $Self->Is(
 $ExitCode = $CommandObject->Execute('--object-type');
 
 # just check exit code
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Maint::FormDraft::Delete exit code - with ----object-type option without value",
@@ -79,7 +78,7 @@ my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
     UserID       => 1,
 );
 
-$Self->True(
+ok(
     $TicketID,
     "Ticket is created - $TicketID"
 );
@@ -109,7 +108,7 @@ for ( 1 .. 3 ) {
         UserID        => 1,
     );
 
-    $Self->True(
+    ok(
         $FormDraftAdd,
         "FormDraft is created"
     );
@@ -139,7 +138,7 @@ FixedTimeSet(
 $ExitCode = $CommandObject->Execute( '--object-type', 'Ticket', '--expired' );
 
 # just check exit code
-$Self->Is(
+is(
     $ExitCode,
     0,
     "Maint::FormDraft::Delete exit code - with ----object-type option with 'Ticket' value and --expired option",
@@ -151,7 +150,7 @@ my $FormDraftList = $FormDraftObject->FormDraftListGet(
     Action     => 'AgentTicketNote',
 );
 
-$Self->Is(
+is(
     scalar @{$FormDraftList},
     1,
     "Expired FormDraft is deleted"
@@ -161,10 +160,10 @@ $Self->Is(
 $ExitCode = $CommandObject->Execute( '--object-type', 'Ticket' );
 
 # just check exit code
-$Self->Is(
+is(
     $ExitCode,
     0,
     "Maint::FormDraft::Delete exit code - with ----object-type option with 'Ticket' value",
 );
 
-$Self->DoneTesting();
+done_testing;
