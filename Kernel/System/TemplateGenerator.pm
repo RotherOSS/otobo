@@ -1802,17 +1802,19 @@ sub _Replace {
             # The last customer mail is used for <OTOBO_COMMENT> or <OTOBO_COMMENT[123]>
             # as the loop replaces the customer mail first.
             while (
-                $Param{Text} =~ /$Start(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\])$End/
+                $Param{Text} =~ /$Start${DataType}(?:EMAIL|NOTE|BODY)\[(?<cnt>.+?)\]$End/
                 ||
-                $Param{Text} =~ /$Start(?:OTOBO_COMMENT(\[(.+?)\])?)$End/
+                $Param{Text} =~ /$Start(?:OTOBO_COMMENT(?:\[(?<cnt>.+?)\])?)$End/
                 )
             {
+                # for <OTOBO_COMMENT> truncate per default a long mail at 2500
+                # <OTOBO_CUSTOMER_BODY[0] would also yield 2500 lines
+                my $NumHeadLines = $+{cnt} || 2500;
 
-                my $Line       = $2 || 2500;
                 my $NewOldBody = '';
                 my @Body       = split( /\n/, $Data{Body} );
 
-                for my $Counter ( 0 .. $Line - 1 ) {
+                for my $Counter ( 0 .. $NumHeadLines - 1 ) {
 
                     # 2002-06-14 patch of Pablo Ruiz Garcia
                     # http://lists.otobo.org/pipermail/dev/2002-June/000012.html
@@ -1828,8 +1830,8 @@ sub _Replace {
                             $NewOldBody .= "> $Body[$Counter]";
                         }
 
-                        # add new line
-                        if ( $Counter < ( $Line - 1 ) ) {
+                        # add new line, unless we are at the last included line
+                        if ( $Counter < ( $NumHeadLines - 1 ) ) {
                             $NewOldBody .= "\n";
                         }
                     }
