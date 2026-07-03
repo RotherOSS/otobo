@@ -407,26 +407,18 @@ sub Run {
                 UserID      => $Self->{UserID},
             );
 
-            # use config of draft action for check
-            my $Config = $ConfigObject->Get( 'Ticket::Frontend::' . $FormDraft->{Action} );
-            if ( $AclActionLookup{ $FormDraft->{Action} } && IsHashRefWithData($Config) ) {
+            # verify that form draft actually belongs to current ticket
+            if ( IsHashRefWithData($FormDraft) && $FormDraft->{ObjectID} == $Self->{TicketID} ) {
 
-                # permission check
-                if ( $Config->{Permission} ) {
-                    my $AccessOk = $TicketObject->TicketPermission(
-                        Type     => $Config->{Permission},
-                        TicketID => $Self->{TicketID},
-                        UserID   => $Self->{UserID},
-                        LogNo    => 1,
-                    );
-                    if ( !$AccessOk ) {
-                        $Response{Error} = $LayoutObject->{LanguageObject}->Translate("This ticket does not exist, or you don't have permissions to access it in its current state.");
-                    }
-                }
+                # use config of form draft action for checks
+                my $Config = $ConfigObject->Get( 'Ticket::Frontend::' . $FormDraft->{Action} );
 
-                # ticket lock check
-                if ( $Config->{RequiredLock} ) {
-                    if ( $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+                # check if action is allowed as per ACLs
+                if ( $AclActionLookup{ $FormDraft->{Action} } && IsHashRefWithData($Config) ) {
+
+                    # ticket lock check
+                    #   NOTE: owner status overrules permission check in this case
+                    if ( $Config->{RequiredLock} && $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
                         my $AccessOk = $TicketObject->OwnerCheck(
                             TicketID => $Self->{TicketID},
                             OwnerID  => $Self->{UserID},
@@ -435,14 +427,35 @@ sub Run {
                             $Response{Error} = $LayoutObject->{LanguageObject}->Translate("Sorry, you need to be the ticket owner to perform this action.");
                         }
                     }
-                }
 
-                if ( !$Response{Error} ) {
-                    $Response{Success} = $FormDraftObject->FormDraftDelete(
-                        FormDraftID => $FormDraftID,
-                        UserID      => $Self->{UserID},
-                    );
+                    # permission check
+                    else {
+                        if ( $Config->{Permission} ) {
+                            my $AccessOk = $TicketObject->TicketPermission(
+                                Type     => $Config->{Permission},
+                                TicketID => $Self->{TicketID},
+                                UserID   => $Self->{UserID},
+                                LogNo    => 1,
+                            );
+                            if ( !$AccessOk ) {
+                                $Response{Error} = $LayoutObject->{LanguageObject}->Translate("No permission.");
+                            }
+                        }
+                    }
+
+                    if ( !$Response{Error} ) {
+                        $Response{Success} = $FormDraftObject->FormDraftDelete(
+                            FormDraftID => $FormDraftID,
+                            UserID      => $Self->{UserID},
+                        );
+                    }
                 }
+                else {
+                    $Response{Error} = $LayoutObject->{LanguageObject}->Translate("No permission.");
+                }
+            }
+            else {
+                $Response{Error} = $LayoutObject->{LanguageObject}->Translate("Could not delete form draft.");
             }
         }
         else {
@@ -1483,6 +1496,7 @@ sub MaskAgentZoom {
         FormDraft:
         for my $FormDraft ( @{$FormDraftList} ) {
             next FormDraft if !$ActionLookup{ $FormDraft->{Action} };
+
             push @{ $ShownFormDraftEntries{ $FormDraft->{Action} } }, $FormDraft;
         }
     }
@@ -3159,7 +3173,7 @@ sub _ArticleTree {
             $Item->{HistoryTypeReadable} = $Self->{HistoryTypeMapping}->{ $Item->{HistoryType} }
                 || $Item->{HistoryType};
 
-            # group items which happened (nearly) coincidently together
+            # group items which happened (nearly) coincidentally together
             my $CreateSystemTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
