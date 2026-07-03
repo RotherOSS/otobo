@@ -1967,7 +1967,7 @@ sub _Replace {
             if ( $DataType eq 'OTOBO_CUSTOMER_' ) {
 
                 # Get <OTOBO_EMAIL_DATE[]> from body and replace with received date.
-               # TODO: Clarify, as it rather looks like the current date is used.
+                # TODO: Clarify, as it rather looks like the current date is used.
                 # This tag will be able to use with supported OTOBO time zones
                 #   ( e.g. <OTOBO_EMAIL_DATE[Europe/Berlin]>, <OTOBO_EMAIL_DATE[Asia/Tokyo]>,
                 #   <OTOBO_EMAIL_DATE[America/Denver]> , ...).
