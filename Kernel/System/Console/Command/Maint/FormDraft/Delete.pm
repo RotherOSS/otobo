@@ -59,7 +59,6 @@ sub Run {
     my $FormDraftObject = $Kernel::OM->Get('Kernel::System::FormDraft');
     my $FormDraftList   = $FormDraftObject->FormDraftListGet(
         ObjectType => $Options{ObjectType},
-        UserID     => 1,
     );
 
     $Self->Print("<yellow>Deleting drafts...</yellow>\n");
@@ -93,7 +92,6 @@ sub Run {
             return $Self->ExitCodeError() if !$FormDraftObject->FormDraftDelete(
                 FormDraftID => $FormDraft->{FormDraftID},
                 ObjectID    => $FormDraft->{ObjectID},
-                UserID      => 1,
             );
         }
     }

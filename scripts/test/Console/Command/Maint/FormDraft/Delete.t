@@ -149,7 +149,6 @@ my $FormDraftList = $FormDraftObject->FormDraftListGet(
     ObjectType => 'Ticket',
     ObjectID   => $TicketID,
     Action     => 'AgentTicketNote',
-    UserID     => 1,
 );
 
 $Self->Is(
