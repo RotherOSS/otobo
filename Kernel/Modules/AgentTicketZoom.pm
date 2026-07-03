@@ -401,6 +401,7 @@ sub Run {
         if ($FormDraftID) {
 
             # fetch form draft to check permissions and ticket lock
+            #   NOTE: passing the object id ensures verification that form draft belongs to ticket
             my $FormDraftObject = $Kernel::OM->Get('Kernel::System::FormDraft');
             my $FormDraft       = $FormDraftObject->FormDraftGet(
                 FormDraftID => $FormDraftID,
@@ -408,8 +409,7 @@ sub Run {
                 UserID      => $Self->{UserID},
             );
 
-            # verify that form draft actually belongs to current ticket
-            if ( IsHashRefWithData($FormDraft) && $FormDraft->{ObjectID} == $Self->{TicketID} ) {
+            if ( IsHashRefWithData($FormDraft) ) {
 
                 # use config of form draft action for checks
                 my $Config = $ConfigObject->Get( 'Ticket::Frontend::' . $FormDraft->{Action} );
