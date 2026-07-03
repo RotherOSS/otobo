@@ -60,6 +60,7 @@ $Helper->ConfigSettingChange(
 
 # Fiddle with the timestamp only after the config setting changes,
 # as a changed time stamp interferes with a possible interaction with S3.
+# The fixed time will be used when evaluating <OTOBO_EMAIL_DATE> tags.
 my $DateTimeObject = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
@@ -100,7 +101,7 @@ my $LastCustomerBody      = <<'END_BODY';
 customer-Article#6-Line1
 customer-Article#6-Line2
 customer-Article#6-Line3
-
+                               # avoid trailing space
 The customer body contains a macro for itself. This macro should not
 be substituted as that would cause recursion.
 Circular: <OTOBO_CUSTOMER_BODY[10]>
@@ -183,6 +184,32 @@ my %Supported = (
 my $RichTestFormat = join "\n",
     qq{Test: <blockquote type="cite">%s<br/>},
     qq{%s</blockquote>};
+
+# This is for the special case where first <OTOBO_CUSTOMER_BODY> is evaluated
+# from the template and then <OTOBO_CUSTOMER_BODY[10]> from the replaced body.
+# The double replacement is not sensible, but at least we verify that
+# no infinite look occurs.
+#
+# There are two more quirks.
+# A) The replacement of <OTOBO_CUSTOMER_BODY[10]> is block quoted with
+#    "> " while the replacement of <OTOBO_CUSTOMER_BODY> adds no quotes.
+# B) The replacement of <OTOBO_CUSTOMER_BODY[10]> causes another <OTOBO_CUSTOMER_BODY[10]> to be added.
+#    That string is eventually replaced by a minus character '-'.
+my $DoubleReplacementBody = <<'END_BODY';
+Test: customer-Article#6-Line1
+customer-Article#6-Line2
+customer-Article#6-Line3
+                               # avoid trailing space
+The customer body contains a macro for itself. This macro should not
+be substituted as that would cause recursion.
+Circular: > customer-Article#6-Line1
+> customer-Article#6-Line2
+> customer-Article#6-Line3
+>                                # avoid trailing space
+> The customer body contains a macro for itself. This macro should not
+> be substituted as that would cause recursion.
+> Circular: -
+END_BODY
 
 my @Tests = (
     {
@@ -330,14 +357,14 @@ my @Tests = (
         TemplateText   => 'Test: <OTOBO_CUSTOMER_BODY>',
         TicketID       => $TicketID,
         TemplateResult => {
-            Note      => "Test: $LastCustomerBody",
+            Note      => $DoubleReplacementBody,
             Supported => {
                 $Articles[0]->{ArticleID} => "Test: $Articles[0]->{Body}",
                 $Articles[1]->{ArticleID} => "Test: $Articles[1]->{Body}",
                 $Articles[2]->{ArticleID} => "Test: $Articles[2]->{Body}",
                 $Articles[3]->{ArticleID} => "Test: $Articles[3]->{Body}",
                 $Articles[4]->{ArticleID} => "Test: $Articles[4]->{Body}",
-                $Articles[5]->{ArticleID} => "Test: $Articles[5]->{Body}",
+                $Articles[5]->{ArticleID} => $DoubleReplacementBody,
             },
             Unsupported => 'Test: -',
         }
@@ -435,7 +462,7 @@ for my $Test (@Tests) {
                         my $Template = $TemplateGeneratorObject->Template(
                             TemplateID => $TemplateID,
                             TicketID   => $Test->{TicketID},
-                            Data       => { %TicketData, %{$Article} },
+                            Data       => { %TicketData, $Article->%* },
                             UserID     => 1,
                         );
 
