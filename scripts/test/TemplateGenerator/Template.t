@@ -105,7 +105,7 @@ The customer body contains a macro for itself. This macro should not
 be substituted as that would cause recursion.
 Circular: <OTOBO_CUSTOMER_BODY[10]>
 END_BODY
-my $LastCustomerBody1     = "> customer-Article#6-Line1";
+my $LastCustomerBody1 = '> customer-Article#6-Line1';
 
 # create sample articles
 my @Articles;
