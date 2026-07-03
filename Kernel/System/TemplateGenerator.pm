@@ -1891,6 +1891,7 @@ sub _Replace {
             if ( $DataType eq 'OTOBO_CUSTOMER_' ) {
 
                 # Get <OTOBO_EMAIL_DATE[]> from body and replace with received date.
+                # TODO: Clarify, as it rather looks like the current date is used.
                 # This tag will be able to use with supported OTOBO time zones
                 #   ( e.g. <OTOBO_EMAIL_DATE[Europe/Berlin]>, <OTOBO_EMAIL_DATE[Asia/Tokyo]>,
                 #   <OTOBO_EMAIL_DATE[America/Denver]> , ...).
@@ -1900,29 +1901,43 @@ sub _Replace {
 
                 my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
                 my $SystemTimeZone = $DateTimeObject->OTOBOTimeZoneGet();
-                while ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
-                    my $TimeZone      = $1;
-                    my $TimeZoneValid = $DateTimeObject->IsTimeZoneValid( TimeZone => $TimeZone );
-                    if ($TimeZoneValid) {
-                        $DateTimeObject->ToTimeZone( TimeZone => $TimeZone );
+
+                $Param{Text} =~ s{
+                    $Start
+                        OTOBO_EMAIL_DATE
+                        # the time zone is optional
+                        (?:
+                            \[(?<tz>.+?)\]
+                        )?
+                    $End
+                }
+                {
+                    my $TimeZone = $+{tz};
+
+                    if ( $TimeZone ) {
+                        my $TimeZoneValid = $DateTimeObject->IsTimeZoneValid( TimeZone => $TimeZone );
+                        if ($TimeZoneValid) {
+                            $DateTimeObject->ToTimeZone( TimeZone => $TimeZone );
+                        }
+                        else {
+
+                            # stay at the system time zone
+                            $TimeZone = $SystemTimeZone;
+                        }
+
                     }
                     else {
                         $TimeZone = $SystemTimeZone;
+                        $DateTimeObject->ToTimeZone( TimeZone => $TimeZone );
                     }
 
+                    # construct the replacement
                     my $EmailDate = $DateTimeObject->Format( Format => '%A, %B %e, %Y at %T ' );
                     $EmailDate .= "($TimeZone)";
-                    $Param{Text} =~ s/$Tag\[$1\]$End/$EmailDate/g;
-                }
 
-                if ( $Param{Text} =~ /$Tag$End/g ) {
-                    my $TimeZone = $SystemTimeZone;
-                    $DateTimeObject->ToTimeZone( TimeZone => $TimeZone );
-
-                    my $EmailDate = $DateTimeObject->Format( Format => '%A, %B %e, %Y at %T ' );
-                    $EmailDate .= "($TimeZone)";
-                    $Param{Text} =~ s/$Tag$End/$EmailDate/g;
-                }
+                    # the replacement
+                    $EmailDate;
+                }xeg;    # a single pass over the macros in $Param{Text}
             }
         }
 
