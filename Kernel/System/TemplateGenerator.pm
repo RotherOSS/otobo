@@ -1835,7 +1835,6 @@ sub _Replace {
                             $NewOldBody .= "\n";
                         }
                     }
-                    $Counter++;
                 }
 
                 chomp $NewOldBody;
