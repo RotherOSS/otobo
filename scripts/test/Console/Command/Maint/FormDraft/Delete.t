@@ -53,7 +53,7 @@ $Self->Is(
     "Maint::FormDraft::Delete exit code - with --expired option",
 );
 
-# try to execute command with --object-type option without velue
+# try to execute command with --object-type option without value
 $ExitCode = $CommandObject->Execute('--object-type');
 
 # just check exit code
@@ -110,7 +110,7 @@ for ( 1 .. 3 ) {
     );
 
     $Self->True(
-        $TicketID,
+        $FormDraftAdd,
         "FormDraft is created"
     );
 
@@ -135,7 +135,7 @@ FixedTimeSet(
     )->ToEpoch()
 );
 
-# execute command with --object-type option with velue ticket and --expired option
+# execute command with --object-type option with value ticket and --expired option
 $ExitCode = $CommandObject->Execute( '--object-type', 'Ticket', '--expired' );
 
 # just check exit code
@@ -158,7 +158,7 @@ $Self->Is(
     "Expired FormDraft is deleted"
 );
 
-# execute command with --object-type option with velue Ticket
+# execute command with --object-type option with value Ticket
 $ExitCode = $CommandObject->Execute( '--object-type', 'Ticket' );
 
 # just check exit code
