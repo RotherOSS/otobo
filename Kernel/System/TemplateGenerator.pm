@@ -1811,29 +1811,31 @@ sub _Replace {
                 # <OTOBO_CUSTOMER_BODY[0] would also yield 2500 lines
                 my $NumHeadLines = $+{cnt} || 2500;
 
-                my $NewOldBody = '';
-                my @Body       = split( /\n/, $Data{Body} );
+                my $NewOldBody   = '';
+                my @Body         = split /\n/, $Data{Body};
+                my $NumBodyLines = scalar @Body;
 
+                COUNTER:
                 for my $Counter ( 0 .. $NumHeadLines - 1 ) {
 
-                    # 2002-06-14 patch of Pablo Ruiz Garcia
-                    # http://lists.otobo.org/pipermail/dev/2002-June/000012.html
-                    if ( $#Body >= $Counter ) {
+                    # do not go beyond the complete body
+                    last COUNTER if $Counter >= $NumBodyLines;
 
-                        # add no quote char, do it later by using DocumentCleanup()
-                        if ( $Param{RichText} ) {
-                            $NewOldBody .= $Body[$Counter];
-                        }
+                    # add no quote char, do it later by using DocumentCleanup()
+                    if ( $Param{RichText} ) {
+                        $NewOldBody .= $Body[$Counter];
+                    }
 
-                        # add "> " as quote char
-                        else {
-                            $NewOldBody .= "> $Body[$Counter]";
-                        }
+                    # add "> " as quote char
+                    else {
+                        $NewOldBody .= "> $Body[$Counter]";
+                    }
 
-                        # add new line, unless we are at the last included line
-                        if ( $Counter < ( $NumHeadLines - 1 ) ) {
-                            $NewOldBody .= "\n";
-                        }
+                    # add new line, unless we are at the last included line
+                    # not sure why the last line has a newline when the
+                    # the body has less lines than the specified line count
+                    if ( $Counter < ( $NumHeadLines - 1 ) ) {
+                        $NewOldBody .= "\n";
                     }
                 }
 
