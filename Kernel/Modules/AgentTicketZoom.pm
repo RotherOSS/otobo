@@ -404,7 +404,7 @@ sub Run {
             );
 
             # verify that form draft actually belongs to current ticket
-            if ( $FormDraft->{ObjectID} == $Self->{TicketID} ) {
+            if ( IsHashRefWithData($FormDraft) && $FormDraft->{ObjectID} == $Self->{TicketID} ) {
 
                 # use config of form draft action for checks
                 my $Config = $ConfigObject->Get( 'Ticket::Frontend::' . $FormDraft->{Action} );
@@ -434,7 +434,7 @@ sub Run {
                                 LogNo    => 1,
                             );
                             if ( !$AccessOk ) {
-                                $Response{Error} = $LayoutObject->{LanguageObject}->Translate("This ticket does not exist, or you don't have permissions to access it in its current state.");
+                                $Response{Error} = $LayoutObject->{LanguageObject}->Translate("No permission.");
                             }
                         }
                     }
@@ -447,11 +447,11 @@ sub Run {
                     }
                 }
                 else {
-                    $Response{Error} = $LayoutObject->{LanguageObject}->Translate("Action not permitted!");
+                    $Response{Error} = $LayoutObject->{LanguageObject}->Translate("No permission.");
                 }
             }
             else {
-                $Response{Error} = $LayoutObject->{LanguageObject}->Translate("Invalid FormDraftID!");
+                $Response{Error} = $LayoutObject->{LanguageObject}->Translate("Could not delete form draft.");
             }
         }
         else {
