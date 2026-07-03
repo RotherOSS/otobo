@@ -19,6 +19,8 @@ package Kernel::Modules::AdminSystemConfigurationDeployment;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -77,15 +79,6 @@ sub Run {
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-            Comments      => $Comments,
-            UserID        => $Self->{UserID},
-            AllSettings   => ($AdvancedMode) ? 1 : 0,
-            DirtySettings => $SelectedSettings || undef,
-        );
-
-        $ReturnData{Result} = \%DeploymentResult;
-
         if ( $Self->{LastEntityType} ) {
 
             # Unset Entity Type.
@@ -99,6 +92,43 @@ sub Run {
         elsif ( $SysConfigObject->can('SettingHistory') ) {
             $ReturnData{RedirectURL} = 'Action=AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistory';
         }
+
+        # permission check
+        my $DeployPermission = $Self->_IsAllowedToDeploy(
+            SelectedSettings => $SelectedSettings,
+            AdvancedMode     => $AdvancedMode,
+        );
+
+        if ( !$DeployPermission->{Allowed} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $DeployPermission->{ErrorMsg},
+            );
+
+            $ReturnData{Result} = { Success => 0 };
+
+            my $JSON = $LayoutObject->JSONEncode(
+                Data => \%ReturnData,
+            );
+
+            return $LayoutObject->Attachment(
+                ContentType => 'application/json',
+                Content     => $JSON,
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+
+        # actual deployment
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+            Comments      => $Comments,
+            UserID        => $Self->{UserID},
+            AllSettings   => ($AdvancedMode) ? 1 : 0,
+            DirtySettings => $SelectedSettings || undef,
+        );
+
+        $ReturnData{Result} = \%DeploymentResult;
 
         my $JSON = $LayoutObject->JSONEncode(
             Data => \%ReturnData,
@@ -232,6 +262,115 @@ sub Run {
         return $LayoutObject->Redirect( OP => "Action=AdminSystemConfiguration" );
     }
 
+}
+
+sub _IsAllowedToDeploy {
+
+    my ( $Self, %Param ) = @_;
+
+    my $SelectedSettings = $Param{SelectedSettings};
+    my $AdvancedMode     = $Param{AdvancedMode};
+
+    # permission check
+    my $IsAdmin = $Self->_IsAdmin();
+
+    # admin is always allowed to deploy
+    return { Allowed => 1 } if $IsAdmin;
+
+    # nonadmins are not allowed to deploy all
+    if ($AdvancedMode) {
+
+        return {
+            Allowed  => 0,
+            ErrorMsg => "Only admin is allowed to deploy all settings!",
+        };
+    }
+    elsif ($SelectedSettings) {
+
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # only allow to deploy owned settings
+        for my $SelectedSettingKey ( $SelectedSettings->@* ) {
+
+            my %SelectedSetting = $SysConfigObject->SettingGet(
+                Name => $SelectedSettingKey,
+            );
+
+            if ( $SelectedSetting{IsDirty} && $SelectedSetting{ChangeBy} != $Self->{UserID} ) {
+
+                return {
+                    Allowed  => 0,
+                    ErrorMsg => "Not allowed to modify setting $SelectedSettingKey!",
+                };
+            }
+            if ( !$SelectedSetting{UserModificationPossible} ) {
+
+                return {
+                    Allowed  => 0,
+                    ErrorMsg => "$SelectedSettingKey is not user-modifiable!",
+                };
+            }
+        }
+    }
+
+    return { Allowed => 1 };
+}
+
+sub _IsAdmin {
+
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ModuleReg    = $ConfigObject->Get('Frontend::Module')->{AdminSystemConfiguration};
+
+    # module permission check for action
+    if (
+        ref $ModuleReg->{GroupRo} eq 'ARRAY'
+        && !scalar @{ $ModuleReg->{GroupRo} }
+        && ref $ModuleReg->{Group} eq 'ARRAY'
+        && !scalar @{ $ModuleReg->{Group} }
+        )
+    {
+        return 1;
+    }
+    else {
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        PERMISSION:
+        for my $Permission (qw(Group)) {
+
+            my $Group = $ModuleReg->{$Permission};
+            next PERMISSION if !$Group;
+
+            if ( ref $Group eq 'ARRAY' ) {
+                INNER:
+                for my $GroupName ( @{$Group} ) {
+                    next INNER if !$GroupName;
+                    next INNER if !$GroupObject->PermissionCheck(
+                        UserID    => $Self->{UserID},
+                        GroupName => $GroupName,
+                        Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                    );
+                    return 1;
+                }
+            }
+            else {
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                );
+                if ($HasPermission) {
+                    return 1;
+                }
+            }
+        }
+    }
+
+    # no permission
+    return 0;
 }
 
 1;
