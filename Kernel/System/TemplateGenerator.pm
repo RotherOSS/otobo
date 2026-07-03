@@ -24,10 +24,10 @@ use warnings;
 # core modules
 
 # CPAN modules
-use URI::Escape ();
+use URI::Escape qw(uri_escape_utf8 uri_unescape);    ## no perlimports, methods are used in a substitution
 
 # OTOBO modules
-use Kernel::Language;
+use Kernel::Language              ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -74,8 +74,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{RichText} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::RichText');
 
@@ -377,7 +376,7 @@ generate template
 
 Returns:
 
-    $Template => 'Some text';
+    $Template = 'Some text';
 
 =cut
 
@@ -391,6 +390,7 @@ sub Template {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -654,7 +654,7 @@ sub Attributes {
         UserID  => $Param{UserID},
     );
 
-    return %{ $Param{Data} };
+    return $Param{Data}->%*;
 }
 
 =head2 AutoResponse()
@@ -844,7 +844,7 @@ sub AutoResponse {
         );
 
         $AutoResponse{SenderAddress}  = $Address{Name};
-        $AutoResponse{SenderRealname} = $Address{Realname};
+        $AutoResponse{SenderRealname} = $Address{Realname};    # note that SystemAddress() does not capitalize the 'n'
     }
 
     # get sender attributes based on queue
@@ -1214,7 +1214,7 @@ sub _Replace {
             my $SubjectOrBodyContent = $2;
             my $SubjectOrBodySuffix  = $3;
 
-            my $SubjectOrBodyContentUnescaped = URI::Escape::uri_unescape $SubjectOrBodyContent;
+            my $SubjectOrBodyContentUnescaped = uri_unescape $SubjectOrBodyContent;
 
             my $SubjectOrBodyContentReplaced = $Self->_Replace(
                 %Param,
@@ -1222,7 +1222,7 @@ sub _Replace {
                 RichText => 0,
             );
 
-            my $SubjectOrBodyContentEscaped = URI::Escape::uri_escape_utf8 $SubjectOrBodyContentReplaced;
+            my $SubjectOrBodyContentEscaped = uri_escape_utf8 $SubjectOrBodyContentReplaced;
 
             $SubjectOrBodyPrefix . $SubjectOrBodyContentEscaped . $SubjectOrBodySuffix;
         }egx;
@@ -1230,17 +1230,15 @@ sub _Replace {
         $MailToHref . $MailToHrefContent;
     }egx;
 
-    my $Start = '<';
-    my $End   = '>';
+    my ( $Start, $End ) = ( '<', '>' );
     if ( $Param{RichText} ) {
-        $Start = '&lt;';
-        $End   = '&gt;';
+        ( $Start, $End ) = ( '&lt;', '&gt;' );
         $Param{Text} =~ s/(\n|\r)//g;
     }
 
     my %Ticket;
     if ( $Param{TicketData} ) {
-        %Ticket = %{ $Param{TicketData} };
+        %Ticket = $Param{TicketData}->%*;
     }
 
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
@@ -1434,6 +1432,7 @@ sub _Replace {
             KEY:
             for my $Key (qw( email note )) {
                 my $Value = $H{$Key};
+
                 next KEY if defined($Value);
 
                 $H{$Key} = $H{'body'};
@@ -1781,7 +1780,7 @@ sub _Replace {
 
             ATTRIBUTE:
             for my $Attribute ( sort keys %Data ) {
-                next ATTRIBUTE if !$Data{$Attribute};
+                next ATTRIBUTE unless $Data{$Attribute};
 
                 $Data{$Attribute} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                     String => $Data{$Attribute},
@@ -1798,7 +1797,10 @@ sub _Replace {
             # prepare body (insert old email) <OTOBO_CUSTOMER_EMAIL[n]>, <OTOBO_CUSTOMER_NOTE[n]>
             #   <OTOBO_CUSTOMER_BODY[n]>, <OTOBO_AGENT_EMAIL[n]>..., <OTOBO_COMMENT>
 
-            # Changed this to a 'while' to allow the same key/tag multiple times and different number of lines.
+            # Handle the case where the number of included lines can be specified.
+            # The same key can occur multiple times, possibly with a different number of lines.
+            # The last customer mail is used for <OTOBO_COMMENT> or <OTOBO_COMMENT[123]>
+            # as the loop replaces the customer mail first.
             while (
                 $Param{Text} =~ /$Start(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\])$End/
                 ||
@@ -1997,10 +1999,11 @@ sub _Replace {
 
 =head2 _RemoveUnSupportedTag()
 
-cleanup all not supported tags
+clean up all not supported tags. The not supported tags are replaced
+with the minus character '-'.
 
     my $Text = $TemplateGeneratorObject->_RemoveUnSupportedTag(
-        Text => $SomeTextWithTags,
+        Text                 => $SomeTextWithTags,
         ListOfUnSupportedTag => \@ListOfUnSupportedTag,
     );
 
