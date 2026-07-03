@@ -78,7 +78,6 @@ get draft attributes
         FormDraftID => 123,
         ObjectID    => 123,
         GetContent  => 1,                # optional, default 1
-        UserID      => 123,
     );
 
 Returns (with GetContent = 0):
@@ -131,7 +130,7 @@ sub FormDraftGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FormDraftID ObjectID UserID)) {
+    for my $Needed (qw(FormDraftID ObjectID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -419,7 +418,6 @@ sub FormDraftUpdate {
         FormDraftID => $Param{FormDraftID},
         ObjectID    => $Param{ObjectID},
         GetContent  => 0,
-        UserID      => $Param{UserID},
     );
     if ( !$FormDraft ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -486,7 +484,6 @@ remove draft
     my $Success = $FormDraftObject->FormDraftDelete(
         FormDraftID => 123,
         ObjectID    => 123,
-        UserID      => 123,
     );
 
 =cut
@@ -495,7 +492,7 @@ sub FormDraftDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FormDraftID ObjectID UserID)) {
+    for my $Needed (qw(FormDraftID ObjectID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -518,7 +515,6 @@ sub FormDraftDelete {
         FormDraftID => $Param{FormDraftID},
         ObjectID    => $Param{ObjectID},
         GetContent  => 0,
-        UserID      => $Param{UserID},
     );
     if ( !$FormDraft ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -548,7 +544,6 @@ get list of drafts, optionally filtered by object type, object id and action
         ObjectType => 'Ticket',             # optional
         ObjectID   => 123,                  # optional
         Action     => 'AgentTicketCompose', # optional
-        UserID     => 123,
     );
 
 Returns:
@@ -572,22 +567,6 @@ Returns:
 
 sub FormDraftListGet {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need UserID!',
-        );
-        return;
-    }
-    if ( !IsInteger( $Param{UserID} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "UserID needs to be an integer!",
-        );
-        return;
-    }
 
     # check cache
     my $CacheKey = 'FormDraftListGet';
