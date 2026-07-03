@@ -47,11 +47,7 @@ All draft functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
-
-=item new()
+=head2 new()
 
 create an object
 
@@ -74,7 +70,7 @@ sub new {
     return $Self;
 }
 
-=item FormDraftGet()
+=head2 FormDraftGet()
 
 get draft attributes
 
@@ -268,7 +264,7 @@ sub FormDraftGet {
     return \%FormDraft;
 }
 
-=item FormDraftAdd()
+=head2 FormDraftAdd()
 
 add a new draft
 
@@ -363,7 +359,7 @@ sub FormDraftAdd {
     return 1;
 }
 
-=item FormDraftUpdate()
+=head2 FormDraftUpdate()
 
 update an existing draft
 
@@ -483,7 +479,7 @@ sub FormDraftUpdate {
     return 1;
 }
 
-=item FormDraftDelete()
+=head2 FormDraftDelete()
 
 remove draft
 
@@ -544,7 +540,7 @@ sub FormDraftDelete {
     return 1;
 }
 
-=item FormDraftListGet()
+=head2 FormDraftListGet()
 
 get list of drafts, optionally filtered by object type, object id and action
 
@@ -661,7 +657,9 @@ sub FormDraftListGet {
     return \@FormDrafts;
 }
 
-=item _DeleteAffectedCaches()
+=head1 PRIVATE INTERFACE
+
+=head2 _DeleteAffectedCaches()
 
 remove all potentially affected caches
 
@@ -710,9 +708,5 @@ sub _DeleteAffectedCaches {
 
     return 1;
 }
-
-=back
-
-=cut
 
 1;
