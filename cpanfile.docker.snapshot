@@ -242,10 +242,10 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  CSS-Minifier-XS-0.13
-    pathname: G/GT/GTERMARS/CSS-Minifier-XS-0.13.tar.gz
+  CSS-Minifier-XS-0.15
+    pathname: G/GT/GTERMARS/CSS-Minifier-XS-0.15.tar.gz
     provides:
-      CSS::Minifier::XS 0.13
+      CSS::Minifier::XS 0.15
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
@@ -1682,10 +1682,10 @@ DISTRIBUTIONS
       locale 0
       perl 5.008001
       strict 0
-  HTTP-Date-6.06
-    pathname: O/OA/OALDERS/HTTP-Date-6.06.tar.gz
+  HTTP-Date-6.07
+    pathname: O/OA/OALDERS/HTTP-Date-6.07.tar.gz
     provides:
-      HTTP::Date 6.06
+      HTTP::Date 6.07
     requirements:
       Exporter 0
       ExtUtils::MakeMaker 0
@@ -1818,43 +1818,43 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::Simple 0.45
-  IO-Compress-2.221
-    pathname: P/PM/PMQS/IO-Compress-2.221.tar.gz
+  IO-Compress-2.223
+    pathname: P/PM/PMQS/IO-Compress-2.223.tar.gz
     provides:
-      Compress::Zlib 2.221
+      Compress::Zlib 2.223
       File::GlobMapper 1.001
-      IO::Compress 2.221
-      IO::Compress::Adapter::Bzip2 2.221
-      IO::Compress::Adapter::Deflate 2.221
-      IO::Compress::Adapter::Identity 2.221
-      IO::Compress::Base 2.221
-      IO::Compress::Base::Common 2.221
-      IO::Compress::Bzip2 2.221
-      IO::Compress::Deflate 2.221
-      IO::Compress::Gzip 2.221
-      IO::Compress::Gzip::Constants 2.221
-      IO::Compress::RawDeflate 2.221
-      IO::Compress::Zip 2.221
-      IO::Compress::Zip::Constants 2.221
-      IO::Compress::Zlib::Constants 2.221
-      IO::Compress::Zlib::Extra 2.221
-      IO::Uncompress::Adapter::Bunzip2 2.221
-      IO::Uncompress::Adapter::Identity 2.221
-      IO::Uncompress::Adapter::Inflate 2.221
-      IO::Uncompress::AnyInflate 2.221
-      IO::Uncompress::AnyUncompress 2.221
-      IO::Uncompress::Base 2.221
-      IO::Uncompress::Bunzip2 2.221
-      IO::Uncompress::Gunzip 2.221
-      IO::Uncompress::Inflate 2.221
-      IO::Uncompress::RawInflate 2.221
-      IO::Uncompress::Unzip 2.221
-      U64 2.221
-      Zlib::OldDeflate 2.221
-      Zlib::OldInflate 2.221
+      IO::Compress 2.223
+      IO::Compress::Adapter::Bzip2 2.223
+      IO::Compress::Adapter::Deflate 2.223
+      IO::Compress::Adapter::Identity 2.223
+      IO::Compress::Base 2.223
+      IO::Compress::Base::Common 2.223
+      IO::Compress::Bzip2 2.223
+      IO::Compress::Deflate 2.223
+      IO::Compress::Gzip 2.223
+      IO::Compress::Gzip::Constants 2.223
+      IO::Compress::RawDeflate 2.223
+      IO::Compress::Zip 2.223
+      IO::Compress::Zip::Constants 2.223
+      IO::Compress::Zlib::Constants 2.223
+      IO::Compress::Zlib::Extra 2.223
+      IO::Uncompress::Adapter::Bunzip2 2.223
+      IO::Uncompress::Adapter::Identity 2.223
+      IO::Uncompress::Adapter::Inflate 2.223
+      IO::Uncompress::AnyInflate 2.223
+      IO::Uncompress::AnyUncompress 2.223
+      IO::Uncompress::Base 2.223
+      IO::Uncompress::Bunzip2 2.223
+      IO::Uncompress::Gunzip 2.223
+      IO::Uncompress::Inflate 2.223
+      IO::Uncompress::RawInflate 2.223
+      IO::Uncompress::Unzip 2.223
+      U64 2.223
+      Zlib::OldDeflate 2.223
+      Zlib::OldInflate 2.223
     requirements:
       Compress::Raw::Bzip2 2.218
-      Compress::Raw::Zlib 2.218
+      Compress::Raw::Zlib 2.222
       Encode 0
       ExtUtils::MakeMaker 0
       Scalar::Util 0
@@ -1869,18 +1869,18 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.098
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.098.tar.gz
+  IO-Socket-SSL-2.099
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.099.tar.gz
     provides:
-      IO::Socket::SSL 2.098
+      IO::Socket::SSL 2.099
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.098
-      IO::Socket::SSL::OCSP_Resolver 2.098
+      IO::Socket::SSL::OCSP_Cache 2.099
+      IO::Socket::SSL::OCSP_Resolver 2.099
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.098
-      IO::Socket::SSL::SSL_HANDLE 2.098
-      IO::Socket::SSL::Session_Cache 2.098
-      IO::Socket::SSL::Trace 2.098
+      IO::Socket::SSL::SSL_Context 2.099
+      IO::Socket::SSL::SSL_HANDLE 2.099
+      IO::Socket::SSL::Session_Cache 2.099
+      IO::Socket::SSL::Trace 2.099
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -1950,10 +1950,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.52
       Types::Serialiser 0
       common::sense 0
-  JavaScript-Minifier-XS-0.15
-    pathname: G/GT/GTERMARS/JavaScript-Minifier-XS-0.15.tar.gz
+  JavaScript-Minifier-XS-0.16
+    pathname: G/GT/GTERMARS/JavaScript-Minifier-XS-0.16.tar.gz
     provides:
-      JavaScript::Minifier::XS 0.15
+      JavaScript::Minifier::XS 0.16
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
@@ -4422,11 +4422,12 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008
-  YAML-LibYAML-v0.908.0
-    pathname: T/TI/TINITA/YAML-LibYAML-v0.908.0.tar.gz
+  YAML-LibYAML-v0.910.0
+    pathname: T/TI/TINITA/YAML-LibYAML-v0.910.0.tar.gz
     provides:
-      YAML::LibYAML v0.908.0
-      YAML::XS v0.908.0
+      YAML::LibYAML v0.910.0
+      YAML::XS v0.910.0
+      YAML::XS::LibYAML v0.910.0
     requirements:
       B::Deparse 0
       Exporter 0
@@ -4595,6 +4596,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
