@@ -34,70 +34,85 @@ jobs:
       otobo_web_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_16 }}
       otobo_web_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_17 }}
       otobo_web_latest_10_1: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1 }}
+      otobo_web_devel_10_1: ${{ steps.collect_summary.outputs.otobo_web_devel_10_1 }}
 
       otobo_web_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_14 }}
       otobo_web_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_15 }}
       otobo_web_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_16 }}
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
+      otobo_web_devel_11_0: ${{ steps.collect_summary.outputs.otobo_web_devel_11_0 }}
 
       otobo_web_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_web_rel_11_1_0-beta1 }}
       otobo_web_latest_11_1: ${{ steps.collect_summary.outputs.otobo_web_latest_11_1 }}
+      otobo_web_devel_11_1: ${{ steps.collect_summary.outputs.otobo_web_devel_11_1 }}
 
       # elasticsearch
       otobo_elasticsearch_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_15 }}
       otobo_elasticsearch_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_16 }}
       otobo_elasticsearch_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_17 }}
       otobo_elasticsearch_latest_10_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1 }}
+      otobo_elasticsearch_devel_10_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_10_1 }}
 
       otobo_elasticsearch_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_14 }}
       otobo_elasticsearch_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_15 }}
       otobo_elasticsearch_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_16 }}
       otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
+      otobo_elasticsearch_devel_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_11_0 }}
 
       otobo_elasticsearch_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_1_0-beta1 }}
       otobo_elasticsearch_latest_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_1 }}
+      otobo_elasticsearch_devel_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_11_1 }}
 
       # nginx_webproxy
       otobo_nginx_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_15 }}
       otobo_nginx_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_16 }}
       otobo_nginx_webproxy_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_17 }}
       otobo_nginx_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1 }}
+      otobo_nginx_webproxy_devel_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_10_1 }}
 
       otobo_nginx_webproxy_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_14 }}
       otobo_nginx_webproxy_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_15 }}
       otobo_nginx_webproxy_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_16 }}
       otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
+      otobo_nginx_webproxy_devel_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_11_0 }}
 
       otobo_nginx_webproxy_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_1_0-beta1 }}
       otobo_nginx_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_1 }}
+      otobo_nginx_webproxy_devel_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_11_1 }}
 
       # nginx_kerberos_webproxy
       otobo_nginx_kerberos_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_15 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_16 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_17 }}
       otobo_nginx_kerberos_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1 }}
+      otobo_nginx_kerberos_webproxy_devel_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_10_1 }}
 
       otobo_nginx_kerberos_webproxy_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_14 }}
       otobo_nginx_kerberos_webproxy_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_15 }}
       otobo_nginx_kerberos_webproxy_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_16 }}
       otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
+      otobo_nginx_kerberos_webproxy_devel_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_11_0 }}
 
       otobo_nginx_kerberos_webproxy_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_1_0-beta1 }}
       otobo_nginx_kerberos_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_1 }}
+      otobo_nginx_kerberos_webproxy_devel_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_11_1 }}
 
       # selenium_chrome
       otobo_selenium_chrome_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_15 }}
       otobo_selenium_chrome_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_16 }}
       otobo_selenium_chrome_rel_10_1_17: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_17 }}
       otobo_selenium_chrome_latest_10_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1 }}
+      otobo_selenium_chrome_devel_10_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_10_1 }}
 
       otobo_selenium_chrome_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_14 }}
       otobo_selenium_chrome_rel_11_0_15: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_15 }}
       otobo_selenium_chrome_rel_11_0_16: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_16 }}
       otobo_selenium_chrome_latest_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0 }}
+      otobo_selenium_chrome_devel_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_11_0 }}
 
       otobo_selenium_chrome_rel_11_1_0-beta1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_1_0-beta1 }}
       otobo_selenium_chrome_latest_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_1 }}
+      otobo_selenium_chrome_devel_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_11_1 }}
 
     strategy:
       # create different images
@@ -106,9 +121,9 @@ jobs:
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
         docker_tag: [
-          'rel-10_1_15', 'rel-10_1_16', 'rel-10_1_17', 'latest-10_1',
-          'rel-11_0_14', 'rel-11_0_15', 'rel-11_0_16', 'latest-11_0',
-          'rel-11_1_0-beta1', 'latest-11_1'
+          'rel-10_1_15', 'rel-10_1_16', 'rel-10_1_17', 'latest-10_1', 'devel-rel-10_1',
+          'rel-11_0_14', 'rel-11_0_15', 'rel-11_0_16', 'latest-11_0', 'devel-rel-11_0',
+          'rel-11_1_0-beta1', 'latest-11_1', 'devel-rel-11_1'
         ]
 
         exclude:
@@ -148,6 +163,17 @@ jobs:
           -
             docker_tag: 'latest-11_1'
             patch:      'rel-11_1_0-beta1'
+
+          # the devel images are based on the HEAD of the branches
+          -
+            docker_tag: 'devel-rel-10_1'
+            patch:      'rel-10_1'
+          -
+            docker_tag: 'devel-rel-11_0'
+            patch:      'rel-11_0'
+          -
+            docker_tag: 'devel-rel-11_1'
+            patch:      'rel-11_1'
 
           # web
           # web uses different base images in different releases.
@@ -269,6 +295,22 @@ jobs:
         # These variables can be accessed in the env context
         name: Setting up the environment file (latest)
         if:   ${{ startsWith(matrix.docker_tag, 'latest') }}
+        run: |
+          patch=${{ matrix.patch }}
+          docker_tag=${{ matrix.docker_tag }}
+          build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          (
+            echo "otobo_branch=${patch}"
+            echo "otobo_docker_tag=${docker_tag}"
+            echo "otobo_ref=${{ matrix.repository }}:${docker_tag}"
+            echo "otobo_base_image=${{ matrix.base_image }}"
+            echo "otobo_build_date=${build_date}"
+          ) >> $GITHUB_ENV
+
+      -
+        # These variables can be accessed in the env context
+        name: Setting up the environment file (devel)
+        if:   ${{ startsWith(matrix.docker_tag, 'devel') }}
         run: |
           patch=${{ matrix.patch }}
           docker_tag=${{ matrix.docker_tag }}
