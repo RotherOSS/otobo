@@ -71,7 +71,6 @@ for my $Module (qw(DB FS)) {
     my $Content = ${$ContentRef};
     $EncodeObject->EncodeOutput( \$Content );
 
-    my $MD5         = md5_hex($Content);
     my $ContentID   = undef;
     my $Disposition = 'attachment';
 
@@ -103,14 +102,14 @@ for my $Module (qw(DB FS)) {
 
     $Self->True(
         scalar @Data,
-        "#$Module - FormIDGetAllFilesData() check if formid is present",
+        "#$Module - FormIDGetAllFilesData() check if form id is present",
     );
 
     @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
 
     $Self->True(
         scalar @Data,
-        "#$Module - FormIDGetAllFilesMeta() check if formid is present",
+        "#$Module - FormIDGetAllFilesMeta() check if form id is present",
     );
 
     # set fixed time
@@ -133,7 +132,7 @@ for my $Module (qw(DB FS)) {
 
     $Self->False(
         scalar @Data,
-        "#$Module - FormIDGetAllFilesData() check if formid is absent",
+        "#$Module - FormIDGetAllFilesData() check if form id is absent",
     );
 
     @Data = $UploadCacheObject->FormIDGetAllFilesMeta(
@@ -142,7 +141,7 @@ for my $Module (qw(DB FS)) {
 
     $Self->False(
         scalar @Data,
-        "#$Module - FormIDGetAllFilesMeta() check if formid is absent",
+        "#$Module - FormIDGetAllFilesMeta() check if form id is absent",
     );
 
     # unset fixed time

@@ -454,7 +454,9 @@ sub Run {
         COUNT:
         for my $Count ( reverse sort @AttachmentIDs ) {
             my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
+
             next COUNT if !$Delete;
+
             $Error{AttachmentDelete} = 1;
             $UploadCacheObject->FormIDRemoveFile(
                 FormID => $Self->{FormID},

@@ -28,7 +28,6 @@ use LWP::UserAgent ();
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -38,8 +37,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $TestUserLogin         = $Helper->TestUserCreate();
-my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
+my $TestUserLogin = $Helper->TestUserCreate();
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
