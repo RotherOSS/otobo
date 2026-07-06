@@ -207,12 +207,6 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
-                        <div class="Field">
-                            [% Data.ValidOption %]
-                        </div>
-                        <div class="Clear"></div>
-
                     </fieldset>
 
 
