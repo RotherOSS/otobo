@@ -435,7 +435,7 @@ sub LoadDefaults {
     $Self->{CheckEmailAddresses} = 1;
 
     # CheckMXRecord
-    # (Check mx recorde of used email addresses)
+    # (Check mx records of used email addresses)
     $Self->{CheckMXRecord} = 1;
 
     # CheckEmailValidAddress
@@ -554,7 +554,7 @@ sub LoadDefaults {
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
-    # or if you want to filter with a locigal OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
+    # or if you want to filter with a logical OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
 #    $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each login name, then
@@ -620,7 +620,7 @@ sub LoadDefaults {
 #        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
 #        RandLength => 22,     # length for state and nonce random strings - default: 22
 #        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
-#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
+#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provider - default: 2 s
 #    };
     # Optionally enable user authorization via the id token - hashes can be used for complex claims
 #    $Self->{'AuthModule::OpenIDConnect::RoleMap'} = {
@@ -696,7 +696,7 @@ sub LoadDefaults {
 
     # --------------------------------------------------- #
     # authentication sync settings                        #
-    # (enable agent data sync. after succsessful          #
+    # (enable agent data sync. after successful           #
     # authentication)                                     #
     # --------------------------------------------------- #
     # This is an example configuration for an LDAP auth sync. backend.
@@ -972,7 +972,7 @@ sub LoadDefaults {
 
     # SessionDeleteIfNotRemoteID
     # (Delete session if the session id is used with an
-    # invalied remote IP?) [0|1]
+    # invalid remote IP?) [0|1]
     $Self->{SessionDeleteIfNotRemoteID} = 1;
 
     # SessionMaxTime
@@ -993,7 +993,7 @@ sub LoadDefaults {
     $Self->{SessionUseCookieAfterBrowserClose} = 0;
 
     # SessionDir
-    # directory for all sessen id information (just needed if
+    # directory for all session id information (just needed if
     # $Self->{SessionModule}='Kernel::System::AuthSession::FS)
     $Self->{SessionDir} = '<OTOBO_CONFIG_Home>/var/sessions';
 
@@ -1055,7 +1055,7 @@ sub LoadDefaults {
     $Self->{WebMaxFileUpload} = 48000000;
 
     # WebUploadCacheModule
-    # (select you WebUploadCacheModule module, default DB [DB|FS])
+    # (select your WebUploadCacheModule module, default DB [DB|FS])
     $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB';
 
 #    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
@@ -1266,7 +1266,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
 
     # Package::RepositoryRoot
-    # (get online repository list, use the fist availabe result)
+    # (get online repository list, use the fist available result)
     $Self->{'Package::RepositoryRoot'} = [
         'https://ftp.otobo.org/pub/otobo/misc/packages/repository.xml',
     ];
@@ -1486,7 +1486,7 @@ You can log in via the following URL:
     $Self->{CustomerPanelLostPassword} = 1;
 
     # CustomerPanelCreateAccount
-    # (use create cutomer account self feature)
+    # (use create customer account self feature)
     $Self->{CustomerPanelCreateAccount} = 1;
 
     # --------------------------------------------------- #
@@ -1643,7 +1643,7 @@ via the Preferences button after logging in.
 #        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
 #        RandLength => 22,     # length for state and nonce random strings - default: 22
 #        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
-#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
+#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provider - default: 2 s
 #    };
     # For debugging purposes you can dump all IDTokens received to the log
 #    $Self->{'Customer::AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;
