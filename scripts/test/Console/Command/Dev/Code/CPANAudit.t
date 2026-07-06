@@ -74,14 +74,6 @@ is(
 # that these advisories are indeed reported and that no new
 # unexempted advisories have cropped up.
 my @Excemptions = (
-    {
-        'libwww-perl' => {
-            advisories => bag {
-                item { cves => array { end(); } };
-                end();
-            },
-        }
-    },
 );
 
 for my $Excemption (@Excemptions) {
