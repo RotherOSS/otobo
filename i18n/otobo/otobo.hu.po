@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-06-24 13:41+0000\n"
-"PO-Revision-Date: 2026-05-17 02:01+0000\n"
+"PO-Revision-Date: 2026-07-07 10:00+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
-"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-11/"
-"hu/>\n"
+"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-0/"
+"otobo/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -198,18 +198,16 @@ msgid "Change settings"
 msgstr "Változtatási beállítások"
 
 #. Template: AdminACLEdit
-#, fuzzy
-#| msgid ""
-#| "Set up what you want to change if the criteria match. Keep in mind that "
-#| "'Possible' is a white list, 'PossibleNot' a black list."
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is an exclusive white list, 'PossibleAdd' a white list, "
 "'PossibleNot' a black list. 'Possible' also hides the empty value, which you "
 "could add again with '[empty]'."
 msgstr ""
-"Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen "
-"meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista."
+"Állítsa be, amit változtatni szeretne a feltétel egyezésekor. Ne feledkezzen "
+"meg arról, hogy a „Possible” egy kizárólagos fehérlista, a „PossibleAdd” egy "
+"fehérlista, a „PossibleNot” egy feketelista. A „Possible” elrejti az üres "
+"értéket is, amelyeket újra hozzá tud adni az „[empty]” értékkel."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
@@ -2558,8 +2556,6 @@ msgstr ""
 "való összehasonlításához."
 
 #. Template: AdminDynamicFieldReference
-#, fuzzy
-#| msgid "Add ReferenceFilter"
 msgid "Add Reference Filter"
 msgstr "Hivatkozásszűrő hozzáadása"
 
@@ -2576,8 +2572,6 @@ msgid "Default Columns Screens"
 msgstr "Alapértelmezett oszlopok képernyői"
 
 #. Template: AdminDynamicFieldScreen
-#, fuzzy
-#| msgid "Add DynamicField"
 msgid "Add Dynamic Field"
 msgstr "Dinamikus mező hozzáadása"
 
@@ -4649,8 +4643,6 @@ msgid "Kerberos keytab file"
 msgstr "Kerberos keytab-fájl"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
-#| msgid "The kerberos keytab file for the privileged user."
 msgid "The Kerberos keytab file for the privileged user."
 msgstr "A kiváltságos felhasználó Kerberos keytab-fájlja."
 
@@ -7082,10 +7074,8 @@ msgid "Will be the sender address of this queue for email answers."
 msgstr "A várólista küldőcíme lesz a válasz e-mailekhez."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid "Is defined in Admin > System addresses."
 msgid "Is defined in Admin > Email Addresses."
-msgstr "Az Adminisztráció > Rendszercímek modulban van meghatározva."
+msgstr "Az Adminisztráció > E-mail-címek modulban van meghatározva."
 
 #. Template: AdminQueue
 msgid "Default sign key"
@@ -7116,29 +7106,20 @@ msgid "The signature for email answers."
 msgstr "Az aláírás a válasz e-mailekhez."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "The business calendar for Unlock Time and the Escalation Times. No "
-#| "selection means the Default calendard"
 msgid ""
 "The business calendar for unlock time and the escalation times. No selection "
 "means that the default calendar is used."
 msgstr ""
-"Az munkaidőnaptár a feloldási időhőhöz és az eszkalációs időkhöz. Ha semmi "
-"sincs kiválasztva, akkor az alapértelmezett naptár lesz használva."
+"Az üzleti naptár a feloldási időhöz és az eszkalációs időkhöz. Ha nincs "
+"semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar "
-#| "= no selection) or in Calendars 1 through 9."
 msgid ""
 "Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 "Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time "
-"ágában van meghatározva (alapértelmezett naptár = nincs kiválasztás) vagy az "
-"1-9. naptárakban."
+"ágában van meghatározva (alapértelmezett naptár) vagy az 1-9. naptárakban."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
@@ -8317,9 +8298,6 @@ msgstr ""
 "leveleknél."
 
 #. Template: AdminSystemAddress
-#, fuzzy
-#| msgid ""
-#| "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
 msgid ""
 "Only relevant if the postmaster mail account is set to dispatching by To-"
 "field."
@@ -8854,10 +8832,8 @@ msgid "Ticket Mask Management"
 msgstr "Jegymaszkkezelés"
 
 #. Template: AdminTicketMask
-#, fuzzy
-#| msgid "Edit details"
 msgid "Edit mask"
-msgstr "Részletek szerkesztése"
+msgstr "Maszk szerkesztése"
 
 #. Template: AdminTicketMask
 msgid "Change mask definition"
@@ -8916,11 +8892,6 @@ msgid "Deployed Translation"
 msgstr "Üzembe állított fordítás"
 
 #. Template: AdminTranslations
-#, fuzzy
-#| msgid ""
-#| "Changes made here only affect the system behaviour after your draft "
-#| "translations have been deployed. By deploying them, all changes will be "
-#| "written to the language files."
 msgid ""
 "Changes made here only affect the system behavior after your draft "
 "translations have been deployed. By deploying them, all changes will be "
@@ -10368,7 +10339,7 @@ msgstr "Visszavonás és bezárás"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
-msgstr "Minden csillaggal (*) jelölt mező kötelező."
+msgstr "A csillaggal (*) megjelölt összes mező kötelező."
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -12127,12 +12098,12 @@ msgstr ""
 "ennek az oldalnak az újbóli meglátogatásával."
 
 #. Template: Intro
-#, fuzzy
-#| msgid "If you need support, just ask our experts – either at"
 msgid ""
 "If you need support, just ask our experts – either at %sOTOBO forum%s or "
 "directly via mail to %ssales@otobo.io%s."
-msgstr "Ha támogatásra van szüksége, akkor kérje meg a szakértőinket – akár az"
+msgstr ""
+"Ha támogatásra van szüksége, akkor kérje meg a szakértőinket – akár az "
+"%sOTOBO fórumon%s, vagy közvetlenül e-mailben a %ssales@otobo.io%s címen."
 
 #. Template: Intro
 msgid "Cached data found"
@@ -13784,8 +13755,6 @@ msgid "Missing Dynamic Field."
 msgstr "Hiányzó dinamikus mező."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
-#, fuzzy
-#| msgid "No valid dynamic field \"%s.\""
 msgid "No valid dynamic field \"%s\"."
 msgstr "Nincs érvényes „%s” dinamikus mező."
 
@@ -15206,10 +15175,8 @@ msgid "Setting not found."
 msgstr "A beállítás nem található."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
-#, fuzzy
-#| msgid "Missing setting name!"
 msgid "Missing setting key!"
-msgstr "Hiányzó beállításnév!"
+msgstr "Hiányzó beállítási kulcs!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
@@ -16551,28 +16518,20 @@ msgid "Can`t remove SessionID."
 msgstr "Nem lehet eltávolítani a munkamenet-azonosítót."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-#, fuzzy
-#| msgid ""
-#| "Registration for tile %s of CustomerDashboard is invalid! Order needs to "
-#| "be a unique number."
 msgid ""
 "Registration for tile '%s' of CustomerDashboard is invalid! Order needs to "
 "be a number and unique."
 msgstr ""
-"Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! A "
-"sorrendnek egyedi számnak kell lennie."
+"Az ügyfél vezérlőpultjának „%s” csempéje regisztrációja érvénytelen! A "
+"sorrendnek számnak és egyedinek kell lennie."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-#, fuzzy
-#| msgid ""
-#| "Registration for tile %s of CustomerDashboard is invalid! Either Module "
-#| "or Template needed."
 msgid ""
 "Registration for tile %s of customer dashboard is invalid! Either Module or "
 "Template needed."
 msgstr ""
-"Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! Vagy a "
-"modul, vagy a sablon szükséges."
+"Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! Vagy "
+"modul, vagy sablon szükséges."
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Need Key!"
@@ -17813,14 +17772,10 @@ msgid "Group of the agents"
 msgstr "Az ügyintézők csoportja"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
-#, fuzzy
-#| msgid "Select the group of the agents"
 msgid "Select the group of the agents."
-msgstr "Az ügyintézők csoportjának kiválasztása"
+msgstr "Az ügyintézők csoportjának kiválasztása."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
-#, fuzzy
-#| msgid "External-source key"
 msgid "External source key"
 msgstr "Külső forrás kulcsa"
 
@@ -17845,10 +17800,8 @@ msgid "Referenced object type"
 msgstr "Hivatkozott objektum típusa"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-#, fuzzy
-#| msgid "Select the type of the referenced object"
 msgid "Select the type of the referenced object."
-msgstr "A hivatkozott objektum típusának kiválasztása"
+msgstr "A hivatkozott objektum típusának kiválasztása."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Input mode of edit field"
@@ -17900,12 +17853,10 @@ msgid "Attribute which will be searched on autocomplete"
 msgstr "Az automatikus kiegészítésnél keresendő attribútum"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
-#, fuzzy
-#| msgid "Select the attribute which customer companies will be searched by"
 msgid "Select the attribute which customer companies will be searched by."
 msgstr ""
 "Azon attribútum kiválasztása, amely alapján az ügyfél-vállalatok keresve "
-"lesznek"
+"lesznek."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "This field is required or"
@@ -17928,36 +17879,28 @@ msgid "Queue of the ticket"
 msgstr "A jegy várólistája"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the queue of the ticket"
 msgid "Select the queue of the ticket."
-msgstr "A jegy várólistájának kiválasztása"
+msgstr "A jegy várólistájának kiválasztása."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Type of the ticket"
 msgstr "A jegy típusa"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the type of the ticket"
 msgid "Select the type of the ticket."
-msgstr "A jegy típusának kiválasztása"
+msgstr "A jegy típusának kiválasztása."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the attribute which tickets will be searched by"
 msgid "Select the attribute which tickets will be searched by."
-msgstr "Azon attribútum kiválasztása, amely alapján a jegyek keresve lesznek"
+msgstr "Azon attribútum kiválasztása, amely alapján a jegyek keresve lesznek."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Attribute which is displayed for values"
 msgstr "Az az attribútum, amely az értékeknél van megjelenítve"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
-#, fuzzy
-#| msgid "Select the type of display"
 msgid "Select the type of display."
-msgstr "A megjelenítés típusának kiválasztása"
+msgstr "A megjelenítés típusának kiválasztása."
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column Separator"
@@ -18044,8 +17987,6 @@ msgid "Need OTRSData->%s!"
 msgstr "OTRS-adatok->%s szükséges!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-#, fuzzy
-#| msgid "Can't access OTRS Home: %s!"
 msgid "Can't access OTRS home directory: %s!"
 msgstr "Nem lehet elérni az OTRS saját könyvtárát: %s!"
 
@@ -18083,8 +18024,6 @@ msgstr ""
 "Annak ellenőrzése, hogy az OTOBO és az OTRS összekapcsolása lehetséges-e."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-#, fuzzy
-#| msgid "Can't open RELEASE file from OTRSHome: %s!"
 msgid "Can't open RELEASE file from OTRS home directory: %s!"
 msgstr "Nem lehet megnyitni a RELEASE fájlt az OTRS saját könyvtárából: %s!"
 
@@ -18155,10 +18094,6 @@ msgid "Migrate configuration settings."
 msgstr "A konfigurációs beállítások költöztetése."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-#, fuzzy
-#| msgid ""
-#| "An error occurred during SysConfig data migration or no configuration "
-#| "exists."
 msgid ""
 "An error occurred during system configuration data migration or no "
 "configuration exists."
@@ -18167,8 +18102,6 @@ msgstr ""
 "léteznek a beállítások."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-#, fuzzy
-#| msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgid ""
 "An error occurred during system configuration migration when writing XML to "
 "DB."
@@ -18193,8 +18126,6 @@ msgid "Migrate database table notification."
 msgstr "Az értesítés adatbázistábla költöztetése."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-#, fuzzy
-#| msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgid "Can't open Kernel/Config.pm file from OTRS home directory: %s!"
 msgstr ""
 "Nem lehet megnyitni a „Kernel/Config.pm” fájlt az OTRS saját könyvtárából: "
@@ -18211,8 +18142,6 @@ msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr "A „Kernel/Config.pm” létezik az OTOBO saját könyvtárában"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-#, fuzzy
-#| msgid "Check if we are able to connect to OTRS Home."
 msgid "Check if we are able to connect to OTRS home directory."
 msgstr ""
 "Annak ellenőrzése, hogy képesek vagyunk-e kapcsolódni az OTRS saját "
@@ -21406,13 +21335,10 @@ msgid "Activates lost password feature for customers."
 msgstr "Elfelejtett jelszó szolgáltatást aktivál az ügyfeleknek."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Activates Rendering of DynamicFields outside of the DynamicField block."
 msgid ""
 "Activates rendering of dynamic fields outside of the dynamic field block."
 msgstr ""
-"Bekapcsolja a dinamikus mezők megjelenítését a dinamikus mező blokkon kívül."
+"Aktiválja a dinamikus mezők megjelenítését a dinamikus mező blokkján kívül."
 
 #. SysConfig
 msgid "Activates support for customer and customer user groups."
@@ -22602,6 +22528,13 @@ msgid ""
 "ExternalTicketNumberRecognition1\" through \"000-"
 "ExternalTicketNumberRecognition4\"."
 msgstr ""
+"Ellenőrzi, hogy egy e-mail egy meglévő jegyre történő követés-e olyan "
+"jegyszámmal, amelyet az ExternalTicketNumberRecognition szűrőmodul "
+"megtalálhat. Abban az esetben, ha a modul új jegyet talál, akkor a jegy "
+"száma a meghatározott dinamikus mezőbe kerül beírásra. Egy már meglévő "
+"jegynél nem tudja ezt a dinamikus mezőt újra beállítani. Határozzon meg egy "
+"szabálykészletet a „000-ExternalTicketNumberRecognition1” és a „000-"
+"ExternalTicketNumberRecognition4” beállítások között."
 
 #. SysConfig
 msgid ""
@@ -22684,14 +22617,10 @@ msgid "Collect support data for asynchronous plug-in modules."
 msgstr "Támogatási adatok begyűjtése az aszinkron bővítmény modulokhoz."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Color definitions for Agent interface highcontrast skin."
 msgid "Color definitions for agent interface high contrast skin."
 msgstr "Színmeghatározások az ügyintézői felület nagy kontrasztú felszínéhez."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Color definitions for Customer Interface highcontrast skin."
 msgid "Color definitions for customer interface high contrast skin."
 msgstr "Színmeghatározások az ügyfélfelület nagy kontrasztú felszínéhez."
 
@@ -23184,8 +23113,6 @@ msgid "Customer Companies"
 msgstr "Ügyfél-vállalatok"
 
 #. SysConfig
-#, fuzzy
-#| msgid "CustomerCompany"
 msgid "Customer Company"
 msgstr "Ügyfél-vállalat"
 
@@ -23194,10 +23121,8 @@ msgid "Customer Dashboard"
 msgstr "Ügyfél vezérlőpult"
 
 #. SysConfig
-#, fuzzy
-#| msgid "CustomerDashboard Info Tile"
 msgid "Customer Dashboard Info Tile"
-msgstr "Ügyfél vezérlőpultján lévő információs csempe"
+msgstr "Ügyfélvezérlőpult információs csempe"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
@@ -27191,10 +27116,8 @@ msgid "Dynamic Field Labels"
 msgstr "Dinamikus mező címkék"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Dynamic Fields Screens"
 msgid "Dynamic Field Screen"
-msgstr "Dinamikus mezők képernyői"
+msgstr "Dinamikus mező képernyője"
 
 #. SysConfig
 msgid "Dynamic Field Set"
@@ -27962,13 +27885,6 @@ msgstr ""
 "a teljes funkcionalitáshoz."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Fields of the ticket index, used for the ticket fulltext search. Fields "
-#| "are also stored, but are not mandatory for the overall functionality. If "
-#| "fields are added which can be updated (especially DynamicFields), their "
-#| "respective update event has to be added to the TicketManagement invoker "
-#| "of the Elasticsearch webservice!"
 msgid ""
 "Fields of the ticket index, used for the ticket fulltext search. Fields are "
 "also stored, but are not mandatory for the overall functionality. If fields "
@@ -28003,13 +27919,6 @@ msgstr ""
 "funkcionalitáshoz az összes mező kötelező."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Fields stored in the ticket index which are used for other things besides "
-#| "fulltext searches. For the complete functionality all fields are "
-#| "mandatory. If fields are added which can be updated (especially "
-#| "DynamicFields), their respective update event has to be added to the "
-#| "TicketManagement invoker of the Elasticsearch webservice!"
 msgid ""
 "Fields stored in the ticket index which are used for other things besides "
 "fulltext searches. For the complete functionality all fields are mandatory. "
@@ -28238,10 +28147,8 @@ msgid "Full value"
 msgstr "Teljes érték"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Fulltext search"
 msgid "Fulltext Elasticsearch"
-msgstr "Szabad-szavas keresés"
+msgstr "Szabad-szavas Elasticsearch"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
@@ -28520,17 +28427,15 @@ msgstr ""
 "adni a CustomerPassword oszlopnevét az ügyféltáblában."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
-#| "passwords must be specified."
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified. It is discouraged to configure the not really "
 "secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell "
-"adni a jelszavak titkosításának típusát."
+"adni a jelszavak titkosításának típusát. Nem ajánlott beállítani a nem "
+"igazán biztonságos algoritmusokat, mint például „md5”, „apr1”, „crypt” és „"
+"plain”."
 
 #. SysConfig
 msgid ""
@@ -31243,11 +31148,6 @@ msgid "Rebuilds the escalation index."
 msgstr "Újraépíti az eszkalációs indexet."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Recognize if a ticket is a follow-up to an existing ticket using an "
-#| "external ticket number. Note: the first capturing group from the "
-#| "'NumberRegExp' expression will be used as the ticket number value."
 msgid ""
 "Recognize if a ticket is a follow-up to an existing ticket using an external "
 "ticket number. Note: the first capturing group from the 'NumberRegExp' "
@@ -31257,7 +31157,9 @@ msgid ""
 msgstr ""
 "Annak felismerése, ha egy jegy egy külső jegyszámot használó meglévő jegy "
 "követője. Megjegyzés: a „NumberRegExp” kifejezés első elfogási csoportja "
-"lesz használva a jegyszám értékeként."
+"lesz használva a jegyszám értékeként. Abban az esetben, ha a modul új jegyet "
+"talál, akkor a jegy száma a meghatározott dinamikus mezőbe kerül beírásra. "
+"Egy már meglévő jegynél nem tudja ezt a dinamikus mezőt újra beállítani."
 
 #. SysConfig
 msgid "Redis server address. Example: 127.0.0.1:6379."
@@ -32814,10 +32716,8 @@ msgstr ""
 "jelennek meg."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Show or Hide deleted articles."
 msgid "Show or Hide Deleted Articles"
-msgstr "Törölt bejegyzések megjelenítése vagy elrejtése."
+msgstr "Törölt bejegyzések megjelenítése vagy elrejtése"
 
 #. SysConfig
 msgid "Show or Hide deleted articles."
@@ -34478,6 +34378,8 @@ msgid ""
 "These attributes are passed when connecting to the database. A common use "
 "case is a connection which is secured by TLS."
 msgstr ""
+"Ezek az attribútumok lesznek átadva az adatbázishoz való kapcsolódáskor. "
+"Gyakori használati eset egy TLS által biztosított kapcsolat."
 
 #. SysConfig
 msgid ""
@@ -34858,23 +34760,16 @@ msgid "Tickets."
 msgstr "Jegyek."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Tile registration for the CustomerDashboard. Module is required."
 msgid "Tile registration for the customer dashboard. Module is required."
 msgstr "Csemperegisztráció az ügyfél vezérlőpultjához. A modul kötelező."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Tile registration for the CustomerDashboard. Module is required. "
-#| "Optionally, an order for items can be set. The order must have the name "
-#| "of the item as key and the desired position as integer value."
 msgid ""
 "Tile registration for the customer dashboard. Module is required. "
 "Optionally, an order for items can be set. The order must have the name of "
 "the item as key and the desired position as integer value."
 msgstr ""
-"Csemperegisztráció az ügyfél vezérlőpultjához. A modul kötelező. "
+"Csemperegisztráció az ügyfél vezérlőpultjához A modul kötelező. "
 "Választhatóan beállítható az elemek sorrendje. A sorrendnek az elem nevét "
 "kell tartalmaznia kulcsként és a kívánt helyzetet egész szám értékként."
 
@@ -35175,13 +35070,6 @@ msgstr ""
 "Ütemezett karbantartást végzünk. Rövidesen ismét elérhetőnek kell lennünk."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, "
-#| "the ticket is not only unlocked, but also handed over to the system user "
-#| "again. Thus, the behaviour is clearer, but it is no longer possible to "
-#| "read out who last edited the ticket. Please deactivate this option to "
-#| "restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgid ""
 "We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the "
 "ticket is not only unlocked, but also handed over to the system user again. "
@@ -35235,6 +35123,13 @@ msgid ""
 "setting defines the settings that contain complex configuration hashes that "
 "should not be masked when generating the support data."
 msgstr ""
+"Ha támogatási adatok kerülnek begyűjtésre a támogatási adatgyűjtőn "
+"keresztül, akkor a ValueType=\"Password\" jelöléssel ellátott bizonyos "
+"rendszerbeállítási értékek automatikusan el lesznek takarva. Ez "
+"megakadályozza, hogy a jelszavak egyszerű szövegként jelenjenek meg a "
+"támogatási adatokban. Ez a beállítás határozza meg azokat a beállításokat, "
+"amelyek olyan összetett beállítási kivonatokat tartalmaznak, amelyeket nem "
+"szabad eltakarni a támogatási adatok előállításakor."
 
 #. SysConfig
 msgid ""
