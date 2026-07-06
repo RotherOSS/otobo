@@ -24,6 +24,7 @@ use MIME::Base64;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::Log',
@@ -60,11 +61,15 @@ sub FormIDRemove {
         }
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             DELETE FROM web_upload_cache
             WHERE form_id = ?',
-        Bind => [ \$Param{FormID} ],
+        Bind => [ \$FormID ],
     );
 
     return 1;
@@ -82,6 +87,10 @@ sub FormIDAddFile {
             return;
         }
     }
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -142,7 +151,7 @@ sub FormIDAddFile {
                 create_time_unix, content_id, disposition)
             VALUES  (?, ?, ?, ?, ?, ?, ?, ?)',
         Bind => [
-            \$Param{FormID},  \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
+            \$FormID,         \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
             \$Param{Content}, \$Time,            \$ContentID,          \$Param{Disposition}
         ],
     );
@@ -163,6 +172,10 @@ sub FormIDRemoveFile {
         }
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
     my @Index = @{ $Self->FormIDGetAllFilesMeta(%Param) };
 
     # finish if files have been already removed by other process
@@ -176,7 +189,7 @@ sub FormIDRemoveFile {
             DELETE FROM web_upload_cache
             WHERE form_id = ?
                 AND filename = ?',
-        Bind => [ \$Param{FormID}, \$Param{Filename} ],
+        Bind => [ \$FormID, \$Param{Filename} ],
     );
 
     return 1;
@@ -197,6 +210,10 @@ sub FormIDGetAllFilesData {
         }
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -206,7 +223,7 @@ sub FormIDGetAllFilesData {
             FROM web_upload_cache
             WHERE form_id = ?
             ORDER BY create_time_unix',
-        Bind   => [ \$Param{FormID} ],
+        Bind   => [ \$FormID ],
         Encode => [ 1, 1, 1, 0, 1, 1 ],
     );
 
@@ -251,6 +268,10 @@ sub FormIDGetAllFilesMeta {
         }
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -260,7 +281,7 @@ sub FormIDGetAllFilesMeta {
             FROM web_upload_cache
             WHERE form_id = ?
             ORDER BY create_time_unix',
-        Bind => [ \$Param{FormID} ],
+        Bind => [ \$FormID ],
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
