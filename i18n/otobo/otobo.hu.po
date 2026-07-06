@@ -11,10 +11,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-06-24 13:39+0000\n"
-"PO-Revision-Date: 2026-05-16 17:08+0000\n"
+"PO-Revision-Date: 2026-07-06 10:32+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
-"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-10/"
-"hu/>\n"
+"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-10-"
+"1/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14111,9 +14111,8 @@ msgid "Setting not found."
 msgstr "A beállítás nem található."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
-#, fuzzy
 msgid "Missing setting key!"
-msgstr "Hiányzó beállításnév!"
+msgstr "Hiányzó beállítási kulcs!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
@@ -26704,14 +26703,15 @@ msgstr ""
 "adni a CustomerPassword oszlopnevét az ügyféltáblában."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified. It is discouraged to configure the not really "
 "secure algorithms like 'md5', 'apr1', 'crypt', and 'plain'."
 msgstr ""
 "Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell "
-"adni a jelszavak titkosításának típusát."
+"adni a jelszavak titkosításának típusát. Nem ajánlott beállítani a nem "
+"igazán biztonságos algoritmusokat, mint például „md5”, „apr1”, „crypt” és „"
+"plain”."
 
 #. SysConfig
 msgid ""
