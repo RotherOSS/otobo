@@ -1897,7 +1897,7 @@ sub Run {
             );
         }
 
-        # remove pre submited attachments
+        # remove pre submitted attachments
         $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
         # delete hidden fields cache

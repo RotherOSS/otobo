@@ -46,7 +46,6 @@ FixedTimeSet();
 
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -1095,7 +1094,7 @@ for my $Test (@Tests) {
         );
         ok(
             $AttachmentDynamicFieldSuccess,
-            "Dynamic field 'DynamicFieldAttachemt$RandomID' is set.",
+            "Dynamic field 'DynamicFieldAttachment$RandomID' is set.",
         );
     }
 
