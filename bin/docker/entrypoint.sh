@@ -174,6 +174,10 @@ function do_update_tasks() {
     # Reinstall packages, rebuild config, purge the cache and the cached loader files.
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
+    #
+    # Note that Admin::Package::UpgradeAll does a cleanup of the SysConfig when all
+    # packages could be upgraded smoothly. In the case of problems there is no cleanup.
+    # This strategy allows manual rework using the values from the old SysConfig.
     {
         echo -n  "[$FUNCNAME] started "
         date
