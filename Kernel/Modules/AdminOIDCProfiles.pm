@@ -165,6 +165,7 @@ sub Run {
         $GetParam{RandLength}        = $ParamObject->GetParam( Param => 'RandLength' ) || 22;
         $GetParam{RandTTL}           = $ParamObject->GetParam( Param => 'RandTTL' )    || 60 * 5;
         $GetParam{Leeway}            = $ParamObject->GetParam( Param => 'Leeway' )     || 2;
+        $GetParam{ValidID}           = $ParamObject->GetParam( Param => 'ValidID' )    // 1;
 
         # prevent duplicate account names
         if ( $Self->{Subaction} eq 'AddProfileAction' ) {
@@ -227,7 +228,7 @@ sub Run {
                 Leeway     => $GetParam{Leeway},
             },
             UserID => $Self->{UserID},
-            Valid  => $GetParam{ValidID} // 1,
+            Valid  => $GetParam{ValidID},
         };
 
         my $Success;
