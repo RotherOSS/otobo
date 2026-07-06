@@ -64,7 +64,7 @@ is(
     $ThawedAuditReport->{meta}->{cpan_audit},
     {
         db      => '20260621.001',
-        version => '20260308.002',
+        version => '20260622.001',
     },
     'got expected version of the advisory list'
 );
