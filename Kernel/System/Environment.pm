@@ -329,7 +329,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
             'Module'          => 'CPANSA::DB',
             'Required'        => 1,
-            'VersionRequired' => '== 20260621.001',
+            'VersionRequired' => '== 20260705.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
@@ -454,7 +454,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 2.18',
         },
         {
-            'Comment'         => 'needed by Kernel::System::Mail',
+            'Comment'         => 'needed by Kernel::System::Mail and by MIME::Tools',
             'Module'          => 'Mail::Internet',
             'Required'        => 1,
             'VersionRequired' => '== 2.18',
@@ -472,7 +472,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.080001',
         },
         {
-            'Comment'         => 'needed by Kernel::System::Mail',
+            'Comment'         => 'needed by Kernel::System::Mail and Kernel::System::EmailParser',
             'Module'          => 'MIME::Tools',
             'Required'        => 1,
             'VersionRequired' => '== 5.514',

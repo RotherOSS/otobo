@@ -28,7 +28,7 @@ requires 'Class::ReturnValue', '== 0.55';
 requires 'CPAN::Audit', '== 20260622.001';
 
 # database of adbisories used by CPAN::Audit
-requires 'CPANSA::DB', '== 20260621.001';
+requires 'CPANSA::DB', '== 20260705.001';
 
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';
@@ -89,7 +89,7 @@ requires 'LWP::Protocol::https', '== 6.11';
 # needed in frontend and system OTOBO modules
 requires 'Mail::Address', '== 2.18';
 
-# needed by Kernel::System::Mail
+# needed by Kernel::System::Mail and by MIME::Tools
 requires 'Mail::Internet', '== 2.18';
 
 # needed by Math::Random::Secure, needed in Kernel::System::Main
@@ -98,7 +98,7 @@ requires 'Math::Random::ISAAC', '== 1.004';
 # needed by Kernel::System::Main for GenerateRandomString()
 requires 'Math::Random::Secure', '== 0.080001';
 
-# needed by Kernel::System::Mail
+# needed by Kernel::System::Mail and Kernel::System::EmailParser
 requires 'MIME::Tools', '== 5.514';
 
 # needed by CPAN::Audit
