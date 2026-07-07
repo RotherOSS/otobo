@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.99299657279094;
+    $Self->{Completeness}        = 0.999851013110846;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -92,7 +92,7 @@ sub Data {
             'Illesztési feltétel beállítása ehhez az ACL-hez. Használja a „Properties” értéket a jelenlegi képernyő megfeleltetéséhez, vagy a „PropertiesDatabase” értéket az adatbázisban lévő jelenlegi jegy megfeleltetéséhez.',
         'Change settings' => 'Változtatási beállítások',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is an exclusive white list, \'PossibleAdd\' a white list, \'PossibleNot\' a black list. \'Possible\' also hides the empty value, which you could add again with \'[empty]\'.' =>
-            '',
+            'Állítsa be, amit változtatni szeretne a feltétel egyezésekor. Ne feledkezzen meg arról, hogy a „Possible” egy kizárólagos fehérlista, a „PossibleAdd” egy fehérlista, a „PossibleNot” egy feketelista. A „Possible” elrejti az üres értéket is, amelyeket újra hozzá tud adni az „[empty]” értékkel.',
         'Check the official %sdocumentation%s.' => 'Nézze meg a hivatalos %sdokumentációt%s.',
         'Show or hide the content' => 'A tartalom megjelenítése vagy elrejtése',
         'Edit ACL Information' => 'ACL információk szerkesztése',
@@ -756,13 +756,13 @@ sub Data {
         'matches string' => 'karakterláncra illeszkedik',
         'Type a string to compare the selected attribute of the referenced object against.' =>
             'Egy karakterlánc beírása a hivatkozott objektum kiválasztott attribútumával való összehasonlításához.',
-        'Add Reference Filter' => '',
+        'Add Reference Filter' => 'Hivatkozásszűrő hozzáadása',
 
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => 'Dinamikus mezők ↔ Képernyők kezelése',
         'Overview' => 'Áttekintés',
         'Default Columns Screens' => 'Alapértelmezett oszlopok képernyői',
-        'Add Dynamic Field' => '',
+        'Add Dynamic Field' => 'Dinamikus mező hozzáadása',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
             'Elemeket rendelhet hozzá ehhez a képernyőhöz vagy mezőhöz, ha az elemeket a bal oldali listából a jobb oldali listába húzza az egérrel.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
@@ -1320,7 +1320,7 @@ sub Data {
         'The password for the privileged user.' => 'A kiváltságos felhasználó jelszava.',
         'Kerberos User' => 'Kerberos felhasználó',
         'Kerberos keytab file' => 'Kerberos keytab-fájl',
-        'The Kerberos keytab file for the privileged user.' => '',
+        'The Kerberos keytab file for the privileged user.' => 'A kiváltságos felhasználó Kerberos keytab-fájlja.',
         'Use Proxy Options' => 'Proxybeállítások használata',
         'Show or hide Proxy options to connect to the remote system.' => 'Proxybeállítások megjelenítése vagy elrejtése a távoli rendszerhez való csatlakozáshoz.',
         'Proxy Server' => 'Proxy-kiszolgáló',
@@ -1991,7 +1991,7 @@ sub Data {
             'Ha egy jegy le van zárva, és az ügyfél egy követést küld, a jegy zárolva lesz a régi tulajdonosnak.',
         'System address' => 'Rendszercím',
         'Will be the sender address of this queue for email answers.' => 'A várólista küldőcíme lesz a válasz e-mailekhez.',
-        'Is defined in Admin > Email Addresses.' => '',
+        'Is defined in Admin > Email Addresses.' => 'Az Adminisztráció > E-mail-címek modulban van meghatározva.',
         'Default sign key' => 'Alapértelmezett aláíró kulcs',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Egy aláíró kulcs használatához azonosítókkal rendelkező PGP kulcsokat vagy S/MIME tanúsítványokat kell hozzáadni a kiválasztott várólista rendszercíméhez.',
@@ -2000,9 +2000,9 @@ sub Data {
         'Signature' => 'Aláírás',
         'The signature for email answers.' => 'Az aláírás a válasz e-mailekhez.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
-            '',
+            'Az üzleti naptár a feloldási időhöz és az eszkalációs időkhöz. Ha nincs semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva.',
         'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            '',
+            'Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time ágában van meghatározva (alapértelmezett naptár) vagy az 1-9. naptárakban.',
         'This queue is used in the following config settings:' => 'Ez a várólista a következő konfigurációs beállításokban van használva:',
 
         # Template: AdminQueueAutoResponse
@@ -2340,7 +2340,7 @@ sub Data {
         'The display name and email address will be shown on mail you send.' =>
             'A megjelenített név és az e-mail-cím meg lesz jelenítve az elküldött leveleknél.',
         'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
-            '',
+            'Csak akkor fontos, ha a levelezési fiók „Szétválogatás az e-mail címzett mezője szerint” értékre van állítva.',
         'This system address cannot be set to invalid.' => 'Ezt a rendszercímet nem lehet érvénytelenre állítani.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'Ezt a rendszercímet nem lehet érvénytelenre állítani, mert egy vagy több várólistában vagy automatikus válaszban használják.',
@@ -2505,7 +2505,7 @@ sub Data {
 
         # Template: AdminTicketMask
         'Ticket Mask Management' => 'Jegymaszkkezelés',
-        'Edit mask' => '',
+        'Edit mask' => 'Maszk szerkesztése',
         'Change mask definition' => 'Maszkmeghatározás megváltoztatása',
         'Ticket Mask' => 'Jegymaszk',
         'Change' => 'Változás',
@@ -2523,7 +2523,7 @@ sub Data {
         'Translation Marked for Deletion' => 'A fordítás megjelölve törlésre',
         'Deployed Translation' => 'Üzembe állított fordítás',
         'Changes made here only affect the system behavior after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
-            '',
+            'Az itt végzett változtatások csak azután lesznek hatással a rendszer viselkedésére, miután a piszkozatfordítások üzembe állításra kerültek. Az üzembe állításukkal az összes változtatás kiírásra kerül a nyelvi fájlokba.',
         'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
             'Válasszon egy objektumot a fordítások hozzáadásának megkezdéséhez. A kiválasztástól függően egy vagy több fordítás adható hozzá.',
         'Edit active translations using provided text fields!' => 'Az aktív fordításokat a megadott szövegmezők használatával szerkessze!',
@@ -2988,7 +2988,7 @@ sub Data {
         'Edit Article "%s" of %s%s%s' => 'A(z) „%s” bejegyzés szerkesztése ennél: %s%s%s',
         'The ticket has been locked' => 'A jegy zárolva lett',
         'Undo & close' => 'Visszavonás és bezárás',
-        'All fields marked with an asterisk (*) are mandatory.' => 'Minden csillaggal (*) jelölt mező kötelező.',
+        'All fields marked with an asterisk (*) are mandatory.' => 'A csillaggal (*) megjelölt összes mező kötelező.',
         'Ticket Settings' => 'Jegybeállítások',
         'Queue invalid.' => 'A várólista érvénytelen.',
         'Service invalid.' => 'Érvénytelen szolgáltatás.',
@@ -3577,7 +3577,7 @@ sub Data {
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
             ' Bárki képes lesz elolvasni ezeket, akinek hozzáférése van ehhez az oldalhoz, vagy olvasási jogosultsága van az OTOBO saját könyvtárához. Ha megszakítja a költöztetést, akkor lehetőséget kap a gyorsítótár törlésére ennek az oldalnak az újbóli meglátogatásával.',
         'If you need support, just ask our experts – either at %sOTOBO forum%s or directly via mail to %ssales@otobo.io%s.' =>
-            '',
+            'Ha támogatásra van szüksége, akkor kérje meg a szakértőinket – akár az %sOTOBO fórumon%s, vagy közvetlenül e-mailben a %ssales@otobo.io%s címen.',
         'Cached data found' => 'Gyorsítótárazott adatok találhatók',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Ott fogja folytatni, ahol legutóbb megszakította a költöztetést. Ha nem ezt szeretné, akkor vesse el az előző folyamatot.',
@@ -4152,7 +4152,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => 'Hiányzó dinamikus mező.',
-        'No valid dynamic field "%s".' => '',
+        'No valid dynamic field "%s".' => 'Nincs érvényes „%s” dinamikus mező.',
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             'A(z) „%s” dinamikus mező típus a(z) „%s” dinamikus mezőnél nem használható a halmazokban.',
         'The dynamic field "%s" is already in use in a ticket mask.' => 'A(z) „%s” dinamikus mező már használatban van egy jegymaszkban.',
@@ -4614,7 +4614,7 @@ sub Data {
         'System was not able to lock the setting!' => 'A rendszer nem volt képes zárolni a beállítást!',
         'Missing setting name.' => 'Hiányzó beállításnév.',
         'Setting not found.' => 'A beállítás nem található.',
-        'Missing setting key!' => '',
+        'Missing setting key!' => 'Hiányzó beállítási kulcs!',
         'Missing Settings!' => 'Hiányzó beállítások!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -5031,6 +5031,7 @@ sub Data {
         'Notification Was Sent' => 'Értesítés elküldve',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Ez a jegy nem létezik, vagy nincs jogosultsága a hozzáféréshez annak jelenlegi állapotában.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Hiányzó űrlappiszkozat-azonosító!',
         'Can\'t get for ArticleID %s!' => 'Nem lehet lekérni a(z) %s bejegyzés-azonosítóhoz!',
         'Article filter settings were saved.' => 'A bejegyzésszűrő beállításai mentésre kerültek.',
@@ -5054,9 +5055,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
-            '',
+            'Az ügyfél vezérlőpultjának „%s” csempéje regisztrációja érvénytelen! A sorrendnek számnak és egyedinek kell lennie.',
         'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.' =>
-            '',
+            'Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! Vagy modul, vagy sablon szükséges.',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
         'Need Key!' => 'Kulcs szükséges!',
@@ -5549,8 +5550,8 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
         'Group of the agents' => 'Az ügyintézők csoportja',
-        'Select the group of the agents.' => '',
-        'External source key' => '',
+        'Select the group of the agents.' => 'Az ügyintézők csoportjának kiválasztása.',
+        'External source key' => 'Külső forrás kulcsa',
         'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
             'Ha külső forráson (például webkiszolgálón vagy importáláson/exportáláson) keresztül van beállítva, akkor az érték ezen attribútumként lesz értelmezve.',
 
@@ -5560,7 +5561,7 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
         'Referenced object type' => 'Hivatkozott objektum típusa',
-        'Select the type of the referenced object.' => '',
+        'Select the type of the referenced object.' => 'A hivatkozott objektum típusának kiválasztása.',
         'Input mode of edit field' => 'Szerkesztőmező beviteli módja',
         'Select the input mode for the edit field.' => 'A szerkesztőmező beviteli módjának kiválasztása.',
         'Link type' => 'Kapcsolat típusa',
@@ -5580,7 +5581,7 @@ sub Data {
         # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
         'Attribute which will be searched on autocomplete' => 'Az automatikus kiegészítésnél keresendő attribútum',
         'Select the attribute which customer companies will be searched by.' =>
-            '',
+            'Azon attribútum kiválasztása, amely alapján az ügyfél-vállalatok keresve lesznek.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Ez a mező kötelező vagy',
@@ -5590,12 +5591,12 @@ sub Data {
 
         # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
         'Queue of the ticket' => 'A jegy várólistája',
-        'Select the queue of the ticket.' => '',
+        'Select the queue of the ticket.' => 'A jegy várólistájának kiválasztása.',
         'Type of the ticket' => 'A jegy típusa',
-        'Select the type of the ticket.' => '',
-        'Select the attribute which tickets will be searched by.' => '',
+        'Select the type of the ticket.' => 'A jegy típusának kiválasztása.',
+        'Select the attribute which tickets will be searched by.' => 'Azon attribútum kiválasztása, amely alapján a jegyek keresve lesznek.',
         'Attribute which is displayed for values' => 'Az az attribútum, amely az értékeknél van megjelenítve',
-        'Select the type of display.' => '',
+        'Select the type of display.' => 'A megjelenítés típusának kiválasztása.',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
         'Column Separator' => 'Oszlopelválasztó',
@@ -5633,7 +5634,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Need OTRSData->%s!' => 'OTRS-adatok->%s szükséges!',
-        'Can\'t access OTRS home directory: %s!' => '',
+        'Can\'t access OTRS home directory: %s!' => 'Nem lehet elérni az OTRS saját könyvtárát: %s!',
         'All needed files copied and migrated, perfect!' => 'Az összes szükséges fájl átmásolva és költöztetve, tökéletes!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -5646,7 +5647,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
         'Check if OTOBO version is correct.' => 'Annak ellenőrzése, hogy az OTOBO verziója helyes-e.',
         'Check if OTOBO and OTRS connect is possible.' => 'Annak ellenőrzése, hogy az OTOBO és az OTRS összekapcsolása lehetséges-e.',
-        'Can\'t open RELEASE file from OTRS home directory: %s!' => '',
+        'Can\'t open RELEASE file from OTRS home directory: %s!' => 'Nem lehet megnyitni a RELEASE fájlt az OTRS saját könyvtárából: %s!',
         'Check if OTOBO and OTRS version is correct.' => 'Annak ellenőrzése, hogy az OTOBO és az OTRS verziója helyes-e.',
         '%s does not exist!' => 'A(z) %s nem létezik!',
         'No OTOBO system found!' => 'Nem található OTOBO rendszer!',
@@ -5670,9 +5671,9 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'A konfigurációs beállítások költöztetése.',
         'An error occurred during system configuration data migration or no configuration exists.' =>
-            '',
+            'Hiba történt a rendszerbeállítási adatok költöztetése során, vagy nem léteznek a beállítások.',
         'An error occurred during system configuration migration when writing XML to DB.' =>
-            '',
+            'Hiba történt a rendszerbeállítások költöztetése során az XML-tartalom adatbázisba írásakor.',
         'SysConfig data migration completed.' => 'A rendszerbeállítás adatainak költöztetése befejeződött.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5684,10 +5685,10 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRS home directory: %s!' =>
-            '',
+            'Nem lehet megnyitni a „Kernel/Config.pm” fájlt az OTRS saját könyvtárából: %s!',
         'Check if Kernel/Config.pm exists in OTOBO home.' => 'Annak ellenőrzése, hogy a „Kernel/Config.pm” létezik-e az OTOBO saját könyvtárában.',
         'Kernel/Config.pm exists in OTOBO home' => 'A „Kernel/Config.pm” létezik az OTOBO saját könyvtárában',
-        'Check if we are able to connect to OTRS home directory.' => '',
+        'Check if we are able to connect to OTRS home directory.' => 'Annak ellenőrzése, hogy képesek vagyunk-e kapcsolódni az OTRS saját könyvtárához.',
         'Can\'t connect to OTRS file directory.' => 'Nem lehet kapcsolódni az OTRS fájlkönyvtárához.',
         'Connect to OTRS file directory is possible.' => 'Az OTRS fájlkönyvtárához való kapcsolódás lehetséges.',
 
@@ -6883,7 +6884,7 @@ Az Ön ügyfélszolgálati csapata
             'Elfelejtett jelszó szolgáltatást aktivál az ügyintézőknek az ügyintézői felületen.',
         'Activates lost password feature for customers.' => 'Elfelejtett jelszó szolgáltatást aktivál az ügyfeleknek.',
         'Activates rendering of dynamic fields outside of the dynamic field block.' =>
-            '',
+            'Aktiválja a dinamikus mezők megjelenítését a dinamikus mező blokkján kívül.',
         'Activates support for customer and customer user groups.' => 'Támogatást aktivál az ügyfelekhez és ügyfél-felhasználó csoportokhoz.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
             'A nagyítás nézeten lévő bejegyzésszűrőt aktiválja, amely megadja, hogy mely bejegyzések legyenek láthatók.',
@@ -7166,7 +7167,7 @@ Az Ön ügyfélszolgálati csapata
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Azt ellenőrzi a tárgyban történő érvényes jegyszám keresésével, hogy egy e-mail egy meglévő jegy követője-e.',
         'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew. Please define a rule set in the settings "000-ExternalTicketNumberRecognition1" through "000-ExternalTicketNumberRecognition4".' =>
-            '',
+            'Ellenőrzi, hogy egy e-mail egy meglévő jegyre történő követés-e olyan jegyszámmal, amelyet az ExternalTicketNumberRecognition szűrőmodul megtalálhat. Abban az esetben, ha a modul új jegyet talál, akkor a jegy száma a meghatározott dinamikus mezőbe kerül beírásra. Egy már meglévő jegynél nem tudja ezt a dinamikus mezőt újra beállítani. Határozzon meg egy szabálykészletet a „000-ExternalTicketNumberRecognition1” és a „000-ExternalTicketNumberRecognition4” beállítások között.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Ellenőrzi a rendszer-azonosítót a jegy számának felismeréskor a követéseknél (ha nincs engedélyezve, akkor a rendszer-azonosító meg lesz változtatva a rendszer használata után).',
         'Child' => 'Gyermek',
@@ -7187,9 +7188,9 @@ Az Ön ügyfélszolgálati csapata
         'Cloud service admin module registration for the transport layer.' =>
             'Felhőszolgáltatás adminisztrációs modul regisztráció az átviteli réteghez.',
         'Collect support data for asynchronous plug-in modules.' => 'Támogatási adatok begyűjtése az aszinkron bővítmény modulokhoz.',
-        'Color definitions for agent interface high contrast skin.' => '',
+        'Color definitions for agent interface high contrast skin.' => 'Színmeghatározások az ügyintézői felület nagy kontrasztú felszínéhez.',
         'Color definitions for customer interface high contrast skin.' =>
-            '',
+            'Színmeghatározások az ügyfélfelület nagy kontrasztú felszínéhez.',
         'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
             'Színmeghatározások az ügyintézői felülethez (alapértelmezett felszín). A „MainDark”, a „MainLight” és a „MainHover” a navigációs háttér, gombok és néhány egyéb fő elem színei. A „Highlight” például az ikonok és a kiválasztott elemek színe a navigációs sávon. A „BG” és „Text” kezdetű színek különféle háttér- és szövegszínek. A „Hover” színek kijelöléseknél és táblázatoknál vannak használva. A „Notify” színek az értesítések hátterei.',
         'Color definitions for the customer interface.' => 'Színmeghatározások az ügyfélfelülethez.',
@@ -7305,9 +7306,9 @@ Az Ön ügyfélszolgálati csapata
             'Egyéni szöveg arra az oldalra, amely azoknak az ügyfeleknek jelenik meg, akik még nem rendelkeznek jeggyel (ha le szeretné fordítani ezt a szöveget, akkor adja hozzá az egyéni fordítási modulhoz).',
         'Customer Administration' => 'Ügyfél adminisztráció',
         'Customer Companies' => 'Ügyfél-vállalatok',
-        'Customer Company' => '',
+        'Customer Company' => 'Ügyfél-vállalat',
         'Customer Dashboard' => 'Ügyfél vezérlőpult',
-        'Customer Dashboard Info Tile' => '',
+        'Customer Dashboard Info Tile' => 'Ügyfélvezérlőpult információs csempe',
         'Customer Dynamic Field Database Detailed Search' => 'Ügyfél dinamikus mező adatbázis részletes keresés',
         'Customer Dynamic Field Database Details' => 'Ügyfél dinamikus mező adatbázis részletek',
         'Customer Dynamic Field Database Search' => 'Ügyfél dinamikus mező adatbázis keresés',
@@ -8215,7 +8216,7 @@ Az Ön ügyfélszolgálati csapata
         'Dynamic Field Contents' => 'Dinamikus mező tartalom',
         'Dynamic Field Information' => 'Dinamikus mező információk',
         'Dynamic Field Labels' => 'Dinamikus mező címkék',
-        'Dynamic Field Screen' => '',
+        'Dynamic Field Screen' => 'Dinamikus mező képernyője',
         'Dynamic Field Set' => 'Dinamikus mező halmaz',
         'Dynamic Field Set Backend GUI' => 'Dinamikus mező halmaz háttérprogram grafikus felhasználói felület',
         'Dynamic Fields Checkbox Backend GUI' => 'Jelölőnégyzet dinamikus mezők háttérprogramjának grafikus felhasználói felülete',
@@ -8411,13 +8412,13 @@ Az Ön ügyfélszolgálati csapata
         'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
             'Az ügyfél-vállalat indexének mezői, amely a vállalat szabad-szavas kereséséhez van használva. A mezők is tárolásra kerülnek, de nem kötelezőek a teljes funkcionalitáshoz.',
         'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
-            '',
+            'A jegy indexének mezői, amely a jegy szabad-szavas kereséséhez van használva. A mezők is tárolásra kerülnek, de nem kötelezőek a teljes funkcionalitáshoz. Ha olyan mezők vannak hozzáadva, amelyek frissíthetők (különösen a dinamikus mezők), akkor azok megfelelő frissítési eseményét hozzá kell adni az Elasticsearch webszolgáltatás jegykezelés meghívójához!',
         'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             'Az ügyfél-vállalat indexében tárolt mezők, amelyek a szabad-szavas kereséseken kívül más célokra is használva vannak. A teljes funkcionalitáshoz az összes mező kötelező.',
         'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
             'Az ügyfél-felhasználó indexében tárolt mezők, amelyek a szabad-szavas kereséseken kívül más célokra is használva vannak. A teljes funkcionalitáshoz az összes mező kötelező.',
         'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!' =>
-            '',
+            'A jegy indexében tárolt mezők, amelyek a szabad-szavas kereséseken kívül más célokra is használva vannak. A teljes funkcionalitáshoz az összes mező kötelező. Ha olyan mezők vannak hozzáadva, amelyek frissíthetők (különösen a dinamikus mezők), akkor azok megfelelő frissítési eseményét hozzá kell adni az Elasticsearch webszolgáltatás jegykezelés meghívójához!',
         'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
             'A jegyindexben keresendő mezők. A mezők is tárolásra kerülnek, de nem kötelezőek a teljes funkcionalitáshoz.',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
@@ -8471,7 +8472,7 @@ Az Ön ügyfélszolgálati csapata
         'Frontend module registration for the customer interface.' => 'Előtétprogram-modul regisztráció az ügyfélfelülethez.',
         'Frontend module registration for the public interface.' => 'Előtétprogram-modul regisztráció a nyilvános felülethez.',
         'Full value' => 'Teljes érték',
-        'Fulltext Elasticsearch' => '',
+        'Fulltext Elasticsearch' => 'Szabad-szavas Elasticsearch',
         'Fulltext index regex filters to remove parts of the text.' => 'Szabad-szavas index reguláris kifejezés szűrők a szöveg részeinek áthelyezéséhez.',
         'Fulltext search' => 'Szabad-szavas keresés',
         'Fulltext search using Elasticsearch.' => 'Szabad-szavas keresés Elasticsearch használatával.',
@@ -8542,7 +8543,7 @@ Az Ön ügyfélszolgálati csapata
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a CustomerPassword oszlopnevét az ügyféltáblában.',
         'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
-            '',
+            'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a jelszavak titkosításának típusát. Nem ajánlott beállítani a nem igazán biztonságos algoritmusokat, mint például „md5”, „apr1”, „crypt” és „plain”.',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a CustomerKey oszlopnevét az ügyféltáblában.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -9112,7 +9113,7 @@ Az Ön ügyfélszolgálati csapata
         'Rebuilds the ACL preselection cache.' => 'Újraépíti az ACL előválasztásának gyorsítótárát.',
         'Rebuilds the escalation index.' => 'Újraépíti az eszkalációs indexet.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value. In case the module finds a new ticket, the ticket number is being written to the defined Dynamic Field. For already existing ticket, it can not set that Dynamic Field anew.' =>
-            '',
+            'Annak felismerése, ha egy jegy egy külső jegyszámot használó meglévő jegy követője. Megjegyzés: a „NumberRegExp” kifejezés első elfogási csoportja lesz használva a jegyszám értékeként. Abban az esetben, ha a modul új jegyet talál, akkor a jegy száma a meghatározott dinamikus mezőbe kerül beírásra. Egy már meglévő jegynél nem tudja ezt a dinamikus mezőt újra beállítani.',
         'Redis server address. Example: 127.0.0.1:6379.' => 'A Redis-kiszolgáló címe. Például: 127.0.0.1:6379.',
         'Refresh interval' => 'Frissítési időköz',
         'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
@@ -9500,7 +9501,7 @@ Az Ön ügyfélszolgálati csapata
         'Show command line output.' => 'Parancssori kimenet megjelenítése.',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
             'Az elhagyható paramétereket is jelenítse meg a paraméterlistában. Ha le van tiltva, akkor az elhagyható paraméterek csak egy kiegészítő táblázatban jelennek meg.',
-        'Show or Hide Deleted Articles' => '',
+        'Show or Hide Deleted Articles' => 'Törölt bejegyzések megjelenítése vagy elrejtése',
         'Show or Hide deleted articles.' => 'Törölt bejegyzések megjelenítése vagy elrejtése.',
         'Show queues even when only locked tickets are in.' => 'Várólisták megjelenítése még akkor is, ha csak zárolt jegyek vannak bennük.',
         'Show the current owner in the customer interface.' => 'Az aktuális tulajdonos megjelenítése az ügyfélfelületen.',
@@ -9844,7 +9845,7 @@ Az Ön ügyfélszolgálati csapata
         'The value of the From field' => 'A Feladó mező értéke',
         'Theme' => 'Téma',
         'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
-            '',
+            'Ezek az attribútumok lesznek átadva az adatbázishoz való kapcsolódáskor. Gyakori használati eset egy TLS által biztosított kapcsolat.',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             'Ez a beállítás határozza meg az összes lehetséges képernyőt az alapértelmezett oszlopok engedélyezéséhez vagy letiltásához.',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>
@@ -9936,9 +9937,9 @@ Az Ön ügyfélszolgálati csapata
             'A következő várólistákban lévő jegyek nem kerülnek tárolásra az Elasticsearch-kiszolgálón. Ahhoz, hogy ezt a meglévő jegyekre is alkalmazza, le kell futtatnia a jegyköltöztetést a konzolon keresztül, miután megváltoztatta ezt a beállítást.',
         'Tickets.' => 'Jegyek.',
         'Tile registration for the customer dashboard. Module is required.' =>
-            '',
+            'Csemperegisztráció az ügyfél vezérlőpultjához. A modul kötelező.',
         'Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
-            '',
+            'Csemperegisztráció az ügyfél vezérlőpultjához A modul kötelező. Választhatóan beállítható az elemek sorrendje. A sorrendnek az elem nevét kell tartalmaznia kulcsként és a kívánt helyzetet egész szám értékként.',
         'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
             'Az idő másodpercben, amely hozzáadódik az aktuális időhöz, ha egy várakozó állapot be van állítva. Példák: 86400 = 1 nap vagy 604800 = 1 hét.',
         'To accept login information, such as an EULA or license.' => 'Bejelentkezési információk elfogadásához, mint például EULA vagy licenc.',
@@ -10009,7 +10010,7 @@ Az Ön ügyfélszolgálati csapata
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Ütemezett karbantartást végzünk. Rövidesen ismét elérhetőnek kell lennünk.',
         'We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
-            '',
+            'Az OTOBO 10.1-es verziójában megváltoztattuk az alapértelmezett jegyfeloldási viselkedést. Mostantól a jegy nem csak feloldódik, hanem újra átadásra kerül a rendszer felhasználójának. Így a viselkedés egyértelműbb, de többé nem lehet kiolvasni, hogy ki szerkesztette utoljára a jegyet. Kapcsolja ki ezt a beállítást az OTRS 2-től 6-ig terjedő verziói és az OTOBO 10.0-s verziója viselkedésének helyreállításához.',
         'Web Service' => 'Webszolgáltatás',
         'Web Services' => 'Webszolgáltatások',
         'Welcome %s, to your OTOBO.' => 'Üdvözöljük %s, az Ön OTOBO-jában!',
@@ -10018,7 +10019,7 @@ Az Ön ügyfélszolgálati csapata
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Amikor az ügyintéző létrehoz egy jegyet, akkor a jegy legyen-e automatikusan az ügyintézőre zárolva vagy sem.',
         'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
-            '',
+            'Ha támogatási adatok kerülnek begyűjtésre a támogatási adatgyűjtőn keresztül, akkor a ValueType="Password" jelöléssel ellátott bizonyos rendszerbeállítási értékek automatikusan el lesznek takarva. Ez megakadályozza, hogy a jelszavak egyszerű szövegként jelenjenek meg a támogatási adatokban. Ez a beállítás határozza meg azokat a beállításokat, amelyek olyan összetett beállítási kivonatokat tartalmaznak, amelyeket nem szabad eltakarni a támogatási adatok előállításakor.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Amikor jegyeket egyesítenek, egy jegyzet lesz automatikusan hozzáadva ahhoz a jegyhez, amely többé már nem aktív. Itt határozhatja meg ennek a jegyzetnek a törzsét (ezt a szöveget nem tudja megváltoztatni az ügyintéző).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

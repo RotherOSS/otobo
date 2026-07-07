@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.845924601400685;
+    $Self->{Completeness}        = 0.845798569725864;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5029,6 +5029,7 @@ sub Data {
         'Notification Was Sent' => '通知が送信されました',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'このチケットは存在しないか、アクセスする権限がありません。',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'FormDraftIDがありません！',
         'Can\'t get for ArticleID %s!' => 'ArticleID%sを取得できません！',
         'Article filter settings were saved.' => '記事フィルタの設定が保存されました。',

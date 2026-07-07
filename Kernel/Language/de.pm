@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992549545522277;
+    $Self->{Completeness}        = 0.992401668653158;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5026,6 +5026,7 @@ sub Data {
         'Notification Was Sent' => 'Benachrichtigung wurde gesendet',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Dieses Ticket existiert nicht oder Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Fehlende FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Konnte Artikel-ID %s nicht ermitteln!',
         'Article filter settings were saved.' => 'Artikelfilter-Einstellungen wurden gespeichert.',
@@ -9725,7 +9726,7 @@ Ihr Helpdesk-Team
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Legt die Reihenfolge fest, in der Vorname und Nachname von Agenten angezeigt wird.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
-            'Gibt den Pfad für die Datei mit dem Logo in der Kopfzeile der Webseite an. (gif|jpg|pnp, 700 x 100 Pixel).',
+            'Gibt den Pfad für die Datei mit dem Logo in der Kopfzeile der Webseite an. (gif|jpg|png, 700 x 100 Pixel).',
         'Specifies the path of the file for the performance log.' => 'Hinterlegt den Pfad für die Datei des Leistungsprotokolls.',
         'Specifies the path to the converter that allows the view of Microsoft Excel files, in the web interface.' =>
             'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von Microsoft Excel Dateien in der Weboberfläche erlaubt.',

@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.934734018775145;
+    $Self->{Completeness}        = 0.934594755661502;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5034,6 +5034,7 @@ sub Data {
         'Notification Was Sent' => 'Varsel ble sendt',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Denne saken eksisterer ikke, eller du har ikke tillatelse til å få tilgang til den i gjeldende tilstand.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Mangler FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Kan ikke få ArtikkelID %s!',
         'Article filter settings were saved.' => 'Innstillinger for artikkelfilter ble lagret.',

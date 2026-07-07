@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.908359409924005;
+    $Self->{Completeness}        = 0.908224076281287;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5032,6 +5032,7 @@ sub Data {
         'Notification Was Sent' => '通知已发送',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '这个工单不存在，或者它的当前状态下你无权访问它。',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '缺少表单草稿ID！',
         'Can\'t get for ArticleID %s!' => '不能获得ID为“%s”的信件！',
         'Article filter settings were saved.' => '信件过滤器设置已保存。',
