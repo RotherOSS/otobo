@@ -25,9 +25,8 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -42,13 +41,6 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # Do not check email addresses.
 $Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
-    Value => 0,
-);
-
-# Do not check RichText.
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'Frontend::RichText',
     Value => 0,
 );
 
@@ -68,6 +60,7 @@ $Helper->ConfigSettingChange(
 
 # Fiddle with the timestamp only after the config setting changes,
 # as a changed time stamp interferes with a possible interaction with S3.
+# The fixed time will be used when evaluating <OTOBO_EMAIL_DATE> tags.
 my $DateTimeObject = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
@@ -92,10 +85,7 @@ my $TicketID     = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
-    $TicketID,
-    "TicketID $TicketID is created",
-);
+ok( $TicketID, "TicketID $TicketID is created" );
 
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
     ChannelName => 'Phone',
@@ -107,70 +97,77 @@ my $LastAgentBody         = "agent-Article#3-Line1\nagent-Article#3-Line2\nagent
 my $LastAgentBody2        = "> agent-Article#3-Line1\n> agent-Article#3-Line2";
 my $LastCustomerSubject   = 'Article#6-customer';
 my $LastCustomerSubject12 = 'Article#6-cu [...]';
-my $LastCustomerBody      = "customer-Article#6-Line1\ncustomer-Article#6-Line2\ncustomerArticle#6-Line3";
-my $LastCustomerBody1     = "> customer-Article#6-Line1";
+my $LastCustomerBody      = <<'END_BODY';
+customer-Article#6-Line1
+customer-Article#6-Line2
+customer-Article#6-Line3
+                               # avoid trailing space
+The customer body contains a macro for itself. This macro should not
+be substituted as that would cause recursion.
+Circular: <OTOBO_CUSTOMER_BODY[10]>
+END_BODY
+my $LastCustomerBody1 = "> customer-Article#6-Line1";
 
-my @Configs = (
-    {
-        SenderType => 'agent',
-        Subject    => 'Article#1-agent',
-        Body       => "agent-Article#1-Line1\nagent-Article#1-Line2\nagentArticle#1-Line3",
-    },
-    {
-        SenderType => 'agent',
-        Subject    => 'Article#2-agent',
-        Body       => "agent-Article#2-Line1\nagent-Article#2-Line2\nagentArticle#2-Line3",
-    },
-    {
-        SenderType => 'agent',
-        Subject    => $LastAgentSubject,
-        Body       => $LastAgentBody,
-    },
-    {
-        SenderType => 'customer',
-        Subject    => 'Article#4-customer',
-        Body       => "customer-Article#4-Line1\ncustomer-Article#4-Line2\ncustomerArticle#4-Line3",
-    },
-    {
-        SenderType => 'customer',
-        Subject    => 'Article#5-customer',
-        Body       => "customer-Article#5-Line1\ncustomer-Article#5-Line2\ncustomerArticle#5-Line3",
-    },
-    {
-        SenderType => 'customer',
-        Subject    => $LastCustomerSubject,
-        Body       => $LastCustomerBody,
-    },
-);
-
+# create sample articles
 my @Articles;
+subtest 'create sample articles' => sub {
+    my @Configs = (
+        {
+            SenderType => 'agent',
+            Subject    => 'Article#1-agent',
+            Body       => "agent-Article#1-Line1\nagent-Article#1-Line2\nagentArticle#1-Line3",
+        },
+        {
+            SenderType => 'agent',
+            Subject    => 'Article#2-agent',
+            Body       => "agent-Article#2-Line1\nagent-Article#2-Line2\nagentArticle#2-Line3",
+        },
+        {
+            SenderType => 'agent',
+            Subject    => $LastAgentSubject,
+            Body       => $LastAgentBody,
+        },
+        {
+            SenderType => 'customer',
+            Subject    => 'Article#4-customer',
+            Body       => "customer-Article#4-Line1\ncustomer-Article#4-Line2\ncustomerArticle#4-Line3",
+        },
+        {
+            SenderType => 'customer',
+            Subject    => 'Article#5-customer',
+            Body       => "customer-Article#5-Line1\ncustomer-Article#5-Line2\ncustomerArticle#5-Line3",
+        },
+        {
+            SenderType => 'customer',
+            Subject    => $LastCustomerSubject,
+            Body       => $LastCustomerBody,
+        },
+    );
 
-for my $Config (@Configs) {
-    my $ArticleID = $ArticleBackendObject->ArticleCreate(
-        %{$Config},
-        TicketID             => $TicketID,
-        IsVisibleForCustomer => 0,
-        From                 => 'Some Agent <otobo@example.com>',
-        To                   => 'Suplier<suplier@example.com>',
-        Charset              => 'utf8',
-        MimeType             => 'text/plain',
-        HistoryType          => 'OwnerUpdate',
-        HistoryComment       => 'Some free text!',
-        UserID               => 1,
-    );
-    $Self->True(
-        $ArticleID,
-        "ArticleID $ArticleID is created"
-    );
-    my %ArticleData = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
-    );
-    push @Articles, \%ArticleData;
-}
+    for my $Config (@Configs) {
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            %{$Config},
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            From                 => 'Some Agent <otobo@example.com>',
+            To                   => 'Supplier<supplier@example.com>',
+            Charset              => 'utf8',
+            MimeType             => 'text/plain',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+        ok( $ArticleID, "ArticleID $ArticleID is created" );
+        my %ArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+        );
+        push @Articles, \%ArticleData;
+    }
+};
 
 # Get ticket and article data for tests.
-my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+my %TicketData = $TicketObject->TicketGet(
     TicketID      => $TicketID,
     DynamicFields => 1,
 );
@@ -182,6 +179,32 @@ my %Supported = (
     Note    => 1,
 );
 
+# This is for the special case where first <OTOBO_CUSTOMER_BODY> is evaluated
+# from the template and then <OTOBO_CUSTOMER_BODY[10]> from the replaced body.
+# The double replacement is not sensible, but at least we verify that
+# no infinite look occurs.
+#
+# There are two more quirks.
+# A) The replacement of <OTOBO_CUSTOMER_BODY[10]> is block quoted with
+#    "> " while the replacement of <OTOBO_CUSTOMER_BODY> adds no quotes.
+# B) The replacement of <OTOBO_CUSTOMER_BODY[10]> causes another <OTOBO_CUSTOMER_BODY[10]> to be added.
+#    That string is eventually replaced by a minus character '-'.
+my $DoubleReplacementBody = <<'END_BODY';
+Test: customer-Article#6-Line1
+customer-Article#6-Line2
+customer-Article#6-Line3
+                               # avoid trailing space
+The customer body contains a macro for itself. This macro should not
+be substituted as that would cause recursion.
+Circular: > customer-Article#6-Line1
+> customer-Article#6-Line2
+> customer-Article#6-Line3
+>                                # avoid trailing space
+> The customer body contains a macro for itself. This macro should not
+> be substituted as that would cause recursion.
+> Circular: -
+END_BODY
+
 my @Tests = (
     {
         Name           => 'Supported tag - <OTOBO_CONFIG_ScriptAlias>',
@@ -189,15 +212,13 @@ my @Tests = (
         ExpectedResult => 'Thank you for your email. ' . $ConfigObject->Get('ScriptAlias'),
     },
     {
-        Name         => 'Supported tags - <OTOBO_TICKET_*> without TicketID',
-        TemplateText =>
-            'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>)',
+        Name           => 'Supported tags - <OTOBO_TICKET_*> without TicketID',
+        TemplateText   => 'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>)',
         ExpectedResult => 'Options of the ticket data (e. g. -, -, -)',
     },
     {
-        Name         => 'Supported tags - <OTOBO_TICKET_*>  with TicketID',
-        TemplateText =>
-            'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>, <OTOBO_TICKET_State>)',
+        Name           => 'Supported tags - <OTOBO_TICKET_*>  with TicketID',
+        TemplateText   => 'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>, <OTOBO_TICKET_State>)',
         ExpectedResult => "Options of the ticket data (e. g. $TicketNumber, $TicketID, Raw, open)",
         TicketID       => $TicketID,
     },
@@ -308,14 +329,14 @@ my @Tests = (
         TemplateText   => 'Test: <OTOBO_CUSTOMER_BODY>',
         TicketID       => $TicketID,
         TemplateResult => {
-            Note      => "Test: $LastCustomerBody",
+            Note      => $DoubleReplacementBody,
             Supported => {
                 $Articles[0]->{ArticleID} => "Test: $Articles[0]->{Body}",
                 $Articles[1]->{ArticleID} => "Test: $Articles[1]->{Body}",
                 $Articles[2]->{ArticleID} => "Test: $Articles[2]->{Body}",
                 $Articles[3]->{ArticleID} => "Test: $Articles[3]->{Body}",
                 $Articles[4]->{ArticleID} => "Test: $Articles[4]->{Body}",
-                $Articles[5]->{ArticleID} => "Test: $Articles[5]->{Body}",
+                $Articles[5]->{ArticleID} => $DoubleReplacementBody,
             },
             Unsupported => 'Test: -',
         }
@@ -356,76 +377,93 @@ my @Tests = (
     },
 );
 
-my $StandardTemplateObject  = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
-TEST:
+my $OldRichTextSetting = 42;    # random non-boolean value
 for my $Test (@Tests) {
-    for my $TemplateType (qw(Answer Forward Create Note Email PhoneCall)) {
+    subtest $Test->{Name} => sub {
 
-        # Create standard template.
-        my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
-            Name         => $Helper->GetRandomID() . '-StandardTemplate',
-            Template     => $Test->{TemplateText},
-            ContentType  => 'text/plain; charset=utf-8',
-            TemplateType => $TemplateType,
-            ValidID      => 1,
-            UserID       => 1,
-        );
-        $Self->True(
-            $TemplateID,
-            "'$TemplateType' type - TemplateID $TemplateID is created",
-        );
-
-        # Check template text.
-        if ( $Test->{ExpectedResult} ) {
-            my $Template = $TemplateGeneratorObject->Template(
-                TemplateID => $TemplateID,
-                TicketID   => $Test->{TicketID},
-                Data       => $Test->{Data} // {},
-                UserID     => 1,
+        # Get a $TemplateGeneratorObject with appropriate RichText setting
+        # Only change the settings if different from last time through the loop
+        $Test->{RichText} //= 0;    # Make sure it's defined
+        if ( $OldRichTextSetting != $Test->{RichText} ) {
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::TemplateGenerator']
             );
-            $Self->Is(
-                $Template,
-                $Test->{ExpectedResult},
-                "'$TemplateType' type - $Test->{Name}",
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'Frontend::RichText',
+                Value => $Test->{RichText} ? 1 : 0,
             );
+            $OldRichTextSetting = $Test->{RichText};
         }
-        elsif ( $Test->{TemplateResult} ) {
+        my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
-            # Test for all agent and customer articles.
-            for my $Article (@Articles) {
-                my $Template = $TemplateGeneratorObject->Template(
-                    TemplateID => $TemplateID,
-                    TicketID   => $Test->{TicketID},
-                    Data       => { %TicketData, %{$Article} },
-                    UserID     => 1,
+        for my $TemplateType (qw(Answer Forward Create Note Email PhoneCall)) {
+            subtest "Template type $TemplateType" => sub {
+
+                # Create standard template.
+                my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
+                    Name         => $Helper->GetRandomID() . '-StandardTemplate',
+                    Template     => $Test->{TemplateText},
+                    ContentType  => 'text/plain; charset=utf-8',
+                    TemplateType => $TemplateType,
+                    ValidID      => 1,
+                    UserID       => 1,
                 );
+                ok( $TemplateID, "standard template is created" );
 
-                if ( $Supported{$TemplateType} ) {
-                    my $ExpectedResult = $Test->{TemplateResult}->{Supported}->{ $Article->{ArticleID} } // '';
+                # Check template text.
+                if ( $Test->{ExpectedResult} ) {
+                    my $Template = $TemplateGeneratorObject->Template(
+                        TemplateID => $TemplateID,
+                        TicketID   => $Test->{TicketID},
+                        Data       => $Test->{Data} // {},
+                        UserID     => 1,
+                    );
+                    TextEqOrDiff(
+                        $Template,
+                        $Test->{ExpectedResult},
+                        'got expected result for the ticket',
+                    );
+                }
+                elsif ( $Test->{TemplateResult} ) {
 
-                    # For Note template, there is last article data.
-                    if ( $TemplateType eq 'Note' ) {
-                        $ExpectedResult = $Test->{TemplateResult}->{Note};
+                    # Test for all agent and customer articles.
+                    for my $Article (@Articles) {
+                        my $Template = $TemplateGeneratorObject->Template(
+                            TemplateID => $TemplateID,
+                            TicketID   => $Test->{TicketID},
+                            Data       => { %TicketData, $Article->%* },
+                            UserID     => 1,
+                        );
+
+                        if ( $Supported{$TemplateType} ) {
+                            my $ExpectedResult = $Test->{TemplateResult}->{Supported}->{ $Article->{ArticleID} } // '';
+
+                            # For Note template, there is last article data.
+                            if ( $TemplateType eq 'Note' ) {
+                                $ExpectedResult = $Test->{TemplateResult}->{Note};
+                            }
+
+                            TextEqOrDiff(
+                                $Template,
+                                $ExpectedResult,
+                                "supported '$Article->{Subject}'",
+                            );
+                        }
+                        else {
+                            TextEqOrDiff(
+                                $Template,
+                                $Test->{TemplateResult}->{Unsupported},
+                                "unsupported '$Article->{Subject}'",
+                            );
+                        }
                     }
-
-                    $Self->Is(
-                        $Template,
-                        $ExpectedResult,
-                        "'$TemplateType' type - $Article->{Subject} - $Test->{Name}",
-                    );
                 }
-                else {
-                    $Self->Is(
-                        $Template,
-                        $Test->{TemplateResult}->{Unsupported},
-                        "'$TemplateType' type - $Article->{Subject} - $Test->{Name}",
-                    );
-                }
-            }
+            };
         }
-    }
+    };
 }
 
-done_testing();
+done_testing;
