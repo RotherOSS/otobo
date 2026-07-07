@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-06-24 13:41+0000\n"
+"POT-Creation-Date: 2026-07-07 11:43+0000\n"
 "PO-Revision-Date: 2020-01-25 16:27+0000\n"
 "Last-Translator: Dusan Vuckovic <dusan.vuckovic@otrs.com>\n"
 "Language-Team: Serbian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -15987,6 +15987,12 @@ msgid ""
 "its current state."
 msgstr ""
 "Овај тикет више не постоји, или тренутно немате дозволу за приступ истом."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+#| msgid "Could not delete draft!"
+msgid "Could not delete form draft."
+msgstr "Није могуће обрисати нацрт!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

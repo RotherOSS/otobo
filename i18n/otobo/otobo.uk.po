@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:41+0000\n"
+"POT-Creation-Date: 2026-07-07 11:43+0000\n"
 "PO-Revision-Date: 2024-05-09 15:15+0000\n"
 "Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
 "Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-10/"
@@ -15817,6 +15817,12 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+#| msgid "Could not delete %s:%s"
+msgid "Could not delete form draft."
+msgstr "Неможливо видалити %s:%s"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

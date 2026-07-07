@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:41+0000\n"
+"POT-Creation-Date: 2026-07-07 11:43+0000\n"
 "PO-Revision-Date: 2025-11-25 14:41+0000\n"
 "Last-Translator: Manuel Girardin <Manuel.Girardin@unil.ch>\n"
 "Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-11/fr/"
@@ -15736,6 +15736,12 @@ msgid ""
 msgstr ""
 "Ce ticket n'existe pas, ou vous n'avez pas les droits pour y accéder dans "
 "son état actuel."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+#| msgid "Could not delete draft!"
+msgid "Could not delete form draft."
+msgstr "Impossible de supprimer le brouillon !"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

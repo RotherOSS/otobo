@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:41+0000\n"
+"POT-Creation-Date: 2026-07-07 11:43+0000\n"
 "PO-Revision-Date: 2022-12-31 11:47+0000\n"
 "Last-Translator: Markus Hynnä <markus.hynna@mynamaki.fi>\n"
 "Language-Team: Finnish <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -15322,6 +15322,10 @@ msgstr ""
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Could not delete form draft."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
