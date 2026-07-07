@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:39+0000\n"
+"POT-Creation-Date: 2026-07-07 11:41+0000\n"
 "PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
@@ -15124,6 +15124,11 @@ msgid ""
 msgstr ""
 "Denne saken eksisterer ikke, eller du har ikke tillatelse til å få tilgang "
 "til den i gjeldende tilstand."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+msgid "Could not delete form draft."
+msgstr "Kunne ikke slette utkast!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

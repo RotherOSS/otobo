@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:39+0000\n"
+"POT-Creation-Date: 2026-07-07 11:41+0000\n"
 "PO-Revision-Date: 2026-03-10 19:00+0000\n"
 "Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
@@ -14861,6 +14861,11 @@ msgid ""
 msgstr ""
 "هذه التذكرة غير موجودة أو ليس لديك الإذن للوصول إلى هذه التذكرة في حالتها "
 "الحالية."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+msgid "Could not delete form draft."
+msgstr "تعذر حذف المسودة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

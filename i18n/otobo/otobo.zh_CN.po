@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:39+0000\n"
+"POT-Creation-Date: 2026-07-07 11:41+0000\n"
 "PO-Revision-Date: 2026-02-21 09:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <http://translate.otobo.org/"
@@ -14496,6 +14496,11 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr "这个工单不存在，或者它的当前状态下你无权访问它。"
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+msgid "Could not delete form draft."
+msgstr "无法删除草稿！"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

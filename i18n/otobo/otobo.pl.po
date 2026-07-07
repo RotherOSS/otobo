@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:39+0000\n"
+"POT-Creation-Date: 2026-07-07 11:41+0000\n"
 "PO-Revision-Date: 2023-07-08 21:28+0000\n"
 "Last-Translator: Miroslaw Lach <m.weblate@lach.waw.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
@@ -14853,6 +14853,11 @@ msgid ""
 msgstr ""
 "Zgłoszenie nie istnieje lub nie masz uprawnień aby je przeglądać w jego "
 "obecnym statusie."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+msgid "Could not delete form draft."
+msgstr "Nie można usunąć szkicu!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
