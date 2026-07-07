@@ -1473,8 +1473,8 @@ sub GetStatTable {
                 ArticleID => $Article{ArticleID},
             );
 
-            # only articles with accounted time are considered
-            next METAARTICLE if $Article{ArticleAccountedTime} == 0;
+            # uncomment to consider only articles with accounted time
+            # next METAARTICLE if $Article{ArticleAccountedTime} == 0;
 
             KEY:
             for my $ArticleKey ( keys %Article ) {
