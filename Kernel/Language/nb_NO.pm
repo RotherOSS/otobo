@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.894201861130995;
+    $Self->{Completeness}        = 0.893434415677299;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4777,6 +4777,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'Kunne ikke hente data for aktivitets-ID %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Det oppsto en feil under oppdatering av aktiviteten',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Manglende parameter: Trenger aktivitet og aktivitetsdialog!',
         'Activity not found!' => 'Finner ikke aktivitet!',
@@ -4797,6 +4799,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Kunne ikke hente data for ActivityDialogID %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Det oppsto en feil under oppdatering av ActivityDialog',
         'Edit Activity Dialog "%s"' => 'Rediger aktivitetsdialog "%s"',
         'Agent Interface' => 'Agentgrensesnitt',
@@ -4818,6 +4822,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'Kunne ikke hente data for overgangs-ID %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Det oppsto en feil under oppdatering av overgangen',
         'Edit Transition "%s"' => 'Rediger overgang "%s"',
         'Regular expression - all' => '',
@@ -4833,6 +4839,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'Kunne ikke hente data for TransitionActionID %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Det oppsto en feil under oppdatering av TransitionAction',
         'Edit Transition Action "%s"' => 'Rediger overgangshandling «%s»',
@@ -5354,6 +5362,7 @@ sub Data {
         'Notification Was Sent' => 'Varsel ble sendt',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Denne saken eksisterer ikke, eller du har ikke tillatelse til å få tilgang til den i gjeldende tilstand.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Mangler FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Kan ikke få ArtikkelID %s!',
         'Article filter settings were saved.' => 'Innstillinger for artikkelfilter ble lagret.',

@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.813457408732999;
+    $Self->{Completeness}        = 0.812759261908168;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4775,6 +4775,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'Ne mogu pribaviti podatke za ID aktivnosti %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Došlo je do greške prilikom ažuriranja Aktivnosti',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Nedostaju parametri: neophodni Activity i ActivityDialog!',
         'Activity not found!' => 'Aktivnost nije pronađena!',
@@ -4795,6 +4797,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Ne mogu pribaviti podatke za ID dijaloga aktivnosti %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Došlo je do greške prilikom ažuriranja Dijaloga ktivnosti',
         'Edit Activity Dialog "%s"' => 'Uredi dijalog aktivnosti "%s"',
         'Agent Interface' => 'Operaterski interfejs',
@@ -4816,6 +4820,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'Ne mogu pribaviti podatke za ID tranzicije %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Došlo je do greške prilikom ažuriranja Tranzicije',
         'Edit Transition "%s"' => 'Uredi tranziciju "%s"',
         'Regular expression - all' => '',
@@ -4831,6 +4837,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'Ne mogu pribaviti podatke za ID tranzicione akcije %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Došlo je do greške prilikom ažuriranja Tranzicione akcije',
         'Edit Transition Action "%s"' => 'Uredi tranzicionu akciju "%s"',
@@ -5352,6 +5360,7 @@ sub Data {
         'Notification Was Sent' => 'Obaveštenje je poslato',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Ovaj tiket više ne postoji, ili trenutno nemate dozvolu za pristup istom.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Nedostaje FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Ne mogu pribaviti ArticleID %s!',
         'Article filter settings were saved.' => 'Podešavanja filtera članka su sačuvana.',

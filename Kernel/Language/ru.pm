@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.783965640658554;
+    $Self->{Completeness}        = 0.783292805035045;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4780,6 +4780,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'Невозможно получить данные для ActivityID %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Произошла ошибка при обновлении Activity',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Пропущен параметр: Нужны Activity и ActivityDialog!',
         'Activity not found!' => 'Activity не найдена!',
@@ -4800,6 +4802,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Невозможно получить данные для ActivityDialogID %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Произошла ошибка при обновлении ActivityDialog',
         'Edit Activity Dialog "%s"' => 'Редактировать Activity Dialog "%s".',
         'Agent Interface' => 'Интерфейс агента',
@@ -4821,6 +4825,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'Невозможно получить данные для TransitionID %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Произошла ошибка при обновлении Transition',
         'Edit Transition "%s"' => 'Редактировать Переход/Transition "%s"',
         'Regular expression - all' => '',
@@ -4836,6 +4842,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'Невозможно получить данные для TransitionActionID %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Произошла ошибка при обновлении TransitionAction',
         'Edit Transition Action "%s"' => 'Редактировать Transition Action "%s"',
@@ -5357,6 +5365,7 @@ sub Data {
         'Notification Was Sent' => 'Уведомление было отправлено',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Эта заявка не существует или у вас нет прав для доступа к ней в её текущем состоянии.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Пропущен FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Невозможно получить %s для ArticleID!',
         'Article filter settings were saved.' => 'Параметры фильтра сообщений/заметок сохранены.',

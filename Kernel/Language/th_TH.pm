@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.478024337866858;
+    $Self->{Completeness}        = 0.477614075239594;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4772,6 +4772,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'ไม่สามารถรับข้อมูลสำหรับ ActivityID %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'มีข้อผิดพลาดในการอัพเดตกิจกรรม',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'พารามิเตอร์ที่ขาดหายไป: ต้องการกิจกรรมและActivityDialog!',
         'Activity not found!' => 'ไม่พบกิจกรรม!',
@@ -4792,6 +4794,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'ไม่สามารถรับข้อมูลสำหรับ ActivityDialogID %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'มีข้อผิดพลาดในการอัพเดต ActivityDialog',
         'Edit Activity Dialog "%s"' => 'แก้ไขกิจกรรมการโต้ตอบ "%s"',
         'Agent Interface' => 'อินเตอร์เฟซตัวแทน',
@@ -4813,6 +4817,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'ไม่สามารถรับข้อมูลสำหรับ TransitionID %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'มีข้อผิดพลาดในการอัพเดตการเปลี่ยนผ่าน',
         'Edit Transition "%s"' => 'แก้ไขการเปลี่ยนผ่าน "%s"',
         'Regular expression - all' => '',
@@ -4828,6 +4834,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'ไม่สามารถรับข้อมูลสำหรับ TransitionActionID %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'มีข้อผิดพลาดในการอัพเดต TransitionAction',
         'Edit Transition Action "%s"' => 'แก้ไขการกระทำเปลี่ยนผ่าน "%s"',
@@ -5349,6 +5357,7 @@ sub Data {
         'Notification Was Sent' => '',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => 'ไม่สามารถรับสำหรับ ArticleID %s!',
         'Article filter settings were saved.' => 'การตั้งค่าบทความตัวกรองถูกบันทึกไว้แล้ว',

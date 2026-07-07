@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.809305654974946;
+    $Self->{Completeness}        = 0.808611071377485;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4772,6 +4772,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'ActivityID %sのデータの取得に失敗しました',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'アクティビティの更新に失敗しました',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'パラメータが足りません。アクティビティもしくはアクティビティ・ダイアログが必要です!',
         'Activity not found!' => 'Activityが見つかりません!',
@@ -4792,6 +4794,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'アクティビティ・ダイアログID %s の値を取得できませんでした',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'アクティビティ・ダイアログの更新時にエラーが発生しました。',
         'Edit Activity Dialog "%s"' => 'アクティビティダイアログ%sの編集',
         'Agent Interface' => '担当者インターフェース',
@@ -4813,6 +4817,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => '遷移ID %s の値を取得できませんでした',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => '遷移の更新時にエラーが発生しました。',
         'Edit Transition "%s"' => '遷移 "%s" を編集する',
         'Regular expression - all' => '',
@@ -4828,6 +4834,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => '遷移アクションID %s の値を取得できませんでした',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => '遷移動作の更新時にエラーが発生しました。',
         'Edit Transition Action "%s"' => '遷移動作 "%s" の編集',
@@ -5349,6 +5357,7 @@ sub Data {
         'Notification Was Sent' => '通知が送信されました',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'このチケットは存在しないか、アクセスする権限がありません。',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'FormDraftIDがありません！',
         'Can\'t get for ArticleID %s!' => 'ArticleID%sを取得できません！',
         'Article filter settings were saved.' => '記事フィルタの設定が保存されました。',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.551181102362205;
+    $Self->{Completeness}        = 0.550708053211272;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4771,6 +4771,8 @@ bin/otobo.Daemon.pl status\').',
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'Tidak bisa mendapatkan data untuk ActivityID %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Terjadi kesalahan memperbarui Kegiatan',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Parameter telah kehilangan: Aktivitas Kebutuhan dan Kegiatan Dialog!',
         'Activity not found!' => 'Aktivitas tidak ditemukan!',
@@ -4791,6 +4793,8 @@ bin/otobo.Daemon.pl status\').',
         'Could not get data for ActivityDialogID %s' => 'Tidak bisa mendapatkan data untuk dialog Kegiatan',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Terjadi kesalahan dalam memperbarui kegiatan dialog',
         'Edit Activity Dialog "%s"' => 'Mensunting kegiatan dialog',
         'Agent Interface' => 'Antarmuka Agen',
@@ -4812,6 +4816,8 @@ bin/otobo.Daemon.pl status\').',
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'Tidak bisa mendapatkan data untuk dialihkan %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Terjadi kesalahan disaat memperbarui Transisi',
         'Edit Transition "%s"' => 'Edit transisi "%s"',
         'Regular expression - all' => '',
@@ -4827,6 +4833,8 @@ bin/otobo.Daemon.pl status\').',
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'Tidak bisa mendapatkan data untuk TransitionActionID%s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Terjadi kesalahan saat memutakhirkan Action Transisi',
         'Edit Transition Action "%s"' => 'Menyunting tindakan transisi',
@@ -5348,6 +5356,7 @@ bin/otobo.Daemon.pl status\').',
         'Notification Was Sent' => '',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => 'Tidak bisa mendapatkan ArticleID %s!',
         'Article filter settings were saved.' => 'Pengaturan filter artikel telah disimpan',

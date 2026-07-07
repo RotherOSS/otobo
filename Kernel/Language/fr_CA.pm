@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.287759484609878;
+    $Self->{Completeness}        = 0.287512516092118;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4776,6 +4776,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => '',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => '',
         'Missing Parameter: Need Activity and ActivityDialog!' => '',
         'Activity not found!' => '',
@@ -4796,6 +4798,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
         'Agent Interface' => '',
@@ -4817,6 +4821,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => '',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => '',
         'Edit Transition "%s"' => '',
         'Regular expression - all' => '',
@@ -4832,6 +4838,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => '',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => '',
         'Edit Transition Action "%s"' => '',
@@ -5353,6 +5361,7 @@ sub Data {
         'Notification Was Sent' => '',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',

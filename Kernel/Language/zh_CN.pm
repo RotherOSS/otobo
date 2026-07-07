@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.869291338582677;
+    $Self->{Completeness}        = 0.868545272493206;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4775,6 +4775,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => '不能获得ActivityID %s的数据',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => '更新活动时出现了一个错误',
         'Missing Parameter: Need Activity and ActivityDialog!' => '参数缺失：需要活动或活动对话框！',
         'Activity not found!' => '没有找到活动！',
@@ -4795,6 +4797,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '不能获得ActivityDialogID %s的数据',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => '更新活动对话框时出现了一个错误',
         'Edit Activity Dialog "%s"' => '编辑活动对话框“%s”',
         'Agent Interface' => '服务人员界面',
@@ -4816,6 +4820,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => '不能获得TransitionID %s的数据',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => '更新转换时出现了一个错误',
         'Edit Transition "%s"' => '编辑转换“%s”',
         'Regular expression - all' => '',
@@ -4831,6 +4837,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => '不能获得TransitionActionID %s的数据',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => '更新转换动作时出现了一个错误',
         'Edit Transition Action "%s"' => '编辑转换操作“%s”',
@@ -5352,6 +5360,7 @@ sub Data {
         'Notification Was Sent' => '通知已发送',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '这个工单不存在，或者它的当前状态下你无权访问它。',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '缺少表单草稿ID！',
         'Can\'t get for ArticleID %s!' => '不能获得ID为“%s”的信件！',
         'Article filter settings were saved.' => '信件过滤器设置已保存。',

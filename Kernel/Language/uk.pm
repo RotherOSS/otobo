@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.40873299928418;
+    $Self->{Completeness}        = 0.408382205693034;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4769,6 +4769,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'Не можу отримати дані для ActivityID %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Під час оновлення Активності виникла помилка',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Відсутній параметр: потрібна Активність та Діалог Активності!',
         'Activity not found!' => 'Активність не знайдена!',
@@ -4789,6 +4791,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Не можу отримати дані для ActivityDialogID %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Під час оновлення Діалогу Активності виникла помилка',
         'Edit Activity Dialog "%s"' => 'Редагувати Діалог Активності "%s"',
         'Agent Interface' => 'Інтерфейс агента',
@@ -4810,6 +4814,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'Не можу отримати дані для TransitionID %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Під час оновлення Переходу виникла помилка',
         'Edit Transition "%s"' => 'Редагувати Перехід "%s"',
         'Regular expression - all' => '',
@@ -4825,6 +4831,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'Не можу отримати дані для TransitionActionID %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Під час оновлення Дії Переходу виникла помилка',
         'Edit Transition Action "%s"' => 'Редагувати Дію Переходу "%s"',
@@ -5346,6 +5354,7 @@ sub Data {
         'Notification Was Sent' => 'Сповіщення надіслано',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => 'Неможливо отримати для ArticleID %s!',
         'Article filter settings were saved.' => 'Налаштування фільтра статей було збережено.',

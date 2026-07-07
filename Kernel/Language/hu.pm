@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.949319971367215;
+    $Self->{Completeness}        = 0.948505220998427;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4774,6 +4774,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'Nem sikerült lekérni az adatokat a tevékenység-azonosítóhoz: %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Hiba történt a tevékenység frissítésekor',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Hiányzó paraméter: tevékenység és tevékenység-párbeszédablak szükséges!',
         'Activity not found!' => 'Nem található tevékenység!',
@@ -4794,6 +4796,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Nem sikerült lekérni az adatokat a tevékenység-párbeszédablak azonosítójához: %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Hiba történt a tevékenység-párbeszédablak frissítésekor',
         'Edit Activity Dialog "%s"' => 'Tevékenység-párbeszédablak szerkesztése: „%s”',
         'Agent Interface' => 'Ügyintézői felület',
@@ -4815,6 +4819,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'Nem sikerült lekérni az adatokat az átmenet-azonosítóhoz: %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Hiba történt az átmenet frissítésekor',
         'Edit Transition "%s"' => 'Átmenet szerkesztése: „%s”',
         'Regular expression - all' => '',
@@ -4830,6 +4836,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'Nem sikerült lekérni az adatokat az átmenet művelet azonosítóhoz: %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Hiba történt az átmenet művelet frissítésekor',
         'Edit Transition Action "%s"' => 'Átmenet művelet szerkesztése: „%s”',
@@ -5351,6 +5359,7 @@ sub Data {
         'Notification Was Sent' => 'Értesítés elküldve',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Ez a jegy nem létezik, vagy nincs jogosultsága a hozzáféréshez annak jelenlegi állapotában.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Hiányzó űrlappiszkozat-azonosító!',
         'Can\'t get for ArticleID %s!' => 'Nem lehet lekérni a(z) %s bejegyzés-azonosítóhoz!',
         'Article filter settings were saved.' => 'A bejegyzésszűrő beállításai mentésre kerültek.',

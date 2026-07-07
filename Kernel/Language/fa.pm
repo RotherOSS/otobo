@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.562204724409449;
+    $Self->{Completeness}        = 0.561722214275497;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4774,6 +4774,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'نمی تواند داده ها را برای ActivityID بگیرد %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'خطایی هنگام فعالیت به روزرسانی وجود دارد',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'پارامتر: نیاز فعالیت و ActivityDialog!',
         'Activity not found!' => 'فعالیت یافت نشد!',
@@ -4794,6 +4796,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'نمی تواند داده ها را برای ActivityDialogIDبگیرد %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'یک خطای به روز رسانی ActivityDialog وجود دارد',
         'Edit Activity Dialog "%s"' => 'ویرایش فعالیت گفت و گو \ " %s "',
         'Agent Interface' => 'رابط عامل',
@@ -4815,6 +4819,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'نمی تواند داده ها را برای TransitionID گرفت %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'خطایی هنگام انتقال وجود دارد',
         'Edit Transition "%s"' => 'ویرایش گذار \ " %s "',
         'Regular expression - all' => '',
@@ -4830,6 +4836,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'نمی تواند داده ها را برای TransitionActionID\'گرفت %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'یک خطای به روز رسانی TransitionAction وجود دارد',
         'Edit Transition Action "%s"' => 'ویرایش انتقال اقدام \ " %s "',
@@ -5351,6 +5359,7 @@ sub Data {
         'Notification Was Sent' => 'اطلاع رسانی فرستاده شد',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => ' نمی توانم بگیرم ArticleID از %s !',
         'Article filter settings were saved.' => 'تنظیمات فیلتر مقاله ذخیره شدند.',

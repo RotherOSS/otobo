@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.87630637079456;
+    $Self->{Completeness}        = 0.875554284079531;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4769,6 +4769,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'No se han podido obtener los datos de ActivityID %s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'Hubo un error al actualizar la actividad',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Falta un parámetro: ¡Necesita Activity y ActivityDialog!',
         'Activity not found!' => '¡Actividad no encontrada!',
@@ -4789,6 +4791,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'No se han podido obtener los datos de ActivityDialogID %s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'Se ha producido un error al actualizar el diálogo de actividad',
         'Edit Activity Dialog "%s"' => 'Editar diálogo de actividad "%s"',
         'Agent Interface' => 'Interfaz de agente',
@@ -4810,6 +4814,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'No se han podido obtener los datos de TransitionID %s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'Hubo un error al actualizar la Transición',
         'Edit Transition "%s"' => 'Editar Transición "%s"',
         'Regular expression - all' => '',
@@ -4825,6 +4831,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'No se han podido obtener datos para TransitionActionID %s',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'Hubo un error al actualizar la Acción de Transición',
         'Edit Transition Action "%s"' => 'Editar Acción de Transición "%s"',
@@ -5346,6 +5354,7 @@ sub Data {
         'Notification Was Sent' => 'Se envió la notificación',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Este ticket no existe, o no tienes permisos para acceder a él en su estado actual.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '¡Falta FormDraftID!',
         'Can\'t get for ArticleID %s!' => '¡No se puede obtener para ArticleID %s!',
         'Article filter settings were saved.' => 'Se ha guardado la configuración del filtro de artículos.',

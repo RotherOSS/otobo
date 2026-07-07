@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.803579098067287;
+    $Self->{Completeness}        = 0.802889429266199;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4771,6 +4771,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'تعذر الحصول على بيانات ل ActivityID ٪s',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => 'حدث خطأ أثناء تحديث النشاط',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'المعلمات المفقودة: تحتاج إلى مربع حوار النشاط والنشاط!',
         'Activity not found!' => 'لم يتم العثور على النشاط!',
@@ -4791,6 +4793,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'تعذر الحصول على بيانات ل ActivityDialogID ٪s',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'حدث خطأ أثناء تحديث مربع حوار النشاط',
         'Edit Activity Dialog "%s"' => 'تحرير مربع حوار النشاط "٪s"',
         'Agent Interface' => 'واجهة الوكيل',
@@ -4812,6 +4816,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'تعذر تعريف البيانات لمعرف الانتقال ٪s',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => 'حدث خطأ أثناء تحديث الانتقال',
         'Edit Transition "%s"' => 'تحرير الانتقال "٪s"',
         'Regular expression - all' => '',
@@ -4827,6 +4833,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'تعذر العثور على بيانات ل ٪s معرف إجراء الانتقال',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'حدث خطأ أثناء تحديث الانتقال',
         'Edit Transition Action "%s"' => 'تحرير إجراء الانتقال "٪s"',
@@ -5348,6 +5356,7 @@ sub Data {
         'Notification Was Sent' => 'تم إرسال الإخطار',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'هذه التذكرة غير موجودة أو ليس لديك الإذن للوصول إلى هذه التذكرة في حالتها الحالية.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'FormDraftID مفقود!',
         'Can\'t get for ArticleID %s!' => 'تعذر الحصول على معرّف العنصر %s!',
         'Article filter settings were saved.' => 'تم حفظ إعدادات عامل تصفية المقالات.',

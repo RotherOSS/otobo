@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.78453829634932;
+    $Self->{Completeness}        = 0.783864969246174;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4769,6 +4769,8 @@ sub Data {
         'Need ActivityID and ProcessEntityID!' => '',
         'Could not get data for ActivityID %s' => 'ActivityID %s에 대한 데이터를 가져올 수 없습니다.',
         'This Activity is not available to the current Process!' => '',
+        'Activities currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Activity' => '활동을 업데이트 하는 중 오류가 발생했습니다.',
         'Missing Parameter: Need Activity and ActivityDialog!' => '누락 된 매개 변수 : 필요한 활동 및 ActivityDialog!',
         'Activity not found!' => '활동을 찾을 수 없습니다!',
@@ -4789,6 +4791,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'ActivityDialogID %s에 대한 데이터를 가져올 수 없습니다.',
         'This Activity Dialog is not available to the current Process!' =>
             '',
+        'ActivityDialogs currently used in gobal ' => '',
+        'ActivityDialogs currently used in non-gobal Activities ' => '',
         'There was an error updating the ActivityDialog' => 'ActivityDialog를 업데이트하는 중 오류가 발생했습니다.',
         'Edit Activity Dialog "%s"' => 'Activity Dialog 수정 "%s"',
         'Agent Interface' => '에이전트 인터페이스',
@@ -4810,6 +4814,8 @@ sub Data {
         'Need TransitionID and ProcessEntityID!' => '',
         'Could not get data for TransitionID %s' => 'TransitionID %s에 대한 데이터를 가져올 수 없습니다.',
         'This Transition is not available to the current Process!' => '',
+        'Transitions currently shared by other Processes may not be set to non-global!' =>
+            '',
         'There was an error updating the Transition' => '전환을 업데이트 하는 중 오류가 발생했습니다.',
         'Edit Transition "%s"' => '전환 편집 "%s"',
         'Regular expression - all' => '',
@@ -4825,6 +4831,8 @@ sub Data {
         'Need TransitionActionID and ProcessEntityID!' => '',
         'Could not get data for TransitionActionID %s' => 'TransitionActionID %s에 대한 데이터를 가져올 수 없습니다.',
         'This Transition Action is not available to the current Process!' =>
+            '',
+        'TransitionActions currently shared by other Processes may not be set to non-global!' =>
             '',
         'There was an error updating the TransitionAction' => 'TransitionAction을 업데이트하는 중 오류가 발생했습니다.',
         'Edit Transition Action "%s"' => '전환 Action 편집 "%s"',
@@ -5346,6 +5354,7 @@ sub Data {
         'Notification Was Sent' => '알림을 보냈습니다.',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '이 티켓이 없거나 현재 상태로 액세스 할 수있는 권한이 없습니다.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '누락 된 FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'ArticleID %s를 얻을 수 없습니다!',
         'Article filter settings were saved.' => '기사 필터 설정이 저장되었습니다.',
