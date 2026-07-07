@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:50+0000\n"
+"POT-Creation-Date: 2026-07-07 13:16+0000\n"
 "PO-Revision-Date: 2026-06-30 18:28+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
@@ -15989,6 +15989,11 @@ msgid "This Activity is not available to the current Process!"
 msgstr "Diese Aktivität ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid ""
+"Activities currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
 msgstr "Beim Aktualisieren der Aktivität ist ein Fehler aufgetreten"
 
@@ -16059,6 +16064,20 @@ msgid "This Activity Dialog is not available to the current Process!"
 msgstr "Dieser Aktivitätsdialog ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
+#| msgid "Activity dialogs are not being used in this process."
+msgid "ActivityDialogs currently used in gobal "
+msgstr "In diesem Prozess werden keine Aktivitäts-Dialoge verwendet."
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
+#| msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgid "ActivityDialogs currently used in non-gobal Activities "
+msgstr ""
+"Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten "
+"zugeordnet werden!"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
 msgstr "Beim Aktualisieren des Aktivitätsdialogs ist ein Fehler aufgetreten"
 
@@ -16124,6 +16143,11 @@ msgid "This Transition is not available to the current Process!"
 msgstr "Dieser Übergang ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid ""
+"Transitions currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
 msgstr "Beim Aktualisieren des Übergangs ist ein Fehler aufgetreten"
 
@@ -16174,6 +16198,12 @@ msgstr "Konnte Daten für TransitionActionID %s nicht ermitteln"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "This Transition Action is not available to the current Process!"
 msgstr "Diese Übergangsaktion ist im aktuellen Prozess nicht verfügbar!"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+msgid ""
+"TransitionActions currently shared by other Processes may not be set to non-"
+"global!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -17694,6 +17724,12 @@ msgid ""
 msgstr ""
 "Dieses Ticket existiert nicht oder Sie haben keine Berechtigung, auf dieses "
 "Ticket in seinem aktuellen Status zuzugreifen."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+#| msgid "Could not delete draft!"
+msgid "Could not delete form draft."
+msgstr "Entwurf konnte nicht gelöscht werden!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -23968,8 +24004,8 @@ msgid ""
 "ExternalTicketNumberRecognition4\"."
 msgstr ""
 "Prüft, ob eine E-Mail eine Fortsetzung (Follow-Up) eines bestehenden Tickets "
-"ist, dessen externe Ticketnummer mittels des Filtermoduls „"
-"ExternalTicketNumberRecognition“ gefunden werden kann. Falls das Modul ein "
+"ist, dessen externe Ticketnummer mittels des Filtermoduls "
+"„ExternalTicketNumberRecognition“ gefunden werden kann. Falls das Modul ein "
 "neues Ticket findet, wird die Ticketnummer in das definierte Dynamic Field "
 "geschrieben. Für bereits bestehenden Tickets kann das Dynamische Feld nicht "
 "neu gesetzt werden. Bitte definieren Sie einen Regelsatz in den "

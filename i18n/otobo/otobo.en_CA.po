@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:50+0000\n"
+"POT-Creation-Date: 2026-07-07 13:16+0000\n"
 "PO-Revision-Date: 2022-02-06 18:13+0000\n"
 "Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: English (Canada) <https://translate.otobo.org/projects/"
@@ -14671,6 +14671,11 @@ msgid "This Activity is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid ""
+"Activities currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
 msgstr ""
 
@@ -14728,6 +14733,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "This Activity Dialog is not available to the current Process!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "ActivityDialogs currently used in gobal "
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "ActivityDialogs currently used in non-gobal Activities "
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
@@ -14792,6 +14805,11 @@ msgid "This Transition is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid ""
+"Transitions currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
 msgstr ""
 
@@ -14835,6 +14853,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "This Transition Action is not available to the current Process!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+msgid ""
+"TransitionActions currently shared by other Processes may not be set to non-"
+"global!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -16298,6 +16322,10 @@ msgstr ""
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+msgid "Could not delete form draft."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm

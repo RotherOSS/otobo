@@ -57,7 +57,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:50+0000\n"
+"POT-Creation-Date: 2026-07-07 13:16+0000\n"
 "PO-Revision-Date: 2023-02-15 14:31+0000\n"
 "Last-Translator: Daniel Ferreira Pinto Bezerra da Silva "
 "<xtecnico2@gmail.com>\n"
@@ -16066,6 +16066,11 @@ msgid "This Activity is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid ""
+"Activities currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
 msgstr "Ocorreu um erro durante a atualização da atividade"
 
@@ -16136,6 +16141,16 @@ msgid "This Activity Dialog is not available to the current Process!"
 msgstr "Janelas de Atividade não estão em uso neste processo."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
+#| msgid "Activity dialogs are not being used in this process."
+msgid "ActivityDialogs currently used in gobal "
+msgstr "Janelas de Atividade não estão em uso neste processo."
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "ActivityDialogs currently used in non-gobal Activities "
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
 msgstr "Ocorreu um erro durante a atualização da janela de atividade"
 
@@ -16202,6 +16217,11 @@ msgid "This Transition is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid ""
+"Transitions currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
 msgstr "Ocorreu um erro durante a atualização da transição"
 
@@ -16262,6 +16282,12 @@ msgid "This Transition Action is not available to the current Process!"
 msgstr ""
 "Esta Ação de Transição já está em uso por este Caminho. Você não pode "
 "adicioná-la novamente!"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+msgid ""
+"TransitionActions currently shared by other Processes may not be set to non-"
+"global!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -17781,6 +17807,12 @@ msgid ""
 msgstr ""
 "Esse ticket não existe ou você não tem permissões para acessá-lo no seu "
 "estado atual."
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+#| msgid "Could not delete draft!"
+msgid "Could not delete form draft."
+msgstr "Não foi possível excluir rascunho!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"

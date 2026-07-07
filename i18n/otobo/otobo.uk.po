@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-06-24 13:50+0000\n"
+"POT-Creation-Date: 2026-07-07 13:16+0000\n"
 "PO-Revision-Date: 2024-05-09 15:15+0000\n"
 "Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
 "Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-10/"
@@ -15521,6 +15521,11 @@ msgid "This Activity is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+msgid ""
+"Activities currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
 msgstr "Під час оновлення Активності виникла помилка"
 
@@ -15591,6 +15596,16 @@ msgid "This Activity Dialog is not available to the current Process!"
 msgstr "Діалоги активності не використовуються у цьому процесі."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
+#| msgid "Activity dialogs are not being used in this process."
+msgid "ActivityDialogs currently used in gobal "
+msgstr "Діалоги активності не використовуються у цьому процесі."
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+msgid "ActivityDialogs currently used in non-gobal Activities "
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
 msgstr "Під час оновлення Діалогу Активності виникла помилка"
 
@@ -15656,6 +15671,11 @@ msgid "This Transition is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+msgid ""
+"Transitions currently shared by other Processes may not be set to non-global!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
 msgstr "Під час оновлення Переходу виникла помилка"
 
@@ -15715,6 +15735,12 @@ msgid "This Transition Action is not available to the current Process!"
 msgstr ""
 "Ця Дія Переходу вже використовується в цьому Шляху. Ви не можете "
 "використовувати її двічі!"
+
+#. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+msgid ""
+"TransitionActions currently shared by other Processes may not be set to non-"
+"global!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -17211,6 +17237,12 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
+#, fuzzy
+#| msgid "Could not delete %s:%s"
+msgid "Could not delete form draft."
+msgstr "Неможливо видалити %s:%s"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
