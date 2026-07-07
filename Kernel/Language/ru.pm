@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.866064352512284;
+    $Self->{Completeness}        = 0.865927099841521;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4717,6 +4717,7 @@ sub Data {
         'Notification Was Sent' => 'Уведомление было отправлено',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Эта заявка не существует или у вас нет прав для доступа к ней в её текущем состоянии.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => 'Пропущен FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Невозможно получить %s для ArticleID!',
         'Article filter settings were saved.' => 'Параметры фильтра сообщений/заметок сохранены.',

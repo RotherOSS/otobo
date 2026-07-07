@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.875416072277699;
+    $Self->{Completeness}        = 0.875277337559429;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4706,6 +4706,7 @@ sub Data {
         'Notification Was Sent' => '알림을 보냈습니다.',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '이 티켓이 없거나 현재 상태로 액세스 할 수있는 권한이 없습니다.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '누락 된 FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'ArticleID %s를 얻을 수 없습니다!',
         'Article filter settings were saved.' => '기사 필터 설정이 저장되었습니다.',

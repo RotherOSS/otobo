@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.971786336978919;
+    $Self->{Completeness}        = 0.971632329635499;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4706,6 +4706,7 @@ sub Data {
         'Notification Was Sent' => 'Se envió la notificación',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Este ticket no existe, o no tienes permisos para acceder a él en su estado actual.',
+        'Could not delete form draft.' => '',
         'Missing FormDraftID!' => '¡Falta FormDraftID!',
         'Can\'t get for ArticleID %s!' => '¡No se puede obtener para ArticleID %s!',
         'Article filter settings were saved.' => 'Se ha guardado la configuración del filtro de artículos.',
