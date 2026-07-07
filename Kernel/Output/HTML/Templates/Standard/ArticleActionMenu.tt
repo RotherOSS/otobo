@@ -62,9 +62,13 @@
         <li>
             [% # using a form here is necessary to enable the backend to perform a challenge token check on an article action %]
             <form class="ArticleActionForm" title="[% Translatable(Item.Name) | html %]" action="[% Env("CGIHandle") %]" method="post" id="[% Item.FormID | html %]" enctype="multipart/form-data" class="PreventMultipleSubmits" id="[% Item.FormID | html %]">
-[% FOREACH Param IN Item.Params %]
-                <input type="hidden" name="[% Param.Key | html %]" value="[% Param.Value | html %]" />
-[% END %]
+                <input type="hidden" name="Action" value="[% Item.Action | html %]">
+        [% IF Item.Subaction %]
+                <input type="hidden" name="Subaction" value="[% Item.Subaction | html %]">
+        [% END %]
+                <input type="hidden" name="TicketID" value="[% Item.TicketID | html %]">
+                <input type="hidden" name="ArticleID" value="[% Item.ArticleID | html %]">
+
                 <a href="#" class="[% Item.Class | html %]" title="[% Translate(Item.Description) | html %]">[% Translate(Item.Name) | html %]</a>
             </form>
         </li>
