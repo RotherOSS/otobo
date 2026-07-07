@@ -1480,6 +1480,22 @@ sub Run {
             }
         }
 
+        # get template
+        my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+
+        # use key StdResponse to pass the data to the template for legacy reasons,
+        #   because existing systems may have it in their configuration as that was
+        #   the key used before the internal switch to StandardResponse And StandardTemplate
+
+        $Data{StdResponse} = $TemplateGenerator->Template(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $GetParam{ArticleID},
+            TemplateID => $GetParam{ResponseID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+            QuoteBody  => 1,
+        );
+
         if ( $LayoutObject->{BrowserRichText} ) {
 
             # prepare body, subject, ReplyTo ...
@@ -1673,21 +1689,6 @@ sub Run {
                 $Data{$Type} = $NewLine;
             }
         }
-
-        # get template
-        my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
-
-        # use key StdResponse to pass the data to the template for legacy reasons,
-        #   because existing systems may have it in their configuration as that was
-        #   the key used before the internal switch to StandardResponse And StandardTemplate
-
-        $Data{StdResponse} = $TemplateGenerator->Template(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $GetParam{ArticleID},
-            TemplateID => $GetParam{ResponseID},
-            Data       => \%Data,
-            UserID     => $Self->{UserID},
-        );
 
         # get salutation
         $Data{Salutation} = $TemplateGenerator->Salutation(

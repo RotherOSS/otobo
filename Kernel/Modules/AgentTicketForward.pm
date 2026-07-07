@@ -339,29 +339,10 @@ sub Form {
         UserID    => $Self->{UserID},
     );
 
-    if ( $GetParam{ForwardTemplateID} ) {
-
-        # get template
-        $Data{StdTemplate} = $TemplateGenerator->Template(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Data{ArticleID},
-            TemplateID => $GetParam{ForwardTemplateID},
-            Data       => \%Data,
-            UserID     => $Self->{UserID},
-        );
-
-        # get signature
-        $Data{Signature} = $TemplateGenerator->Signature(
-            TicketID => $Self->{TicketID},
-            Data     => \%Data,
-            UserID   => $Self->{UserID},
-        );
-    }
-
     # upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    # body preparation for plain text processing
+    # get article to quote
     $Data{Body} = $LayoutObject->ArticleQuote(
         TicketID           => $Data{TicketID},
         ArticleID          => $Data{ArticleID},
@@ -392,6 +373,26 @@ sub Form {
             ArticleID => $Data{ArticleID},
         );
         $Data{Sender} = $ArticleFields{Sender}->{Value} // '';
+    }
+
+    if ( $GetParam{ForwardTemplateID} ) {
+
+        # get template
+        $Data{StdTemplate} = $TemplateGenerator->Template(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Data{ArticleID},
+            TemplateID => $GetParam{ForwardTemplateID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+            QuoteBody  => 1,
+        );
+
+        # get signature
+        $Data{Signature} = $TemplateGenerator->Signature(
+            TicketID => $Self->{TicketID},
+            Data     => \%Data,
+            UserID   => $Self->{UserID},
+        );
     }
 
     if ( $LayoutObject->{BrowserRichText} ) {

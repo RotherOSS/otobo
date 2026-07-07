@@ -526,6 +526,33 @@ sub Form {
         UserID    => $Self->{UserID},
     );
 
+    # upload cache object
+    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+    # get article to quote
+    $Data{Body} = $LayoutObject->ArticleQuote(
+        TicketID           => $Data{TicketID},
+        ArticleID          => $Data{ArticleID},
+        FormID             => $Self->{GetParam}->{FormID},
+        UploadCacheObject  => $UploadCacheObject,
+        AttachmentsInclude => 1,
+    );
+
+    my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+        String => $Data{Body},
+
+        # Strip out external content if BlockLoadingRemoteContent is enabled.
+        NoExtSrcLoad => $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent'),
+
+        # Disallow potentially unsafe content.
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoSVG        => 1,
+        NoJavaScript => 1,
+    );
+    $Data{Body} = $SafetyCheckResult{String};
+
     if ( $GetParam{EmailTemplateID} ) {
 
         # get template
@@ -535,6 +562,7 @@ sub Form {
             TemplateID => $GetParam{EmailTemplateID},
             Data       => \%Data,
             UserID     => $Self->{UserID},
+            QuoteBody  => 1,
         );
 
         # get signature
@@ -573,7 +601,6 @@ sub Form {
 
     # get needed objects
     my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
-    my $UploadCacheObject   = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
     # add std. attachments to email
     if ( $GetParam{EmailTemplateID} ) {
