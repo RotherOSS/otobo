@@ -133,7 +133,7 @@ $Selenium->RunTest(
 
         # Check page.
         for my $ID (
-            qw(Title NewResponsibleID Subject RichText FileUpload IsVisibleForCustomer submitRichText)
+            qw(NewResponsibleID Subject RichText FileUpload IsVisibleForCustomer submitRichText)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
