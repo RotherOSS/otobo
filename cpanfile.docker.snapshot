@@ -673,8 +673,8 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.649
-    pathname: H/HM/HMBRAND/DBI-1.649.tgz
+  DBI-1.650
+    pathname: H/HM/HMBRAND/DBI-1.650.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -730,7 +730,7 @@ DISTRIBUTIONS
       DBD::Sponge::dr 12.010003
       DBD::Sponge::st 12.010003
       DBDI 12.015129
-      DBI 1.649
+      DBI 1.650
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -770,10 +770,11 @@ DISTRIBUTIONS
       DBI::SQL::Nano::Table_ 1.015544
       DBI::Util::CacheMemory 0.010315
       DBI::Util::_accessor 0.009479
-      DBI::common 1.649
+      DBI::common 1.650
     requirements:
       ExtUtils::MakeMaker 6.48
-      Test::Simple 0.90
+      Module::Load 0.22
+      Test::Simple 0.96
       perl 5.008001
   DBIx-Connector-0.60
     pathname: A/AR/ARISTOTLE/DBIx-Connector-0.60.tar.gz
@@ -2646,8 +2647,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.46
-    pathname: S/SR/SRI/Mojolicious-9.46.tar.gz
+  Mojolicious-9.47
+    pathname: S/SR/SRI/Mojolicious-9.47.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2717,7 +2718,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.46
+      Mojolicious 9.47
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -4605,19 +4606,14 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
-      XML::SAX::Base 0
       perl 5.008001
