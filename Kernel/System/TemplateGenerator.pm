@@ -18,6 +18,7 @@ package Kernel::System::TemplateGenerator;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
