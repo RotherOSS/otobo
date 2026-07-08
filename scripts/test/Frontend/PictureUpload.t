@@ -28,7 +28,6 @@ use LWP::UserAgent ();
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -38,8 +37,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $TestUserLogin         = $Helper->TestUserCreate();
-my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
+my $TestUserLogin = $Helper->TestUserCreate();
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
@@ -57,6 +55,17 @@ my $Response = $UserAgent->get(
 if ( !$Response->is_success() ) {
     skip_all("Could not login to agent interface, aborting! URL: ${BaseURL}Action=Login;User=$TestUserLogin;Password=$TestUserLogin;");
 }
+
+# retrieve session id from LWP user agent cookies
+my $CookieObject = $UserAgent->cookie_jar();
+my $SessionID    = $CookieObject->get_cookies( 'web.local/otobo/', $ConfigObject->Get('SessionName') );
+
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Output::HTML::Layout' => {
+        SessionID => $SessionID,
+    },
+);
+my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 my $FormID            = $UploadCacheObject->FormIDCreate();

@@ -24,6 +24,7 @@ use List::Util     qw(sum);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
@@ -47,17 +48,23 @@ sub new {
 sub FormIDRemove {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need FormID!'
-        );
-        return;
+    for my $Needed (qw(FormID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
     }
 
     return if !$Self->_FormIDValidate( $Param{FormID} );
 
-    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
+    my $Directory = $Self->{TempDir} . '/' . $FormID;
 
     if ( !-d $Directory ) {
         return 1;
@@ -103,6 +110,10 @@ sub FormIDAddFile {
 
     return if !$Self->_FormIDValidate( $Param{FormID} );
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Filename = basename( $Param{Filename} );
@@ -141,11 +152,11 @@ sub FormIDAddFile {
         my $Random = rand 999999;
         my $FQDN   = $ConfigObject->Get('FQDN');
 
-        $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
+        $ContentID = "$Disposition$Random.$FormID\@$FQDN";
     }
 
     # create cache subdirectory if not exist
-    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+    my $Directory = $Self->{TempDir} . '/' . $FormID;
     if ( !-d $Directory ) {
 
         # Create directory. This could fail if another process creates the
@@ -215,6 +226,10 @@ sub FormIDRemoveFile {
 
     return if !$Self->_FormIDValidate( $Param{FormID} );
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
     my @Index = @{ $Self->FormIDGetAllFilesMeta(%Param) };
 
     # finish if files have been already removed by other process
@@ -223,7 +238,7 @@ sub FormIDRemoveFile {
     my $ID   = $Param{FileID} - 1;
     my %File = %{ $Index[$ID] };
 
-    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+    my $Directory = $Self->{TempDir} . '/' . $FormID;
 
     if ( !-d $Directory ) {
         return 1;
@@ -259,19 +274,25 @@ sub FormIDRemoveFile {
 sub FormIDGetAllFilesData {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need FormID!'
-        );
-        return;
+    for my $Needed (qw(FormID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
     }
 
     my @Data;
 
     return \@Data if !$Self->_FormIDValidate( $Param{FormID} );
 
-    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
+    my $Directory = $Self->{TempDir} . '/' . $FormID;
 
     if ( !-d $Directory ) {
         return \@Data;
@@ -310,18 +331,21 @@ sub FormIDGetAllFilesData {
             Location => $File,
             Mode     => 'binmode',    # optional - binmode|utf8
         );
+
         next FILE if !$Content;
 
         my $ContentType = $MainObject->FileRead(
             Location => "$File.ContentType",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
+
         next FILE if !$ContentType;
 
         my $ContentID = $MainObject->FileRead(
             Location => "$File.ContentID",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
+
         next FILE if !$ContentID;
 
         # verify if content id is empty, set to undef
@@ -333,6 +357,7 @@ sub FormIDGetAllFilesData {
             Location => "$File.Disposition",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
+
         next FILE if !$Disposition;
 
         # strip filename
@@ -357,19 +382,25 @@ sub FormIDGetAllFilesData {
 sub FormIDGetAllFilesMeta {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need FormID!'
-        );
-        return;
+    for my $Needed (qw(FormID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
     }
 
     my @Data;
 
     return \@Data if !$Self->_FormIDValidate( $Param{FormID} );
 
-    my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionID    = $LayoutObject->{SessionID};
+    my $FormID       = $Param{FormID} . '.' . $SessionID;
+
+    my $Directory = $Self->{TempDir} . '/' . $FormID;
 
     if ( !-d $Directory ) {
         return \@Data;
@@ -409,12 +440,14 @@ sub FormIDGetAllFilesMeta {
             Location => "$File.ContentType",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
+
         next FILE if !$ContentType;
 
         my $ContentID = $MainObject->FileRead(
             Location => "$File.ContentID",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
+
         next FILE if !$ContentID;
 
         # verify if content id is empty, set to undef
@@ -426,6 +459,7 @@ sub FormIDGetAllFilesMeta {
             Location => "$File.Disposition",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
+
         next FILE if !$Disposition;
 
         # strip filename
@@ -470,6 +504,7 @@ sub FormIDCleanUp {
                 Message  =>
                     "Won't delete upload cache directory $Subdir: timestamp in directory name not found! Please fix it manually.",
             );
+
             next SUBDIR;
         }
 
@@ -490,6 +525,7 @@ sub FormIDCleanUp {
                     Priority => 'error',
                     Message  => "Can't remove: $Subdir: $!!",
                 );
+
                 next SUBDIR;
             }
         }

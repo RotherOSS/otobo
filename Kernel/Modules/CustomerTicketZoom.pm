@@ -1286,8 +1286,8 @@ sub Run {
             }
         }
 
-        # remove all form data
-        $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
+        # remove pre submitted attachments
+        $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
         # delete hidden fields cache
         $Kernel::OM->Get('Kernel::System::Cache')->Delete(
