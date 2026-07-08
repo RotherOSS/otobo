@@ -314,7 +314,7 @@ sub GetUploadAll {
     # get real file name
     my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unknown';
 
-    my $NewFileName = basename("$UploadFilenameOrig");    # use "" to get filename of anony. object
+    my $NewFileName = basename("$UploadFilenameOrig");    # use "" to get filename of anonymous object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
@@ -654,6 +654,17 @@ sub LoadFormDraft {
             next KEY;
         }
 
+        if ( $Key eq 'Body' ) {
+
+            # replace old form id with new one
+            $Value =~ s{
+                (<img.+?src=("|')[^"'>]+?FormID=)([^;]+?)(;[^>]*>)
+            }
+            {
+                $1 . $FormID . $4
+            }esgxi;
+        }
+
         # scalar value
         $Self->{Query}->param(
             -name  => $Key,
@@ -755,12 +766,12 @@ sub SaveFormDraft {
             my @Values = $Self->GetArray( Param => $Param );
             next PARAM if !IsArrayRefWithData( \@Values );
 
-            # store single occurances as string
+            # store single occurrences as string
             if ( scalar @Values == 1 ) {
                 $Value = $Values[0];
             }
 
-            # store multiple occurances as array reference
+            # store multiple occurrences as array reference
             else {
                 $Value = \@Values;
             }
