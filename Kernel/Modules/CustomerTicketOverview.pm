@@ -21,10 +21,16 @@ package Kernel::Modules::CustomerTicketOverview;
 use strict;
 use warnings;
 
-our $ObjectManagerDisabled = 1;
+# core modules
+use List::Util qw(uniq);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,11 +137,8 @@ sub Run {
         # Show customer companies as additional filter selection.
         if ( $Self->{Subaction} eq 'CompanyTickets' && scalar keys %AccessibleCustomers > 1 ) {
 
-            @CustomerIDs = $ParamObject->GetArray( Param => 'CustomerIDs' );
-
             # Prevent array item duplication.
-            my %CustomerIDsHash = map { $_ => 1 } @CustomerIDs;
-            @CustomerIDs = sort keys %CustomerIDsHash;
+            @CustomerIDs = sort uniq $ParamObject->GetArray( Param => 'CustomerIDs' );
 
             $Param{CustomerIDStrg} = $LayoutObject->BuildSelection(
                 Data       => \%AccessibleCustomers,
