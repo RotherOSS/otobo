@@ -5960,6 +5960,8 @@ sub _GetSettingsToDeploy {
             next SETTING if !%ModifiedSetting;
         }
 
+        next SETTING if $ModifiedSetting{ResetToDefault};
+
         $SettingsLookup{$SettingName} = {
             %{ $SettingsLookup{$SettingName} },
             %ModifiedSetting,
