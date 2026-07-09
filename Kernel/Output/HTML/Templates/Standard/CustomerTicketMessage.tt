@@ -62,21 +62,6 @@
                 </div>
 [% RenderBlockEnd("TicketType") %]
 
-[% RenderBlockStart("Queue") %]
-                <div class="Row">
-                    <div class="FieldCell">
-                        <div class="Field">
-                            [% Data.ToStrg %]
-                        </div>
-                        <label for="Dest" class="Mandatory">
-                            [% Translate("To") | html %] <span class="Marker">*</span>
-                        </label>
-                        <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                        <div id="DestServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.QueueInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                </div>
-[% RenderBlockEnd("Queue") %]
-
 [% RenderBlockStart("TicketService") %]
                 <div class="Row">
                     <div class="FieldCell">
@@ -114,6 +99,21 @@
                     </div>
                 </div>
 [% RenderBlockEnd("TicketSLA") %]
+
+[% RenderBlockStart("Queue") %]
+                <div class="Row">
+                    <div class="FieldCell">
+                        <div class="Field">
+                            [% Data.ToStrg %]
+                        </div>
+                        <label for="Dest" class="Mandatory">
+                            [% Translate("To") | html %] <span class="Marker">*</span>
+                        </label>
+                        <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="DestServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.QueueInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                </div>
+[% RenderBlockEnd("Queue") %]
 
 [% RenderBlockStart("DynamicField_TitleDynamicFields") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>

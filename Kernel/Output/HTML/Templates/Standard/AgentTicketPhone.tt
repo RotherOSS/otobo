@@ -158,17 +158,6 @@
                     </div>
 [% RenderBlockEnd("TicketType") %]
 
-                    <div class="Row">
-                        <div class="FieldCell">
-                            <label class="Mandatory" for="Dest"><span class="Marker">*</span>[% Translate("To queue") | html %]:</label>
-                            <div class="Field">
-                                [% Data.ToStrg %]
-                                <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                                <div id="DestServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            </div>
-                        </div>
-                    </div>
-
 [% RenderBlockStart("TicketService") %]
                     <div class="Row">
                         <div class="FieldCell">
@@ -206,6 +195,17 @@
                         </div>
                     </div>
 [% RenderBlockEnd("TicketSLA") %]
+
+                    <div class="Row">
+                        <div class="FieldCell">
+                            <label class="Mandatory" for="Dest"><span class="Marker">*</span>[% Translate("To queue") | html %]:</label>
+                            <div class="Field">
+                                [% Data.ToStrg %]
+                                <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="DestServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            </div>
+                        </div>
+                    </div>
 
 [% Data.DynamicFieldHTML %]
 
