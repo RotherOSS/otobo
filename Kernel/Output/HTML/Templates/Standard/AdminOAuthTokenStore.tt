@@ -30,7 +30,7 @@
         [% CASE 'Add' %]
             [% BreadcrumbPath.push({ Name => Translate('Add Account'),}) %]
         [% CASE 'Edit' %]
-            [% USE EditTitle = String(Translate("Edit Account ")) %]
+            [% USE EditTitle = String(Translate("Edit Account")) %]
             [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.AccountName ) }) %]
     [% END %]
 
@@ -44,18 +44,18 @@
             </div>
             <div class="Content FavouriteList">
                 <p>
-                    [% Translate("This page displays an overview of configured functional OAuth Accounts and their corresponding Token Status.") | html %]
+                    [% Translate("This page displays an overview of configured functional OAuth accounts and their corresponding token status.") | html %]
                 </p>
                 <br>
                 <br>
                 <p>
-                    [% Translate("You can test your Configuration with a click on the 'Renew' Button, which will try to fetch or refresh a new Token.") | html %]
+                    [% Translate("You can test your configuration with a click on the 'Renew' button, which will try to fetch or refresh a new token.") | html %]
                 </p>
                 <br>
                 <br>
                 <p>
-                    [% Translate("OIDC Profiles to link your OIDC Functional Account to can be created here:") | html %]
-                    <a href="?Action=AdminOIDCProfiles">[% Translate("OAuth2 OIDC Profiles") | html %]</a>.
+                    [% Translate("OIDC profiles to link your OIDC functional account to can be created here:") | html %]
+                    <a href="?Action=AdminOIDCProfiles">[% Translate("OAuth2 OIDC profiles") | html %]</a>.
                 </p>
                 <br>
                 <br>
@@ -89,8 +89,8 @@
                 <h2>[% Translate("OIDC Functional Accounts and their active OAuth2 Tokens") | html %] ([% Data.AllItemsCount | html %] [% Translate("total") | html %])</h2>
                 [% IF Data.HasProfiles == 0 %]
                 <br>
-                <p>[% Translate("Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:") | html %]
-                    <a href="?Action=AdminOIDCProfiles">[% Translate("OIDC Profiles") | html %]</a>.
+                <p>[% Translate("Since you do not have any OIDC provider profiles configured, you cannot add an OAuth2 functional account. You have to first configure at least one OIDC provider profile here:") | html %]
+                    <a href="?Action=AdminOIDCProfiles">[% Translate("OIDC profiles") | html %]</a>.
                 </p>
                 [% END %]
             </div>
@@ -176,13 +176,13 @@
                             <input type="text" name="AccountName" value="[% Data.AccountName | html %]" class="W50pc Validate_Required" />
                             <p class="Error">[% Data.AccountNameServerError %]</p>
                             <p class="FieldExplanation">
-                                [% Translate("The unique name for this Account.") | html %]
+                                [% Translate("The unique name for this account.") | html %]
                             </p>
 
                         [% ELSE %]
                             <input type="text" name="AccountName" value="[% Data.AccountName | html %]" class="W50pc" readonly="readonly" />
                             <p class="FieldExplanation">
-                                [% Translate("The unique name for this Account.") | html %]
+                                [% Translate("The unique name for this account.") | html %]
                             </p>
                         [% END %]
                         </div>
@@ -192,9 +192,9 @@
                         <div class="Field">
                             [% Data.ProviderNames %]
                             <p class="FieldExplanation">
-                                [% Translate("The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:") | html %]
+                                [% Translate("The OpenID Connect profile to link to this functional account. OIDC profiles can be configured here:") | html %]
                                 <a target='_blank' href="?Action=AdminOIDCProfiles">
-                                [% Translate("OIDC Profiles") | html %]
+                                [% Translate("OIDC profiles") | html %]
                                 </a>.
                             </p>
                         </div>
@@ -206,7 +206,7 @@
                             <p class="FieldExplanation">
                                 [% Translate("The OAuth2 grant_type to use for acquiring tokens for this account.") | html %]
                                 <br>
-                                [% Translate("Selecting 'authorization_code' will redirect you to your OpenID Connect Provider's Login Page to validate your account once you click 'Save'.") | html %]
+                                [% Translate("Selecting 'authorization_code' will redirect you to your OpenID Connect provider's login page to validate your account once you click 'Save'.") | html %]
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -251,7 +251,7 @@
                         <div class="Field">
                             <input type="text" name="Resources" id="Resources" value="[% Data.Resources | html %]" class="W50pc" maxlength="250"/>
                             <p class="FieldExplanation">
-                                [% Translate("Optional (space seperated list) for the resource paramater if required. Leave empty unless instructed otherwise.") | html %]
+                                [% Translate("Optional (space separated list) for the resource parameter if required. Leave empty unless instructed otherwise.") | html %]
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -269,7 +269,7 @@
                         <div class="Field">
                             <input type="text" name="TokenType" id="TokenType" value="[% Data.TokenType | html %]" class="W50pc" maxlength="250"/>
                             <p class="FieldExplanation">
-                                [% Translate("The token type to use for externall API calls. Usually 'access_token'.") | html %]
+                                [% Translate("The token type to use for external API calls. Usually 'access_token'.") | html %]
                             </p>
                         </div>
                         <div class="Clear"></div>

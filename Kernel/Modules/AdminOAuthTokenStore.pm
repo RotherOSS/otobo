@@ -257,18 +257,18 @@ sub Run {
 
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  => "Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!",
+                    Message  => "Unable to generate OIDC provider authentication URL for login. Invalid OIDC configuration!",
                 );
 
                 $Output .= $LayoutObject->Notify(
-                    Info     => $LanguageObject->Translate('Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!'),
+                    Info     => $LanguageObject->Translate('Unable to generate OIDC provider authentication URL for login. Invalid OIDC configuration!'),
                     Priority => 'Error'
                 );
 
                 $Self->_EditInvoker(
                     Action => 'EditInvoker',
                     %GetParam,
-                    TokenError => $LanguageObject->Translate('Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!'),
+                    TokenError => $LanguageObject->Translate('Unable to generate OIDC provider authentication URL for login. Invalid OIDC configuration!'),
                 );
 
                 $LayoutObject->Block(

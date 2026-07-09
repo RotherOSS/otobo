@@ -147,7 +147,7 @@ sub Run {
                         # Activity must then also be non-global
                         if ( $ActivityData->{Global} || $ActivityDialogsLookup{$ActivityDialogID}->{ProcessEntityID} ne $ProcessEntityID ) {
                             return $LayoutObject->ErrorScreen(
-                                Message => Translatable('Non-global ActivityDialogs may not be assigned to global Activities!'),
+                                Message => Translatable('Non-global activity dialogs may not be assigned to global activities.'),
                             );
                         }
                     }
@@ -169,7 +169,7 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = Translatable('This field is required');
+            $Error{NameServerErrorMessage} = Translatable('This field is required.');
         }
 
         # if there is an error return to edit screen
@@ -192,7 +192,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('There was an error generating a new EntityID for this Activity'),
+                Message => Translatable('There was an error generating a new entity ID for this activity.'),
             );
         }
 
@@ -209,7 +209,7 @@ sub Run {
         # show error if can't create
         if ( !$ActivityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('There was an error creating the Activity'),
+                Message => Translatable('There was an error creating the activity.'),
             );
         }
 
@@ -225,7 +225,7 @@ sub Run {
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'There was an error setting the entity sync status for Activity entity: %s',
+                    'There was an error setting the entity sync status for activity entity: %s',
                     $EntityID
                 ),
             );
@@ -321,14 +321,14 @@ sub Run {
         if ( !IsHashRefWithData($ActivityData) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ActivityID %s', $ActivityID ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for activity ID %s', $ActivityID ),
             );
         }
 
         # check if Activity is part of the current Process
         if ( $ActivityData->{ProcessEntityID} && $ActivityData->{ProcessEntityID} ne $ProcessEntityID ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('This Activity is not available to the current Process!'),
+                Message => Translatable('This activity is not available to the current process.'),
             );
         }
 
@@ -399,7 +399,7 @@ sub Run {
                         # Activity must then also be non-global
                         if ( $ActivityData->{Global} || $ActivityDialogsLookup{$ActivityDialogID}->{ProcessEntityID} ne $ProcessEntityID ) {
                             return $LayoutObject->ErrorScreen(
-                                Message => Translatable('Non-global ActivityDialogs may not be assigned to global Activities!'),
+                                Message => Translatable('Non-global activity dialogs may not be assigned to global activities.'),
                             );
                         }
                     }
@@ -422,7 +422,7 @@ sub Run {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
-            $Error{NameServerErrorMessage} = Translatable('This field is required');
+            $Error{NameServerErrorMessage} = Translatable('This field is required.');
         }
 
         # prevent updating to non-global if necessary
@@ -437,7 +437,7 @@ sub Run {
                 if ( $AffectedProcessEntityID ne $ProcessEntityID ) {
 
                     $Error{GlobalServerError}        = 'ServerError';
-                    $Error{GlobalServerErrorMessage} = Translatable('Activities currently shared by other Processes may not be set to non-global!');
+                    $Error{GlobalServerErrorMessage} = Translatable('Activities currently shared by other processes may not be set to non-global.');
                 }
             }
         }
@@ -467,7 +467,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('There was an error updating the Activity'),
+                Message => Translatable('There was an error updating the activity.'),
             );
         }
 
@@ -483,7 +483,7 @@ sub Run {
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate(
-                    'There was an error setting the entity sync status for Activity entity: %s',
+                    'There was an error setting the entity sync status for activity entity: %s',
                     $ActivityData->{EntityID}
                 ),
             );
@@ -644,7 +644,7 @@ sub Run {
             {
                 %Result = (
                     Success => 0,
-                    Message => Translatable('Non-global ActivityDialogs may not be assigned to global Activities!'),
+                    Message => Translatable('Non-global activity dialogs may not be assigned to global activities.'),
                 );
 
                 $JSON = $LayoutObject->JSONEncode( Data => \%Result );
@@ -668,7 +668,7 @@ sub Run {
                 %Result = (
                     Success => 0,
                     Message => $LayoutObject->{LanguageObject}->Translate(
-                        'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!'
+                        'Activity dialog already assigned to activity. You cannot add an activity dialog twice.'
                     ),
                 );
 
@@ -708,7 +708,7 @@ sub Run {
         if ( !$Success ) {
             %Result = (
                 Success => 0,
-                Message => Translatable('Error while saving the Activity to the database!'),
+                Message => Translatable('Error while saving the activity to the database.'),
             );
 
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );

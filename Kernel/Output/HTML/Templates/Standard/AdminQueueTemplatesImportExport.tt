@@ -18,7 +18,7 @@
 
     [%
         SET Type  = Translate(Data.Type);
-        SET Label = Translate("Queue Template Relations");
+        SET Label = Translate("Queue-Template Relations");
     %]
 
     [% BreadcrumbPath = [
@@ -41,7 +41,7 @@
 [% RenderBlockStart("ActionOverview") %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=AdminQueueTemplates" class="CallForAction Fullsize Center">
-                        <span><i class="fa fa-plus-square"></i>[% Translate("Queue Template Relations") | html %]</span></a>
+                        <span><i class="fa fa-plus-square"></i>[% Translate("Queue-Template Relations") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>

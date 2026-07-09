@@ -18,7 +18,7 @@
 
     [%
         SET Type  = Translate(Data.Type);
-        SET Label = Translate("GenericAgents");
+        SET Label = Translate("Generic Agents");
     %]
 
     [% BreadcrumbPath = [
@@ -41,7 +41,7 @@
 [% RenderBlockStart("ActionOverview") %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=AdminGenericAgent" class="CallForAction Fullsize Center">
-                        <span><i class="fa fa-plus-square"></i>[% Translate("GenericAgents") | html %]</span></a>
+                        <span><i class="fa fa-plus-square"></i>[% Translate("Generic Agents") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -77,7 +77,7 @@
     <div class="ContentColumn">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("GenericAgents List") | html %]</h2>
+                <h2>[% Translate("Generic Agents List") | html %]</h2>
             </div>
             <div class="Clear"></div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
