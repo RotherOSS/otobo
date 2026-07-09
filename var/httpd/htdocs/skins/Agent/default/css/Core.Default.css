@@ -78,7 +78,7 @@ body {
 
 .RTL {
     text-align: right;
-    /* this will inherit to all elemtents because of reset.css */
+    /* this will inherit to all elements because of reset.css */
     direction: rtl;
 }
 
@@ -261,7 +261,7 @@ h5 {
 
 /**
  * @subsection  Paragraphs
- * @note        Use paragraphs instead of <div>s for text-only, multiline content!
+ * @note        Use paragraphs instead of <div>s for text-only, multi-line content!
  */
 p {
     /* increase line-height for readability */
@@ -1651,11 +1651,19 @@ body > div.MetaFloater > a.Close {
  * @subsection CodeMirror (CKEditor 5 Package)
  */
 
+.CodeMirror {
+    border-radius: 4px;
+}
+
+.CodeMirrorContainer {
+    border: 1px solid var(--colBGDark);
+    border-radius: 4px;
+}
+
 .CMToolbarContainer {
     width: 100%; 
-    border: 1px solid var(--colBGDark); 
-    border-bottom: none; 
-    height: 35px; 
+    height: 35px;
+    border-radius: 4px;
     background-color: var(--colBGLight);
 }
 
