@@ -623,7 +623,7 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::EnhancedCKEditorToolbar" Required="1" Valid="1">
-        <Description Translatable="1">Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `Frontend::RichText::EnhancedMode` is enabled).</Description>
+        <Description Translatable="1">Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Array>
@@ -763,7 +763,7 @@
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::EnhancedCKEditorToolbar" Required="1" Valid="1">
-        <Description Translatable="1">Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).</Description>
+        <Description Translatable="1">Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Array>

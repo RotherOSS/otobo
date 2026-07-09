@@ -470,7 +470,7 @@ sub _Replace {
 
             next ATTRIBUTE if !IsArrayRefWithData( \@TeamNames );
 
-            # replace team ids with a comma seperated list of team names
+            # replace team ids with a comma separated list of team names
             $Replacement = join ', ', @TeamNames;
         }
 
@@ -497,7 +497,7 @@ sub _Replace {
 
             next ATTRIBUTE if !IsArrayRefWithData( \@UserNames );
 
-            # replace resource ids with a comma seperated list of team names
+            # replace resource ids with a comma separated list of team names
             $Replacement = join ', ', @UserNames;
         }
 

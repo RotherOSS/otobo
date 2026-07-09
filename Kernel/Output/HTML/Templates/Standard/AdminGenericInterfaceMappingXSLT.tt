@@ -349,7 +349,7 @@
                         <label for="Filter">[% Translate("Enable") | html %]:</label>
                         <div class="Field">
                             [% Data.EnableExtendedXSLTMapping %]
-                            <p class="FieldExplanation">[% Translate("Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an 'otoboXslType' XML attribue. Possible Values for that attribute are 'int', 'bool', 'float', and 'array'.") | html %]</p>
+                            <p class="FieldExplanation">[% Translate("Extended XSLT mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by specifying an 'otoboXslType' XML attribute. Possible values for that attribute are 'int', 'bool', 'float', and 'array'.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

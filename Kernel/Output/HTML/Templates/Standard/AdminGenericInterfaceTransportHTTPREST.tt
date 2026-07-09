@@ -438,11 +438,11 @@
 
 [% RenderBlockStart("MultipartBlock") %]
 
-                            <label for="MultipartConfig">[% Translate("Use multipart-formdata:") | html %]:</label>
+                            <label for="MultipartConfig">[% Translate("Use multipart/form-data:") | html %]:</label>
                             <div class="Field">
                                 [% Data.MultipartStrg %]
                                 <p class="FieldExplanation">
-                                    [% Translate("Select Requesters to send Attachments as binary data with content-type 'multipart-formdata' instead of the default Base64-encoded inline JSON.") | html %]
+                                    [% Translate("Select requesters to send attachments as binary data with content type 'multipart/form-data' instead of the default Base64 encoded inline JSON.") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>

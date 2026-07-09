@@ -574,7 +574,7 @@ sub Run {
             $Message = $LayoutObject->{LanguageObject}->Translate('Nothing to do!');
         }
         else {
-            $Message = $LayoutObject->{LanguageObject}->Translate('Errors ocurred when trying to deploy translation. Please check system logs!');
+            $Message = $LayoutObject->{LanguageObject}->Translate('Errors occurred when trying to deploy translation. Please check system logs!');
         }
 
         my %Response = (

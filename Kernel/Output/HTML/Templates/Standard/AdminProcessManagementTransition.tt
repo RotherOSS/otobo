@@ -45,7 +45,7 @@
 
 [% RenderBlockStart("EditWarning") %]
                 <div class="WidgetSimple Expanded WidgetNotice">
-                    <div class="Content">[% Translate("Please note that changing this transition will affect the following processes") | html %]: [% Data.ProcessList | html %]</div>
+                    <div class="Content">[% Translate("Please note that changing this transition will affect the following processes:") | html %] [% Data.ProcessList | html %]</div>
                 </div>
 [% RenderBlockEnd("EditWarning") %]
 
@@ -346,7 +346,7 @@
                                     <strong>"[% Translate('Exact match') | html %]"</strong>
                                 </td>
                                 <td style="padding:6px 0;">
-                                    [% Translate('Value must exactly match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must exactly match the string specified in "Value".') | html %]
+                                    [% Translate('Value must exactly match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must exactly match the string specified in "Value".') | html %]
                                 </td>
                             </tr>
 
@@ -355,7 +355,7 @@
                                     <strong>"[% Translate('Exact match - all') | html %]"</strong>
                                 </td>
                                 <td style="padding:6px 0;">
-                                    [% Translate('In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must exactly match the string specified in "Value".') | html %]
+                                    [% Translate('In an array (for example: multi-value dynamic field or dynamic field of type "Set"), all values must exactly match the string specified in "Value".') | html %]
                                 </td>
                             </tr>
 
@@ -364,7 +364,7 @@
                                     <strong>"[% Translate('Exact match - negated') | html %]"</strong>
                                 </td>
                                 <td style="padding:6px 0;">
-                                    [% Translate('Value must not match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the string specified in "Value".') | html %]
+                                    [% Translate('Value must not match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), no value may match the string specified in "Value".') | html %]
                                 </td>
                             </tr>
 
@@ -373,7 +373,7 @@
                                     <strong>"[% Translate('Regular Expression') | html %]"</strong>
                                 </td>
                                 <td style="padding:6px 0;">
-                                    [% Translate('Value must contain a matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must match the regular expression specified in "Value".') | html %]
+                                    [% Translate('Value must contain a matching regular expression. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must match the regular expression specified in "Value".') | html %]
                                 </td>
                             </tr>
 
@@ -382,7 +382,7 @@
                                     <strong>"[% Translate('Regular Expression - all') | html %]"</strong>
                                 </td>
                                 <td style="padding:6px 0;">
-                                    [% Translate('In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must match the regular expression specified in "Value".') | html %]
+                                    [% Translate('In an array (for example: multi-value dynamic field or dynamic field of type "Set"), all values must match the regular expression specified in "Value".') | html %]
                                 </td>
                             </tr>
 
@@ -391,7 +391,7 @@
                                     <strong>"[% Translate('Regular Expression - negated') | html %]"</strong>
                                 </td>
                                 <td style="padding:6px 0;">
-                                    [% Translate('Value must contain a non-matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the regular expression specified in "Value".') | html %]
+                                    [% Translate('Value must contain a non-matching regular expression. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), no value may match the regular expression specified in "Value".') | html %]
                                 </td>
                             </tr>
 
@@ -422,7 +422,7 @@
                             </tr>
                             <tr>
                                 <td style="padding:6px 0;">
-                                    [% Translate('If a Dynamic Field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a Dynamic Field of type "Set", the following syntax can be used: ') | html %] <strong>"DynamicField_&lt;FieldNameSet&gt;::&lt;DynamicFieldName&gt;"</strong>.
+                                    [% Translate('If a dynamic field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a dynamic field of type "Set", the following syntax can be used: ') | html %] <strong>"DynamicField_&lt;FieldNameSet&gt;::&lt;DynamicFieldName&gt;"</strong>.
                                 </td>
                             </tr>
                         </table>
