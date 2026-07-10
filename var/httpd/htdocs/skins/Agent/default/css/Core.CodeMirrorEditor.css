@@ -24,6 +24,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @subsection  CodeMirrrorEditor
  */
 
+.CodeMirror.CodeMirror-fullscreen {
+    z-index: 100;
+}
+
 .CodeMirrorContainer {
     width: 80%;
 }
