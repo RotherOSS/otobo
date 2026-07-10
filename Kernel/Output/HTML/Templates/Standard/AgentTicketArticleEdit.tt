@@ -96,25 +96,6 @@
                         </div>
         [% RenderBlockEnd("Type") %]
 
-        [% RenderBlockStart("Queue") %]
-                        <div class="Row">
-                            <div class="FieldCell">
-            [% IF Data.QueueMandatory %]
-                                <label class="Mandatory" for="NewQueueID"><span class="Marker">*</span>[% Translate("Queue") | html %]:</label>
-            [% ELSE %]
-                                <label for="NewQueueID">[% Translate("Queue") | html %]:</label>
-            [% END %]
-                                <div class="Field">
-                                    [% Data.QueuesStrg %]
-            [% IF Data.QueueMandatory %]
-                                    <div id="NewQueueIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-            [% END %]
-                                    <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("Queue invalid.") | html %]</p></div>
-                                </div>
-                            </div>
-                        </div>
-        [% RenderBlockEnd("Queue") %]
-
         [% RenderBlockStart("Service") %]
                         <div class="Row">
                             <div class="FieldCell">
@@ -178,6 +159,25 @@
                             </div>
                         </div>
         [% RenderBlockEnd("SLAMandatory") %]
+
+        [% RenderBlockStart("Queue") %]
+                        <div class="Row">
+                            <div class="FieldCell">
+            [% IF Data.QueueMandatory %]
+                                <label class="Mandatory" for="NewQueueID"><span class="Marker">*</span>[% Translate("Queue") | html %]:</label>
+            [% ELSE %]
+                                <label for="NewQueueID">[% Translate("Queue") | html %]:</label>
+            [% END %]
+                                <div class="Field">
+                                    [% Data.QueuesStrg %]
+            [% IF Data.QueueMandatory %]
+                                    <div id="NewQueueIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+            [% END %]
+                                    <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("Queue invalid.") | html %]</p></div>
+                                </div>
+                            </div>
+                        </div>
+        [% RenderBlockEnd("Queue") %]
 
         [% RenderBlockStart("Owner") %]
                         <div class="Row">
