@@ -4303,6 +4303,10 @@
         <Value>
             <Hash>
                 <Item Key="AgentTicketPending">1</Item>
+                <Item Key="AgentTicketCompose">0</Item>
+                <Item Key="AgentTicketEmailOutbound">0</Item>
+                <Item Key="AgentTicketPhoneOutbound">0</Item>
+                <Item Key="AgentTicketPhoneInbound">0</Item>
             </Hash>
         </Value>
     </Setting>
