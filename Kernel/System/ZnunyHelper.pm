@@ -530,7 +530,7 @@ sub _ValidDynamicFieldScreenListGet {
                 next REGISTRATION if !$IsInstalled;
             }
 
-            next REGISTRATION if ( @DFScreensFilterKeys && none { $Registration ne $_ } @DFScreensFilterKeys );
+            next REGISTRATION if ( @DFScreensFilterKeys && none { $Registration eq $_ } @DFScreensFilterKeys );
 
             %{ $ValidScreens->{$Screen} } = (
                 %{ $ValidScreens->{$Screen} },
