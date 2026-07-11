@@ -287,7 +287,7 @@ sub Fetch {
         Value         => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
 
-    my %Connect = ();
+    my %Connect;
     eval {
         %Connect = $Self->Connect(
             Host        => $Param{Host},
