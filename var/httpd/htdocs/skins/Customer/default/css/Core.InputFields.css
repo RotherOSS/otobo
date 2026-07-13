@@ -189,6 +189,14 @@ label.oooFocus.LabelError {
     z-index: 20;
 }
 
+.Row:not(.Row_DynamicField) .RichTextField ~ label {
+    display:none;
+}
+
+.Row:not(.Row_DynamicField) .RichTextHolder {
+    padding-top: 0;
+}
+
 .RichTextHolder > label.LabelError {
     background-color: unset;
 }
@@ -486,10 +494,13 @@ div.InputField_Selection > .Remove {
     border-radius: var(--FieldBorderRadius);
 }
 
- .RichTextHolder {
+.Field.RichTextField ~ label {
+    display: none;
+}
+
+.RichTextHolder {
     --InitialHeight: 320px;
     margin-top: 0px;
-    padding-top: var(--FieldCellHeight);
     border-radius: var(--FieldBorderRadius);
     z-index: 10;
     position: relative;

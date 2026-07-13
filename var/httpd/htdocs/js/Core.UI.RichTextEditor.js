@@ -105,7 +105,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // Common editor label
         //  use wildcard to include "RichText<ActivityDialogID>"
-        const $RichTextLabel = $EditorArea.closest('.Field').siblings('label[for^="RichText"]');
+        const $RichTextLabel = $EditorArea.closest('.Field').siblings('label[for="' + EditorID + '"]');
 
         var ToolbarConfig;
         if ( CustomerInterface ) {
@@ -448,6 +448,11 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 CKEditorInstances[$EditorArea.attr('id')] = editor;
 
                 window.editor = editor;
+
+                // set input field label as placeholder
+                if (CustomerInterface) {
+                    editor.editing.view.document.getRoot('main').placeholder = $RichTextLabel.text()
+                }
 
                 /* configure permissable html tags */
                 if (window.editor.plugins.has("DataFilter")) {
