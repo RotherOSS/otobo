@@ -2565,13 +2565,13 @@ sub _RenderPendingTime {
 
     my $Error = '';
     if ( IsHashRefWithData( $Param{Error} ) ) {
-        if ( $Param{Error}{'PendingtTimeDay'} ) {
-            $Data{PendingtTimeDayError} = $LayoutObject->{LanguageObject}->Translate("Date invalid!");
-            $Error = $Param{Error}{'PendingtTimeDay'};
+        if ( $Param{Error}{'PendingTimeDay'} ) {
+            $Data{PendingTimeDayError} = $LayoutObject->{LanguageObject}->Translate("Date invalid!");
+            $Error = $Param{Error}{'PendingTimeDay'};
         }
-        if ( $Param{Error}{'PendingtTimeHour'} ) {
-            $Data{PendingtTimeHourError} = $LayoutObject->{LanguageObject}->Translate("Date invalid!");
-            $Error = $Param{Error}{'PendingtTimeDay'};
+        if ( $Param{Error}{'PendingTimeHour'} ) {
+            $Data{PendingTimeHourError} = $LayoutObject->{LanguageObject}->Translate("Date invalid!");
+            $Error = $Param{Error}{'PendingTimeDay'};
         }
     }
 
