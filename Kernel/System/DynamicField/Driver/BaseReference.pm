@@ -706,7 +706,7 @@ sub SearchFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
+    my $FieldClass = "W50pc $Self->{FieldCSSClass}";    # for field specific JS
 
     my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $Value,
