@@ -482,6 +482,7 @@ form fieldset > p.NoValue {
 }
 
 .FieldExplanation {
+    width: 100%;
     color: var(--colTextLight);
     margin: 5px 0;
 }
@@ -1113,6 +1114,7 @@ fieldset.ModularForm {
     --line-height: 1em;
     --row-gap: 0px;
     --checkbox-size: 1em;
+    --checkbox-margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 );
     --customer-id-selection-button-width: 110px; /* set in style tag */
     --address-book-button-width: 16px; /* width set for .AdditionlFieldIcon */
     --address-book-button-margin: 3px; /* margin set for .AdditionlFieldIcon */
@@ -1178,6 +1180,13 @@ fieldset.ModularForm {
     fieldset.ModularForm label[for="Subject"] {
         padding: var(--label-padding);
         align-self: center;
+    }
+
+    fieldset.ModularForm .Field > label {
+        --height: max( calc( var(--checkbox-margin) * 2 + var(--checkbox-size) ), var(--line-height) );
+        --padding-vertical: calc(0.5 * (var(--height) - var(--line-height)) );
+        margin: 0 0 0 8px;
+        padding: var(--padding-vertical) 0;
     }
 
     fieldset.ModularForm input[type=text],
@@ -1306,12 +1315,6 @@ fieldset.ModularForm {
         margin-left: 2px;
     }
 
-    fieldset.ModularForm .RichTextField input[type="checkbox"] {
-        height: unset;
-        width: unset;
-        margin: unset;
-    }
-
     fieldset.ModularForm textarea {
         resize: vertical;
         width: 100%;
@@ -1347,19 +1350,25 @@ fieldset.ModularForm {
         background-color: var(--colBGDark);
         cursor: s-resize;
         overflow: hidden;
+    }
 
-        i {
-            display: block;
-            margin: auto;
-            margin-top: -2px;
-            color: var(--colTextLight);
-            text-align: center;
-            font-size: 9px;
-        }
+    i {
+        display: block;
+        margin: auto;
+        margin-top: -2px;
+        color: var(--colTextLight);
+        text-align: center;
+        font-size: 9px;
     }
 
     fieldset.ModularForm .RichTextField .ck-editor {
         width: 100%;
+    }
+
+    fieldset.ModularForm .RichTextField input[type="checkbox"] {
+        height: unset;
+        width: unset;
+        margin: unset;
     }
 
     fieldset.ModularForm .InputField_Container {

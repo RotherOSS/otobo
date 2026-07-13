@@ -61,9 +61,9 @@
                                     <input type="text" id="MainTicketNumber" name="MainTicketNumber" value="[% Data.MainTicketNumber | html %]" class="Validate_Required [% Data.MainTicketNumberInvalid %] W50pc" />
                                     <div id="MainTicketNumberError" class="TooltipErrorMessage"><p>[% Translate("You need to use a ticket number!") | html %]</p></div>
                                     <div id="MainTicketNumberServerError" class="TooltipErrorMessage"><p>[% Translate("A valid ticket number is required.") | html %]</p></div>
-                                    <div class="FieldExplanation">
+                                    <p class="FieldExplanation">
                                         [% Translate("Try typing part of the ticket number or title in order to search by it.") | html %]
-                                    </div>
+                                    </p>
                                 [% IF Data.CustomerID %]
                                     <input type="checkbox" id="TicketSearchFilter" checked data-ticket-search-filter="CustomerIDRaw" value="[% Data.CustomerID | html %]" />
                                     <label for="TicketSearchFilter">[% Translate("Limit the search to tickets with same Customer ID (%s).", Data.CustomerID) | html %]</label>
