@@ -486,7 +486,15 @@ div.InputField_Selection > .Remove {
     border-radius: var(--FieldBorderRadius);
 }
 
- .RichTextHolder {
+.Row:not(.Row_DynamicField) .Field.RichTextField {
+    padding-top: 0;
+}
+
+.Row:not(.Row_DynamicField) .Field.RichTextField ~ label {
+    display: none;
+}
+
+.RichTextHolder {
     --InitialHeight: 320px;
     margin-top: 0px;
     padding-top: var(--FieldCellHeight);
