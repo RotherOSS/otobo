@@ -189,14 +189,6 @@ label.oooFocus.LabelError {
     z-index: 20;
 }
 
-.Row:not(.Row_DynamicField) .RichTextField ~ label {
-    display:none;
-}
-
-.Row:not(.Row_DynamicField) .RichTextHolder {
-    padding-top: 0;
-}
-
 .RichTextHolder > label.LabelError {
     background-color: unset;
 }
