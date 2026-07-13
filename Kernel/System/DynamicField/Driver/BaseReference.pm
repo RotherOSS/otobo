@@ -507,7 +507,7 @@ sub EditFieldValueValidate {
             push $LastSearchResults->@*, '';
         }
 
-        # in set case, we fetch the template values and either concat them to the search results
+        # in set case, we fetch the template values and either concatenate them to the search results
         #   or, if no search results are present, use the template values entirely
         if ( defined $Param{SetIndex} ) {
             my $TemplateName          = $DynamicFieldConfig->{Name} . '_Template';
@@ -1369,10 +1369,10 @@ sub _CreateAutoLinkObjectLink {
     );
 
     my $Links = $LinkList->{$SourceObject}->{$LinkType};
-    for my $LinkTypeKey ( keys %$Links ) {
+    for my $LinkTypeKey ( keys $Links->%* ) {
 
         my $References = $Links->{$LinkTypeKey};
-        for my $Key ( keys %$References ) {
+        for my $Key ( keys $References->%* ) {
 
             return unless $Key != $SourceKey;
         }
@@ -1380,10 +1380,10 @@ sub _CreateAutoLinkObjectLink {
 
     # and the other way round
     $Links = $LinkList->{$TargetObject}->{$LinkType};
-    for my $LinkTypeKey ( keys %$Links ) {
+    for my $LinkTypeKey ( keys $Links->%* ) {
 
         my $References = $Links->{$LinkTypeKey};
-        for my $Key ( keys %$References ) {
+        for my $Key ( keys $References->%* ) {
 
             return unless $Key != $TargetKey;
         }
