@@ -250,8 +250,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $FollowUp = $('#FollowUp'),
             $RTE = $('#RichText'),
             ZoomExpand = $('#ZoomExpand').val(),
-            $Form,
-            FieldID,
             ActivityCount = $('#oooArticleListExpanded > .Activity').length;
 
 
@@ -349,7 +347,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                     if ( ActiveChild.offset().top < $(window).scrollTop() + 240 ) {
                         var NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
                         while ( NextChild.length && NextChild.offset().top < $(window).scrollTop() + 240 ) {
-                            ActiveChild = NextChild;
                             ActiveIndex++;
                             NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
                         }
