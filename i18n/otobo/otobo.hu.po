@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-07-07 13:16+0000\n"
-"PO-Revision-Date: 2026-05-17 02:01+0000\n"
+"PO-Revision-Date: 2026-07-14 03:54+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
-"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-11/"
-"hu/>\n"
+"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
+"otobo/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27984,10 +27984,9 @@ msgstr ""
 "bővítmény mindig megjelenjen, és az ügyintézők ne tudják eltávolítani."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the parameters for the customer preferences table."
 msgid "Defines the parameters for the elasticsearch widget backend."
-msgstr "Meghatározza az ügyfélbeállítások tábla paramétereit."
+msgstr ""
+"Meghatározza az Elasticsearch felületi elem háttérprogramjának paramétereit."
 
 #. SysConfig
 msgid ""
@@ -31176,7 +31175,7 @@ msgstr ""
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
-"CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
+"CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
