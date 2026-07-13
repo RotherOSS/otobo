@@ -1853,7 +1853,7 @@ via the Preferences button after logging in.
 #                timeout => 120,
 #                async   => 0,
 #                version => 3,
-#                verify  => 'require', 
+#                verify  => 'require',
 #            },
 #        },
 #        # customer unique id
