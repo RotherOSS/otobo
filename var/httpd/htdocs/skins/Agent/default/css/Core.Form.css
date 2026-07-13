@@ -1353,7 +1353,7 @@ fieldset.ModularForm {
         overflow: hidden;
     }
 
-    i {
+    fieldset.ModularForm .RichTextField > .RichTextField_resizeHandle i {
         display: block;
         margin: auto;
         margin-top: -2px;
