@@ -1182,6 +1182,7 @@ fieldset.ModularForm {
         align-self: center;
     }
 
+    /* special case for AgentTicketMerge */
     fieldset.ModularForm .Field > label {
         --height: max( calc( var(--checkbox-margin) * 2 + var(--checkbox-size) ), var(--line-height) );
         --padding-vertical: calc(0.5 * (var(--height) - var(--line-height)) );
