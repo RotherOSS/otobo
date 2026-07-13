@@ -301,7 +301,7 @@ button.oooM.ActivitySubmitButton {
     }
 
     #oooTicketInfo.oooTicketInfoPermanent {
-        display: block;
+        display: inline;
         position: sticky;
         margin-top: 24px;
         width: unset;

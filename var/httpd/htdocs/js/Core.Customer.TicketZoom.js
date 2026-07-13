@@ -458,10 +458,10 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         });
 
         /*
-         * Set neccessary CSS values for TicketInfo
+         * Set necessary CSS values for TicketInfo
          */
         if ( $('#oooArticleList').children().length == 0 ) {
-            $('#oooTicketInfo.oooTicketInfoPermanent').css('margin-top', '0px').css('top', 'revert').css('max-height', 'revert');
+            $('#oooTicketInfo.oooTicketInfoPermanent').css('margin-top', '0px').css('top', '234px').css('max-height', 'revert');
         }
     };
 
