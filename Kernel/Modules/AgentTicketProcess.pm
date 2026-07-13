@@ -1471,9 +1471,8 @@ sub _OutputActivityDialog {
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Self->{Config}{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Self->{Config}{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
@@ -3049,9 +3048,8 @@ sub _RenderArticle {
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Self->{Config}{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Self->{Config}{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
@@ -5887,9 +5885,8 @@ sub _DisplayProcessList {
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Self->{Config}{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Self->{Config}{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(

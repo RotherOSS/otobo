@@ -1831,9 +1831,8 @@ sub _RenderArticle {
     # add rich text editor
     if ( $LayoutObjectZoom->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
 
         # set up customer rich text editor
         $LayoutObjectZoom->CustomerSetRichTextParameters(

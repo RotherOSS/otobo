@@ -870,10 +870,9 @@ sub _Edit {
     # add rich text editor
     if ( $Param{RichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         my $Config = $ConfigObject->Get("Frontend::Admin::$Self->{Action}");
         $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(

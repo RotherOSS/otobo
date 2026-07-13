@@ -272,7 +272,6 @@ sub _ShowEdit {
             Data => {
                 %Param,
                 RichTextHeight => '600',
-                RichTextWidth  => '99%',
                 RichTextType   => 'CodeMirror',
             },
         );

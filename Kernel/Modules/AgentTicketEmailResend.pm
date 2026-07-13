@@ -1219,9 +1219,8 @@ sub _Mask {
     # Add rich text editor.
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # Use height/width defined for this screen.
+        # Use height defined for this screen.
         $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
         # Set up rich text editor.
         $LayoutObject->SetRichTextParameters(

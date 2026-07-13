@@ -3567,9 +3567,8 @@ sub _MaskEmailNew {
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
