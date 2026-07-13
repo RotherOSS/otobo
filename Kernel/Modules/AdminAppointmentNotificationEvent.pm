@@ -19,10 +19,16 @@ package Kernel::Modules::AdminAppointmentNotificationEvent;
 use strict;
 use warnings;
 
-our $ObjectManagerDisabled = 1;
+# core modules
+use List::Util qw(any);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -836,7 +842,7 @@ sub _Edit {
     # try to load the team backend
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 ) ) {
 
-        # instanciate a new team object
+        # create a new instance of the team object
         my $TeamObject = Kernel::System::Calendar::Team->new();
 
         # get a list of available (readable) teams
@@ -890,6 +896,7 @@ sub _Edit {
         LANGUAGEID:
         for my $LanguageID ( sort keys %{ $Param{Message} } ) {
             next LANGUAGEID if $LanguageID eq 'en';
+
             push @LanguageIDs, $LanguageID;
         }
     }
@@ -1074,7 +1081,7 @@ sub _Edit {
                 if ($IsActive) {
 
                     my $TransportChecked = '';
-                    if ( grep { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
+                    if ( any { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
                         $TransportChecked = 'checked ';
                     }
 
@@ -1092,7 +1099,7 @@ sub _Edit {
                     # it should decide if the default value for the
                     # notification on AgentPreferences is enabled or not
                     my $AgentEnabledByDefault = 0;
-                    if ( grep { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
+                    if ( any { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
                         $AgentEnabledByDefault = 1;
                     }
                     elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
@@ -1115,7 +1122,7 @@ sub _Edit {
                 }
                 else {
 
-                    # This trasnport needs to be active before use it.
+                    # This transport needs to be active before use it.
                     $LayoutObject->Block(
                         Name => 'TransportRowNotActive',
                         Data => {

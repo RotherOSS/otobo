@@ -67,6 +67,7 @@ sub Run {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require(
             $LibRequired,
         );
+
         next LIBREQUIRED if $LibFound;
 
         return $LayoutObject->ErrorScreen(
@@ -424,8 +425,6 @@ sub _GetParams {
     $GetParam->{DataInclude} = \@DataInclude;
 
     # Check validity.
-    my $LibXML  = XML::LibXML->new();
-    my $LibXSLT = XML::LibXSLT->new();
     my ( $StyleDoc, $StyleSheet );
     eval {
         $StyleDoc = XML::LibXML->load_xml(

@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -149,7 +150,7 @@ sub Run {
         LayoutObject => $LayoutObject,
     );
 
-    # if invalid process is detected on a ActivityDilog popup screen show an error message
+    # if invalid process is detected on a ActivityDialog popup screen show an error message
     if (
         $Self->{Subaction} eq 'DisplayActivityDialog'
         && !$FollowupProcessList->{$ProcessEntityID}
@@ -290,12 +291,12 @@ sub _RenderAjax {
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
 
-    # Get the activity dialog's Submit Param's or Config Params
+    # Get the activity dialogues Submit Params or Config Params
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # some fields should be skipped for the customer interface
-        next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
+        next DIALOGFIELD if ( any { $_ eq $CurrentField } @{$SkipFields} );
 
         # Skip if we're working on a field that was already done with or without ID
         if (
@@ -537,7 +538,7 @@ sub _RenderAjax {
 #         DefaultValues for the 4 required Fields Queue State Lock Priority
 #             if not configured in the ActivityDialog
 #
-#     ActivityDialog fillout request on existing Ticket:
+#     ActivityDialog fill-out request on existing Ticket:
 #         ProcessEntityID
 #         ActivityDialogEntityID
 #         TicketValues
@@ -628,12 +629,12 @@ sub _GetParam {
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
 
-    # Get the activitydialogs's Submit Param's or Config Params
+    # Get the activity dialogues Submit Params or Config Params
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # some fields should be skipped for the customer interface
-        next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
+        next DIALOGFIELD if ( any { $_ eq $CurrentField } @{$SkipFields} );
 
         # Skip if we're working on a field that was already done with or without ID
         if ( $Self->{NameToID}{$CurrentField} && $ValuesGotten{ $Self->{NameToID}{$CurrentField} } )
@@ -676,7 +677,7 @@ sub _GetParam {
             next DIALOGFIELD;
         }
 
-        # if no Submitted nor Ticket Param get ActivityDialog Config's Param
+        # if no Submitted nor Ticket Param get ActivityDialog Config Param
         $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
 
         if ($Value) {
@@ -802,7 +803,7 @@ sub _GetParam {
             LayoutObject       => $LayoutObject,
         );
 
-        # ACLCompat
+        # ACL Compatibility
         $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldName } = $GetParam{ 'DynamicField_' . $DynamicFieldName };
     }
 
@@ -838,7 +839,7 @@ sub _OutputActivityDialog {
     my %Error         = ();
     my %ErrorMessages = ();
 
-    # If we had Errors, we got an Errorhash
+    # If we had Errors, we got an Error hash
     %Error         = %{ $Param{Error} }         if ( IsHashRefWithData( $Param{Error} ) );
     %ErrorMessages = %{ $Param{ErrorMessages} } if ( IsHashRefWithData( $Param{ErrorMessages} ) );
 
@@ -918,7 +919,7 @@ sub _OutputActivityDialog {
             && IsHashRefWithData( $Activity->{ActivityDialog}{$_}{Overwrite} )
     } keys %{ $Activity->{ActivityDialog} };
 
-    # let the Overwrites Overwrite the ActivityDialog's Hash values
+    # let the Overwrites Overwrite the ActivityDialogues Hash values
     if ( $OverwriteActivityDialogNumber[0] ) {
         %{$ActivityDialog} = (
             %{$ActivityDialog},
@@ -1100,7 +1101,7 @@ sub _OutputActivityDialog {
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # some fields should be skipped for the customer interface
-        next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
+        next DIALOGFIELD if ( any { $_ eq $CurrentField } @{$SkipFields} );
 
         if ( !IsHashRefWithData( $ActivityDialog->{Fields}{$CurrentField} ) ) {
             my $Message = $LayoutObject->{LanguageObject}->Translate(
@@ -2779,7 +2780,7 @@ sub _StoreActivityDialog {
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # some fields should be skipped for the customer interface
-        next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
+        next DIALOGFIELD if ( any { $_ eq $CurrentField } @{$SkipFields} );
 
         # handle dynamic fields separately
         next DIALOGFIELD if $CurrentField =~ m{^DynamicField_(.*)}xms;
@@ -2949,7 +2950,7 @@ sub _StoreActivityDialog {
 
         $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldName } = $PossibleValuesFilter;
 
-        # if we have an invisible field, use config's default value
+        # if we have an invisible field, use config default value
         if ( $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName } && $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }->{Display} == 0 )
         {
             if (
@@ -3106,7 +3107,7 @@ sub _StoreActivityDialog {
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # some fields should be skipped for the customer interface
-        next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{$SkipFields} );
+        next DIALOGFIELD if ( any { $_ eq $CurrentField } @{$SkipFields} );
 
         if ( !IsHashRefWithData( $ActivityDialog->{Fields}->{$CurrentField} ) ) {
             $LayoutObject->CustomerFatalError(
