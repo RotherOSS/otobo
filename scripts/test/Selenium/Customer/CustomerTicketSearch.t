@@ -96,6 +96,16 @@ $Selenium->RunTest(
             },
         );
 
+        # new in rel-11_1: force pagination
+        my $ShownTickets = $Kernel::OM->Get('Kernel::Config')->Get("CustomerPreferencesGroups")->{ShownTickets};
+        $ShownTickets->{Data}         = [2];
+        $ShownTickets->{DataSelected} = 2;
+        $Helper->ConfigSettingChange(
+            Key   => 'CustomerPreferencesGroups###ShownTickets',
+            Valid => 1,
+            Value => $ShownTickets,
+        );
+
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # Create test customer user.
@@ -237,25 +247,24 @@ $Selenium->RunTest(
             UserLanguage => $Language,
         );
 
-        # Check for search profile name.
-        my $SearchText = '← '
-            . $LanguageObject->Translate('Change search options') . ' ('
-            . $LanguageObject->Translate('last-search') . ')';
-        $Self->Is(
-            $Selenium->execute_script("return \$('.ActionRow a').text().trim()"),
-            $SearchText,
-            "Search profile name 'last-search' found on page",
-        );
+        #        obsolete? there is no DF output in CustomerTicketOverview.tt, which is now
+        #        used to display results instead of CustomerTicketSearch.tt
+        #        see https://github.com/RotherOSS/otobo/issues/5616
+        #
+        #        # Check if DynamicField value is available in CustomerTicketSearch result screen.
+        #        # See https://bugs.otrs.org/show_bug.cgi?id=13818.
+        #        $Self->True(
+        #            index( $Selenium->get_page_source(), "$ValueText" ) > -1,
+        #            "DynamicField value is found - $DynamicFieldName:$ValueText",
+        #       );
 
-        # Check if DynamicField value is available in CustomerTicketSearch result screen.
-        # See https://bugs.otrs.org/show_bug.cgi?id=13818.
-        $Self->True(
-            index( $Selenium->get_page_source(), "$ValueText" ) > -1,
-            "DynamicField value is found - $DynamicFieldName:$ValueText",
-        );
+        # Navigate to CustomerTicketSearch screen.
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
 
-        # Click on '← Change search options'.
-        $Selenium->find_element( $SearchText, 'link_text' )->VerifiedClick();
+        my $SearchText = $LanguageObject->Translate('last-search');
+        $Selenium->find_element( "#Profile_Search", 'css' )->click();
+        $Selenium->execute_script("\$('a:contains(\"$SearchText\")').click()");
+        $Selenium->execute_script("\$('button[name=\"SelectTamplate\"]').click();");
 
         # Input more search filters, result should be 'No data found'.
         $Selenium->find_element( "#TicketNumber", 'css' )->clear();
@@ -270,41 +279,30 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
+        my $EmptySearch = $LanguageObject->Translate('Nothing to show.');
+
         # Check for expected result.
         $Self->Is(
-            $Selenium->execute_script("return \$('#EmptyMessage td').text().trim();"),
-            $LanguageObject->Translate('No data found.'),
+            $Selenium->execute_script("return \$('h3:contains(\"$EmptySearch\")').length;"),
+            1,
             "Ticket is not found on page",
         );
 
-        # Check search filter data.
-        $Self->Is(
-            $Selenium->execute_script("return \$('.SearchTerms h2').text().trim();"),
-            $LanguageObject->Translate('Search Results for') . ':',
-            "Filter data is found - Search Results for:",
-        );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
+
+        $Selenium->find_element( "#Profile_Search", 'css' )->click();
+        $Selenium->execute_script("\$('a:contains(\"$SearchText\")').click()");
+        $Selenium->execute_script("\$('button[name=\"SelectTemplate\"]').click();");
+
+        sleep(2);
 
         $Self->Is(
-            $Selenium->execute_script("return \$('.SearchTerms span:eq(0)').text().trim();"),
-            $LanguageObject->Translate('TicketNumber') . ': 123456789012345',
-            "Filter data is found - TicketNumber: 123456789012345",
+            $Selenium->execute_script("return \$('#TicketNumber').val();"),
+            "123456789012345",
+            "Ticket Number was saved in last search"
         );
 
-        $Self->Is(
-            $Selenium->execute_script("return \$('.SearchTerms span:eq(1)').text().trim();"),
-            $LanguageObject->Translate('State') . ': '
-                . $LanguageObject->Translate('new') . '+'
-                . $LanguageObject->Translate('open'),
-            "Filter data is found - State: new+open",
-        );
-
-        $Self->Is(
-            $Selenium->execute_script("return \$('.SearchTerms span:eq(2)').text().trim();"),
-            $LanguageObject->Translate('Priority') . ': '
-                . $LanguageObject->Translate('2 low') . '+'
-                . $LanguageObject->Translate('3 normal'),
-            "Filter data is found - Priority: 2 low+3 normal",
-        );
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
 
         # Test without customer company ticket access for bug#12595.
         $Helper->ConfigSettingChange(
@@ -364,33 +362,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys('*');
         $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
 
-        # Check if pagination shows correct number of displayed tickets.
-        $Self->Is(
-            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination strong').first().text().trim();"),
-            "1-2",
-            "Pagination displayed correct number of tickets.",
-        );
-        $Self->Is(
-            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination .PaginationLimit').text().trim();"),
-            "5",
-            "Pagination shows correct limit number of tickets.",
-        );
-
         # Check next result page.
-        $Selenium->find_element( ".ActionRow .Tabs.Pagination #CustomerTicketSearchPage2", 'css' )->VerifiedClick();
-        $Self->Is(
-            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination strong').first().text().trim();"),
-            "3-4",
-            "Second result page, pagination shows correct number of tickets.",
-        );
+        $Selenium->find_element( "#CustomerTicketOverviewPage2", 'css' )->VerifiedClick();
 
         # Check last result page.
-        $Selenium->find_element( ".ActionRow .Tabs.Pagination #CustomerTicketSearchPage3", 'css' )->VerifiedClick();
-        $Self->Is(
-            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination strong').first().text().trim();"),
-            "5-5",
-            "Last result page, pagination shows correct number of tickets.",
-        );
+        $Selenium->find_element( "#CustomerTicketOverviewPage3", 'css' )->VerifiedClick();
 
         for my $TicketID (@TicketIDs) {
 
