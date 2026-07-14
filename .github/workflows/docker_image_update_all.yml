@@ -216,7 +216,7 @@ jobs:
             docker_tag: 'rel-10_1_16'
             base_image: 'nginx:mainline'
 
-          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.1 and 11.0
+          # otobo-nginx-kerberos-webproxy uses in 10.1 different dockerfiles than in 11.0 and 11.1
           # The base image nginx:mainline-trixie is used since 10.1.16
           -
             target:     'otobo-nginx-kerberos-webproxy'
@@ -241,6 +241,10 @@ jobs:
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'latest-10_1'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'devel-rel-10_1'
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
           # otobo-selenium-crome uses different base images in different releases.
