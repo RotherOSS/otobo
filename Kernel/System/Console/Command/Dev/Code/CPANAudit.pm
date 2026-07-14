@@ -189,6 +189,11 @@ END_REASON
 The advisory is only relevant for 32bit builds of Perl. But this is a 64bit build of Perl.
 END_REASON
 
+        text_linefold => <<'END_REASON',
+The advisory is about the module Text::LineFold. This module is not used in OTOBO.
+It is installed only because it is included in Unicode::LineBreak.
+Unicode::LineBreak is installed because Unicode::GCString is needed by the test suite.
+
         crypt_with_md5 => <<'END_REASON',
 The advisory is relevant only when customer or user passwords are stored in the database in MD5 crypted form.
 Using MD5 for crypting passwords is discouraged in OTOBO. Therefore this advisory is not relevant in regular installations.
@@ -224,6 +229,10 @@ END_REASON
             only_relevant_for_32bit_perl => 1,
             is_relevant_for_otobo        => 0,
             reason                       => $Reason{thirtytwo_bit_perl},
+        },
+        'CPANSA-Unicode-LineBreak-2026-8594' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{text_linefold},
         },
         'CPANSA-Crypt-PasswdMD5-2026-6659' => {
             is_relevant_for_otobo => 0,
