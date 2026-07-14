@@ -319,7 +319,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         });
 
         // scroll events
-        if ( $('#oooArticleList > li').length ) {
+        if ( $('#oooArticleList > li').length || $('.oooTicketInfoPermanent').length ) {
             $(window).scroll( function() {
                 // change Header on scroll
                 if ( $(window).width() > 767 ) {
@@ -458,7 +458,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
          * Set necessary CSS values for TicketInfo
          */
         if ( $('#oooArticleList').children().length == 0 ) {
-            $('#oooTicketInfo.oooTicketInfoPermanent').css('margin-top', '0px').css('top', '234px').css('max-height', 'revert');
+            $('#oooTicketInfo.oooTicketInfoPermanent').css('margin-top', '0px').css('top', '89px').css('max-height', 'revert');
         }
     };
 
