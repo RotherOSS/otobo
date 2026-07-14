@@ -171,7 +171,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #ToolBar li.Extended form {
-        display: inline;
+        display: inline-block;
+        float: none;
+    }
+
+    #ToolBar .Extended textarea {
+        resize: none;
+        max-width: 150px;
+    }
+
+    #ToolBar .Extended.SearchFulltext {
+        max-width: 150px;
     }
 
     #Header #Logo {

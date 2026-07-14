@@ -343,6 +343,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #ToolBar .Extended.SearchFulltext {
     position: relative;
+    max-width: 40%;
 }
 
 #ToolBar .Extended.SearchFulltext:before {
