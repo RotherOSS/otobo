@@ -8728,7 +8728,7 @@ Az Ön ügyfélszolgálati csapata
         'Links 2 tickets with a "ParentChild" type link.' => 'Összekapcsol 2 jegyet egy „Szülő-gyermek” típusú hivatkozással.',
         'Links appointments and tickets with a "Normal" type link.' => 'Összekapcsolja az időpontokat és jegyeket egy „Normál” típusú hivatkozással.',
         'List of CSS files to always be loaded for the agent interface.' =>
-            'CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of CSS files to always be loaded for the customer interface.' =>
             'CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of JS files to always be loaded for the agent interface.' =>
