@@ -272,6 +272,10 @@ jobs:
             target:     'otobo-selenium-chrome'
             docker_tag: 'latest-10_1'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'devel-rel-10_1'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
           # Support for Elasticsearch was added with rel-10_1_17 and rel-11_0_16
           -
