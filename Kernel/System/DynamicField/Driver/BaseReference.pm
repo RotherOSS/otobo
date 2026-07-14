@@ -507,7 +507,7 @@ sub EditFieldValueValidate {
             push $LastSearchResults->@*, '';
         }
 
-        # in set case, we fetch the template values and either concat them to the search results
+        # in set case, we fetch the template values and either concatenate them to the search results
         #   or, if no search results are present, use the template values entirely
         if ( defined $Param{SetIndex} ) {
             my $TemplateName          = $DynamicFieldConfig->{Name} . '_Template';
@@ -706,7 +706,7 @@ sub SearchFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
+    my $FieldClass = "W50pc $Self->{FieldCSSClass}";    # for field specific JS
 
     my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $Value,

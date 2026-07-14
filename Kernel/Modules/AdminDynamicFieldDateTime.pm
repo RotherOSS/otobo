@@ -364,7 +364,7 @@ sub _Change {
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
-        %${DynamicFieldData},
+        $DynamicFieldData->%*,
         %Config,
         ID             => $FieldID,
         Mode           => 'Change',
@@ -678,7 +678,7 @@ sub _ShowScreen {
         # check for namespace
         if ( $Param{Name} =~ /(.*)-(.*)/ ) {
             $Namespace = $1;
-            $Param{PlainFieldName} = $2 unless $Param{CloneFieldID};
+            $Param{PlainFieldName} = $2;
         }
         else {
             $Param{PlainFieldName} = $Param{Name};
