@@ -187,11 +187,15 @@ jobs:
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'latest-11_1-autobuild'
+            docker_tag: 'latest-11_1'
             base_image: 'perl:5.40-slim-trixie'
           -
             target:     'otobo-web'
             docker_tag: 'rel-11_1_0-beta1'
+            base_image: 'perl:5.40-slim-trixie'
+          -
+            target:     'otobo-web'
+            docker_tag: 'devel-rel-11_1'
             base_image: 'perl:5.40-slim-trixie'
 
           # The base image nginx:mainline-trixie is used since 10.1.17 and 11.0.12.
