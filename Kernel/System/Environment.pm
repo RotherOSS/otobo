@@ -43,7 +43,8 @@ Kernel::System::Environment - collect environment info
 
 =head1 DESCRIPTION
 
-Functions to collect environment info
+Functions to collect environment info.
+Provide a list of Perl modules that are installed in F<Kernel/cpan-lib>.
 
 =head1 PUBLIC INTERFACE
 
@@ -328,7 +329,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
             'Module'          => 'CPANSA::DB',
             'Required'        => 1,
-            'VersionRequired' => '== 20260705.001',
+            'VersionRequired' => '== 20260712.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
