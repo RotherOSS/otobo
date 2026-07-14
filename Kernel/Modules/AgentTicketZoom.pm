@@ -54,7 +54,7 @@ sub new {
     );
 
     # save last used view type in preferences
-    if ( !$Self->{Subaction} ) {
+    if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
 
         if (
             !defined $Self->{ArticleView}
