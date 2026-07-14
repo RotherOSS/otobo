@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-07 13:16+0000\n"
+"POT-Creation-Date: 2026-07-14 13:39+0000\n"
 "PO-Revision-Date: 2026-06-30 18:28+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
@@ -3485,7 +3485,9 @@ msgid "Age"
 msgstr "Alter"
 
 #. Template: AdminGenericAgentImportExport
-msgid "GenericAgents"
+#, fuzzy
+#| msgid "GenericAgents"
+msgid "Generic Agents"
 msgstr "Generic Agents"
 
 #. Template: AdminGenericAgentImportExport
@@ -3498,7 +3500,9 @@ msgstr ""
 "im yml Format exportiert."
 
 #. Template: AdminGenericAgentImportExport
-msgid "GenericAgents List"
+#, fuzzy
+#| msgid "GenericAgents List"
+msgid "Generic Agents List"
 msgstr "Liste von Generic Agents"
 
 #. Template: AdminGenericInterfaceDebugger
@@ -4560,11 +4564,17 @@ msgid "Enable"
 msgstr "Aktivieren"
 
 #. Template: AdminGenericInterfaceMappingXSLT
+#, fuzzy
+#| msgid ""
+#| "Extended XSLT Mapping allows for more fine-grained configuration of XSLT "
+#| "mapping. When enabled, the resulting JSON type can be forced by spcifying "
+#| "an 'otoboXslType' XML attribue. Possible Values for that attribute are "
+#| "'int', 'bool', 'float', and 'array'."
 msgid ""
-"Extended XSLT Mapping allows for more fine-grained configuration of XSLT "
-"mapping. When enabled, the resulting JSON type can be forced by spcifying an "
-"'otoboXslType' XML attribue. Possible Values for that attribute are 'int', "
-"'bool', 'float', and 'array'."
+"Extended XSLT mapping allows for more fine-grained configuration of XSLT "
+"mapping. When enabled, the resulting JSON type can be forced by specifying "
+"an 'otoboXslType' XML attribute. Possible values for that attribute are "
+"'int', 'bool', 'float', and 'array'."
 msgstr ""
 "Das erweiterte XSLT-Mapping erlaubt eine feingranularere Konfiguration des "
 "XSLT-Mappings. Sobald es aktiviert ist, kann der resultierende JSON-Typ "
@@ -4984,13 +4994,19 @@ msgid "The default HTTP command to use for the requests."
 msgstr "Der Standard-HTTP-Befehl für die Anfragen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Use multipart-formdata:"
+#, fuzzy
+#| msgid "Use multipart-formdata:"
+msgid "Use multipart/form-data:"
 msgstr "multipart-formdata verwenden:"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
+#| msgid ""
+#| "Select Requesters to send Attachments as binary data with content-type "
+#| "'multipart-formdata' instead of the default Base64-encoded inline JSON."
 msgid ""
-"Select Requesters to send Attachments as binary data with content-type "
-"'multipart-formdata' instead of the default Base64-encoded inline JSON."
+"Select requesters to send attachments as binary data with content type "
+"'multipart/form-data' instead of the default Base64 encoded inline JSON."
 msgstr ""
 "Requester auswählen um Anhänge als Binärdaten mit dem Inhaltstyp 'multipart-"
 "formdata' anstelle des standardmäßig Base64-kodierten Inline JSON zu "
@@ -6013,7 +6029,9 @@ msgid "Add Account"
 msgstr "Konto hinzufügen"
 
 #. Template: AdminOAuthTokenStore
-msgid "Edit Account "
+#, fuzzy
+#| msgid "Edit Account "
+msgid "Edit Account"
 msgstr "Konto bearbeiten "
 
 #. Template: AdminOAuthTokenStore
@@ -6021,30 +6039,43 @@ msgid "About OIDC Functional Accounts"
 msgstr "Über OIDC Funktionskonten"
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "This page displays an overview of configured functional OAuth Accounts "
+#| "and their corresponding Token Status."
 msgid ""
-"This page displays an overview of configured functional OAuth Accounts and "
-"their corresponding Token Status."
+"This page displays an overview of configured functional OAuth accounts and "
+"their corresponding token status."
 msgstr ""
 "Diese Seite zeigt eine Übersicht über die konfigurierten funktionalen OAuth-"
 "Konten und deren entsprechenden Token-Status an."
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "You can test your Configuration with a click on the 'Renew' Button, which "
+#| "will try to fetch or refresh a new Token."
 msgid ""
-"You can test your Configuration with a click on the 'Renew' Button, which "
-"will try to fetch or refresh a new Token."
+"You can test your configuration with a click on the 'Renew' button, which "
+"will try to fetch or refresh a new token."
 msgstr ""
 "Die Konfiguration kann getestet werden mit einem Klick auf den 'Erneuern'-"
 "Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren."
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "OIDC Profiles to link your OIDC Functional Account to can be created here:"
 msgid ""
-"OIDC Profiles to link your OIDC Functional Account to can be created here:"
+"OIDC profiles to link your OIDC functional account to can be created here:"
 msgstr ""
 "OIDC-Profile für die Verbindung zu einem OIDC Funktionskonto können hier "
 "erstellt werden:"
 
 #. Template: AdminOAuthTokenStore
-msgid "OAuth2 OIDC Profiles"
+#, fuzzy
+#| msgid "OAuth2 OIDC Profiles"
+msgid "OAuth2 OIDC profiles"
 msgstr "OAuth2 OIDC Profile"
 
 #. Template: AdminOAuthTokenStore
@@ -6056,17 +6087,24 @@ msgid "OIDC Functional Accounts and their active OAuth2 Tokens"
 msgstr "OIDC Funktionskonten und ihre aktiven OAuth2 Token"
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "Since you do not have any OIDC Provider profiles configured, you cannot "
+#| "add an OAuth2 Functional Account. You have to first configure at least "
+#| "one OIDC Provider profile here:"
 msgid ""
-"Since you do not have any OIDC Provider profiles configured, you cannot add "
-"an OAuth2 Functional Account. You have to first configure at least one OIDC "
-"Provider profile here:"
+"Since you do not have any OIDC provider profiles configured, you cannot add "
+"an OAuth2 functional account. You have to first configure at least one OIDC "
+"provider profile here:"
 msgstr ""
 "Da keine weiteren OIDC-Anbieter konfiguriert sind, kann kein OAuth2 "
 "Funktionskonto hinzugefügt werden. Zunächst muss mindestens ein OIDC "
 "Anbieterprofil hier konfiguriert werden:"
 
 #. Template: AdminOAuthTokenStore
-msgid "OIDC Profiles"
+#, fuzzy
+#| msgid "OIDC Profiles"
+msgid "OIDC profiles"
 msgstr "OIDC Profile"
 
 #. Template: AdminOAuthTokenStore
@@ -6110,7 +6148,9 @@ msgid "Edit Invoker Account"
 msgstr "Invoker-Konto bearbeiten"
 
 #. Template: AdminOAuthTokenStore
-msgid "The unique name for this Account."
+#, fuzzy
+#| msgid "The unique name for this Account."
+msgid "The unique name for this account."
 msgstr "Der einzigartige Name für dieses Konto."
 
 #. Template: AdminOAuthTokenStore
@@ -6118,8 +6158,12 @@ msgid "OIDC Profile"
 msgstr "OIDC Profil"
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "The OpenID Connect Profile to link to this functional account. OIDC "
+#| "Profiles can be configured here:"
 msgid ""
-"The OpenID Connect Profile to link to this functional account. OIDC Profiles "
+"The OpenID Connect profile to link to this functional account. OIDC profiles "
 "can be configured here:"
 msgstr ""
 "Das OpenID Connect Profil das mit diesem Funktionskonto verknüpft werden "
@@ -6136,9 +6180,13 @@ msgstr ""
 "verwendet wird."
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "Selecting 'authorization_code' will redirect you to your OpenID Connect "
+#| "Provider's Login Page to validate your account once you click 'Save'."
 msgid ""
 "Selecting 'authorization_code' will redirect you to your OpenID Connect "
-"Provider's Login Page to validate your account once you click 'Save'."
+"provider's login page to validate your account once you click 'Save'."
 msgstr ""
 "Die Auswahl von 'authorization_code' leitet mit dem Klicken auf 'Speichern' "
 "direkt zur Login-Seite des OpenID Connect Anbieters weiter, um das Konto zu "
@@ -6174,8 +6222,12 @@ msgid "Resources"
 msgstr "Ressourcen"
 
 #. Template: AdminOAuthTokenStore
+#, fuzzy
+#| msgid ""
+#| "Optional (space seperated list) for the resource paramater if required. "
+#| "Leave empty unless instructed otherwise."
 msgid ""
-"Optional (space seperated list) for the resource paramater if required. "
+"Optional (space separated list) for the resource parameter if required. "
 "Leave empty unless instructed otherwise."
 msgstr ""
 "Optionale (Leerzeichen-separierte Liste) für die Ressourcen-Parameter, falls "
@@ -6198,13 +6250,18 @@ msgid "Token Type"
 msgstr "Token-Type"
 
 #. Template: AdminOAuthTokenStore
-msgid "The token type to use for externall API calls. Usually 'access_token'."
+#, fuzzy
+#| msgid ""
+#| "The token type to use for externall API calls. Usually 'access_token'."
+msgid "The token type to use for external API calls. Usually 'access_token'."
 msgstr ""
 "Der Token-Typ, der für externe API-Aufrufe verwendet wird. Üblicherweise "
 "'access_token'."
 
 #. Template: AdminOIDCProfiles
-msgid "OpenID Connect Profiles "
+#, fuzzy
+#| msgid "OpenID Connect Profiles "
+msgid "OpenID Connect Profiles"
 msgstr "OpenID Connect Profile "
 
 #. Template: AdminOIDCProfiles
@@ -6216,7 +6273,9 @@ msgid "Add Profile"
 msgstr "Profil hinzufügen"
 
 #. Template: AdminOIDCProfiles
-msgid "Edit Profile "
+#, fuzzy
+#| msgid "Edit Profile "
+msgid "Edit Profile"
 msgstr "Profil bearbeiten "
 
 #. Template: AdminOIDCProfiles
@@ -6224,13 +6283,17 @@ msgid "About OIDC Provider Profiles"
 msgstr "Über OIDC Anbieter-Profile"
 
 #. Template: AdminOIDCProfiles
-msgid "This page displays an overview of configured OIDC Provider Profiles."
+#, fuzzy
+#| msgid "This page displays an overview of configured OIDC Provider Profiles."
+msgid "This page displays an overview of configured OIDC provider profiles."
 msgstr ""
 "Diese Seite zeigt eine Übersicht über die konfigurierten OIDC Anbieter-"
 "Profile."
 
 #. Template: AdminOIDCProfiles
-msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+#, fuzzy
+#| msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgid "You can connect OIDC profiles with a OIDC functional account"
 msgstr "OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden"
 
 #. Template: AdminOIDCProfiles
@@ -6242,15 +6305,21 @@ msgid "Delete Profile"
 msgstr "Profil löschen"
 
 #. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid ""
+#| "OpenID Connect Provider Profiles for outgoing Webservice calls "
+#| "(GenericInterface Invoker)"
 msgid ""
-"OpenID Connect Provider Profiles for outgoing Webservice calls "
+"OpenID Connect Provider Profiles for Outgoing Web Service Calls "
 "(GenericInterface Invoker)"
 msgstr ""
 "OpenID Connect Anbieterprofile für ausgehende Webservice-Aufrufe "
 "(GenericInterface Invoker)"
 
 #. Template: AdminOIDCProfiles
-msgid "There are no OIDC Provider profiles defined."
+#, fuzzy
+#| msgid "There are no OIDC Provider profiles defined."
+msgid "There are no OIDC provider profiles defined."
 msgstr "Es sind keine OIDC Anbieterprofile definiert."
 
 #. Template: AdminOIDCProfiles
@@ -6270,30 +6339,42 @@ msgid "Edit OIDC Provider Profile"
 msgstr "OIDC Anbieterprofil bearbeiten"
 
 #. Template: AdminOIDCProfiles
+#, fuzzy
+#| msgid ""
+#| "Since you are using OIDC as Authentication module, these values have been "
+#| "pre-populated with the OIDC Provider Configuration used for Login."
 msgid ""
-"Since you are using OIDC as Authentication module, these values have been "
-"pre-populated with the OIDC Provider Configuration used for Login."
+"Since you are using OIDC as authentication module, these values have been "
+"pre-populated with the OIDC provider configuration used for login."
 msgstr ""
 "Da OIDC bereits als Authentifizierungs-Modul verwendet wird, wurden diese "
 "Werte mit der OIDC Anbieterkonfiguration vorausgefüllt, die für den Login "
 "verwendet werden."
 
 #. Template: AdminOIDCProfiles
-msgid "The unique name for this Profile."
+#, fuzzy
+#| msgid "The unique name for this Profile."
+msgid "The unique name for this profile."
 msgstr "Bitte geben Sie einen eindeutigen Namen für dieses Profil an."
 
 #. Template: AdminOIDCProfiles
-msgid "Metadata Url."
+#, fuzzy
+#| msgid "Metadata Url."
+msgid "Metadata URL."
 msgstr "Metadaten-URL."
 
 #. Template: AdminOIDCProfiles
-msgid "The Well-Known Provider Metadata Url."
+#, fuzzy
+#| msgid "The Well-Known Provider Metadata Url."
+msgid "The well-known provider metadata URL."
 msgstr ""
 "Standardpfad der OpenIDConnect Konfiguration (Well-Known Provider Metadata "
 "URL)."
 
 #. Template: AdminOIDCProfiles
-msgid "The Client ID of your OAuth2 application."
+#, fuzzy
+#| msgid "The Client ID of your OAuth2 application."
+msgid "The client ID of your OAuth2 application."
 msgstr "Die Client ID der OAuth2-Anwendung."
 
 #. Template: AdminOIDCProfiles
@@ -6301,7 +6382,9 @@ msgid "Client Secret"
 msgstr "Client-Geheimnis (Secret)"
 
 #. Template: AdminOIDCProfiles
-msgid "The Client Secret of your OAuth2 application."
+#, fuzzy
+#| msgid "The Client Secret of your OAuth2 application."
+msgid "The client secret of your OAuth2 application."
 msgstr "Das Client Secret der OAuth2-Anwendung."
 
 #. Template: AdminOIDCProfiles
@@ -6341,7 +6424,9 @@ msgid "SSL CA File"
 msgstr "SSL CA-Datei"
 
 #. Template: AdminOIDCProfiles
-msgid "SSL Certificate Authority file path."
+#, fuzzy
+#| msgid "SSL Certificate Authority file path."
+msgid "SSL certificate authority file path."
 msgstr "SSL Certification Authority (CA) Dateipfad."
 
 #. Template: AdminOIDCProfiles
@@ -6349,7 +6434,9 @@ msgid "SSL CA Directory"
 msgstr "SSL CA Verzeichnis"
 
 #. Template: AdminOIDCProfiles
-msgid "SSL Certificate Authority directory path."
+#, fuzzy
+#| msgid "SSL Certificate Authority directory path."
+msgid "SSL certificate authority directory path."
 msgstr "SSL Certificate Autority (CA) Verzeichnispfad."
 
 #. Template: AdminOIDCProfiles
@@ -7526,8 +7613,13 @@ msgid "Transition actions are not being used in this process."
 msgstr "In diesem Prozess werden keine Übergangs-Aktionen verwendet."
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "Please note that changing this transition will affect the following "
+#| "processes"
 msgid ""
-"Please note that changing this transition will affect the following processes"
+"Please note that changing this transition will affect the following "
+"processes:"
 msgstr ""
 "Achtung: Änderungen an diesem Übergang wirken sich auf folgende Prozesse aus"
 
@@ -7564,9 +7656,14 @@ msgid "Exact match"
 msgstr "Genauer Treffer"
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "Value must exactly match the string. In an array (for example: Multi-"
+#| "Value DynamicField or DynamicField of type \"Set\"), at least one value "
+#| "must exactly match the string specified in \"Value\"."
 msgid ""
-"Value must exactly match the string. In an array (for example: Multi-Value "
-"DynamicField or DynamicField of type \"Set\"), at least one value must "
+"Value must exactly match the string. In an array (for example: multi-value "
+"dynamic field or dynamic field of type \"Set\"), at least one value must "
 "exactly match the string specified in \"Value\"."
 msgstr ""
 "Der Wert muss exakt mit der Zeichenfolge übereinstimmen. In einem Array "
@@ -7579,8 +7676,13 @@ msgid "Exact match - all"
 msgstr "Genauer Treffer - alle"
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "In an array (for example: Multi-Value DynamicField or DynamicField of "
+#| "type \"Set\"), all values must exactly match the string specified in "
+#| "\"Value\"."
 msgid ""
-"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"In an array (for example: multi-value dynamic field or dynamic field of type "
 "\"Set\"), all values must exactly match the string specified in \"Value\"."
 msgstr ""
 "In einem Array (bspw. ein Dynamisches Feld mit Mehrfachwerten oder ein "
@@ -7592,10 +7694,15 @@ msgid "Exact match - negated"
 msgstr "Genauer Treffer - negiert"
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "Value must not match the string. In an array (for example: Multi-Value "
+#| "DynamicField or DynamicField of type \"Set\"), no value may match the "
+#| "string specified in \"Value\"."
 msgid ""
-"Value must not match the string. In an array (for example: Multi-Value "
-"DynamicField or DynamicField of type \"Set\"), no value may match the string "
-"specified in \"Value\"."
+"Value must not match the string. In an array (for example: multi-value "
+"dynamic field or dynamic field of type \"Set\"), no value may match the "
+"string specified in \"Value\"."
 msgstr ""
 "Wert darf nicht mit der Zeichenkette übereinstimmen. In einem Array (bspw. "
 "Dynamisches Feld mit Mehrfachwerten oder ein Dyanmisches Feld vom Typ "
@@ -7607,9 +7714,14 @@ msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "Value must contain a matching regular expression. In an array (for "
+#| "example: Multi-Value DynamicField or DynamicField of type \"Set\"), at "
+#| "least one value must match the regular expression specified in \"Value\"."
 msgid ""
 "Value must contain a matching regular expression. In an array (for example: "
-"Multi-Value DynamicField or DynamicField of type \"Set\"), at least one "
+"multi-value dynamic field or dynamic field of type \"Set\"), at least one "
 "value must match the regular expression specified in \"Value\"."
 msgstr ""
 "Wert muss mit einem regulären Ausdruck (RegEx) übereinstimmen. In einem "
@@ -7622,8 +7734,13 @@ msgid "Regular Expression - all"
 msgstr "Regulärer Ausdruck - alle"
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "In an array (for example: Multi-Value DynamicField or DynamicField of "
+#| "type \"Set\"), all values must match the regular expression specified in "
+#| "\"Value\"."
 msgid ""
-"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"In an array (for example: multi-value dynamic field or dynamic field of type "
 "\"Set\"), all values must match the regular expression specified in "
 "\"Value\"."
 msgstr ""
@@ -7636,10 +7753,15 @@ msgid "Regular Expression - negated"
 msgstr "Regulärer Ausdruck - negiert"
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "Value must contain a non-matching regular expression. In an array (for "
+#| "example: Multi-Value DynamicField or DynamicField of type \"Set\"), no "
+#| "value may match the regular expression specified in \"Value\"."
 msgid ""
 "Value must contain a non-matching regular expression. In an array (for "
-"example: Multi-Value DynamicField or DynamicField of type \"Set\"), no value "
-"may match the regular expression specified in \"Value\"."
+"example: multi-value dynamic field or dynamic field of type \"Set\"), no "
+"value may match the regular expression specified in \"Value\"."
 msgstr ""
 "Wert muss einen nicht übereinstimmenden regulären Ausdruck beinhalten. In "
 "einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder Dynamisches Feld "
@@ -7683,9 +7805,14 @@ msgstr ""
 "Value=\"closed\" (oder in der langen Variante \"^.*closed.*$\")."
 
 #. Template: AdminProcessManagementTransition
+#, fuzzy
+#| msgid ""
+#| "If a Dynamic Field should be used, configure "
+#| "Name=\"DynamicField_<FieldName>\". To access a field inside a Dynamic "
+#| "Field of type \"Set\", the following syntax can be used: "
 msgid ""
-"If a Dynamic Field should be used, configure "
-"Name=\"DynamicField_<FieldName>\". To access a field inside a Dynamic Field "
+"If a dynamic field should be used, configure "
+"Name=\"DynamicField_<FieldName>\". To access a field inside a dynamic field "
 "of type \"Set\", the following syntax can be used: "
 msgstr ""
 "Sofern ein Dynamisches Feld verwendet werden soll, konfigurieren Sie "
@@ -8006,7 +8133,9 @@ msgid "Templates"
 msgstr "Vorlagen"
 
 #. Template: AdminQueueTemplatesImportExport
-msgid "Queue Template Relations"
+#, fuzzy
+#| msgid "Queue Template Relations"
+msgid "Queue-Template Relations"
 msgstr "Zuordnung von Vorlagen zu Queues"
 
 #. Template: AdminQueueTemplatesImportExport
@@ -11406,16 +11535,16 @@ msgid "Ticket Settings"
 msgstr "Ticket-Einstellungen"
 
 #. Template: AgentTicketActionCommon
-msgid "Queue invalid."
-msgstr "Queue ungültig."
-
-#. Template: AgentTicketActionCommon
 msgid "Service invalid."
 msgstr "Ungültiger Service."
 
 #. Template: AgentTicketActionCommon
 msgid "SLA invalid."
 msgstr "SLA ungültig."
+
+#. Template: AgentTicketActionCommon
+msgid "Queue invalid."
+msgstr "Queue ungültig."
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -15615,9 +15744,13 @@ msgid "Error creating/updating %s!"
 msgstr "Fehler beim Anlegen/Aktualisieren von %s!"
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
+#, fuzzy
+#| msgid ""
+#| "Unable to generate OIDC Provider Authentication URL for Login. Invalid "
+#| "OICD Configuration!"
 msgid ""
-"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
-"Configuration!"
+"Unable to generate OIDC provider authentication URL for login. Invalid OIDC "
+"configuration!"
 msgstr ""
 "Die OIDC Anbieterauthentifzierungs-URL zur Anmeldung kann nicht generiert "
 "werden! Ungültige OIDC-Konfiguration!"
@@ -15954,24 +16087,33 @@ msgid "Process: %s is not Inactive"
 msgstr "Prozess: %s ist nicht aktiv"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+#, fuzzy
+#| msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgid "Non-global activity dialogs may not be assigned to global activities."
 msgstr ""
 "Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten "
 "zugeordnet werden!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "There was an error generating a new EntityID for this Activity"
+#, fuzzy
+#| msgid "There was an error generating a new EntityID for this Activity"
+msgid "There was an error generating a new entity ID for this activity."
 msgstr ""
 "Beim Generieren einer neuen EntityID für diese Aktivität ist ein Fehler "
 "aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "There was an error creating the Activity"
+#, fuzzy
+#| msgid "There was an error creating the Activity"
+msgid "There was an error creating the activity."
 msgstr "Beim Erstellen der Aktivität ist ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+#, fuzzy
+#| msgid ""
+#| "There was an error setting the entity sync status for Activity entity: %s"
 msgid ""
-"There was an error setting the entity sync status for Activity entity: %s"
+"There was an error setting the entity sync status for activity entity: %s"
 msgstr ""
 "Beim Setzen des Synchronisations-Status für Aktivität %s ist ein Fehler "
 "aufgetreten"
@@ -15981,20 +16123,26 @@ msgid "Need ActivityID and ProcessEntityID!"
 msgstr "Benötige Aktivitäts-ID (ActivityID) und Prozess-ID (ProcessEntityID)!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Could not get data for ActivityID %s"
+#, fuzzy
+#| msgid "Could not get data for ActivityID %s"
+msgid "Could not get data for activity ID %s"
 msgstr "Konnte Daten für ActivityID %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "This Activity is not available to the current Process!"
+#, fuzzy
+#| msgid "This Activity is not available to the current Process!"
+msgid "This activity is not available to the current process."
 msgstr "Diese Aktivität ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
-"Activities currently shared by other Processes may not be set to non-global!"
+"Activities currently shared by other processes may not be set to non-global."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "There was an error updating the Activity"
+#, fuzzy
+#| msgid "There was an error updating the Activity"
+msgid "There was an error updating the activity."
 msgstr "Beim Aktualisieren der Aktivität ist ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
@@ -16010,15 +16158,21 @@ msgid "ActivityDialog not found!"
 msgstr "Aktivitätsdialog nicht gefunden!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+#, fuzzy
+#| msgid ""
+#| "ActivityDialog already assigned to Activity. You cannot add an "
+#| "ActivityDialog twice!"
 msgid ""
-"ActivityDialog already assigned to Activity. You cannot add an "
-"ActivityDialog twice!"
+"Activity dialog already assigned to activity. You cannot add an activity "
+"dialog twice."
 msgstr ""
 "Aktivitätsdialog wurde der Aktivität bereits zugeordnet. Sie können "
 "denselben Aktivitätsdialog nicht mehrfach zuordnen!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Error while saving the Activity to the database!"
+#, fuzzy
+#| msgid "Error while saving the Activity to the database!"
+msgid "Error while saving the activity to the database."
 msgstr ""
 "Während des Speicherns der Aktivität in der Datenbank ist ein Fehler "
 "aufgetreten!"
@@ -16591,8 +16745,12 @@ msgid "Nothing to do!"
 msgstr "Nichts zu tun!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
+#, fuzzy
+#| msgid ""
+#| "Errors ocurred when trying to deploy translation. Please check system "
+#| "logs!"
 msgid ""
-"Errors ocurred when trying to deploy translation. Please check system logs!"
+"Errors occurred when trying to deploy translation. Please check system logs!"
 msgstr ""
 "Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das "
 "Systemprotokoll!"
@@ -21835,6 +21993,12 @@ msgid "Hide EntityIDs"
 msgstr "EntityIDs ausblenden"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
+msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgstr ""
+"Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten "
+"zugeordnet werden!"
+
+#. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Edit Field Details"
 msgstr "Felddetails bearbeiten"
 
@@ -24391,9 +24555,14 @@ msgstr ""
 "werden, wenn ein Ticket archiviert wird."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines "
+#| "a Button Group that will be visibly seperated in the Editor.(Only used if "
+#| "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgid ""
-"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
-"Button Group that will be visibly seperated in the Editor.(Only used if "
+"Controls shown in the enhanced mode CKEditor toolbar. Each array defines a "
+"button group that will be visibly separated in the editor. (Only used if "
 "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
 "Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. "
@@ -24402,9 +24571,14 @@ msgstr ""
 "aktiviert ist)."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines "
+#| "a Button Group that will be visibly seperated in the Editor.(Only used if "
+#| "`Frontend::RichText::EnhancedMode` is enabled)."
 msgid ""
-"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
-"Button Group that will be visibly seperated in the Editor.(Only used if "
+"Controls shown in the enhanced mode CKEditor toolbar. Each array defines a "
+"button group that will be visibly separated in the editor. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
 "Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. "
@@ -31636,6 +31810,10 @@ msgstr "OAuth Token"
 #. SysConfig
 msgid "OIDC Profile Management"
 msgstr "OIDC Profilverwaltung"
+
+#. SysConfig
+msgid "OIDC Profiles"
+msgstr "OIDC Profile"
 
 #. SysConfig
 msgid "OTOBO News"

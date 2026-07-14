@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-07 13:16+0000\n"
+"POT-Creation-Date: 2026-07-14 13:39+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Aleksejs Danilenko <a@bitit.lv>, 2019\n"
 "Language-Team: Latvian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -3221,7 +3221,7 @@ msgstr "Atvērts jau"
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
 #| msgid "GenericAgent"
-msgid "GenericAgents"
+msgid "Generic Agents"
 msgstr "Vispārīgais uzdevums"
 
 #. Template: AdminGenericAgentImportExport
@@ -3233,7 +3233,7 @@ msgstr ""
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
 #| msgid "GenericAgent"
-msgid "GenericAgents List"
+msgid "Generic Agents List"
 msgstr "Vispārīgais uzdevums"
 
 #. Template: AdminGenericInterfaceDebugger
@@ -4145,10 +4145,10 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Extended XSLT Mapping allows for more fine-grained configuration of XSLT "
-"mapping. When enabled, the resulting JSON type can be forced by spcifying an "
-"'otoboXslType' XML attribue. Possible Values for that attribute are 'int', "
-"'bool', 'float', and 'array'."
+"Extended XSLT mapping allows for more fine-grained configuration of XSLT "
+"mapping. When enabled, the resulting JSON type can be forced by specifying "
+"an 'otoboXslType' XML attribute. Possible values for that attribute are "
+"'int', 'bool', 'float', and 'array'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
@@ -4510,13 +4510,13 @@ msgid "The default HTTP command to use for the requests."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "Use multipart-formdata:"
+msgid "Use multipart/form-data:"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
-"Select Requesters to send Attachments as binary data with content-type "
-"'multipart-formdata' instead of the default Base64-encoded inline JSON."
+"Select requesters to send attachments as binary data with content type "
+"'multipart/form-data' instead of the default Base64 encoded inline JSON."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -5468,7 +5468,7 @@ msgstr "Izveidot lietotāja kontu"
 #. Template: AdminOAuthTokenStore
 #, fuzzy
 #| msgid "Create Account"
-msgid "Edit Account "
+msgid "Edit Account"
 msgstr "Izveidot lietotāja kontu"
 
 #. Template: AdminOAuthTokenStore
@@ -5477,25 +5477,25 @@ msgstr ""
 
 #. Template: AdminOAuthTokenStore
 msgid ""
-"This page displays an overview of configured functional OAuth Accounts and "
-"their corresponding Token Status."
+"This page displays an overview of configured functional OAuth accounts and "
+"their corresponding token status."
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
 msgid ""
-"You can test your Configuration with a click on the 'Renew' Button, which "
-"will try to fetch or refresh a new Token."
+"You can test your configuration with a click on the 'Renew' button, which "
+"will try to fetch or refresh a new token."
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
 msgid ""
-"OIDC Profiles to link your OIDC Functional Account to can be created here:"
+"OIDC profiles to link your OIDC functional account to can be created here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
 #| msgid "Profile"
-msgid "OAuth2 OIDC Profiles"
+msgid "OAuth2 OIDC profiles"
 msgstr "Profils"
 
 #. Template: AdminOAuthTokenStore
@@ -5510,15 +5510,15 @@ msgstr ""
 
 #. Template: AdminOAuthTokenStore
 msgid ""
-"Since you do not have any OIDC Provider profiles configured, you cannot add "
-"an OAuth2 Functional Account. You have to first configure at least one OIDC "
-"Provider profile here:"
+"Since you do not have any OIDC provider profiles configured, you cannot add "
+"an OAuth2 functional account. You have to first configure at least one OIDC "
+"provider profile here:"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
 #| msgid "Profile"
-msgid "OIDC Profiles"
+msgid "OIDC profiles"
 msgstr "Profils"
 
 #. Template: AdminOAuthTokenStore
@@ -5566,7 +5566,7 @@ msgid "Edit Invoker Account"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "The unique name for this Account."
+msgid "The unique name for this account."
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
@@ -5577,7 +5577,7 @@ msgstr "Profils"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
-"The OpenID Connect Profile to link to this functional account. OIDC Profiles "
+"The OpenID Connect profile to link to this functional account. OIDC profiles "
 "can be configured here:"
 msgstr ""
 
@@ -5592,7 +5592,7 @@ msgstr ""
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Selecting 'authorization_code' will redirect you to your OpenID Connect "
-"Provider's Login Page to validate your account once you click 'Save'."
+"provider's login page to validate your account once you click 'Save'."
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
@@ -5623,7 +5623,7 @@ msgstr ""
 
 #. Template: AdminOAuthTokenStore
 msgid ""
-"Optional (space seperated list) for the resource paramater if required. "
+"Optional (space separated list) for the resource parameter if required. "
 "Leave empty unless instructed otherwise."
 msgstr ""
 
@@ -5642,12 +5642,14 @@ msgid "Token Type"
 msgstr ""
 
 #. Template: AdminOAuthTokenStore
-msgid "The token type to use for externall API calls. Usually 'access_token'."
+msgid "The token type to use for external API calls. Usually 'access_token'."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "OpenID Connect Profiles "
-msgstr ""
+#, fuzzy
+#| msgid "Profile"
+msgid "OpenID Connect Profiles"
+msgstr "Profils"
 
 #. Template: AdminOIDCProfiles
 msgid "OpenID Connect Provider Profiles Management"
@@ -5662,7 +5664,7 @@ msgstr "Profils"
 #. Template: AdminOIDCProfiles
 #, fuzzy
 #| msgid "Profile"
-msgid "Edit Profile "
+msgid "Edit Profile"
 msgstr "Profils"
 
 #. Template: AdminOIDCProfiles
@@ -5670,11 +5672,11 @@ msgid "About OIDC Provider Profiles"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "This page displays an overview of configured OIDC Provider Profiles."
+msgid "This page displays an overview of configured OIDC provider profiles."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "You can connect OIDC Profiles with a OIDC Functional Account"
+msgid "You can connect OIDC profiles with a OIDC functional account"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -5689,12 +5691,12 @@ msgstr "Dzēst lauku"
 
 #. Template: AdminOIDCProfiles
 msgid ""
-"OpenID Connect Provider Profiles for outgoing Webservice calls "
+"OpenID Connect Provider Profiles for Outgoing Web Service Calls "
 "(GenericInterface Invoker)"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "There are no OIDC Provider profiles defined."
+msgid "There are no OIDC provider profiles defined."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -5715,24 +5717,24 @@ msgstr ""
 
 #. Template: AdminOIDCProfiles
 msgid ""
-"Since you are using OIDC as Authentication module, these values have been "
-"pre-populated with the OIDC Provider Configuration used for Login."
+"Since you are using OIDC as authentication module, these values have been "
+"pre-populated with the OIDC provider configuration used for login."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "The unique name for this Profile."
+msgid "The unique name for this profile."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "Metadata Url."
+msgid "Metadata URL."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "The Well-Known Provider Metadata Url."
+msgid "The well-known provider metadata URL."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "The Client ID of your OAuth2 application."
+msgid "The client ID of your OAuth2 application."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -5742,7 +5744,7 @@ msgid "Client Secret"
 msgstr "Slepenais kods"
 
 #. Template: AdminOIDCProfiles
-msgid "The Client Secret of your OAuth2 application."
+msgid "The client secret of your OAuth2 application."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -5792,16 +5794,20 @@ msgid "SSL CA File"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "SSL Certificate Authority file path."
-msgstr ""
+#, fuzzy
+#| msgid "S/MIME Certificate"
+msgid "SSL certificate authority file path."
+msgstr "S/MIME sertifikāts"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL CA Directory"
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "SSL Certificate Authority directory path."
-msgstr ""
+#, fuzzy
+#| msgid "S/MIME Certificate"
+msgid "SSL certificate authority directory path."
+msgstr "S/MIME sertifikāts"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL Verify Hostname"
@@ -6890,7 +6896,8 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid ""
-"Please note that changing this transition will affect the following processes"
+"Please note that changing this transition will affect the following "
+"processes:"
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -6922,8 +6929,8 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid ""
-"Value must exactly match the string. In an array (for example: Multi-Value "
-"DynamicField or DynamicField of type \"Set\"), at least one value must "
+"Value must exactly match the string. In an array (for example: multi-value "
+"dynamic field or dynamic field of type \"Set\"), at least one value must "
 "exactly match the string specified in \"Value\"."
 msgstr ""
 
@@ -6933,7 +6940,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid ""
-"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"In an array (for example: multi-value dynamic field or dynamic field of type "
 "\"Set\"), all values must exactly match the string specified in \"Value\"."
 msgstr ""
 
@@ -6943,9 +6950,9 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid ""
-"Value must not match the string. In an array (for example: Multi-Value "
-"DynamicField or DynamicField of type \"Set\"), no value may match the string "
-"specified in \"Value\"."
+"Value must not match the string. In an array (for example: multi-value "
+"dynamic field or dynamic field of type \"Set\"), no value may match the "
+"string specified in \"Value\"."
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -6955,7 +6962,7 @@ msgstr ""
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Value must contain a matching regular expression. In an array (for example: "
-"Multi-Value DynamicField or DynamicField of type \"Set\"), at least one "
+"multi-value dynamic field or dynamic field of type \"Set\"), at least one "
 "value must match the regular expression specified in \"Value\"."
 msgstr ""
 
@@ -6965,7 +6972,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid ""
-"In an array (for example: Multi-Value DynamicField or DynamicField of type "
+"In an array (for example: multi-value dynamic field or dynamic field of type "
 "\"Set\"), all values must match the regular expression specified in "
 "\"Value\"."
 msgstr ""
@@ -6977,8 +6984,8 @@ msgstr ""
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Value must contain a non-matching regular expression. In an array (for "
-"example: Multi-Value DynamicField or DynamicField of type \"Set\"), no value "
-"may match the regular expression specified in \"Value\"."
+"example: multi-value dynamic field or dynamic field of type \"Set\"), no "
+"value may match the regular expression specified in \"Value\"."
 msgstr ""
 
 #. Template: AdminProcessManagementTransition
@@ -7013,8 +7020,8 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid ""
-"If a Dynamic Field should be used, configure "
-"Name=\"DynamicField_<FieldName>\". To access a field inside a Dynamic Field "
+"If a dynamic field should be used, configure "
+"Name=\"DynamicField_<FieldName>\". To access a field inside a dynamic field "
 "of type \"Set\", the following syntax can be used: "
 msgstr ""
 
@@ -7302,7 +7309,7 @@ msgid "Templates"
 msgstr ""
 
 #. Template: AdminQueueTemplatesImportExport
-msgid "Queue Template Relations"
+msgid "Queue-Template Relations"
 msgstr ""
 
 #. Template: AdminQueueTemplatesImportExport
@@ -10448,15 +10455,15 @@ msgid "Ticket Settings"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
-msgid "Queue invalid."
-msgstr ""
-
-#. Template: AgentTicketActionCommon
 msgid "Service invalid."
 msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "SLA invalid."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Queue invalid."
 msgstr ""
 
 #. Template: AgentTicketActionCommon
@@ -14470,8 +14477,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
 msgid ""
-"Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD "
-"Configuration!"
+"Unable to generate OIDC provider authentication URL for login. Invalid OIDC "
+"configuration!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOAuthTokenStore.pm
@@ -14793,20 +14800,22 @@ msgid "Process: %s is not Inactive"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgid "Non-global activity dialogs may not be assigned to global activities."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "There was an error generating a new EntityID for this Activity"
+msgid "There was an error generating a new entity ID for this activity."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "There was an error creating the Activity"
-msgstr ""
+#, fuzzy
+#| msgid "There was a problem during the upgrade to %s."
+msgid "There was an error creating the activity."
+msgstr "Radās problēma  jaunināšanas laikā uz %s."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
-"There was an error setting the entity sync status for Activity entity: %s"
+"There was an error setting the entity sync status for activity entity: %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
@@ -14814,21 +14823,23 @@ msgid "Need ActivityID and ProcessEntityID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Could not get data for ActivityID %s"
+msgid "Could not get data for activity ID %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "This Activity is not available to the current Process!"
+msgid "This activity is not available to the current process."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
-"Activities currently shared by other Processes may not be set to non-global!"
+"Activities currently shared by other processes may not be set to non-global."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "There was an error updating the Activity"
-msgstr ""
+#, fuzzy
+#| msgid "There was a problem during the upgrade to %s."
+msgid "There was an error updating the activity."
+msgstr "Radās problēma  jaunināšanas laikā uz %s."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
@@ -14844,12 +14855,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
-"ActivityDialog already assigned to Activity. You cannot add an "
-"ActivityDialog twice!"
+"Activity dialog already assigned to activity. You cannot add an activity "
+"dialog twice."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-msgid "Error while saving the Activity to the database!"
+msgid "Error while saving the activity to the database."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
@@ -15388,7 +15399,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid ""
-"Errors ocurred when trying to deploy translation. Please check system logs!"
+"Errors occurred when trying to deploy translation. Please check system logs!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
@@ -20318,6 +20329,10 @@ msgid "Hide EntityIDs"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
+msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Edit Field Details"
 msgstr ""
 
@@ -22493,15 +22508,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
-"Button Group that will be visibly seperated in the Editor.(Only used if "
+"Controls shown in the enhanced mode CKEditor toolbar. Each array defines a "
+"button group that will be visibly separated in the editor. (Only used if "
 "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a "
-"Button Group that will be visibly seperated in the Editor.(Only used if "
+"Controls shown in the enhanced mode CKEditor toolbar. Each array defines a "
+"button group that will be visibly separated in the editor. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
 
@@ -28134,6 +28149,12 @@ msgid "OIDC Profile Management"
 msgstr "Lomu pārvaldība"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Profile"
+msgid "OIDC Profiles"
+msgstr "Profils"
+
+#. SysConfig
 msgid "OTOBO News"
 msgstr "OTOBO jaunumi"
 
@@ -32164,9 +32185,6 @@ msgstr ""
 
 #~ msgid "Your system was successfully upgraded to %s."
 #~ msgstr "Jūsu sistēma tika veiksmīgi atjaunināta uz %s."
-
-#~ msgid "There was a problem during the upgrade to %s."
-#~ msgstr "Radās problēma  jaunināšanas laikā uz %s."
 
 #~ msgid "%s was correctly reinstalled."
 #~ msgstr "%s tika pareizi pārinstalēta."
