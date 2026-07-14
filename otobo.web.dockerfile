@@ -7,7 +7,7 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# The Debian version is explicitly set to trixie, that is Debian 12.
+# The Debian version is explicitly set to Trixie, that is Debian 13.
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
