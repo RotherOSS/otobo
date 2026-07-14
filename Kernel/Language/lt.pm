@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.193820626519811;
+    $Self->{Completeness}        = 0.193765193765194;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -994,10 +994,10 @@ sub Data {
         'Age' => 'Amžius',
 
         # Template: AdminGenericAgentImportExport
-        'GenericAgents' => '',
+        'Generic Agents' => '',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             '',
-        'GenericAgents List' => '',
+        'Generic Agents List' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => '',
@@ -1276,7 +1276,7 @@ sub Data {
         'Enable Extended XSLT Mapping' => '',
         'Extended XSLT Mapping' => '',
         'Enable' => '',
-        'Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an \'otoboXslType\' XML attribue. Possible Values for that attribute are \'int\', \'bool\', \'float\', and \'array\'.' =>
+        'Extended XSLT mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by specifying an \'otoboXslType\' XML attribute. Possible values for that attribute are \'int\', \'bool\', \'float\', and \'array\'.' =>
             '',
 
         # Template: AdminGenericInterfaceOperationDefault
@@ -1383,8 +1383,8 @@ sub Data {
             '',
         'Default command' => '',
         'The default HTTP command to use for the requests.' => '',
-        'Use multipart-formdata:' => '',
-        'Select Requesters to send Attachments as binary data with content-type \'multipart-formdata\' instead of the default Base64-encoded inline JSON.' =>
+        'Use multipart/form-data:' => '',
+        'Select requesters to send attachments as binary data with content type \'multipart/form-data\' instead of the default Base64 encoded inline JSON.' =>
             '',
         'Additional request headers (all invokers)' => '',
         'Additional request headers (invoker specific)' => '',
@@ -1672,20 +1672,20 @@ sub Data {
         'OAuth2 Token Management (OIDC)' => '',
         'OpenID Connect Functional OAuth2 Account Management' => '',
         'Add Account' => '',
-        'Edit Account ' => '',
+        'Edit Account' => '',
         'About OIDC Functional Accounts' => '',
-        'This page displays an overview of configured functional OAuth Accounts and their corresponding Token Status.' =>
+        'This page displays an overview of configured functional OAuth accounts and their corresponding token status.' =>
             '',
-        'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
+        'You can test your configuration with a click on the \'Renew\' button, which will try to fetch or refresh a new token.' =>
             '',
-        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
+        'OIDC profiles to link your OIDC functional account to can be created here:' =>
             '',
-        'OAuth2 OIDC Profiles' => '',
+        'OAuth2 OIDC profiles' => '',
         'Delete Account' => '',
         'OIDC Functional Accounts and their active OAuth2 Tokens' => '',
-        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
+        'Since you do not have any OIDC provider profiles configured, you cannot add an OAuth2 functional account. You have to first configure at least one OIDC provider profile here:' =>
             '',
-        'OIDC Profiles' => '',
+        'OIDC profiles' => '',
         'There are no OAuth2 accounts defined.' => '',
         'Account Name' => '',
         'Profile Name' => '',
@@ -1696,14 +1696,14 @@ sub Data {
         'Renew' => '',
         'Add Invoker Account' => '',
         'Edit Invoker Account' => '',
-        'The unique name for this Account.' => '',
+        'The unique name for this account.' => '',
         'OIDC Profile' => '',
-        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
+        'The OpenID Connect profile to link to this functional account. OIDC profiles can be configured here:' =>
             '',
         'Grant Type' => '',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
             '',
-        'Selecting \'authorization_code\' will redirect you to your OpenID Connect Provider\'s Login Page to validate your account once you click \'Save\'.' =>
+        'Selecting \'authorization_code\' will redirect you to your OpenID Connect provider\'s login page to validate your account once you click \'Save\'.' =>
             '',
         'The username if grant type is \'password\'.' => '',
         'The password to use if grant type is \'password\'.' => '',
@@ -1712,42 +1712,42 @@ sub Data {
             '',
         'Advanced Invoker Settings' => '',
         'Resources' => '',
-        'Optional (space seperated list) for the resource paramater if required. Leave empty unless instructed otherwise.' =>
+        'Optional (space separated list) for the resource parameter if required. Leave empty unless instructed otherwise.' =>
             '',
         'Resource Parameter Name' => '',
         'Name of the resource parameter to use. Defaults to \'resource\'. Do not change unless instructed.' =>
             '',
         'Token Type' => '',
-        'The token type to use for externall API calls. Usually \'access_token\'.' =>
+        'The token type to use for external API calls. Usually \'access_token\'.' =>
             '',
 
         # Template: AdminOIDCProfiles
-        'OpenID Connect Profiles ' => '',
+        'OpenID Connect Profiles' => '',
         'OpenID Connect Provider Profiles Management' => '',
         'Add Profile' => '',
-        'Edit Profile ' => '',
+        'Edit Profile' => '',
         'About OIDC Provider Profiles' => '',
-        'This page displays an overview of configured OIDC Provider Profiles.' =>
+        'This page displays an overview of configured OIDC provider profiles.' =>
             '',
-        'You can connect OIDC Profiles with a OIDC Functional Account' =>
+        'You can connect OIDC profiles with a OIDC functional account' =>
             '',
         'here' => '',
         'Delete Profile' => '',
-        'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
+        'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
             '',
-        'There are no OIDC Provider profiles defined.' => '',
+        'There are no OIDC provider profiles defined.' => '',
         'Client ID' => '',
         'Provider' => '',
         'Add OIDC Provider Profile' => '',
         'Edit OIDC Provider Profile' => '',
-        'Since you are using OIDC as Authentication module, these values have been pre-populated with the OIDC Provider Configuration used for Login.' =>
+        'Since you are using OIDC as authentication module, these values have been pre-populated with the OIDC provider configuration used for login.' =>
             '',
-        'The unique name for this Profile.' => '',
-        'Metadata Url.' => '',
-        'The Well-Known Provider Metadata Url.' => '',
-        'The Client ID of your OAuth2 application.' => '',
+        'The unique name for this profile.' => '',
+        'Metadata URL.' => '',
+        'The well-known provider metadata URL.' => '',
+        'The client ID of your OAuth2 application.' => '',
         'Client Secret' => '',
-        'The Client Secret of your OAuth2 application.' => '',
+        'The client secret of your OAuth2 application.' => '',
         'Time in seconds for caching provider data.' => '',
         'SSL Options (Optional)' => '',
         'SSL Certificate' => '',
@@ -1757,9 +1757,9 @@ sub Data {
         'SSL Password' => '',
         'The SSL password.' => '',
         'SSL CA File' => '',
-        'SSL Certificate Authority file path.' => '',
+        'SSL certificate authority file path.' => '',
         'SSL CA Directory' => '',
-        'SSL Certificate Authority directory path.' => '',
+        'SSL certificate authority directory path.' => '',
         'SSL Verify Hostname' => '',
         'Enable or disable SSL hostname verification. Only disable for debugging purposes!' =>
             '',
@@ -2087,7 +2087,7 @@ sub Data {
         'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
-        'Please note that changing this transition will affect the following processes' =>
+        'Please note that changing this transition will affect the following processes:' =>
             '',
         'Transition' => '',
         'Transition Name' => '',
@@ -2097,22 +2097,22 @@ sub Data {
         'There are several possibilities to validate whether this transition is valid.' =>
             '',
         'Exact match' => '',
-        'Value must exactly match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must exactly match the string specified in "Value".' =>
+        'Value must exactly match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must exactly match the string specified in "Value".' =>
             '',
         'Exact match - all' => '',
-        'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must exactly match the string specified in "Value".' =>
+        'In an array (for example: multi-value dynamic field or dynamic field of type "Set"), all values must exactly match the string specified in "Value".' =>
             '',
         'Exact match - negated' => '',
-        'Value must not match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the string specified in "Value".' =>
+        'Value must not match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), no value may match the string specified in "Value".' =>
             '',
         'Regular Expression' => '',
-        'Value must contain a matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must match the regular expression specified in "Value".' =>
+        'Value must contain a matching regular expression. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must match the regular expression specified in "Value".' =>
             '',
         'Regular Expression - all' => '',
-        'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must match the regular expression specified in "Value".' =>
+        'In an array (for example: multi-value dynamic field or dynamic field of type "Set"), all values must match the regular expression specified in "Value".' =>
             '',
         'Regular Expression - negated' => '',
-        'Value must contain a non-matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the regular expression specified in "Value".' =>
+        'Value must contain a non-matching regular expression. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), no value may match the regular expression specified in "Value".' =>
             '',
         'Transition validation module' => '',
         '"Name" is currently irrelevant, "Value" must contain the path to the module, usually Kernel::System::Process::Transition::<TA_Name>.' =>
@@ -2122,7 +2122,7 @@ sub Data {
         'Examples' => '',
         'The process ticket should move to the next process step as soon as a status containing "closed" in its name is set. Therefore, configure Name="State", Type="Regular Expression" and Value="closed" (or the long form "^.*closed.*$").' =>
             '',
-        'If a Dynamic Field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a Dynamic Field of type "Set", the following syntax can be used: ' =>
+        'If a dynamic field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a dynamic field of type "Set", the following syntax can be used: ' =>
             '',
 
         # Template: AdminProcessManagementTransitionAction
@@ -2211,7 +2211,7 @@ sub Data {
         'Templates' => '',
 
         # Template: AdminQueueTemplatesImportExport
-        'Queue Template Relations' => '',
+        'Queue-Template Relations' => '',
         'Here you can export a configuration file of queue-template relations to import these on another system. The configuration file is exported in yml format.' =>
             '',
 
@@ -3246,9 +3246,9 @@ sub Data {
         'Undo & close' => '',
         'All fields marked with an asterisk (*) are mandatory.' => '',
         'Ticket Settings' => 'Užduočių nustatymai',
-        'Queue invalid.' => 'Eilė negalima.',
         'Service invalid.' => 'Paslauga negalima.',
         'SLA invalid.' => 'SLA taisyklė negalima.',
+        'Queue invalid.' => 'Eilė negalima.',
         'New Owner' => 'Naujas savininkas',
         'Please set a new owner!' => 'Prašome nustatyti naują savininką!',
         'Owner invalid.' => '',
@@ -4658,7 +4658,7 @@ sub Data {
         'Password is required!' => '',
         'Account Name is taken!' => '',
         'Error creating/updating %s!' => '',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
+        'Unable to generate OIDC provider authentication URL for login. Invalid OIDC configuration!' =>
             '',
         'Account %s deleted!' => '',
         'Token %s updated!' => '',
@@ -4759,25 +4759,25 @@ sub Data {
         'Process: %s is not Inactive' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-        'Non-global ActivityDialogs may not be assigned to global Activities!' =>
+        'Non-global activity dialogs may not be assigned to global activities.' =>
             '',
-        'There was an error generating a new EntityID for this Activity' =>
+        'There was an error generating a new entity ID for this activity.' =>
             '',
-        'There was an error creating the Activity' => '',
-        'There was an error setting the entity sync status for Activity entity: %s' =>
+        'There was an error creating the activity.' => '',
+        'There was an error setting the entity sync status for activity entity: %s' =>
             '',
         'Need ActivityID and ProcessEntityID!' => '',
-        'Could not get data for ActivityID %s' => '',
-        'This Activity is not available to the current Process!' => '',
-        'Activities currently shared by other Processes may not be set to non-global!' =>
+        'Could not get data for activity ID %s' => '',
+        'This activity is not available to the current process.' => '',
+        'Activities currently shared by other processes may not be set to non-global.' =>
             '',
-        'There was an error updating the Activity' => '',
+        'There was an error updating the activity.' => '',
         'Missing Parameter: Need Activity and ActivityDialog!' => '',
         'Activity not found!' => '',
         'ActivityDialog not found!' => '',
-        'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
+        'Activity dialog already assigned to activity. You cannot add an activity dialog twice.' =>
             '',
-        'Error while saving the Activity to the database!' => '',
+        'Error while saving the activity to the database.' => '',
         'This subaction is not valid' => '',
         'Edit Activity "%s"' => '',
 
@@ -4979,7 +4979,7 @@ sub Data {
         'Translation already exists!' => '',
         'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
-        'Errors ocurred when trying to deploy translation. Please check system logs!' =>
+        'Errors occurred when trying to deploy translation. Please check system logs!' =>
             '',
         'All Items' => '',
         'Deployment Results' => '',
@@ -6881,6 +6881,8 @@ sub Data {
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
         'Hide EntityIDs' => '',
+        'Non-global ActivityDialogs may not be assigned to global Activities!' =>
+            '',
         'Edit Field Details' => '',
         'Customer interface does not support articles not visible for customers.' =>
             '',
@@ -7617,9 +7619,9 @@ Thanks for your help!
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
-        'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
+        'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
             '',
-        'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
+        'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             '',
         'Converts HTML mails into text messages.' => '',
         'Create New process ticket.' => '',
@@ -9317,6 +9319,7 @@ Thanks for your help!
         'OAuth Functional Accounts' => '',
         'OAuth Tokens' => '',
         'OIDC Profile Management' => '',
+        'OIDC Profiles' => '',
         'OTOBO News' => 'OTOBO Naujienos',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>

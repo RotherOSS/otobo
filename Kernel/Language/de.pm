@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998426548419396;
+    $Self->{Completeness}        = 0.990847990847991;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -994,10 +994,10 @@ sub Data {
         'Age' => 'Alter',
 
         # Template: AdminGenericAgentImportExport
-        'GenericAgents' => 'Generic Agents',
+        'Generic Agents' => '',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             'Hier können Sie eine Konfigurationsdatei von Generic Agents exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
-        'GenericAgents List' => 'Liste von Generic Agents',
+        'Generic Agents List' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'GenericInterface - Webservice-Verwaltung',
@@ -1276,8 +1276,8 @@ sub Data {
         'Enable Extended XSLT Mapping' => 'Erweitertes XSLT-Mapping aktivieren',
         'Extended XSLT Mapping' => 'Erweitertes XSLT-Mapping',
         'Enable' => 'Aktivieren',
-        'Extended XSLT Mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by spcifying an \'otoboXslType\' XML attribue. Possible Values for that attribute are \'int\', \'bool\', \'float\', and \'array\'.' =>
-            'Das erweiterte XSLT-Mapping erlaubt eine feingranularere Konfiguration des XSLT-Mappings. Sobald es aktiviert ist, kann der resultierende JSON-Typ durch das Spezifizieren eines XML-Attributs \'otoboXslType\' erzwungen werden. Erlaubte Werte für dieses Attribut sind \'int\', \'bool\', \'float\', und \'array\'.',
+        'Extended XSLT mapping allows for more fine-grained configuration of XSLT mapping. When enabled, the resulting JSON type can be forced by specifying an \'otoboXslType\' XML attribute. Possible values for that attribute are \'int\', \'bool\', \'float\', and \'array\'.' =>
+            '',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add Operation' => 'Operation hinzufügen',
@@ -1383,9 +1383,9 @@ sub Data {
             'Ein spezifisches HTTP-Kommando, das für Anfragen mit diesem Invoker zu verwenden ist (optional).',
         'Default command' => 'Standardbefehl',
         'The default HTTP command to use for the requests.' => 'Der Standard-HTTP-Befehl für die Anfragen.',
-        'Use multipart-formdata:' => 'multipart-formdata verwenden:',
-        'Select Requesters to send Attachments as binary data with content-type \'multipart-formdata\' instead of the default Base64-encoded inline JSON.' =>
-            'Requester auswählen um Anhänge als Binärdaten mit dem Inhaltstyp \'multipart-formdata\' anstelle des standardmäßig Base64-kodierten Inline JSON zu versenden.',
+        'Use multipart/form-data:' => '',
+        'Select requesters to send attachments as binary data with content type \'multipart/form-data\' instead of the default Base64 encoded inline JSON.' =>
+            '',
         'Additional request headers (all invokers)' => 'Zusätzliche Request Header (alle Invoker)',
         'Additional request headers (invoker specific)' => 'Zusätzliche Request Header (ausgewählte Invoker)',
         'Remove all headers for this invoker' => 'Alle Header für diesen Invoker entfernen',
@@ -1672,20 +1672,20 @@ sub Data {
         'OAuth2 Token Management (OIDC)' => 'Verwaltung von OAuth2 Token (OIDC)',
         'OpenID Connect Functional OAuth2 Account Management' => 'OpenID Connect Verwaltung funktioneller OAuth2-Konten',
         'Add Account' => 'Konto hinzufügen',
-        'Edit Account ' => 'Konto bearbeiten ',
+        'Edit Account' => '',
         'About OIDC Functional Accounts' => 'Über OIDC Funktionskonten',
-        'This page displays an overview of configured functional OAuth Accounts and their corresponding Token Status.' =>
-            'Diese Seite zeigt eine Übersicht über die konfigurierten funktionalen OAuth-Konten und deren entsprechenden Token-Status an.',
-        'You can test your Configuration with a click on the \'Renew\' Button, which will try to fetch or refresh a new Token.' =>
-            'Die Konfiguration kann getestet werden mit einem Klick auf den \'Erneuern\'-Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren.',
-        'OIDC Profiles to link your OIDC Functional Account to can be created here:' =>
-            'OIDC-Profile für die Verbindung zu einem OIDC Funktionskonto können hier erstellt werden:',
-        'OAuth2 OIDC Profiles' => 'OAuth2 OIDC Profile',
+        'This page displays an overview of configured functional OAuth accounts and their corresponding token status.' =>
+            '',
+        'You can test your configuration with a click on the \'Renew\' button, which will try to fetch or refresh a new token.' =>
+            '',
+        'OIDC profiles to link your OIDC functional account to can be created here:' =>
+            '',
+        'OAuth2 OIDC profiles' => '',
         'Delete Account' => 'Konto löschen',
         'OIDC Functional Accounts and their active OAuth2 Tokens' => 'OIDC Funktionskonten und ihre aktiven OAuth2 Token',
-        'Since you do not have any OIDC Provider profiles configured, you cannot add an OAuth2 Functional Account. You have to first configure at least one OIDC Provider profile here:' =>
-            'Da keine weiteren OIDC-Anbieter konfiguriert sind, kann kein OAuth2 Funktionskonto hinzugefügt werden. Zunächst muss mindestens ein OIDC Anbieterprofil hier konfiguriert werden:',
-        'OIDC Profiles' => 'OIDC Profile',
+        'Since you do not have any OIDC provider profiles configured, you cannot add an OAuth2 functional account. You have to first configure at least one OIDC provider profile here:' =>
+            '',
+        'OIDC profiles' => '',
         'There are no OAuth2 accounts defined.' => 'Es sind keine OAuth2-Konten definiert.',
         'Account Name' => 'Kontoname',
         'Profile Name' => 'Profilname',
@@ -1696,15 +1696,15 @@ sub Data {
         'Renew' => 'Erneuern',
         'Add Invoker Account' => 'Invoker-Konto hinzufügen',
         'Edit Invoker Account' => 'Invoker-Konto bearbeiten',
-        'The unique name for this Account.' => 'Der einzigartige Name für dieses Konto.',
+        'The unique name for this account.' => '',
         'OIDC Profile' => 'OIDC Profil',
-        'The OpenID Connect Profile to link to this functional account. OIDC Profiles can be configured here:' =>
-            'Das OpenID Connect Profil das mit diesem Funktionskonto verknüpft werden soll. OICD Profile können hier konfiguriert werden:',
+        'The OpenID Connect profile to link to this functional account. OIDC profiles can be configured here:' =>
+            '',
         'Grant Type' => 'Berechtigungsgewährung (Grant Type)',
         'The OAuth2 grant_type to use for acquiring tokens for this account.' =>
             'Der OAuth2 grant_type, der für die Token-Beschaffung für dieses Kontos verwendet wird.',
-        'Selecting \'authorization_code\' will redirect you to your OpenID Connect Provider\'s Login Page to validate your account once you click \'Save\'.' =>
-            'Die Auswahl von \'authorization_code\' leitet mit dem Klicken auf \'Speichern\' direkt zur Login-Seite des OpenID Connect Anbieters weiter, um das Konto zu validieren.',
+        'Selecting \'authorization_code\' will redirect you to your OpenID Connect provider\'s login page to validate your account once you click \'Save\'.' =>
+            '',
         'The username if grant type is \'password\'.' => 'Der Benutzername, falls als grant_type \'Passwort\' ausgewählt ist.',
         'The password to use if grant type is \'password\'.' => 'Das zu verwendende Passwort, falls als grant_type \'Passwort\' ausgewählt ist.',
         'OAuth2 Scopes' => 'OAuth2 Berechtigungsumfänge (Scopes)',
@@ -1712,42 +1712,42 @@ sub Data {
             'Leerzeichen-getrennte Liste der zu verwendenden Berechtigungsumfänge (Scopes). Übliche Werte behinhalten openid, email, profile und roles.',
         'Advanced Invoker Settings' => 'Erweiterte Invoker-Einstellungen',
         'Resources' => 'Ressourcen',
-        'Optional (space seperated list) for the resource paramater if required. Leave empty unless instructed otherwise.' =>
-            'Optionale (Leerzeichen-separierte Liste) für die Ressourcen-Parameter, falls benötigt. Leer lassen, außer es gibt eine anderweitige Anweisung.',
+        'Optional (space separated list) for the resource parameter if required. Leave empty unless instructed otherwise.' =>
+            '',
         'Resource Parameter Name' => 'Name des Ressourcen-Parameters',
         'Name of the resource parameter to use. Defaults to \'resource\'. Do not change unless instructed.' =>
             'Name des Ressourcen-Parameters, der verwendet werden soll. Standard ist \'ressource\'. Nicht ändern, außer man wird dazu angewiesen.',
         'Token Type' => 'Token-Type',
-        'The token type to use for externall API calls. Usually \'access_token\'.' =>
-            'Der Token-Typ, der für externe API-Aufrufe verwendet wird. Üblicherweise \'access_token\'.',
+        'The token type to use for external API calls. Usually \'access_token\'.' =>
+            '',
 
         # Template: AdminOIDCProfiles
-        'OpenID Connect Profiles ' => 'OpenID Connect Profile ',
+        'OpenID Connect Profiles' => '',
         'OpenID Connect Provider Profiles Management' => 'OpenID Connect Anbieter-Profilverwaltung',
         'Add Profile' => 'Profil hinzufügen',
-        'Edit Profile ' => 'Profil bearbeiten ',
+        'Edit Profile' => '',
         'About OIDC Provider Profiles' => 'Über OIDC Anbieter-Profile',
-        'This page displays an overview of configured OIDC Provider Profiles.' =>
-            'Diese Seite zeigt eine Übersicht über die konfigurierten OIDC Anbieter-Profile.',
-        'You can connect OIDC Profiles with a OIDC Functional Account' =>
-            'OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden',
+        'This page displays an overview of configured OIDC provider profiles.' =>
+            '',
+        'You can connect OIDC profiles with a OIDC functional account' =>
+            '',
         'here' => 'hier',
         'Delete Profile' => 'Profil löschen',
-        'OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)' =>
-            'OpenID Connect Anbieterprofile für ausgehende Webservice-Aufrufe (GenericInterface Invoker)',
-        'There are no OIDC Provider profiles defined.' => 'Es sind keine OIDC Anbieterprofile definiert.',
+        'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
+            '',
+        'There are no OIDC provider profiles defined.' => '',
         'Client ID' => 'Client-ID',
         'Provider' => 'Provider',
         'Add OIDC Provider Profile' => 'OIDC Anbieterprofil hinzufügen',
         'Edit OIDC Provider Profile' => 'OIDC Anbieterprofil bearbeiten',
-        'Since you are using OIDC as Authentication module, these values have been pre-populated with the OIDC Provider Configuration used for Login.' =>
-            'Da OIDC bereits als Authentifizierungs-Modul verwendet wird, wurden diese Werte mit der OIDC Anbieterkonfiguration vorausgefüllt, die für den Login verwendet werden.',
-        'The unique name for this Profile.' => 'Bitte geben Sie einen eindeutigen Namen für dieses Profil an.',
-        'Metadata Url.' => 'Metadaten-URL.',
-        'The Well-Known Provider Metadata Url.' => 'Standardpfad der OpenIDConnect Konfiguration (Well-Known Provider Metadata URL).',
-        'The Client ID of your OAuth2 application.' => 'Die Client ID der OAuth2-Anwendung.',
+        'Since you are using OIDC as authentication module, these values have been pre-populated with the OIDC provider configuration used for login.' =>
+            '',
+        'The unique name for this profile.' => '',
+        'Metadata URL.' => '',
+        'The well-known provider metadata URL.' => '',
+        'The client ID of your OAuth2 application.' => '',
         'Client Secret' => 'Client-Geheimnis (Secret)',
-        'The Client Secret of your OAuth2 application.' => 'Das Client Secret der OAuth2-Anwendung.',
+        'The client secret of your OAuth2 application.' => '',
         'Time in seconds for caching provider data.' => 'Zeit in Sekunden für das Caching von Anbieter-Daten.',
         'SSL Options (Optional)' => 'SSL Optionen (Optional)',
         'SSL Certificate' => 'SSL-Zertifikat',
@@ -1757,9 +1757,9 @@ sub Data {
         'SSL Password' => 'SSL-Passwort',
         'The SSL password.' => 'Das SSL-Passwort.',
         'SSL CA File' => 'SSL CA-Datei',
-        'SSL Certificate Authority file path.' => 'SSL Certification Authority (CA) Dateipfad.',
+        'SSL certificate authority file path.' => '',
         'SSL CA Directory' => 'SSL CA Verzeichnis',
-        'SSL Certificate Authority directory path.' => 'SSL Certificate Autority (CA) Verzeichnispfad.',
+        'SSL certificate authority directory path.' => '',
         'SSL Verify Hostname' => 'SSL Hostname verifizieren',
         'Enable or disable SSL hostname verification. Only disable for debugging purposes!' =>
             'SSL Hostnamen-Verifizierung aktivieren oder deaktivieren. Nur für Zwecke der Fehlersuche deaktivieren!',
@@ -2087,8 +2087,8 @@ sub Data {
         'Transition actions are not being used in this process.' => 'In diesem Prozess werden keine Übergangs-Aktionen verwendet.',
 
         # Template: AdminProcessManagementTransition
-        'Please note that changing this transition will affect the following processes' =>
-            'Achtung: Änderungen an diesem Übergang wirken sich auf folgende Prozesse aus',
+        'Please note that changing this transition will affect the following processes:' =>
+            '',
         'Transition' => 'Übergang',
         'Transition Name' => 'Name des Übergangs',
         'Transition Reference for "Fields" Settings' => 'Übergangs-Referenz für "Felder"-Einstellungen',
@@ -2097,23 +2097,23 @@ sub Data {
         'There are several possibilities to validate whether this transition is valid.' =>
             'Es gibt mehrere Möglichkeiten um zu überprüfen, ob dieser Übergang gültig ist.',
         'Exact match' => 'Genauer Treffer',
-        'Value must exactly match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must exactly match the string specified in "Value".' =>
-            'Der Wert muss exakt mit der Zeichenfolge übereinstimmen. In einem Array (bspw. Dynamische Felder mit Mehrfachwerten oder Dynamische Felder vom Typ "Set") muss mindestens ein Wert exakt mit der Zeichenfolge übereinstimmen, die in "Wert" definiert ist.',
+        'Value must exactly match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must exactly match the string specified in "Value".' =>
+            '',
         'Exact match - all' => 'Genauer Treffer - alle',
-        'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must exactly match the string specified in "Value".' =>
-            'In einem Array (bspw. ein Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld vom Typ "Set"), müssen alle Werte exakt mit der Zeichenkette übereinstimmen, die in "Wert" angegeben ist.',
+        'In an array (for example: multi-value dynamic field or dynamic field of type "Set"), all values must exactly match the string specified in "Value".' =>
+            '',
         'Exact match - negated' => 'Genauer Treffer - negiert',
-        'Value must not match the string. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the string specified in "Value".' =>
-            'Wert darf nicht mit der Zeichenkette übereinstimmen. In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dyanmisches Feld vom Typ "Set") darf kein Wert mit der in "Wert" definierten Zeichenkette übereinstimmen.',
+        'Value must not match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), no value may match the string specified in "Value".' =>
+            '',
         'Regular Expression' => 'Regulärer Ausdruck',
-        'Value must contain a matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), at least one value must match the regular expression specified in "Value".' =>
-            'Wert muss mit einem regulären Ausdruck (RegEx) übereinstimmen. In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld vom Typ "Set" muss mindestens ein Wert mit dem regulären Ausdruck übereinstimmen, der in "Wert" definiert ist.',
+        'Value must contain a matching regular expression. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must match the regular expression specified in "Value".' =>
+            '',
         'Regular Expression - all' => 'Regulärer Ausdruck - alle',
-        'In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), all values must match the regular expression specified in "Value".' =>
-            'In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder ein Dynamisches Feld vom Typ "Set") müssen alle Werte mit dem regulären Ausdruck Übereinstimmen, der in "Wert" definiert ist.',
+        'In an array (for example: multi-value dynamic field or dynamic field of type "Set"), all values must match the regular expression specified in "Value".' =>
+            '',
         'Regular Expression - negated' => 'Regulärer Ausdruck - negiert',
-        'Value must contain a non-matching regular expression. In an array (for example: Multi-Value DynamicField or DynamicField of type "Set"), no value may match the regular expression specified in "Value".' =>
-            'Wert muss einen nicht übereinstimmenden regulären Ausdruck beinhalten. In einem Array (bspw. Dynamisches Feld mit Mehrfachwerten oder Dynamisches Feld vom Typ "Set") darf kein Wert mit dem in "Wert" definierten regulären Ausdruck übereinstimmen.',
+        'Value must contain a non-matching regular expression. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), no value may match the regular expression specified in "Value".' =>
+            '',
         'Transition validation module' => 'Transition-Validierungs-Modul',
         '"Name" is currently irrelevant, "Value" must contain the path to the module, usually Kernel::System::Process::Transition::<TA_Name>.' =>
             '"Name" ist momentan irrelevant. "Wert" muss den Pfad zum Modul beinhalten, üblicherweise Kernel::System::Process::Transition::<TA_Name>.',
@@ -2122,8 +2122,8 @@ sub Data {
         'Examples' => 'Beispiele',
         'The process ticket should move to the next process step as soon as a status containing "closed" in its name is set. Therefore, configure Name="State", Type="Regular Expression" and Value="closed" (or the long form "^.*closed.*$").' =>
             'Das Prozessticket soll in den nächsten Prozessschritt übergehen, sobald ein Status mit "closed" (geschlossen) in seinem Namen gesetzt wird. Konfigurieren Sie daher Name="State", Type="Regular Expression" und Value="closed" (oder in der langen Variante "^.*closed.*$").',
-        'If a Dynamic Field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a Dynamic Field of type "Set", the following syntax can be used: ' =>
-            'Sofern ein Dynamisches Feld verwendet werden soll, konfigurieren Sie Name="DynamicField_<FieldName>". Um ein Feld innerhalb eines Dynamischen Felds vom Typ "Set" anzusprechen, kann die folgende Syntax verwendet werden: ',
+        'If a dynamic field should be used, configure Name="DynamicField_<FieldName>". To access a field inside a dynamic field of type "Set", the following syntax can be used: ' =>
+            '',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
@@ -2211,7 +2211,7 @@ sub Data {
         'Templates' => 'Vorlagen',
 
         # Template: AdminQueueTemplatesImportExport
-        'Queue Template Relations' => 'Zuordnung von Vorlagen zu Queues',
+        'Queue-Template Relations' => '',
         'Here you can export a configuration file of queue-template relations to import these on another system. The configuration file is exported in yml format.' =>
             'Hier können Sie eine Konfigurationsdatei von Vorlagen-Queue Verknüpfungen exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
 
@@ -3246,9 +3246,9 @@ sub Data {
         'Undo & close' => 'Rückgängig machen und Beenden',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
         'Ticket Settings' => 'Ticket-Einstellungen',
-        'Queue invalid.' => 'Queue ungültig.',
         'Service invalid.' => 'Ungültiger Service.',
         'SLA invalid.' => 'SLA ungültig.',
+        'Queue invalid.' => 'Queue ungültig.',
         'New Owner' => 'Neuer Besitzer',
         'Please set a new owner!' => 'Bitte legen Sie einen neuen Besitzer fest!',
         'Owner invalid.' => 'Besitzer ungültig.',
@@ -4658,8 +4658,8 @@ sub Data {
         'Password is required!' => 'Passwort ist erforderlich!',
         'Account Name is taken!' => 'Kontoname ist bereits vergeben!',
         'Error creating/updating %s!' => 'Fehler beim Anlegen/Aktualisieren von %s!',
-        'Unable to generate OIDC Provider Authentication URL for Login. Invalid OICD Configuration!' =>
-            'Die OIDC Anbieterauthentifzierungs-URL zur Anmeldung kann nicht generiert werden! Ungültige OIDC-Konfiguration!',
+        'Unable to generate OIDC provider authentication URL for login. Invalid OIDC configuration!' =>
+            '',
         'Account %s deleted!' => 'Konto %s wurde gelöscht!',
         'Token %s updated!' => 'Token %s aktualisiert!',
         'Invalid OAuth State!' => 'Ungültiger OAuth-Status!',
@@ -4759,25 +4759,25 @@ sub Data {
         'Process: %s is not Inactive' => 'Prozess: %s ist nicht aktiv',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-        'Non-global ActivityDialogs may not be assigned to global Activities!' =>
-            'Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten zugeordnet werden!',
-        'There was an error generating a new EntityID for this Activity' =>
-            'Beim Generieren einer neuen EntityID für diese Aktivität ist ein Fehler aufgetreten',
-        'There was an error creating the Activity' => 'Beim Erstellen der Aktivität ist ein Fehler aufgetreten',
-        'There was an error setting the entity sync status for Activity entity: %s' =>
-            'Beim Setzen des Synchronisations-Status für Aktivität %s ist ein Fehler aufgetreten',
-        'Need ActivityID and ProcessEntityID!' => 'Benötige Aktivitäts-ID (ActivityID) und Prozess-ID (ProcessEntityID)!',
-        'Could not get data for ActivityID %s' => 'Konnte Daten für ActivityID %s nicht ermitteln',
-        'This Activity is not available to the current Process!' => 'Diese Aktivität ist im aktuellen Prozess nicht verfügbar!',
-        'Activities currently shared by other Processes may not be set to non-global!' =>
+        'Non-global activity dialogs may not be assigned to global activities.' =>
             '',
-        'There was an error updating the Activity' => 'Beim Aktualisieren der Aktivität ist ein Fehler aufgetreten',
+        'There was an error generating a new entity ID for this activity.' =>
+            '',
+        'There was an error creating the activity.' => '',
+        'There was an error setting the entity sync status for activity entity: %s' =>
+            '',
+        'Need ActivityID and ProcessEntityID!' => 'Benötige Aktivitäts-ID (ActivityID) und Prozess-ID (ProcessEntityID)!',
+        'Could not get data for activity ID %s' => '',
+        'This activity is not available to the current process.' => '',
+        'Activities currently shared by other processes may not be set to non-global.' =>
+            '',
+        'There was an error updating the activity.' => '',
         'Missing Parameter: Need Activity and ActivityDialog!' => 'Fehlende Parameter: Benötige Aktivität und Aktivitätsdialog!',
         'Activity not found!' => 'Aktivität nicht gefunden!',
         'ActivityDialog not found!' => 'Aktivitätsdialog nicht gefunden!',
-        'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
-            'Aktivitätsdialog wurde der Aktivität bereits zugeordnet. Sie können denselben Aktivitätsdialog nicht mehrfach zuordnen!',
-        'Error while saving the Activity to the database!' => 'Während des Speicherns der Aktivität in der Datenbank ist ein Fehler aufgetreten!',
+        'Activity dialog already assigned to activity. You cannot add an activity dialog twice.' =>
+            '',
+        'Error while saving the activity to the database.' => '',
         'This subaction is not valid' => 'Diese Unteraktion ist ungültig',
         'Edit Activity "%s"' => 'Aktivität "%s" bearbeiten',
 
@@ -4979,8 +4979,8 @@ sub Data {
         'Translation already exists!' => 'Übersetzung bereits vorhanden!',
         'Translations deployed successfully!' => 'Übersetzungen erfolgreich übernommen!',
         'Nothing to do!' => 'Nichts zu tun!',
-        'Errors ocurred when trying to deploy translation. Please check system logs!' =>
-            'Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll!',
+        'Errors occurred when trying to deploy translation. Please check system logs!' =>
+            '',
         'All Items' => 'Alle Elemente',
         'Deployment Results' => 'Inbetriebnahme-Ergebnisse',
 
@@ -6881,6 +6881,8 @@ sub Data {
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             'Diese Übergangsaktion wird bereits in diesem Pfad verwendet. Sie können sie nicht erneut hinzufügen!',
         'Hide EntityIDs' => 'EntityIDs ausblenden',
+        'Non-global ActivityDialogs may not be assigned to global Activities!' =>
+            'Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten zugeordnet werden!',
         'Edit Field Details' => 'Felddetails bearbeiten',
         'Customer interface does not support articles not visible for customers.' =>
             'Das Kunden-Interface unterstützt keine internen Artikeltypen.',
@@ -7628,10 +7630,10 @@ Ihr Helpdesk-Team
             'Legt fest, ob das Autovervollständigen-Feld in der Kundennummerauswahl des AdminCustomerUser-Bereichs genutzt werden soll.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
-        'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
-            'Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. Jedes Array definiert eine Button-Gruppe, die im Editor sichtbar getrennt wird. (Nur sofern die Einstellung `CustomerFrontend::RichText::EnhancedMode` aktiviert ist).',
-        'Controls shown in the Enhanced Mode CKEditor Toolbar. Each Array defines a Button Group that will be visibly seperated in the Editor.(Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
-            'Die im Erweiterten Modus gezeigten Steuerelemente der CKEditor-Toolbar. Jedes Array definiert eine Button-Gruppe, die im Editor sichtbar getrennt wird. (Nur sofern die Einstellung `Frontend::RichText::EnhancedMode` aktiviert ist).',
+        'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `CustomerFrontend::RichText::EnhancedMode` is enabled).' =>
+            '',
+        'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Erstellt Vorlagen für AdminDynamicFieldTitle.',
@@ -9328,6 +9330,7 @@ Ihr Helpdesk-Team
         'OAuth Functional Accounts' => 'OAuth Funktionskonten',
         'OAuth Tokens' => 'OAuth Token',
         'OIDC Profile Management' => 'OIDC Profilverwaltung',
+        'OIDC Profiles' => 'OIDC Profile',
         'OTOBO News' => 'Neues von OTOBO',
         'OTOBO Team Services' => 'Services von Team OTOBO',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
