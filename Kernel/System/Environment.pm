@@ -436,7 +436,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 2.18',
         },
         {
-            'Comment'         => 'needed by Kernel::System::Mail and by MIME::Tools',
+            'Comment'         => 'needed by Kernel::System::Email and by MIME::Tools',
             'Module'          => 'Mail::Internet',
             'Required'        => 1,
             'VersionRequired' => '== 2.18',
