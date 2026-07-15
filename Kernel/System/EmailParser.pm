@@ -29,7 +29,6 @@ use MIME::QuotedPrint ();
 # CPAN modules
 use MIME::Parser       ();
 use MIME::Words        qw(decode_mimewords);
-use Mail::Address      ();
 use Email::Address::XS ();
 
 # OTOBO modules
