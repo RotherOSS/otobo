@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-07-07 11:43+0000\n"
-"PO-Revision-Date: 2026-07-13 14:46+0000\n"
+"PO-Revision-Date: 2026-07-15 15:35+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-0/"
 "otobo/hu/>\n"
@@ -16457,10 +16457,8 @@ msgstr ""
 "jelenlegi állapotában."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-#, fuzzy
-#| msgid "Could not delete draft!"
 msgid "Could not delete form draft."
-msgstr "Nem sikerült a piszkozat törlése!"
+msgstr "Nem sikerült törölni az űrlap piszkozatát."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -29292,7 +29290,7 @@ msgstr ""
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
-"CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
+"CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
