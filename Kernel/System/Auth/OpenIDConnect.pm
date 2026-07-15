@@ -373,7 +373,7 @@ sub PreAuth {
     );
 
     my %Data = (
-        State => $RandomString . ($Param{RequestedURL} // '' ),
+        State => $RandomString . ( $Param{RequestedURL} // '' ),
     );
 
     # store the RandomString as a CSRF cookie

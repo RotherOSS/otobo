@@ -530,13 +530,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
 
                 // resize editor when resizable container changes size for any reason (e.g. window resize, sidebar toggle)
-                // currently this leads to the editor growing endlessly if activated for the customer interface or 
+                // currently this leads to the editor growing endlessly if activated for the customer interface or
                 // RichTextEditors in TableLike forms (e.g. Admin Interface)
                 let InModularForm = $domEditableElement.closest("fieldset").hasClass("ModularForm");
                 if (!CustomerInterface && InModularForm) {
                     resizeObserver.observe($domEditableElement.get(0));
                 }
-                
+
                 //make sure editor size is adjusted as well whenever the toolbar changes size
                 resizeObserver.observe(editor.ui.view.toolbar.element);
 

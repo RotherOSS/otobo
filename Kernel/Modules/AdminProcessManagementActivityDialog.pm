@@ -536,7 +536,7 @@ sub Run {
                     $Error{GlobalServerError}        = 'ServerError';
                     $Error{GlobalServerErrorMessage} = Translatable(
                         'ActivityDialogs currently used in gobal '
-                        . 'Activities may not be set to non-global!'
+                            . 'Activities may not be set to non-global!'
                     );
                 }
                 else {
@@ -546,7 +546,7 @@ sub Run {
                         $Error{GlobalServerError}        = 'ServerError';
                         $Error{GlobalServerErrorMessage} = Translatable(
                             'ActivityDialogs currently used in non-gobal Activities '
-                            . 'of other Processes may not be set to non-global!'
+                                . 'of other Processes may not be set to non-global!'
                         );
                     }
                 }
