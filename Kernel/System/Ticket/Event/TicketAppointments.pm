@@ -77,6 +77,8 @@ sub Run {
         FunctionParams => {
             TicketID => $Param{Data}->{TicketID},
         },
+        TaskName                 => 'Kernel::System::Calendar-TicketAppointmentProcessTicket(' . $Param{Data}->{TicketID} . ')',
+        MaximumParallelInstances => 1,
     );
 }
 
