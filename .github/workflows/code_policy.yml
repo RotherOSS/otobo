@@ -55,7 +55,7 @@ jobs:
               # The cache key contains the checksum of cpanfile.docker.snapshot.
               # Therefore the branch does not have to be included in the key.
               name: 'check cache for CPAN modules'
-              uses: actions/cache@v5
+              uses: actions/cache@v6
               id: cache_local_lib
               with:
                 path: local
