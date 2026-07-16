@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # core modules
+use Scalar::Util qw(looks_like_number);
 
 # CPAN modules
 use Test2::V0;
@@ -28,6 +29,28 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+
+my $ValidateNegativeSub = sub {
+    my %Param = @_;
+
+    my $Key   = $Param{Key};
+    my $Value = $Param{Value};
+
+    return {
+        Success => 0,
+        Error   => 'not a number',
+    } unless looks_like_number($Value);
+
+    return {
+        Success => 0,
+        Error   => 'not negative',
+    } unless $Value < 0;
+
+    return {
+        Success => 1,
+        Value   => $Value,
+    };
+};
 
 my @Tests = (
     {
@@ -51,6 +74,38 @@ my @Tests = (
         Key         => 'TicketID',
         Validator   => 'anything',
         Expected    => { Success => 1 },
+    },
+    {
+        Line        => __LINE__,
+        Description => 'sub that checks for negative number, with value -11.11',
+        Value       => -11.11,
+        Key         => 'DepthOfSea',
+        Validator   => $ValidateNegativeSub,
+        Expected    => { Success => 1 },
+    },
+    {
+        Line        => __LINE__,
+        Description => 'sub that checks for negative number, with value -0',
+        Value       => -0,
+        Key         => 'DepthOfSea',
+        Validator   => $ValidateNegativeSub,
+        Expected    => { Success => 0 },
+    },
+    {
+        Line        => __LINE__,
+        Description => 'sub that checks for negative number, with value 0',
+        Value       => 0,
+        Key         => 'DepthOfSea',
+        Validator   => $ValidateNegativeSub,
+        Expected    => { Success => 0 },
+    },
+    {
+        Line        => __LINE__,
+        Description => 'sub that checks for negative number, with value 11.11',
+        Value       => 11.11,
+        Key         => 'DepthOfSea',
+        Validator   => $ValidateNegativeSub,
+        Expected    => { Success => 0 },
     },
 );
 
