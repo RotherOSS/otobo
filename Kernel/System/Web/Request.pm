@@ -284,7 +284,6 @@ sub GetParam {
             my $ValidationResult = $CheckItemObject->Validate(
                 Key       => $Key,
                 Value     => $Value,
-                Default   => $Default,
                 Validator => $Validator
             );
 
