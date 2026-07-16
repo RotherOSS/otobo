@@ -163,6 +163,19 @@ sub new {
                     Error   => $ErrorMsg,
                 };
             }
+
+            return {
+                Success => 1,
+                Value   => $Value,
+            };
+        },
+
+        # do no validation at all
+        anything => sub {
+            my (%Param) = @_;
+
+            my $Value = $Param{Value};
+
             return {
                 Success => 1,
                 Value   => $Value,
