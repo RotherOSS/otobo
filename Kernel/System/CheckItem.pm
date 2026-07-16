@@ -506,13 +506,29 @@ Validate incoming request parameters. This is used from K/S/W/Request.pm.
     my $Result = $CheckItemObject->Validate(
         Key       => $Key,                 # web request param name
         Value     => $Value,               # the Value as provided by Plack::Request
-        Validator => $Validator            # which validation strategy to apply,
-                                           # eg 'positive_integer' or a regex
-                                           # specified as qr/^MatchMe$/
+        Validator => $Validator            # (Optional) which validation strategy to apply,
 
     );
 
-where
+The validator is one of:
+
+=over 4
+
+=item predefined rules like 'positive_integer' or 'anything'
+
+These rules are defined in C<Kernel::System::CheckItem>
+
+=item a regex like C<qr{\d px}>
+
+This checks whether the value matches the regex.
+
+=item an anonymous subroutine
+
+The subroutine is expected to take the parameters C<Key> and C<Value> and to return a result like given below.
+
+=back
+
+The validation result is reported as a hashref:
 
     $Result = {
         Success => 0|1,
@@ -520,7 +536,7 @@ where
         Value   => validate value          # if Success == 1
     }
 
-returns the validated value if validation has passed.
+Validators may return a different value as was given as input.
 
 =cut
 
@@ -529,25 +545,23 @@ sub Validate {
 
     my $Validator = $Param{Validator};
 
-    if ( ref($Validator) eq 'Regexp' ) {
+    return $Self->ValidateRegex(%Param) if ref $Validator eq 'Regexp';
 
-        return $Self->ValidateRegex(%Param);
+    my $ValidationSub;
+    if ( ref $Validator eq 'CODE' ) {
+        $ValidationSub = $Validator;
     }
     else {
-
-        my $ValidationSub = $Self->{Validators}->{$Validator};
-
-        if ( !$ValidationSub ) {
-
-            return {
-                Success => 0,
-                Error   => "Invalid Validator, Validator sub '$Validator' does not exist .",
-            };
-
-        }
-
-        return $ValidationSub->(%Param);
+        $ValidationSub = $Self->{Validators}->{$Validator};
     }
+
+    return {
+        Success => 0,
+        Error   => "Invalid Validator, Validator sub '$Validator' does not exist .",
+    } unless $ValidationSub;
+
+    # This allows to pass any parameters to the validator. This has up- and downsides.
+    return $ValidationSub->(%Param);
 }
 
 =head2 ValidateRegex()
@@ -558,7 +572,6 @@ Validate incoming request parameters against a regex.
         Key       => $Key,                 # web request param name
         Value     => $Value,               # the Value as provided by Plack::Request
         Validator => $Validator            # a regex specified as qr/^MatchMe$/
-
     );
 
 returns the validated value if validation has passed, otherwise returns
