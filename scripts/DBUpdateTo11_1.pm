@@ -67,6 +67,10 @@ sub Run {
             Module => 'DBUpdateTranslationLength',
         },
         {
+            Name   => 'Increase web upload cache form id length.',
+            Module => 'DBUpdateWebUploadCacheFormIDLength',
+        },
+        {
             Name   => 'Add OIDC/OAuth2 database tables and fields.',
             Module => 'DBUpdateOIDC',
         },
