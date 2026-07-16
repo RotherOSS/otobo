@@ -26,7 +26,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
 use Config;    # import %Config
-use Cwd qw(abs_path);
+use Cwd        qw(abs_path);
 use List::Util qw(none);
 
 # CPAN modules
@@ -132,6 +132,7 @@ sub Run {
                     $EvaluationApplies = 0;    # evaluation does not apply on 32bit Perl
                 }
 
+                # Currently not used, but might be useful in future
                 if ( $Evaluation->{only_when_version_is} ) {
                     if ( none { "==$_" eq $Dist->{version} } $Evaluation->{only_when_version_is}->@* ) {
                         $EvaluationApplies = 0;    # evaluation does not apply for unknown versions
@@ -205,10 +206,6 @@ Unicode::LineBreak is installed because Unicode::GCString is needed by the test 
 The advisory is relevant only when customer or user passwords are stored in the database in MD5 crypted form.
 Using MD5 for crypting passwords is discouraged in OTOBO. Therefore this advisory is not relevant in regular installations.
 END_REASON
-
-        cryptx_0_090 => <<'END_REASON',
-The problem is fixed in CryptX 0.089 or higher.
-END_REASON
     );
 
     return
@@ -248,11 +245,6 @@ END_REASON
         'CPANSA-Crypt-PasswdMD5-2026-6659' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{crypt_with_md5},
-        },
-        'CPANSA-CryptX-2026-41565' => {
-            is_relevant_for_otobo => 0,
-            only_when_version_is  => [ '0.089', '0.090' ],    # in case fixed_versions is not up to date
-            reason                => $Reason{cryptx_0_090},
         },
         ;
 }
