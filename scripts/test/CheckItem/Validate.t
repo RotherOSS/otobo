@@ -13,7 +13,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use utf8;
@@ -29,11 +29,11 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 
 my $ValidateNegativeSub = sub {
     my %Param = @_;
 
-    my $Key   = $Param{Key};
     my $Value = $Param{Value};
 
     return {
@@ -108,6 +108,49 @@ my @Tests = (
         Expected    => { Success => 0 },
     },
 );
+
+# add some test with Type::Tiny
+if ( $MainObject->Require( 'Types::Standard', Silent => 1 ) ) {
+
+    my $FanShirtSizeSub = sub {
+        my %Param = @_;
+
+        my $Value = $Param{Value};
+
+        # compile the type only once
+        # No need to import anything
+        state $ShirtSizeType = Types::Standard::Enum[qw( S M L XL XXL )];
+
+        return {
+            Success => 0,
+            Error   => 'is not a shirt size',
+        } unless $ShirtSizeType->check($Value);
+
+        return {
+            Success => 1,
+            Value   => $Value,
+        };
+    };
+
+    push @Tests,
+        {
+            Line        => __LINE__,
+            Description => 'valid fan shirt size',
+            Value       => 'XL',
+            Key         => 'FanShirtSize but the key does not matter',
+            Validator   => $FanShirtSizeSub,
+            Expected    => { Success => 1 },
+        },
+        {
+            Line        => __LINE__,
+            Description => 'invalid fan shirt size',
+            Value       => 'huge 👕',
+            Key         => 'FanShirtSize but the key does not matter',
+            Validator   => $FanShirtSizeSub,
+            Expected    => { Success => 0 },
+        },
+        ;
+}
 
 for my $Test (@Tests) {
     my $Desc      = ( $Test->{Description} // 'no description' ) . " (Key=$Test->{Key}, Line=$Test->{Line})";
