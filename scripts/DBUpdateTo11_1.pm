@@ -55,15 +55,15 @@ sub Run {
         {
             # Rebuilding the config affects the subsequent tasks.
             # It is essential for at least SysConfigMigrateArticleActions.
-            Name   => 'Rebuild the configuration as files in Kernel/Config/Files/XML have changed',
+            Name   => 'Rebuild the configuration as files in Kernel/Config/Files/XML have changed.',
             Module => 'RebuildConfig',
         },
         {
-            Name   => 'Deactivate autoload modules in the SysConfig',
+            Name   => 'Deactivate autoload modules in the SysConfig.',
             Module => 'SysConfigDeactivateAutoloadModules',
         },
         {
-            Name   => 'Increase translation content length',
+            Name   => 'Increase translation content length.',
             Module => 'DBUpdateTranslationLength',
         },
         {
@@ -87,7 +87,7 @@ sub Run {
             Module => 'DBAddACLObjectType',
         },
         {
-            Name   => 'Update the list of installed packages',
+            Name   => 'Update the list of installed packages.',
             Module => 'UninstallMergedPackages',
         },
         {
@@ -127,11 +127,11 @@ sub Run {
             Module => 'SysConfigMigrateTimeShowCreatedAt',
         },
         {
-            Name   => 'Enable Similar Search Widget if ES is activated',
+            Name   => 'Enable Similar Search Widget if ES is activated.',
             Module => 'EnableSimilarSearchWidgetIfESActivated',
         },
         {
-            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced',
+            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
             Module => 'RemoveRedisOverride',
         },
     );
