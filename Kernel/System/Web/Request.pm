@@ -275,9 +275,7 @@ sub GetParam {
             my $DefaultValidator = $CheckItemObject->GetDefaultValidator( Key => $Key );
             if ( defined $DefaultValidator ) {
                 $Validator = $DefaultValidator->{Check};
-                if ( !defined $Default ) {
-                    $Default = $DefaultValidator->{Default};
-                }
+                $Default //= $DefaultValidator->{Default};
             }
         }
 
@@ -292,9 +290,7 @@ sub GetParam {
 
             if ( !$ValidationResult->{Success} ) {
 
-                if ($Default) {
-                    return $Default;
-                }
+                return $Default if $Default;
 
                 die Kernel::System::Web::Exception->new(
                     PlackResponse => Plack::Response->new( 400, [], $ValidationResult->{Error} )
