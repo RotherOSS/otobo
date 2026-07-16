@@ -32,6 +32,8 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
+=for stopwords validator
+
 =head1 NAME
 
 Kernel::System::CheckItem - check items
@@ -57,7 +59,6 @@ sub new {
 
         # validate a string
         string => sub {
-
             my (%Param) = @_;
 
             my $Key     = $Param{Key};
@@ -87,7 +88,6 @@ sub new {
 
         # validate a number
         number => sub {
-
             my (%Param) = @_;
 
             my $Key     = $Param{Key};
@@ -117,7 +117,6 @@ sub new {
 
         # validate an integer
         integer => sub {
-
             my (%Param) = @_;
 
             my $Key     = $Param{Key};
@@ -147,7 +146,6 @@ sub new {
 
         # validate a positive integer
         positive_integer => sub {
-
             my (%Param) = @_;
 
             my $Key     = $Param{Key};
@@ -494,7 +492,7 @@ sub StringClean {
 
 =head2 Validate()
 
-    Validate incoming request parameters. This is used from K/S/W/Request.pm.
+Validate incoming request parameters. This is used from K/S/W/Request.pm.
 
     my $Result = $CheckItemObject->Validate(
         Key       => $Key,                 # web request param name
@@ -507,7 +505,7 @@ sub StringClean {
 
     );
 
-    where
+where
 
     $Result = {
         Success => 0|1,
@@ -515,13 +513,12 @@ sub StringClean {
         Value   => validate value          # if Success == 1
     }
 
-    returns the validated value if validation has passed, otherwise returns
-    Default value if specified, or throws an exception.
+returns the validated value if validation has passed, otherwise returns
+Default value if specified, or throws an exception.
 
 =cut
 
 sub Validate {
-
     my ( $Self, %Param ) = @_;
 
     my $Value     = $Param{Value};
@@ -544,13 +541,14 @@ sub Validate {
             };
 
         }
+
         return $ValidationSub->(%Param);
     }
 }
 
 =head2 ValidateRegex()
 
-    Validate incoming request parameters against a regex.
+Validate incoming request parameters against a regex.
 
     my $Value = $CheckItemObject->ValidateRegex(
         Key       => $Key,                 # web request param name
@@ -561,8 +559,8 @@ sub Validate {
 
     );
 
-    returns the validated value if validation has passed, otherwise returns
-    Default value if specified, or throws an exception.
+returns the validated value if validation has passed, otherwise returns
+the default value if specified, or throws an exception.
 
 =cut
 
@@ -599,7 +597,7 @@ sub ValidateRegex {
 
 =head2 GetDefaultValidator()
 
-    Get default validator for given known Web Request parameter (eg TicketID).
+Get default validator for given known Web Request parameter (e.g. TicketID).
 
     my $Validator = $CheckItemObject->GetDefaultValidator(
         Key       => $Key,                 # web request param name
