@@ -61,9 +61,8 @@ sub new {
         string => sub {
             my (%Param) = @_;
 
-            my $Key     = $Param{Key};
-            my $Value   = $Param{Value};
-            my $Default = $Param{Default};
+            my $Key   = $Param{Key};
+            my $Value = $Param{Value};
 
             my $CheckResult = Kernel::System::VariableCheck::IsString($Value);
             if ( !$CheckResult ) {
@@ -90,9 +89,8 @@ sub new {
         number => sub {
             my (%Param) = @_;
 
-            my $Key     = $Param{Key};
-            my $Value   = $Param{Value};
-            my $Default = $Param{Default};
+            my $Key   = $Param{Key};
+            my $Value = $Param{Value};
 
             my $CheckResult = Kernel::System::VariableCheck::IsNumber($Value);
             if ( !$CheckResult ) {
@@ -119,9 +117,8 @@ sub new {
         integer => sub {
             my (%Param) = @_;
 
-            my $Key     = $Param{Key};
-            my $Value   = $Param{Value};
-            my $Default = $Param{Default};
+            my $Key   = $Param{Key};
+            my $Value = $Param{Value};
 
             my $CheckResult = Kernel::System::VariableCheck::IsInteger($Value);
             if ( !$CheckResult ) {
@@ -148,9 +145,8 @@ sub new {
         positive_integer => sub {
             my (%Param) = @_;
 
-            my $Key     = $Param{Key};
-            my $Value   = $Param{Value};
-            my $Default = $Param{Default};
+            my $Key   = $Param{Key};
+            my $Value = $Param{Value};
 
             my $CheckResult = Kernel::System::VariableCheck::IsPositiveInteger($Value);
             if ( !$CheckResult ) {
@@ -497,8 +493,6 @@ Validate incoming request parameters. This is used from K/S/W/Request.pm.
     my $Result = $CheckItemObject->Validate(
         Key       => $Key,                 # web request param name
         Value     => $Value,               # the Value as provided by Plack::Request
-        Default   => $Default,             # default value to use if validation fails,
-                                           # if not present this will throw
         Validator => $Validator            # which validation strategy to apply,
                                            # eg 'positive_integer' or a regex
                                            # specified as qr/^MatchMe$/
@@ -513,16 +507,13 @@ where
         Value   => validate value          # if Success == 1
     }
 
-returns the validated value if validation has passed, otherwise returns
-Default value if specified, or throws an exception.
+returns the validated value if validation has passed.
 
 =cut
 
 sub Validate {
     my ( $Self, %Param ) = @_;
 
-    my $Value     = $Param{Value};
-    my $Default   = $Param{Default};
     my $Validator = $Param{Validator};
 
     if ( ref($Validator) eq 'Regexp' ) {
@@ -553,8 +544,6 @@ Validate incoming request parameters against a regex.
     my $Value = $CheckItemObject->ValidateRegex(
         Key       => $Key,                 # web request param name
         Value     => $Value,               # the Value as provided by Plack::Request
-        Default   => $Default,             # default value to use if validation fails,
-                                           # if not present this will throw
         Validator => $Validator            # a regex specified as qr/^MatchMe$/
 
     );
@@ -568,10 +557,9 @@ sub ValidateRegex {
 
     my ( $Self, %Param ) = @_;
 
-    my $Key     = $Param{Key};
-    my $Value   = $Param{Value} // '';
-    my $Default = $Param{Default};
-    my $RegEx   = $Param{Validator};
+    my $Key   = $Param{Key};
+    my $Value = $Param{Value} // '';
+    my $RegEx = $Param{Validator};
 
     my $CheckResult = $Value =~ m/$RegEx/;    # make it anchored by default, eg surround with ^..$ ?
     if ( !$CheckResult ) {
