@@ -241,7 +241,7 @@ RUN <<END_BASH bash
         echo "# set up bash completion"
         echo ". ~/.bash_completion"
         echo ""
-        echo "# use Page-Up and Page-Down for cycling thru autocomplet suggestions"
+        echo "# use Page-Up and Page-Down for cycling through autocomplete suggestions"
         echo "bind '\"\\e[6~\": menu-complete'"
         echo "bind '\"\\e[5~\": menu-complete-backward'"
         echo ""
@@ -249,7 +249,7 @@ RUN <<END_BASH bash
         echo "alias ..='cd ..'"
         echo "alias ...='cd ../..'"
     ) >> .bash_aliases
-    install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
+    install -m u=rw,g=r,o=r scripts/vim/vimrc .vimrc
     (echo $GIT_REPO   > git-repo.txt)
     (echo $GIT_BRANCH > git-branch.txt)
     (echo $GIT_COMMIT > git-commit.txt)
