@@ -212,6 +212,7 @@ The trimming can be turned of by passing the parameter C<Raw>.
                                      # a named check indetifier from K/S/Checkitem
         Default => 'some_value',     # default value to use if input param validation
                                      # failed. If not present an exception will be raised
+                                     # A default value of 0 or of the empty string is allowed.
     );
 
 When the parameter is not part of the query then C<undef> is returned.
@@ -289,7 +290,7 @@ sub GetParam {
 
             if ( !$ValidationResult->{Success} ) {
 
-                return $Default if $Default;
+                return $Default if defined $Default;
 
                 die Kernel::System::Web::Exception->new(
                     PlackResponse => Plack::Response->new( 400, [], $ValidationResult->{Error} )
@@ -357,6 +358,7 @@ By default, trimming is performed on the data.
                                      # a named check indetifier from K/S/Checkitem
         Default => 'some_value',     # default value to use if input param validation
                                      # failed. If not present an exception will be raised
+                                     # A default value of 0 or of the empty string is allowed.
     );
 
 URL and body parameters are merged. URL parameters come before body parameters
@@ -402,15 +404,14 @@ sub GetArray {
             my $ValidationResult = $CheckItemObject->Validate(
                 Key       => $Param{Param},
                 Value     => $Value,
-                Default   => $Default,
                 Validator => $Validator
             );
 
             if ( !$ValidationResult->{Success} ) {
 
-                if ($Default) {
-
+                if ( defined $Default ) {
                     push @NewValues, $Default;
+
                     next VALUE;
                 }
 
