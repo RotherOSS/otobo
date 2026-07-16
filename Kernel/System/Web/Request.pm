@@ -383,9 +383,7 @@ sub GetArray {
         my $DefaultValidator = $CheckItemObject->GetDefaultValidator( Key => $Param{Param} );
         if ( defined $DefaultValidator ) {
             $Validator = $DefaultValidator->{Check};
-            if ( !defined $Default ) {
-                $Default = $DefaultValidator->{Default};
-            }
+            $Default //= $DefaultValidator->{Default};
         }
     }
 
