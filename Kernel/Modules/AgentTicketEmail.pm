@@ -2157,11 +2157,11 @@ sub Run {
         }
 
         # get redirect screen
-        my $NextScreen = $Self->{Session}{UserCreateNextMask} || 'AgentTicketEmail';
+        my $NextScreen = $Self->{Session}{UserCreateNextMask} || 'AgentTicketEmail;Subaction=Created';
 
         # redirect
         return $LayoutObject->Redirect(
-            OP => "Action=$NextScreen;Subaction=Created;TicketID=$TicketID",
+            OP => "Action=$NextScreen;TicketID=$TicketID",
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
