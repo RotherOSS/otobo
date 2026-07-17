@@ -95,6 +95,11 @@ sub Params {
             Value    => '12345 (set dynamic field value of other than the process ticket itself)',
             Optional => 1,
         },
+        {
+            Key      => 'ExternalSource',
+            Value    => '1 (treat value as external source for reference fields)',
+            Optional => 1,
+        },
     );
 
     return @Params;
@@ -181,6 +186,11 @@ sub Run {
         $TicketID = $Param{Ticket}->{TicketID};
     }
 
+    my %ExternalSource;
+    if ( delete $Param{Config}{ExternalSource} ) {
+        $ExternalSource{ExternalSource} = 1;
+    }
+
     for my $CurrentDynamicField ( sort keys %{ $Param{Config} } ) {
 
         # get required DynamicField config
@@ -216,6 +226,7 @@ sub Run {
             Value              => $Param{Config}->{$CurrentDynamicField},
             UserID             => $Param{UserID},
             EditFieldValue     => 0,
+            %ExternalSource,
         );
 
         # check if everything went right
