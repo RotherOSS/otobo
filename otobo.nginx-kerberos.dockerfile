@@ -12,8 +12,7 @@
 
 FROM nginx:mainline-trixie AS builder
 
-ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
-ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
+ARG SPNEGO_VERSION=1.1.1
 
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
@@ -28,13 +27,13 @@ RUN set -x && \
     NGINX_VERSION="$( nginx -v 2>&1 | awk -F/ '{print $2}' )" && \
     NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
     wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
-    wget https://github.com/stnoonan/spnego-http-auth-nginx-module/archive/${SPNEGO_AUTH_COMMIT_ID}.tar.gz -O spnego-http-auth.tar.gz
+    wget https://github.com/stnoonan/spnego-http-auth-nginx-module/archive/v${SPNEGO_VERSION}.tar.gz -O spnego-http-auth.tar.gz
 
 RUN cd /usr/src && \
     NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
     tar -xzC /usr/src -f nginx.tar.gz && \
     tar -xzvf spnego-http-auth.tar.gz && \
-    SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_AUTH_COMMIT_ID_FILE}" && \
+    SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_VERSION}" && \
     cd "/usr/src/nginx-${NGINX_VERSION}" && \
     ./configure --with-compat "${NGINX_CONFIG}" --add-dynamic-module="${SPNEGO_AUTH_DIR}" && \
     make modules && \
