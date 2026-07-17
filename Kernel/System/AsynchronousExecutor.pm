@@ -54,6 +54,8 @@ creates a scheduler daemon task to execute a function asynchronously.
                                                                 # this function was called
         FunctionName             => 'MyFunction',               # the name of the function to execute
         FunctionParams           => \%MyParams,                 # a ref with the required parameters for the function
+        TaskName                 => 'some-name',                # optional, defaults to "$ObjectName-$FunctionName()"
+                                                                #   max length: 150
         Attempts                 => 3,                          # optional, default: 1, number of tries to lock the
                                                                 #   task by the scheduler
         MaximumParallelInstances => 1,                          # optional, default: 0 (unlimited), number of same
@@ -132,7 +134,9 @@ sub AsyncCall {
     }
 
     # define the task name with object name and concatenate the function name
-    my $TaskName = substr "$ObjectName-$FunctionName()", 0, 255;
+    my $TaskName = $Param{TaskName}
+        ? substr $Param{TaskName}, 0, 150
+        : substr "$ObjectName-$FunctionName()", 0, 150;
 
     # create a new task
     my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
