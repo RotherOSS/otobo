@@ -1298,12 +1298,14 @@ sub CheckDBRequirements {
     # Version checks are only active for some database systems.
     # See https://doc.otobo.org/manual/installation/11.1/en/content/requirements.html#software-requirements
     my %RequiredVersion = (
-        mysql   => '5.6',
-        mariadb => '10.0',
+        mysql   => '8.4',
+        mariadb => '10.11',
 
-        # postgresql => '9.2',   version check not implemented and tested yet
-        # oracle     => '10g',   version check not implemented and tested yet
+        # postgresql => '13.0',   version check not implemented and tested yet
+        # oracle     => '19c',   version check not implemented and tested yet
     );
+
+    # Both MariaDB and MySQL have $Param{DBType} set to 'mysql'
     if ( $RequiredVersion{ $Param{DBType} } ) {
 
         # Compare versions with version.pm as this module is always available. It is a core module.
