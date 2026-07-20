@@ -1321,7 +1321,7 @@ Core.UI.InputFields = (function (TargetNS) {
             Ch;
         for (; i >= 0; i--) {
             Ch = Chars[i];
-            if (Config.Diacritics.hasOwnProperty(Ch)) {
+            if ( Object.prototype.hasOwnProperty.call(Config.Diacritics, Ch) ) {
                 Chars[i] = Config.Diacritics[Ch];
                 Alter = true;
             }
@@ -1380,7 +1380,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // Set width of search field to that of the select field
             function UpdateFieldWidth() {
 
-                //setting the size via css breakes form styling
+                //setting the size via css breaks form styling
                 if ($SelectObj.closest('fieldset').hasClass('ModularForm'))
                     return;
 
@@ -1974,7 +1974,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Handle node selection in tree list
                     // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('select_node.jstree', function (_Node, Selected) {  //eslint-disable-line no-unused-vars
+                    .on('select_node.jstree', function (_Node, Selected) {
                         var $SelectedNode = $('#' + Selected.node.id),
                             SelectedNodesIDs;
 
@@ -2437,13 +2437,12 @@ Core.UI.InputFields = (function (TargetNS) {
 
                         var SearchValue = $SearchObj.val().trim(),
                             NoMatchNodeJSON,
-                            $ClearSearchObj,
-                            SearchTimeout;
+                            $ClearSearchObj;
 
                         // Clear search timeout
-                        window.clearTimeout(SearchTimeout);
+                        window.clearTimeout();
 
-                        SearchTimeout = window.setTimeout(function () {
+                        window.setTimeout(function () {
 
                             // Abandon search if empty string
                             if (SearchValue === '') {
