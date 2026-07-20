@@ -340,7 +340,7 @@ Core.UI.InputFields = (function (TargetNS) {
             Textarea = $('.Field > textarea:not(.HasCKEInstance)', Element),
 
             // DB fields return two elements here (correct one and resultelementtext)
-            TextInput = $('input[type="text"]', Element).first(),
+            TextInput = $('input[type="text"], input[type="password"]', Element).first(),
             TextValue;
 
         // move labels for checkboxes
