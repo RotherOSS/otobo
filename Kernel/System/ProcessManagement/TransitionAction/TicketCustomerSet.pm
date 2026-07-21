@@ -167,6 +167,13 @@ sub Run {
         $Param{Config}->{CustomerUserID} = $Param{Config}->{User};
     }
 
+    # handle reference fields
+    for my $Attribute ( qw/CustomerID CustomerUserID/ ) {
+        if ( ref $Param{Config}{ $Attribute } eq 'ARRAY' ) {
+            $Param{Config}{ $Attribute } = $Param{Config}{ $Attribute }[0];
+        }
+    }
+
     if (
         defined $Param{Config}->{CustomerID}
         &&
