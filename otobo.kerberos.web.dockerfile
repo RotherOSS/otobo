@@ -8,7 +8,10 @@
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
-FROM perl:5.36-bookworm AS otobo-web-kerberos
+#
+# The version of Perl is set to 5.42. The idea is that all release branches,
+# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
+FROM perl:5.42-bookworm AS otobo-web-kerberos
 
 # First there is some initial setup that needs to be done by root.
 USER root
