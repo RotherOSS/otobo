@@ -14,7 +14,7 @@
 #
 # The slim version is used for reducing the size of the image.
 #
-# The version of Perl is set to 5.40. The idea is that all release branches,
+# The version of Perl is set to 5.42. The idea is that all release branches,
 # rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
 #
 # The individual build targets may add additional Debian or CPAN packages.
