@@ -424,10 +424,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.42
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.42.tar.gz
+  Cpanel-JSON-XS-4.43
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.43.tar.gz
     provides:
-      Cpanel::JSON::XS 4.42
+      Cpanel::JSON::XS 4.43
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -2832,21 +2832,21 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.55
-    pathname: N/NL/NLNETLABS/Net-DNS-1.55.tar.gz
+  Net-DNS-1.56
+    pathname: N/NL/NLNETLABS/Net-DNS-1.56.tar.gz
     provides:
-      Net::DNS 1.55
+      Net::DNS 1.56
       Net::DNS::Domain 2002
-      Net::DNS::DomainName 2005
-      Net::DNS::DomainName1035 2005
-      Net::DNS::DomainName2535 2005
+      Net::DNS::DomainName 2054
+      Net::DNS::DomainName1035 2054
+      Net::DNS::DomainName2535 2054
       Net::DNS::Header 2042
       Net::DNS::Mailbox 2002
       Net::DNS::Mailbox1035 2002
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2046
+      Net::DNS::Parameters 2054
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2861,7 +2861,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CERT 2042
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2046
+      Net::DNS::RR::DELEG 2053
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2042
@@ -2894,28 +2894,28 @@ DISTRIBUTIONS
       Net::DNS::RR::NSEC3PARAM 2003
       Net::DNS::RR::NULL 2002
       Net::DNS::RR::OPENPGPKEY 2003
-      Net::DNS::RR::OPT 2005
-      Net::DNS::RR::OPT::CHAIN 2005
-      Net::DNS::RR::OPT::CLIENT_SUBNET 2005
-      Net::DNS::RR::OPT::COOKIE 2005
-      Net::DNS::RR::OPT::DAU 2005
-      Net::DNS::RR::OPT::DHU 2005
-      Net::DNS::RR::OPT::EXPIRE 2005
-      Net::DNS::RR::OPT::EXTENDED_ERROR 2005
-      Net::DNS::RR::OPT::KEY_TAG 2005
-      Net::DNS::RR::OPT::N3U 2005
-      Net::DNS::RR::OPT::NSID 2005
-      Net::DNS::RR::OPT::PADDING 2005
-      Net::DNS::RR::OPT::REPORT_CHANNEL 2005
-      Net::DNS::RR::OPT::TCP_KEEPALIVE 2005
-      Net::DNS::RR::OPT::ZONEVERSION 2005
+      Net::DNS::RR::OPT 2054
+      Net::DNS::RR::OPT::CHAIN 2054
+      Net::DNS::RR::OPT::CLIENT_SUBNET 2054
+      Net::DNS::RR::OPT::COOKIE 2054
+      Net::DNS::RR::OPT::DAU 2054
+      Net::DNS::RR::OPT::DHU 2054
+      Net::DNS::RR::OPT::EXPIRE 2054
+      Net::DNS::RR::OPT::EXTENDED_ERROR 2054
+      Net::DNS::RR::OPT::KEY_TAG 2054
+      Net::DNS::RR::OPT::N3U 2054
+      Net::DNS::RR::OPT::NSID 2054
+      Net::DNS::RR::OPT::PADDING 2054
+      Net::DNS::RR::OPT::REPORT_CHANNEL 2054
+      Net::DNS::RR::OPT::TCP_KEEPALIVE 2054
+      Net::DNS::RR::OPT::ZONEVERSION 2054
       Net::DNS::RR::PTR 2002
       Net::DNS::RR::PX 2003
       Net::DNS::RR::RESINFO 2003
       Net::DNS::RR::RP 2002
-      Net::DNS::RR::RRSIG 2042
+      Net::DNS::RR::RRSIG 2057
       Net::DNS::RR::RT 2003
-      Net::DNS::RR::SIG 2042
+      Net::DNS::RR::SIG 2057
       Net::DNS::RR::SMIMEA 2003
       Net::DNS::RR::SOA 2002
       Net::DNS::RR::SPF 2003
@@ -2930,10 +2930,10 @@ DISTRIBUTIONS
       Net::DNS::RR::X25 2002
       Net::DNS::RR::ZONEMD 2003
       Net::DNS::Resolver 2017
-      Net::DNS::Resolver::Base 2049
+      Net::DNS::Resolver::Base 2057
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
-      Net::DNS::Resolver::UNIX 2046
+      Net::DNS::Resolver::UNIX 2053
       Net::DNS::Resolver::android 2007
       Net::DNS::Resolver::cygwin 2002
       Net::DNS::Resolver::os2 2007
@@ -4598,20 +4598,27 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
