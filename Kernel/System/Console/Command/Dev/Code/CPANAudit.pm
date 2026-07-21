@@ -145,6 +145,9 @@ sub Run {
                 $NumRelevantAdvisories += $Evaluation->{is_relevant_for_otobo};
             }
             else {
+
+                # evaluations that do not apply count as not being not evaluated
+                $Advisory->{otobo_evaluation} = { has_been_evaluated => 0 };
                 $NumRelevantAdvisories++;
             }
         }
