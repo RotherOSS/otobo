@@ -428,7 +428,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'HTTP::Date',
             'Required'        => 1,
-            'VersionRequired' => '== 6.02',
+            'VersionRequired' => '== 6.08',
         },
         {
             'Comment'         => 'required by LWP 6.83, removed from Kernel/cpan-lib in OTOBO 11.0.x',

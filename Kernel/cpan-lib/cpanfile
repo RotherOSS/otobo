@@ -75,7 +75,7 @@ requires 'Font::TTF', '== 1.06';
 requires 'HTML::Scrubber', '== 0.20';
 
 # removed in OTOBO 11.0.x
-requires 'HTTP::Date', '== 6.02';
+requires 'HTTP::Date', '== 6.08';
 
 # required by LWP 6.83, removed from Kernel/cpan-lib in OTOBO 11.0.x
 requires 'HTTP::Message', '== 7.02';
