@@ -63,7 +63,7 @@ for my $Key (qw( args command cpan_audit total_advisories )) {
 is(
     $ThawedAuditReport->{meta}->{cpan_audit},
     {
-        db      => '20260715.001',
+        db      => '20260720.001',
         version => '20260622.001',
     },
     'got expected version of the advisory list'
@@ -95,8 +95,13 @@ for my $DistName ( keys $ThawedAuditReport->{dists}->%* ) {
     my $Dist = $ThawedAuditReport->{dists}->{$DistName};
     $Dist->{advisories} //= [];
     $Dist->{advisories} = [
-        grep { ( !$_->{otobo_evaluation} ) || $_->{otobo_evaluation}->{is_relevant_for_otobo} }
-            $Dist->{advisories}->@*
+        grep {
+            ( !$_->{otobo_evaluation} )
+            ||
+            ( $_->{otobo_evaluation}->{has_been_evaluated} // -1) == 0
+            ||
+            $_->{otobo_evaluation}->{is_relevant_for_otobo}
+        } $Dist->{advisories}->@*
     ];
 
     # keep dists that still have advisories

@@ -18,7 +18,7 @@
 # rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
 #
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.40-slim-trixie AS base
+FROM perl:5.42-slim-trixie AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
