@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-07-07 11:43+0000\n"
-"PO-Revision-Date: 2026-07-21 15:51+0000\n"
+"PO-Revision-Date: 2026-07-21 16:45+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
 "de/>\n"
@@ -7188,16 +7188,12 @@ msgstr ""
 "bedeutet, dass der Standardkalender verwendet wird."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar "
-#| "= no selection) or in Calendars 1 through 9."
 msgid ""
 "Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
-"Ist definiert unter Admin > Systemkonfiguration > Core > Time — "
-"Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9."
+"Ist definiert unter Admin > Systemkonfiguration > Core > Time "
+"(Standardkalender) oder in den Kalendern 1 bis 9."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
