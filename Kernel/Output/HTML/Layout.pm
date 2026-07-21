@@ -6493,6 +6493,7 @@ sub SetRichTextParameters {
             EditorStylesPath    => $ConfigObject->Get("Frontend::RichTextEditorStyles"),
             ContentStylesPath   => $ConfigObject->Get("Frontend::RichTextArticleStyles"),
             CustomCSS           => $ConfigObject->Get("Frontend::RichText::DefaultCSS"),
+            HtmlSupportAllowedElements => $ConfigObject->Get("Frontend::RichText::HtmlSupportAllowedElements"),
         },
     );
 
@@ -6648,6 +6649,7 @@ sub CustomerSetRichTextParameters {
             EditorStylesPath    => $ConfigObject->Get("CustomerFrontend::RichTextEditorStyles"),
             ContentStylesPath   => $ConfigObject->Get("CustomerFrontend::RichTextArticleStyles"),
             CustomCSS           => $ConfigObject->Get("CustomerFrontend::RichText::DefaultCSS"),
+            HtmlSupportAllowedElements => $ConfigObject->Get("CustomerFrontend::RichText::HtmlSupportAllowedElements"),
         },
     );
 
