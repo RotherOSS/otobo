@@ -13,7 +13,7 @@
 #
 # The version of Perl is set to 5.40. The idea is that all release branches,
 # rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
-FROM perl:5.40-bookworm AS otobo-web
+FROM perl:5.42-bookworm AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
