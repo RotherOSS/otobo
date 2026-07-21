@@ -12311,11 +12311,12 @@
         </Value>
     </Setting>
     <Setting Name="TicketACL::Autoselect" Required="0" Valid="0">
-        <Description Translatable="1">In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.</Description>
+        <Description Translatable="1">In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue in all ticket create forms), NewQueueID (e.g. for AgentTicketFreetext - the ticket categorization), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.</Description>
         <Navigation>Core::Ticket::ACL</Navigation>
         <Value>
             <Hash>
                 <Item Key="Dest">0</Item>
+                <Item Key="NewQueueID">0</Item>
                 <Item Key="ServiceID">0</Item>
                 <Item Key="SLAID">0</Item>
                 <Item Key="NextStateID">0</Item>
