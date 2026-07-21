@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-14 13:39+0000\n"
+"POT-Creation-Date: 2026-07-21 14:36+0000\n"
 "PO-Revision-Date: 2025-11-25 14:41+0000\n"
 "Last-Translator: Manuel Girardin <Manuel.Girardin@unil.ch>\n"
 "Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-11/fr/"
@@ -17828,6 +17828,12 @@ msgstr "Indisponible"
 #. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
 #, fuzzy
 #| msgid "Search Results"
+msgid "Shown Elasticsearch Results"
+msgstr "Résultat de recherche"
+
+#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
+#, fuzzy
+#| msgid "Search Results"
 msgid "Shown Elsticsearch Results"
 msgstr "Résultat de recherche"
 
@@ -19032,11 +19038,12 @@ msgstr "Rendez-vous non trouvé !"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
-"No valid refresh_token for Account %s using grant_tpye 'authorization code' !"
+"No valid refresh_token for Account %s using grant_type 'authorization code' !"
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-msgid "Need functional account Invoker settings in SysConfig for %s."
+msgid ""
+"Need functional account Invoker settings in System Configuration for %s."
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm

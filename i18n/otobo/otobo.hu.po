@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-14 13:39+0000\n"
+"POT-Creation-Date: 2026-07-21 14:36+0000\n"
 "PO-Revision-Date: 2026-07-16 16:21+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
@@ -887,8 +887,8 @@ msgstr "E-mail sablon"
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
-"Ezen sablon használata a teljes e-mail előállításához (csak HTML e-maileknél)"
-"."
+"Ezen sablon használata a teljes e-mail előállításához (csak HTML e-"
+"maileknél)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -2045,7 +2045,8 @@ msgstr "Egyedinek kell lennie, és csak betű és szám karaktereket fogad el."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Changing this value will require manual changes in the system."
-msgstr "Az érték megváltoztatása kézi módosításokat fog igényelni a rendszeren."
+msgstr ""
+"Az érték megváltoztatása kézi módosításokat fog igényelni a rendszeren."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
@@ -2203,9 +2204,9 @@ msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
 msgstr ""
-"A kulcsok vesszővel elválasztott listája a rendezési sorrendben (opcionális)"
-". Az itt felsorolt kulcsok jönnek először, azután az összes hátralévő mező "
-"ábécé sorrendbe rendezve."
+"A kulcsok vesszővel elválasztott listája a rendezési sorrendben "
+"(opcionális). Az itt felsorolt kulcsok jönnek először, azután az összes "
+"hátralévő mező ábécé sorrendbe rendezve."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
@@ -2449,7 +2450,8 @@ msgstr "Üres érték hozzáadása"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr "Aktiválja ezt a lehetőséget egy üres, kijelölhető érték létrehozásához."
+msgstr ""
+"Aktiválja ezt a lehetőséget egy üres, kijelölhető érték létrehozásához."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
@@ -2470,8 +2472,8 @@ msgstr "Válassza ki azokat az elemeket, amelyekkel ezt szeretné tenni: "
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
 msgstr ""
-"Válassza ki a kívánt elemeket, majd erősítse meg az importálást az „"
-"Importálás” gombbal."
+"Válassza ki a kívánt elemeket, majd erősítse meg az importálást az "
+"„Importálás” gombbal."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2822,8 +2824,8 @@ msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
 msgstr ""
-"A használandó meghívó a kérések végrehajtásához (a meghívónak „"
-"Generic::PassThrough” típusúnak kell lennie)."
+"A használandó meghívó a kérések végrehajtásához (a meghívónak "
+"„Generic::PassThrough” típusúnak kell lennie)."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
@@ -4458,8 +4460,8 @@ msgid ""
 "$+{text}_\\\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
 "3. példa: a keresés = „^(?<number>\\\\d+) (?<text>.+?)\\\\$” és a csere = "
-"„_\\\\$+{text}_\\\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16"
-"” értékűre."
+"„_\\\\$+{text}_\\\\$+{number}” átalakítja a „16 elemnév” kulcsot "
+"„_elemnév_16” értékűre."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -4606,8 +4608,8 @@ msgid ""
 msgstr ""
 "Meghatározza azt az útvonalat, amelyet ehhez a művelethez kellene leképezni. "
 "A kettősponttal „:” megjelölt változók a megadott névhez lesznek leképezve, "
-"és a többivel együtt kerülnek átadásra a leképezéshez. (például /Ticket/"
-":TicketID)."
+"és a többivel együtt kerülnek átadásra a leképezéshez. (például /"
+"Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -4899,8 +4901,8 @@ msgid ""
 msgstr ""
 "Az a vezérlő, amelyhez a meghívónak kéréseket kell küldenie. A kettősponttal "
 "„:” megjelölt változók az adatok értékével lesznek helyettesítve és a "
-"kéréssel együtt kerülnek átadásra. (például /Ticket/"
-":TicketID?UserLogin=:UserLogin&Password=:Password)."
+"kéréssel együtt kerülnek átadásra. (például /Ticket/:TicketID?"
+"UserLogin=:UserLogin&Password=:Password)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
@@ -5237,8 +5239,8 @@ msgstr ""
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" button."
 msgstr ""
-"Ha vissza szeretne térni az áttekintőre, kattintson a „Ugrás az áttekintőhöz"
-"” gombra."
+"Ha vissza szeretne térni az áttekintőre, kattintson a „Ugrás az "
+"áttekintőhöz” gombra."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
@@ -5882,7 +5884,8 @@ msgstr "(A legutóbbi ügyintéző bejegyzés) törzse első 5 sorának lekéré
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr "(A legutóbbi ügyfél bejegyzés) tárgya első 20 karakterének lekéréséhez."
+msgstr ""
+"(A legutóbbi ügyfél bejegyzés) tárgya első 20 karakterének lekéréséhez."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
@@ -6826,8 +6829,8 @@ msgid ""
 "You can also use named captures %s and use the names in the 'Set' action %s "
 "(e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name '%s'."
 msgstr ""
-"Használhat nevesített elfogásokat is %s, és használhatja a neveket a „"
-"Beállítás” műveletben %s (például reguláris kifejezés: %s, Beállítás "
+"Használhat nevesített elfogásokat is %s, és használhatja a neveket a "
+"„Beállítás” műveletben %s (például reguláris kifejezés: %s, Beállítás "
 "művelet: %s). Az illesztett EMAILADDRESS a következő nevet kapja: „%s”."
 
 #. Template: AdminPostMasterFilter
@@ -7411,8 +7414,8 @@ msgid ""
 "and synchronize after completing your work."
 msgstr ""
 "Ezen a képernyőn hozhat létre új folyamatot. Annak érdekében, hogy az új "
-"folyamatot elérhetővé tegye a felhasználóknak, győződjön meg arról, hogy „"
-"Aktívra” állította az állapotát, és szinkronizálta a munka befejezése után."
+"folyamatot elérhetővé tegye a felhasználóknak, győződjön meg arról, hogy "
+"„Aktívra” állította az állapotát, és szinkronizálta a munka befejezése után."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
@@ -8077,7 +8080,8 @@ msgstr "A rendszer regisztrációja opcionális."
 
 #. Template: AdminRegistration
 msgid "You can download and use OTOBO without being registered."
-msgstr "Letöltheti és használhatja az OTOBO-t anélkül, hogy regisztrálva lenne."
+msgstr ""
+"Letöltheti és használhatja az OTOBO-t anélkül, hogy regisztrálva lenne."
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
@@ -8093,7 +8097,8 @@ msgstr "Milyen adatok kerülnek átvitelre a regisztrációkor?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
-msgstr "Egy regisztrált rendszer a következő adatokat küldi az OTOBO csapatnak:"
+msgstr ""
+"Egy regisztrált rendszer a következő adatokat küldi az OTOBO csapatnak:"
 
 #. Template: AdminRegistration
 msgid ""
@@ -10447,7 +10452,8 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "A running OTOBO Daemon is mandatory for correct system operation."
-msgstr "Egy futó OTOBO démon feltétlenül szükséges a helyes rendszerműködéshez."
+msgstr ""
+"Egy futó OTOBO démon feltétlenül szükséges a helyes rendszerműködéshez."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTOBO Daemon"
@@ -11498,7 +11504,8 @@ msgstr "Vegyen fel legalább egy címzettet"
 
 #. Template: AgentTicketCompose
 msgid "Select one or more recipients from the customer user address book."
-msgstr "Egy vagy több címzett kiválasztása az ügyfél-felhasználó címjegyzékből."
+msgstr ""
+"Egy vagy több címzett kiválasztása az ügyfél-felhasználó címjegyzékből."
 
 #. Template: AgentTicketCompose
 msgid "Customer user address book"
@@ -11518,7 +11525,8 @@ msgstr "Áthelyezés a rejtett másolati mezőbe"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
-msgstr "Távolítsa el ezt a bejegyzést, és adjon meg egy újat a helyes értékkel."
+msgstr ""
+"Távolítsa el ezt a bejegyzést, és adjon meg egy újat a helyes értékkel."
 
 #. Template: AgentTicketCompose
 msgid "This address already exists on the address list."
@@ -11658,7 +11666,8 @@ msgstr "Érvényes jegyszám szükséges."
 
 #. Template: AgentTicketMerge
 msgid "Try typing part of the ticket number or title in order to search by it."
-msgstr "Próbálja meg beírni a jegyszám vagy a cím egy részét annak kereséséhez."
+msgstr ""
+"Próbálja meg beírni a jegyszám vagy a cím egy részét annak kereséséhez."
 
 #. Template: AgentTicketMerge
 msgid "Limit the search to tickets with same Customer ID (%s)."
@@ -13252,7 +13261,8 @@ msgstr "Nem találhatók felhasználó által beállítható értesítések."
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr "Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átviteli módszerrel."
+msgstr ""
+"Üzenetek fogadása a(z) „%s” értesítéshez a(z) „%s” átviteli módszerrel."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
@@ -13409,7 +13419,8 @@ msgstr "Szűrő beállítása"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr "Csak egyetlen elemet válasszon, vagy kapcsolja ki a „Rögzített” gombot."
+msgstr ""
+"Csak egyetlen elemet válasszon, vagy kapcsolja ki a „Rögzített” gombot."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -13532,7 +13543,8 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
-msgstr "A beállítás megváltoztatása csak magasabb beállítási szinten érhető el!"
+msgstr ""
+"A beállítás megváltoztatása csak magasabb beállítási szinten érhető el!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -15577,7 +15589,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
-msgstr "A PGP környezet nem működik. További információkért nézze meg a naplót!"
+msgstr ""
+"A PGP környezet nem működik. További információkért nézze meg a naplót!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to delete!"
@@ -15699,7 +15712,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTOBO Feature Add-on list server!"
-msgstr "Nem lehet kapcsolódni az OTOBO funkciókiegészítő-lista kiszolgálójához!"
+msgstr ""
+"Nem lehet kapcsolódni az OTOBO funkciókiegészítő-lista kiszolgálójához!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTOBO Feature Add-on list from server!"
@@ -15901,7 +15915,8 @@ msgstr "Hiba történt a tevékenység frissítésekor"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
-msgstr "Hiányzó paraméter: tevékenység és tevékenység-párbeszédablak szükséges!"
+msgstr ""
+"Hiányzó paraméter: tevékenység és tevékenység-párbeszédablak szükséges!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
@@ -16872,7 +16887,8 @@ msgstr "A piszkozat betöltése nem sikerült!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr "Sajnáljuk, a jegy tulajdonosának kell lennie a művelet végrehajtásához."
+msgstr ""
+"Sajnáljuk, a jegy tulajdonosának kell lennie a művelet végrehajtásához."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
@@ -16932,7 +16948,8 @@ msgstr "Ez a bejegyzés nem szerkeszthető!"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
-msgstr "Nem lehet beállítani ezt a jegybeállítást, nincs jegyazonosító megadva!"
+msgstr ""
+"Nem lehet beállítani ezt a jegybeállítást, nincs jegyazonosító megadva!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "%s is needed!"
@@ -17017,7 +17034,8 @@ msgstr "A következő jegyek zárolva lettek: %s."
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr "A bejegyzés tárgya üres lesz, ha a tárgy csak a jegyhorgot tartalmazza!"
+msgstr ""
+"A bejegyzés tárgya üres lesz, ha a tárgy csak a jegyhorgot tartalmazza!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -18372,6 +18390,12 @@ msgstr "Nem érhető el"
 #. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
 #, fuzzy
 #| msgid "Search Results"
+msgid "Shown Elasticsearch Results"
+msgstr "Keresési eredmények"
+
+#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
+#, fuzzy
+#| msgid "Search Results"
 msgid "Shown Elsticsearch Results"
 msgstr "Keresési eredmények"
 
@@ -19251,7 +19275,8 @@ msgstr "Bejegyzések tárolása üres első bejegyzés által jelölt külön so
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Import/Export attachments (as the last entries per line)"
-msgstr "Mellékletek importálása és exportálása (soronként az utolsó elemekként)"
+msgstr ""
+"Mellékletek importálása és exportálása (soronként az utolsó elemekként)"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
@@ -19510,7 +19535,8 @@ msgstr "Sikertelen itt –"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr "Annak ellenőrzése, hogy az összes szükséges Perl-modul telepítve van-e."
+msgstr ""
+"Annak ellenőrzése, hogy az összes szükséges Perl-modul telepítve van-e."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
@@ -19588,11 +19614,12 @@ msgstr "A(z) „%s” művelet nem található!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
-"No valid refresh_token for Account %s using grant_tpye 'authorization code' !"
+"No valid refresh_token for Account %s using grant_type 'authorization code' !"
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-msgid "Need functional account Invoker settings in SysConfig for %s."
+msgid ""
+"Need functional account Invoker settings in System Configuration for %s."
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
@@ -19881,11 +19908,13 @@ msgstr "Megoldás legnagyobb ideje (az eszkalációs beállítás által érinte
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Working Time Average (affected by escalation configuration)"
-msgstr "Megoldás munkaidejének átlaga (az eszkalációs beállítás által érintett)"
+msgstr ""
+"Megoldás munkaidejének átlaga (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Working Time (affected by escalation configuration)"
-msgstr "Megoldás legkisebb munkaideje (az eszkalációs beállítás által érintett)"
+msgstr ""
+"Megoldás legkisebb munkaideje (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Working Time (affected by escalation configuration)"
@@ -19968,7 +19997,8 @@ msgstr "Adatbázis típusa"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
 msgid "The type of the database looks strange as it contain no Latin letters."
-msgstr "Az adatbázis típusa furcsának tűnik, mivel nem latin betűket tartalmaz."
+msgstr ""
+"Az adatbázis típusa furcsának tűnik, mivel nem latin betűket tartalmaz."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
 msgid "Database Size"
@@ -20121,11 +20151,13 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr "A client_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie."
+msgstr ""
+"A client_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr "A server_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie."
+msgstr ""
+"A server_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Date Format"
@@ -20993,8 +21025,8 @@ msgstr "automatikus függőben"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr ""
-"Minden „automatikus * függőben” állapottípus (alapértelmezett: megtekinthető)"
-"."
+"Minden „automatikus * függőben” állapottípus (alapértelmezett: "
+"megtekinthető)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
@@ -21148,8 +21180,8 @@ msgid ""
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
 "Automatikus elutasítás, amely akkor lesz kiküldve, miután egy követést "
-"elutasítottak (abban az esetben, ha a várólista követési beállítása „"
-"elutasítás”)."
+"elutasítottak (abban az esetben, ha a várólista követési beállítása "
+"„elutasítás”)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
@@ -21161,8 +21193,8 @@ msgid ""
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
 "Automatikus beállítás, amely akkor lesz kiküldve, miután egy követést "
-"fogadtak egy jegyhez (abban az esetben, ha a várólista követési beállítása „"
-"lehetséges”)."
+"fogadtak egy jegyhez (abban az esetben, ha a várólista követési beállítása "
+"„lehetséges”)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
@@ -21268,8 +21300,8 @@ msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
-"Egy értesítést fog kapni minden alkalommal, amikor egy új jegy jön létre a „"
-"Saját várólistái” vagy a „Saját szolgáltatásai” egyikében."
+"Egy értesítést fog kapni minden alkalommal, amikor egy új jegy jön létre a "
+"„Saját várólistái” vagy a „Saját szolgáltatásai” egyikében."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
@@ -21357,8 +21389,8 @@ msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr ""
-"Egy értesítést fog kapni, ha egy jegy szolgáltatását a „Saját szolgáltatásai"
-"” egyikére változtatják meg."
+"Egy értesítést fog kapni, ha egy jegy szolgáltatását a „Saját "
+"szolgáltatásai” egyikére változtatják meg."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
@@ -21456,7 +21488,8 @@ msgstr "Mező törlése"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr "A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…"
+msgstr ""
+"A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
@@ -21808,8 +21841,8 @@ msgid ""
 "the changes you just made or do it on your own by pressing 'update manually'."
 msgstr ""
 "Az érintett beállításokat frissíttetheti automatikusan az elvégzett "
-"változtatások érvényesítéséhez, vagy megteheti saját maga a „frissítés kézzel"
-"” megnyomásával."
+"változtatások érvényesítéséhez, vagy megteheti saját maga a „frissítés "
+"kézzel” megnyomásával."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Save and update automatically"
@@ -22236,7 +22269,8 @@ msgstr "Oldal újratöltése (%s mp)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
-msgstr "A(z) %s névteret nem sikerült előkészíteni, mert a(z) %s nem található."
+msgstr ""
+"A(z) %s névteret nem sikerült előkészíteni, mert a(z) %s nem található."
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
@@ -22944,7 +22978,8 @@ msgstr "Ügyintézői felület bejegyzés értesítési modul a PGP ellenőrzés
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr "Ügyintézői felület bejegyzés értesítési modul az S/MIME ellenőrzéséhez."
+msgstr ""
+"Ügyintézői felület bejegyzés értesítési modul az S/MIME ellenőrzéséhez."
 
 #. SysConfig
 msgid ""
@@ -22954,8 +22989,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület modul a CIC kereséshez való hozzáféréshez a navigációs "
 "sávon keresztül. A hivatkozás megjelenítéséhez vagy elrejtéséhez további "
-"hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -22965,8 +23000,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület modul a szabad-szavas kereséshez való hozzáféréshez a "
 "navigációs sávon keresztül. A hivatkozás megjelenítéséhez vagy elrejtéséhez "
-"további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -22976,8 +23011,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület modul a keresési profilokhoz való hozzáféréshez a "
 "navigációs sávon keresztül. A hivatkozás megjelenítéséhez vagy elrejtéséhez "
-"további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -22995,8 +23030,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület értesítési modul a zárolt jegyek számának "
 "megtekintéséhez. A hivatkozás megjelenítéséhez vagy elrejtéséhez további "
-"hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -23007,8 +23042,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület értesítési modul azon jegyek számának megtekintéséhez, "
 "amelyekért egy ügyintéző felelős. A hivatkozás megjelenítéséhez vagy "
-"elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -23018,8 +23053,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület értesítési modul a „Saját szolgáltatásaiban” lévő jegyek "
 "számának megtekintéséhez. A hivatkozás megjelenítéséhez vagy elrejtéséhez "
-"további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -23029,8 +23064,8 @@ msgid ""
 msgstr ""
 "Ügyintézői felület értesítési modul a megfigyelt jegyek számának "
 "megtekintéséhez. A hivatkozás megjelenítéséhez vagy elrejtéséhez további "
-"hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid "Agent reference dynamic field with data search."
@@ -23287,8 +23322,8 @@ msgid ""
 msgstr ""
 "Lehetővé teszi a kiterjesztett keresési feltételeket az általános ügyintézői "
 "felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre "
-"olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „"
-"(*kulcs1*||*kulcs2*)”."
+"olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||"
+"*kulcs2*)”."
 
 #. SysConfig
 msgid "Allows generic agent to execute custom modules."
@@ -23641,12 +23676,12 @@ msgstr ""
 "érvényes jegyszámmal (ebben a példában) a @example.com című feladótól. Itt "
 "használhat reguláris kifejezéseket. Új sort is hozzáadhat az illesztés "
 "mezőben, hogy több mezőben is keressen, például a „Címzett” mezőben, és itt "
-"is használhat reguláris kifejezéseket. A „"
-"PostMaster::PreFilterModule::NewTicketReject::Body”, a „"
-"PostMaster::PreFilterModule::NewTicketReject::Subject” és a „"
-"PostMaster::PreFilterModule::NewTicketReject::Sender” beállításokkal "
-"automatikus elutasító üzenetet határozhat meg. Egy illesztés (például „"
-"From -> .”) szükséges ahhoz, hogy ez a funkcionalitás működjön."
+"is használhat reguláris kifejezéseket. A "
+"„PostMaster::PreFilterModule::NewTicketReject::Body”, a "
+"„PostMaster::PreFilterModule::NewTicketReject::Subject” és a "
+"„PostMaster::PreFilterModule::NewTicketReject::Sender” beállításokkal "
+"automatikus elutasító üzenetet határozhat meg. Egy illesztés (például „From "
+"-> .”) szükséges ahhoz, hogy ez a funkcionalitás működjön."
 
 #. SysConfig
 msgid "Both"
@@ -24010,8 +24045,8 @@ msgid ""
 "used in selections and tables. Notify colors are the background of "
 "notifications."
 msgstr ""
-"Színmeghatározások az ügyintézői felülethez (alapértelmezett felszín). A „"
-"MainDark”, a „MainLight” és a „MainHover” a navigációs háttér, gombok és "
+"Színmeghatározások az ügyintézői felülethez (alapértelmezett felszín). A "
+"„MainDark”, a „MainLight” és a „MainHover” a navigációs háttér, gombok és "
 "néhány egyéb fő elem színei. A „Highlight” például az ikonok és a "
 "kiválasztott elemek színe a navigációs sávon. A „BG” és „Text” kezdetű "
 "színek különféle háttér- és szövegszínek. A „Hover” színek kijelöléseknél és "
@@ -24230,8 +24265,8 @@ msgid ""
 "(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
 "Beállítja az alapértelmezett jegy dinamikus mező beállítást. A „Name” a "
-"használandó dinamikus mezőt, a „Value” a beállítandó adatokat, illetve az „"
-"Event” az aktiváló eseményt határozza meg. Nézze meg a fejlesztői kézikönyv "
+"használandó dinamikus mezőt, a „Value” a beállítandó adatokat, illetve az "
+"„Event” az aktiváló eseményt határozza meg. Nézze meg a fejlesztői kézikönyv "
 "(https://doc.otobo.org/) „Jegyesemény modul” fejezetét."
 
 #. SysConfig
@@ -24704,8 +24739,8 @@ msgid ""
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
 msgstr ""
 "A jegykeresés képernyő attribútumainál használt alapértelmezett adatok. "
-"Például: „"
-"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”."
+"Például: "
+"„TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”."
 
 #. SysConfig
 msgid ""
@@ -24713,8 +24748,8 @@ msgid ""
 "\"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
 msgstr ""
 "A jegykeresés képernyő attribútumainál használt alapértelmezett adatok. "
-"Például: „"
-"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;”."
+"Például: "
+"„TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;”."
 
 #. SysConfig
 msgid ""
@@ -25177,11 +25212,11 @@ msgstr ""
 "A „PasswordRegExp” lehetővé teszi a jelszavak illesztését egy reguláris "
 "kifejezéssel. A „PasswordMinSize” használatával meghatározható a karakterek "
 "legkisebb száma. A megfelelő beállítás „1”-re állításával meghatározható, "
-"hogy legalább 2 kisbetűs és 2 nagybetűs karakter szükséges. A „"
-"PasswordMin2Characters” azt határozza meg, hogy a jelszónak tartalmaznia "
-"kell legalább 2 betű karaktert (állítsa 0-ra vagy 1-re). A „PasswordNeedDigit"
-"” szabályozza a legalább 1 számjegy szükségét (állítsa 0-ra vagy 1-re a "
-"szabályzáshoz)."
+"hogy legalább 2 kisbetűs és 2 nagybetűs karakter szükséges. A "
+"„PasswordMin2Characters” azt határozza meg, hogy a jelszónak tartalmaznia "
+"kell legalább 2 betű karaktert (állítsa 0-ra vagy 1-re). A "
+"„PasswordNeedDigit” szabályozza a legalább 1 számjegy szükségét (állítsa 0-"
+"ra vagy 1-re a szabályzáshoz)."
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
@@ -25244,7 +25279,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines available article actions for e-mail articles."
-msgstr "Meghatározza az elérhető bejegyzésműveleteket az e-mail bejegyzéseknél."
+msgstr ""
+"Meghatározza az elérhető bejegyzésműveleteket az e-mail bejegyzéseknél."
 
 #. SysConfig
 msgid "Defines available article actions for invalid articles."
@@ -25288,7 +25324,8 @@ msgstr "Csoportokat határoz meg a beállítási elemekhez."
 
 #. SysConfig
 msgid "Defines how many deployments the system should keep."
-msgstr "Meghatározza, hogy a rendszernek hány üzembe állítást kell megtartania."
+msgstr ""
+"Meghatározza, hogy a rendszernek hány üzembe állítást kell megtartania."
 
 #. SysConfig
 msgid ""
@@ -25527,8 +25564,8 @@ msgid ""
 "product News dashboard widgets, among others."
 msgstr ""
 "Meghatározza, hogy lehetséges-e a kommunikáció a rendszer és azon "
-"kiszolgálók között, amelyek felhőszolgáltatásokat nyújtanak. Ha „"
-"Felhőszolgáltatások letiltása” értékre van állítva, akkor néhány "
+"kiszolgálók között, amelyek felhőszolgáltatásokat nyújtanak. Ha "
+"„Felhőszolgáltatások letiltása” értékre van állítva, akkor néhány "
 "funkcionalitás el fog veszi, mint például a támogatási adatok küldése, a "
 "csomagellenőrzés és a termékhírek vezérlőpult felületi elemek, többek között."
 
@@ -25737,8 +25774,8 @@ msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
 "module 'PublicSupportDataCollector' (e.g. used from the OTOBO Daemon)."
 msgstr ""
-"Meghatározza a HTTP gépnevet a támogatási adatok gyűjtéséhez a nyilvános „"
-"PublicSupportDataCollector” modullal (például az OTOBO démonból használva)."
+"Meghatározza a HTTP gépnevet a támogatási adatok gyűjtéséhez a nyilvános "
+"„PublicSupportDataCollector” modullal (például az OTOBO démonból használva)."
 
 #. SysConfig
 msgid ""
@@ -25785,8 +25822,8 @@ msgid ""
 "Defines the address of a dedicated DNS server, if necessary, for the "
 "\"CheckMXRecord\" look-ups."
 msgstr ""
-"Meghatározza egy dedikált DNS kiszolgáló címét, ha szükséges a „CheckMXRecord"
-"” keresésekhez."
+"Meghatározza egy dedikált DNS kiszolgáló címét, ha szükséges a "
+"„CheckMXRecord” keresésekhez."
 
 #. SysConfig
 msgid ""
@@ -25802,8 +25839,8 @@ msgid ""
 "make full and half hours available."
 msgstr ""
 "Meghatározza az elérhető lépéseket az időkijelölésekben. A „Perc” választása "
-"lehetővé teszi egy óra összes percének kiválasztását 1-59 között. A „30 perc"
-"” választása csak teljes vagy fél óra kiválasztását teszi elérhetővé."
+"lehetővé teszi egy óra összes percének kiválasztását 1-59 között. A „30 "
+"perc” választása csak teljes vagy fél óra kiválasztását teszi elérhetővé."
 
 #. SysConfig
 msgid ""
@@ -25859,7 +25896,8 @@ msgstr "Meghatározza az elutasított levelek törzsének szövegét."
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
-msgstr "Meghatározza a naptár szélességét százalékosan. Az alapértelmezett 95%."
+msgstr ""
+"Meghatározza a naptár szélességét százalékosan. Az alapértelmezett 95%."
 
 #. SysConfig
 msgid "Defines the close state for quick close."
@@ -25886,8 +25924,8 @@ msgid ""
 "redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no "
 "selection is made by the agent."
 msgstr ""
-"Meghatározza a beállítások nézetben elérhető beállítási paramétereket. A „"
-"MarkTicketSeenRedirectDefaultURL” rendszerbeállításból származó "
+"Meghatározza a beállítások nézetben elérhető beállítási paramétereket. A "
+"„MarkTicketSeenRedirectDefaultURL” rendszerbeállításból származó "
 "alapértelmezett átirányítási URL lesz használva, ha az ügyintéző nem választ "
 "ki semmit."
 
@@ -25897,8 +25935,8 @@ msgid ""
 "redirect URL from SysConfig 'MarkTicketUnseenRedirectDefaultURL' is used if "
 "no selection is made by the agent."
 msgstr ""
-"Meghatározza a beállítások nézetben elérhető beállítási paramétereket. A „"
-"MarkTicketUnseenRedirectDefaultURL” rendszerbeállításból származó "
+"Meghatározza a beállítások nézetben elérhető beállítási paramétereket. A "
+"„MarkTicketUnseenRedirectDefaultURL” rendszerbeállításból származó "
 "alapértelmezett átirányítási URL lesz használva, ha az ügyintéző nem választ "
 "ki semmit."
 
@@ -25934,11 +25972,11 @@ msgstr ""
 "nagybetűs karakter szükséges. A „PasswordMin2Characters” azt határozza meg, "
 "hogy a jelszónak tartalmaznia kell legalább 2 betű karaktert (állítsa 0-ra "
 "vagy 1-re). A „PasswordNeedDigit” szabályozza a legalább 1 számjegy "
-"szükségét (állítsa 0-ra vagy 1-re a szabályzáshoz). A „PasswordMaxLoginFailed"
-"” lehetővé teszi egy ügyintéző átmenetileg érvénytelenre állítását, ha a "
-"maximális sikertelen bejelentkezést elérte. Ne feledje: az „Active” 0-ra "
-"állításával csak az ügyintézőknek akadályozza meg ezen csoport "
-"beállításainak szerkesztését a személyes beállításaikban, de az "
+"szükségét (állítsa 0-ra vagy 1-re a szabályzáshoz). A "
+"„PasswordMaxLoginFailed” lehetővé teszi egy ügyintéző átmenetileg "
+"érvénytelenre állítását, ha a maximális sikertelen bejelentkezést elérte. Ne "
+"feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg "
+"ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az "
 "adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését "
 "egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak "
 "szabályozásához, hogy ezeknek a beállításoknak mely területen kell "
@@ -26309,9 +26347,9 @@ msgstr ""
 "Meghatározza az alapértelmezetten megjelenített jegy keresési attribútumát a "
 "jegykeresés képernyőnél. Például: a „Kulcs” értékének jelen esetben a "
 "dinamikus mező „X” nevének kell lennie, a „Tartalom” értékének a dinamikus "
-"mező típusától függően a dinamikus mező értékének kell lennie, a szöveg: „"
-"egy szöveg”, a lenyíló: „1”, a dátum és idő: „"
-"Search_DynamicField_XTimeSlotStartYear=1974; "
+"mező típusától függően a dinamikus mező értékének kell lennie, a szöveg: "
+"„egy szöveg”, a lenyíló: „1”, a dátum és idő: "
+"„Search_DynamicField_XTimeSlotStartYear=1974; "
 "Search_DynamicField_XTimeSlotStartMonth=01; "
 "Search_DynamicField_XTimeSlotStartDay=26; "
 "Search_DynamicField_XTimeSlotStartHour=00; "
@@ -26322,8 +26360,8 @@ msgstr ""
 "Search_DynamicField_XTimeSlotStopDay=26; "
 "Search_DynamicField_XTimeSlotStopHour=23; "
 "Search_DynamicField_XTimeSlotStopMinute=59; "
-"Search_DynamicField_XTimeSlotStopSecond=59;” és vagy „"
-"Search_DynamicField_XTimePointFormat=week; "
+"Search_DynamicField_XTimeSlotStopSecond=59;” és vagy "
+"„Search_DynamicField_XTimePointFormat=week; "
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7”;."
 
@@ -27070,8 +27108,8 @@ msgid ""
 "Action=PublicRepository;File=\" and Content=\"Some Name\"."
 msgstr ""
 "Meghatározza az interneten lévő tárolók listáját. Egy másik telepítés is "
-"használható tárolóként, például: Kulcs=„http://example.com/otobo/"
-"public.pl?Action=PublicRepository;File=” és Tartalom=„Valamilyen név”."
+"használható tárolóként, például: Kulcs=„http://example.com/otobo/public.pl?"
+"Action=PublicRepository;File=” és Tartalom=„Valamilyen név”."
 
 #. SysConfig
 msgid ""
@@ -27736,8 +27774,8 @@ msgid ""
 "ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
-"Meghatározza a telefonos jegy címzett célját és az e-mail jegy küldőjét (a „"
-"Várólista” minden várólistát megjelenít, a „Rendszercím” minden "
+"Meghatározza a telefonos jegy címzett célját és az e-mail jegy küldőjét (a "
+"„Várólista” minden várólistát megjelenít, a „Rendszercím” minden "
 "rendszercímet megjelenít) az ügyintézői felületen."
 
 #. SysConfig
@@ -27812,8 +27850,8 @@ msgid ""
 "and <OTOBO_CONFIG_ScriptAlias> will be substituted."
 msgstr ""
 "Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén "
-"megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a „"
-"Content” tartalomban lévő érték a megjelenített címke. Az "
+"megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a "
+"„Content” tartalomban lévő érték a megjelenített címke. Az "
 "<OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az "
 "<OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
 
@@ -28007,7 +28045,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
-msgstr "Meghatározza azt a kétlépcsős modult, amely hitelesíti az ügyintézőket."
+msgstr ""
+"Meghatározza azt a kétlépcsős modult, amely hitelesíti az ügyintézőket."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate customers."
@@ -28028,8 +28067,8 @@ msgid ""
 "connections."
 msgstr ""
 "Meghatározza a webkiszolgáló által az alkalmazás kiszolgálásához használt "
-"protokoll típusát. Ha a webkiszolgáló HTTP-t használ HTTPS helyett, akkor „"
-"http” értéket kell itt megadni. A „HttpType” beállításnak nincs hatása a "
+"protokoll típusát. Ha a webkiszolgáló HTTP-t használ HTTPS helyett, akkor "
+"„http” értéket kell itt megadni. A „HttpType” beállításnak nincs hatása a "
 "webkiszolgáló beállításaira vagy működésére. Pontosabban nem fogja "
 "megváltoztatni az alkalmazás elérésének módszerét. Ha a beállítás hibás, "
 "akkor sem fogja megakadályozni Önt az alkalmazásba való bejelentkezésben. Ez "
@@ -28271,7 +28310,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines if the statistics module may generate article lists."
-msgstr "Meghatározza, hogy a statisztika modul előállíthat-e bejegyzéslistákat."
+msgstr ""
+"Meghatározza, hogy a statisztika modul előállíthat-e bejegyzéslistákat."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
@@ -28493,7 +28533,8 @@ msgstr "Kattintással megjeleníthető"
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
-msgstr "Megjeleníti az elszámolt időt egy bejegyzésnél a jegy nagyítás nézeten."
+msgstr ""
+"Megjeleníti az elszámolt időt egy bejegyzésnél a jegy nagyítás nézeten."
 
 #. SysConfig
 msgid ""
@@ -28863,7 +28904,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the customer interface."
-msgstr "Az ügyfélfelület jegykeresés képernyőjén megjelenített dinamikus mezők."
+msgstr ""
+"Az ügyfélfelület jegykeresés képernyőjén megjelenített dinamikus mezők."
 
 #. SysConfig
 msgid ""
@@ -29563,8 +29605,8 @@ msgid ""
 "Frontend module registration (show personal favorites as sub navigation "
 "items of 'Admin')."
 msgstr ""
-"Előtétprogram-modul regisztráció (személyes kedvencek megjelenítése az „"
-"Adminisztráció” alnavigációs elemeiként)."
+"Előtétprogram-modul regisztráció (személyes kedvencek megjelenítése az "
+"„Adminisztráció” alnavigációs elemeiként)."
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
@@ -29695,7 +29737,8 @@ msgstr "Általános felület modul regisztráció az átmenő meghívó réteghe
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketCreate invoker layer."
-msgstr "Általános felület modul regisztráció a jegylétrehozás meghívó réteghez."
+msgstr ""
+"Általános felület modul regisztráció a jegylétrehozás meghívó réteghez."
 
 #. SysConfig
 msgid ""
@@ -29822,7 +29865,8 @@ msgstr "Hindi"
 
 #. SysConfig
 msgid "How many rotated otobo.log files to keep. Default is 3."
-msgstr "Hány forgatott otobo.log fájlt kell megtartani. Alapértelmezetten 3-at."
+msgstr ""
+"Hány forgatott otobo.log fájlt kell megtartani. Alapértelmezetten 3-at."
 
 #. SysConfig
 msgid "Hungarian"
@@ -29876,8 +29920,8 @@ msgid ""
 msgstr ""
 "Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell "
 "adni a jelszavak titkosításának típusát. Nem ajánlott beállítani a nem "
-"igazán biztonságos algoritmusokat, mint például „md5”, „apr1”, „crypt” és „"
-"plain”."
+"igazán biztonságos algoritmusokat, mint például „md5”, „apr1”, „crypt” és "
+"„plain”."
 
 #. SysConfig
 msgid ""
@@ -30062,8 +30106,8 @@ msgid ""
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
 msgstr ""
 "Ha „LDAP” lett kiválasztva, akkor egy szűrőt adhat minden LDAP "
-"lekérdezéshez, például (mail=*), (objectclass=user) vagy "
-"(!objectclass=computer)."
+"lekérdezéshez, például (mail=*), (objectclass=user) vagy (!"
+"objectclass=computer)."
 
 #. SysConfig
 msgid ""
@@ -30467,9 +30511,9 @@ msgstr ""
 "automatikusan kiválasztásra kerül, de a mező továbbra is megjelenik, vagy "
 "(2) az egyetlen érték automatikusan kiválasztásra kerül, és a mező rejtve "
 "lesz (de továbbra is rendelkezik az értékkel). A lehetséges legördülő lista "
-"mezők lehetnek például „Dest” (célvárólista), „ServiceID”, „SLAID”, „TypeID"
-"”, „DynamicFields” (a dinamikus mezők neveinek listája a „DynamicField_” "
-"előtag nélkül) és egyebek."
+"mezők lehetnek például „Dest” (célvárólista), „ServiceID”, „SLAID”, "
+"„TypeID”, „DynamicFields” (a dinamikus mezők neveinek listája a "
+"„DynamicField_” előtag nélkül) és egyebek."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -30508,9 +30552,9 @@ msgstr ""
 "jegytáblából (nincs teljesítmény-probléma a rendszeren körülbelül 60 000 "
 "összes jegyig és 6000 nyitott jegyig). A „StaticDB” a legerősebb modul, "
 "amely egy további jegyindex táblát használ, amely úgy működik mint egy nézet "
-"(javasolt, ha több mint 80 000 és 6000 nyitott jegy van a rendszeren tárolva)"
-". Használja a „bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild” "
-"parancsot a kezdeti index létrehozásához."
+"(javasolt, ha több mint 80 000 és 6000 nyitott jegy van a rendszeren "
+"tárolva). Használja a „bin/otobo.Console.pl "
+"Maint::Ticket::QueueIndexRebuild” parancsot a kezdeti index létrehozásához."
 
 #. SysConfig
 msgid ""
@@ -30760,16 +30804,16 @@ msgid ""
 "List of Active CKEditor Plugins. (Only used if "
 "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
-"Az aktív CKEditor-bővítmények listája. Csak akkor van használva, ha a „"
-"CustomerFrontend::RichText::EnhancedMode” beállítás engedélyezve van."
+"Az aktív CKEditor-bővítmények listája. Csak akkor van használva, ha a "
+"„CustomerFrontend::RichText::EnhancedMode” beállítás engedélyezve van."
 
 #. SysConfig
 msgid ""
 "List of Active CKEditor Plugins. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
-"Az aktív CKEditor-bővítmények listája. Csak akkor van használva, ha a „"
-"Frontend::RichText::EnhancedMode” beállítás engedélyezve van."
+"Az aktív CKEditor-bővítmények listája. Csak akkor van használva, ha a "
+"„Frontend::RichText::EnhancedMode” beállítás engedélyezve van."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
@@ -31400,7 +31444,8 @@ msgstr "Egy modul az adatbázis-szűrő tároló használatához."
 
 #. SysConfig
 msgid "Module used to detect if attachments are present."
-msgstr "Egy modul annak használatához, hogy felismerje, ha a melléklet létezik."
+msgstr ""
+"Egy modul annak használatához, hogy felismerje, ha a melléklet létezik."
 
 #. SysConfig
 msgid "My Queues"
@@ -31534,8 +31579,8 @@ msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index "
 "'tmpattachments'."
 msgstr ""
-"Töredékek száma (NS), replikák száma (NR) és mezők korlátai a „tmpattachments"
-"” indexhez."
+"Töredékek száma (NS), replikák száma (NR) és mezők korlátai a "
+"„tmpattachments” indexhez."
 
 #. SysConfig
 msgid ""
@@ -31545,8 +31590,8 @@ msgid ""
 msgstr ""
 "Töredékek száma (NS), replikák száma (NR) és mezők korlátai az indexhez. "
 "Megjegyzés: az „Elasticsearch::ArticleIndexCreationSettings” beállítás "
-"elavult. A felfelé való kompatibilitáshoz használja az „"
-"Elasticsearch::IndexSettings###Default” beállítást helyette."
+"elavult. A felfelé való kompatibilitáshoz használja az "
+"„Elasticsearch::IndexSettings###Default” beállítást helyette."
 
 #. SysConfig
 msgid ""
@@ -31561,8 +31606,8 @@ msgstr ""
 "Ez lecseréli az „Elasticsearch::ArticleIndexCreationSettings” beállítást a "
 "jövőbeli verziókban. Ha mindkettő jelen van és nem egyenlők, akkor ez élvez "
 "elsőbbséget. Használja az „Elasticsearch::IndexSettings###…” beállításokat, "
-"ha különleges beállításokat szeretne meghatározni az önálló indexekhez. A „…"
-"” végződés „Customer”, „CustomerUser”, „Ticket” vagy „ConfigItem” egyike "
+"ha különleges beállításokat szeretne meghatározni az önálló indexekhez. A "
+"„…” végződés „Customer”, „CustomerUser”, „Ticket” vagy „ConfigItem” egyike "
 "lehet."
 
 #. SysConfig
@@ -31806,7 +31851,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Package event module trigger package reinstall in containers."
-msgstr "Csomagesemény-modul csomag-újratelepítés aktiválásához a konténerekben."
+msgstr ""
+"Csomagesemény-modul csomag-újratelepítés aktiválásához a konténerekben."
 
 #. SysConfig
 msgid ""
@@ -31838,8 +31884,8 @@ msgstr ""
 "nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek "
 "akadályozza meg ezen csoport beállításainak szerkesztését a személyes "
 "beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a "
-"beállítások szerkesztését egy másik felhasználó nevében. Használja a „"
-"PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a "
+"beállítások szerkesztését egy másik felhasználó nevében. Használja a "
+"„PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a "
 "beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
@@ -31855,8 +31901,8 @@ msgstr ""
 "nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek "
 "akadályozza meg ezen csoport beállításainak szerkesztését a személyes "
 "beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a "
-"beállítások szerkesztését egy másik felhasználó nevében. Használja a „"
-"PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a "
+"beállítások szerkesztését egy másik felhasználó nevében. Használja a "
+"„PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a "
 "beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
@@ -31872,8 +31918,8 @@ msgstr ""
 "nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek "
 "akadályozza meg ezen csoport beállításainak szerkesztését a személyes "
 "beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a "
-"beállítások szerkesztését egy másik felhasználó nevében. Használja a „"
-"PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a "
+"beállítások szerkesztését egy másik felhasználó nevében. Használja a "
+"„PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a "
 "beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
@@ -31953,10 +31999,10 @@ msgid ""
 msgstr ""
 "Paraméterek az ügyintézői felület ügyfél-azonosító állapot felületi elemének "
 "vezérlőpult háttérprogramjához. A „Group” használható a hozzáférés "
-"korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „"
-"Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve "
-"van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „"
-"CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
+"korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A "
+"„Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve "
+"van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A "
+"„CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
 
 #. SysConfig
 msgid ""
@@ -31968,10 +32014,10 @@ msgid ""
 msgstr ""
 "Paraméterek az ügyintézői felület ügyfél-felhasználó információinak "
 "vezérlőpult háttérprogramjához. A „Group” használható a hozzáférés "
-"korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „"
-"Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve "
-"van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „"
-"CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
+"korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A "
+"„Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve "
+"van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A "
+"„CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
 
 #. SysConfig
 msgid ""
@@ -32088,8 +32134,8 @@ msgid ""
 msgstr ""
 "Paraméterek az ügyintézői felület várólista áttekintő felületi elemének "
 "vezérlőpult háttérprogramjához. A „Group” használható a hozzáférés "
-"korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „"
-"QueuePermissionGroup” nem kötelező, a várólisták csak akkor lesznek "
+"korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A "
+"„QueuePermissionGroup” nem kötelező, a várólisták csak akkor lesznek "
 "listázva, ha ehhez a jogosultság csoporthoz tartoznak, ha engedélyezi azt. A "
 "„States” az állapotok listája, a kulcs az állapot rendezési sorrendje a "
 "felületi elemen. A „Default” azt határozza meg, hogy a bővítmény "
@@ -32748,7 +32794,8 @@ msgstr "Eltávolítja a régi jegyszám számlálókat (10 percenként)."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
-msgstr "Eltávolítja a jegy megfigyelési információkat, ha a jegyet archiválják."
+msgstr ""
+"Eltávolítja a jegy megfigyelési információkat, ha a jegyet archiválják."
 
 #. SysConfig
 msgid ""
@@ -32969,8 +33016,8 @@ msgid ""
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
 msgstr ""
 "Fájlalapú általános ügyintéző feladatok futtatása (Megjegyzés: a modul nevét "
-"meg kell adni a -configuration-module paraméterben, például „"
-"Kernel::System::GenericAgent”)."
+"meg kell adni a -configuration-module paraméterben, például "
+"„Kernel::System::GenericAgent”)."
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -33237,8 +33284,8 @@ msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Ticket Notifications\"."
 msgstr ""
-"Elküldi azokat az értesítéseket, amelyek az adminisztrációs felületen a „"
-"Jegyértesítések” alatt vannak beállítva."
+"Elküldi azokat az értesítéseket, amelyek az adminisztrációs felületen a "
+"„Jegyértesítések” alatt vannak beállítva."
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -33600,8 +33647,8 @@ msgid ""
 "Sets the default subject for new phone tickets (e.g. 'Phone call') in the "
 "agent interface."
 msgstr ""
-"Beállítja az alapértelmezett tárgyat az új telefonos jegyeknél (például „"
-"telefonhívás”) az ügyintézői felületen."
+"Beállítja az alapértelmezett tárgyat az új telefonos jegyeknél (például "
+"„telefonhívás”) az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
@@ -33931,8 +33978,8 @@ msgid ""
 "interface (Ticket::Service needs to be enabled)."
 msgstr ""
 "Beállítja a szolgáltatást egy nagyított jegynek a jegytulajdonos képernyőjén "
-"az ügyintézői felületen (a Ticket::Service modulnak engedélyezve kell lennie)"
-"."
+"az ügyintézői felületen (a Ticket::Service modulnak engedélyezve kell "
+"lennie)."
 
 #. SysConfig
 msgid ""
@@ -33940,8 +33987,8 @@ msgid ""
 "agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 "Beállítja a szolgáltatást egy nagyított jegynek a várakozó jegy képernyőjén "
-"az ügyintézői felületen (a Ticket::Service modulnak engedélyezve kell lennie)"
-"."
+"az ügyintézői felületen (a Ticket::Service modulnak engedélyezve kell "
+"lennie)."
 
 #. SysConfig
 msgid ""
@@ -33949,8 +33996,8 @@ msgid ""
 "agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 "Beállítja a szolgáltatást egy nagyított jegynek a jegyprioritás képernyőjén "
-"az ügyintézői felületen (a Ticket::Service modulnak engedélyezve kell lennie)"
-"."
+"az ügyintézői felületen (a Ticket::Service modulnak engedélyezve kell "
+"lennie)."
 
 #. SysConfig
 msgid ""
@@ -34177,8 +34224,8 @@ msgid ""
 "Sets the timeout (in seconds) for package downloads. Overwrites "
 "\"WebUserAgent::Timeout\"."
 msgstr ""
-"Beállítja az időkorlátot (másodpercben) a csomagletöltésekhez. Felülírja a „"
-"WebUserAgent::Timeout” beállítást."
+"Beállítja az időkorlátot (másodpercben) a csomagletöltésekhez. Felülírja a "
+"„WebUserAgent::Timeout” beállítást."
 
 #. SysConfig
 msgid "Settings for Similar Ticket Search in ES."
@@ -34265,8 +34312,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben a jeggyel összekapcsolt naptáridőpont "
 "létrehozásához közvetlenül az ügyintézői felület jegynagyítás nézetéből. "
 "Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további "
-"hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34285,8 +34332,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy jegyre történő feliratkozáshoz "
 "vagy leiratkozáshoz az ügyintézői felület jegynagyítás nézetében. Ezen "
 "hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési "
-"vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34305,8 +34352,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben, amely lehetővé teszi egy jegy "
 "összekapcsolását egy másik objektummal az ügyintézői felület jegynagyítás "
 "nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez "
-"további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34362,12 +34409,12 @@ msgid ""
 msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy szabad szövegmező hozzáadásához az "
 "ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez "
-"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „"
-"Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
-"használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName"
-"” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen "
-"látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
-"sorrendjének beállításához az eszköztáron belül."
+"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a "
+"„Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
+"használatával. A menüpontok csoportokba rendezéséhez használja a "
+"„ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói "
+"felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos "
+"fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -34380,12 +34427,12 @@ msgid ""
 msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy jegyzet hozzáadásához az "
 "ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez "
-"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „"
-"Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
-"használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName"
-"” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen "
-"látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
-"sorrendjének beállításához az eszköztáron belül."
+"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a "
+"„Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
+"használatával. A menüpontok csoportokba rendezéséhez használja a "
+"„ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói "
+"felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos "
+"fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -34446,8 +34493,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben az ügyintézői felület jegynagyítás "
 "nézetében annak az ügyfélnek a megváltoztatásához, aki a jegyet kérte. Ezen "
 "hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési "
-"vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34466,8 +34513,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy jegy tulajdonosának "
 "megváltoztatásához az ügyintézői felület jegynagyítás nézetében. Ezen "
 "hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési "
-"vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34486,8 +34533,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy jegy felelős ügyintézőjének "
 "megváltoztatásához az ügyintézői felület jegynagyítás nézetében. Ezen "
 "hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési "
-"vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34515,10 +34562,10 @@ msgstr ""
 "felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg "
 "nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” "
 "kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
-"használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName"
-"” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen "
-"látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
-"sorrendjének beállításához az eszköztáron belül."
+"használatával. A menüpontok csoportokba rendezéséhez használja a "
+"„ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói "
+"felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos "
+"fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -34529,8 +34576,8 @@ msgid ""
 msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy jegy törléséhez az ügyintézői "
 "felület összes jegyáttekintőjében. A hivatkozás megjelenítéséhez vagy "
-"elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -34546,10 +34593,10 @@ msgstr ""
 "felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg "
 "nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” "
 "kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
-"használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName"
-"” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen "
-"látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
-"sorrendjének beállításához az eszköztáron belül."
+"használatával. A menüpontok csoportokba rendezéséhez használja a "
+"„ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói "
+"felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos "
+"fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -34686,12 +34733,12 @@ msgid ""
 msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy kimenő e-mail küldéséhez az "
 "ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez "
-"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „"
-"Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
-"használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName"
-"” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen "
-"látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
-"sorrendjének beállításához az eszköztáron belül."
+"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a "
+"„Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
+"használatával. A menüpontok csoportokba rendezéséhez használja a "
+"„ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói "
+"felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos "
+"fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -34702,8 +34749,8 @@ msgid ""
 msgstr ""
 "Egy hivatkozást jelenít meg a menüben egy jegy szemétként való "
 "megjelöléséhez az ügyintézői felület összes jegyáttekintőjében. A hivatkozás "
-"megjelenítéséhez vagy elrejtéséhez további hozzáférés vezérlő készíthető a „"
-"Group” kulcs és az „rw:csoport1;move_into:csoport2” értékhez hasonló "
+"megjelenítéséhez vagy elrejtéséhez további hozzáférés vezérlő készíthető a "
+"„Group” kulcs és az „rw:csoport1;move_into:csoport2” értékhez hasonló "
 "tartalom használatával."
 
 #. SysConfig
@@ -34746,8 +34793,8 @@ msgstr ""
 "Egy hivatkozást jelenít meg a menüben a törölt bejegyzések megjelenítéséhez "
 "vagy elrejtéséhez az ügyintézői felület jegynagyítás nézetében. Ezen "
 "hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési "
-"vezérlőt lehet készíteni a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
+"vezérlőt lehet készíteni a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A "
 "menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot "
 "bármilyen olyan tartalommal, amelyet a felhasználói felületen látni "
 "szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
@@ -34795,12 +34842,12 @@ msgid ""
 msgstr ""
 "Egy hivatkozást jelenít meg egy jegy szemétként történő beállításához az "
 "ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez "
-"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „"
-"Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
-"használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName"
-"” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen "
-"látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt "
-"sorrendjének beállításához az eszköztáron belül."
+"vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a "
+"„Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló "
+"használatával. A menüpontok csoportokba rendezéséhez használja a "
+"„ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói "
+"felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos "
+"fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -35033,8 +35080,8 @@ msgid ""
 msgstr ""
 "Külső oldalra mutató hivatkozást jelenít meg az ügyintézői felület "
 "jegynagyítás nézetében. A hivatkozás megjelenítéséhez vagy elrejtéséhez "
-"további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid "Shows the article head information in the agent zoom view."
@@ -36320,8 +36367,8 @@ msgid ""
 "\"rw:group1;move_into:group2\"."
 msgstr ""
 "Eszköztárelem egy gyorshivatkozáshoz. A hivatkozás megjelenítéséhez vagy "
-"elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az „"
-"rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+"elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az "
+"„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
 
 #. SysConfig
 msgid ""
@@ -36619,10 +36666,10 @@ msgid ""
 "WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", "
 "\"UserEmail\" and \"UserLogin\" will be substituted."
 msgstr ""
-"Üdvözlő szöveg a vezérlőpult fejlécéhez. A „Name” értéke beszúrásra kerül a „"
-"WelcomeText” szövegében lévő %s helyére. Ezek az értékek lesznek "
-"helyettesítve: „UserTitle”, „UserFirstname”, „UserLastname”, „UserEmail” és „"
-"UserLogin”."
+"Üdvözlő szöveg a vezérlőpult fejlécéhez. A „Name” értéke beszúrásra kerül a "
+"„WelcomeText” szövegében lévő %s helyére. Ezek az értékek lesznek "
+"helyettesítve: „UserTitle”, „UserFirstname”, „UserLastname”, „UserEmail” és "
+"„UserLogin”."
 
 #. SysConfig
 msgid ""
@@ -36674,8 +36721,8 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr ""
-"Amikor jegyeket egyesítenek, az ügyfél tájékoztatást kaphat e-mailben a „"
-"Küldő tájékoztatása” jelölőnégyzet beállításával. Ebben a szövegdobozban "
+"Amikor jegyeket egyesítenek, az ügyfél tájékoztatást kaphat e-mailben a "
+"„Küldő tájékoztatása” jelölőnégyzet beállításával. Ebben a szövegdobozban "
 "meghatározhat egy előformázott szöveget, amelyet később az ügyintézők "
 "módosíthatnak."
 

@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-14 13:39+0000\n"
+"POT-Creation-Date: 2026-07-21 14:36+0000\n"
 "PO-Revision-Date: 2026-06-30 18:28+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
@@ -18595,6 +18595,12 @@ msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
 #. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
+#, fuzzy
+#| msgid "Shown Elsticsearch Results"
+msgid "Shown Elasticsearch Results"
+msgstr "Gezeigte Elasticsearch-Ergebnisse"
+
+#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
 msgid "Shown Elsticsearch Results"
 msgstr "Gezeigte Elasticsearch-Ergebnisse"
 
@@ -19822,14 +19828,21 @@ msgid "AccountName %s not found!"
 msgstr "Kontoname \"%s\" nicht gefunden!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
+#, fuzzy
+#| msgid ""
+#| "No valid refresh_token for Account %s using grant_tpye 'authorization "
+#| "code' !"
 msgid ""
-"No valid refresh_token for Account %s using grant_tpye 'authorization code' !"
+"No valid refresh_token for Account %s using grant_type 'authorization code' !"
 msgstr ""
 "Kein gültiges refresh_token für das Konto %s beim Verwenden des grant_type "
 "'authorization code'!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-msgid "Need functional account Invoker settings in SysConfig for %s."
+#, fuzzy
+#| msgid "Need functional account Invoker settings in SysConfig for %s."
+msgid ""
+"Need functional account Invoker settings in System Configuration for %s."
 msgstr ""
 "Funktionskonto Invoker-Einstellungen in Systemkonfiguration für %s benötigt."
 
