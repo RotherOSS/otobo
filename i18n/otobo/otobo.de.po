@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-07-07 11:43+0000\n"
-"PO-Revision-Date: 2026-06-30 21:42+0000\n"
+"PO-Revision-Date: 2026-07-21 15:51+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
 "de/>\n"
@@ -7147,8 +7147,6 @@ msgid "Will be the sender address of this queue for email answers."
 msgstr "Absenderadresse für E-Mails aus dieser Queue."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid "Is defined in Admin > System addresses."
 msgid "Is defined in Admin > Email Addresses."
 msgstr "Ist definiert unter Admin > E-Mail-Adressen."
 
@@ -7182,16 +7180,12 @@ msgid "The signature for email answers."
 msgstr "Die Signatur für E-Mail-Antworten."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "The business calendar for Unlock Time and the Escalation Times. No "
-#| "selection means the Default calendard"
 msgid ""
 "The business calendar for unlock time and the escalation times. No selection "
 "means that the default calendar is used."
 msgstr ""
 "Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl "
-"bedeutet Standardkalender"
+"bedeutet, dass der Standardkalender verwendet wird."
 
 #. Template: AdminQueue
 #, fuzzy
