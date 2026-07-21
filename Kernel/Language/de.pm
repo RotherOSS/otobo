@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.990847990847991;
+    $Self->{Completeness}        = 0.990420360308836;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5632,6 +5632,9 @@ sub Data {
         'Unavailable' => 'Nicht verfügbar',
 
         # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
+        'Shown Elasticsearch Results' => '',
+
+        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
         'Shown Elsticsearch Results' => 'Gezeigte Elasticsearch-Ergebnisse',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -6098,10 +6101,10 @@ sub Data {
 
         # Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
         'AccountName %s not found!' => 'Kontoname "%s" nicht gefunden!',
-        'No valid refresh_token for Account %s using grant_tpye \'authorization code\' !' =>
-            'Kein gültiges refresh_token für das Konto %s beim Verwenden des grant_type \'authorization code\'!',
-        'Need functional account Invoker settings in SysConfig for %s.' =>
-            'Funktionskonto Invoker-Einstellungen in Systemkonfiguration für %s benötigt.',
+        'No valid refresh_token for Account %s using grant_type \'authorization code\' !' =>
+            '',
+        'Need functional account Invoker settings in System Configuration for %s.' =>
+            '',
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             'Gewünschter Token-Typ \'%s\' in der OIDC Anbieterantwort für den Invoker %s nicht empfangen!',
         'Time left on fresh token is: %s s for Invoker %s!' => 'Übrige Zeit für den unverbrauchten Token ist: %s Sekunden für den Invoker %s!',

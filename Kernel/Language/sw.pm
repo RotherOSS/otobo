@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.394680394680395;
+    $Self->{Completeness}        = 0.394623963397198;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5635,6 +5635,9 @@ sub Data {
         'Unavailable' => '',
 
         # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
+        'Shown Elasticsearch Results' => '',
+
+        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
         'Shown Elsticsearch Results' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
@@ -6101,9 +6104,9 @@ sub Data {
 
         # Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
         'AccountName %s not found!' => '',
-        'No valid refresh_token for Account %s using grant_tpye \'authorization code\' !' =>
+        'No valid refresh_token for Account %s using grant_type \'authorization code\' !' =>
             '',
-        'Need functional account Invoker settings in SysConfig for %s.' =>
+        'Need functional account Invoker settings in System Configuration for %s.' =>
             '',
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             '',
