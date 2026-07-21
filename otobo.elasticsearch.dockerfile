@@ -6,8 +6,7 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use 7.17.27, because latest flag is not available
-# It is currently unclear un which OS the image is based. The User is root.
+# Using the fixed version tag 8.19.3 because 'latest' are not provided on Docker Hub.
 FROM elasticsearch:8.19.3 AS otobo-elasticsearch
 
 # Install important plugins
