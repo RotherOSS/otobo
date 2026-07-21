@@ -4,10 +4,7 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.36.x series.
-# Perl 5.36.0 was released 2022-05-27.
-#
-# The Debian version is explicitly set to bookworm, that is Debian 12.
+# As of OTOBO 10.0.26 the Debian version is explicitly set to Debian 12 (bookworm).
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
@@ -17,15 +14,22 @@ FROM perl:5.36-bookworm AS otobo-web-kerberos
 USER root
 
 # Install some required and optional Debian packages.
+#
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
-# For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+# For ODBC for SQLite, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+#
+# The webserver needs to connect to MariaDB service using DBD::mysql. For that purpose
+# 'default-mysql-client' is installed. This allows the building
+# of the Perl module DBD::mysql. It also installs the command line program 'mysql'.
+#
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\
- && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+ && apt-get -y --no-install-recommends install\
  "ack"\
  "cron"\
  "default-mysql-client"\
+ "git"\
  "ldap-utils"\
  "less"\
  "nano"\
@@ -53,13 +57,42 @@ RUN apt-get update\
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
-# The Perl module installer 'cpanm' is already available via the base image.
+# Install CPAN distributions that are required by OTOBO into the local lib directory /opt/otobo_install/local.
+# './local' happens to be the default installation directory of carton.
+# Installation can be triggered by modifying the file cpanfile.docker.snapshot in any way.
 #
-# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
+# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by carton.
 # This hopefully reduces potential conflicts.
 #
-# carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+# The modules are installed with the command `carton` as it allows to install fixed
+# version from a previous snapshot. The idea is that the snapshot is updated when
+# performing local builds. The automatic build on Github uses the saved snapshot.
+#
+# 'carton install' installs the newest version of CPAN modules when the cpanfile.snapsho does not exist.
+# The file cpanfile.snapshot is created, documenting which versions were installed.
+# 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
+# and it will complain if modules that are not in the snapshot should be installed.
+#
+# A fatpacked script `carton` is used for building the image. This has the advantage
+# that the requirements for `carton` are not included in the generated Docker image.
+#
+# Creating the fatpacked carton script is a bit tedious. See
+# https://github.com/perl-carton/carton/issues/237 and https://github.com/miyagawa/cpanminus/pull/577.
+# The recommendation is to create the fatpack in an running container:
+#   cd /opt/otobo
+#   cpanm --local-lib local Carton
+#   cpanm --local-lib local App::FatPacker
+#   sed -e '/version::vpp/s/^/# version:vpp is not in core Perl 5.40:/' -i.bak local/lib/perl5/Menlo/CLI/Compat.pm
+#   touch cpanfile
+#   carton fatpack
+#   rm cpanfile
+# On the Docker host the fatpacked /opt/otobo_install/vendor/bin/carton can be copied to bin/docker/carton
+# in the Git sandbox.
+#   docker cp otoelfeins-web-1:/opt/otobo/vendor/bin/carton bin/docker/carton
+# Look for 'Hotpatch by the OTOBO Team' in the git diff and apply the hot patches to the new version.
+#   git add bin/docker/carton
+#
+# Note that the variable $DOCKER_TAG is already substituted by Docker.
 #
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
@@ -97,15 +130,6 @@ RUN perl -Mlocal::lib=local
 ENV PERL5LIB="/opt/otobo/local/lib/perl5:${PERL5LIB}"
 ENV PATH="/opt/otobo/local/bin:${PATH}"
 
-# uncomment these steps when strange behavior must be investigated
-#RUN echo "'$OTOBO_HOME'"
-#RUN whoami
-#RUN pwd
-#RUN uname -a
-#RUN ls -A
-#RUN tree Kernel
-#RUN false
-
 # Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
 # set up entrypoint.sh and docker_firsttime
 # Finally set permissions. Explicitly pass --runs-under-docker as
@@ -129,7 +153,7 @@ USER $OTOBO_USER
 # to pick up the changed host and to check whether Elasticsearch is available.
 RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" scripts/database/otobo-initial_insert.xml
 
-# Create dirs.
+# Create empty dirs.
 # Enable bash completion.
 # Add a .vimrc.
 # make Docker image identifyable via the files git-(repo|branch|commit).txt
