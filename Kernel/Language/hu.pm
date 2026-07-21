@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999851013110846;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5031,7 +5031,7 @@ sub Data {
         'Notification Was Sent' => 'Értesítés elküldve',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Ez a jegy nem létezik, vagy nincs jogosultsága a hozzáféréshez annak jelenlegi állapotában.',
-        'Could not delete form draft.' => '',
+        'Could not delete form draft.' => 'Nem sikerült törölni az űrlap piszkozatát.',
         'Missing FormDraftID!' => 'Hiányzó űrlappiszkozat-azonosító!',
         'Can\'t get for ArticleID %s!' => 'Nem lehet lekérni a(z) %s bejegyzés-azonosítóhoz!',
         'Article filter settings were saved.' => 'A bejegyzésszűrő beállításai mentésre kerültek.',
@@ -8728,7 +8728,7 @@ Az Ön ügyfélszolgálati csapata
         'Links 2 tickets with a "ParentChild" type link.' => 'Összekapcsol 2 jegyet egy „Szülő-gyermek” típusú hivatkozással.',
         'Links appointments and tickets with a "Normal" type link.' => 'Összekapcsolja az időpontokat és jegyeket egy „Normál” típusú hivatkozással.',
         'List of CSS files to always be loaded for the agent interface.' =>
-            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of CSS files to always be loaded for the customer interface.' =>
             'CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of JS files to always be loaded for the agent interface.' =>
