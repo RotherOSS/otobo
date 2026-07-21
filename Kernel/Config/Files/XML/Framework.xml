@@ -577,6 +577,30 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="Frontend::RichText::HtmlSupportAllowedElements" Required="0" Valid="1">
+        <Description Translatable="1">HTML elements that are passed through the CKEditor GeneralHtmlSupport filter with all their attributes, classes and inline styles in the agent interface. Elements not listed here lose attributes, classes and styles that are not handled by an active editor feature (e.g. inline styles on images).</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Array>
+                <Item>span</Item>
+                <Item>cite</Item>
+                <Item>style</Item>
+                <Item>table</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::RichText::HtmlSupportAllowedElements" Required="0" Valid="1">
+        <Description Translatable="1">HTML elements that are passed through the CKEditor GeneralHtmlSupport filter with all their attributes, classes and inline styles in the customer interface. Elements not listed here lose attributes, classes and styles that are not handled by an active editor feature (e.g. inline styles on images).</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Array>
+                <Item>span</Item>
+                <Item>cite</Item>
+                <Item>style</Item>
+                <Item>table</Item>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="DisableLoginAutocomplete" Required="0" Valid="1">
         <Description Translatable="1">Disable autocomplete in the login screen.</Description>
         <Navigation>Frontend::Base</Navigation>
