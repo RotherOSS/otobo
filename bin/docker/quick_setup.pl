@@ -74,7 +74,7 @@ This can be achieved with the bash function:
 
 =head1 DESCRIPTION
 
-Quickly create a running system that is useful for development and for continous integration.
+Quickly create a running system that is useful for development and for continuous integration.
 But please note that this script is not meant as an replacement for the OTOBO installer.
 
 The script allows to automatically create a sample customer user, admin user, and calendar.
@@ -305,7 +305,7 @@ sub Main {
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
-        # Unique names for session cookies. This allows to run distint instances on the same host.
+        # Unique names for session cookies. This allows to run distinct instances on the same host.
         push @Settings, (
             [ SessionName              => join( '_', 'OTOBOAgentInterface',    $SystemID ) ],
             [ CustomerPanelSessionName => join( '_', 'OTOBOCustomerInterface', $SystemID ) ],
@@ -439,7 +439,7 @@ sub CheckSystemRequirements {
         return 0, "'$HomeDir' is not a directory";
     }
 
-    # verfiy that SecureMode is not active
+    # verify that SecureMode is not active
     if ( $ConfigObject->Get('SecureMode') ) {
         return 0, "SecureMode is active";
     }
@@ -580,7 +580,7 @@ sub DBCreateUserAndDatabase {
     # 'mysql_native_password' works without an encrypted DB connection and is used per default here.
     # The advantage is that no encryption keys have to be set up.
     #
-    # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
+    # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therefore
     # a case switch must be used here.
     #
     # Different authentication plugins are supported. For the ed25519 plugin in MariaDB see
@@ -811,7 +811,7 @@ sub ActivateElasticsearch {
     # nothing to do when there is no Elasticsearch webservice
     return 1 unless $ESWebservice;
 
-    # ctivate the Elasticsearch webservice
+    # activate the Elasticsearch webservice
     my $UpdateSuccess = $WebserviceObject->WebserviceUpdate(
         $ESWebservice->%*,
         ValidID => 1,    # valid
@@ -827,7 +827,7 @@ sub ActivateElasticsearch {
         return 0, 'Elasticsearch is not available';
     }
 
-    my ( $SetupSuccess, $FatalError ) = $ESObject->InitialSetup();
+    my ($SetupSuccess) = $ESObject->InitialSetup();
 
     return 0, 'Initial setup of Elasticsearch was not successful' unless $SetupSuccess;
     return $SetupSuccess;
@@ -1041,6 +1041,44 @@ sub AddCustomerUser {
     );
 
     return 0, "Could not set the password for $Login" unless $PasswordSetSuccess;
+
+    # update preferences
+    #   mainly to set the language, but may be extended to someone's needs
+    my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+    my %Preferences     = %{ $ConfigObject->Get('CustomerPreferencesGroups') };
+    my %PreferencesData = (
+        Language => ['de'],
+    );
+    GROUP:
+    for my $Group ( sort keys %Preferences ) {
+        next GROUP unless $PreferencesData{$Group};
+
+        # get user data
+        my %UserData = $CustomerUserObject->CustomerUserDataGet(
+            User => $Login,
+        );
+        my $Module = $Preferences{$Group}->{Module};
+        if ( !$MainObject->Require($Module) ) {
+            next GROUP;
+        }
+        my $Object = $Module->new(
+
+            # different user id necessary to prevent modules from attempting to update AuthSession
+            UserID     => 1,
+            ConfigItem => $Preferences{$Group},
+            UserObject => $CustomerUserObject,
+        );
+        if (
+            !$Object->Run(
+                UserID   => $Login,
+                GetParam => \%PreferencesData,
+                UserData => \%UserData
+            )
+            )
+        {
+            return 0, "Could not set $Group for $Login";
+        }
+    }
 
     # looks good
     return 1, "Customer: http://$Param{FQDN}:$Param{HTTPPort}/otobo/customer.pl user: $Login pw: $Login";
