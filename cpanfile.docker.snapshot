@@ -1610,19 +1610,19 @@ DISTRIBUTIONS
       HTTP::Date 0
       Module::Build::Tiny 0.035
       perl 5.008001
-  HTTP-Message-7.02
-    pathname: O/OA/OALDERS/HTTP-Message-7.02.tar.gz
+  HTTP-Message-7.03
+    pathname: O/OA/OALDERS/HTTP-Message-7.03.tar.gz
     provides:
-      HTTP::Config 7.02
-      HTTP::Headers 7.02
-      HTTP::Headers::Auth 7.02
-      HTTP::Headers::ETag 7.02
-      HTTP::Headers::Util 7.02
-      HTTP::Message 7.02
-      HTTP::Request 7.02
-      HTTP::Request::Common 7.02
-      HTTP::Response 7.02
-      HTTP::Status 7.02
+      HTTP::Config 7.03
+      HTTP::Headers 7.03
+      HTTP::Headers::Auth 7.03
+      HTTP::Headers::ETag 7.03
+      HTTP::Headers::Util 7.03
+      HTTP::Message 7.03
+      HTTP::Request 7.03
+      HTTP::Request::Common 7.03
+      HTTP::Response 7.03
+      HTTP::Status 7.03
     requirements:
       Carp 0
       Clone 0.46
