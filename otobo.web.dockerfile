@@ -14,11 +14,12 @@
 #
 # The slim version is used for reducing the size of the image.
 #
-# The version of Perl is set to 5.42. The idea is that all release branches,
-# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
+# The three supported release series 10.1, 11.0, and 11.1 should use
+# the same version of Perl. The version of Perl may be updated in a patch level release.
+# The version of Debian should only be changed for a new major or minor version of OTOBO.
 #
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.42-slim-trixie AS base
+FROM perl:5.44-slim-trixie AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root

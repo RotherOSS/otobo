@@ -109,6 +109,7 @@ backup_es
 .env
 .env_*
 var/opm/
+push_to_docker.sh
 
 # Temporary files while running the unit tests
 bin/otobo.CheckDB.pl
