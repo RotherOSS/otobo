@@ -149,23 +149,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.008008
-  Archive-Tar-3.12
-    pathname: B/BI/BINGOS/Archive-Tar-3.12.tar.gz
-    provides:
-      Archive::Tar 3.12
-      Archive::Tar::Constant 3.12
-      Archive::Tar::File 3.12
-    requirements:
-      Compress::Zlib 2.015
-      ExtUtils::MakeMaker 0
-      File::Spec 0.82
-      IO::Compress::Base 2.015
-      IO::Compress::Bzip2 2.015
-      IO::Compress::Gzip 2.015
-      IO::Zlib 1.01
-      Test::Harness 2.26
-      Test::More 0
-      perl 5.005030
   Archive-Zip-1.68
     pathname: P/PH/PHRED/Archive-Zip-1.68.tar.gz
     provides:
@@ -360,12 +343,6 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  Compress-Raw-Bzip2-2.218
-    pathname: P/PM/PMQS/Compress-Raw-Bzip2-2.218.tar.gz
-    provides:
-      Compress::Raw::Bzip2 2.218
-    requirements:
-      ExtUtils::MakeMaker 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
