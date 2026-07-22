@@ -7,7 +7,7 @@
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Using a version tag that specifies the patch version because no 'latest' tag is provided on Docker Hub.
-FROM elasticsearch:8.19.19 AS otobo-elasticsearch
+FROM elasticsearch:9.4.4 AS otobo-elasticsearch
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
