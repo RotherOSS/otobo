@@ -1,13 +1,13 @@
 # This is the build file for the OTOBO Elasticsearch docker image.
 
-# The main reason for having a custom Elasticsearch image in OTOBO
+# The only reason for having a custom Elasticsearch image in OTOBO
 # is that additional plugins are installed.
 
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Using the fixed version tag 8.19.3 because 'latest' are not provided on Docker Hub.
-FROM elasticsearch:8.19.3 AS otobo-elasticsearch
+# Using a version tag that specifies the patch version because no 'latest' tag is provided on Docker Hub.
+FROM elasticsearch:8.19.19 AS otobo-elasticsearch
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
