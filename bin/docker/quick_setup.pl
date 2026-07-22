@@ -1014,6 +1014,44 @@ sub AddCustomerUser {
 
     return 0, "Could not set the password for $Login" unless $PasswordSetSuccess;
 
+    # update preferences
+    #   mainly to set the language, but may be extended to someone's needs
+    my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+    my %Preferences     = %{ $ConfigObject->Get('CustomerPreferencesGroups') };
+    my %PreferencesData = (
+        Language => ['de'],
+    );
+    GROUP:
+    for my $Group ( sort keys %Preferences ) {
+        next GROUP unless $PreferencesData{$Group};
+
+        # get user data
+        my %UserData = $CustomerUserObject->CustomerUserDataGet(
+            User => $Login,
+        );
+        my $Module = $Preferences{$Group}->{Module};
+        if ( !$MainObject->Require($Module) ) {
+            next GROUP;
+        }
+        my $Object = $Module->new(
+
+            # different user id necessary to prevent modules from attempting to update AuthSession
+            UserID     => 1,
+            ConfigItem => $Preferences{$Group},
+            UserObject => $CustomerUserObject,
+        );
+        if (
+            !$Object->Run(
+                UserID   => $Login,
+                GetParam => \%PreferencesData,
+                UserData => \%UserData
+            )
+            )
+        {
+            return 0, "Could not set $Group for $Login";
+        }
+    }
+
     # looks good
     return 1, "Customer: http://$Param{FQDN}:$Param{HTTPPort}/otobo/customer.pl user: $Login pw: $Login";
 }
