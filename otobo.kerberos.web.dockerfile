@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.9
+
 # This is the build file for the OTOBO web docker image.
 # The services OTOBO web and OTOBO daemon use the same image.
 
@@ -9,9 +11,10 @@
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
-# The version of Perl is set to 5.42. The idea is that all release branches,
-# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
-FROM perl:5.42-bookworm AS otobo-web-kerberos
+# The three supported release series 10.1, 11.0, and 11.1 should use
+# the same version of Perl. The version of Perl may be updated in a patch level release.
+# The version of Debian should only be changed for a new major or minor version of OTOBO.
+FROM perl:5.44-bookworm AS otobo-web-kerberos
 
 # First there is some initial setup that needs to be done by root.
 USER root
