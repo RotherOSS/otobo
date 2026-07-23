@@ -366,8 +366,9 @@ sub PageNew {
         ||
         $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/logo-otobo.png';
     if (
-        defined( $Param{LogoFile} )
-        && -e $Param{LogoFile}
+        $Param{LogoFile}
+        &&
+        -e $Param{LogoFile}
         && (
             $Param{LogoFile}    =~ m/\.gif$/i
             || $Param{LogoFile} =~ m/\.jpg$/i
