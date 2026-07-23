@@ -596,7 +596,7 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
         },
     },
     {
-        Name     => 'Form with SessionID (no cookie) and ChallengeToken, SessionID is no longer a form parameter',
+        Name     => 'Form with SessionID and ChallengeToken, SessionID is no longer a form parameter',
         Template => '
 <form action="#"></form>',
         Result => '
@@ -605,11 +605,10 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
             SessionName        => 'SID',
-            SessionIDCookie    => 0,
         },
     },
     {
-        Name     => 'Form with SessionID (with cookie) and ChallengeToken',
+        Name     => 'Form with SessionID and ChallengeToken',
         Template => '
 <form action="#"></form>',
         Result => '
@@ -618,11 +617,10 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
             SessionName        => 'Session',
-            SessionIDCookie    => 1,
         },
     },
     {
-        Name     => 'Link with SessionID (no cookie), SessionID is no longer a form parameter',
+        Name     => 'Link with SessionID, SessionID is no longer a form parameter',
         Template => '
 <a href="index.pl?Action=Test">link</a>',
         Result => '
@@ -631,11 +629,10 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
             SessionName        => 'SID',
-            SessionIDCookie    => 0,
         },
     },
     {
-        Name     => 'Link with SessionID (with cookie)',
+        Name     => 'Link with SessionID',
         Template => '
 <a href="index.pl?Action=Test">link</a>',
         Result => '
@@ -644,7 +641,6 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
             SessionName        => 'Session',
-            SessionIDCookie    => 1,
         },
     },
     {
