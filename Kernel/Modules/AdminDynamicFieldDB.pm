@@ -844,24 +844,45 @@ sub _ShowScreen {
     );
 
     # Get a list of available dynamic fields for use as filters.
-    my %DynamicFieldList = %{
-        $DynamicFieldObject->DynamicFieldList(
+    my @DynamicFieldConfigList = @{
+        $DynamicFieldObject->DynamicFieldListGet(
             ObjectType => [ 'Ticket', 'Article' ],
-            Valid      => 1,
-            ResultType => 'HASH',
-        ) // {}
+            FieldType  => [
+                'Checkbox',
+                'Database',
+                'Dropdown',
+                'Lens',
+                'Agent',
+                'ConfigItem',
+                'ConfigItemVersion',
+                'CustomerCompany',
+                'CustomerUser',
+                'FAQ',
+                'Service',
+                'Ticket',
+                'ScriptTemplateToolkit',
+                'RichText',
+                'TextArea',
+                'Text',
+                'Title',
+            ],
+            Valid => 1,
+        ) // []
     };
 
     # Add the dynamic fields to the hash.
     DYNAMICFIELDKEY:
-    for my $DynamicFieldKey ( sort keys %DynamicFieldList ) {
+    for my $DynamicFieldConfig (@DynamicFieldConfigList) {
+        next DYNAMICFIELDKEY if $DynamicFieldConfig->{Config}{MultiValue};
+        next DYNAMICFIELDKEY if $DynamicFieldConfig->{Config}{Multiselect};
+        next DYNAMICFIELDKEY if $DynamicFieldConfig->{Config}{PartOfSet};
 
         # Ignore the own field.
         if ( IsStringWithData( $Param{Name} ) ) {
-            next DYNAMICFIELDKEY if $DynamicFieldList{$DynamicFieldKey} eq $Param{Name};
+            next DYNAMICFIELDKEY if $DynamicFieldConfig->{Name} eq $Param{Name};
         }
 
-        my $DynamicFieldName = 'DynamicField_' . $DynamicFieldList{$DynamicFieldKey};
+        my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
         $Filters{$DynamicFieldName} = $DynamicFieldName;
     }
 
