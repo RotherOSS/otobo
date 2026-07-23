@@ -47,6 +47,7 @@ Check if provided EffectiveValue matches structure defined in XMLContentParsed.
                     'Item' => [
                         {
                             'Content' => "Scalar value",
+                            'ValueRegex' => '\.(?i:jpeg|jpg)$',
                         },
                     ],
                 },
