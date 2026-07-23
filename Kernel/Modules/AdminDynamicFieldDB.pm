@@ -846,9 +846,10 @@ sub _ShowScreen {
     # Get a list of available dynamic fields for use as filters.
     my %DynamicFieldList = %{
         $DynamicFieldObject->DynamicFieldList(
+            ObjectType => [ 'Ticket', 'Article' ],
             Valid      => 1,
             ResultType => 'HASH',
-        )
+        ) // {}
     };
 
     # Add the dynamic fields to the hash.
