@@ -369,11 +369,8 @@ sub PageNew {
         $Param{LogoFile}
         &&
         -e $Param{LogoFile}
-        && (
-            $Param{LogoFile}    =~ m/\.gif$/i
-            || $Param{LogoFile} =~ m/\.jpg$/i
-            || $Param{LogoFile} =~ m/\.png$/i
-        )
+        &&
+        $Param{LogoFile} =~ m/\.(?:gif|jpeg|jpg|png)$/i
         )
     {
         $LogoFile = $Param{LogoFile};
@@ -1316,7 +1313,7 @@ sub Image {
         if ( $Param{File} =~ m/\.gif$/i ) {
             $ImageFile = $Self->{PDF}->image_gif( $Param{File} );
         }
-        elsif ( $Param{File} =~ m/\.jpg$/i ) {
+        elsif ( $Param{File} =~ m/\.(?:jpeg|jpg)$/i ) {
             $ImageFile = $Self->{PDF}->image_jpeg( $Param{File} );
         }
         elsif ( $Param{File} =~ m/\.png$/i ) {
