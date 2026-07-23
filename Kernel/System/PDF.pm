@@ -299,7 +299,7 @@ Create a new Page
         MarginBottom    => 40,                  # (optional) default 0
         MarginLeft      => 40,                  # (optional) default 0
         ShowPageNumber  => 0,                   # (optional) default 1
-        LogoFile        => '/path/to/file.jpg', # (optional) you can use jpg, gif and png-Images
+        LogoFile        => '/path/to/file.jpg', # (optional) you can use JPEG, GIF, and PNG images with the extension .gif, .jpeg, .jpg, and .png
         HeaderRight     => 'Header Right Text', # (optional)
         HeadlineLeft    => 'Headline Text',     # (optional)
         HeadlineRight   => 'Headline Text',     # (optional)
@@ -360,10 +360,11 @@ sub PageNew {
     # get current printable dimension
     my %Printable = $Self->_CurPrintableDimGet();
 
-    # get logofile
-    my $LogoFile = $Self->{Document}->{LogoFile}
-        || $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/logo-otobo.png';
-
+    # get logofile, the logofile may be set globally or per page
+    my $LogoFile =
+        $Self->{Document}->{LogoFile}
+        ||
+        $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/logo-otobo.png';
     if (
         defined( $Param{LogoFile} )
         && -e $Param{LogoFile}
@@ -1247,7 +1248,7 @@ sub Text {
 Output a image
 
     $True = $PDFObject->Image(
-        File   => '/path/image.gif',  # (gif|jpg|png)
+        File   => '/path/image.gif',  # (gif|jpeg|jpg|png)
         Type   => 'ReturnFalse'       # (optional) default Reduce (ReturnFalse|Reduce)
         Width  => 300,                # width of image
         Height => 150,                # height of image
