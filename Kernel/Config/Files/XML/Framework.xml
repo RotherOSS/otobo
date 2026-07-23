@@ -3240,7 +3240,8 @@
         <Description Translatable="1">Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).</Description>
         <Navigation>Core::PDF</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Home&gt;/var/logo-otobo.png</Item>
+            <!-- the modifier 'i' is for ignoring case, works for both Perl and JavaScript regex -->
+            <Item ValueType="String" ValueRegex="\.(?i:gif|jpeg|jpg|png)$">&lt;OTOBO_CONFIG_Home&gt;/var/logo-otobo.png</Item>
         </Value>
     </Setting>
     <Setting Name="PDF::PageSize" Required="1" Valid="1">
