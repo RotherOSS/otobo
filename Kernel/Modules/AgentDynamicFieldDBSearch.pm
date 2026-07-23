@@ -228,6 +228,14 @@ sub Run {
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $DynamicFieldName,
     );
+    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid dynamic field name '$DynamicFieldName'!",
+        );
+
+        return $Self->_Return();
+    }
 
     # determine the maximum amount of displayable results
     my $ResultLimit = 0;
