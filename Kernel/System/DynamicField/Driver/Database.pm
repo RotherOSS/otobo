@@ -121,7 +121,7 @@ sub ColumnFilterValuesGet {
     my $SelectionData = $FieldConfig->{PossibleValues};
 
     # article uses the same routine as ticket
-    my $ObjectType = $FieldConfig->{ObjectType} eq 'Article' ? 'Ticket' : $FieldConfig->{ObjectType};
+    my $ObjectType = $Param{DynamicFieldConfig}{ObjectType} eq 'Article' ? 'Ticket' : $Param{DynamicFieldConfig}{ObjectType};
 
     # get column filter values from database
     my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
