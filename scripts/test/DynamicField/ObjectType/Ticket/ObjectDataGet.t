@@ -129,8 +129,8 @@ my @Tests = (
             DynamicFieldConfig => $DynamicFieldConfig,
             UserID             => 1,
         },
-        Request       => "Action=someaction;Subaction=somesubaction;TicketID=-1",
-        Throws        => 1,
+        Request => "Action=someaction;Subaction=somesubaction;TicketID=-1",
+        Throws  => 1,
     },
     {
         Name   => 'Correct Ticket',

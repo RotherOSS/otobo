@@ -143,8 +143,8 @@ my @Tests = (
             DynamicFieldConfig => $DynamicFieldConfig,
             UserID             => 1,
         },
-        Request       => "Action=someaction;Subaction=somesubaction;ArticleID=-1",
-        Throws       => 1,
+        Request => "Action=someaction;Subaction=somesubaction;ArticleID=-1",
+        Throws  => 1,
     },
     {
         Name   => 'Wrong ArticleID and TicketID in the request',
@@ -152,8 +152,8 @@ my @Tests = (
             DynamicFieldConfig => $DynamicFieldConfig,
             UserID             => 1,
         },
-        Request       => "Action=someaction;Subaction=somesubaction;ArticleID=-1;TicketID=-1",
-        Throws        => 1,
+        Request => "Action=someaction;Subaction=somesubaction;ArticleID=-1;TicketID=-1",
+        Throws  => 1,
     },
     {
         Name   => 'Correct Article with wrong TicketID in the request',
@@ -161,8 +161,8 @@ my @Tests = (
             DynamicFieldConfig => $DynamicFieldConfig,
             UserID             => 1,
         },
-        Request       => "Action=someaction;Subaction=somesubaction;ArticleID=$ArticleID;TicketID=-1",
-        Throws        => 1,
+        Request => "Action=someaction;Subaction=somesubaction;ArticleID=$ArticleID;TicketID=-1",
+        Throws  => 1,
     },
     {
         Name   => 'Correct Article without TicketID in the request',
@@ -197,7 +197,6 @@ my $ObjectHandlerObject = $Kernel::OM->Get('Kernel::System::DynamicField::Object
 TEST:
 for my $Test (@Tests) {
 
-print STDERR "TEST: $Test->{Name} \n";
     # force the ParamObject to use the new request params
     my $QueryString = $Test->{Request} // '';
     $Kernel::OM->ObjectParamAdd(
