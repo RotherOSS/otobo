@@ -163,17 +163,22 @@ for my $Test (@Tests) {
 
     # implicitly call Kernel::System::Web::Request->new();
     my %ObjectData;
+    my $HasThrown;
     try {
         %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
     }
     catch {
-    
-        if( !$Test->{Throws} ) {
-        
-            ok( 0, "$Test->{Name} should not throw");
+        $HasThrown = 1;
+
+        if ( $Test->{Throws} ) {
+            pass("$Test->{Name} should throw");
         }
-        next TEST;
+        else {
+            fail("$Test->{Name} should not throw");
+        }
     };
+
+    next TEST if $HasThrown;
 
     if ( !$Test->{Success} ) {
         is(
