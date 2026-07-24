@@ -80,7 +80,7 @@ requires 'LWP::Protocol::https', '== 6.11';
 # not used in OTOBO core except in Email::Valid, please switch to Email::Address::XS
 requires 'Mail::Address', '== 2.18';
 
-# needed by Kernel::System::Mail and by MIME::Tools
+# needed by Kernel::System::Email and by MIME::Tools
 requires 'Mail::Internet', '== 2.18';
 
 # needed by Math::Random::Secure, needed in Kernel::System::Main
