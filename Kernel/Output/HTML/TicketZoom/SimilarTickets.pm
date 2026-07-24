@@ -49,14 +49,13 @@ sub Run {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my @Articles      = $ArticleObject->ArticleList(
-        TicketID => $TicketID,
-
-        # SenderType => 'customer',
+        TicketID  => $TicketID,
         OnlyFirst => 1,
     );
     if (@Articles) {
         $ArticleID = $Articles[0]{ArticleID};
     }
+    return '' if !$ArticleID;
 
     my $ArticleBackendObject = $ArticleObject->BackendForArticle(
         TicketID  => $TicketID,
@@ -67,6 +66,8 @@ sub Run {
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
     );
+
+    return '' if !$Article{Subject} && !$Article{Body};
 
     my $MoreLikeThis = ( $Article{Subject} // '' ) . "\n" . ( $Article{Body} // '' );
 
