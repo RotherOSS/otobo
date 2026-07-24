@@ -23,6 +23,7 @@ use utf8;
 # CPAN modules
 use HTTP::Request::Common qw(GET);
 use Test2::V0;
+use Try::Tiny;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -143,11 +144,7 @@ my @Tests = (
             UserID             => 1,
         },
         Request       => "Action=someaction;Subaction=somesubaction;ArticleID=-1",
-        Success       => 1,
-        ExectedResult => {
-            ObjectID => -1,
-            Data     => {},
-        },
+        Throws       => 1,
     },
     {
         Name   => 'Wrong ArticleID and TicketID in the request',
@@ -156,11 +153,7 @@ my @Tests = (
             UserID             => 1,
         },
         Request       => "Action=someaction;Subaction=somesubaction;ArticleID=-1;TicketID=-1",
-        Success       => 1,
-        ExectedResult => {
-            ObjectID => -1,
-            Data     => {},
-        },
+        Throws        => 1,
     },
     {
         Name   => 'Correct Article with wrong TicketID in the request',
@@ -169,11 +162,7 @@ my @Tests = (
             UserID             => 1,
         },
         Request       => "Action=someaction;Subaction=somesubaction;ArticleID=$ArticleID;TicketID=-1",
-        Success       => 1,
-        ExectedResult => {
-            ObjectID => $ArticleID,
-            Data     => {},
-        },
+        Throws        => 1,
     },
     {
         Name   => 'Correct Article without TicketID in the request',
@@ -208,6 +197,7 @@ my $ObjectHandlerObject = $Kernel::OM->Get('Kernel::System::DynamicField::Object
 TEST:
 for my $Test (@Tests) {
 
+print STDERR "TEST: $Test->{Name} \n";
     # force the ParamObject to use the new request params
     my $QueryString = $Test->{Request} // '';
     $Kernel::OM->ObjectParamAdd(
@@ -217,7 +207,18 @@ for my $Test (@Tests) {
     );
 
     # implicitly call Kernel::System::Web::Request->new();
-    my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
+    my %ObjectData;
+    try {
+        %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
+    }
+    catch {
+    
+        if( !$Test->{Throws} ) {
+
+            ok(0,"$Test->{Name} - not expected to throw");
+        }
+        next TEST;
+    };
 
     if ( !$Test->{Success} ) {
         is(

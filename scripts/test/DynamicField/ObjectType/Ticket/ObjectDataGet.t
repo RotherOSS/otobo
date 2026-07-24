@@ -17,6 +17,7 @@
 use strict;
 use warnings;
 use utf8;
+use Try::Tiny;
 
 # core modules
 
@@ -129,11 +130,7 @@ my @Tests = (
             UserID             => 1,
         },
         Request       => "Action=someaction;Subaction=somesubaction;TicketID=-1",
-        Success       => 1,
-        ExectedResult => {
-            ObjectID => -1,
-            Data     => {},
-        },
+        Throws        => 1,
     },
     {
         Name   => 'Correct Ticket',
@@ -165,7 +162,18 @@ for my $Test (@Tests) {
     );
 
     # implicitly call Kernel::System::Web::Request->new();
-    my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
+    my %ObjectData;
+    try {
+        %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
+    }
+    catch {
+    
+        if( !$Test->{Throws} ) {
+        
+            ok( 0, "$Test->{Name} should not throw");
+        }
+        next TEST;
+    };
 
     if ( !$Test->{Success} ) {
         is(
