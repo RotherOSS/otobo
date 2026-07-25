@@ -1398,6 +1398,13 @@ my @NeededModules = (
         Comment         => 'plack middleware for profiling a plack app like otobo.psgi',
         InstTypes       => {},
     },
+    {
+        Module          => 'Devel::Cover',
+        VersionRequired => '>= 1.52',                                                      # latest released version from July 2026
+        Features        => ['devel:profiling'],
+        Comment         => 'plack middleware for profiling a plack app like otobo.psgi',
+        InstTypes       => {},
+    },
 );
 
 # Add CLDR language packs. It is not decided yet whether all 50 languages are added.
