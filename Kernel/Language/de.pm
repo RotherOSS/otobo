@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992401668653158;
+    $Self->{Completeness}        = 0.99284862932062;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1986,7 +1986,7 @@ sub Data {
             'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird das Ticket für den letzten Besitzer gesperrt.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
-        'Is defined in Admin > Email Addresses.' => '',
+        'Is defined in Admin > Email Addresses.' => 'Ist definiert unter Admin > E-Mail-Adressen.',
         'Default sign key' => 'Standard-Signierschlüssel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue hinzugefügt werden.',
@@ -1995,9 +1995,9 @@ sub Data {
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
-            '',
+            'Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl bedeutet, dass der Standardkalender verwendet wird.',
         'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            '',
+            'Ist definiert unter Admin > Systemkonfiguration > Core > Time (Standardkalender) oder in den Kalendern 1 bis 9.',
         'This queue is used in the following config settings:' => 'Diese Queue wird in folgenden Konfigurationseinstellungen verwendet:',
 
         # Template: AdminQueueAutoResponse
