@@ -305,7 +305,7 @@ sub ObjectAttributesGet {
     push @Attributes,
         {
             Key   => 'CustomerID',
-            Name  => Translatable('Default CustomerID'),
+            Name  => Translatable('Default Customer ID'),
             Input => {
                 Type      => 'Text',
                 Required  => 0,
@@ -315,7 +315,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'CustomerUserID',
-            Name  => Translatable('Default CustomerUserID'),
+            Name  => Translatable('Default Customer User ID'),
             Input => {
                 Type      => 'Text',
                 Required  => 0,
@@ -325,7 +325,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'ArchiveFlag',
-            Name  => Translatable('Default ArchiveFlag'),
+            Name  => Translatable('Default Archive Flag'),
             Input => {
                 Type         => 'Selection',
                 Data         => { map { $_ => $_ } qw( y n ) },

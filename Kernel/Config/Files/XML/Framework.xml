@@ -10898,7 +10898,7 @@ via the Preferences button after logging in.
     <!-- Elasticsearch Widget Configs -->
 
     <Setting Name="ElasticsearchWidgetBackend###01-ElasticsearchTickets" Required="0" Valid="1">
-        <Description Translatable="1">Defines the parameters for the elasticsearch widget backend.</Description>
+        <Description Translatable="1">Defines the parameters for the Elasticsearch widget backend.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -10910,7 +10910,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="ElasticsearchWidgetBackend###02-ElasticsearchCustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">Defines the parameters for the elasticsearch widget backend.</Description>
+        <Description Translatable="1">Defines the parameters for the Elasticsearch widget backend.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -10922,7 +10922,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="ElasticsearchWidgetBackend###03-ElasticsearchCustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">Defines the parameters for the elasticsearch widget backend.</Description>
+        <Description Translatable="1">Defines the parameters for the Elasticsearch widget backend.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -11082,14 +11082,14 @@ via the Preferences button after logging in.
     </Setting>
     <!-- OIDC/mail-->
     <Setting Name="SendmailModule::OAuth2FunctionalAccount" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">If 'XOAUTH2' or 'OAUTHBEARER' is selected in the 'SendmailModule::OAuth2Method' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI 'OAuth Functional Accounts' Module.</Description>
+        <Description Translatable="1">If 'XOAUTH2' or 'OAUTHBEARER' is selected in the 'SendmailModule::OAuth2Method' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the 'OAuth Functional Accounts' module of the administrator interface.</Description>
         <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">FunctionalAccount</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailModule::OAuth2Method" Required="0" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">The authentication method to use for SMTP Authentication, defaults to 'Basic Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the '"SendmailModule '"SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  'OAuth Functional Accounts' Module.</Description>
+        <Description Translatable="1">The authentication method to use for SMTP Authentication, defaults to 'Basic Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the 'SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the 'OAuth Functional Accounts' module of the administrator interface.</Description>
         <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="Basic">

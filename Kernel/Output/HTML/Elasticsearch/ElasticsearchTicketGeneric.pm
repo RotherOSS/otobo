@@ -31,7 +31,7 @@ sub Preferences {
 
     my @Params = (
         {
-            Desc  => Translatable('Shown Elsticsearch Results'),
+            Desc  => Translatable('Shown Elasticsearch Results'),
             Name  => $Self->{PrefKeyShown},
             Block => 'Option',
             Data  => {

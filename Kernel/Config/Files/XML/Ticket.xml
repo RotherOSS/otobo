@@ -13518,7 +13518,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0400-SimilarTickets" Required="0" Valid="0">
-        <Description Translatable="1">AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.</Description>
+        <Description Translatable="1">AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Hash>
