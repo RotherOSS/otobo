@@ -1310,7 +1310,7 @@ Core.UI.InputFields = (function (TargetNS) {
             Ch;
         for (; i >= 0; i--) {
             Ch = Chars[i];
-            if (Config.Diacritics.hasOwnProperty(Ch)) {
+            if (Object.prototype.hasOwnProperty.call(Config.Diacritics, Ch)) {
                 Chars[i] = Config.Diacritics[Ch];
                 Alter = true;
             }
@@ -1367,7 +1367,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 ScrollEventListener;
 
             // For performance reasons:
-            // Do not initialize modern inputfields on selects with many entries
+            // Do not initialize modern input fields on selects with many entries
             if ($(SelectObj).children('option').length > Config.MaxNumberOfOptions) {
                 return;
             }
@@ -1636,7 +1636,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         if (AvailableHeightTop > AvailableHeightBottom) {
                             AvailableMaxHeight = AvailableHeightTop;
 
-                            // add a class to the searchobj itself to be able to react on it properly
+                            // add a class to the search object itself to be able to react on it properly
                             // e.g. to show the error tooltip
                             $SearchObj.removeClass('ExpandToBottom')
                                 .addClass('ExpandToTop');
@@ -1846,7 +1846,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     // jsTree init
                     $TreeObj = $('<div id="' + Core.App.EscapeSelector(TreeID) + '"><ul></ul></div>');
                     SelectedID = $SelectObj.val();
-                    Elements = {};
+                    Elements;
                     SelectedNodes = [];
 
                     // Generate JSON structure based on select field options
@@ -1958,7 +1958,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Handle node selection in tree list
                     // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('select_node.jstree', function (_Node, Selected) {  //eslint-disable-line no-unused-vars
+                    .on('select_node.jstree', function (_Node, Selected) {
                         var $SelectedNode = $('#' + Selected.node.id),
                             SelectedNodesIDs;
 
@@ -2809,7 +2809,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // Some dynamic fields might not show the label for the added dynamic fields.
         // TODO: if labels are included in the HTML, then that should refer to the appropriate field.
-        // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
+        // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multi-column grid)
         if ( CellGridPosition.Row === 0 ) {
             $Cell.children('label').show();
         }
