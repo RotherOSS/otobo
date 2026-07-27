@@ -1,4 +1,48 @@
 
+# OTOBO 10.1.18 2026-07-27
+- 2026-07-15 17:29:45 +0200 Translated using Weblate (Hungarian)
+- 2026-05-06 16:05:44 +0200 Translated using Weblate (German)
+- 2026-07-24 12:24:48 +0200 Upgrade Perl to version 5.44 in the Docker image (https://github.com/RotherOSS/otobo/issues/5909)
+- 2026-07-23 11:47:44 +0200 [Enhanced] DynamicField Database: Prevent connection error screen upon missing dynamic field config (https://github.com/RotherOSS/otobo/issues/5917)
+- 2026-07-22 14:39:37 +0200 quick_setup: Script does not set Language for added customer user (https://github.com/RotherOSS/otobo/issues/5906)
+- 2026-07-22 15:11:02 +0200 Update the Elasticsearch base image to Elasticsearch 8.19.19 (https://github.com/RotherOSS/otobo/issues/5905)
+- 2026-07-21 13:04:11 +0200 Upgrade Perl to version 5.42 in the Docker image (https://github.com/RotherOSS/otobo/issues/5889)
+- 2026-07-21 12:40:34 +0200 [Enhanced] Dev::Code::CPANAudit: add annotation that an advisory has not been evaluated (https://github.com/RotherOSS/otobo/issues/5894)
+- 2026-07-21 11:35:42 +0200 Upgrade HTTP::Date to 6.08 in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/5892)
+- 2026-07-17 13:09:07 +0200 Eliminate warnings about SPNEGO_AUTH_COMMIT_ID" (https://github.com/RotherOSS/otobo/issues/5879)
+- 2026-07-16 11:13:15 +0200 Issue #5834: add max-width to ES horizontal resize (https://github.com/RotherOSS/otobo/issues/5864)
+- 2026-07-16 07:20:14 +0200 [Bugfix]   Bug in AgentTicketZoom when Subaction=Created (https://github.com/RotherOSS/otobo/issues/5113)
+- 2026-07-08 10:34:37 +0200 Implement SessionID binding for web upload cache (https://github.com/RotherOSS/otobo/issues/5835)
+- 2026-07-08 09:05:05 +0200 Avoid recursion in the template generator (https://github.com/RotherOSS/otobo/issues/5797)
+- 2026-07-06 22:45:30 +0200 Update LWP in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/5634)
+- 2026-07-06 22:39:16 +0200 Update CPAN::Audit in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/5783)
+- 2026-07-03 10:01:03 +0200 [Bugfix]   FormdraftID - agent can delete drafts from others (https://github.com/RotherOSS/otobo/issues/5675)
+- 2026-07-02 16:00:17 +0200 [Enhanced] add permission check to sysconfig ajaxdeploy (https://github.com/RotherOSS/otobo/issues/5818)
+- 2026-06-24 15:25:40 +0200 Znuny LTS 6.5.22: Missing HTML filters in template AgentTicketEmailResend.tt (https://github.com/RotherOSS/otobo/issues/5791)
+- 2026-05-27 16:12:23 +0300 Znuny LTS 6.5.21: Escape query parameters via uri in communication log admin view. (https://github.com/RotherOSS/otobo/issues/5790)
+- 2026-06-24 13:32:59 +0200 [Bugfix]   AgentTicketBulk: Missing permission check when linking tickets (https://github.com/RotherOSS/otobo/issues/5723)
+- 2026-06-23 11:25:48 +0100 [Tidied]   browser cannot find nunjucks.min.js.map (https://github.com/RotherOSS/otobo/issues/5731)
+- 2026-06-17 11:14:37 +0200 [Bugfix]   Console commands `Admin::Config::FixInvalid` and `Admin::Config::Update` can't update settings with array values (https://github.com/RotherOSS/otobo/issues/5688)
+- 2026-06-16 09:52:05 +0200 Issue #3861: AgentTicketBulk styling fix (https://github.com/RotherOSS/otobo/issues/5673)
+- 2026-06-12 10:53:34 +0200 Evaluate the cpansec advisory CPANSA-Crypt-PasswdMD5-2026-6659 (https://github.com/RotherOSS/otobo/issues/5656)
+- 2026-06-11 14:06:36 +0200 [Bugfix]   `Plack::Middleware::Profiler::NYTProf` exceeds 33 characters in length (https://github.com/RotherOSS/otobo/issues/5648)
+- 2026-06-11 13:17:35 +0200 [Changed]  Disable Translation for SystemConfiguration Values inside AdminSystemConfiguration (https://github.com/RotherOSS/otobo/issues/5641)
+- 2026-06-11 10:18:46 +0200 [Bugfix]   DynamicField Database: PossibleValues in Details view sorted alphanumerically by Index (https://github.com/RotherOSS/otobo/issues/5642)
+- 2026-06-10 13:54:30 +0200 Check for 32-bit Perl in Dev::Code::CPANAudit (https://github.com/RotherOSS/otobo/issues/5632)
+- 2026-06-09 20:43:33 +0200 Docker: require current versisions of some core modules (https://github.com/RotherOSS/otobo/issues/5626)
+- 2026-06-09 09:13:20 +0200 [Bugfix]   AdminSystemConfigurationGroup: Check in subaction `AddHashKey` useless (https://github.com/RotherOSS/otobo/issues/5621)
+- 2026-06-08 10:58:17 +0200 [Bugfix]   Personal Preferences of Other Agents Not Persisted for Certain Settings (https://github.com/RotherOSS/otobo/issues/5430)
+- 2026-05-20 08:16:26 +0200 [Tidied]   GenericInterface Operation TicketUpdate: Implement sysconfig for CommunicationChannel (https://github.com/RotherOSS/otobo/issues/5412) - in progress
+- 2026-05-13 09:27:37 +0200 Do more package name cleanup in translation update console script. (https://github.com/RotherOSS/otobo/issues/5509)
+- 2026-05-07 07:50:31 +0200 [Bugfix]   ProcessManagement TransitionAction: Translation of placeholder values does not work (https://github.com/RotherOSS/otobo/issues/5492)
+- 2026-05-05 11:00:23 +0200 [Bugfix]   Blacklist Plack version 1.0053 in bin/otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/5479)
+- 2026-04-30 10:20:43 +0200 AgentTicketPhoneInbound & -Outbound: Default body not escaped correctly (https://github.com/RotherOSS/otobo/issues/5465)
+- 2026-05-03 11:51:46 +0200 Issue #5474: CPANSA-Plack-2026-7381 is not relevant for OTOBO (https://github.com/RotherOSS/otobo/issues/5474)
+- 2026-04-28 10:46:54 +0200 [Bugfix]   Unused language files in Kernel/Language folder (https://github.com/RotherOSS/otobo/issues/5167)
+- 2026-04-27 11:07:15 +0200 [Bugfix]   Do not truncate dynamic field ticket categories before color selection and translation. (https://github.com/RotherOSS/otobo/issues/5329)
+- 2026-04-16 08:47:22 +0200 Align positioning of table header column content (https://github.com/RotherOSS/otobo/issues/5398)
+
+
 # OTOBO 10.1.17 2026-04-23
 - 2026-04-20 12:24:39 +0200 Translated using Weblate (Italian)
 - 2026-03-17 15:08:16 +0100 Translated using Weblate (Hungarian)
@@ -1966,6 +2010,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
