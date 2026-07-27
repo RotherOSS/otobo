@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998890649762282;
+    $Self->{Completeness}        = 0.999366085578447;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6572,7 +6572,7 @@ Ihr Helpdesk-Team
             'Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren.',
         'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine individuelle Statistik zu generieren.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
-            'Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im Browser (Inline) oder einfach nur als Download anbieten (Anhang).',
+            'Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im Browser (Inline) oder bietet sie einfach nur zum Herunterladen an (Anhang).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
             'Ermöglicht die Wahl des nächsten Verfassen-Status für Kundenticket im Kunden-Interface.',
         'Allows customers to change the ticket priority in the customer interface.' =>
@@ -8415,7 +8415,7 @@ Ihr Helpdesk-Team
         'Objects to search for, how many entries and which attributes to show.' =>
             'Definiert, nach welchen Objekten gesucht, wie viele Einträge und welche Attribute angezeigt werden sollen.',
         'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
-            '',
+            'Definiert, nach welchen Objekten gesucht wird, wie viele Einträge und welche Attribute angezeigt werden sollen. Alle Ticket-Attribute außer der Queue müssen explizit in Elasticsearch gespeichert werden.',
         'Open an external link!' => 'Externen Link öffnen!',
         'Open the OTOBO home page in a new window' => 'Öffnet die OTOBO Homepage in einem neuen Fenster',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
@@ -8951,7 +8951,7 @@ Ihr Helpdesk-Team
             'Steuert, ob der Artikel als Richtext angezeigt werden soll, auch wenn das Schreiben von Richtext abgeschaltet ist.',
         'Show command line output.' => 'Zeige Befehlszeilenausgabe.',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
-            '',
+            'Zeigt auch optionale Parameter in der Parameterliste an. Ist die Option deaktiviert, werden optionale Parameter in einer separaten Tabelle angezeigt.',
         'Show queues even when only locked tickets are in.' => 'Queues auch dann anzeigen, wenn sich darin nur gesperrte Tickets befinden.',
         'Show the current owner in the customer interface.' => 'Steuert, ob der aktuelle Besitzer im Kundenbereich angezeigt werden soll.',
         'Show the current queue in the customer interface.' => 'Steuert, ob die aktuelle Queue im Kundenbereich angezeigt werden soll.',
@@ -9444,7 +9444,7 @@ Ihr Helpdesk-Team
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Legt fest, ob ein Ticket beim Anlegen automatisch auf den anlegenden Agenten gesperrt werden soll.',
         'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
-            '',
+            'Wenn Supportdaten über den SupportDataCollector erfasst werden, werden bestimmte SysConfig-Werte, die mit ValueType="Password" gekennzeichnet sind, automatisch maskiert. Dadurch wird verhindert, dass Passwörter in den Supportdaten im Klartext erscheinen. Diese Einstellung legt fest, welche Einträge komplexe Konfigurations-Hashes enthalten, die bei der Generierung der Supportdaten nicht maskiert werden sollen.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Wenn Tickets zusammengefasst werden, wird automatisch zu dem Ticket, das nicht länger aktiv ist, eine Notiz hinzugefügt. Hier können Sie den Textköper dieser Notiz definieren (dieser Text kann nicht durch den Agent verändert werden).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

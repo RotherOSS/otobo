@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999207606973059;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4310,7 +4310,7 @@ sub Data {
         'System was not able to lock the setting!' => 'A rendszer nem volt képes zárolni a beállítást!',
         'Missing setting name.' => 'Hiányzó beállításnév.',
         'Setting not found.' => 'A beállítás nem található.',
-        'Missing setting key!' => '',
+        'Missing setting key!' => 'Hiányzó beállítási kulcs!',
         'Missing Settings!' => 'Hiányzó beállítások!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
@@ -4711,7 +4711,7 @@ sub Data {
         'Notification Was Sent' => 'Értesítés elküldve',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             'Ez a jegy nem létezik, vagy nincs jogosultsága a hozzáféréshez annak jelenlegi állapotában.',
-        'Could not delete form draft.' => '',
+        'Could not delete form draft.' => 'Nem sikerült törölni az űrlap piszkozatát.',
         'Missing FormDraftID!' => 'Hiányzó űrlappiszkozat-azonosító!',
         'Can\'t get for ArticleID %s!' => 'Nem lehet lekérni a(z) %s bejegyzés-azonosítóhoz!',
         'Article filter settings were saved.' => 'A bejegyzésszűrő beállításai mentésre kerültek.',
@@ -7581,7 +7581,7 @@ Az Ön ügyfélszolgálati csapata
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Meghatározza a megjelenített oszlopokat és a pozíciót az ügyintézői ügyfél-felhasználó címjegyzék eredményei képernyőn.',
         'Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> and <OTOBO_CONFIG_ScriptAlias> will be substituted.' =>
-            'Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül.',
+            'Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a „Content” tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül.',
         'Defines the source dynamic field for storing historical data.' =>
             'Meghatározza a forrás dinamikus mezőt a történelmi adatok tárolásához.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
@@ -8042,7 +8042,7 @@ Az Ön ügyfélszolgálati csapata
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a CustomerPassword oszlopnevét az ügyféltáblában.',
         'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified. It is discouraged to configure the not really secure algorithms like \'md5\', \'apr1\', \'crypt\', and \'plain\'.' =>
-            '',
+            'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a jelszavak titkosításának típusát. Nem ajánlott beállítani a nem igazán biztonságos algoritmusokat, mint például „md5”, „apr1”, „crypt” és „plain”.',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
             'Ha „DB” lett kiválasztva a Customer::AuthModule modulnál, akkor meg kell adni a CustomerKey oszlopnevét az ügyféltáblában.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
@@ -8402,7 +8402,7 @@ Az Ön ügyfélszolgálati csapata
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             'Töredékek száma (NS), replikák száma (NR) és mezők korlátai a „ticket” indexhez.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
-            '',
+            'Töredékek száma (NS), replikák száma (NR) és mezők korlátai a „tmpattachments” indexhez.',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Töredékek száma (NS), replikák száma (NR) és mezők korlátai az indexhez. Megjegyzés: az „Elasticsearch::ArticleIndexCreationSettings” beállítás elavult. A felfelé való kompatibilitáshoz használja az „Elasticsearch::IndexSettings###Default” beállítást helyette.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
@@ -9449,7 +9449,7 @@ Az Ön ügyfélszolgálati csapata
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Amikor az ügyintéző létrehoz egy jegyet, akkor a jegy legyen-e automatikusan az ügyintézőre zárolva vagy sem.',
         'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
-            '',
+            'Ha támogatási adatok kerülnek begyűjtésre a támogatási adatgyűjtőn keresztül, akkor a ValueType="Password" jelöléssel ellátott bizonyos rendszerbeállítási értékek automatikusan el lesznek takarva. Ez megakadályozza, hogy a jelszavak egyszerű szövegként jelenjenek meg a támogatási adatokban. Ez a beállítás határozza meg azokat a beállításokat, amelyek olyan összetett beállítási kivonatokat tartalmaznak, amelyeket nem szabad eltakarni a támogatási adatok előállításakor.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Amikor jegyeket egyesítenek, egy jegyzet lesz automatikusan hozzáadva ahhoz a jegyhez, amely többé már nem aktív. Itt határozhatja meg ennek a jegyzetnek a törzsét (ezt a szöveget nem tudja megváltoztatni az ügyintéző).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
