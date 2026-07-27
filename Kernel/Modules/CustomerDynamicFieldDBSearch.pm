@@ -49,7 +49,7 @@ sub Run {
     my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID' ) || '';
 
     # Put all ticket related data in Param, Owner, Responsible are not selectable in
-    #   customer interface, CustomerIserID and CustomerID are fixed.
+    #   customer interface, CustomerUserID and CustomerID are fixed.
     $Param{CustomerUserID} = $Self->{UserLogin};
     $Param{CustomerID}     = $Self->{UserCustomerID};
     $Param{Dest}           = $ParamObject->GetParam( Param => 'Dest' )       || '';
@@ -75,7 +75,7 @@ sub Run {
 
     # Get dynamic field names
     DYNAMICFIELD:
-    for my $DynamicFieldConfig (@$DynamicFields) {
+    for my $DynamicFieldConfig ( $DynamicFields->@* ) {
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
@@ -157,7 +157,7 @@ sub Run {
         }
     }
 
-    my ( $NewQueueID, $From ) = split( /\|\|/, $Param{Dest} );
+    my ($NewQueueID) = split( /\|\|/, $Param{Dest} );
     $NewQueueID ||= $Param{QueueID} // '';
     if ($NewQueueID) {
         my %Queue = $QueueObject->GetSystemAddress( QueueID => $NewQueueID );
@@ -175,13 +175,23 @@ sub Run {
         return $Self->_Return();
     }
 
-    # Get the pure DynamicField name without prefix
-    $DynamicFieldName = substr( $DynamicFieldName, length 'DynamicField_' );
+    # possible constellations:
+    #   DynamicField_FieldName
+    #   DynamicField_FieldName_0          (set)
+    #   DynamicField_FieldName_0a1b2c     (process suffix)
+    #   DynamicField_FieldName_0a1b2c_0   (process suffix with set)
+    # match with activity dialog entity id is needed
+    if ($ActivityDialogID) {
+        if ( $DynamicFieldName && $DynamicFieldName =~ m{ \A DynamicField_ ([A-Za-z0-9\-]*?) (_$ActivityDialogID) (?:_[0-9]+){0,1} \z }xms ) {
+            $DynamicFieldName = $1;
+        }
+    }
 
-    # In Process Context, ActivityDialogID has to be stripped from DynamicFieldName
-    my $DynamicFieldNameLong = $DynamicFieldName;
-    if ( defined $ActivityDialogID && $ActivityDialogID ne '' ) {
-        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $ActivityDialogID ) );
+    # match without activity dialog entity id is needed
+    else {
+        if ( $DynamicFieldName =~ m{ \A DynamicField_ ([A-Za-z0-9\-]*?) (?:_[0-9]+){0,1} \z }xms ) {
+            $DynamicFieldName = $1;
+        }
     }
 
     # get the dynamic field value for the current ticket
@@ -245,8 +255,7 @@ sub Run {
         }
 
         # result caching
-        # TODO DynamicFieldName vs. DynamicFieldNameLong
-        my $CacheKey    = $DynamicFieldNameLong . $Search . $Identifier;
+        my $CacheKey    = $DynamicFieldName . $Search . $Identifier;
         my $CacheTTL    = $DynamicFieldConfig->{Config}->{CacheTTL};
         my $CacheType   = 'DynamicFieldDB';
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');

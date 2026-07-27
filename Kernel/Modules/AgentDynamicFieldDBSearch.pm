@@ -87,7 +87,7 @@ sub Run {
 
     # get DynamicField values
     DYNAMICFIELD:
-    for my $DynamicFieldConfig (@$DynamicFields) {
+    for my $DynamicFieldConfig ( $DynamicFields->@* ) {
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
@@ -191,7 +191,7 @@ sub Run {
         }
     }
 
-    my ( $NewQueueID, $From ) = split( /\|\|/, $Param{Dest} );
+    my ($NewQueueID) = split( /\|\|/, $Param{Dest} );
     $NewQueueID ||= $Param{QueueID} // '';
     if ($NewQueueID) {
         my %Queue = $QueueObject->GetSystemAddress( QueueID => $NewQueueID );
@@ -230,7 +230,12 @@ sub Run {
     }
 
     # get the pure DynamicField name without prefix
-    $DynamicFieldName = substr( $DynamicFieldName, 13 );
+    # possible constellations:
+    #   DynamicField_FieldName
+    #   DynamicField_FieldName_0          (set)
+    if ( $DynamicFieldName =~ m{ \A DynamicField_ ([A-Za-z0-9\-]*?) (?:_[0-9]+)? \z }xms ) {
+        $DynamicFieldName = $1;
+    }
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
