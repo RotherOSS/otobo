@@ -45,7 +45,13 @@ sub Run {
     }
 
     # get the pure DynamicField name without prefix
-    my $DynamicFieldName = substr( $Param{DynamicFieldName}, 13 );
+    # possible constellations:
+    #   DynamicField_FieldName
+    #   DynamicField_FieldName_0          (set)
+    my $DynamicFieldName;
+    if ( $Param{DynamicFieldName} =~ m{ \A DynamicField_ ([A-Za-z0-9\-]*?) (?:_[0-9]+)? \z }xms ) {
+        $DynamicFieldName = $1;
+    }
 
     # if ActivityDialogID is set, strip it from DynamicFieldName
     my $DynamicFieldNameLong = $DynamicFieldName;
@@ -326,7 +332,6 @@ sub Run {
         );
 
         # get list of users
-        my $Search = $ParamObject->GetParam( Param => 'Search' );
         my %List;
 
         my $Count = 1;

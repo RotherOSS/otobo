@@ -51,12 +51,27 @@ sub Run {
         );
     }
 
-    # get the pure DynamicField name without prefix
-    my $DynamicFieldNameLong = substr( $Param{DynamicFieldName}, 13 );
+    # possible constellations:
+    #   DynamicField_FieldName
+    #   DynamicField_FieldName_0          (set)
+    #   DynamicField_FieldName_0a1b2c     (process suffix)
+    #   DynamicField_FieldName_0a1b2c_0   (process suffix with set)
+    # match with activity dialog entity id is needed
+    my $DynamicFieldName;
+    my $DynamicFieldNameLong;
+    if ( $Param{ActivityDialogID} ) {
+        if ( $Param{DynamicFieldName} && $Param{DynamicFieldName} =~ m{ \A DynamicField_ ([A-Za-z0-9\-]*?) (_$Param{ActivityDialogID}) (_[0-9]+){0,1} \z }xms ) {
+            $DynamicFieldName     = $1;
+            $DynamicFieldNameLong = $1 . ( $2 // '' ) . ( $3 // '' );
+        }
+    }
 
-    my $DynamicFieldName = $DynamicFieldNameLong;
-    if ( defined $Param{ActivityDialogID} && $Param{ActivityDialogID} ) {
-        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $Param{ActivityDialogID} ) );
+    # match without activity dialog entity id is needed
+    else {
+        if ( $Param{DynamicFieldName} =~ m{ \A DynamicField_ ([A-Za-z0-9\-]*?) (_[0-9]+){0,1} \z }xms ) {
+            $DynamicFieldName     = $1;
+            $DynamicFieldNameLong = $1 . ( $2 // '' ) . ( $3 // '' );
+        }
     }
 
     # get the dynamic field value for the current ticket
