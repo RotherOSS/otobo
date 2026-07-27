@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.990420360308836;
+    $Self->{Completeness}        = 0.990277380611953;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -9056,8 +9056,8 @@ Ihr Helpdesk-Team
         'Import and export object information.' => 'Importieren und Exportieren von Objekt-Informationen.',
         'Import appointments screen.' => 'Termin-Import Oberfläche.',
         'Import/Export' => 'Import/Export',
-        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
-            'Falls in einer Dropdownliste genau ein Wert übrig bleibt — gibt es drei Optionen. 0 — Du änderst das Feld nicht und zeigst es an. 1 — Der einzelne Wert wird automatisch gewählt und das Feld bleibt sichtbar. 2 — Der einzelne Wert wird automatisch gewählt und das Feld wird ausgeblendet — der Wert bleibt gesetzt. Mögliche Dropdownfelder z. B. Dest (Zielwarteschlange), ServiceID, SLAID, TypeID, DynamicFields ( nenne die DF-Namen ohne das Präfix "DynamicField_" ) und weitere.',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue in all ticket create forms), NewQueueID (e.g. for AgentTicketFreetext - the ticket categorization), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Tickets von Unterqueues automatisch mit einschließen, wenn eine Queue ausgewählt wird.',
         'Include unknown customers in ticket filter.' => 'Unbekannte Kunden in Ticketfiltern mit einschließen.',

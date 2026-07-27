@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.977695167286245;
+    $Self->{Completeness}        = 0.977552187589362;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -9061,8 +9061,8 @@ Az Ön ügyfélszolgálati csapata
         'Import and export object information.' => 'Objektuminformációk importálása és exportálása.',
         'Import appointments screen.' => 'Időpontok importálása képernyő.',
         'Import/Export' => 'Importálás/exportálás',
-        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
-            'Abban az esetben, ha a legördülő listában csak egy érték maradt, (0) nem tesz semmit a mezővel, és megjeleníti azt, (1) az egyetlen érték automatikusan kiválasztásra kerül, de a mező továbbra is megjelenik, vagy (2) az egyetlen érték automatikusan kiválasztásra kerül, és a mező rejtve lesz (de továbbra is rendelkezik az értékkel). A lehetséges legördülő lista mezők lehetnek például „Dest” (célvárólista), „ServiceID”, „SLAID”, „TypeID”, „DynamicFields” (a dinamikus mezők neveinek listája a „DynamicField_” előtag nélkül) és egyebek.',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue in all ticket create forms), NewQueueID (e.g. for AgentTicketFreetext - the ticket categorization), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Az alvárólisták jegyeinek felvétele alapértelmezetten egy várólista kijelölésekor.',
         'Include unknown customers in ticket filter.' => 'Ismeretlen ügyfelek felvétele a jegyszűrőben.',

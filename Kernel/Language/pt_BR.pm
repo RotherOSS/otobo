@@ -9061,7 +9061,7 @@ Obrigado pela ajuda!
         'Import and export object information.' => 'Importar e exportar informações de objeto.',
         'Import appointments screen.' => 'Tela de importação de compromissos',
         'Import/Export' => 'Importação/Exportação',
-        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue in all ticket create forms), NewQueueID (e.g. for AgentTicketFreetext - the ticket categorization), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Incluir tickets de subfilas como padrão quando selecionar uma fila.',
