@@ -74,8 +74,14 @@ sub ValueGet {
         return if !IsHashRefWithData( $DFValue->[0] );
 
         my @ReturnData;
-        for my $Value ( $DFValue->@* ) {
-            push @ReturnData, $Value->{ValueText};
+        for my $Item ( $DFValue->@* ) {
+            if ( $Param{Set} ) {
+                $ReturnData[ $Item->{IndexSet} ] //= [];
+                push $ReturnData[ $Item->{IndexSet} ]->@*, $Item->{ValueText};
+            }
+            else {
+                push @ReturnData, $Item->{ValueText};
+            }
         }
         return \@ReturnData;
     }
@@ -83,8 +89,9 @@ sub ValueGet {
     return $Self->ValueStructureFromDB(
         ValueDB    => $DFValue,
         ValueKey   => 'ValueText',
+        Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-        BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
+
     );
 }
 
@@ -93,7 +100,9 @@ sub ValueSet {
 
     # check value
     my $Value;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
+    if ( ref $Param{Value} eq 'ARRAY' && !$Param{Set} ) {
+
+        # single-value case: use first item as scalar
         if (
             !$Param{DynamicFieldConfig}{Config}{MultiValue}
             && !$Param{DynamicFieldConfig}{Config}{Multiselect}
@@ -106,30 +115,61 @@ sub ValueSet {
         }
     }
     elsif ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        my @Values = split /,/, $Param{Value} // '';
-        if ( IsArrayRefWithData( \@Values ) ) {
-            $Value = \@Values;
+        if ( $Param{Set} ) {
+            if ( IsArrayRefWithData( $Param{Value} ) ) {
+                VALUEITEM:
+                for my $ValueIndex ( 0 .. $#{ $Param{Value} } ) {
+                    my $ValueItem = $Param{Value}[$ValueIndex];
+                    my @Values    = split /,/, $ValueItem;
+                    if (@Values) {
+                        for my $SplitValue (@Values) {
+                            push $Value->@*, {
+                                IndexSet  => $ValueIndex,
+                                ValueText => $SplitValue,
+                            };
+                        }
+                    }
+                    else {
+                        push $Value->@*, {
+                            IndexSet  => $ValueIndex,
+                            ValueText => $ValueItem
+                        };
+                    }
+                }
+            }
         }
         else {
-            $Value = [ $Param{Value} ];
+            my @Values = split /,/, $Param{Value} // '';
+            if (@Values) {
+                for my $SplitValue (@Values) {
+                    push $Value->@*, {
+                        ValueText => $SplitValue,
+                    };
+                }
+            }
+            else {
+                push $Value->@*, {
+                    ValueText => $Param{Value},
+                };
+            }
         }
+        return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            Value    => $Value,
+            UserID   => $Param{UserID},
+        );
     }
     else {
         $Value = $Param{Value};
     }
 
-    # Make sure that the input is not modified in ValueSet()
-    my $DBValue;
-    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
-        $DBValue = [ map { { 'ValueText' => $_ } } $Value->@* ];
-    }
-    else {
-        $DBValue = $Self->ValueStructureToDB(
-            Value      => $Value,
-            ValueKey   => 'ValueText',
-            MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{DynamicFieldConfig}{Config}{Multiselect},
-        );
-    }
+    my $DBValue = $Self->ValueStructureToDB(
+        Value      => $Value,
+        ValueKey   => 'ValueText',
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{DynamicFieldConfig}{Config}{Multiselect},
+    );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
@@ -324,10 +364,18 @@ sub EditFieldRender {
         @Values = ( $Param{Value} );
     }
 
+    # prevent joining undef values
+    @Values = map { $_ // '' } @Values;
+
     # Set new line separator.
     my $ItemSeparator = ', ';
 
-    $Value = join $ItemSeparator, @Values;
+    if ( !$FieldConfig->{MultiValue} ) {
+        $Value = join $ItemSeparator, @Values;
+    }
+    else {
+        $Value = \@Values;
+    }
 
     # Extract the dynamic field value from the web request and set it if present. Do this after
     #   stored value is retrieved and processed, so it can be overridden if form has refreshed for
@@ -519,7 +567,7 @@ sub EditFieldValueGet {
         };
     }
 
-    # for this field the normal return an the ReturnValueStructure are the same
+    # for this field the normal return and the ReturnValueStructure are the same
     return $Value;
 }
 
@@ -537,7 +585,7 @@ sub EditFieldValueValidate {
 
     my $ServerError;
 
-    # ref comparison because EditFieldValuetet returns an arrayref except when using template value
+    # ref comparison because EditFieldValueGet returns an array reference except when using template value
     if ( ref $Value ne 'ARRAY' ) {
         $Value = [$Value];
     }
