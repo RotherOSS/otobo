@@ -152,19 +152,6 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         $('.WidgetSimple.Collapsed .WidgetAction.Toggle').on('click', function () {
             InitDynamicFields(this);
         });
-
-        // change the position of the label for DB fields
-        if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
-            $('fieldset > .Row > .FieldCell').each( function() {
-                var $DBField = $('.Field > input.DynamicFieldDB', $(this)).first();
-
-                if ( $DBField.length ) {
-                    // set the label in front of the results box
-                    $('label', $(this)).insertBefore( $('.Field > .Field', $(this)) );
-                }
-            });
-        }
-
     };
 
     /**
