@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-07-27 06:46+0000\n"
-"PO-Revision-Date: 2026-07-16 16:21+0000\n"
+"PO-Revision-Date: 2026-07-27 15:48+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
 "otobo/hu/>\n"
@@ -4932,6 +4932,9 @@ msgid ""
 "Select requesters to send attachments as binary data with content type "
 "'multipart/form-data' instead of the default Base64 encoded inline JSON."
 msgstr ""
+"Azon kérők kiválasztása, amelyeknek a mellékleteket bináris adatként, „"
+"multipart/form-data” tartalomtípussal kell elküldeni az alapértelmezett "
+"Base64-kódolású, beágyazott JSON helyett."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
@@ -5976,12 +5979,12 @@ msgstr ""
 msgid ""
 "OIDC profiles to link your OIDC functional account to can be created here:"
 msgstr ""
+"Itt hozhatja létre azokat az OIDC-profilokat, amelyekhez az OIDC "
+"funkcionális fiókját hozzákapcsolhatja:"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Profile"
 msgid "OAuth2 OIDC profiles"
-msgstr "Profil"
+msgstr "OAuth2 OIDC-profilok"
 
 #. Template: AdminOAuthTokenStore
 msgid "Delete Account"
@@ -5997,12 +6000,13 @@ msgid ""
 "an OAuth2 functional account. You have to first configure at least one OIDC "
 "provider profile here:"
 msgstr ""
+"Mivel egyetlen OIDC-szolgáltatói profil sincs beállítva, nem adhat hozzá "
+"OAuth2 funkcionális fiókot. Először be kell állítania legalább egy OIDC "
+"szolgáltatói profilt itt:"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Profile"
 msgid "OIDC profiles"
-msgstr "Profil"
+msgstr "OIDC-profilok"
 
 #. Template: AdminOAuthTokenStore
 msgid "There are no OAuth2 accounts defined."
@@ -6045,10 +6049,8 @@ msgid "Edit Invoker Account"
 msgstr "Meghívófiók szerkesztése"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "The name for this field should not change."
 msgid "The unique name for this account."
-msgstr "Ennek a mezőnek a nevét nem szabad megváltoztatni."
+msgstr "Az egyedi név ennél a fióknál."
 
 #. Template: AdminOAuthTokenStore
 msgid "OIDC Profile"
@@ -6059,46 +6061,51 @@ msgid ""
 "The OpenID Connect profile to link to this functional account. OIDC profiles "
 "can be configured here:"
 msgstr ""
+"Az ehhez a funkcionális fiókhoz hozzákapcsolandó OpenID Connect-profil. Az "
+"OIDC-profilok itt állíthatók be:"
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Event Type"
 msgid "Grant Type"
-msgstr "Eseménytípus"
+msgstr "Megadás típusa"
 
 #. Template: AdminOAuthTokenStore
 msgid "The OAuth2 grant_type to use for acquiring tokens for this account."
 msgstr ""
+"A fiók tokenjeinek megszerzéséhez használandó OAuth2 megadási típus („"
+"grant_type”)."
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Selecting 'authorization_code' will redirect you to your OpenID Connect "
 "provider's login page to validate your account once you click 'Save'."
 msgstr ""
+"Az „authorization_code” kiválasztása átirányítja Önt az OpenID Connect-"
+"szolgáltató bejelentkezési oldalára a fiókja ellenőrzéséhez, miután "
+"rákattint a „Mentés” gombra."
 
 #. Template: AdminOAuthTokenStore
 msgid "The username if grant type is 'password'."
-msgstr ""
+msgstr "A felhasználónév, ha a megadás típusa „password”."
 
 #. Template: AdminOAuthTokenStore
 msgid "The password to use if grant type is 'password'."
-msgstr ""
+msgstr "A használandó jelszó, ha a megadás típusa „password”."
 
 #. Template: AdminOAuthTokenStore
 msgid "OAuth2 Scopes"
-msgstr ""
+msgstr "OAuth2-hatókörök"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Space separate list of OAuth2 scopes to use. Usual values include openid, "
 "email, profile, and roles."
 msgstr ""
+"A használandó OAuth2-hatókörök szóközzel elválasztott listája. A szokásos "
+"értékek a következők: „openid”, „email”, „profile” és „roles”."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "General Settings"
 msgid "Advanced Invoker Settings"
-msgstr "Általános beállítások"
+msgstr "Speciális meghívó-beállítások"
 
 #. Template: AdminOAuthTokenStore
 msgid "Resources"
@@ -6109,38 +6116,37 @@ msgid ""
 "Optional (space separated list) for the resource parameter if required. "
 "Leave empty unless instructed otherwise."
 msgstr ""
+"Elhagyható (szóközzel elválasztott lista) az erőforrás-paraméternél, ha "
+"szükséges. Hagyja üresen, hacsak más utasítást nem kap."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Remove this Parameter"
 msgid "Resource Parameter Name"
-msgstr "Paraméter eltávolítása"
+msgstr "Erőforrás-paraméter neve"
 
 #. Template: AdminOAuthTokenStore
 msgid ""
 "Name of the resource parameter to use. Defaults to 'resource'. Do not change "
 "unless instructed."
 msgstr ""
+"A használandó erőforrás-paraméter neve. Alapértelmezetten „resource”. Ne "
+"változtassa meg, hacsak más utasítást nem kap."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid "Ticket Types"
 msgid "Token Type"
-msgstr "Jegytípusok"
+msgstr "Token típusa"
 
 #. Template: AdminOAuthTokenStore
 msgid "The token type to use for external API calls. Usually 'access_token'."
 msgstr ""
+"A külső API-hívásokhoz használandó tokentípus. Általában „access_token”."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Profile"
 msgid "OpenID Connect Profiles"
-msgstr "Profil"
+msgstr "OpenID Connect-profilok"
 
 #. Template: AdminOIDCProfiles
 msgid "OpenID Connect Provider Profiles Management"
-msgstr ""
+msgstr "OpenID Connect-szolgáltatói profilok kezelése"
 
 #. Template: AdminOIDCProfiles
 msgid "Add Profile"
@@ -6152,15 +6158,17 @@ msgstr "Profil szerkesztése"
 
 #. Template: AdminOIDCProfiles
 msgid "About OIDC Provider Profiles"
-msgstr ""
+msgstr "Az OIDC-szolgáltatói profilokról"
 
 #. Template: AdminOIDCProfiles
 msgid "This page displays an overview of configured OIDC provider profiles."
 msgstr ""
+"Ez az oldal a beállított OIDC-szolgáltatói profilok áttekintését jeleníti "
+"meg."
 
 #. Template: AdminOIDCProfiles
 msgid "You can connect OIDC profiles with a OIDC functional account"
-msgstr ""
+msgstr "Összekapcsolhatja az OIDC-profilokat egy OIDC funkcionális fiókkal"
 
 #. Template: AdminOIDCProfiles
 msgid "here"
@@ -6175,10 +6183,12 @@ msgid ""
 "OpenID Connect Provider Profiles for Outgoing Web Service Calls "
 "(GenericInterface Invoker)"
 msgstr ""
+"OpenID Connect-szolgáltatói profilok a kimenő webszolgáltatás kéréseihez "
+"(általános felület meghívó)"
 
 #. Template: AdminOIDCProfiles
 msgid "There are no OIDC provider profiles defined."
-msgstr ""
+msgstr "Nincsenek OIDC-szolgáltatói profilok meghatározva."
 
 #. Template: AdminOIDCProfiles
 msgid "Client ID"
@@ -6190,129 +6200,106 @@ msgstr "Szolgáltató"
 
 #. Template: AdminOIDCProfiles
 msgid "Add OIDC Provider Profile"
-msgstr ""
+msgstr "OIDC-szolgáltatói profil hozzáadása"
 
 #. Template: AdminOIDCProfiles
 msgid "Edit OIDC Provider Profile"
-msgstr ""
+msgstr "OIDC-szolgáltatói profil szerkesztése"
 
 #. Template: AdminOIDCProfiles
 msgid ""
 "Since you are using OIDC as authentication module, these values have been "
 "pre-populated with the OIDC provider configuration used for login."
 msgstr ""
+"Mivel OIDC-t használ hitelesítési modulként, ezek az értékek előre "
+"kitöltésre kerültek a bejelentkezéshez használt OIDC-szolgáltató "
+"beállításaival."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Please provide a unique name for this web service."
 msgid "The unique name for this profile."
-msgstr "Adjon meg egy egyedi nevet ehhez a webszolgáltatáshoz."
+msgstr "Az egyedi név ennél a profilnál."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Metadata"
 msgid "Metadata URL."
-msgstr "Metaadatok"
+msgstr "Metaadatok URL-e."
 
 #. Template: AdminOIDCProfiles
 msgid "The well-known provider metadata URL."
-msgstr ""
+msgstr "A jól ismert szolgáltató metaadatainak URL-e."
 
 #. Template: AdminOIDCProfiles
 msgid "The client ID of your OAuth2 application."
-msgstr ""
+msgstr "Az OAuth2-alkalmazás ügyfél-azonosítója."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Client Certificate"
 msgid "Client Secret"
-msgstr "Kliens tanúsítvány"
+msgstr "Ügyféltitok"
 
 #. Template: AdminOIDCProfiles
 msgid "The client secret of your OAuth2 application."
-msgstr ""
+msgstr "Az OAuth2-alkalmazás ügyféltitka."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Cache time in seconds for the DB process backend."
 msgid "Time in seconds for caching provider data."
-msgstr "Gyorsítótárazás ideje másodpercben a DB folyamat háttérprogramnál."
+msgstr "Az idő másodpercben a szolgáltató adatainak gyorsítótárazásához."
 
 #. Template: AdminOIDCProfiles
 msgid "SSL Options (Optional)"
-msgstr ""
+msgstr "SSL-beállítások (elhagyható)"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Add Certificate"
 msgid "SSL Certificate"
-msgstr "Tanúsítvány hozzáadása"
+msgstr "SSL-tanúsítvány"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Read certificate"
 msgid "SSL certificate path."
-msgstr "Tanúsítvány olvasása"
+msgstr "Az SSL-tanúsítvány útvonala."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Client Certificate Key"
 msgid "SSL Certificate Key"
-msgstr "Kliens tanúsítvány kulcsa"
+msgstr "SSL-tanúsítvány kulcsa"
 
 #. Template: AdminOIDCProfiles
 msgid "SSL certificate private key path."
-msgstr ""
+msgstr "Az SSL-tanúsítvány személyes kulcsának útvonala."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Password"
 msgid "SSL Password"
-msgstr "Jelszó"
+msgstr "SSL-jelszó"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "New password"
 msgid "The SSL password."
-msgstr "Új jelszó"
+msgstr "Az SSL-jelszó."
 
 #. Template: AdminOIDCProfiles
 msgid "SSL CA File"
-msgstr ""
+msgstr "SSL CA-fájl"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Certification Authority (CA) Certificate"
 msgid "SSL certificate authority file path."
-msgstr "Hitelesítés-szolgáltató (CA) tanúsítvány"
+msgstr "Az SSL-hitelesítésszolgáltató fájljának útvonala."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "OTRS home directory"
 msgid "SSL CA Directory"
-msgstr "OTRS saját könyvtára"
+msgstr "SSL CA-könyvtár"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "Certification Authority (CA) Directory"
 msgid "SSL certificate authority directory path."
-msgstr "Hitelesítés-szolgáltató (CA) könyvtár"
+msgstr "Az SSL-hitelesítésszolgáltató könyvtárának útvonala."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "SSL verify mode"
 msgid "SSL Verify Hostname"
-msgstr "SSL-ellenőrzés módja"
+msgstr "SSL-gépnév ellenőrzése"
 
 #. Template: AdminOIDCProfiles
 msgid ""
 "Enable or disable SSL hostname verification. Only disable for debugging "
 "purposes!"
 msgstr ""
+"Az SSL-gépnév ellenőrzésének engedélyezése vagy letiltása. Csak hibakeresési "
+"célokhoz tiltsa le!"
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "SSL verify mode"
 msgid "SSL Verify Mode"
 msgstr "SSL-ellenőrzés módja"
 
@@ -6320,40 +6307,48 @@ msgstr "SSL-ellenőrzés módja"
 msgid ""
 "Enable or disable SSL verification. Only disable for debugging purposes!"
 msgstr ""
+"Az SSL ellenőrzésének engedélyezése vagy letiltása. Csak hibakeresési "
+"célokhoz tiltsa le!"
 
 #. Template: AdminOIDCProfiles
 msgid "Misc Options (Optional)"
-msgstr ""
+msgstr "Egyéb beállítások (elhagyható)"
 
 #. Template: AdminOIDCProfiles
 msgid "Use Nonce"
-msgstr ""
+msgstr "Kezdőérték használta"
 
 #. Template: AdminOIDCProfiles
 msgid "Rand Length"
-msgstr ""
+msgstr "Véletlen hossza"
 
 #. Template: AdminOIDCProfiles
 msgid ""
 "Random string length used for state and nonce parameters. Default is '22'."
 msgstr ""
+"Az állapot és a kezdőérték paraméterhez használt véletlen-karakterlánc "
+"hossza. Alapértelmezetten „22”."
 
 #. Template: AdminOIDCProfiles
 msgid "Rand TTL"
-msgstr ""
+msgstr "Véletlen élettartam"
 
 #. Template: AdminOIDCProfiles
 msgid "Time-to-live for state and nonce in seconds. Default is '300' (5 min)."
 msgstr ""
+"Az állapot és a kezdőérték élettartama másodpercben. Alapértelmezetten „300” "
+"(5 perc)."
 
 #. Template: AdminOIDCProfiles
 msgid "Leeway"
-msgstr ""
+msgstr "Késés"
 
 #. Template: AdminOIDCProfiles
 msgid ""
 "Time drift allowance between servers to be allowed. Default '2' seconds."
 msgstr ""
+"A kiszolgálók közötti időeltolódás-tűrés megengedett mértéke. "
+"Alapértelmezetten „2” másodperc."
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -7462,16 +7457,12 @@ msgid "Transition actions are not being used in this process."
 msgstr "Ebben a folyamatban nem használnak átmenet műveleteket."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid ""
-#| "Please note that changing this transition will affect the following "
-#| "processes"
 msgid ""
 "Please note that changing this transition will affect the following "
 "processes:"
 msgstr ""
 "Ne feledje, hogy az átmenet módosítása érinteni fogja a következő "
-"folyamatokat"
+"folyamatokat:"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
@@ -7490,11 +7481,14 @@ msgid ""
 "Name of the ticket attribute that should be used for validation. In general, "
 "all attributes returned by the TicketGet function can be used."
 msgstr ""
+"A jegyattribútum neve, amelyet az ellenőrzéshez kell használni. Általában a "
+"TicketGet függvény által visszaadott összes attribútum használható."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "There are several possibilities to validate whether this transition is valid."
 msgstr ""
+"Számos lehetőség van annak ellenőrzésére, hogy ez az átmenet érvényes-e."
 
 #. Template: AdminProcessManagementTransition
 msgid "Exact match"
@@ -7506,24 +7500,26 @@ msgid ""
 "dynamic field or dynamic field of type \"Set\"), at least one value must "
 "exactly match the string specified in \"Value\"."
 msgstr ""
+"Az értéknek pontosan egyeznie kell a karakterlánccal. Tömbben (például: "
+"többértékű dinamikus mező vagy „halmaz” típusú dinamikus mező) legalább egy "
+"értéknek pontosan egyeznie kell az „érték” mezőben megadott karakterlánccal."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Exact match"
 msgid "Exact match - all"
-msgstr "Pontos egyezés"
+msgstr "Pontos egyezés – összes"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "In an array (for example: multi-value dynamic field or dynamic field of type "
 "\"Set\"), all values must exactly match the string specified in \"Value\"."
 msgstr ""
+"Tömbben (például: többértékű dinamikus mező vagy „halmaz” típusú dinamikus "
+"mező) az összes értéknek pontosan egyeznie kell az „érték” mezőben megadott "
+"karakterlánccal."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Exact match"
 msgid "Exact match - negated"
-msgstr "Pontos egyezés"
+msgstr "Pontos egyezés – tagadott"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7531,10 +7527,11 @@ msgid ""
 "dynamic field or dynamic field of type \"Set\"), no value may match the "
 "string specified in \"Value\"."
 msgstr ""
+"Az érték nem egyezhet a karakterlánccal. Tömbben (például: többértékű "
+"dinamikus mező vagy „halmaz” típusú dinamikus mező) egyetlen érték sem "
+"egyezhet meg az „érték” mezőben megadott karakterlánccal."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular Expression"
 msgstr "Reguláris kifejezés"
 
@@ -7544,12 +7541,14 @@ msgid ""
 "multi-value dynamic field or dynamic field of type \"Set\"), at least one "
 "value must match the regular expression specified in \"Value\"."
 msgstr ""
+"Az értéknek tartalmaznia kell egy illeszkedő reguláris kifejezést. Tömbben "
+"(például: többértékű dinamikus mező vagy „halmaz” típusú dinamikus mező) "
+"legalább egy értéknek illeszkednie kell az „érték” mezőben megadott "
+"reguláris kifejezésre."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular Expression - all"
-msgstr "Reguláris kifejezés"
+msgstr "Reguláris kifejezés – összes"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7557,12 +7556,13 @@ msgid ""
 "\"Set\"), all values must match the regular expression specified in "
 "\"Value\"."
 msgstr ""
+"Tömbben (például: többértékű dinamikus mező vagy „halmaz” típusú dinamikus "
+"mező) az összes értéknek illeszkednie kell az „érték” mezőben megadott "
+"reguláris kifejezésre."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regular Expression - negated"
-msgstr "Reguláris kifejezés"
+msgstr "Reguláris kifejezés – tagadott"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7570,6 +7570,10 @@ msgid ""
 "example: multi-value dynamic field or dynamic field of type \"Set\"), no "
 "value may match the regular expression specified in \"Value\"."
 msgstr ""
+"Az értéknek tartalmaznia kell egy nem illeszkedő reguláris kifejezést. "
+"Tömbben (például: többértékű dinamikus mező vagy „halmaz” típusú dinamikus "
+"mező) egyetlen érték sem illeszkedhet az „érték” mezőben megadott reguláris "
+"kifejezésre."
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition validation module"
@@ -7580,18 +7584,21 @@ msgid ""
 "\"Name\" is currently irrelevant, \"Value\" must contain the path to the "
 "module, usually Kernel::System::Process::Transition::<TA_Name>."
 msgstr ""
+"A „név” jelenleg jelentéktelen, az „érték” mezőnek a modulra mutató "
+"útvonalat kell tartalmaznia, általában „"
+"Kernel::System::Process::Transition::<ÁM_név>”."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Value must always contain a string or a regular expression used for "
 "comparison."
 msgstr ""
+"Az értéknek mindig tartalmaznia kell az összehasonlításhoz használt "
+"karakterláncot vagy reguláris kifejezést."
 
 #. Template: AdminProcessManagementTransition
-#, fuzzy
-#| msgid "Example"
 msgid "Examples"
-msgstr "Példa"
+msgstr "Példák"
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7600,6 +7607,10 @@ msgid ""
 "Name=\"State\", Type=\"Regular Expression\" and Value=\"closed\" (or the "
 "long form \"^.*closed.*$\")."
 msgstr ""
+"A folyamatjegynek át kell lépnie a következő folyamatlépésre, amint olyan "
+"állapot kerül beállításra, amelynek nevében szerepel a „lezárva” szó. Ezért "
+"állítsa be a következőket: Név=„Állapot”, Típus=„Reguláris kifejezés” és "
+"Érték=„lezárva” (vagy a hosszú formátumot: „^.*lezárva.*$”)."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
@@ -7607,6 +7618,9 @@ msgid ""
 "Name=\"DynamicField_<FieldName>\". To access a field inside a dynamic field "
 "of type \"Set\", the following syntax can be used: "
 msgstr ""
+"Ha dinamikus mezőt kell használni, akkor Név=„DynamicField_<Mezőnév>” "
+"értéket állítson be. Ahhoz, hogy hozzáférjen egy „halmaz” típusú dinamikus "
+"mezőn belüli mezőhöz, a következő szintaxist használhatja: "
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
@@ -8455,10 +8469,8 @@ msgstr ""
 "exportálásra."
 
 #. Template: AdminRoleGroupImportExport
-#, fuzzy
-#| msgid "Manage Role-Group Relations"
 msgid "Role-Group relations List"
-msgstr "Szerep–Csoport kapcsolatok kezelése"
+msgstr "Szerep–Csoport kapcsolatok listája"
 
 #. Template: AdminRoleImportExport
 msgid ""
@@ -8469,10 +8481,8 @@ msgstr ""
 "rendszerbe importálhassa. A beállítófájl YAML formátumban kerül exportálásra."
 
 #. Template: AdminRoleImportExport
-#, fuzzy
-#| msgid "Request List"
 msgid "Roles List"
-msgstr "Kéréslista"
+msgstr "Szerepek listája"
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -8551,10 +8561,8 @@ msgstr ""
 "importálhassa. A beállítófájl YAML formátumban kerül exportálásra."
 
 #. Template: AdminSLAImportExport
-#, fuzzy
-#| msgid "List"
 msgid "SLAs List"
-msgstr "Lista"
+msgstr "SLA-k listája"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -8864,10 +8872,8 @@ msgstr ""
 "rendszerbe importálhassa. A beállítófájl YAML formátumban kerül exportálásra."
 
 #. Template: AdminServiceImportExport
-#, fuzzy
-#| msgid "Services"
 msgid "Services List"
-msgstr "Szolgáltatások"
+msgstr "Szolgáltatások listája"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -9745,10 +9751,8 @@ msgstr ""
 "rendszerbe importálhassa. A beállítófájl YAML formátumban kerül exportálásra."
 
 #. Template: AdminTemplateImportExport
-#, fuzzy
-#| msgid "Template List"
 msgid "Templates List"
-msgstr "Sablonlista"
+msgstr "Sablonok listája"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
@@ -14696,7 +14700,7 @@ msgstr "Egy objektumra hivatkozó attribútum dinamikus mező kiválasztása"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "A field of type %s is currently not usable as lens attribute."
-msgstr "Egy %s típusú mező jelenleg nem használható lencseattribútumként."
+msgstr "Egy %s típusú mező jelenleg nem használható lencsék attribútumaként."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Field %s is not a reference field."
@@ -14763,6 +14767,8 @@ msgid ""
 "The dynamic field \"%s\" can not be used in sets as it is either a Set field "
 "or a Lens field pointing to a Set field."
 msgstr ""
+"A(z) „%s” dinamikus mező nem használható halmazokban, mivel az vagy egy "
+"halmaz mező, vagy egy halmaz mezőre mutató lencsék mező."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
@@ -15437,10 +15443,8 @@ msgid "You need %s permissions!"
 msgstr "%s jogosultságokra van szüksége!"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-#, fuzzy
-#| msgid "Agent who created the ticket"
 msgid "Agent who created the first article"
-msgstr "Az ügyintéző, aki létrehozta a jegyet"
+msgstr "Az ügyintéző, aki az első bejegyzést létrehozta"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
@@ -15862,24 +15866,19 @@ msgstr "Folyamat: %s nem inaktív"
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Non-global activity dialogs may not be assigned to global activities."
 msgstr ""
+"A nem globális tevékenység-párbeszédablakokat nem lehet hozzárendelni "
+"globális tevékenységekhez."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "There was an error generating a new EntityID for this Activity"
 msgid "There was an error generating a new entity ID for this activity."
 msgstr ""
-"Hiba történt egy új egyedazonosító előállításakor ennél a tevékenységnél"
+"Hiba történt egy új egyedazonosító előállításakor ennél a tevékenységnél."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "There was an error creating the Activity"
 msgid "There was an error creating the activity."
-msgstr "Hiba történt a tevékenység létrehozásakor"
+msgstr "Hiba történt a tevékenység létrehozásakor."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid ""
-#| "There was an error setting the entity sync status for Activity entity: %s"
 msgid ""
 "There was an error setting the entity sync status for activity entity: %s"
 msgstr ""
@@ -15891,27 +15890,23 @@ msgid "Need ActivityID and ProcessEntityID!"
 msgstr "Tevékenységazonosító és folyamatentitás-azonosító szükséges!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "Could not get data for ActivityID %s"
 msgid "Could not get data for activity ID %s"
-msgstr "Nem sikerült lekérni az adatokat a tevékenység-azonosítóhoz: %s"
+msgstr "Nem sikerült lekérni az adatokat a tevékenységazonosítóhoz: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "This action is not permitted on the article!"
 msgid "This activity is not available to the current process."
-msgstr "Ez a művelet nem engedélyezett a bejegyzésen!"
+msgstr "Ez a tevékenység nem érhető el a jelenlegi folyamathoz."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "Activities currently shared by other processes may not be set to non-global."
 msgstr ""
+"A más folyamatok által jelenleg megosztott tevékenységeket nem lehet nem "
+"globálisra állítani."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "There was an error updating the Activity"
 msgid "There was an error updating the activity."
-msgstr "Hiba történt a tevékenység frissítésekor"
+msgstr "Hiba történt a tevékenység frissítésekor."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
@@ -15927,22 +15922,16 @@ msgid "ActivityDialog not found!"
 msgstr "Nem található tevékenység-párbeszédablak!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid ""
-#| "ActivityDialog already assigned to Activity. You cannot add an "
-#| "ActivityDialog twice!"
 msgid ""
 "Activity dialog already assigned to activity. You cannot add an activity "
 "dialog twice."
 msgstr ""
-"A tevékenység-párbeszédablak már hozzá van rendelve a tevékenységhez. Nem "
-"adhat hozzá egy tevékenység-párbeszédablakot kétszer!"
+"A tevékenység-párbeszédablak már hozzá van rendelve egy tevékenységhez. Nem "
+"adhat hozzá egy tevékenység-párbeszédablakot kétszer."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
-#, fuzzy
-#| msgid "Error while saving the Activity to the database!"
 msgid "Error while saving the activity to the database."
-msgstr "Hiba történt a tevékenységnek az adatbázisba történő mentése közben!"
+msgstr "Hiba történt a tevékenységnek az adatbázisba történő mentése közben."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
@@ -15982,10 +15971,8 @@ msgstr ""
 "azonosítójához: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-#, fuzzy
-#| msgid "Activity dialogs are not being used in this process."
 msgid "This Activity Dialog is not available to the current Process!"
-msgstr "Ebben a folyamatban nem használnak tevékenység-párbeszédablakokat."
+msgstr "Ez a tevékenység-párbeszédablak nem érhető el a jelenlegi folyamathoz!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 #, fuzzy
@@ -16057,15 +16044,15 @@ msgid "Could not get data for TransitionID %s"
 msgstr "Nem sikerült lekérni az adatokat az átmenet-azonosítóhoz: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-#, fuzzy
-#| msgid "This action is not permitted on the article!"
 msgid "This Transition is not available to the current Process!"
-msgstr "Ez a művelet nem engedélyezett a bejegyzésen!"
+msgstr "Ez az átmenet nem érhető el a jelenlegi folyamathoz!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "Transitions currently shared by other Processes may not be set to non-global!"
 msgstr ""
+"A más folyamatok által jelenleg megosztott átmeneteket nem lehet nem "
+"globálisra állítani!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
@@ -16113,20 +16100,16 @@ msgid "Could not get data for TransitionActionID %s"
 msgstr "Nem sikerült lekérni az adatokat az átmenet művelet azonosítóhoz: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-#, fuzzy
-#| msgid ""
-#| "This TransitionAction is already used in this Path. You cannot use it "
-#| "twice!"
 msgid "This Transition Action is not available to the current Process!"
-msgstr ""
-"Ez az átmenet művelet már használatban van az útvonalon. Nem használhatja "
-"kétszer!"
+msgstr "Ez az átmenet művelet nem érhető el a jelenlegi folyamathoz!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid ""
 "TransitionActions currently shared by other Processes may not be set to non-"
 "global!"
 msgstr ""
+"A más folyamatok által jelenleg megosztott átmenet műveleteket nem lehet nem "
+"globálisra állítani!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
@@ -17676,10 +17659,8 @@ msgstr ""
 "jelenlegi állapotában."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-#, fuzzy
-#| msgid "Could not delete draft!"
 msgid "Could not delete form draft."
-msgstr "Nem sikerült a piszkozat törlése!"
+msgstr "Nem sikerült törölni az űrlap piszkozatát."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -18388,10 +18369,8 @@ msgid "Unavailable"
 msgstr "Nem érhető el"
 
 #. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
-#, fuzzy
-#| msgid "Search Results"
 msgid "Shown Elasticsearch Results"
-msgstr "Keresési eredmények"
+msgstr "Megjelenített Elasticsearch eredmények"
 
 #. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
 #, fuzzy
@@ -19600,37 +19579,41 @@ msgstr "Ügyfél-azonosító és ügyféltitok szükséges!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Got no content when requesting Token. Response Code: %s"
-msgstr ""
+msgstr "Nem érkezett tartalom a token kérésekor. A válaszkód: %s"
 
 #. Perl Module: Kernel/System/OpenIDConnect/OAuth2.pm
 msgid "Got no JSON object when requesting Token. Response: %s"
-msgstr ""
+msgstr "Nem érkezett JSON-objektum a token kérésekor. A válaszkód: %s"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-#, fuzzy
-#| msgid "Action \"%s\" not found!"
 msgid "AccountName %s not found!"
-msgstr "A(z) „%s” művelet nem található!"
+msgstr "A(z) „%s” fióknév nem található!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
 "No valid refresh_token for Account %s using grant_type 'authorization code' !"
 msgstr ""
+"Nincs érvényes frissítési token a(z) „%s” fiókhoz a „felhatalmazási kód” "
+"megadási típus használatával!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
 "Need functional account Invoker settings in System Configuration for %s."
 msgstr ""
+"A funkcionális fiók meghívójának beállításai szükségesek a "
+"rendszerbeállításokban ehhez: %s."
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid ""
 "Did not receive the desired TokenType '%s' in OIDC provider response for "
 "Invoker %s!"
 msgstr ""
+"Nem érkezett a kívánt „%s” tokentípus az OIDC-szolgáltató válaszában a(z) %s "
+"meghívóhoz!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 msgid "Time left on fresh token is: %s s for Invoker %s!"
-msgstr ""
+msgstr "A friss token hátralévő ideje: %s mp a(z) %s meghívónál!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
 #, fuzzy
@@ -21225,8 +21208,6 @@ msgid "default reply (after new ticket has been created)"
 msgstr "alapértelmezett válasz (miután egy új jegyet létrehoztak)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
-#, fuzzy
-#| msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgid "default reject (after follow-up and rejection of a closed ticket)"
 msgstr ""
 "alapértelmezett elutasítás (egy lezárt jegy követése és elutasítása után)"
@@ -21765,6 +21746,8 @@ msgstr "Entitás-azonosítók elrejtése"
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
 msgstr ""
+"A nem globális tevékenység-párbeszédablakokat nem lehet hozzárendelni "
+"globális tevékenységekhez!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Edit Field Details"
@@ -22638,10 +22621,8 @@ msgid "5 Minutes"
 msgstr "5 perc"
 
 #. SysConfig
-#, fuzzy
-#| msgid "5 days"
 msgid "7 days"
-msgstr "5 nap"
+msgstr "7 nap"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
@@ -22823,16 +22804,12 @@ msgstr ""
 "Minden hónapban új naplófájl lesz létrehozva."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Sets the responsible agent of the ticket in the ticket note screen of the "
-#| "agent interface."
 msgid ""
 "Adds customer visibility of the article to the article edit screen of the "
 "agent interface."
 msgstr ""
-"Beállítja a jegy felelős ügyintézőjét az ügyintézői felület jegyjegyzet "
-"képernyőjén."
+"Hozzáadja a bejegyzés ügyfélláthatóságát az ügyintézői felület "
+"bejegyzésszerkesztő képernyőjéhez."
 
 #. SysConfig
 msgid ""
@@ -23647,10 +23624,8 @@ msgid "Based on global RichText setting"
 msgstr "Globális RichText beállítás alapján"
 
 #. SysConfig
-#, fuzzy
-#| msgid "BasicAuth User"
 msgid "Basic Auth"
-msgstr "BasicAuth felhasználónév"
+msgstr "Egyszerű hitelesítés"
 
 #. SysConfig
 msgid ""
@@ -23685,7 +23660,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Both"
-msgstr ""
+msgstr "Mindkettő"
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
@@ -24342,6 +24317,10 @@ msgid ""
 "button group that will be visibly separated in the editor. (Only used if "
 "`CustomerFrontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+"A bővített módú CKEditor-eszköztáron megjelenített vezérlők. Minden egyes "
+"tömb egy olyan gombcsoportot határoz meg, amely elválasztva lesz "
+"megjelenítve a szerkesztőben. (Csak akkor van használva, ha a „"
+"CustomerFrontend::RichText::EnhancedMode” beállítás engedélyezve van)."
 
 #. SysConfig
 msgid ""
@@ -24349,6 +24328,10 @@ msgid ""
 "button group that will be visibly separated in the editor. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+"A bővített módú CKEditor-eszköztáron megjelenített vezérlők. Minden egyes "
+"tömb egy olyan gombcsoportot határoz meg, amely elválasztva lesz "
+"megjelenítve a szerkesztőben. (Csak akkor van használva, ha a „"
+"Frontend::RichText::EnhancedMode” beállítás engedélyezve van)."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -24890,39 +24873,26 @@ msgstr ""
 "karaktert."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Define possible namespaces for dynamic fields. Must only contain "
-#| "alphanumeric characters. A namespace must not be longer than 64 "
-#| "characters. Namespace plus dynamic field name must not exceed 190 "
-#| "characters."
 msgid ""
 "Define possible namespaces for global usage (currently dynamic fields and "
 "process elements). Must only contain alphanumeric characters. A namespace "
 "must not be longer than 64 characters. Namespace plus dynamic field name "
 "must not exceed 190 characters."
 msgstr ""
-"Lehetséges névterek meghatározása a dinamikus mezőkhöz. Csak alfanumerikus "
-"karaktereket tartalmazhat. Egy névtér nem lehet hosszabb 64 karakternél. A "
-"névtér és a dinamikus mező neve együttesen nem haladhatja meg a 190 "
-"karaktert."
+"Lehetséges névterek meghatározása a globális használathoz (jelenleg "
+"dinamikus mezőkhöz és folyamatelemekhez). Csak alfanumerikus karaktereket "
+"tartalmazhat. Egy névtér nem lehet hosszabb 64 karakternél. A névtér és a "
+"dinamikus mező neve együttesen nem haladhatja meg a 190 karaktert."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Define possible namespaces for dynamic fields. Must only contain "
-#| "alphanumeric characters. A namespace must not be longer than 64 "
-#| "characters. Namespace plus dynamic field name must not exceed 190 "
-#| "characters."
 msgid ""
 "Define possible namespaces specifically for process elements. Must only "
 "contain alphanumeric characters. A namespace must not be longer than 64 "
 "characters."
 msgstr ""
-"Lehetséges névterek meghatározása a dinamikus mezőkhöz. Csak alfanumerikus "
-"karaktereket tartalmazhat. Egy névtér nem lehet hosszabb 64 karakternél. A "
-"névtér és a dinamikus mező neve együttesen nem haladhatja meg a 190 "
-"karaktert."
+"Lehetséges névterek meghatározása kifejezetten a folyamatelemekhez. Csak "
+"alfanumerikus karaktereket tartalmazhat. Egy névtér nem lehet hosszabb 64 "
+"karakternél."
 
 #. SysConfig
 msgid "Define the max depth of queues."
@@ -25310,6 +25280,9 @@ msgid ""
 "Defines for which article types the editing of subject, body and attachment "
 "is enabled. \"Both\" includes \"Phone\" and \"Internal\"."
 msgstr ""
+"Meghatározza, hogy mely bejegyzéstípusoknál engedélyezett a tárgy, a törzs "
+"és a melléklet szerkesztése. A „Mindkettő” tartalmazza a „Telefon” és a „"
+"Belső” típust is."
 
 #. SysConfig
 msgid ""
@@ -25533,10 +25506,8 @@ msgstr ""
 "használnak kétlépcsős hitelesítést."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the parameters for the customer preferences table."
 msgid "Defines if articles written by the customer are editable."
-msgstr "Meghatározza az ügyfélbeállítások tábla paramétereit."
+msgstr "Meghatározza, hogy az ügyfél által írt bejegyzések szerkeszthetők-e."
 
 #. SysConfig
 msgid ""
@@ -25584,7 +25555,7 @@ msgid ""
 "subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 "Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó "
-"index, felső index, beillesztés Wordből, stb. használatát engedélyezi) az "
+"index, felső index, beillesztés Wordből stb. használatát engedélyezi) az "
 "ügyfélfelületen."
 
 #. SysConfig
@@ -26724,6 +26695,9 @@ msgid ""
 "Defines the dynamic field to identify tickets by for this operation. Please "
 "put in the field name only without the 'DynamicField_' prefix."
 msgstr ""
+"Meghatározza azt a dinamikus mezőt, amely által a jegyeket azonosítani kell "
+"ennél a műveletnél. Csak a mező nevét tegye be a „DynamicField_” előtag "
+"nélkül."
 
 #. SysConfig
 msgid ""
@@ -27034,16 +27008,12 @@ msgid "Defines the hours and week days to count the working time."
 msgstr "Meghatározza az órákat és a hétköznapokat a munkaidő számításához."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Defines the height for the rich text editor component. Enter number "
-#| "(pixels) or percent value (relative)."
 msgid ""
 "Defines the initial height for the rich text editor component. Enter number "
 "(pixels)."
 msgstr ""
-"Meghatározza a Rich Text szerkesztő-összetevő magasságát. Szám (képpont) "
-"vagy százalék (relatív) értéket adjon meg."
+"Meghatározza a Rich Text szerkesztő-összetevő kezdeti magasságát. Számot "
+"(képpontot) adjon meg."
 
 #. SysConfig
 msgid ""
@@ -27734,10 +27704,8 @@ msgstr ""
 "környezeti változó ($ENV{HOME} = '/var/lib/wwwrun';)."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the path to PGP binary."
 msgid "Defines the path to the Google Chrome or Chromium binary."
-msgstr "Meghatározza a PGP bináris útvonalát."
+msgstr "Meghatározza a Google Chrome vagy a Chromium bináris útvonalát."
 
 #. SysConfig
 msgid ""
@@ -27954,22 +27922,17 @@ msgstr ""
 "hibaképernyőin lesz megjelenítve."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Defines the system identifier. Every ticket number and http session "
-#| "string contains this ID. This ensures that only tickets which belong to "
-#| "your system will be processed as follow-ups (useful when communicating "
-#| "between two instances of OTOBO)."
 msgid ""
 "Defines the system identifier. Every ticket number contains this ID. This "
 "ensures that only tickets which belong to your system will be processed as "
 "follow-ups (useful when communicating between two instances of OTOBO). The "
 "SystemID may also be used in HTTP session backends."
 msgstr ""
-"Meghatározza a rendszer azonosítóját. Minden jegyszám és HTTP munkamenet "
-"szöveg tartalmazza ezt az azonosítót. Ez biztosítja, hogy csak azok a jegyek "
-"legyenek feldolgozva követőként, amelyek a rendszerhez tartoznak (hasznos az "
-"OTOBO két példánya közötti kommunikációkor)."
+"Meghatározza a rendszer azonosítóját. Minden jegyszám tartalmazza ezt az "
+"azonosítót. Ez biztosítja, hogy csak az Ön rendszeréhez tartozó jegyek "
+"legyenek feldolgozva utókövetésekként (az OTOBO két példánya közötti "
+"kommunikációnál hasznos). A rendszer-azonosító HTTP-munkamenet "
+"háttérprogramjaiban is használható."
 
 #. SysConfig
 msgid ""
@@ -28670,29 +28633,23 @@ msgstr ""
 "attribútumait, amelyek fel vannak véve egy halmazba."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Dynamic field event module that updates PartOfSet attributes of fields "
-#| "which are included in a set."
 msgid ""
 "Dynamic field event module that updates the MultiValue attribute of the Lens "
 "field configuration to match the MultiValue attribute of the attribute field."
 msgstr ""
-"Dinamikus mező eseménymodul, amely frissíti azon mezők „PartOfSet” "
-"attribútumait, amelyek fel vannak véve egy halmazba."
+"Dinamikus mező eseménymodul, amely frissíti a Lencsék mező beállításának „"
+"MultiValue” attribútumát, hogy egyezzen az attribútummező „MultiValue” "
+"attribútumával."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Dynamic fields options shown in the ticket reply section in the ticket "
-#| "zoom screen of the customer interface."
 msgid ""
 "Dynamic fields available as attributes for the settings "
 "'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown "
 "in the ticket overview screen of the customer interface."
 msgstr ""
-"Az ügyfélfelület jegynagyítás képernyőjének jegyválasz szakaszában "
-"megjelenített dinamikus mezők lehetőségei."
+"A „Ticket::Frontend::CustomerTicketCategories###DynamicField” beállításnál "
+"attribútumokként elérhető dinamikus mezők, amelyek az ügyfélfelület "
+"jegyáttekintő képernyőjén vannak megjelenítve."
 
 #. SysConfig
 msgid ""
@@ -29064,6 +29021,8 @@ msgid ""
 "Enables or disables the editing of articles which are visible for the "
 "customer in general."
 msgstr ""
+"Engedélyezi vagy letiltja azon bejegyzések szerkesztését, amelyek általában "
+"láthatók az ügyfél számára."
 
 #. SysConfig
 msgid ""
@@ -30183,6 +30142,11 @@ msgid ""
 "enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
 "configured in the Admin UI 'OAuth Functional Accounts' Module."
 msgstr ""
+"Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a „"
+"SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak "
+"engedélyezve kell lennie, és érvényes OIDC funkcionális fiókot kell "
+"beállítani. Az OIDC-fiókok az adminisztrátori felhasználói felületen lévő „"
+"OAuth funkcionális fiókok” modulban állíthatók be."
 
 #. SysConfig
 msgid ""
@@ -30191,6 +30155,11 @@ msgid ""
 "tickets on this system. This is only available for created, not for updated "
 "tickets."
 msgstr ""
+"Ha aktiválva van, akkor további adatok, mint például az előzmények és a "
+"hivatkozások beolvasásra kerülnek egy olyan külső adatbázisból, amely az "
+"exportált jegyeket tartalmazza, és hozzáadásra kerülnek az ezen a rendszeren "
+"importált jegyekhez. Ez csak a létrehozott jegyeknél érhető el, a frissített "
+"jegyeknél nem."
 
 #. SysConfig
 msgid ""
@@ -30426,6 +30395,9 @@ msgid ""
 "If the accounted time units for articles are shown in the article list. Only "
 "showing if at least one article has any accounted time."
 msgstr ""
+"Ha a bejegyzésekhez elszámolt időegységek megjelennek a bejegyzéslistában. "
+"Csak akkor jelenik meg, ha legalább egy bejegyzés rendelkezik valamilyen "
+"elszámolt idővel."
 
 #. SysConfig
 msgid ""
@@ -30497,15 +30469,6 @@ msgid "Import/Export"
 msgstr "Importálás/exportálás"
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "In case only one value in a dropdown is left, (0) you do nothing with the "
-#| "field and show it, (1) that single value is selected automatically but "
-#| "the field is still shown or (2) that single value is selected "
-#| "automatically and the field is hidden (but still has the value). Possible "
-#| "dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, "
-#| "TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a "
-#| "prefix) and more."
 msgid ""
 "In case only one value in a dropdown is left, (0) you do nothing with the "
 "field and show it, (1) that single value is selected automatically but the "
@@ -30521,9 +30484,10 @@ msgstr ""
 "automatikusan kiválasztásra kerül, de a mező továbbra is megjelenik, vagy "
 "(2) az egyetlen érték automatikusan kiválasztásra kerül, és a mező rejtve "
 "lesz (de továbbra is rendelkezik az értékkel). A lehetséges legördülő lista "
-"mezők lehetnek például „Dest” (célvárólista), „ServiceID”, „SLAID”, "
-"„TypeID”, „DynamicFields” (a dinamikus mezők neveinek listája a "
-"„DynamicField_” előtag nélkül) és egyebek."
+"mezők lehetnek például „Dest” (célvárólista az összes jegylétrehozási "
+"űrlapon), „NewQueueID” (például „AgentTicketFreetext” – a jegykategorizálás)"
+", „ServiceID”, „SLAID”, „TypeID”, „DynamicFields” (a dinamikus mezők "
+"neveinek listája a „DynamicField_” előtag nélkül) és egyebek."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -30592,6 +30556,8 @@ msgstr "Felület nyelve"
 #. SysConfig
 msgid "Interfaces for which the restoring of pending information is activated."
 msgstr ""
+"Azok a felületek, amelyeknél a függőben lévő információk helyreállítása "
+"aktiválva van."
 
 #. SysConfig
 msgid "Internal"
@@ -31053,7 +31019,7 @@ msgstr "Az OTOBO csapat felhőszolgáltatásainak kezelése."
 
 #. SysConfig
 msgid "Manage OpendID Connect OAuth2 Profiles."
-msgstr ""
+msgstr "OpendID Connect OAuth2-profiljainak kezelése."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -31642,17 +31608,15 @@ msgstr "OAUTHBEARER"
 
 #. SysConfig
 msgid "OAuth Functional Accounts"
-msgstr ""
+msgstr "OAuth funkcionális fiókok"
 
 #. SysConfig
 msgid "OAuth Tokens"
-msgstr ""
+msgstr "OAuth-tokenek"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Role Management"
 msgid "OIDC Profile Management"
-msgstr "Szerepkezelés"
+msgstr "OIDC-profil kezelés"
 
 #. SysConfig
 msgid "OIDC Profiles"
@@ -34194,12 +34158,9 @@ msgstr ""
 "Ticket::Type modulnak engedélyezve kell lennie)."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Sets the ticket owner in the ticket note screen of the agent interface."
 msgid "Sets the time units in the ticket note screen of the agent interface."
 msgstr ""
-"Beállítja a jegy tulajdonosát az ügyintézői felület jegyjegyzet képernyőjén."
+"Beállítja az időegységeket az ügyintézői felület jegyjegyzet képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -34239,7 +34200,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Settings for Similar Ticket Search in ES."
-msgstr ""
+msgstr "Beállítások az Elasticsearch hasonló jegyek keresése funkciójához."
 
 #. SysConfig
 msgid "Settings for the customer login screen."
@@ -35053,6 +35014,8 @@ msgid ""
 "Shows creation date instead of age in the customer interface if ticket is "
 "older than configured value (days)."
 msgstr ""
+"A létrehozás dátumát jeleníti meg az ügyfélfelületen az életkor helyett, ha "
+"a jegy régebbi a beállított értéknél (napok)."
 
 #. SysConfig
 msgid ""
@@ -35285,6 +35248,9 @@ msgid ""
 "Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), "
 "if enabled; or without (01.01.1970 00:01), if not enabled."
 msgstr ""
+"Az időt a helymeghatározási jelzővel jeleníti meg (1970-01-01 00:01 (Europe/"
+"Budapest)), ha engedélyezve van. Vagy helymeghatározási jelző nélkül (1970-"
+"01-01 00:01), ha nincs engedélyezve."
 
 #. SysConfig
 msgid "Signature data."
@@ -36594,6 +36560,8 @@ msgstr ""
 #. SysConfig
 msgid "Value map. Define a key and a value map from import file to OTOBO."
 msgstr ""
+"Értékleképezés. Kulcs és érték leképezés meghatározása az importálási "
+"fájlból az OTOBO-ra."
 
 #. SysConfig
 msgid ""
@@ -36777,6 +36745,8 @@ msgstr ""
 #. SysConfig
 msgid "Which units are used and shown in the overview for timeunits?"
 msgstr ""
+"Mely mértékegységek vannak használva és megjelenítve az időegységek "
+"áttekintőjében?"
 
 #. SysConfig
 msgid "XOAUTH2"
