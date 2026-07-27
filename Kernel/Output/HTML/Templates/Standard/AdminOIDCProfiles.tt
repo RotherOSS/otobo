@@ -50,8 +50,7 @@
                 <br>
                 <p>
                 [% IF Data.AllItemsCount != 0 %]
-                    [% Translate("You can connect OIDC profiles with a OIDC functional account") | html %]
-                    <a href="?Action=AdminOAuthTokenStore">[% Translate("here") | html %]</a>.
+                    [% Translate("You can connect OIDC profiles with a OIDC functional account %shere%s.") | html | ReplacePlaceholders('<a href="?Action=AdminOAuthTokenStore">', '</a>') %]
                 [% END %]
                 </p>
                 <br>
