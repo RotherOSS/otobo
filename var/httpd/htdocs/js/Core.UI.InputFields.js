@@ -387,7 +387,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // special case dynamic db fields
             var FieldValue;
             if ($(this).hasClass('DynamicFieldDB')) {
-                FieldValue = $(this).closest('.Field').find('input[name]').val();
+                FieldValue = $(this).closest('.Field').find('input[name].DynamicFieldDB').val();
             }
             else {
                 FieldValue = this.value;
@@ -2957,6 +2957,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             ReplaceCellIndex( $ResetCell, 'Template', CellGridPosition.Row );
             $Cell.after($ResetCell);
+            $Cell.remove();
             InitMultiValueCell( $ResetCell );
             DynamicFieldInit( $ResetCell );
 
@@ -2970,8 +2971,9 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             })
         }
-
-        $Cell.remove();
+        else {
+            $Cell.remove();
+        }
     }
 
     /**
