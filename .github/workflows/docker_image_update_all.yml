@@ -128,26 +128,11 @@ jobs:
 
         exclude:
 
-          # Exclude the Ngnix Images prior to rel-10_1_16 and rel-11_0_13.
-          # These versions can't be rebuilt because of an incompatability between libpcre2 and libpcre3.
-          -
-            target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-10_1_15'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_1_15'
-
           # Exclude the Elasticsearch images prior to rel-10_17 and rel-11_0_16.
           # as then the base image was fetched from docker.elastic.co
           -
             target:     'otobo-elasticsearch'
-            docker_tag: 'rel-10_1_15'
-          -
-            target:     'otobo-elasticsearch'
             docker_tag: 'rel-10_1_16'
-          -
-            target:     'otobo-elasticsearch'
-            docker_tag: 'rel-11_0_14'
           -
             target:     'otobo-elasticsearch'
             docker_tag: 'rel-11_0_15'
@@ -206,11 +191,6 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-webproxy'
             base_image: 'nginx:mainline-trixie'
-          # Excluded Docker tags
-          #-
-          #  target:     'otobo-nginx-webproxy'
-          #  docker_tag: 'rel-10_1_15'
-          #  base_image: 'nginx:mainline'
           -
             target:     'otobo-nginx-webproxy'
             docker_tag: 'rel-10_1_16'
@@ -224,12 +204,6 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline-trixie'
-          # Excluded Docker tags
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'rel-10_1_15'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          #  base_image: 'nginx:mainline'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_1_16'
