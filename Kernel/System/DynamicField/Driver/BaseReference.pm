@@ -64,6 +64,35 @@ Please look there for a detailed reference of the functions.
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
+    # perform search if necessary
+    if (
+        delete $Param{ExternalSource}
+        &&
+        $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} &&
+        $Self->can('SearchObjects')
+        )
+    {
+        if ( $Param{Set} ) {
+            my @Values;
+            for my $ValueItem ( $Param{Value}->@* ) {
+                my $TransformedValue = $Self->_TransformExternalSource(
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ValueArray         => $ValueItem,
+                    UserID             => $Param{UserID},
+                );
+                push @Values, $TransformedValue;
+            }
+            $Param{Value} = \@Values;
+        }
+        else {
+            $Param{Value} = $Self->_TransformExternalSource(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                ValueArray         => $Param{Value},
+                UserID             => $Param{UserID},
+            );
+        }
+    }
+
     my $Result = $Self->SUPER::ValueSet(%Param);
 
     if ($Result) {
