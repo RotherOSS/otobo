@@ -162,26 +162,59 @@ jobs:
 
           # web
           # web uses different base images in different releases.
-          # the base image perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12
-          # perl:5.40-slim-trixie is used since rel-11_1_1. Override needed as perl:5.40-bookworm is the default.
+          # The base image perl:5.44-slim-trixie is used in OTOBO 11.1. This is the default.
+          # The base image perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12
+          # the base image perl:5.44-bookworm is used since rel-10_1_18 and rel-11_0_17
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
+            base_image: 'perl:5.44-slim-trixie'
+
+          # overrides for OTOBO 10.1
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_1_16'
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'latest-11_1'
-            base_image: 'perl:5.40-slim-trixie'
+            docker_tag: 'rel-10_1_17'
+            base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-11_1_0-beta1'
-            base_image: 'perl:5.40-slim-trixie'
+            docker_tag: 'rel-10_1_18'
+            base_image: 'perl:5.44-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'devel-rel-11_1'
-            base_image: 'perl:5.40-slim-trixie'
+            docker_tag: 'latest-10_1'
+            base_image: 'perl:5.44-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'devel-rel-10_1'
+            base_image: 'perl:5.44-bookworm'
+
+          # overrides for OTOBO 11.0
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-11_0_15'
+            base_image: 'perl:5.40-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-11_0_16'
+            base_image: 'perl:5.40-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-11_0_17'
+            base_image: 'perl:5.44-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'latest-10_1'
+            base_image: 'perl:5.44-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'devel-rel-10_1'
+            base_image: 'perl:5.44-bookworm'
 
           # The base image nginx:mainline-trixie is used since 10.1.17 and 11.0.12. This is the default.
           # nginx:mainline is used in rel-10_1 up to 10.1.16 and then switched to nginx:mainline-trixie
