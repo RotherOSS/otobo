@@ -178,7 +178,7 @@
                             <li class="[% Data.Class | html %]">
 
                                 [% # using a form here is necessary to enable the backend to perform a challenge token check on an article action %]
-                                <form title="[% Translate(Data.Description) | html %]" action="[% Env("CGIHandle") | html %]" method="post">
+                                <form class="TicketActionForm" title="[% Translate(Data.Description) | html %]" action="[% Env("CGIHandle") | html %]" method="post">
                                     <input type="hidden" name="Action" value="[% Data.Action | html %]"/>
                                     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
 [% IF Data.Subaction %]
