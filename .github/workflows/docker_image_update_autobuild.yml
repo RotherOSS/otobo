@@ -140,8 +140,8 @@ jobs:
             docker_tag: 'latest-10_1-autobuild'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-          # The Elasticsearch base image in 8.19.19 for OTOBO 10.1 and OTOBO 11.0.
-          # Version 9.4.4 for OTOBO 11.1
+          # The Elasticsearch base image in 9.4.4 for OTOBO 11.1. This is the default.
+          # The version is 8.19.19 for OTOBO 10.1 and OTOBO 11.0.
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
@@ -150,11 +150,11 @@ jobs:
             base_image: 'elasticsearch:9.4.4'
           -
             target:     'otobo-elasticsearch'
-            docker_tag: 'latest-11_0-autobuild'
+            docker_tag: 'latest-10_1-autobuild'
             base_image: 'elasticsearch:8.19.19'
           -
             target:     'otobo-elasticsearch'
-            docker_tag: 'latest-10_1-autobuild'
+            docker_tag: 'latest-11_0-autobuild'
             base_image: 'elasticsearch:8.19.19'
 
     steps:
