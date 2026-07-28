@@ -358,7 +358,8 @@ ul.ContextFunctions li:last-child:hover > a {
     display: inline-block;
 }
 
-.Actions form.ArticleActionForm {
+.Actions form.ArticleActionForm,
+.Actions form.TicketActionForm {
     padding: revert;
 }
 
