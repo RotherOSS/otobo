@@ -73,13 +73,13 @@ jobs:
           # Has to be updated for every new patch level release.
           -
             docker_tag:   'latest-10_1-autobuild'
-            otobo_branch: 'rel-10_1_17'
+            otobo_branch: 'rel-10_1_18'
           -
             docker_tag:   'latest-11_0-autobuild'
-            otobo_branch: 'rel-11_0_16'
+            otobo_branch: 'rel-11_0_17'
           -
             docker_tag:   'latest-11_1-autobuild'
-            otobo_branch: 'rel-11_1_0-beta1'
+            otobo_branch: 'rel-11_1_0-beta2'
 
           # web
           # web uses different base images in different releases.
@@ -136,14 +136,22 @@ jobs:
             docker_tag: 'latest-10_1-autobuild'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-          # The autobuild image for elastic has been reenabled for OTOBO 10.1.17 and 11.0.16
-          # as the base image is now also retrieved from Docker Hub.
+          # The Elasticsearch base image in 8.19.19 for OTOBO 10.1 and OTOBO 11.0.
+          # Version 9.4.4 for OTOBO 11.1
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
-            base_image: 'elasticsearch:8.19.3'
+            base_image: 'elasticsearch:9.4.4'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'latest-11_0-autobuild'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'latest-10_1-autobuild'
+            base_image: 'elasticsearch:8.19.19'
 
     steps:
 
