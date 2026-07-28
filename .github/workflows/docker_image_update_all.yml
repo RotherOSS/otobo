@@ -288,13 +288,58 @@ jobs:
             docker_tag: 'devel-rel-10_1'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-          # Support for Elasticsearch was added with rel-10_1_17 and rel-11_0_16
+          # Support for Elasticsearch was added with rel-10_1_17 and rel-11_0_16.
+          # The base image is Elasticsearch 9.4.4 in OTOBO 11.1. This is the default.
+          # The base image is Elasticsearch 8.19.19 in OTOBO 10.1 and OTOBO 11.0.
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
-            base_image: 'elasticsearch:8.19.3'
+            base_image: 'elasticsearch:9.4.4'
+
+          # Excluded
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  docker_tag: 'rel-10_1_16'
+          #  base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'rel-10_1_17'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'rel-10_1_18'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'latest-10_1'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'devel-rel-10_1'
+            base_image: 'elasticsearch:8.19.19'
+          # Excluded
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  docker_tag: 'rel-11_0_15'
+          #  base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'rel-11_0_16'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'rel-11_0_17'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'latest-11_0'
+            base_image: 'elasticsearch:8.19.19'
+          -
+            target:     'otobo-elasticsearch'
+            docker_tag: 'devel-rel-11_0'
+            base_image: 'elasticsearch:8.19.19'
 
     steps:
 
