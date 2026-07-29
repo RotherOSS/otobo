@@ -346,42 +346,11 @@ jobs:
 
       -
         # These variables can be accessed in the env context
-        name: Setting up the environment file (rel)
-        if:   ${{ startsWith(matrix.docker_tag, 'rel') }}
+        # For 'latest' and 'devel' Docker tags we the explicitly declared matrix.patch.
+        # matrix.patch is a bit misname, it is either a tag or a branch in the otobo git repository.
+        name: Setting up the environment file (rel, latest, devel)
         run: |
-          patch=${{ matrix.docker_tag }}
-          docker_tag=${{ matrix.docker_tag }}
-          build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          (
-            echo "otobo_branch=${patch}"
-            echo "otobo_docker_tag=${docker_tag}"
-            echo "otobo_ref=${{ matrix.repository }}:${docker_tag}"
-            echo "otobo_base_image=${{ matrix.base_image }}"
-            echo "otobo_build_date=${build_date}"
-          ) >> $GITHUB_ENV
-
-      -
-        # These variables can be accessed in the env context
-        name: Setting up the environment file (latest)
-        if:   ${{ startsWith(matrix.docker_tag, 'latest') }}
-        run: |
-          patch=${{ matrix.patch }}
-          docker_tag=${{ matrix.docker_tag }}
-          build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          (
-            echo "otobo_branch=${patch}"
-            echo "otobo_docker_tag=${docker_tag}"
-            echo "otobo_ref=${{ matrix.repository }}:${docker_tag}"
-            echo "otobo_base_image=${{ matrix.base_image }}"
-            echo "otobo_build_date=${build_date}"
-          ) >> $GITHUB_ENV
-
-      -
-        # These variables can be accessed in the env context
-        name: Setting up the environment file (devel)
-        if:   ${{ startsWith(matrix.docker_tag, 'devel') }}
-        run: |
-          patch=${{ matrix.patch }}
+          patch=${{ matrix.patch || matrix.docker_tag }}
           docker_tag=${{ matrix.docker_tag }}
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
