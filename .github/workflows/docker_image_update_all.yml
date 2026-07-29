@@ -290,7 +290,8 @@ jobs:
 
           # Support for Elasticsearch was added with rel-10_1_17 and rel-11_0_16.
           # The base image is Elasticsearch 9.4.4 in OTOBO 11.1. This is the default.
-          # The base image is Elasticsearch 8.19.19 in OTOBO 10.1 and OTOBO 11.0.
+          # The base image is Elasticsearch 8.19.3 prior to OTOBO 10.1.18 and 11.0.17
+          # The base image is Elasticsearch 8.19.19 since OTOBO 10.1.18 and 11.0.17
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
@@ -302,11 +303,11 @@ jobs:
           #-
           #  target:     'otobo-elasticsearch'
           #  docker_tag: 'rel-10_1_16'
-          #  base_image: 'elasticsearch:8.19.19'
+          #  base_image: 'elasticsearch:8.19.3'
           -
             target:     'otobo-elasticsearch'
             docker_tag: 'rel-10_1_17'
-            base_image: 'elasticsearch:8.19.19'
+            base_image: 'elasticsearch:8.19.3'
           -
             target:     'otobo-elasticsearch'
             docker_tag: 'rel-10_1_18'
@@ -327,7 +328,7 @@ jobs:
           -
             target:     'otobo-elasticsearch'
             docker_tag: 'rel-11_0_16'
-            base_image: 'elasticsearch:8.19.19'
+            base_image: 'elasticsearch:8.19.3'
           -
             target:     'otobo-elasticsearch'
             docker_tag: 'rel-11_0_17'
