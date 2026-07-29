@@ -209,11 +209,11 @@ jobs:
             base_image: 'perl:5.44-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'latest-10_1'
+            docker_tag: 'latest-11_0'
             base_image: 'perl:5.44-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'devel-rel-10_1'
+            docker_tag: 'devel-rel-11_0'
             base_image: 'perl:5.44-bookworm'
 
           # The base image nginx:mainline-trixie is used since 10.1.17 and 11.0.12. This is the default.
