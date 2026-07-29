@@ -42,7 +42,7 @@ jobs:
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
       otobo_web_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_web_devel_rel_11_0 }}
 
-      otobo_web_rel_11_1_0-beta2: ${{ steps.collect_summary.outputs.otobo_web_rel_11_1_0-beta2 }}
+      otobo_web_rel_11_1_0_beta2: ${{ steps.collect_summary.outputs.otobo_web_rel_11_1_0_beta2 }}
       otobo_web_latest_11_1: ${{ steps.collect_summary.outputs.otobo_web_latest_11_1 }}
       otobo_web_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_web_devel_rel_11_1 }}
 
@@ -59,7 +59,7 @@ jobs:
       otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
       otobo_elasticsearch_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_rel_11_0 }}
 
-      otobo_elasticsearch_rel_11_1_0-beta2: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_1_0-beta2 }}
+      otobo_elasticsearch_rel_11_1_0_beta2: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_1_0_beta2 }}
       otobo_elasticsearch_latest_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_1 }}
       otobo_elasticsearch_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_rel_11_1 }}
 
@@ -76,7 +76,7 @@ jobs:
       otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
       otobo_nginx_webproxy_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_rel_11_0 }}
 
-      otobo_nginx_webproxy_rel_11_1_0-beta2: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_1_0-beta2 }}
+      otobo_nginx_webproxy_rel_11_1_0_beta2: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_1_0_beta2 }}
       otobo_nginx_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_1 }}
       otobo_nginx_webproxy_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_rel_11_1 }}
 
@@ -93,7 +93,7 @@ jobs:
       otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
       otobo_nginx_kerberos_webproxy_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_rel_11_0 }}
 
-      otobo_nginx_kerberos_webproxy_rel_11_1_0-beta2: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_1_0-beta2 }}
+      otobo_nginx_kerberos_webproxy_rel_11_1_0_beta2: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_1_0_beta2 }}
       otobo_nginx_kerberos_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_1 }}
       otobo_nginx_kerberos_webproxy_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_rel_11_1 }}
 
@@ -110,7 +110,7 @@ jobs:
       otobo_selenium_chrome_latest_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0 }}
       otobo_selenium_chrome_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_rel_11_0 }}
 
-      otobo_selenium_chrome_rel_11_1_0-beta2: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_1_0-beta2 }}
+      otobo_selenium_chrome_rel_11_1_0_beta2: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_1_0_beta2 }}
       otobo_selenium_chrome_latest_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_1 }}
       otobo_selenium_chrome_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_rel_11_1 }}
 
