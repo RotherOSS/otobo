@@ -581,10 +581,7 @@ sub Run {
                 }
             }
 
-            my $CustomerElement = $EmailAddress;
-            if ($Phrase) {
-                $CustomerElement = $Phrase . " <$EmailAddress>";
-            }
+            my $CustomerElement = $EmailAddressObject->Format( AddressObject => $Email );
 
             if ( $CustomerSelected && $CustomerKey ) {
                 %CustomerData = $CustomerUserObject->CustomerUserDataGet(
