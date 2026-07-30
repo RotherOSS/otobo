@@ -91,7 +91,7 @@ sub ValueGet {
         ValueKey   => 'ValueText',
         Set        => $Param{Set},
         MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
-
+        BaseArray  => !$Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 }
 
