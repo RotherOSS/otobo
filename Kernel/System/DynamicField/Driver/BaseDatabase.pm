@@ -106,23 +106,25 @@ sub ValueSet {
                 VALUEITEM:
                 for my $ValueIndex ( 0 .. $#{ $Param{Value} } ) {
                     my $ValueItem = $Param{Value}[$ValueIndex];
-                    my @Values    = split /,/, $ValueItem;
-                    if (@Values) {
-                        for my $SplitValue (@Values) {
-                            push $Value->@*, {
-                                IndexSet  => $ValueIndex,
-                                ValueText => $SplitValue,
-                            };
-                        }
+                    if ( ref $ValueItem eq 'ARRAY' ) {
+                        push $Value->@*, map { { IndexSet => $ValueIndex, ValueText => $_ } } $ValueItem->@*;
                     }
                     else {
-                        push $Value->@*, {
-                            IndexSet  => $ValueIndex,
-                            ValueText => $ValueItem
-                        };
+                        my @Values = split /,/, $ValueItem;
+                        if (@Values) {
+                            for my $SplitValue (@Values) {
+                                push $Value->@*, {
+                                    IndexSet  => $ValueIndex,
+                                    ValueText => $SplitValue,
+                                };
+                            }
+                        }
                     }
                 }
             }
+        }
+        elsif ( ref $Param{Value} eq 'ARRAY' ) {
+            $Value = [ map { { ValueText => $_ } } $Param{Value}->@* ];
         }
         else {
             my @Values = split /,/, $Param{Value} // '';
