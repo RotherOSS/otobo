@@ -389,7 +389,7 @@ Core.UI.InputFields = (function (TargetNS) {
             // special case dynamic db fields
             var FieldValue;
             if ($(this).hasClass('DynamicFieldDB')) {
-                FieldValue = $(this).closest('.Field').find('input[name]').val();
+                FieldValue = $(this).closest('.Field').find('input[name].DynamicFieldDB').val();
             }
             else {
                 FieldValue = this.value;
@@ -1391,7 +1391,7 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             // For performance reasons:
-            // Do not initialize modern inputfields on selects with many entries
+            // Do not initialize modern input fields on selects with many entries
             if ($(SelectObj).children('option').length > Config.MaxNumberOfOptions) {
                 return;
             }
@@ -1653,7 +1653,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         if (AvailableHeightTop > AvailableHeightBottom) {
                             AvailableMaxHeight = AvailableHeightTop;
 
-                            // add a class to the searchobj itself to be able to react on it properly
+                            // add a class to the search object itself to be able to react on it properly
                             // e.g. to show the error tooltip
                             $SearchObj.removeClass('ExpandToBottom')
                                 .addClass('ExpandToTop');
@@ -1861,8 +1861,8 @@ Core.UI.InputFields = (function (TargetNS) {
                     TreeID += '_Select';
 
                     // jsTree init
-                    $TreeObj = $('<div id="' + Core.App.EscapeSelector(TreeID) + '"><ul></ul></div>');
-                    SelectedID = $SelectObj.val();
+                    $TreeObj      = $('<div id="' + Core.App.EscapeSelector(TreeID) + '"><ul></ul></div>');
+                    SelectedID    = $SelectObj.val();
                     SelectedNodes = [];
 
                     // Generate JSON structure based on select field options
@@ -2924,7 +2924,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
         // Some dynamic fields might not show the label for the added dynamic fields.
         // TODO: if labels are included in the HTML, then that should refer to the appropriate field.
-        // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
+        // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multi-column grid)
         if ( CellGridPosition.Row === 0 ) {
             $Cell.children('label').show();
         }
@@ -3072,6 +3072,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
             ReplaceCellIndex( $ResetCell, 'Template', CellGridPosition.Row );
             $Cell.after($ResetCell);
+            $Cell.remove();
             InitMultiValueCell( $ResetCell );
             DynamicFieldInit( $ResetCell );
 
@@ -3085,8 +3086,9 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             })
         }
-
-        $Cell.remove();
+        else {
+            $Cell.remove();
+        }
     }
 
     /**
