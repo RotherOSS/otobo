@@ -98,8 +98,8 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # check value
     if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
+
         my $Value;
         if ( $Param{Set} ) {
             if ( IsArrayRefWithData( $Param{Value} ) ) {
@@ -110,37 +110,19 @@ sub ValueSet {
                         push $Value->@*, map { { IndexSet => $ValueIndex, ValueText => $_ } } $ValueItem->@*;
                     }
                     else {
-                        my @Values = split /,/, $ValueItem;
-                        if (@Values) {
-                            for my $SplitValue (@Values) {
-                                push $Value->@*, {
-                                    IndexSet  => $ValueIndex,
-                                    ValueText => $SplitValue,
-                                };
-                            }
-                        }
+                        push $Value->@*, map { { IndexSet => $ValueIndex, ValueText => $_ } } ( split /,/, $ValueItem // '' );
                     }
                 }
             }
         }
+
         elsif ( ref $Param{Value} eq 'ARRAY' ) {
             $Value = [ map { { ValueText => $_ } } $Param{Value}->@* ];
         }
         else {
-            my @Values = split /,/, $Param{Value} // '';
-            if (@Values) {
-                for my $SplitValue (@Values) {
-                    push $Value->@*, {
-                        ValueText => $SplitValue,
-                    };
-                }
-            }
-            else {
-                push $Value->@*, {
-                    ValueText => $Param{Value},
-                };
-            }
+            $Value = [ map { { ValueText => $_ } } ( split /,/, $Param{Value} // '' ) ];
         }
+
         return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
