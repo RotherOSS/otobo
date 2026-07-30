@@ -99,22 +99,8 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # check value
-    my $Value;
-    if ( ref $Param{Value} eq 'ARRAY' && !$Param{Set} ) {
-
-        # single-value case: use first item as scalar
-        if (
-            !$Param{DynamicFieldConfig}{Config}{MultiValue}
-            && !$Param{DynamicFieldConfig}{Config}{Multiselect}
-            )
-        {
-            $Value = $Param{Value}->[0];
-        }
-        else {
-            $Value = $Param{Value};
-        }
-    }
-    elsif ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
+    if ( $Param{DynamicFieldConfig}{Config}{Multiselect} ) {
+        my $Value;
         if ( $Param{Set} ) {
             if ( IsArrayRefWithData( $Param{Value} ) ) {
                 VALUEITEM:
@@ -160,15 +146,12 @@ sub ValueSet {
             UserID   => $Param{UserID},
         );
     }
-    else {
-        $Value = $Param{Value};
-    }
 
     my $DBValue = $Self->ValueStructureToDB(
-        Value      => $Value,
+        Value      => $Param{Value},
         ValueKey   => 'ValueText',
         Set        => $Param{Set},
-        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue} || $Param{DynamicFieldConfig}{Config}{Multiselect},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
