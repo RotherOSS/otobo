@@ -877,10 +877,8 @@ sub _ShowScreen {
                 'Service',
                 'Ticket',
                 'ScriptTemplateToolkit',
-                'RichText',
                 'TextArea',
                 'Text',
-                'Title',
             ],
             Valid => 1,
         ) // []
