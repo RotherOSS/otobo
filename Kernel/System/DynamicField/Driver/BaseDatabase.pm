@@ -347,13 +347,13 @@ sub EditFieldRender {
         @Values = ( $Param{Value} );
     }
 
-    # prevent joining undef values
-    @Values = map { $_ // '' } @Values;
+    if ( $FieldConfig->{Multiselect} ) {
 
-    # Set new line separator.
-    my $ItemSeparator = ', ';
+        # prevent joining undef values
+        @Values = map { $_ // '' } @Values;
 
-    if ( !$FieldConfig->{MultiValue} ) {
+        # Set new line separator.
+        my $ItemSeparator = ', ';
         $Value = join $ItemSeparator, @Values;
     }
     else {
