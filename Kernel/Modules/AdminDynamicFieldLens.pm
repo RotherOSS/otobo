@@ -56,7 +56,7 @@ sub new {
         # see https://github.com/RotherOSS/otobo/issues/3186
         CustomerUser => 0,
 
-        # see https://github.com/RotherOSS/otobo/issues/3534
+        # see https://github.com/RotherOSS/otobo/issues/3793
         Database => 0,
         Date     => 1,
         DateTime => 1,
@@ -75,7 +75,9 @@ sub new {
         # see https://github.com/RotherOSS/otobo/issues/3789
         Lens        => 0,
         Multiselect => 1,
-        RichText    => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3720 and https://github.com/RotherOSS/otobo/issues/3815
+        RichText => 0,
 
         # see https://github.com/RotherOSS/otobo/issues/3810
         ScriptTemplateToolkit => 0,
