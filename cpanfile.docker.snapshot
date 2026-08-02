@@ -1645,12 +1645,12 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 6.46
       perl 5.010001
-  HTTP-Cookies-6.11
-    pathname: O/OA/OALDERS/HTTP-Cookies-6.11.tar.gz
+  HTTP-Cookies-6.12
+    pathname: O/OA/OALDERS/HTTP-Cookies-6.12.tar.gz
     provides:
-      HTTP::Cookies 6.11
-      HTTP::Cookies::Microsoft 6.11
-      HTTP::Cookies::Netscape 6.11
+      HTTP::Cookies 6.12
+      HTTP::Cookies::Microsoft 6.12
+      HTTP::Cookies::Netscape 6.12
     requirements:
       Carp 0
       ExtUtils::MakeMaker 0
@@ -3276,10 +3276,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.034
       Try::Tiny 0
       perl 5.010
-  Redis-Fast-0.37
-    pathname: S/SH/SHOGO/Redis-Fast-0.37.tar.gz
+  Redis-Fast-0.39
+    pathname: S/SH/SHOGO/Redis-Fast-0.39.tar.gz
     provides:
-      Redis::Fast 0.37
+      Redis::Fast 0.39
       Redis::Fast::Hash undef
       Redis::Fast::List undef
       Redis::Fast::Sentinel undef
@@ -4523,10 +4523,18 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
+      HTTP::Response 0
+      HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      LWP 0
+      LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
+      URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
