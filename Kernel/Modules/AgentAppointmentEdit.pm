@@ -1095,41 +1095,6 @@ sub Run {
     # add/edit appointment
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'EditAppointment' ) {
-
-        my $ErrorMessage;
-
-        if ( !$GetParam{Title} ) {
-            $ErrorMessage = 'Title is required!';
-        }
-        elsif ( !$GetParam{CalendarID} ) {
-            $ErrorMessage = 'Calendar is required!';
-        }
-        elsif ( $GetParam{RecurrenceLimit} eq "2" && ( !$GetParam{RecurrenceCount} ) ) {
-            $ErrorMessage = 'Recurrence value is required!';
-        }
-        elsif ( $GetParam{RecurrenceLimit} eq "2" && ( $GetParam{RecurrenceCount} !~ /\d\d/ || $GetParam{RecurrenceCount} < 1 ) ) {
-            $ErrorMessage = 'Not a valid recurrence value!';
-        }
-
-        if ($ErrorMessage) {
-
-            # build JSON output
-            $JSON = $LayoutObject->JSONEncode(
-                Data => {
-                    Success => 0,
-                    Error   => Translatable($ErrorMessage),
-                },
-            );
-
-            # send JSON response
-            return $LayoutObject->Attachment(
-                ContentType => 'application/json',
-                Content     => $JSON,
-                Type        => 'inline',
-                NoCache     => 1,
-            );
-        }
-
         my %Appointment;
         if ( $GetParam{AppointmentID} ) {
             %Appointment = $AppointmentObject->AppointmentGet(
