@@ -168,8 +168,9 @@ Core.UI.Popup = (function (TargetNS) {
     function CurrentIsPopupWindow() {
         var PopupType;
 
-        if (window.name.match(/OTOBOPopup_([^_]+)_.+/)) {
-            PopupType = RegExp.$1;
+        let MatchingResult = window.name.match(/OTOBOPopup_([^_]+)_.+/);
+        if (MatchingResult) {
+            PopupType = MatchingResult[1];
         }
 
         return PopupType;
@@ -221,7 +222,7 @@ Core.UI.Popup = (function (TargetNS) {
      *      Register the pop-up event for a window.
      */
     TargetNS.RegisterPopupEvent = function () {
-        $(window).on('Popup', function (Event, Type, Param) {
+        $(window).on('Popup', function (_Event, Type, Param) {
             if (Type && typeof Type !== 'undefined') {
                 if (Type === 'Reload') {
                     window.location.reload();
@@ -266,7 +267,7 @@ Core.UI.Popup = (function (TargetNS) {
     TargetNS.CheckPopupsOnUnload = function () {
         var Size = 0;
         CheckOpenPopups();
-        $.each(OpenPopups, function (Key, Value) {
+        $.each(OpenPopups, function (_Key, Value) {
             // IE(7) treats windows in new tabs (opened with right-click) also as popups
             // Therefore we check if the popup is a real OTOBO popup.
             // IE9 can't read the WindowType property from the window object,
@@ -289,7 +290,7 @@ Core.UI.Popup = (function (TargetNS) {
      */
     TargetNS.ClosePopupsOnUnload = function () {
         CheckOpenPopups();
-        $.each(OpenPopups, function (Key, Value) {
+        $.each(OpenPopups, function (_Key, Value) {
             // IE(7) treats windows in new tabs (opened with right-click) also as popups
             // Therefore we check if the popup is a real OTOBO popup.
             // IE9 can't read the WindowType property from the window object,
@@ -312,8 +313,8 @@ Core.UI.Popup = (function (TargetNS) {
     TargetNS.RegisterPopupAtParentWindow = function (WindowObject) {
         var Type;
 
-        /OTOBOPopup_([^_]+)_.*/.exec(WindowObject.name);
-        Type = RegExp.$1;
+        let MatchingResult = /OTOBOPopup_([^_]+)_.*/.exec(WindowObject.name);
+        Type = MatchingResult[1];
 
         if (typeof OpenPopups[Type] === 'undefined') {
             OpenPopups[Type] = WindowObject;
@@ -486,7 +487,7 @@ Core.UI.Popup = (function (TargetNS) {
                  *  to save the Type parameter.
                  */
 
-                 /* if Unlined is passed and eq 1 add, diferent name of the popup
+                 /* if Unlined is passed and eq 1 add, different name of the popup
                  * it will ensure that popup is nor linked with the parent window
                  */
                 if (Unlinked && Unlinked === 1) {
@@ -561,7 +562,7 @@ Core.UI.Popup = (function (TargetNS) {
 
         CheckOpenPopups();
         for (Popup in OpenPopups) {
-            if (OpenPopups.hasOwnProperty(Popup)) {
+            if (Object.prototype.hasOwnProperty.call(OpenPopups, Popup)) {
                 HasOpenPopups = true;
                 break;
             }
@@ -574,7 +575,7 @@ Core.UI.Popup = (function (TargetNS) {
      * @name ClosePopup
      * @memberof Core.UI.Popup
      * @function
-     * @param {String|Object} PopupType - The type of a popup or the window object. If not defined, the current popup windoe is closed.
+     * @param {String|Object} PopupType - The type of a popup or the window object. If not defined, the current popup window is closed.
      * @description
      *      This function closes an opened popup.
      *      If no parameter is given, we are in the popup itself and want to close it.
@@ -619,8 +620,11 @@ Core.UI.Popup = (function (TargetNS) {
                 PopupObject = PopupType;
 
                 // we can now find out the type of the popup based on the popup object
-                if (PopupObject && typeof PopupObject.name !== 'undefined' && PopupObject.name.match(/OTOBOPopup_([^_]+)_.+/)) {
-                    PopupType = RegExp.$1;
+                if (PopupObject && typeof PopupObject.name !== 'undefined') {
+                    let MatchingResult = PopupObject.name.match(/OTOBOPopup_([^_]+)_.+/);
+                    if (MatchingResult) {
+                        PopupType = MatchingResult[1];
+                    }
                 }
 
                 // we are still in the parent window
@@ -637,7 +641,7 @@ Core.UI.Popup = (function (TargetNS) {
                 LocalWindowMode = ParentObject.Core.UI.Popup.GetWindowMode();
             }
 
-            // if we are in a real popup, we can now savely close the popup.
+            // if we are in a real popup, we can now safely close the popup.
             if (LocalWindowMode === 'Popup') {
                 PopupObject.close();
             }

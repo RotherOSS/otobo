@@ -44,8 +44,8 @@ Core.Agent.Admin.DynamicFieldDB = (function (TargetNS) {
 
         // get the number of the selector id and
         // use it as the select key
-        /.*?_(\d+)/.exec(IDSelector);
-        IdentifierKey = RegExp.$1;
+        let MatchingResult = /.*?_(\d+)/.exec(IDSelector);
+        IdentifierKey = MatchingResult[1];
 
         // remove the related item if the complete line was removed
         if (Remove) {
@@ -62,7 +62,7 @@ Core.Agent.Admin.DynamicFieldDB = (function (TargetNS) {
             ElementUpdated = 0;
 
             // search for the select option and update the text
-            $('#Identifier option').each(function(Key, Value) {
+            $('#Identifier option').each(function(_Key, Value) {
                 if (Value.value === IdentifierKey) {
                     $(this).text(IdentifierValue);
                     ElementUpdated = 1;
