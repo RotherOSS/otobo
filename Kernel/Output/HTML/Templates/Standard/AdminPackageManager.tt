@@ -712,41 +712,44 @@
 [% RenderBlockStart("PackageItemDatabase") %]
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
-                    <h2>[% Data.TagName | html %] ([% Data.Type | html %])</h2>
+                    <h2>[% Data.Tag | html %] ([% Data.Type | html %])</h2>
                 </div>
-                <div class="Content">
-                    <h3 class="SpacingTop">[% Data.Tag | html %]: [% Data.Name | html %] ([% Data.Version | html %])</h3>
-                    <table class="DataTable W100pc">
-                        <thead>
-                            <tr>
-                                <th>[% Translate("Type") | html %]</th>
-                                <th>[% Translate("Name") | html %]</th>
-                                <th>[% Translate("Required") | html %]</th>
-                                <th>[% Translate("Size") | html %]</th>
-                                <th>[% Translate("Primary Key") | html %]</th>
-                                <th>[% Translate("Auto Increment") | html %]</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-[% RenderBlockStart("PackageItemDatabaseSub") %]
-                            <tr>
-                                <td><code>[% Data.Tag | html %]</code></td>
-                                <td>[% Data.Name | html %]</td>
-                                <td>[% Data.Required | html %]</td>
-                                <td>[% Data.Size | html %]</td>
-                                <td>[% Data.PrimaryKey | html %]</td>
-                                <td>[% Data.AutoIncrement | html %]</td>
-                            </tr>
-[% RenderBlockEnd("PackageItemDatabaseSub") %]
-                        </tbody>
-                    </table>
-[% RenderBlockStart("PackageItemDatabaseSQL") %]
-                    <h3 class="SpacingTop">[% Translate("SQL") | html %]</h3>
-                    <div>
-                        <code>[% Data.SQL | html %]</code>
+[% RenderBlockStart("PackageItemDatabaseStatement") %]
+                <div class="WidgetSimple SpacingTop">
+                    <div class="Content">
+                        <h3 class="SpacingTop">[% Data.Tag | html %]: [% Data.Table | html %] ([% Data.Version | html %])</h3>
+[% RenderBlockStart("PackageItemDatabaseStatementTable") %]
+                        <table class="DataTable W100pc">
+                            <thead>
+                                <tr>
+                                    <th>[% Translate( 'Type' ) | html %]</th>
+                                    [% FOREACH Column IN Data.Columns %]
+                                        <th>[% Translate( Column ) | html %]</th>
+                                    [% END %]
+                                </tr>
+                            </thead>
+                            <tbody>
+                                [% FOREACH Row IN Data.Rows %]
+                                    <tr>
+                                        <td><code>[% Data.Type | html %]</code></td>
+                                        [% FOREACH Value IN Row %]
+                                            <td>[% Value | html %]</td>
+                                        [% END %]
+                                    </tr>
+                                [% END %]
+                            </tbody>
+                        </table>
+                        </br>
+[% RenderBlockEnd("PackageItemDatabaseStatementTable") %]
+[% RenderBlockStart("PackageItemDatabaseStatementSQL") %]
+                        <h3 class="SpacingTop">[% Translate("SQL") | html %]</h3>
+                        <div>
+                            <code>[% Data.SQL | html %]</code>
+                        </div>
+[% RenderBlockEnd("PackageItemDatabaseStatementSQL") %]
                     </div>
-[% RenderBlockEnd("PackageItemDatabaseSQL") %]
                 </div>
+[% RenderBlockEnd("PackageItemDatabaseStatement") %]
             </div>
 [% RenderBlockEnd("PackageItemDatabase") %]
 
