@@ -11,7 +11,7 @@ WorkingDirectory = /opt/otobo
 Environment = OTOBO_HOME=/opt/otobo
 Environment = PERL5LIB=/opt/otobo/install/local/lib/perl5
 Environment = PATH=/opt/otobo/local/bin:/opt/otobo/install/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ExecStart = exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+ExecStart = plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
 Restart = always
 
 [Install]
