@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-07-27 06:46+0000\n"
-"PO-Revision-Date: 2026-07-27 15:48+0000\n"
+"PO-Revision-Date: 2026-08-04 18:50+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
 "otobo/hu/>\n"
@@ -30794,7 +30794,7 @@ msgstr ""
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
-"CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
+"CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
