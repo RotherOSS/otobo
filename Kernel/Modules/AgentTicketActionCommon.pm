@@ -2228,7 +2228,7 @@ sub Run {
                     : undef,
                     Value           => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} // undef,
                     Mandatory       => ( $Class eq 'Validate_Required' ) ? 1 : 0,
-                    Class           => $Class,
+                    Class           => $MandatoryTooltip ? $Class : '',
                     LayoutObject    => $LayoutObject,
                     ParamObject     => $ParamObject,
                     AJAXUpdate      => 1,
