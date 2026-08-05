@@ -215,8 +215,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
             // Get the ticket id.
             let MatchingResult = /TicketID=(\d+)/.exec(document.URL);
-            TicketID = MatchingResult[1];
-            if (TicketID === null) {
+            if (MatchingResult) {
+                TicketID = MatchingResult[1];
+            }
+            else {
                 TicketID = '';
             }
 
@@ -274,7 +276,9 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
                     // get the ticket id
                     let MatchingResult = /TicketID=(\d+)/.exec(document.URL);
-                    TicketID = MatchingResult[1];
+                    if (MatchingResult) {
+                        TicketID = MatchingResult[1];
+                    }
 
                     // serialize form
                     QueryString = Core.AJAX.SerializeForm($('#'+DynamicFieldName).closest('form'), IgnoreList) + SerializeData(UpdateList);
@@ -364,7 +368,9 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
                     // get the ticket id
                     let MatchingResult =/TicketID=(\d+)/.exec(document.URL);
-                    TicketID = MatchingResult[1];
+                    if (MatchingResult) {
+                        TicketID = MatchingResult[1];
+                    }
 
                     URL = Core.Config.Get('Baselink');
                     Data = {
@@ -744,8 +750,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
             // Get field key and name by reg exp.
             let MatchingResult = /(\d+)_(.+)/.exec($('#SelectFieldList option:selected').val());
-            FieldKey = MatchingResult[1];
-            FieldName = MatchingResult[2];
+            if (MatchingResult) {
+                FieldKey = MatchingResult[1];
+                FieldName = MatchingResult[2];
+            }
 
             TargetNS.SearchAttributeAdd(FieldName, FieldKey);
         });

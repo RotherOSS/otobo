@@ -45,7 +45,9 @@ Core.Agent.Admin.DynamicFieldDB = (function (TargetNS) {
         // get the number of the selector id and
         // use it as the select key
         let MatchingResult = /.*?_(\d+)/.exec(IDSelector);
-        IdentifierKey = MatchingResult[1];
+        if (MatchingResult) {
+            IdentifierKey = MatchingResult[1];
+        }
 
         // remove the related item if the complete line was removed
         if (Remove) {

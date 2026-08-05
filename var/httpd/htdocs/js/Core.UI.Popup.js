@@ -314,7 +314,9 @@ Core.UI.Popup = (function (TargetNS) {
         var Type;
 
         let MatchingResult = /OTOBOPopup_([^_]+)_.*/.exec(WindowObject.name);
-        Type = MatchingResult[1];
+        if (MatchingResult) {
+            Type = MatchingResult[1];
+        }
 
         if (typeof OpenPopups[Type] === 'undefined') {
             OpenPopups[Type] = WindowObject;
