@@ -191,10 +191,10 @@ sub Run {
         }
     }
 
-    my ($NewQueueID) = split( /\|\|/, $Param{Dest} );
+    my ($NewQueueID) = split /\|\|/, $Param{Dest};
     $NewQueueID ||= $Param{QueueID} // '';
     if ($NewQueueID) {
-        my %Queue = $QueueObject->GetSystemAddress( QueueID => $NewQueueID );
+        my %Queue = $QueueObject->QueueGet( ID => $NewQueueID );
         $Param{QueueID} = $NewQueueID;
         $Param{Queue}   = $Queue{Name};
     }

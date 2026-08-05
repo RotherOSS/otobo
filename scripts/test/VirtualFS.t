@@ -41,14 +41,40 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my @Tests = (
     {
-        Name        => '.txt',
-        Location    => 'scripts/test/sample/VirtualFS/VirtualFS-Test1.txt',
-        Filename    => 'TEST/File.txt',
-        Mode        => 'utf8',
-        MD5         => '26ea4a608d77c62ed0e4b0f8952c9df2',
-        Find        => '*txt',
-        FindNot     => '*.txt_*',
-        Preferences => {
+        Name          => 'undef',
+        ExpectSuccess => 0,
+        Content       => \undef,
+        Filename      => 'TEST/File0.txt',
+        Mode          => 'utf8',
+        Preferences   => {
+            ContentType => 'text/plain',
+            ContentID   => '<some_id_xls@example.com>',
+        },
+        FindPreferences => {
+            ContentType => 'text/plain',
+            ContentID   => '<some_id_xls@example.com>',
+        },
+        FindNotPreferences => {
+            ContentType => 'text/xml',
+            ContentID   => '<some_id_xls@example.net>',
+        },
+        FindFilenameAndPreferences => {
+            Filename    => 'TEST/File0.txt',
+            Preferences => {
+                ContentType => 'text/plain',
+            },
+        },
+    },
+    {
+        Name          => '.txt',
+        ExpectSuccess => 1,
+        Location      => 'scripts/test/sample/VirtualFS/VirtualFS-Test1.txt',
+        Filename      => 'TEST/File.txt',
+        Mode          => 'utf8',
+        MD5           => '26ea4a608d77c62ed0e4b0f8952c9df2',
+        Find          => '*txt',
+        FindNot       => '*.txt_*',
+        Preferences   => {
             ContentType => 'text/plain',
             ContentID   => '<some_id_xls@example.com>',
         },
@@ -68,14 +94,15 @@ my @Tests = (
         },
     },
     {
-        Name        => '.pdf',
-        Location    => 'scripts/test/sample/VirtualFS/VirtualFS-Test2.pdf',
-        Filename    => 'me_t o_alal.pdf',
-        Mode        => 'binmode',
-        MD5         => '5ee767f3b68f24a9213e0bef82dc53e5',
-        Find        => '*.pdf',
-        FindNot     => '*.pdf_*',
-        Preferences => {
+        Name          => '.pdf',
+        ExpectSuccess => 1,
+        Location      => 'scripts/test/sample/VirtualFS/VirtualFS-Test2.pdf',
+        Filename      => 'me_t o_alal.pdf',
+        Mode          => 'binmode',
+        MD5           => '5ee767f3b68f24a9213e0bef82dc53e5',
+        Find          => '*.pdf',
+        FindNot       => '*.pdf_*',
+        Preferences   => {
             ContentType => 'text/plain',
             ContentID   => '<some_id@example.com>',
         },
@@ -96,14 +123,15 @@ my @Tests = (
         },
     },
     {
-        Name        => '.xls',
-        Location    => 'scripts/test/sample/VirtualFS/VirtualFS-Test3.xls',
-        Filename    => 'me_t o_alal.xls',
-        Mode        => 'binmode',
-        MD5         => '39fae660239f62bb0e4a29fe14ff5663',
-        Find        => '*xls',
-        FindNot     => '*.xls_*',
-        Preferences => {
+        Name          => '.xls',
+        ExpectSuccess => 1,
+        Location      => 'scripts/test/sample/VirtualFS/VirtualFS-Test3.xls',
+        Filename      => 'me_t o_alal.xls',
+        Mode          => 'binmode',
+        MD5           => '39fae660239f62bb0e4a29fe14ff5663',
+        Find          => '*xls',
+        FindNot       => '*.xls_*',
+        Preferences   => {
             ContentType => 'text/xls',
             ContentID   => '<some_id_xls@example.com>',
         },
@@ -140,13 +168,19 @@ for my $Backend (qw( FS DB )) {
 
         subtest "Test: $Test->{Name}, Backend: $Backend, Mode: $Test->{Mode}" => sub {
 
-            my $Content = $MainObject->FileRead(
+            my $Content = exists $Test->{Content} ? $Test->{Content} : $MainObject->FileRead(
                 Location => $ConfigObject->Get('Home') . '/' . $Test->{Location},
                 Mode     => $Test->{Mode},
             );
 
-            my $MD5Sum = $MainObject->MD5sum( String => $Content->$* );
-            is( $MD5Sum, $Test->{MD5}, "MD5sum() - pre" );
+            if ( exists $Test->{MD5} ) {
+                my $MD5Sum = $MainObject->MD5sum( String => ${$Content} );
+                is(
+                    $MD5Sum || '',
+                    $Test->{MD5},
+                    "$Backend MD5sum() - pre - $Test->{Name}",
+                );
+            }
 
             # write
             my %Preferences = %{ $Test->{Preferences} };
@@ -156,55 +190,80 @@ for my $Backend (qw( FS DB )) {
                 Content     => $Content,
                 Preferences => \%Preferences,
             );
-            ok( $Success, " Write()" );
 
-            # read
-            my %File = $VirtualFSObject->Read(
-                Filename => $Test->{Filename},
-                Mode     => $Test->{Mode},
-            );
-            ok( $File{Content}, "Read()" );
-            $MD5Sum = $MainObject->MD5sum( String => $File{Content} );
-            is( $MD5Sum, $Test->{MD5}, "MD5sum() - post" );
-
-            # preferences
-            for my $Key ( sort keys %{ $Test->{Preferences} } ) {
+            # expected failure
+            if ( !$Test->{ExpectSuccess} ) {
                 is(
-                    $File{Preferences}->{$Key},
-                    $Test->{Preferences}->{$Key},
-                    "Read() - preferences - $Key",
+                    $Success,
+                    undef,
+                    "$Backend Write undef - $Test->{Name}",
                 );
             }
 
-            # find
-            my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            is( $List[0], $Test->{Filename}, "Find() Filename - $Test->{Find}" );
+            # expected success
+            else {
+                is( $Success, "$Backend Write - $Test->{Name}" );
 
-            # find not
-            @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            is( \@List, [], "Find() FindNot - $Test->{FindNot}" );
+                # read
+                my %File = $VirtualFSObject->Read(
+                    Filename => $Test->{Filename},
+                    Mode     => $Test->{Mode},
+                );
+                is(
+                    $File{Content},
+                    "$Backend Read() - $Test->{Name}",
+                );
+                my $MD5Sum = $MainObject->MD5sum( String => $File{Content} );
+                is(
+                    $MD5Sum || '',
+                    $Test->{MD5},
+                    "$Backend MD5sum() - post - $Test->{Name}",
+                );
 
-            # find preferences
-            @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            is( $List[0], $Test->{Filename}, "Find() - Preferences" );
+                # preferences
+                for my $Key ( sort keys %{ $Test->{Preferences} } ) {
+                    is(
+                        $File{Preferences}->{$Key},
+                        $Test->{Preferences}->{$Key},
+                        "Read() - preferences - $Key",
+                    );
+                }
 
-            # find not preferences
-            @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            is( \@List, [], "Find() - Preferences Not" );
+                # find
+                my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( $List[0], $Test->{Filename}, "Find() Filename - $Test->{Find}" );
 
-            # find filename AND preferences
-            @List = $VirtualFSObject->Find( %{ $Test->{FindFilenameAndPreferences} } );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            is( $List[0], $Test->{Filename}, "Find() - Filename AND Preferences" );
+                # find not
+                @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( \@List, [], "Find() FindNot - $Test->{FindNot}" );
+
+                # find preferences
+                @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( $List[0], $Test->{Filename}, "Find() - Preferences" );
+
+                # find not preferences
+                @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( \@List, [], "Find() - Preferences Not" );
+
+                # find filename AND preferences
+                @List = $VirtualFSObject->Find( %{ $Test->{FindFilenameAndPreferences} } );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( $List[0], $Test->{Filename}, "Find() - Filename AND Preferences" );
+            }
         };
     }
 
     # delete
+    TEST:
     for my $Test (@Tests) {
+
+        # no deletion needed for test which is expected to fail on writing
+        next TEST unless $Test->{ExpectSuccess};
+
         my $DeleteSuccess = $VirtualFSObject->Delete( Filename => $Test->{Filename} );
         ok( $DeleteSuccess, "$Backend Delete()" );
     }
