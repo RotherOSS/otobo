@@ -91,7 +91,7 @@ sub PreRun {
 
     if ( !%Options ) {
         $Self->Print( $Self->GetUsageHelp() );
-        die "Either --purge, --delete-by-id, --delete-by-date or --delete-by-days-old must be given!\n";
+        die "Either --purge, --delete-by-id, --delete-by-date or --delete-by-hours-old must be given!\n";
     }
 
     return;
