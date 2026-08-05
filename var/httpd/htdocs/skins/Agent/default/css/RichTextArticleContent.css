@@ -90,8 +90,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ck-content p {
+    line-height: var(--ck-content-line-height);
     margin-top: 0;
-    margin-bottom: 12px;
+    margin-bottom: calc(0.5 * var(--ck-content-line-height));
 }
 
 .ck-content h1 {
@@ -144,11 +145,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content ol
 {
     padding: 0 50px;
-    margin-bottom: 12px;
+    margin-bottom: calc(0.5 * var(--ck-content-line-height));
 }
 
 .ck-content li {
     margin-bottom: calc(0.5 * var(--ck-content-line-height));
+}
+
+.ck-content li > ul {
+    margin-top: calc(0.5 * var(--ck-content-line-height));
 }
 
 .ck-content input[type="checkbox"] {

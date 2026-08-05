@@ -48,7 +48,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-content {
 
-     --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --ck-content-font-size: 14px;
     --ck-content-line-height: 16px;
     --ck-content-todo-list-checkmark-size: 16px;
@@ -98,8 +98,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ck-content p {
+    line-height: var(--ck-content-line-height);
     margin-top: 0;
-    margin-bottom: 12px;
+    margin-bottom: calc(0.5 * var(--ck-content-line-height));
 }
 
 .ck-content h1 {
@@ -152,15 +153,28 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content ol
 {
     padding: 0 50px;
-    margin-bottom: 12px;
+    margin-bottom: calc(0.5 * var(--ck-content-line-height));
+}
+
+.ck-content li {
+    margin-bottom: calc(0.5 * var(--ck-content-line-height));
+}
+
+.ck-content li > ul {
+    margin-top: calc(0.5 * var(--ck-content-line-height));
+}
+
+.ck-content input[type="checkbox"] {
+    margin: unset;
 }
 
 /* default image style */
-.ck-content figure.image:not(   .image-style-align-center, 
-                                .image-style-block-align-right, 
-                                .image-style-align-left, 
-                                .image-style-align-right) 
-{
+.ck-content figure.image:not(
+    .image-style-align-center, 
+    .image-style-block-align-right, 
+    .image-style-align-left, 
+    .image-style-align-right
+) {
     max-width: calc(100% - var(--ck-image-style-spacing));
     margin-left: 0;
     margin-right: auto
