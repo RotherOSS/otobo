@@ -649,7 +649,6 @@ sub Run {
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerDisabled = '';
             my $CustomerSelected = $CountFrom eq '1' ? 'checked ' : '';
-            my $EmailAddress     = $EmailAddressObject->GetAddress( AddressObject => $Email );
             if ( !$CheckItemObject->CheckEmail( AddressObject => $Email ) )
             {
                 $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
@@ -657,8 +656,12 @@ sub Run {
                 $CustomerError = 'ServerError';
             }
 
+            my $Phrase       = $EmailAddressObject->GetRealName( AddressObject => $Email ) || '';
+            my $CustomerKey  = '';
+            my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
+
             # check for duplicated entries
-            if ( defined $AddressesList{$Email} && $CustomerError eq '' ) {
+            if ( defined $AddressesList{$EmailAddress} && $CustomerError eq '' ) {
                 $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
                 $CustomerError    = 'ServerError';
             }
@@ -668,8 +671,7 @@ sub Run {
                 $CountAux         = $CountFrom . 'Error';
             }
 
-            my $Phrase      = $EmailAddressObject->GetRealName( AddressObject => $Email ) || '';
-            my $CustomerKey = '';
+            # set correct CustomerKey
             if (
                 defined $CustomerDataFrom{UserEmail}
                 && $CustomerDataFrom{UserEmail} eq $EmailAddress
@@ -691,10 +693,7 @@ sub Run {
                 }
             }
 
-            my $CustomerElement = $EmailAddress;
-            if ($Phrase) {
-                $CustomerElement = $Phrase . " <$EmailAddress>";
-            }
+            my $CustomerElement = $EmailAddressObject->Format( AddressObject => $Email );
 
             if ( $CustomerSelected && $CustomerKey ) {
                 %CustomerData = $CustomerUserObject->CustomerUserDataGet(
