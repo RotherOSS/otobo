@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -162,115 +166,95 @@ for my $Backend (qw( FS DB )) {
 
     for my $Test (@Tests) {
 
-        my $Content = exists $Test->{Content} ? $Test->{Content} : $MainObject->FileRead(
-            Location => $ConfigObject->Get('Home') . '/' . $Test->{Location},
-            Mode     => $Test->{Mode},
-        );
+        subtest "Test: $Test->{Name}, Backend: $Backend, Mode: $Test->{Mode}" => sub {
 
-        my $MD5Sum;
-        if ( exists $Test->{MD5} ) {
-            $MD5Sum = $MainObject->MD5sum( String => ${$Content} );
-
-            $Self->Is(
-                $MD5Sum || '',
-                $Test->{MD5},
-                "$Backend MD5sum() - pre - $Test->{Name}",
-            );
-        }
-
-        # write
-        my %Preferences = %{ $Test->{Preferences} };
-        my $Success     = $VirtualFSObject->Write(
-            Filename    => $Test->{Filename},
-            Mode        => $Test->{Mode},
-            Content     => $Content,
-            Preferences => \%Preferences,
-        );
-
-        # expected failure
-        if ( !$Test->{ExpectSuccess} ) {
-            $Self->Is(
-                $Success,
-                undef,
-                "$Backend Write undef - $Test->{Name}",
-            );
-        }
-
-        # expected success
-        else {
-            $Self->True(
-                $Success,
-                "$Backend Write - $Test->{Name}",
-            );
-
-            # read
-            my %File = $VirtualFSObject->Read(
-                Filename => $Test->{Filename},
+            my $Content = exists $Test->{Content} ? $Test->{Content} : $MainObject->FileRead(
+                Location => $ConfigObject->Get('Home') . '/' . $Test->{Location},
                 Mode     => $Test->{Mode},
             );
-            $Self->True(
-                $File{Content},
-                "$Backend Read() - $Test->{Name}",
-            );
-            $MD5Sum = $MainObject->MD5sum( String => $File{Content} );
-            $Self->Is(
-                $MD5Sum || '',
-                $Test->{MD5},
-                "$Backend MD5sum() - post - $Test->{Name}",
-            );
 
-            # preferences
-            for my $Key ( sort keys %{ $Test->{Preferences} } ) {
-                $Self->Is(
-                    $File{Preferences}->{$Key},
-                    $Test->{Preferences}->{$Key},
-                    "$Backend Read() - preferences - $Key - $Test->{Name}",
+            if ( exists $Test->{MD5} ) {
+                my $MD5Sum = $MainObject->MD5sum( String => ${$Content} );
+                is(
+                    $MD5Sum || '',
+                    $Test->{MD5},
+                    "$Backend MD5sum() - pre - $Test->{Name}",
                 );
             }
 
-            # find
-            my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            $Self->Is(
-                $List[0],
-                $Test->{Filename},
-                "$Backend Find() - $Test->{Find}",
+            # write
+            my %Preferences = %{ $Test->{Preferences} };
+            my $Success     = $VirtualFSObject->Write(
+                Filename    => $Test->{Filename},
+                Mode        => $Test->{Mode},
+                Content     => $Content,
+                Preferences => \%Preferences,
             );
 
-            # find not
-            @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            $Self->False(
-                scalar @List,
-                "$Backend Find() - $Test->{FindNot}",
-            );
+            # expected failure
+            if ( !$Test->{ExpectSuccess} ) {
+                is(
+                    $Success,
+                    undef,
+                    "$Backend Write undef - $Test->{Name}",
+                );
+            }
 
-            # find preferences
-            @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            $Self->Is(
-                $List[0],
-                $Test->{Filename},
-                "$Backend Find() - Preferences",
-            );
+            # expected success
+            else {
+                is( $Success, "$Backend Write - $Test->{Name}" );
 
-            # find not preferences
-            @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            $Self->False(
-                scalar @List,
-                "$Backend Find() - Preferences Not",
-            );
+                # read
+                my %File = $VirtualFSObject->Read(
+                    Filename => $Test->{Filename},
+                    Mode     => $Test->{Mode},
+                );
+                is(
+                    $File{Content},
+                    "$Backend Read() - $Test->{Name}",
+                );
+                my $MD5Sum = $MainObject->MD5sum( String => $File{Content} );
+                is(
+                    $MD5Sum || '',
+                    $Test->{MD5},
+                    "$Backend MD5sum() - post - $Test->{Name}",
+                );
 
-            # find filename AND preferences
-            @List = $VirtualFSObject->Find( %{ $Test->{FindFilenameAndPreferences} } );
-            @List = grep { $_ eq $Test->{Filename} } @List;
-            $Self->Is(
-                $List[0],
-                $Test->{Filename},
-                "$Backend Find() - Filename AND Preferences",
-            );
-        }
+                # preferences
+                for my $Key ( sort keys %{ $Test->{Preferences} } ) {
+                    is(
+                        $File{Preferences}->{$Key},
+                        $Test->{Preferences}->{$Key},
+                        "Read() - preferences - $Key",
+                    );
+                }
+
+                # find
+                my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( $List[0], $Test->{Filename}, "Find() Filename - $Test->{Find}" );
+
+                # find not
+                @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( \@List, [], "Find() FindNot - $Test->{FindNot}" );
+
+                # find preferences
+                @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( $List[0], $Test->{Filename}, "Find() - Preferences" );
+
+                # find not preferences
+                @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( \@List, [], "Find() - Preferences Not" );
+
+                # find filename AND preferences
+                @List = $VirtualFSObject->Find( %{ $Test->{FindFilenameAndPreferences} } );
+                @List = grep { $_ eq $Test->{Filename} } @List;
+                is( $List[0], $Test->{Filename}, "Find() - Filename AND Preferences" );
+            }
+        };
     }
 
     # delete
@@ -280,14 +264,9 @@ for my $Backend (qw( FS DB )) {
         # no deletion needed for test which is expected to fail on writing
         next TEST unless $Test->{ExpectSuccess};
 
-        my $Delete = $VirtualFSObject->Delete( Filename => $Test->{Filename} );
-        $Self->True(
-            $Delete,
-            "$Backend Delete() - $Test->{Name}",
-        );
+        my $DeleteSuccess = $VirtualFSObject->Delete( Filename => $Test->{Filename} );
+        ok( $DeleteSuccess, "$Backend Delete()" );
     }
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;
