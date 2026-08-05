@@ -225,7 +225,7 @@
                                     [% Data.ReferenceFilter_ReferenceObjectAttributeStrg %]
                                     <p class="FieldExplanation">[% Translate("Select an attribute of the referenced object by which the selectable entries will be filtered.") | html %]</p>
                                     <div id="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                                    <div id="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("Invalid ReferenceFilter_ReferenceObjectAttribute") | html %]: [% Data.ReferenceFilter_ReferenceObjectAttributeServerErrorMessage | html %]</p></div>
+                                    <div id="ReferenceFilter_ReferenceObjectAttribute_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("Invalid referenced object attribute") | html %]: [% Data.ReferenceFilter_ReferenceObjectAttributeServerErrorMessage | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>
 
