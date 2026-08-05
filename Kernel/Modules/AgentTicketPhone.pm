@@ -546,8 +546,12 @@ sub Run {
                 $CustomerError = 'ServerError';
             }
 
+            my $Phrase       = $EmailAddressObject->GetRealName( AddressObject => $Email ) || '';
+            my $CustomerKey  = '';
+            my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
+
             # check for duplicated entries
-            if ( defined $AddressesList{$Email} && $CustomerError eq '' ) {
+            if ( defined $AddressesList{$EmailAddress} && $CustomerError eq '' ) {
                 $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
                 $CustomerError    = 'ServerError';
             }
@@ -557,9 +561,7 @@ sub Run {
                 $CountAux         = $CountFrom . 'Error';
             }
 
-            my $Phrase       = $EmailAddressObject->GetRealName( AddressObject => $Email ) || '';
-            my $CustomerKey  = '';
-            my $EmailAddress = $EmailAddressObject->GetAddress( AddressObject => $Email );
+            # set correct CustomerKey
             if (
                 defined $CustomerDataFrom{UserEmail}
                 && $CustomerDataFrom{UserEmail} eq $EmailAddress
