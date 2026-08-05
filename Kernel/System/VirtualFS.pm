@@ -199,6 +199,28 @@ sub Write {
         }
     }
 
+    # check content as it should be a reference to a scalar
+    if ( ref $Param{Content} eq 'SCALAR' ) {
+
+        # ensure that it is not undef
+        if ( !defined $Param{Content}->$* ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Content is a reference to undef!'
+            );
+
+            return;
+        }
+    }
+    else {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Content as reference to scalar!'
+        );
+
+        return;
+    }
+
     # lookup
     my ($FileID) = $Self->_FileLookup( $Param{Filename} );
     if ($FileID) {
