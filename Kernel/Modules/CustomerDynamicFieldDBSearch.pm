@@ -160,7 +160,7 @@ sub Run {
     my ( $NewQueueID, $From ) = split( /\|\|/, $Param{Dest} );
     $NewQueueID ||= $Param{QueueID} // '';
     if ($NewQueueID) {
-        my %Queue = $QueueObject->GetSystemAddress( QueueID => $NewQueueID );
+        my %Queue = $QueueObject->QueueGet( ID => $NewQueueID );
         $Param{QueueID} = $NewQueueID;
         $Param{Queue}   = $Queue{Name};
     }
