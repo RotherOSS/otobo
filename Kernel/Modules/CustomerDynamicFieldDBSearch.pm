@@ -49,7 +49,7 @@ sub Run {
     my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID' ) || '';
 
     # Put all ticket related data in Param, Owner, Responsible are not selectable in
-    #   customer interface, CustomerIserID and CustomerID are fixed.
+    #   customer interface, CustomerUserID and CustomerID are fixed.
     $Param{CustomerUserID} = $Self->{UserLogin};
     $Param{CustomerID}     = $Self->{UserCustomerID};
     $Param{Dest}           = $ParamObject->GetParam( Param => 'Dest' )       || '';
@@ -157,7 +157,7 @@ sub Run {
         }
     }
 
-    my ( $NewQueueID, $From ) = split( /\|\|/, $Param{Dest} );
+    my ($NewQueueID) = split /\|\|/, $Param{Dest};
     $NewQueueID ||= $Param{QueueID} // '';
     if ($NewQueueID) {
         my %Queue = $QueueObject->QueueGet( ID => $NewQueueID );

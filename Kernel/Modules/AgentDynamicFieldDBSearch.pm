@@ -16,9 +16,15 @@
 
 package Kernel::Modules::AgentDynamicFieldDBSearch;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -183,7 +189,7 @@ sub Run {
         }
     }
 
-    my ( $NewQueueID, $From ) = split( /\|\|/, $Param{Dest} );
+    my ($NewQueueID) = split /\|\|/, $Param{Dest};
     $NewQueueID ||= $Param{QueueID} // '';
     if ($NewQueueID) {
         my %Queue = $QueueObject->QueueGet( ID => $NewQueueID );
