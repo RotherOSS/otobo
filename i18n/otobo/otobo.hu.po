@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-08-06 08:23+0000\n"
-"PO-Revision-Date: 2026-08-04 18:50+0000\n"
+"PO-Revision-Date: 2026-08-06 18:30+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
 "otobo/hu/>\n"
@@ -70,7 +70,7 @@ msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
-"Itt tölthet fel egy beállítófájlt, hogy ACL-ek importáljon a rendszerbe. A "
+"Itt tölthet fel egy beállítófájlt, hogy ACL-eket importáljon a rendszerbe. A "
 "fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodulja "
 "exportálta."
 
@@ -1907,10 +1907,8 @@ msgid "Filter field by object type"
 msgstr "Mező szűrése objektumtípus szerint"
 
 #. Template: AdminDynamicField
-#, fuzzy
-#| msgid "Filter field by object type"
 msgid "Filter field by field type"
-msgstr "Mező szűrése objektumtípus szerint"
+msgstr "Mező szűrése mezőtípus szerint"
 
 #. Template: AdminDynamicField
 msgid "Filter field by namespace"
@@ -2472,10 +2470,8 @@ msgid "%s - %s"
 msgstr "%s – %s"
 
 #. Template: AdminDynamicFieldImportExport
-#, fuzzy
-#| msgid "Select the items you want to "
 msgid "Select the items you want to import."
-msgstr "Válassza ki azokat az elemeket, amelyekkel ezt szeretné tenni: "
+msgstr "Válassza ki az importálni kívánt elemeket."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
@@ -2484,10 +2480,8 @@ msgstr ""
 "„Importálás” gombbal."
 
 #. Template: AdminDynamicFieldImportExport
-#, fuzzy
-#| msgid "Select the items you want to "
 msgid "Select the items you want to export."
-msgstr "Válassza ki azokat az elemeket, amelyekkel ezt szeretné tenni: "
+msgstr "Válassza ki az exportálni kívánt elemeket."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -5728,14 +5722,8 @@ msgid "OIDC Account"
 msgstr "OIDC-fiók"
 
 #. Template: AdminMailAccount
-#, fuzzy
-#| msgid ""
-#| "Select the Functional-Account to use for OAuth2 authentication. "
-#| "Functional-Accounts can be configured here:"
 msgid "Select the %sOIDC%s account to use for OAuth2 authentication."
-msgstr ""
-"Az OAuth2-hitelesítéshez használandó funkcionális fiók kiválasztása. A "
-"funkcionális fiókok itt állíthatók be:"
+msgstr "Az OAuth2-hitelesítéshez használandó %sOIDC-fiók%s kiválasztása."
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
@@ -5829,7 +5817,7 @@ msgid ""
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
 msgstr ""
-"Itt tölthet fel egy beállítófájlt, hogy jegyértesítések importáljon a "
+"Itt tölthet fel egy beállítófájlt, hogy jegyértesítéseket importáljon a "
 "rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés "
 "modulja exportálta."
 
@@ -6195,10 +6183,9 @@ msgstr ""
 "meg."
 
 #. Template: AdminOIDCProfiles
-#, fuzzy
-#| msgid "You can connect OIDC profiles with a OIDC functional account"
 msgid "You can connect OIDC profiles with a OIDC functional account %shere%s."
-msgstr "Összekapcsolhatja az OIDC-profilokat egy OIDC funkcionális fiókkal"
+msgstr ""
+"%sItt kapcsolhatja össze%s az OIDC-profilokat egy OIDC funkcionális fiókkal."
 
 #. Template: AdminOIDCProfiles
 msgid "Delete Profile"
@@ -16001,28 +15988,20 @@ msgid "This Activity Dialog is not available to the current Process!"
 msgstr "Ez a tevékenység-párbeszédablak nem érhető el a jelenlegi folyamathoz!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-#, fuzzy
-#| msgid ""
-#| "Activities currently shared by other processes may not be set to non-"
-#| "global."
 msgid ""
 "Activity dialogs currently used in global activities may not be set to non-"
 "global."
 msgstr ""
-"A más folyamatok által jelenleg megosztott tevékenységeket nem lehet nem "
-"globálisra állítani."
+"A globális tevékenységekben jelenleg használt tevékenység-párbeszédablakok "
+"nem állíthatók be nem globálisra."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-#, fuzzy
-#| msgid ""
-#| "Activities currently shared by other processes may not be set to non-"
-#| "global."
 msgid ""
 "Activity dialogs currently used in non-global activities of other processes "
 "may not be set to non-global."
 msgstr ""
-"A más folyamatok által jelenleg megosztott tevékenységeket nem lehet nem "
-"globálisra állítani."
+"Az egyéb folyamatok nem globális tevékenységeiben jelenleg használt "
+"tevékenység-párbeszédablakok nem állíthatók át nem globálisra."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
@@ -19229,22 +19208,16 @@ msgid "Default lock"
 msgstr "Alapértelmezett zárolás"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Dear Customer,"
 msgid "Default Customer ID"
-msgstr "Kedves Ügyfelünk!"
+msgstr "Alapértelmezett ügyfél-azonosító"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Customer User ID"
 msgid "Default Customer User ID"
-msgstr "Ügyfélfelhasználó-azonosító"
+msgstr "Alapértelmezett ügyfélfelhasználó-azonosító"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-#, fuzzy
-#| msgid "Default language"
 msgid "Default Archive Flag"
-msgstr "Alapértelmezett nyelv"
+msgstr "Alapértelmezett archiválási jelző"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 msgid "Default subject"
@@ -19650,10 +19623,8 @@ msgid "Time left on fresh token is: %s s for Invoker %s!"
 msgstr "A friss token hátralévő ideje: %s mp a(z) %s meghívónál!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-#, fuzzy
-#| msgid "Could not get backend for Invoker %s"
 msgid "Could not get the OAuth2 token_endpoint for the Invoker."
-msgstr "Nem sikerült lekérni a háttérprogramot a(z) %s meghívóhoz"
+msgstr "Nem sikerült lekérni az OAuth2 „token_endpoint” értékét a meghívónál."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -23106,14 +23077,13 @@ msgstr ""
 "meg a jegyhez az oldalsávon."
 
 #. SysConfig
-#, fuzzy
-#| msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgid ""
 "AgentTicketZoom widget that displays similar ticket data in the side bar. "
 "Elasticsearch needs to be enabled before you can enable this widget."
 msgstr ""
-"Ügyintézői jegynagyítás felületi elem, amely jegyadatokat jelenít az "
-"oldalsávon."
+"Ügyintézői jegynagyítás felületi elem, amely hasonló jegyadatokat jelenít az "
+"oldalsávon. Az Elasticsearch keresésnek engedélyezve kell lennie, mielőtt "
+"engedélyezhetné ezt a felületi elemet."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
@@ -27570,8 +27540,6 @@ msgid "Defines the number of tickets shown in the widget."
 msgstr "Meghatározza a felületi elemben megjelenített jegyek számát."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the parameters for the elasticsearch widget backend."
 msgid "Defines the parameters for the Elasticsearch widget backend."
 msgstr ""
 "Meghatározza az Elasticsearch felületi elem háttérprogramjának paramétereit."
@@ -30172,12 +30140,6 @@ msgstr ""
 "naplófájlt. Ha a fájl nem létezik, a rendszer létre fogja hozni."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
-#| "'SendmailModule::OAuth2Method' setting, then this setting needs to be "
-#| "enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
-#| "configured in the Admin UI 'OAuth Functional Accounts' Module."
 msgid ""
 "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
 "'SendmailModule::OAuth2Method' setting, then this setting needs to be "
@@ -30185,11 +30147,11 @@ msgid ""
 "configured in the 'OAuth Functional Accounts' module of the administrator "
 "interface."
 msgstr ""
-"Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a "
-"„SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak "
+"Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a „"
+"SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak "
 "engedélyezve kell lennie, és érvényes OIDC funkcionális fiókot kell "
-"beállítani. Az OIDC-fiókok az adminisztrátori felhasználói felületen lévő "
-"„OAuth funkcionális fiókok” modulban állíthatók be."
+"beállítani. Az OIDC-fiókok az adminisztrátori felület „OAuth funkcionális "
+"fiókok” moduljában állíthatók be."
 
 #. SysConfig
 msgid ""
@@ -30837,7 +30799,7 @@ msgstr ""
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
-"CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
+"CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
@@ -35774,12 +35736,6 @@ msgstr ""
 "helyen."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
-#| "'SendmailModule::OAuth2Method' setting, then this setting needs to be "
-#| "enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
-#| "configured in the Admin UI 'OAuth Functional Accounts' Module."
 msgid ""
 "The authentication method to use for SMTP Authentication, defaults to 'Basic "
 "Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the "
@@ -35787,11 +35743,12 @@ msgid ""
 "set to a valid OIDC functional account. OIDC accounts can be configured in "
 "the 'OAuth Functional Accounts' module of the administrator interface."
 msgstr ""
-"Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a "
-"„SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak "
-"engedélyezve kell lennie, és érvényes OIDC funkcionális fiókot kell "
-"beállítani. Az OIDC-fiókok az adminisztrátori felhasználói felületen lévő "
-"„OAuth funkcionális fiókok” modulban állíthatók be."
+"Az SMTP-hitelesítéshez használandó hitelesítési módszer, alapértelmezetten „"
+"Egyszerű hitelesítés”. Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva, "
+"akkor a „SendmailModule::OAuth2FunctionalAccount” beállításnak engedélyezve "
+"kell lennie, és érvényes OIDC funkcionális fiókot kell beállítani. Az OIDC-"
+"fiókok az adminisztrátori felület „OAuth funkcionális fiókok” moduljában "
+"állíthatók be."
 
 #. SysConfig
 msgid ""
