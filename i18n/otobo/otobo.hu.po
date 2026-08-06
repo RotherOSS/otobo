@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-08-06 08:06+0000\n"
-"PO-Revision-Date: 2026-07-15 15:35+0000\n"
+"PO-Revision-Date: 2026-08-06 13:38+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-0/"
 "otobo/hu/>\n"
@@ -66,8 +66,8 @@ msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
-"Itt tud egy beállítófájlt feltölteni az ACL-ek importálásához a rendszerre. "
-"A fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodul "
+"Itt tölthet fel egy beállítófájlt, hogy ACL-eket importáljon a rendszerbe. A "
+"fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodulja "
 "exportálta."
 
 #. Template: AdminACL
@@ -604,9 +604,9 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
-"Itt tud egy beállítófájlt feltölteni az időpont-értesítések importálásához a "
-"rendszerre. A fájlnak .yml formátumban kell lennie, ahogy az időpont-"
-"értesítés modul exportálta."
+"Itt tölthet fel egy beállítófájlt, hogy időpont-értesítéseket importáljon a "
+"rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy az időpont-"
+"értesítés modulja exportálta."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -5655,9 +5655,9 @@ msgid ""
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
 msgstr ""
-"Itt tud egy beállítófájlt feltölteni a jegyértesítések importálásához a "
-"rendszerre. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés "
-"modul exportálta."
+"Itt tölthet fel egy beállítófájlt, hogy jegyértesítéseket importáljon a "
+"rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés "
+"modulja exportálta."
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -13700,7 +13700,7 @@ msgstr "Egy objektumra hivatkozó attribútum dinamikus mező kiválasztása"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "A field of type %s is currently not usable as lens attribute."
-msgstr "Egy %s típusú mező jelenleg nem használható lencseattribútumként."
+msgstr "Egy %s típusú mező jelenleg nem használható lencsék attribútumaként."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Field %s is not a reference field."
@@ -24129,7 +24129,7 @@ msgid ""
 "subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 "Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó "
-"index, felső index, beillesztés Wordből, stb. használatát engedélyezi) az "
+"index, felső index, beillesztés Wordből stb. használatát engedélyezi) az "
 "ügyfélfelületen."
 
 #. SysConfig
