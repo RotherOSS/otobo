@@ -110,7 +110,7 @@ $Selenium->RunTest(
             },
             {
                 SenderType => 'customer',
-                From       => "From Customer <$FromCustomer>",
+                From       => qq{"From Customer" <$FromCustomer>},
                 To         => "To Customer <$ToCustomer>",
             },
         );
@@ -168,17 +168,17 @@ $Selenium->RunTest(
         my @Tests = (
             {
                 ArticleID      => $ArticleIDs[0],
-                ToValueOnSplit => "From Customer <$FromCustomer>",
+                ToValueOnSplit => qq{"From Customer" <$FromCustomer>},
                 ResultMessage  => 'From is Customer, To is Queue',
             },
             {
                 ArticleID      => $ArticleIDs[1],
-                ToValueOnSplit => "To Customer <$ToCustomer>",
+                ToValueOnSplit => qq{"To Customer" <$ToCustomer>},
                 ResultMessage  => 'From is SystemAddress, To is Customer',
             },
             {
                 ArticleID      => $ArticleIDs[2],
-                ToValueOnSplit => "From Customer <$FromCustomer>",
+                ToValueOnSplit => qq{"From Customer" <$FromCustomer>},
                 ResultMessage  => 'From is Customer, To is Customer',
             },
         );
