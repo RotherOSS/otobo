@@ -15,6 +15,7 @@
 # --
 
 package Kernel::Modules::AdminSelectBox;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
@@ -146,7 +147,6 @@ sub Run {
                     );
 
                     # get html data
-                    my $Row = '';
                     for my $Item (@Row) {
                         if ( !defined $Item ) {
                             $Item = 'NULL';
