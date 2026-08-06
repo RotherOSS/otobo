@@ -490,7 +490,7 @@ sub FetchTokenFromConfig {
 
             return {
                 Success => 0,
-                Error   => "Invalid Parameters !",
+                Error   => "Invalid Parameters!",
             };
         }
     }
@@ -508,7 +508,7 @@ sub FetchTokenFromConfig {
 
         return {
             Success => 0,
-            Error   => $LanguageObject->Translate("Could not get the OAuth2 token_endpoint for Invoker "),
+            Error   => $LanguageObject->Translate("Could not get the OAuth2 token_endpoint for the Invoker."),
         };
     }
 
