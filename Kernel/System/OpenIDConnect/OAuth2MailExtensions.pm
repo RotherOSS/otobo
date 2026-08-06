@@ -71,13 +71,13 @@ sub NetCmdOAuth2 {
 
     my $Response = $Self->response();
     if ( $Response != 3 ) {
-        die "SMTP starting $Mechanism failed. ";
+        die "SMTP/POP3 starting $Mechanism failed.";
     }
 
     $Self->command($Encoded);
     $Response = $Self->response();
     if ( $Response != 2 ) {
-        die "SMTP auth via $Mechanism failed. ";
+        die "SMTP/POP3 auth via $Mechanism failed.";
     }
     return $Response;
 }
