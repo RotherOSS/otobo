@@ -227,9 +227,11 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             }
 
             // Get the ticket id.
-            /TicketID=(\d+)/.exec(document.URL);
-            TicketID = RegExp.$1;
-            if (TicketID === null) {
+            let MatchingResult = /TicketID=(\d+)/.exec(document.URL);
+            if (MatchingResult) {
+                TicketID = MatchingResult[1];
+            }
+            else {
                 TicketID = '';
             }
 
@@ -286,8 +288,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     };
 
                     // get the ticket id
-                    /TicketID=(\d+)/.exec(document.URL);
-                    TicketID = RegExp.$1;
+                    let MatchingResult = /TicketID=(\d+)/.exec(document.URL);
+                    if (MatchingResult) {
+                        TicketID = MatchingResult[1];
+                    }
 
                     // serialize form
                     QueryString = Core.AJAX.SerializeForm($('#'+DynamicFieldName).closest('form'), IgnoreList) + SerializeData(UpdateList);
@@ -376,8 +380,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                 $.each(FieldIdentifiers, function() {
 
                     // get the ticket id
-                    /TicketID=(\d+)/.exec(document.URL);
-                    TicketID = RegExp.$1;
+                    let MatchingResult =/TicketID=(\d+)/.exec(document.URL);
+                    if (MatchingResult) {
+                        TicketID = MatchingResult[1];
+                    }
 
                     URL = Core.Config.Get('Baselink');
                     Data = {
@@ -756,9 +762,11 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         $('#AddValue').off('click.AddValue').on('click.AddValue', function() {
 
             // Get field key and name by reg exp.
-            /(\d+)_(.+)/.exec($('#SelectFieldList option:selected').val());
-            FieldKey = RegExp.$1;
-            FieldName = RegExp.$2;
+            let MatchingResult = /(\d+)_(.+)/.exec($('#SelectFieldList option:selected').val());
+            if (MatchingResult) {
+                FieldKey = MatchingResult[1];
+                FieldName = MatchingResult[2];
+            }
 
             TargetNS.SearchAttributeAdd(FieldName, FieldKey);
         });
@@ -767,11 +775,11 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         $('a[id^=RemoveValue_]').off('click.RemoveValue').on('click.RemoveValue', function() {
 
             // field reg exp
-            /RemoveValue_(.+?)_(\d+)/.exec($(this).attr('id'));
+            let MatchingResult = /RemoveValue_(.+?)_(\d+)/.exec($(this).attr('id'));
 
             // get the field key and label
-            FieldName = RegExp.$1;
-            FieldKey = RegExp.$2;
+            FieldName = MatchingResult[1];
+            FieldKey = MatchingResult[2];
 
             // Get label text and remove the last character ':'.
             FieldLabel = $('#Label_' + FieldName).text().trim().slice(0,-1);
