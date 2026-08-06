@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-07 11:43+0000\n"
+"POT-Creation-Date: 2026-08-06 08:06+0000\n"
 "PO-Revision-Date: 2026-07-15 15:35+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-0/"
@@ -2526,10 +2526,6 @@ msgid ""
 msgstr ""
 "A hivatkozott objektum azon attribútumának kiválasztása, amely alapján a "
 "kiválasztható bejegyzések szűrve lesznek."
-
-#. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr "Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum"
 
 #. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
@@ -35317,6 +35313,9 @@ msgstr "megfordítás"
 #. SysConfig
 msgid "stats"
 msgstr "statisztikák"
+
+#~ msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
+#~ msgstr "Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum"
 
 #~ msgid "Comment code"
 #~ msgstr "Kód megjegyzésbe tétele"

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-07 11:43+0000\n"
+"POT-Creation-Date: 2026-08-06 08:06+0000\n"
 "PO-Revision-Date: 2025-11-01 12:59+0000\n"
 "Last-Translator: Lukas Majer <lmajer@christ-ag.com>\n"
 "Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-11/cs/"
@@ -2394,10 +2394,6 @@ msgstr ""
 msgid ""
 "Select an attribute of the referenced object by which the selectable entries "
 "will be filtered."
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
 msgstr ""
 
 #. Template: AdminDynamicFieldReference

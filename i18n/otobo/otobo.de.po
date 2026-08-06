@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-07 11:43+0000\n"
+"POT-Creation-Date: 2026-08-06 08:06+0000\n"
 "PO-Revision-Date: 2026-07-21 16:45+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
@@ -2576,10 +2576,6 @@ msgid ""
 msgstr ""
 "Wählen Sie ein Attribut des referenzierten Objektes, nach dem die "
 "auszuwählenden Einträge gefiltert werden sollen."
-
-#. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr "Ungültiges ReferenceFilter_ReferenceObjectAttribute"
 
 #. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
@@ -35362,6 +35358,9 @@ msgstr "umgekehrt"
 #. SysConfig
 msgid "stats"
 msgstr "Stats"
+
+#~ msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
+#~ msgstr "Ungültiges ReferenceFilter_ReferenceObjectAttribute"
 
 #~ msgid "Comment code"
 #~ msgstr "Code kommentieren"

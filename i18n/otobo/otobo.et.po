@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-07 11:43+0000\n"
+"POT-Creation-Date: 2026-08-06 08:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Estonian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -2329,10 +2329,6 @@ msgstr ""
 msgid ""
 "Select an attribute of the referenced object by which the selectable entries "
 "will be filtered."
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
