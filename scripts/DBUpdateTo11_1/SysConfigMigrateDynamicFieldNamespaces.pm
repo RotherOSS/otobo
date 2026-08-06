@@ -64,8 +64,13 @@ sub Run {
         return 1;
     }
 
+    return 1 unless ( ref $OldDynamicFieldNamespacesSetting{EffectiveValue} eq 'ARRAY' );
+
+    # sort out empty strings in old value
+    my @OldSettingEffectiveValue = grep {$_} $OldDynamicFieldNamespacesSetting{EffectiveValue}->@*;
+
     # report success if value is empty
-    return 1 unless IsArrayRefWithData( $OldDynamicFieldNamespacesSetting{EffectiveValue} );
+    return 1 unless @OldSettingEffectiveValue;
 
     # fetch new setting for updating and storing
     #   NOTE old dynamic field namespaces are migrated to new global namespaces
@@ -91,7 +96,7 @@ sub Run {
     my %Result = $SysConfigObject->SettingUpdate(
         Name              => 'Namespaces###Global',
         IsValid           => 1,
-        EffectiveValue    => $OldDynamicFieldNamespacesSetting{EffectiveValue},
+        EffectiveValue    => \@OldSettingEffectiveValue,
         ExclusiveLockGUID => $ExclusiveLockGUID,
         UserID            => 1,
     );
