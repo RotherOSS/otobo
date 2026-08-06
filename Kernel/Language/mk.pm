@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.256219616814412;
+    $Self->{Completeness}        = 0.256146369353917;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -567,6 +567,7 @@ sub Data {
         'Filter for Dynamic Fields' => '',
         'Filter for dynamic fields' => '',
         'Filter field by object type' => '',
+        'Filter field by field type' => '',
         'Filter field by namespace' => '',
         'Add new field for object' => 'Додај ново поле за објектот',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -727,9 +728,10 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '',
-        'Select the items you want to ' => '',
+        'Select the items you want to import.' => '',
         'Select the desired elements and confirm the import with \'import\'.' =>
             '',
+        'Select the items you want to export.' => '',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
@@ -995,6 +997,7 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
+        'Select the items you want to ' => '',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'Generic Agents List' => '',
@@ -1602,8 +1605,8 @@ sub Data {
         'Fetch mail' => 'Отвори пошта',
         'Do you really want to delete this mail account?' => '',
         'OIDC Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the %sOIDC%s account to use for OAuth2 authentication.' =>
+            '',
         'Example: mail.example.com' => 'Пример: mail.example.com',
         'IMAP Folder' => 'IMAP Папка',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1611,6 +1614,8 @@ sub Data {
         'Trusted' => 'Доверливи',
         'Dispatching' => 'Распределување',
         'Edit Mail Account' => 'Уреди го Маил профилот',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
 
         # Template: AdminNavigationBar
         'Administration Overview' => '',
@@ -1729,9 +1734,8 @@ sub Data {
         'About OIDC Provider Profiles' => '',
         'This page displays an overview of configured OIDC provider profiles.' =>
             '',
-        'You can connect OIDC profiles with a OIDC functional account' =>
+        'You can connect OIDC profiles with a OIDC functional account %shere%s.' =>
             '',
-        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
             '',
@@ -4791,8 +4795,10 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'This Activity Dialog is not available to the current Process!' =>
             '',
-        'ActivityDialogs currently used in gobal ' => '',
-        'ActivityDialogs currently used in non-gobal Activities ' => '',
+        'Activity dialogs currently used in global activities may not be set to non-global.' =>
+            '',
+        'Activity dialogs currently used in non-global activities of other processes may not be set to non-global.' =>
+            '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
         'Agent Interface' => '',
@@ -5634,9 +5640,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
         'Shown Elasticsearch Results' => '',
 
-        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-        'Shown Elsticsearch Results' => '',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Стандардно',
         'The following tickets are not updated: %s.' => '',
@@ -5952,9 +5955,9 @@ sub Data {
         'Default owner' => '',
         'Default responsible' => '',
         'Default lock' => '',
-        'Default CustomerID' => '',
-        'Default CustomerUserID' => '',
-        'Default ArchiveFlag' => '',
+        'Default Customer ID' => '',
+        'Default Customer User ID' => '',
+        'Default Archive Flag' => '',
         'Default subject' => '',
         'Default body' => '',
         'Default sender type' => '',
@@ -6108,7 +6111,7 @@ sub Data {
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             '',
         'Time left on fresh token is: %s s for Invoker %s!' => '',
-        'Could not get the OAuth2 token_endpoint for Invoker ' => '',
+        'Could not get the OAuth2 token_endpoint for the Invoker.' => '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
@@ -7331,7 +7334,7 @@ Thanks for your help!
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             '',
-        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget.' =>
             '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             '',
@@ -8360,6 +8363,8 @@ Thanks for your help!
         'Defines the number of hours a successful communication will be stored.' =>
             '',
         'Defines the number of tickets shown in the widget.' => '',
+        'Defines the parameters for the Elasticsearch widget backend.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => '',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
             '',
@@ -8368,8 +8373,6 @@ Thanks for your help!
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '',
-        'Defines the parameters for the elasticsearch widget backend.' =>
             '',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             '',
@@ -8972,7 +8975,7 @@ Thanks for your help!
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '',
-        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI \'OAuth Functional Accounts\' Module.' =>
+        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
             '',
         'If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.' =>
             '',
@@ -10194,7 +10197,7 @@ Thanks for your help!
         'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
-        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  \'OAuth Functional Accounts\' Module.' =>
+        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             '',

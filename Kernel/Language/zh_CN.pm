@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.86702888189877;
+    $Self->{Completeness}        = 0.866781017724414;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -573,6 +573,7 @@ sub Data {
         'Filter for Dynamic Fields' => '动态字段过滤器',
         'Filter for dynamic fields' => '动态字段过滤器',
         'Filter field by object type' => '',
+        'Filter field by field type' => '',
         'Filter field by namespace' => '',
         'Add new field for object' => '为对象添加新的字段',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -733,9 +734,10 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '%s - %s',
-        'Select the items you want to ' => '选取你需要的项 ',
+        'Select the items you want to import.' => '',
         'Select the desired elements and confirm the import with \'import\'.' =>
             '选择所需的项，然后单击“导入”确认导入。',
+        'Select the items you want to export.' => '',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
             '这里你可以导出动态字段和动态字段屏幕的配置文件，以便将它们导入另一个系统。配置文件会以yml格式导出。',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
@@ -1001,6 +1003,7 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
+        'Select the items you want to ' => '选取你需要的项 ',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'Generic Agents List' => '',
@@ -1608,8 +1611,8 @@ sub Data {
         'Fetch mail' => '查收邮件',
         'Do you really want to delete this mail account?' => '您确定要删除这个邮件帐户吗？',
         'OIDC Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the %sOIDC%s account to use for OAuth2 authentication.' =>
+            '',
         'Example: mail.example.com' => '样例：mail.example.com',
         'IMAP Folder' => 'IMAP文件夹',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1617,6 +1620,8 @@ sub Data {
         'Trusted' => '是否信任',
         'Dispatching' => '分派',
         'Edit Mail Account' => '编辑邮件帐号',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
 
         # Template: AdminNavigationBar
         'Administration Overview' => '系统管理概览',
@@ -1735,9 +1740,8 @@ sub Data {
         'About OIDC Provider Profiles' => '',
         'This page displays an overview of configured OIDC provider profiles.' =>
             '',
-        'You can connect OIDC profiles with a OIDC functional account' =>
+        'You can connect OIDC profiles with a OIDC functional account %shere%s.' =>
             '',
-        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
             '',
@@ -4797,8 +4801,10 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '不能获得ActivityDialogID %s的数据',
         'This Activity Dialog is not available to the current Process!' =>
             '',
-        'ActivityDialogs currently used in gobal ' => '',
-        'ActivityDialogs currently used in non-gobal Activities ' => '',
+        'Activity dialogs currently used in global activities may not be set to non-global.' =>
+            '',
+        'Activity dialogs currently used in non-global activities of other processes may not be set to non-global.' =>
+            '',
         'There was an error updating the ActivityDialog' => '更新活动对话框时出现了一个错误',
         'Edit Activity Dialog "%s"' => '编辑活动对话框“%s”',
         'Agent Interface' => '服务人员界面',
@@ -5640,9 +5646,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
         'Shown Elasticsearch Results' => '',
 
-        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-        'Shown Elsticsearch Results' => '',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => '标准',
         'The following tickets are not updated: %s.' => '下列工单没有更新：%s。',
@@ -5958,9 +5961,9 @@ sub Data {
         'Default owner' => '',
         'Default responsible' => '',
         'Default lock' => '',
-        'Default CustomerID' => '',
-        'Default CustomerUserID' => '',
-        'Default ArchiveFlag' => '',
+        'Default Customer ID' => '',
+        'Default Customer User ID' => '',
+        'Default Archive Flag' => '',
         'Default subject' => '',
         'Default body' => '',
         'Default sender type' => '',
@@ -6114,7 +6117,7 @@ sub Data {
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             '',
         'Time left on fresh token is: %s s for Invoker %s!' => '',
-        'Could not get the OAuth2 token_endpoint for Invoker ' => '',
+        'Could not get the OAuth2 token_endpoint for the Invoker.' => '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '没有安装',
@@ -7346,7 +7349,7 @@ Thanks for your help!
             '服务人员工单详情小部件，显示链接到该工单的对象表。',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             '服务人员工单详情小部件，在侧边栏中显示客户信息。',
-        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget.' =>
             '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             '服务人员工单详情小部件，在侧边栏显示工单数据。',
@@ -8375,6 +8378,8 @@ Thanks for your help!
         'Defines the number of hours a successful communication will be stored.' =>
             '定义成功的通信将被存储的小时数。',
         'Defines the number of tickets shown in the widget.' => '',
+        'Defines the parameters for the Elasticsearch widget backend.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => '定义客户偏好设置表的参数。',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
             '',
@@ -8384,8 +8389,6 @@ Thanks for your help!
             '定义仪表板后端参数。“Limit（限制”）定义默认显示的条目数。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '定义仪表板后端参数。“Limit（限制”）定义默认显示的条目数。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”定义本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。',
-        'Defines the parameters for the elasticsearch widget backend.' =>
-            '',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             '定义PDF文档中粗斜体等宽字体的TTF字体文件的路径和文件名。',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
@@ -8987,7 +8990,7 @@ Thanks for your help!
             '如果为CryptType(加密类型)选择了“bcrypt”，请使用此处指定的bcrypt哈希cost 值。 目前最大支持的cost 值为31。',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '如果日志模块选用了“文件”，必须指定日志文件名。如果文件不存在，系统会创建它。',
-        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI \'OAuth Functional Accounts\' Module.' =>
+        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
             '',
         'If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.' =>
             '',
@@ -10209,7 +10212,7 @@ Thanks for your help!
         'The PGP signature with the keyid is good.' => '具有keyid的PGP签名是好的。',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '服务人员界面皮肤的内部名称，请在Frontend::Agent::Loader::Agent::Skin中检查可用的皮肤。',
-        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  \'OAuth Functional Accounts\' Module.' =>
+        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             '客户界面皮肤的内部名称，请在Frontend::Customer::Loader::Customer::Skin中检查可用的皮肤。',

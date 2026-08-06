@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.782384901344009;
+    $Self->{Completeness}        = 0.782161234991424;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -567,6 +567,7 @@ sub Data {
         'Filter for Dynamic Fields' => '동적 필드 필터링',
         'Filter for dynamic fields' => '동적 필드 필터링',
         'Filter field by object type' => '',
+        'Filter field by field type' => '',
         'Filter field by namespace' => '',
         'Add new field for object' => '객체에 대한 새 필드 추가',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -727,9 +728,10 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '',
-        'Select the items you want to ' => '',
+        'Select the items you want to import.' => '',
         'Select the desired elements and confirm the import with \'import\'.' =>
             '',
+        'Select the items you want to export.' => '',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
@@ -995,6 +997,7 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
+        'Select the items you want to ' => '',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'Generic Agents List' => '',
@@ -1602,8 +1605,8 @@ sub Data {
         'Fetch mail' => '메일 가져오기',
         'Do you really want to delete this mail account?' => '정말로 이 메일 계정을 삭제 하시겠습니까?',
         'OIDC Account' => '',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
+        'Select the %sOIDC%s account to use for OAuth2 authentication.' =>
+            '',
         'Example: mail.example.com' => '예 : mail.example.com',
         'IMAP Folder' => 'IMAP 폴더',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1611,6 +1614,8 @@ sub Data {
         'Trusted' => '신뢰할 수 있는',
         'Dispatching' => '파견',
         'Edit Mail Account' => '메일 계정 편집',
+        'Select the' => '',
+        'Account to use for OAuth2 authentication.' => '',
 
         # Template: AdminNavigationBar
         'Administration Overview' => '관리 개요',
@@ -1729,9 +1734,8 @@ sub Data {
         'About OIDC Provider Profiles' => '',
         'This page displays an overview of configured OIDC provider profiles.' =>
             '',
-        'You can connect OIDC profiles with a OIDC functional account' =>
+        'You can connect OIDC profiles with a OIDC functional account %shere%s.' =>
             '',
-        'here' => '',
         'Delete Profile' => '',
         'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
             '',
@@ -4791,8 +4795,10 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'ActivityDialogID %s에 대한 데이터를 가져올 수 없습니다.',
         'This Activity Dialog is not available to the current Process!' =>
             '',
-        'ActivityDialogs currently used in gobal ' => '',
-        'ActivityDialogs currently used in non-gobal Activities ' => '',
+        'Activity dialogs currently used in global activities may not be set to non-global.' =>
+            '',
+        'Activity dialogs currently used in non-global activities of other processes may not be set to non-global.' =>
+            '',
         'There was an error updating the ActivityDialog' => 'ActivityDialog를 업데이트하는 중 오류가 발생했습니다.',
         'Edit Activity Dialog "%s"' => 'Activity Dialog 수정 "%s"',
         'Agent Interface' => '에이전트 인터페이스',
@@ -5634,9 +5640,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
         'Shown Elasticsearch Results' => '',
 
-        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-        'Shown Elsticsearch Results' => '',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => '표준',
         'The following tickets are not updated: %s.' => '',
@@ -5952,9 +5955,9 @@ sub Data {
         'Default owner' => '',
         'Default responsible' => '',
         'Default lock' => '',
-        'Default CustomerID' => '',
-        'Default CustomerUserID' => '',
-        'Default ArchiveFlag' => '',
+        'Default Customer ID' => '',
+        'Default Customer User ID' => '',
+        'Default Archive Flag' => '',
         'Default subject' => '',
         'Default body' => '',
         'Default sender type' => '',
@@ -6108,7 +6111,7 @@ sub Data {
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             '',
         'Time left on fresh token is: %s s for Invoker %s!' => '',
-        'Could not get the OAuth2 token_endpoint for Invoker ' => '',
+        'Could not get the OAuth2 token_endpoint for the Invoker.' => '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '설치되지 않았다.',
@@ -7342,7 +7345,7 @@ Thanks for your help!
             '티켓에 연결된 객체 테이블을 표시하는 AgentTicketZoom 위젯입니다.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             '사이드 바에 티켓에 대한 고객 정보를 표시하는 AgentTicketZoom 위젯.',
-        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget.' =>
             '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             '사이드 바에 티켓 데이터를 표시하는 AgentTicketZoom 위젯.',
@@ -8371,6 +8374,8 @@ Thanks for your help!
         'Defines the number of hours a successful communication will be stored.' =>
             '성공적인 통신을 저장할 시간을 정의합니다.',
         'Defines the number of tickets shown in the widget.' => '',
+        'Defines the parameters for the Elasticsearch widget backend.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => '고객 환경 설정 테이블의 매개 변수를 정의합니다.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
             '',
@@ -8380,8 +8385,6 @@ Thanks for your help!
             '대시 보드 백엔드의 매개 변수를 정의합니다. "제한"은 기본적으로 표시되는 항목 수를 정의합니다. "그룹"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "기본값"은 플러그인이 기본적으로 활성화되어 있는지 또는 사용자가 수동으로 활성화해야하는지 여부를 나타냅니다. "CacheTTL"은 플러그인의 캐시 만기 기간을 나타냅니다. "필수"는 플러그인이 항상 표시되는지 여부를 결정하며 에이전트가 플러그인을 제거 할 수 없습니다.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '대시 보드 백엔드의 매개 변수를 정의합니다. "제한"은 기본적으로 표시되는 항목 수를 정의합니다. "그룹"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "기본값"은 플러그인이 기본적으로 활성화되어 있는지 또는 사용자가 수동으로 활성화해야하는지 여부를 나타냅니다. "CacheTTLLocal"은 플러그인의 캐시 만기 기간을 분 단위로 정의합니다. "필수"는 플러그인이 항상 표시되는지 여부를 결정하며 에이전트가 플러그인을 제거 할 수 없습니다.',
-        'Defines the parameters for the elasticsearch widget backend.' =>
-            '',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             'PDF 문서에서 굵은 기울임 꼴 고정 폭 글꼴을 처리 할 경로와 TTF-File을 정의합니다.',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
@@ -8983,7 +8986,7 @@ Thanks for your help!
             'CryptType에 대해 "bcrypt"를 선택한 경우 bcrypt 해싱에 여기에 지정된 비용을 사용하십시오. 현재 최대 지원 비용 값은 31입니다.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'LogModule에 대해 "file"을 선택하면 로그 파일을 지정해야합니다. 파일이 없으면 시스템에 의해 작성됩니다.',
-        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI \'OAuth Functional Accounts\' Module.' =>
+        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
             '',
         'If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.' =>
             '',
@@ -10205,7 +10208,7 @@ Thanks for your help!
         'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '에이전트 인터페이스에서 사용해야하는 에이전트 스킨의 InternalName입니다. Frontend :: Agent :: Skins에서 사용 가능한 스킨을 확인하십시오.',
-        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  \'OAuth Functional Accounts\' Module.' =>
+        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             '고객 인터페이스에서 사용해야하는 고객 스킨의 InternalName입니다. Frontend :: Customer :: Skins에서 사용 가능한 스킨을 확인하십시오.',

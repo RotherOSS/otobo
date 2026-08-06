@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.990277380611953;
+    $Self->{Completeness}        = 0.988707833047456;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -567,6 +567,7 @@ sub Data {
         'Filter for Dynamic Fields' => 'Filter für Dynamische Felder',
         'Filter for dynamic fields' => 'Filter für Dynamische Felder',
         'Filter field by object type' => 'Feld nach Objekttyp filtern',
+        'Filter field by field type' => '',
         'Filter field by namespace' => 'Feld nach Namespace filtern',
         'Add new field for object' => 'Neues Feld hinzufügen für Objekt',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -727,9 +728,10 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '%s - %s',
-        'Select the items you want to ' => 'Wählen Sie die Elemente aus, um sie zu ',
+        'Select the items you want to import.' => '',
         'Select the desired elements and confirm the import with \'import\'.' =>
             'Selektieren Sie die gewünschten Elemente und bestätigen Sie den Import mit \'importieren\'.',
+        'Select the items you want to export.' => '',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
             'Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und dynamischen Felder Oberflächen exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
@@ -995,6 +997,7 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
+        'Select the items you want to ' => 'Wählen Sie die Elemente aus, um sie zu ',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             'Hier können Sie eine Konfigurationsdatei von Generic Agents exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
         'Generic Agents List' => '',
@@ -1602,8 +1605,8 @@ sub Data {
         'Fetch mail' => 'E-Mails abholen',
         'Do you really want to delete this mail account?' => 'Möchten Sie dieses E-Mail-Konto wirklich löschen?',
         'OIDC Account' => 'OIDC Konto',
-        'Select the' => 'Auswahl des',
-        'Account to use for OAuth2 authentication.' => 'Konto, das für die OAuth2-Authentifizierung verwendet wird.',
+        'Select the %sOIDC%s account to use for OAuth2 authentication.' =>
+            '',
         'Example: mail.example.com' => 'Beispiel: mail.example.com',
         'IMAP Folder' => 'IMAP-Ordner',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1611,6 +1614,8 @@ sub Data {
         'Trusted' => 'Vertraut',
         'Dispatching' => 'Verteilung',
         'Edit Mail Account' => 'E-Mail-Konto bearbeiten',
+        'Select the' => 'Auswahl des',
+        'Account to use for OAuth2 authentication.' => 'Konto, das für die OAuth2-Authentifizierung verwendet wird.',
 
         # Template: AdminNavigationBar
         'Administration Overview' => 'Administrations-Übersicht',
@@ -1729,9 +1734,8 @@ sub Data {
         'About OIDC Provider Profiles' => 'Über OIDC Anbieter-Profile',
         'This page displays an overview of configured OIDC provider profiles.' =>
             '',
-        'You can connect OIDC profiles with a OIDC functional account' =>
+        'You can connect OIDC profiles with a OIDC functional account %shere%s.' =>
             '',
-        'here' => 'hier',
         'Delete Profile' => 'Profil löschen',
         'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
             '',
@@ -4791,8 +4795,10 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Konnte Daten für ActivityDialogID %s nicht ermitteln',
         'This Activity Dialog is not available to the current Process!' =>
             'Dieser Aktivitätsdialog ist im aktuellen Prozess nicht verfügbar!',
-        'ActivityDialogs currently used in gobal ' => '',
-        'ActivityDialogs currently used in non-gobal Activities ' => '',
+        'Activity dialogs currently used in global activities may not be set to non-global.' =>
+            '',
+        'Activity dialogs currently used in non-global activities of other processes may not be set to non-global.' =>
+            '',
         'There was an error updating the ActivityDialog' => 'Beim Aktualisieren des Aktivitätsdialogs ist ein Fehler aufgetreten',
         'Edit Activity Dialog "%s"' => 'AktivitätsDialog "%s" bearbeiten',
         'Agent Interface' => 'Agenten-Interface',
@@ -5634,9 +5640,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchGeneric.pm
         'Shown Elasticsearch Results' => '',
 
-        # Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-        'Shown Elsticsearch Results' => 'Gezeigte Elasticsearch-Ergebnisse',
-
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Standard',
         'The following tickets are not updated: %s.' => 'Die folgenden Tickets werden nicht aktualisiert: %s.',
@@ -5952,9 +5955,9 @@ sub Data {
         'Default owner' => 'Standard-Besitzer',
         'Default responsible' => 'Standard-Verantwortlicher',
         'Default lock' => 'Standard-Sperre',
-        'Default CustomerID' => 'Standard Kundennummer (CustomerID)',
-        'Default CustomerUserID' => 'Standard-Kundenbenutzer-ID',
-        'Default ArchiveFlag' => 'Standard Archivierungsmarkierung',
+        'Default Customer ID' => '',
+        'Default Customer User ID' => '',
+        'Default Archive Flag' => '',
         'Default subject' => 'Standard-Betreff',
         'Default body' => 'Standard-Body',
         'Default sender type' => 'Standard Absendertyp',
@@ -6108,7 +6111,7 @@ sub Data {
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             'Gewünschter Token-Typ \'%s\' in der OIDC Anbieterantwort für den Invoker %s nicht empfangen!',
         'Time left on fresh token is: %s s for Invoker %s!' => 'Übrige Zeit für den unverbrauchten Token ist: %s Sekunden für den Invoker %s!',
-        'Could not get the OAuth2 token_endpoint for Invoker ' => 'Der OAuth2-Token-Endpunkt für den Invoker konnte nicht abgerufen werden. ',
+        'Could not get the OAuth2 token_endpoint for the Invoker.' => '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nicht installiert',
@@ -7342,7 +7345,7 @@ Ihr Helpdesk-Team
             'Widget für AgentTicketZoom, das eine Tabelle von Objekten anzeigt, die mit dem aktuellen Ticket verknüpft sind.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             'Widget für AgentTicketZoom, das Kundeninformationen des Kunden anzeigt, dem das aktuelle Ticket zugewiesen ist.',
-        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget.' =>
+        'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget.' =>
             '',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'Widget für AgentTicketZoom, das weitere Daten des aktuellen Tickets anzeigt.',
@@ -8371,6 +8374,8 @@ Ihr Helpdesk-Team
         'Defines the number of hours a successful communication will be stored.' =>
             'Legt fest, wie viele Stunden eine erfolgreiche Verbindung gespeichert werden soll.',
         'Defines the number of tickets shown in the widget.' => 'Definiert die Anzahl der im Widget dargestellten Tickets.',
+        'Defines the parameters for the Elasticsearch widget backend.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => 'Definiert die Parameter der Tabelle mit den Kunden-Einstellungen.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
             'Definiert die Parameter für die Übersicht. "Cmd" wird verwendet um einen Befehl mit Parametern zu spezifizieren. "Group" wird verwendet um den Zugriff auf das Plugin einzuschränken (z.B. Group: admin;group1;group2;). "Default" zeigt an, ob das Plugin standardmäßig aktiviert ist oder ob der Anwender es manuell aktivieren muss. "CacheTTL" zeigt die Ablaufzeit für den Plugin-Cache in Minuten an. "Mandatory" bestimmt, ob das Plugin immer angezeigt und nicht von Agenten entfernt werden kann. Es funktioniert nur, wenn DashboardBackend::AllowCmdOutput in der Datei Config.pm aktiviert wurde.',
@@ -8380,8 +8385,6 @@ Ihr Helpdesk-Team
             'Legt die Parameter für das Dashboard-Backend fest. "Limit" legt die Anzahl an Einträgen fest, die standardmäßig angezeigt werden. "Group" beschränkt den Zugang zum jeweiligen Dashlet (z. B. Group: admin;group1;group2). "Default" bestimmt, ob das Dashlet standardmäßig aktiv ist oder vom Nutzer manuell aktiviert werden muss. "CacheTTL" bestimmt die Cachingdauer für das Dashlet in Minuten. Mit "Mandatory" kann das Dashlet so konfiguriert werden, dass Nutzer es nicht ausblenden können.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Legt die Parameter für das Dashboard-Backend fest. "Limit" legt die Anzahl an Einträgen fest, die standardmäßig angezeigt werden. "Group" beschränkt den Zugang zum jeweiligen Dashlet (z. B. Group: admin;group1;group2). "Default" bestimmt, ob das Dashlet standardmäßig aktiv ist oder vom Nutzer manuell aktiviert werden muss. "CacheTTLLocal" bestimmt die Cachingdauer für das Dashlet in Minuten. Mit "Mandatory" kann das Dashlet so konfiguriert werden, dass Nutzer es nicht ausblenden können.',
-        'Defines the parameters for the elasticsearch widget backend.' =>
-            'Definiert die Parameter für das Backend des Elasticsearch-Widgets.',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             'Definiert den Pfad und die TTF Datei für die Handhabung von fett und kursiv gedruckter nichtproportionaler Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
@@ -8983,8 +8986,8 @@ Ihr Helpdesk-Team
             'Wenn "bcrypt" als CryptType gewählt wurde, wird der hier eingetragene Cost-Parameter zur Berechnung verwendet. Derzeit wird als Wert maximal 31 unterstützt.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'Wenn "Datei" als LogModule konfiguriert wurde, muss hier eine Log-Datei hinterlegt werden. Existiert die Datei nicht, wird sie automatisch vom System erstellt.',
-        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI \'OAuth Functional Accounts\' Module.' =>
-            'Sofern \'XOAUTH2\' oder \'OAUTHBEARER\' in der Einstellung \'SendmailModule::OAuth2Method\' ausgewählt ist, muss diese Einstellung aktiviert und auf ein gültiges Funktionskonto gesetzt werden. OIDC Konten können im Modul \'OAuth Funktionskonten\' im Admin-Bereich konfiguriert werden.',
+        'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
+            '',
         'If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.' =>
             'Sofern aktiviert, werden zusätzliche Daten wie die Historie und Links von einer Fremd-Datenbank gelesen, welche die exportierten Tickets beinhaltet und zu den importierten Ticket auf diesem System hinzugefügt. Dies funktioniert nur für neu erstellte, nicht für aktualisierte Tickets.',
         'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
@@ -10205,8 +10208,8 @@ Ihr Helpdesk-Team
         'The PGP signature with the keyid is good.' => 'Die PGP-Signatur mit der SchlüsselID ist gültig.',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Der interne Name des Skins, der im Agentenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Agent::Skins.',
-        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  \'OAuth Functional Accounts\' Module.' =>
-            'Die Authentifizierungsmethode, die für die SMTP-Authentifizierung verwendet werden soll. Standard ist \'Basic Auth\'. Falls \'XOAUTH2\' oder \'OAUTHBEARER\' ausgewählt ist, muss die Einstellung \'"SendmailModule \'"SendmailModule::OAuth2FunctionalAccount\' aktiviert und als gültiges OIDC Funktionskonto gesetzt werden. OIDC Accounts können in der Administrationsoberfläche unter \'OAuth Funktionskonten\' konfiguriert werden.',
+        'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
+            '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             'Der interne Name des Skins, der im Kundenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Customer::Skins.',
         'The daemon registration for sync with S3.' => 'Daemon-Registrierung für die S3-Synchronisation.',

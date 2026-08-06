@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-27 06:46+0000\n"
+"POT-Creation-Date: 2026-08-06 08:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1659,6 +1659,10 @@ msgid "Filter field by object type"
 msgstr ""
 
 #. Template: AdminDynamicField
+msgid "Filter field by field type"
+msgstr ""
+
+#. Template: AdminDynamicField
 msgid "Filter field by namespace"
 msgstr ""
 
@@ -2119,11 +2123,15 @@ msgid "%s - %s"
 msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
-msgid "Select the items you want to "
+msgid "Select the items you want to import."
 msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
+msgstr ""
+
+#. Template: AdminDynamicFieldImportExport
+msgid "Select the items you want to export."
 msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
@@ -2992,6 +3000,10 @@ msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 msgid "Generic Agents"
+msgstr ""
+
+#. Template: AdminGenericAgentImportExport
+msgid "Select the items you want to "
 msgstr ""
 
 #. Template: AdminGenericAgentImportExport
@@ -4791,11 +4803,7 @@ msgid "OIDC Account"
 msgstr ""
 
 #. Template: AdminMailAccount
-msgid "Select the"
-msgstr ""
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
+msgid "Select the %sOIDC%s account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminMailAccount
@@ -4820,6 +4828,14 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
+msgstr ""
+
+#. Template: AdminMailAccount
+msgid "Select the"
+msgstr ""
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminNavigationBar
@@ -5159,11 +5175,7 @@ msgid "This page displays an overview of configured OIDC provider profiles."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "You can connect OIDC profiles with a OIDC functional account"
-msgstr ""
-
-#. Template: AdminOIDCProfiles
-msgid "here"
+msgid "You can connect OIDC profiles with a OIDC functional account %shere%s."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -13759,11 +13771,11 @@ msgid "This Activity Dialog is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-msgid "ActivityDialogs currently used in gobal "
+msgid "Activity dialogs currently used in global activities may not be set to non-global."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-msgid "ActivityDialogs currently used in non-gobal Activities "
+msgid "Activity dialogs currently used in non-global activities of other processes may not be set to non-global."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
@@ -15950,10 +15962,6 @@ msgstr ""
 msgid "Shown Elasticsearch Results"
 msgstr ""
 
-#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-msgid "Shown Elsticsearch Results"
-msgstr ""
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
 msgstr ""
@@ -16683,15 +16691,15 @@ msgid "Default lock"
 msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-msgid "Default CustomerID"
+msgid "Default Customer ID"
 msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-msgid "Default CustomerUserID"
+msgid "Default Customer User ID"
 msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-msgid "Default ArchiveFlag"
+msgid "Default Archive Flag"
 msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
@@ -17055,7 +17063,7 @@ msgid "Time left on fresh token is: %s s for Invoker %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-msgid "Could not get the OAuth2 token_endpoint for Invoker "
+msgid "Could not get the OAuth2 token_endpoint for the Invoker."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -20010,7 +20018,7 @@ msgid "AgentTicketZoom widget that displays customer information for the ticket 
 msgstr ""
 
 #. SysConfig
-msgid "AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled beofre you can enable this widget."
+msgid "AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget."
 msgstr ""
 
 #. SysConfig
@@ -22542,6 +22550,10 @@ msgid "Defines the number of tickets shown in the widget."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the parameters for the Elasticsearch widget backend."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the parameters for the customer preferences table."
 msgstr ""
 
@@ -22559,10 +22571,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the parameters for the dashboard backend. \"Limit\" defines the number of entries displayed by default. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" defines the cache expiration period in minutes for the plugin. \"Mandatory\" determines if the plugin is always shown and can not be removed by agents."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the parameters for the elasticsearch widget backend."
 msgstr ""
 
 #. SysConfig
@@ -24078,7 +24086,7 @@ msgid "If \"file\" was selected for LogModule, a logfile must be specified. If t
 msgstr ""
 
 #. SysConfig
-msgid "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the 'SendmailModule::OAuth2Method' setting, then this setting needs to be enabled and set to a valid OIDC Functional Account. OIDC Accounts can be configured in the Admin UI 'OAuth Functional Accounts' Module."
+msgid "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the 'SendmailModule::OAuth2Method' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the 'OAuth Functional Accounts' module of the administrator interface."
 msgstr ""
 
 #. SysConfig
@@ -27234,7 +27242,7 @@ msgid "The agent skin's InternalName which should be used in the agent interface
 msgstr ""
 
 #. SysConfig
-msgid "The authentication method to use for SMTP Authentication, defaults to 'Basic Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the '\"SendmailModule '\"SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and set to a valid OIDC Functional Account.  OIDC Accounts can be configured in the Admin UI  'OAuth Functional Accounts' Module."
+msgid "The authentication method to use for SMTP Authentication, defaults to 'Basic Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the 'SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the 'OAuth Functional Accounts' module of the administrator interface."
 msgstr ""
 
 #. SysConfig
