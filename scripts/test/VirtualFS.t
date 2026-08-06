@@ -37,7 +37,6 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my @Tests = (
     {
@@ -202,14 +201,14 @@ for my $Backend (qw( FS DB )) {
 
             # expected success
             else {
-                is( $Success, "$Backend Write - $Test->{Name}" );
+                ok( $Success, "$Backend Write - $Test->{Name}" );
 
                 # read
                 my %File = $VirtualFSObject->Read(
                     Filename => $Test->{Filename},
                     Mode     => $Test->{Mode},
                 );
-                is(
+                ok(
                     $File{Content},
                     "$Backend Read() - $Test->{Name}",
                 );
