@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.839839094159714;
+    $Self->{Completeness}        = 0.839964237818507;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -746,7 +746,6 @@ sub Data {
         'Object attribute' => '',
         'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
             '',
-        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
         'matches mask attribute' => '',
         'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
             '',

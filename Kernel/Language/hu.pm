@@ -749,7 +749,6 @@ sub Data {
         'Object attribute' => 'Objektum attribútuma',
         'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
             'A hivatkozott objektum azon attribútumának kiválasztása, amely alapján a kiválasztható bejegyzések szűrve lesznek.',
-        'Invalid ReferenceFilter_ReferenceObjectAttribute' => 'Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum',
         'matches mask attribute' => 'maszkattribútumra illeszkedik',
         'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
             'A szerkesztési maszk attribútumának kiválasztása a hivatkozott objektum kiválasztott attribútumával való összehasonlításhoz.',

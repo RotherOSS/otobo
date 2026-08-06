@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-07 11:43+0000\n"
+"POT-Creation-Date: 2026-08-06 08:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2156,10 +2156,6 @@ msgstr ""
 
 #. Template: AdminDynamicFieldReference
 msgid "Select an attribute of the referenced object by which the selectable entries will be filtered."
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
