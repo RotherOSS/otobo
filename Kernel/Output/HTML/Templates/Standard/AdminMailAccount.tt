@@ -207,7 +207,7 @@
                         <div class="Field MailAccount">
                             [% Data.AccountOptionAdd %]
                             <p class="FieldExplanation">
-                            [% Translate("Select the %sOIDC%s account to use for OAuth2 authentication.") | html | ReplacePlaceholders('<a target="_blank" href="?Action=AdminOAuthTokenStore">', '</a>') %]</p>
+                            [% Translate("Select the %sOIDC%s account to use for OAuth2 authentication.") | html | ReplacePlaceholders('<a target="_blank" href="?Action=AdminOAuthTokenStore">', '</a>') %]
                             </p>
 
                             <div id="AccountAddError" class="TooltipErrorMessage">
@@ -351,9 +351,7 @@
                         <div class="Field MailAccount">
                             [% Data.AccountOption %]
                             <p class="FieldExplanation">
-                            [% Translate("Select the") | html %]
-                            <a target="_blank" href="?Action=AdminOAuthTokenStore">OIDC</a>
-                            [% Translate("Account to use for OAuth2 authentication.") | html %]
+                            [% Translate("Select the %sOIDC%s account to use for OAuth2 authentication.") | html | ReplacePlaceholders('<a target="_blank" href="?Action=AdminOAuthTokenStore">', '</a>') %]
                             </p>
                             <div id="AccountAddError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>

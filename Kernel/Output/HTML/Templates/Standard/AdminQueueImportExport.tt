@@ -55,19 +55,20 @@
             <div class="Content">
                 <div class="FieldExplanation">
                     <p>
-                        <b>
-                            [% Translate("Select the items you want to ") | html %] [% Translate(Data.Type) | html %].
-                        </b>
-
-                        <p>
-                            </br>
 [% RenderBlockStart("ImportHint") %]
+                        <b>
+                            [% Translate("Select the items you want to import.") | html %]
+                        </b>
+                        </br>
                         [% Translate("Select the desired elements and confirm the import with 'import'.") | html %]
 [% RenderBlockEnd("ImportHint") %]
 [% RenderBlockStart("ExportHint") %]
+                        <b>
+                            [% Translate("Select the items you want to export.") | html %]
+                        </b>
+                        </br>
                         [% Translate("Here you can export a configuration file of queues to import these on another system. The configuration file is exported in yml format.") | html %]
 [% RenderBlockEnd("ExportHint") %]
-                         </p>
                     </p>
                 </div>
             </div>
