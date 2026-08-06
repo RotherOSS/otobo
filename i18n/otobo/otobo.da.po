@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-27 06:46+0000\n"
+"POT-Creation-Date: 2026-08-06 08:23+0000\n"
 "PO-Revision-Date: 2021-04-21 08:44+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
@@ -1882,6 +1882,12 @@ msgid "Filter field by object type"
 msgstr ""
 
 #. Template: AdminDynamicField
+#, fuzzy
+#| msgid "Filter by type"
+msgid "Filter field by field type"
+msgstr "Filtrer på type"
+
+#. Template: AdminDynamicField
 msgid "Filter field by namespace"
 msgstr ""
 
@@ -2421,12 +2427,20 @@ msgid "%s - %s"
 msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
-msgid "Select the items you want to "
-msgstr ""
+#, fuzzy
+#| msgid "Select this ticket"
+msgid "Select the items you want to import."
+msgstr "Vælg denne sag"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
 msgstr "Vælg de ønskede elementer og bekræft importen med 'import'."
+
+#. Template: AdminDynamicFieldImportExport
+#, fuzzy
+#| msgid "Select this ticket"
+msgid "Select the items you want to export."
+msgstr "Vælg denne sag"
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -3365,6 +3379,10 @@ msgstr "Alder"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "Automatisk Agent"
+
+#. Template: AdminGenericAgentImportExport
+msgid "Select the items you want to "
+msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5424,13 +5442,7 @@ msgid "OIDC Account"
 msgstr "Konto"
 
 #. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Vælg"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
+msgid "Select the %sOIDC%s account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminMailAccount
@@ -5460,6 +5472,16 @@ msgstr "Tildeler"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Rediger mailkonto"
+
+#. Template: AdminMailAccount
+#, fuzzy
+#| msgid "Select"
+msgid "Select the"
+msgstr "Vælg"
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
+msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -5876,11 +5898,7 @@ msgid "This page displays an overview of configured OIDC provider profiles."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
-msgid "You can connect OIDC profiles with a OIDC functional account"
-msgstr ""
-
-#. Template: AdminOIDCProfiles
-msgid "here"
+msgid "You can connect OIDC profiles with a OIDC functional account %shere%s."
 msgstr ""
 
 #. Template: AdminOIDCProfiles
@@ -15361,11 +15379,15 @@ msgid "This Activity Dialog is not available to the current Process!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-msgid "ActivityDialogs currently used in gobal "
+msgid ""
+"Activity dialogs currently used in global activities may not be set to non-"
+"global."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
-msgid "ActivityDialogs currently used in non-gobal Activities "
+msgid ""
+"Activity dialogs currently used in non-global activities of other processes "
+"may not be set to non-global."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
@@ -17635,12 +17657,6 @@ msgstr ""
 msgid "Shown Elasticsearch Results"
 msgstr "Søgeresultat"
 
-#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-#, fuzzy
-#| msgid "Search Results"
-msgid "Shown Elsticsearch Results"
-msgstr "Søgeresultat"
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
 msgstr "Standard"
@@ -18439,19 +18455,19 @@ msgstr "Standardværdi"
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 #, fuzzy
 #| msgid "CustomerID"
-msgid "Default CustomerID"
+msgid "Default Customer ID"
 msgstr "Kunde-ID"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 #, fuzzy
 #| msgid "Edit Customer User"
-msgid "Default CustomerUserID"
+msgid "Default Customer User ID"
 msgstr "Rediger Kundebruger"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
 #, fuzzy
 #| msgid "Default language"
-msgid "Default ArchiveFlag"
+msgid "Default Archive Flag"
 msgstr "Standardsprog"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
@@ -18848,7 +18864,7 @@ msgid "Time left on fresh token is: %s s for Invoker %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-msgid "Could not get the OAuth2 token_endpoint for Invoker "
+msgid "Could not get the OAuth2 token_endpoint for the Invoker."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -22046,7 +22062,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays similar ticket data in the side bar. "
-"Elasticsearch needs to be enabled beofre you can enable this widget."
+"Elasticsearch needs to be enabled before you can enable this widget."
 msgstr ""
 
 #. SysConfig
@@ -25481,6 +25497,12 @@ msgid "Defines the number of tickets shown in the widget."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid "Define the start day of the week for the date picker."
+msgid "Defines the parameters for the Elasticsearch widget backend."
+msgstr "Definer ugens første dag for datovælgeren."
+
+#. SysConfig
 msgid "Defines the parameters for the customer preferences table."
 msgstr ""
 
@@ -25527,12 +25549,6 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
-
-#. SysConfig
-#, fuzzy
-#| msgid "Define the start day of the week for the date picker."
-msgid "Defines the parameters for the elasticsearch widget backend."
-msgstr "Definer ugens første dag for datovælgeren."
 
 #. SysConfig
 msgid ""
@@ -27500,8 +27516,9 @@ msgstr ""
 msgid ""
 "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
 "'SendmailModule::OAuth2Method' setting, then this setting needs to be "
-"enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
-"configured in the Admin UI 'OAuth Functional Accounts' Module."
+"enabled and set to a valid OIDC functional account. OIDC accounts can be "
+"configured in the 'OAuth Functional Accounts' module of the administrator "
+"interface."
 msgstr ""
 
 #. SysConfig
@@ -31769,10 +31786,10 @@ msgstr ""
 #. SysConfig
 msgid ""
 "The authentication method to use for SMTP Authentication, defaults to 'Basic "
-"Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the '\"SendmailModule "
-"'\"SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and "
-"set to a valid OIDC Functional Account.  OIDC Accounts can be configured in "
-"the Admin UI  'OAuth Functional Accounts' Module."
+"Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the "
+"'SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and "
+"set to a valid OIDC functional account. OIDC accounts can be configured in "
+"the 'OAuth Functional Accounts' module of the administrator interface."
 msgstr ""
 
 #. SysConfig
@@ -32709,6 +32726,11 @@ msgstr "omvendt"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Search Results"
+#~ msgid "Shown Elsticsearch Results"
+#~ msgstr "Søgeresultat"
 
 #~ msgid "The chat will be appended as a separate article."
 #~ msgstr "Chatten vil blive tilføjet som et separat indlæg."

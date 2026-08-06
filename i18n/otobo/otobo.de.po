@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-07-27 06:46+0000\n"
+"POT-Creation-Date: 2026-08-06 08:23+0000\n"
 "PO-Revision-Date: 2026-06-30 18:28+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
@@ -1946,6 +1946,12 @@ msgid "Filter field by object type"
 msgstr "Feld nach Objekttyp filtern"
 
 #. Template: AdminDynamicField
+#, fuzzy
+#| msgid "Filter field by object type"
+msgid "Filter field by field type"
+msgstr "Feld nach Objekttyp filtern"
+
+#. Template: AdminDynamicField
 msgid "Filter field by namespace"
 msgstr "Feld nach Namespace filtern"
 
@@ -2513,7 +2519,9 @@ msgid "%s - %s"
 msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
-msgid "Select the items you want to "
+#, fuzzy
+#| msgid "Select the items you want to "
+msgid "Select the items you want to import."
 msgstr "Wählen Sie die Elemente aus, um sie zu "
 
 #. Template: AdminDynamicFieldImportExport
@@ -2521,6 +2529,12 @@ msgid "Select the desired elements and confirm the import with 'import'."
 msgstr ""
 "Selektieren Sie die gewünschten Elemente und bestätigen Sie den Import mit "
 "'importieren'."
+
+#. Template: AdminDynamicFieldImportExport
+#, fuzzy
+#| msgid "Select the items you want to "
+msgid "Select the items you want to export."
+msgstr "Wählen Sie die Elemente aus, um sie zu "
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -3489,6 +3503,10 @@ msgstr "Alter"
 #| msgid "GenericAgents"
 msgid "Generic Agents"
 msgstr "Generic Agents"
+
+#. Template: AdminGenericAgentImportExport
+msgid "Select the items you want to "
+msgstr "Wählen Sie die Elemente aus, um sie zu "
 
 #. Template: AdminGenericAgentImportExport
 msgid ""
@@ -5791,11 +5809,9 @@ msgid "OIDC Account"
 msgstr "OIDC Konto"
 
 #. Template: AdminMailAccount
-msgid "Select the"
-msgstr "Auswahl des"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
+#, fuzzy
+#| msgid "Account to use for OAuth2 authentication."
+msgid "Select the %sOIDC%s account to use for OAuth2 authentication."
 msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
 
 #. Template: AdminMailAccount
@@ -5825,6 +5841,14 @@ msgstr "Verteilung"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "E-Mail-Konto bearbeiten"
+
+#. Template: AdminMailAccount
+msgid "Select the"
+msgstr "Auswahl des"
+
+#. Template: AdminMailAccount
+msgid "Account to use for OAuth2 authentication."
+msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -6293,12 +6317,8 @@ msgstr ""
 #. Template: AdminOIDCProfiles
 #, fuzzy
 #| msgid "You can connect OIDC Profiles with a OIDC Functional Account"
-msgid "You can connect OIDC profiles with a OIDC functional account"
+msgid "You can connect OIDC profiles with a OIDC functional account %shere%s."
 msgstr "OIDC-Profile können mit einem OIDC Funktionskonto verbunden werden"
-
-#. Template: AdminOIDCProfiles
-msgid "here"
-msgstr "hier"
 
 #. Template: AdminOIDCProfiles
 msgid "Delete Profile"
@@ -16219,14 +16239,20 @@ msgstr "Dieser Aktivitätsdialog ist im aktuellen Prozess nicht verfügbar!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 #, fuzzy
-#| msgid "Activity dialogs are not being used in this process."
-msgid "ActivityDialogs currently used in gobal "
-msgstr "In diesem Prozess werden keine Aktivitäts-Dialoge verwendet."
+#| msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
+msgid ""
+"Activity dialogs currently used in global activities may not be set to non-"
+"global."
+msgstr ""
+"Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten "
+"zugeordnet werden!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 #, fuzzy
 #| msgid "Non-global ActivityDialogs may not be assigned to global Activities!"
-msgid "ActivityDialogs currently used in non-gobal Activities "
+msgid ""
+"Activity dialogs currently used in non-global activities of other processes "
+"may not be set to non-global."
 msgstr ""
 "Nicht-globale Aktivitätsdialoge können nicht zu globalen Aktivitäten "
 "zugeordnet werden!"
@@ -18600,10 +18626,6 @@ msgstr "Nicht verfügbar"
 msgid "Shown Elasticsearch Results"
 msgstr "Gezeigte Elasticsearch-Ergebnisse"
 
-#. Perl Module: Kernel/Output/HTML/Elasticsearch/ElasticsearchTicketGeneric.pm
-msgid "Shown Elsticsearch Results"
-msgstr "Gezeigte Elasticsearch-Ergebnisse"
-
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
 msgstr "Standard"
@@ -19435,15 +19457,21 @@ msgid "Default lock"
 msgstr "Standard-Sperre"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-msgid "Default CustomerID"
+#, fuzzy
+#| msgid "Default CustomerID"
+msgid "Default Customer ID"
 msgstr "Standard Kundennummer (CustomerID)"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-msgid "Default CustomerUserID"
+#, fuzzy
+#| msgid "Default CustomerUserID"
+msgid "Default Customer User ID"
 msgstr "Standard-Kundenbenutzer-ID"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
-msgid "Default ArchiveFlag"
+#, fuzzy
+#| msgid "Default ArchiveFlag"
+msgid "Default Archive Flag"
 msgstr "Standard Archivierungsmarkierung"
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Ticket.pm
@@ -19860,7 +19888,9 @@ msgstr ""
 "Übrige Zeit für den unverbrauchten Token ist: %s Sekunden für den Invoker %s!"
 
 #. Perl Module: Kernel/System/OpenIDConnect/TokenProvider.pm
-msgid "Could not get the OAuth2 token_endpoint for Invoker "
+#, fuzzy
+#| msgid "Could not get the OAuth2 token_endpoint for Invoker "
+msgid "Could not get the OAuth2 token_endpoint for the Invoker."
 msgstr ""
 "Der OAuth2-Token-Endpunkt für den Invoker konnte nicht abgerufen werden. "
 
@@ -23363,7 +23393,7 @@ msgstr ""
 #| msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgid ""
 "AgentTicketZoom widget that displays similar ticket data in the side bar. "
-"Elasticsearch needs to be enabled beofre you can enable this widget."
+"Elasticsearch needs to be enabled before you can enable this widget."
 msgstr ""
 "Widget für AgentTicketZoom, das weitere Daten des aktuellen Tickets anzeigt."
 
@@ -27775,6 +27805,12 @@ msgid "Defines the number of tickets shown in the widget."
 msgstr "Definiert die Anzahl der im Widget dargestellten Tickets."
 
 #. SysConfig
+#, fuzzy
+#| msgid "Defines the parameters for the elasticsearch widget backend."
+msgid "Defines the parameters for the Elasticsearch widget backend."
+msgstr "Definiert die Parameter für das Backend des Elasticsearch-Widgets."
+
+#. SysConfig
 msgid "Defines the parameters for the customer preferences table."
 msgstr "Definiert die Parameter der Tabelle mit den Kunden-Einstellungen."
 
@@ -27849,10 +27885,6 @@ msgstr ""
 "manuell aktiviert werden muss. \"CacheTTLLocal\" bestimmt die Cachingdauer "
 "für das Dashlet in Minuten. Mit \"Mandatory\" kann das Dashlet so "
 "konfiguriert werden, dass Nutzer es nicht ausblenden können."
-
-#. SysConfig
-msgid "Defines the parameters for the elasticsearch widget backend."
-msgstr "Definiert die Parameter für das Backend des Elasticsearch-Widgets."
 
 #. SysConfig
 msgid ""
@@ -30348,11 +30380,18 @@ msgstr ""
 "System erstellt."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
+#| "'SendmailModule::OAuth2Method' setting, then this setting needs to be "
+#| "enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
+#| "configured in the Admin UI 'OAuth Functional Accounts' Module."
 msgid ""
 "If 'XOAUTH2' or 'OAUTHBEARER' is selected in the "
 "'SendmailModule::OAuth2Method' setting, then this setting needs to be "
-"enabled and set to a valid OIDC Functional Account. OIDC Accounts can be "
-"configured in the Admin UI 'OAuth Functional Accounts' Module."
+"enabled and set to a valid OIDC functional account. OIDC accounts can be "
+"configured in the 'OAuth Functional Accounts' module of the administrator "
+"interface."
 msgstr ""
 "Sofern 'XOAUTH2' oder 'OAUTHBEARER' in der Einstellung "
 "'SendmailModule::OAuth2Method' ausgewählt ist, muss diese Einstellung "
@@ -35877,12 +35916,20 @@ msgstr ""
 "Verfügbare Skins finden Sie unter Frontend::Agent::Skins."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "The authentication method to use for SMTP Authentication, defaults to "
+#| "'Basic Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the "
+#| "'\"SendmailModule '\"SendmailModule::OAuth2FunctionalAccount' setting "
+#| "needs to be enabled and set to a valid OIDC Functional Account.  OIDC "
+#| "Accounts can be configured in the Admin UI  'OAuth Functional Accounts' "
+#| "Module."
 msgid ""
 "The authentication method to use for SMTP Authentication, defaults to 'Basic "
-"Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the '\"SendmailModule "
-"'\"SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and "
-"set to a valid OIDC Functional Account.  OIDC Accounts can be configured in "
-"the Admin UI  'OAuth Functional Accounts' Module."
+"Auth'. If 'XOAUTH2' or 'OAUTHBEARER' is selected, then the "
+"'SendmailModule::OAuth2FunctionalAccount' setting needs to be enabled and "
+"set to a valid OIDC functional account. OIDC accounts can be configured in "
+"the 'OAuth Functional Accounts' module of the administrator interface."
 msgstr ""
 "Die Authentifizierungsmethode, die für die SMTP-Authentifizierung verwendet "
 "werden soll. Standard ist 'Basic Auth'. Falls 'XOAUTH2' oder 'OAUTHBEARER' "
@@ -37021,6 +37068,17 @@ msgstr "umgekehrt"
 #. SysConfig
 msgid "stats"
 msgstr "Stats"
+
+#~ msgid "here"
+#~ msgstr "hier"
+
+#, fuzzy
+#~| msgid "Activity dialogs are not being used in this process."
+#~ msgid "ActivityDialogs currently used in gobal "
+#~ msgstr "In diesem Prozess werden keine Aktivitäts-Dialoge verwendet."
+
+#~ msgid "Shown Elsticsearch Results"
+#~ msgstr "Gezeigte Elasticsearch-Ergebnisse"
 
 #~ msgid "The OpenID Connect"
 #~ msgstr "Das OpenID Connect"
