@@ -101,7 +101,6 @@ sub Run {
 
         return $Self->_Mask(
             Data                      => $PerlStructure,
-            Type                      => $Self->{Subaction},
             OverwriteExistingEntities => $OverwriteExistingEntities || 0,
         );
     }
@@ -227,7 +226,6 @@ sub Run {
 
         return $Self->_Mask(
             %Param,
-            Type => $Self->{Subaction},
         );
 
     }
