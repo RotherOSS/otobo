@@ -269,7 +269,7 @@ sub Run {
             return $HTML;
         }
 
-        # convert the dynamicfielddata hash to string
+        # convert the dynamicfield data hash to string
         my $DynamicFieldDataYAML = $YAMLObject->Dump( Data => \%Data );
 
         # Get the current time formatted like '2016-01-31 14:05:45'.
