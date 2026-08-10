@@ -147,9 +147,9 @@ sub CustomerSourceList {
 
 =head2 CustomerSearch()
 
-to search customer users
+to search customer users.
 
-    # text search
+    # text search in the customer search fields
     my %List = $CustomerUserObject->CustomerSearch(
         Search => '*some*', # also 'hans+huber' possible
         Valid  => 1,        # (optional) default 1
@@ -169,8 +169,18 @@ to search customer users
     );
 
     # search by CustomerID
+    # It depends on the data backend when an '*' is considered a wildcard.
+    # The DB backend considers '*' as an wildcard.
+    # The LDAP backend does not do so.
     my %List = $CustomerUserObject->CustomerSearch(
         CustomerID       => 'CustomerID123',
+        Valid            => 1,                # (optional) default 1
+    );
+
+    # Search by CustomerID without wildcard expansion.
+    # So searching by 'Alois*' would find only 'Alois*' and not 'Alois' or 'Aloisia'.
+    my %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw    => 'CustomerID123',
         Valid            => 1,                # (optional) default 1
     );
 
@@ -180,6 +190,8 @@ Returns a hash like:
         'tina' => '"Tina Tester" <tina@example.com>',
         'toni' => '"Toni Tester" <toni@example.com>',
     }
+
+The method is misnamed as C<CustomerSearch> searches for customer users, not customers aka customer companies.
 
 =cut
 
