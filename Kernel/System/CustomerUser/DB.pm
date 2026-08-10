@@ -561,7 +561,7 @@ sub CustomerSearchDetail {
         return;
     }
 
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $Valid = $Param{Valid} // 1;
 
     $Param{Limit} //= '';
 
