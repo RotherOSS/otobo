@@ -534,10 +534,11 @@ Core.UI = (function (TargetNS) {
      * @name InitAjaxDnDUpload
      * @memberof Core.UI
      * @function
+     * @param {jQueryObject} $Context - (optional) only initialize DnDUpload areas within given context
      * @description
      *      Init drag & drop ajax upload on relevant input fields of type "file"
      */
-    TargetNS.InitAjaxDnDUpload = function () {
+    TargetNS.InitAjaxDnDUpload = function ($Context) {
 
         function UploadFiles(SelectedFiles, $DropObj) {
 
@@ -863,14 +864,14 @@ Core.UI = (function (TargetNS) {
             }
         }
 
-        $('.AttachmentList').each(function() {
+        $('.AttachmentList', $Context).each(function() {
             if ($(this).find('tbody tr').length) {
                 $(this).show();
             }
         });
 
         // Attachment deletion
-        $('.AttachmentList').off('click').on('click', '.AttachmentDelete', function() {
+        $('.AttachmentList', $Context).off('click').on('click', '.AttachmentDelete', function() {
 
             var $TriggerObj = $(this),
                 CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
@@ -927,7 +928,7 @@ Core.UI = (function (TargetNS) {
             return false;
         });
 
-        $('input[type=file].AjaxDnDUpload').each(function() {
+        $('input[type=file].AjaxDnDUpload', $Context).each(function() {
 
             var IsMultiple = ($(this).attr('multiple') == 'multiple'),
                 CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
@@ -937,7 +938,7 @@ Core.UI = (function (TargetNS) {
                 });
 
             // Only initialize events once per attachment field.
-            if ($(this).next().hasClass('AjaxDnDUploadReady')) {
+            if ($(this).next().hasClass('AjaxDnDUploadReady') || $(this).parents('div.MultiValue_Template').length ) {
                 return;
             }
 
