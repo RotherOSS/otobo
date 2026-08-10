@@ -1027,17 +1027,19 @@ sub CustomerUserUpdate {
             Priority => 'error',
             Message  => "No such user '$UserLogin'!",
         );
+
         return;
     }
 
     my $Result = $Self->{ $User{Source} }->CustomerUserUpdate(%Param);
-    return if !$Result;
+
+    return unless $Result;
 
     # trigger event
     $Self->EventHandler(
         Event => 'CustomerUserUpdate',
         Data  => {
-            UserLogin => $Param{ID} || $Param{UserLogin},
+            UserLogin => $UserLogin,
             NewData   => \%Param,
             OldData   => \%User,
         },
