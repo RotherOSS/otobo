@@ -169,6 +169,9 @@ to search customer users.
     );
 
     # search by CustomerID
+    # It depends on the data backend when an '*' is considered a wildcard.
+    # The DB backend considers '*' as an wildcard.
+    # The LDAP backend does not do so.
     my %List = $CustomerUserObject->CustomerSearch(
         CustomerID       => 'CustomerID123',
         Valid            => 1,                # (optional) default 1
