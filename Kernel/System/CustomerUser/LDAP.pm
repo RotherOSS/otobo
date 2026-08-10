@@ -474,6 +474,9 @@ sub CustomerSearch {
         $Filter = "($Self->{CustomerKey}=" . escape_filter_value( $Param{UserLogin} ) . ')';
     }
     elsif ( $Param{CustomerID} ) {
+
+        # $Param{CustomerIDRaw} is also handled in the this block
+        # there is no '*' wildcard expansion when searching for CustomerID
         $Filter = "($Self->{CustomerID}=" . escape_filter_value( $Param{CustomerID} ) . ')';
     }
 

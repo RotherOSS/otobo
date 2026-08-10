@@ -275,6 +275,7 @@ sub CustomerSearch {
             Priority => 'error',
             Message  => 'Need Search, UserLogin, PostMasterSearch, CustomerIDRaw or CustomerID!',
         );
+
         return;
     }
 
@@ -411,6 +412,7 @@ sub CustomerSearch {
     }
     elsif ( $Param{CustomerIDRaw} ) {
 
+        # there is no '*' wildcard expansion when searching for CustomerIDRaw
         push @Bind, \$Param{CustomerIDRaw};
 
         if ( $Self->{CaseSensitive} ) {
