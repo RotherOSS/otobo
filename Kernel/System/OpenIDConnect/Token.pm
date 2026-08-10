@@ -100,6 +100,11 @@ sub Inspect {
         );
     };
     if ($@) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Decoding JWT failed: $@",
+        );
+
         return;
     }
 
@@ -394,6 +399,7 @@ sub DecodeToken {
     # decode the token; retry once if it doesn't work for cached config
     my $TokenData;
     while ( $Try++ < 2 ) {
+        my $Error;
 
         # decode id_token, check key
         eval {
@@ -405,17 +411,31 @@ sub DecodeToken {
         };
         if ($@) {
             $TokenData = undef;
+            $Error     = $@;
         }
 
-        # check whether the issuer is correct - if not the cached data might just be outdated
-        if ( $TokenData->{iss} && $TokenData->{iss} eq $OpenIDProviderData->{OpenIDConfiguration}{issuer} ) {
+        # check whether the token could be decoded and the issuer is correct - if not the cached data might just be outdated
+        if ( $TokenData && $TokenData->{iss} && $TokenData->{iss} eq $OpenIDProviderData->{OpenIDConfiguration}{issuer} ) {
             $Try = 100;
         }
-        elsif ( $Try < 2 ) {
 
+        # renew the provider data once
+        elsif ( $Try < 2 ) {
             $OpenIDProviderData = $OIDCConfigurationObject->GetProviderData(
                 OpenIDConfig => $Param{OpenIDConfig},
                 NoCache      => 1,
+            );
+        }
+
+        else {
+            $TokenData = undef;
+            $Error //= $TokenData->{iss}
+                ? "Wrong issuer! $TokenData->{iss} (Token); $OpenIDProviderData->{OpenIDConfiguration}{issuer} (Provider Config);"
+                : 'Unknown Error.';
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Decoding JWT failed: $@",
             );
         }
     }

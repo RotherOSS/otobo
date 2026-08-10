@@ -406,7 +406,7 @@ sub FetchToken {
 
         return {
             Success => 0,
-            Error   => "Invalid Parameters !",
+            Error   => "Could not process token. Please check the logs.",
         } if !$Result;
     }
 
@@ -793,17 +793,21 @@ sub _ProcessNewToken {
         );
 
         if ( $Result->{Success} ) {
-
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Validated IDToken for Account $AccountName.",
             );
         }
         else {
+            my $Message = "Invalid IDToken for Account $AccountName!";
+
+            if ( $Result->{Error} ) {
+                $Message .= ' ' . $Result->{Error};
+            }
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'debug',
-                Message  => "Invalid IDToken for Account $AccountName!",
+                Priority => 'notice',
+                Message  => $Message,
             );
         }
 
