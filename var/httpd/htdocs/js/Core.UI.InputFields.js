@@ -3234,6 +3234,11 @@ Core.UI.InputFields = (function (TargetNS) {
             TargetNS.InitCustomerField( $Cell );
         }
 
+        // initialize ajax dnd upload
+        if ($('.AjaxDnDUpload', $Cell).length) {
+            Core.UI.InitAjaxDnDUpload( $Cell );
+        }
+
         // other fields
         Core.UI.InputFields.Activate( $Cell );
     }
