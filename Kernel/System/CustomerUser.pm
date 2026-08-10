@@ -21,6 +21,11 @@ use warnings;
 
 use parent qw(Kernel::System::EventHandler);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -59,8 +64,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'CustomerUser';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -83,7 +87,7 @@ sub new {
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
+        next SOURCE unless $ConfigObject->Get("CustomerUser$Count");
 
         my $GenericModule = $ConfigObject->Get("CustomerUser$Count")->{Module};
         if ( !$MainObject->Require($GenericModule) ) {
@@ -143,7 +147,7 @@ sub CustomerSourceList {
 
 =head2 CustomerSearch()
 
-to search users
+to search customer users
 
     # text search
     my %List = $CustomerUserObject->CustomerSearch(
@@ -169,6 +173,13 @@ to search users
         CustomerID       => 'CustomerID123',
         Valid            => 1,                # (optional) default 1
     );
+
+Returns a hash like:
+
+    {
+        'tina' => '"Tina Tester" <tina@example.com>',
+        'toni' => '"Toni Tester" <toni@example.com>',
+    }
 
 =cut
 
@@ -316,12 +327,16 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         UserLogin     => 'example*',                                    # (optional)
         UserFirstname => 'Firstn*',                                     # (optional)
 
+        # search for valid users only per default,
+        # pass 0 in order to also search for invalid users
+        Valid     => 1,                                                 # (optional) default 1
+
         # special parameters
         CustomerCompanySearchCustomerIDs => [ 'example.com' ],          # (optional)
         ExcludeUserLogins                => [ 'example', 'doejohn' ],   # (optional)
 
         # array parameters are used with logical OR operator (all values are possible which
-        are defined in the config selection hash for the field)
+        # are defined in the config selection hash for the field)
         UserCountry              => [ 'Austria', 'Germany', ],          # (optional)
 
         # DynamicFields
@@ -358,15 +373,15 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         # ignored if the result type is 'COUNT'
     );
 
-Returns:
+Returns a list of customer users when $Result => 'ARRAY' was passed:
 
-Result: 'ARRAY'
+    $CustomerUserIDs = [ 'adaldrida', 'adamanta', 'adalgrim ' ];
+    $CustomerUserIDs = []; # when no customer users had been found
 
-    @CustomerUserIDs = ( 1, 2, 3 );
+Returns a count of customer users when $Result => 'COUNT' was passed:
 
-Result: 'COUNT'
-
-    $CustomerUserIDs = 10;
+    $CustomerUserIDs = 3;
+    $CustomerUserIDs = 0; # when no customer users had been found
 
 =cut
 
@@ -808,16 +823,19 @@ sub CustomerIDs {
 
 get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
-    my %User = $CustomerUserObject->CustomerUserDataGet(
+    my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
         User => 'franz',
     );
+
+When there are multiple backends then only the data from the first backend where the customer user is found.
+An empty list is returned when the customer user was't found in any backend.
 
 =cut
 
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{User};
+    return unless $Param{User};
 
     # fetch dynamic field configurations for CustomerUser.
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
@@ -909,12 +927,12 @@ to add new customer users
 
     my $UserLogin = $CustomerUserObject->CustomerUserAdd(
         Source         => 'CustomerUser', # CustomerUser source config
-        UserFirstname  => 'Huber',
-        UserLastname   => 'Manfred',
+        UserFirstname  => 'Manfred',
+        UserLastname   => 'Huber',
         UserCustomerID => 'A124',
         UserLogin      => 'mhuber',
         UserPassword   => 'some-pass', # not required
-        UserEmail      => 'email@example.com',
+        UserEmail      => 'manfred.huber@example.com',
         ValidID        => 1,
         UserID         => 123,
     );
