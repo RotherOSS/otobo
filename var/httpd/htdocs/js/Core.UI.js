@@ -145,7 +145,7 @@ Core.UI = (function (TargetNS) {
                 return false;
             }
 
-            // if tab doesnt exist or is already active, do nothing
+            // if tab doesn't exist or is already active, do nothing
             if ($TargetObj.length && !$TargetObj.hasClass('Active')) {
 
                 $ContainerObj.find('.Header > a').removeClass('Active');
@@ -564,7 +564,6 @@ Core.UI = (function (TargetNS) {
                 WebMaxFileUpload = Core.Config.Get('WebMaxFileUpload'),
                 CGIHandle = Core.Config.Get('CGIHandle'),
                 SessionToken = '',
-                SessionName,
                 CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             if (!FormID || !SelectedFiles || !$DropObj || !ChallengeToken) {
@@ -617,7 +616,7 @@ Core.UI = (function (TargetNS) {
 
                 var FileIcon = UploadIcons[ 'text' ];
                 for ( var Key in UploadIcons ) {
-                    if ( !UploadIcons.hasOwnProperty( Key ) ) continue;
+                    if ( !Object.prototype.hasOwnProperty.call(UploadIcons, Key) ) continue;
 
                     var FileRE = new RegExp('^' + Key);
                     if ( FileRE.test( File.type ) ) {
@@ -698,7 +697,7 @@ Core.UI = (function (TargetNS) {
                 Upload.append('Files', File);
 
                 $.ajax({
-                    url: Core.Config.Get('CGIHandle') + '?Action=AjaxAttachment;Subaction=Upload;FormID=' + FormID + ';ChallengeToken=' + ChallengeToken + SessionToken,
+                    url: CGIHandle + '?Action=AjaxAttachment;Subaction=Upload;FormID=' + FormID + ';ChallengeToken=' + ChallengeToken + SessionToken,
                     type: 'post',
                     data: Upload,
                     xhr: function() {
@@ -804,7 +803,7 @@ Core.UI = (function (TargetNS) {
                         // properly remove it from the table
                         $ExistingItemObj.parent().remove();
 
-                        // hide file table if neccessary
+                        // hide file table if necessary
                         if ( $ContainerObj.find('.AttachmentList tbody tr').length == 0 ) {
                             $ContainerObj.find('.AttachmentList').addClass('Hidden').hide();
                         }
