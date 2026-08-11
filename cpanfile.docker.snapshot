@@ -459,132 +459,134 @@ DISTRIBUTIONS
       FileHandle 0
       constant 0
       perl 5.006
-  CryptX-0.090
-    pathname: M/MI/MIK/CryptX-0.090.tar.gz
+  CryptX-0.091
+    pathname: M/MI/MIK/CryptX-0.091.tar.gz
     provides:
-      Crypt::ASN1 0.090
-      Crypt::AuthEnc 0.090
-      Crypt::AuthEnc::CCM 0.090
-      Crypt::AuthEnc::ChaCha20Poly1305 0.090
-      Crypt::AuthEnc::EAX 0.090
-      Crypt::AuthEnc::GCM 0.090
-      Crypt::AuthEnc::GCMSIV 0.090
-      Crypt::AuthEnc::OCB 0.090
-      Crypt::AuthEnc::SIV 0.090
-      Crypt::AuthEnc::XChaCha20Poly1305 0.090
-      Crypt::Checksum 0.090
-      Crypt::Checksum::Adler32 0.090
-      Crypt::Checksum::CRC32 0.090
-      Crypt::Cipher 0.090
-      Crypt::Cipher::AES 0.090
-      Crypt::Cipher::ARIA 0.090
-      Crypt::Cipher::Anubis 0.090
-      Crypt::Cipher::Blowfish 0.090
-      Crypt::Cipher::CAST5 0.090
-      Crypt::Cipher::Camellia 0.090
-      Crypt::Cipher::DES 0.090
-      Crypt::Cipher::DES_EDE 0.090
-      Crypt::Cipher::IDEA 0.090
-      Crypt::Cipher::KASUMI 0.090
-      Crypt::Cipher::Khazad 0.090
-      Crypt::Cipher::MULTI2 0.090
-      Crypt::Cipher::Noekeon 0.090
-      Crypt::Cipher::RC2 0.090
-      Crypt::Cipher::RC5 0.090
-      Crypt::Cipher::RC6 0.090
-      Crypt::Cipher::SAFERP 0.090
-      Crypt::Cipher::SAFER_K128 0.090
-      Crypt::Cipher::SAFER_K64 0.090
-      Crypt::Cipher::SAFER_SK128 0.090
-      Crypt::Cipher::SAFER_SK64 0.090
-      Crypt::Cipher::SEED 0.090
-      Crypt::Cipher::SM4 0.090
-      Crypt::Cipher::Serpent 0.090
-      Crypt::Cipher::Skipjack 0.090
-      Crypt::Cipher::Twofish 0.090
-      Crypt::Cipher::XTEA 0.090
-      Crypt::Digest 0.090
-      Crypt::Digest::BLAKE2b_160 0.090
-      Crypt::Digest::BLAKE2b_256 0.090
-      Crypt::Digest::BLAKE2b_384 0.090
-      Crypt::Digest::BLAKE2b_512 0.090
-      Crypt::Digest::BLAKE2s_128 0.090
-      Crypt::Digest::BLAKE2s_160 0.090
-      Crypt::Digest::BLAKE2s_224 0.090
-      Crypt::Digest::BLAKE2s_256 0.090
-      Crypt::Digest::CHAES 0.090
-      Crypt::Digest::KangarooTwelve 0.090
-      Crypt::Digest::Keccak224 0.090
-      Crypt::Digest::Keccak256 0.090
-      Crypt::Digest::Keccak384 0.090
-      Crypt::Digest::Keccak512 0.090
-      Crypt::Digest::MD2 0.090
-      Crypt::Digest::MD4 0.090
-      Crypt::Digest::MD5 0.090
-      Crypt::Digest::RIPEMD128 0.090
-      Crypt::Digest::RIPEMD160 0.090
-      Crypt::Digest::RIPEMD256 0.090
-      Crypt::Digest::RIPEMD320 0.090
-      Crypt::Digest::SHA1 0.090
-      Crypt::Digest::SHA224 0.090
-      Crypt::Digest::SHA256 0.090
-      Crypt::Digest::SHA384 0.090
-      Crypt::Digest::SHA3_224 0.090
-      Crypt::Digest::SHA3_256 0.090
-      Crypt::Digest::SHA3_384 0.090
-      Crypt::Digest::SHA3_512 0.090
-      Crypt::Digest::SHA512 0.090
-      Crypt::Digest::SHA512_224 0.090
-      Crypt::Digest::SHA512_256 0.090
-      Crypt::Digest::SHAKE 0.090
-      Crypt::Digest::SM3 0.090
-      Crypt::Digest::Tiger192 0.090
-      Crypt::Digest::TurboSHAKE 0.090
-      Crypt::Digest::Whirlpool 0.090
-      Crypt::KeyDerivation 0.090
-      Crypt::Mac 0.090
-      Crypt::Mac::BLAKE2b 0.090
-      Crypt::Mac::BLAKE2s 0.090
-      Crypt::Mac::F9 0.090
-      Crypt::Mac::HMAC 0.090
-      Crypt::Mac::KMAC 0.090
-      Crypt::Mac::OMAC 0.090
-      Crypt::Mac::PMAC 0.090
-      Crypt::Mac::Pelican 0.090
-      Crypt::Mac::Poly1305 0.090
-      Crypt::Mac::XCBC 0.090
-      Crypt::Misc 0.090
-      Crypt::Mode 0.090
-      Crypt::Mode::CBC 0.090
-      Crypt::Mode::CFB 0.090
-      Crypt::Mode::CTR 0.090
-      Crypt::Mode::ECB 0.090
-      Crypt::Mode::OFB 0.090
-      Crypt::PK 0.090
-      Crypt::PK::DH 0.090
-      Crypt::PK::DSA 0.090
-      Crypt::PK::ECC 0.090
-      Crypt::PK::Ed25519 0.090
-      Crypt::PK::Ed448 0.090
-      Crypt::PK::RSA 0.090
-      Crypt::PK::X25519 0.090
-      Crypt::PK::X448 0.090
-      Crypt::PRNG 0.090
-      Crypt::PRNG::ChaCha20 0.090
-      Crypt::PRNG::Fortuna 0.090
-      Crypt::PRNG::RC4 0.090
-      Crypt::PRNG::Sober128 0.090
-      Crypt::PRNG::Yarrow 0.090
-      Crypt::Stream::ChaCha 0.090
-      Crypt::Stream::RC4 0.090
-      Crypt::Stream::Rabbit 0.090
-      Crypt::Stream::Salsa20 0.090
-      Crypt::Stream::Sober128 0.090
-      Crypt::Stream::Sosemanuk 0.090
-      Crypt::Stream::XChaCha 0.090
-      Crypt::Stream::XSalsa20 0.090
-      CryptX 0.090
-      Math::BigInt::LTM 0.090
+      Crypt::ASN1 0.091
+      Crypt::AuthEnc 0.091
+      Crypt::AuthEnc::CCM 0.091
+      Crypt::AuthEnc::ChaCha20Poly1305 0.091
+      Crypt::AuthEnc::EAX 0.091
+      Crypt::AuthEnc::GCM 0.091
+      Crypt::AuthEnc::GCMSIV 0.091
+      Crypt::AuthEnc::OCB 0.091
+      Crypt::AuthEnc::SIV 0.091
+      Crypt::AuthEnc::XChaCha20Poly1305 0.091
+      Crypt::Checksum 0.091
+      Crypt::Checksum::Adler32 0.091
+      Crypt::Checksum::CRC32 0.091
+      Crypt::Cipher 0.091
+      Crypt::Cipher::AES 0.091
+      Crypt::Cipher::ARIA 0.091
+      Crypt::Cipher::Anubis 0.091
+      Crypt::Cipher::Blowfish 0.091
+      Crypt::Cipher::CAST5 0.091
+      Crypt::Cipher::Camellia 0.091
+      Crypt::Cipher::DES 0.091
+      Crypt::Cipher::DES_EDE 0.091
+      Crypt::Cipher::IDEA 0.091
+      Crypt::Cipher::KASUMI 0.091
+      Crypt::Cipher::Khazad 0.091
+      Crypt::Cipher::MULTI2 0.091
+      Crypt::Cipher::Noekeon 0.091
+      Crypt::Cipher::RC2 0.091
+      Crypt::Cipher::RC5 0.091
+      Crypt::Cipher::RC6 0.091
+      Crypt::Cipher::SAFERP 0.091
+      Crypt::Cipher::SAFER_K128 0.091
+      Crypt::Cipher::SAFER_K64 0.091
+      Crypt::Cipher::SAFER_SK128 0.091
+      Crypt::Cipher::SAFER_SK64 0.091
+      Crypt::Cipher::SEED 0.091
+      Crypt::Cipher::SM4 0.091
+      Crypt::Cipher::Serpent 0.091
+      Crypt::Cipher::Skipjack 0.091
+      Crypt::Cipher::Twofish 0.091
+      Crypt::Cipher::XTEA 0.091
+      Crypt::Digest 0.091
+      Crypt::Digest::BLAKE2b_160 0.091
+      Crypt::Digest::BLAKE2b_256 0.091
+      Crypt::Digest::BLAKE2b_384 0.091
+      Crypt::Digest::BLAKE2b_512 0.091
+      Crypt::Digest::BLAKE2s_128 0.091
+      Crypt::Digest::BLAKE2s_160 0.091
+      Crypt::Digest::BLAKE2s_224 0.091
+      Crypt::Digest::BLAKE2s_256 0.091
+      Crypt::Digest::BLAKE3 0.091
+      Crypt::Digest::CHAES 0.091
+      Crypt::Digest::KangarooTwelve 0.091
+      Crypt::Digest::Keccak224 0.091
+      Crypt::Digest::Keccak256 0.091
+      Crypt::Digest::Keccak384 0.091
+      Crypt::Digest::Keccak512 0.091
+      Crypt::Digest::MD2 0.091
+      Crypt::Digest::MD4 0.091
+      Crypt::Digest::MD5 0.091
+      Crypt::Digest::RIPEMD128 0.091
+      Crypt::Digest::RIPEMD160 0.091
+      Crypt::Digest::RIPEMD256 0.091
+      Crypt::Digest::RIPEMD320 0.091
+      Crypt::Digest::SHA1 0.091
+      Crypt::Digest::SHA224 0.091
+      Crypt::Digest::SHA256 0.091
+      Crypt::Digest::SHA384 0.091
+      Crypt::Digest::SHA3_224 0.091
+      Crypt::Digest::SHA3_256 0.091
+      Crypt::Digest::SHA3_384 0.091
+      Crypt::Digest::SHA3_512 0.091
+      Crypt::Digest::SHA512 0.091
+      Crypt::Digest::SHA512_224 0.091
+      Crypt::Digest::SHA512_256 0.091
+      Crypt::Digest::SHAKE 0.091
+      Crypt::Digest::SM3 0.091
+      Crypt::Digest::Tiger192 0.091
+      Crypt::Digest::TurboSHAKE 0.091
+      Crypt::Digest::Whirlpool 0.091
+      Crypt::KeyDerivation 0.091
+      Crypt::Mac 0.091
+      Crypt::Mac::BLAKE2b 0.091
+      Crypt::Mac::BLAKE2s 0.091
+      Crypt::Mac::F9 0.091
+      Crypt::Mac::HMAC 0.091
+      Crypt::Mac::KMAC 0.091
+      Crypt::Mac::OMAC 0.091
+      Crypt::Mac::PMAC 0.091
+      Crypt::Mac::Pelican 0.091
+      Crypt::Mac::Poly1305 0.091
+      Crypt::Mac::XCBC 0.091
+      Crypt::Misc 0.091
+      Crypt::Mode 0.091
+      Crypt::Mode::CBC 0.091
+      Crypt::Mode::CFB 0.091
+      Crypt::Mode::CTR 0.091
+      Crypt::Mode::ECB 0.091
+      Crypt::Mode::OFB 0.091
+      Crypt::Mode::XTS 0.091
+      Crypt::PK 0.091
+      Crypt::PK::DH 0.091
+      Crypt::PK::DSA 0.091
+      Crypt::PK::ECC 0.091
+      Crypt::PK::Ed25519 0.091
+      Crypt::PK::Ed448 0.091
+      Crypt::PK::RSA 0.091
+      Crypt::PK::X25519 0.091
+      Crypt::PK::X448 0.091
+      Crypt::PRNG 0.091
+      Crypt::PRNG::ChaCha20 0.091
+      Crypt::PRNG::Fortuna 0.091
+      Crypt::PRNG::RC4 0.091
+      Crypt::PRNG::Sober128 0.091
+      Crypt::PRNG::Yarrow 0.091
+      Crypt::Stream::ChaCha 0.091
+      Crypt::Stream::RC4 0.091
+      Crypt::Stream::Rabbit 0.091
+      Crypt::Stream::Salsa20 0.091
+      Crypt::Stream::Sober128 0.091
+      Crypt::Stream::Sosemanuk 0.091
+      Crypt::Stream::XChaCha 0.091
+      Crypt::Stream::XSalsa20 0.091
+      CryptX 0.091
+      Math::BigInt::LTM 0.091
     requirements:
       ExtUtils::MakeMaker 0
       Math::BigInt 0
@@ -2567,8 +2569,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.48
-    pathname: S/SR/SRI/Mojolicious-9.48.tar.gz
+  Mojolicious-9.49
+    pathname: S/SR/SRI/Mojolicious-9.49.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2638,7 +2640,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.48
+      Mojolicious 9.49
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -4525,14 +4527,19 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
