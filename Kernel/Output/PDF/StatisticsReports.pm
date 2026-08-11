@@ -25,6 +25,7 @@ use namespace::autoclean;
 use File::stat qw(stat);
 
 # CPAN modules
+use GD::Graph::bars;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -375,7 +376,90 @@ sub GeneratePDF {
 
         }
 
-        # D3 charts; load in Chrome and generate PNG to embed in PDF.
+        # supported D3 charts are rendered via GD::Graph
+        elsif ( $Format =~ /^D3::(Bar|Line|StackedArea)Chart/ ) {
+
+            # mockup data for devel
+            my @Data = (
+                [ 'Jan', 'Feb', 'Mar', 'Apr', 'May' ],
+                [ 25, 38, 52, 41, 60 ],
+            );
+        
+            my $Graph = GD::Graph::bars->new(
+                1200 * ( 300 / 72 ),
+                900 * ( 300 / 72 ),
+            );
+            
+            $Graph->set(
+                transparent    => 0,
+                interlaced     => 0,
+            
+                bgclr          => 'white',
+                fgclr          => 'black',
+            
+                dclrs          => [ '#4C78A8' ],
+                borderclrs    => [ '#4C78A8' ],
+                accentclr      => '#4C78A8',
+                shadow_depth  => 0,
+            
+                bar_spacing    => 0,
+                correct_width  => 1,
+            
+                textclr        => 'black',
+                labelclr       => 'black',
+                axislabelclr   => 'black',
+            
+                x_label        => 'Month',
+                y_label        => 'Sales',
+                title          => 'Monthly Sales Report',
+            
+                y_max_value    => 80,
+                y_tick_number  => 8,
+            ) or die $Graph->error;
+
+            my $FontPath = $ConfigObject->Get('Home') . '/var/fonts';
+
+            $Graph->set_title_font(
+                "$FontPath/DejaVuSans-Bold.ttf",
+                60,
+            );
+            $Graph->set_x_label_font(
+                "$FontPath/DejaVuSans.ttf",
+                40,
+            );
+            $Graph->set_y_label_font(
+                "$FontPath/DejaVuSans.ttf",
+                40,
+            );
+            $Graph->set_x_axis_font(
+                "$FontPath/DejaVuSans.ttf",
+                32,
+            );
+            $Graph->set_y_axis_font(
+                "$FontPath/DejaVuSans.ttf",
+                32,
+            );
+            
+            my $GDImage = $Graph->plot(\@Data) or die $Graph->error;
+
+            my $TempPNGFilename = $Kernel::OM->Get('Kernel::System::FileTemp')->TempFile(
+                Suffix => '.png',
+            );
+
+            $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+                Location => $TempPNGFilename,
+                Mode     => 'bin',
+                Content  => \$GDImage->png,
+            );
+
+            $PDFObject->Image(
+                File   => $TempPNGFilename,
+                Width  => 1200 * ( 300 / 72 ),
+                Height => 900 * ( 300 / 72 ),
+            );
+        }
+
+        # fallback for other D3 charts: load in Chrome and generate PNG to embed in PDF.
         else {
             my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
