@@ -59,15 +59,20 @@ for my $Key (qw( args command cpan_audit total_advisories )) {
     ok( exists $ThawedAuditReport->{meta}->{$Key}, "key 'meta->$Key' exists" );
 }
 
-# check the version of the advisories list
-is(
-    $ThawedAuditReport->{meta}->{cpan_audit},
-    {
-        db      => '20260726.001',
+# check the version of CPANSA::DB and CPAN::Audit
+{
+    my %ExpectedVersion = (
+        db      => '20260809.001',
         version => '20260622.001',
-    },
-    'got expected version of the advisory list'
-);
+    );
+    is(
+        $ThawedAuditReport->{meta}->{cpan_audit},
+        \%ExpectedVersion,
+        'got expected versions of CPANSA::DB and CPAN::Audit'
+    );
+    note("CPAN::Audit $ExpectedVersion{version}");
+    note("CPANSA::DB $ExpectedVersion{db}");
+}
 
 # These are the known advisories that are reported by CPAN::Audit and
 # not exempted by Dev::Code::CPANAudit. The test script verifies
