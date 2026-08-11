@@ -73,7 +73,6 @@ Core.Customer.Login = (function (TargetNS) {
             Location,
             Now = new Date(),
             Diff = Now.getTimezoneOffset(),
-            $Label,
             $SliderNavigationLinks = $('#Slider a'),
             LoginFailed = Core.Config.Get('LoginFailed'),
             SignupError = Core.Config.Get('SignupError');
@@ -136,7 +135,7 @@ Core.Customer.Login = (function (TargetNS) {
         }, 250);
 
         // Fill the reset-password input field with the same value the user types in the login screen
-        // so that the user doesnt have to type in his user name again if he already did
+        // so that the user doesn't have to type in his user name again if he already did
         $('#User').blur(function () {
             if ($(this).val()) {
                 // clear the username-value and hide the field's label
@@ -162,7 +161,7 @@ Core.Customer.Login = (function (TargetNS) {
         $LocalInputs.first().focus();
 
         // add all tab-able inputs
-        $LocalInputs.add($(Location + ' a, button'));
+        $LocalInputs = $LocalInputs.add($(Location + ' a, button'));
 
         // collect all global tab-able inputs
         // give the input fields of all other slides a negative 'tabindex' to prevent
