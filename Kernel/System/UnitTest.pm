@@ -125,8 +125,7 @@ by randomly ordering the test scripts.
     );
 
 Please note that the individual test files are not executed in the main process,
-but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
-Their results will be transmitted to the main process via a local file.
+but instead in separate child processes which are controlled by L<TAP::Harness>.
 
 Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
 
