@@ -189,12 +189,6 @@ sub TaskAdd {
         ],
     );
 
-    # delete task list cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'SchedulerDB',
-        Key  => 'TaskListUnlocked',
-    );
-
     return $TaskID;
 }
 
@@ -319,12 +313,6 @@ sub TaskDelete {
         Bind => [ \$Param{TaskID} ],
     );
 
-    # delete task list cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'SchedulerDB',
-        Key  => 'TaskListUnlocked',
-    );
-
     return 1;
 }
 
@@ -404,19 +392,7 @@ Returns:
 =cut
 
 sub TaskListUnlocked {
-    my ( $Self, %Param ) = @_;
-
-    # get cache object
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-
-    # read cache
-    my $Cache = $CacheObject->Get(
-        Type           => 'SchedulerDB',
-        Key            => 'TaskListUnlocked',
-        CacheInMemory  => 0,
-        CacheInBackend => 1,
-    );
-    return @{$Cache} if $Cache;
+    my ($Self) = @_;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -431,16 +407,6 @@ sub TaskListUnlocked {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         push @List, $Row[0];
     }
-
-    # set cache
-    $CacheObject->Set(
-        Type           => 'SchedulerDB',
-        Key            => 'TaskListUnlocked',
-        TTL            => 10,
-        Value          => \@List,
-        CacheInMemory  => 0,
-        CacheInBackend => 1,
-    );
 
     return @List;
 }
@@ -548,12 +514,6 @@ sub TaskLock {
         );
     }
 
-    # delete list cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'SchedulerDB',
-        Key  => 'TaskListUnlocked',
-    );
-
     return 1;
 }
 
@@ -578,7 +538,7 @@ sub TaskCleanup {
         );
 
         # skip if task does not have a lock key
-        next TASKITEM if !$Task{LockKey};
+        next TASKITEM unless $Task{LockKey};
 
         # skip if the lock key is invalid
         next TASKITEM if $Task{LockKey} < 1;
