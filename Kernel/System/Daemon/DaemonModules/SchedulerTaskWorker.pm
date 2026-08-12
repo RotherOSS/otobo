@@ -137,8 +137,12 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # For limiting the number of child processes
     $Self->{CurrentWorkersCount} = scalar keys %{ $Self->{CurrentWorkers} };
 
+    # Get the tasks that are queued to be worked on.
+    # There is usually an implicit reconnect to the database as the database is disconnected
+    # before the first child process is forked.
     my @TaskList = $Self->{SchedulerDBObject}->TaskListUnlocked();
 
     TASK:
@@ -147,6 +151,7 @@ sub Run {
         last TASK if $Self->{CurrentWorkersCount} >= $Self->{MaximumWorkers};
 
         # Disconnect database before fork.
+        # TODO: why not disconnect before the loop is entered?
         $Self->{DBObject}->Disconnect();
 
         # Create a fork of the current process
@@ -157,7 +162,7 @@ sub Run {
         # At the child, execute task.
         if ( !$PID ) {
 
-            # Remove the ZZZAAuto.pm from %INC to force reloading it.
+            # Remove the ZZZAAuto.pm from %INC to force reloading it in the child process
             delete $INC{'Kernel/Config/Files/ZZZAAuto.pm'};
 
             # Destroy objects.
@@ -252,6 +257,7 @@ sub Run {
             exit 0;
         }
 
+        # In the parent process.
         # Check if fork was not possible.
         if ( $PID < 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -280,7 +286,7 @@ sub PostRun {
     Time::HiRes::sleep $Self->{SleepPost};
 
     # Check pid hash and pid file after sleep time to give the workers time to finish.
-    return if !$Self->_WorkerPIDsCheck();
+    return unless $Self->_WorkerPIDsCheck();
 
     $Self->{DiscardCount}--;
 
