@@ -393,7 +393,7 @@ sub TaskList {
 
 =head2 TaskListUnlocked()
 
-get a list of unlocked tasks
+get a list of unlocked tasks, that is tasks that are queued for work
 
     my @TaskList = $SchedulerDBObject->TaskListUnlocked();
 

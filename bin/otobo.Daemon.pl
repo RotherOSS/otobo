@@ -318,11 +318,12 @@ sub Start {
             last MODULE if $DaemonSuspend;
             next MODULE if !$Module;
 
-            # Check if daemon is still alive.
+            # Check if daemon module is still running.
             if ( $DaemonModules{$Module}->{PID} && !kill 0, $DaemonModules{$Module}->{PID} ) {
                 $DaemonModules{$Module}->{PID} = 0;
             }
 
+            # Do not start the daemon module if it is still running
             next MODULE if $DaemonModules{$Module}->{PID};
 
             # Fork daemon process.
