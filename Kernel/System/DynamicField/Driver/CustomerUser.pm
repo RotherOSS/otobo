@@ -119,7 +119,7 @@ sub FieldValueValidate {
             push @Values, $Param{Value};
         }
 
-        if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} ) {
+        if ( delete $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} ) {
             my $TransformedValues = $Self->_TransformExternalSource(
                 DynamicFieldConfig => $Param{DynamicFieldConfig},
                 ValueArray         => \@Values,
