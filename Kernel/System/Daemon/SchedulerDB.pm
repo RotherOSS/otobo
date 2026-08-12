@@ -969,12 +969,6 @@ sub FutureTaskAdd {
         ],
     );
 
-    # delete future task list cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'SchedulerDB',
-        Key  => 'FutureTaskListUnlocked',    # TODO FIXME
-    );
-
     return $TaskID;
 }
 
@@ -1096,12 +1090,6 @@ sub FutureTaskDelete {
     $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM scheduler_future_task WHERE id = ?',
         Bind => [ \$Param{TaskID} ],
-    );
-
-    # delete future task list cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'SchedulerDB',
-        Key  => 'FutureTaskListUnlocked',    # TODO FIXME
     );
 
     return 1;
