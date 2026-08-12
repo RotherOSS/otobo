@@ -398,17 +398,11 @@ sub TaskListUnlocked {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask the database
-    return if !$DBObject->Prepare(
+    my @TaskIDs = $DBObject->SelectColArray(
         SQL => 'SELECT id FROM scheduler_task WHERE lock_key = 0 ORDER BY id ASC',
     );
 
-    # fetch the result
-    my @List;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @List, $Row[0];
-    }
-
-    return @List;
+    return @TaskIDs;
 }
 
 =head2 TaskLock()
