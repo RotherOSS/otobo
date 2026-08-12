@@ -67,6 +67,7 @@ sub new {
         # see https://github.com/RotherOSS/otobo/issues/3720 and https://github.com/RotherOSS/otobo/issues/3815
         RichText              => 0,
         ScriptTemplateToolkit => 1,
+        Service               => 1,
         Set                   => 1,
         Text                  => 1,
         TextArea              => 1,
