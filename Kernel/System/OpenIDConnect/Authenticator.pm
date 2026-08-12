@@ -114,7 +114,7 @@ sub Authenticate {
 
         # validate the token
         my $TokenResult = $Self->_ValidateToken(
-            AccountName  => $GenericModule,
+            AccountName  => "AuthModule$Count" . "::" . $GenericModule,
             OpenIDConfig => $OpenIDConfig,
             Token        => $BearerToken,
             ConfigObject => $ConfigObject,
@@ -148,7 +148,7 @@ sub Authenticate {
         }
 
         # see if the user login matches the expected login
-        my $WebserviceRestrictions = $ConfigObject->Get( $GenericModule . '::Webservice::Restrictions' ) || {};
+        my $WebserviceRestrictions = $ConfigObject->Get( "AuthModule$Count" . "::" . $GenericModule . '::Webservice::Restrictions' ) || {};
 
         if ( IsHashRefWithData($WebserviceRestrictions) && $WebserviceRestrictions->{UserLogin} ) {
             if ( $WebserviceRestrictions->{UserLogin} ne $UserLogin ) {
