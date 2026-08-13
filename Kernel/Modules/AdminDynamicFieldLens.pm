@@ -67,10 +67,10 @@ sub new {
         GeneralCatalog => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3186
-        ITSMConfigItem => 0,
+        ConfigItem => 0,
 
         # see https://github.com/RotherOSS/otobo/issues/3186
-        ITSMConfigItemVersion => 0,
+        ConfigItemVersion => 0,
 
         # see https://github.com/RotherOSS/otobo/issues/3789
         Lens        => 0,
