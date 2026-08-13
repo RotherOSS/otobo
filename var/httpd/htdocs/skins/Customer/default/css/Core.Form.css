@@ -67,6 +67,7 @@ fieldset.ModularForm .FieldCell {
 
 fieldset.ModularForm .Field {
     width: calc(100% - var(--FieldEndWhitespace));
+    display: inline-block;
 }
 
 fieldset.ModularForm label {
