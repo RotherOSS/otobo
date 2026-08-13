@@ -14,7 +14,7 @@
 # https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
 FROM nginx:mainline-trixie AS builder-for-kerberos
 
-ARG SPNEGO_VERSION=1.1.1
+ARG SPNEGO_VERSION=1.1.3
 
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
