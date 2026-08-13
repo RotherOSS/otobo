@@ -559,7 +559,7 @@ input[readonly] {
 
 .InputField_InputContainer > input[readonly],
 .Field > input[readonly],
-.Field textarea {
+.Field textarea[readonly] {
     box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }
 
