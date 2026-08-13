@@ -51,14 +51,14 @@ sub new {
         CustomerUser    => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3793
-        Database              => 0,
-        Date                  => 1,
-        DateTime              => 1,
-        Dropdown              => 1,
-        FAQ                   => 1,
-        GeneralCatalog        => 1,
-        ITSMConfigItem        => 1,
-        ITSMConfigItemVersion => 1,
+        Database          => 0,
+        Date              => 1,
+        DateTime          => 1,
+        Dropdown          => 1,
+        FAQ               => 1,
+        GeneralCatalog    => 1,
+        ConfigItem        => 1,
+        ConfigItemVersion => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3789
         Lens        => 0,

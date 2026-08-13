@@ -13,51 +13,84 @@ The following persons contributed to OTOBO:
 * San Miguel Team
 * Yuri Myasoedov <ymyasoedov@yandex.ru> (Thanks for add RedisCache implementation)
 * Renée Bäcker <info@perl-services.de>
+* Mike Thumes <mit@rother-oss.com>
 * Fredy Aragón <fredmac48@hotmail.com>
+* Rune Bjørnerås <rune@bibsyst.no>
 * José Junior <jjunior@serviceup.com.br>
 * Paul Yang <paul.yang@itservice.com.cn>
 * Nicola Cordioli <cordioli.nicola@gmail.com>
+* Balázs Úr <balazs@urbalazs.hu>
 * kess <kess-net@users.noreply.github.com>
+* Aychel Mora Alpízar <aychel@gridshield.net>
 * Kim Mølgaard <kim@itandmore.dk>
+* Charly Zauleck <chz@rother-oss.com>
 * dennis-dko <dk@rother-oss.com>
-* Jens Pfeifer <jens.pfeifer@znuny.com>
+* Jens Pfeifer <jp@znuny.com>
 * Helmut Wollmersdorfer <helmut@wollmersdorfer.at>
-* Lars Dɪᴇᴄᴋᴏᴡ <lad@otobo.io>
+* Lars Dɪᴇᴄᴋᴏᴡ <lad@otobo.de>
 * Philipp Kesler <philipp.kesler@hein.de>
 * Przemysław Wilkosz <office@wilkosz.net>
 * Intalio <intalio@intalio.pl>
 * Kozo Sakurai <sakurai@io-architect.com>
+* Rui Alves <rua@rother-oss.com>
 * Yohann <yohann.duhamel@icloud.com>
 * elpaso <eldaras20@gmail.com>
+* Juan Tarditi <j.tarditi@tdnet.it>
+* Manuel Girardin <Manuel.Girardin@unil.ch>
+* Markus Hlinka <mah@rother-oss.com>
 * Martin Gruner <martin.gruner@otrs.com>
 * Tim Puettmanns <tim.puettmanns@maxence.de>
 * Andreas Erhard <erhard@wor.net>
+* Arion2000 <github@arion2000.xyz>
+* Daniel Ferreira Pinto Bezerra da Silva <xtecnico2@gmail.com>
 * David Krotil <david.krotil@hilo.cz>
 * Emin Yazi <yazi@efflux.de>
 * Frank Hildebrandt <frank@hildebrandt.io>
+* Jorn Odberg <jorn.odberg@gmail.com>
+* Andreas Schmieder <andreas.schmieder@googlemail.com>
 * Markus Hynnä <markus.hynna@mynamaki.fi>
+* Oleksandr Mykhailov <o.mykhailov@etg.ua>
 * Yasen Arsov <jarsov@gmail.com>
 * helabasa <R45XvezA@pm.me>
+* wetzf <84456263+wetzf@users.noreply.github.com>
+* 73 <529346+73@users.noreply.github.com>
+* AjaySDwivedi1 <adwived@clemson.edu>
+* Alexander Oesterling-OTOBO <129976665+AlexanderOesterling-OTOBO@users.noreply.github.com>
+* Alvaro Cordero Retana <alvaro@gridshield.net>
 * Arkadiusz Dykiel <arkadiusz.dykiel@pep.pl>
+* Bix <bovifab@gmail.com>
 * Charles Pigott <charlespigott@googlemail.com>
+* DasMetaphysischeparadoxon <50116610+DasMetaphysischeparadoxon@users.noreply.github.com>
+* Denny Korsukéwitz <dennykorsukewitz@gmail.com>
 * FRamos <filipeparedesramos@gmail.com>
 * Frank Wall <fw@moov.de>
+* Furch Services <max.furch@furch-services.de>
 * Gieanjalad <andy.fw88@gmail.com>
 * Iago <icolomer@soligal.com>
 * Irina Schaefer <irina.schaefer08@gmail.com>
 * Jefferson Campos <foguinho.peruca@gmail.com>
 * Jonas Plum <cugu@users.noreply.github.com>
 * Kisuke <kisuke@kisuke.cz>
+* Kris Van Cauwenberge <kris.van.cauwenberge@coteng.com>
 * LotharZok <111051858+LotharZok@users.noreply.github.com>
+* Lukas Majer <lmajer@christ-ag.com>
 * Marco Ferrante <marco@csita.unige.it>
 * Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>
 * Massimo Composta <m.composta@e-time.it>
+* Matthias Bethke <mb@znuny.com>
+* Miguel Sanchez Quintero <miguel@ayte.co>
+* Miroslaw Lach <m.weblate@lach.waw.pl>
 * Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>
+* Renato Sequeira <rds.516@gmail.com>
 * Robert Grządka <otobo@sirocco.com.pl>
 * Tomohisa Hirami <hirami@io-architect.com>
+* Tai Khoa Pham <tpham@t3-it.de>
+* Tore Morkemo <morkemo@gmail.com>
+* Triston Armstrong <tarmstrong95@proton.me>
 * Yuriy Purisev <duh.khv@gmail.com>
 * sternenseemann <0rpkxez4ksa01gb3typccl0i@systemli.org>
 * uid66 <19481514+uid66@users.noreply.github.com>
+* Иван Юрьевич Пигасов <itd@avsst.ru>
 
 The following persons contributed to OTRS:
 
