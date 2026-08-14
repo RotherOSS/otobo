@@ -25,7 +25,6 @@ use utf8;
 # core modules
 
 # CPAN modules
-use List::Util qw(any);
 
 # OTOBO modules
 

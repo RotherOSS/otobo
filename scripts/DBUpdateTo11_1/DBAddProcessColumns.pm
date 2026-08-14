@@ -27,12 +27,10 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 # core modules
 
 # CPAN modules
-use List::Util qw(any);
 
 # OTOBO modules
 
-our @ObjectDependencies = (
-);
+our @ObjectDependencies = ();
 
 =head1 NAME
 

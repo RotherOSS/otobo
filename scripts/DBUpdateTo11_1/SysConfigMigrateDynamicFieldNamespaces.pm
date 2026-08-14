@@ -24,7 +24,6 @@ use utf8;
 use parent qw(scripts::DBUpdateTo11_1::Base);
 
 # core modules
-use List::Util qw(any);
 
 # CPAN modules
 
