@@ -130,12 +130,6 @@ requires 'Plack::Middleware::ReverseProxy';
 # Feature 'apache:mod_perl' is not needed
 
 
-# feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
-    # Required for authentication via OpenIDConnect.
-    requires 'Crypt::JWT';
-
-# };
-
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL or MariaDB database.
     requires 'DBD::MariaDB', '1.24';
@@ -278,6 +272,12 @@ requires 'Plack::Middleware::ReverseProxy';
 # feature 'mail:sasl', 'DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections' => sub {
     # Required for DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections.
     requires 'Authen::SASL';
+
+# };
+
+# feature 'oauth:openidconnect', 'Support for feature oauth:openidconnect' => sub {
+    # Required for authentication via OpenIDConnect.
+    requires 'Crypt::JWT';
 
 # };
 

@@ -200,22 +200,22 @@ my %IsStandardFeature = (
 # used for creating the file 'cpanfile.docker'
 my %IsDockerFeature = (
     %IsCommonFeature,
-    'auth:openidconnect' => 1,
-    'db:odbc'            => 1,
-    'db:postgresql'      => 1,
-    'db:sqlite'          => 1,
-    'devel:debugging'    => 1,
-    'devel:encoding'     => 1,
-    'devel:i18n'         => 1,
-    'devel:test'         => 1,
-    'div:cldr'           => 1,
-    'div:locallib'       => 1,
-    'div:qrcode'         => 1,
-    'div:zlib'           => 1,
-    'gazelle'            => 1,
-    'graph:graphviz'     => 1,
-    'performance:redis'  => 1,
-    'storage:s3'         => 1,
+    'db:odbc'             => 1,
+    'db:postgresql'       => 1,
+    'db:sqlite'           => 1,
+    'devel:debugging'     => 1,
+    'devel:encoding'      => 1,
+    'devel:i18n'          => 1,
+    'devel:test'          => 1,
+    'div:cldr'            => 1,
+    'div:locallib'        => 1,
+    'div:qrcode'          => 1,
+    'div:zlib'            => 1,
+    'gazelle'             => 1,
+    'graph:graphviz'      => 1,
+    'oauth:openidconnect' => 1,
+    'performance:redis'   => 1,
+    'storage:s3'          => 1,
 
     # Devel::NYTProf is not installed by default in the Docker image.
     # Uncomment the next line in order to add profiling modules during development.
@@ -226,16 +226,16 @@ my %IsDockerFeature = (
 # used for creating the file 'cpanfile.plackup'
 my %IsPlackupFeature = (
     %IsCommonFeature,
-    'auth:openidconnect' => 1,
-    'db:odbc'            => 1,
-    'db:postgresql'      => 1,
-    'db:sqlite'          => 1,
-    'div:cldr'           => 1,
-    'div:locallib'       => 1,
-    'div:xslt'           => 1,
-    'gazelle'            => 1,
-    'graph:graphviz'     => 1,
-    'performance:redis'  => 1,
+    'db:odbc'             => 1,
+    'db:postgresql'       => 1,
+    'db:sqlite'           => 1,
+    'div:cldr'            => 1,
+    'div:locallib'        => 1,
+    'div:xslt'            => 1,
+    'gazelle'             => 1,
+    'graph:graphviz'      => 1,
+    'oauth:openidconnect' => 1,
+    'performance:redis'   => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -1091,10 +1091,10 @@ my @NeededModules = (
         },
     },
 
-    # Feature auth
+    # Feature oauth
     {
         Module    => 'Crypt::JWT',
-        Features  => ['auth:openidconnect'],
+        Features  => ['oauth:openidconnect'],
         Comment   => 'Required for authentication via OpenIDConnect.',
         InstTypes => {
             aptget => undef,
