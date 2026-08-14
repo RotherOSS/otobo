@@ -29,8 +29,6 @@ use Kernel::System::VariableCheck qw(:all);
 use namespace::autoclean;
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::SysConfig',
     'Kernel::System::Cache',
     'Kernel::System::JSON',
     'Kernel::System::Log',
