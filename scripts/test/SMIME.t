@@ -20,13 +20,12 @@ use warnings;
 use utf8;
 
 # core modules
-use JSON;
 
 # CPAN modules
 use Test2::V0;
 use File::Path  qw(make_path rmtree);
 use Path::Class qw(file);
-use JSON;
+use JSON        qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM

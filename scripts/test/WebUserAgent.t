@@ -23,9 +23,9 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Plack::Runner;
-use Plack::Middleware::Auth::Basic;
-use Try::Tiny qw(try catch);
+use Plack::Runner                  ();
+use Plack::Middleware::Auth::Basic ();
+use Try::Tiny                      qw(try catch);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM

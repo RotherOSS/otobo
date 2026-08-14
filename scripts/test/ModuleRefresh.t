@@ -29,7 +29,7 @@ use Path::Class qw(dir);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
-use Kernel::System::ModuleRefresh;           # based on Module::Refresh
+use Kernel::System::ModuleRefresh ();        # based on Module::Refresh
 
 # set up dirs
 # 'lib_custom' has precedence over 'lib_standard'
