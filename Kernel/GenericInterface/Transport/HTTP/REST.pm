@@ -22,12 +22,11 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
-use MIME::Base64 qw(encode_base64 decode_base64);
+use MIME::Base64 qw(decode_base64 encode_base64);
 
 # CPAN modules
 use URI::Escape     qw(uri_escape_utf8 uri_unescape);
 use HTTP::Status    qw(status_message);
-use HTTP::Message   ();
 use REST::Client    ();
 use Plack::Response ();
 

@@ -19,8 +19,12 @@ package Kernel::GenericInterface::Operation::Session::Common;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
