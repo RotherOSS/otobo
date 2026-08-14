@@ -1932,17 +1932,16 @@ sub RecurrentTaskDelete {
 executes recurrent tasks like cron or generic agent tasks
 
     my $Success = $SchedulerDBObject->RecurrentTaskExecute(
-        NodeID                   => 1,                 # the ID of the node in a cluster environment
-        PID                      => 456,               # the process ID of the daemon that is creating
-                                                       #    the tasks to execution
+        NodeID                   => 1,                     # the ID of the node in a cluster environment
+        PID                      => 456,                   # the process ID of the daemon that is creating
+                                                           #    the tasks to execution
         TaskName                 => 'UniqueTaskName',
         TaskType                 => 'Cron',
-        PreviousEventTimestamp   => 1433212343,
-        MaximumParallelInstances => 1,                 # optional (default 0) number of tasks with the
-                                                       #    same name and type that can be in execution
-                                                       #    table at the same time, value of 0 means
-                                                       #    unlimited
-        Data                   => {                    # data payload
+        PreviousEventTimestamp   => '2026-08-14 10:18:32', # time that triggered the execution
+        MaximumParallelInstances => 1,                     # optional (default 0) number of tasks with the
+                                                           #   same name and type that can be in execution
+                                                           #   table at the same time, value of 0 means unlimited
+        Data                     => {                      # data payload
             ...
         },
     );
