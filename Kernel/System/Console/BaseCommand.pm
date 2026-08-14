@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use Getopt::Long    qw();
+use Getopt::Long    ();
 use Term::ANSIColor qw(colored);
 
 # CPAN modules

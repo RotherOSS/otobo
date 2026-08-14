@@ -25,7 +25,7 @@ use utf8;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use Config;    # import %Config
+use Config     qw(%Config);
 use Cwd        qw(abs_path);
 use List::Util qw(none);
 

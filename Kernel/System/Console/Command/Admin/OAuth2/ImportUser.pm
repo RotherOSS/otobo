@@ -18,11 +18,16 @@ package Kernel::System::Console::Command::Admin::OAuth2::ImportUser;
 
 use strict;
 use warnings;
-use JSON;
-
-use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+use JSON qw(encode_json);
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',

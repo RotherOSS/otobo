@@ -25,7 +25,6 @@ use parent qw(Kernel::System::Console::BaseCommand);
 # core modules
 use File::Spec     ();
 use File::Basename qw(dirname);
-use File::Path     qw(make_path);
 use Encode         ();
 
 # CPAN modules
