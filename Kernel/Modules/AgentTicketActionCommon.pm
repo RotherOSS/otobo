@@ -28,7 +28,6 @@ use List::Util qw(any first);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 

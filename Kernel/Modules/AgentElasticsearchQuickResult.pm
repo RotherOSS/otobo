@@ -21,7 +21,11 @@ package Kernel::Modules::AgentElasticsearchQuickResult;
 use strict;
 use warnings;
 
-use Path::Class;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -40,11 +44,7 @@ AgentElasticsearchQuickResult returns n-number of tickets, customer, and custome
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 =head2 Run()
@@ -193,8 +193,8 @@ sub Run {
             );
             @ConfigItems = $SearchResult->{Data}->@*;
         }
-        if ( $SearchObjects->{FAQ} && $SearchObjects->{FAQ}{Count} && $Permission{AgentFAQZoom} )
-        {
+        if ( $SearchObjects->{FAQ} && $SearchObjects->{FAQ}{Count} && $Permission{AgentFAQZoom} ) {
+
             # Search FAQ by ES.
 
             my $SearchResult = $ESObject->FAQSearch(

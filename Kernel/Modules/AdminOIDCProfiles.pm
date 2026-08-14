@@ -19,7 +19,11 @@ package Kernel::Modules::AdminOIDCProfiles;
 use strict;
 use warnings;
 
-use Kernel::Language              qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
