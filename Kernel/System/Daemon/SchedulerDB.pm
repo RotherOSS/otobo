@@ -1914,27 +1914,15 @@ sub RecurrentTaskDelete {
         return;
     }
 
-    # get task to delete cache
-    my %Task = $Self->RecurrentTaskGet(
-        TaskID => $Param{TaskID},
-    );
-
     # delete task from the recurrent task list
     $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM scheduler_recurrent_task WHERE id = ?',
         Bind => [ \$Param{TaskID} ],
     );
 
-    # delete cache if task exits before the delete
-    if (%Task) {
-
-        my $CacheKey = "$Task{Name}::$Task{Type}";
-
-        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-            Type => 'SchedulerDBRecurrentTaskExecute',
-            Key  => '$CacheKey',
-        );
-    }
+    # There is no need to invalidate the cache for 'SchedulerDBRecurrentTaskExecute'.
+    # This cache item prevents double execution of tasks which is wanted in any case.
+    # There is no pile up of cache items because the the value is only cached for five minutes.
 
     return 1;
 }
