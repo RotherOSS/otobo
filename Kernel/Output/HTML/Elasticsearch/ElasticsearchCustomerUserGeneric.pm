@@ -19,10 +19,14 @@ package Kernel::Output::HTML::Elasticsearch::ElasticsearchCustomerUserGeneric;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
-
 use parent qw(Kernel::Output::HTML::Elasticsearch::ElasticsearchGeneric);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
