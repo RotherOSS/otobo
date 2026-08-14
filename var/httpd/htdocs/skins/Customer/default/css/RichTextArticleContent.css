@@ -98,9 +98,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ck-content p {
-    line-height: var(--ck-content-line-height);
+    line-height: 1.3em;
     margin-top: 0;
-    margin-bottom: calc(0.5 * var(--ck-content-line-height));
+    margin-bottom: 12px;
+}
+
+.ck-content .ck-list-bogus-paragraph {
+    line-height: 1.3em;
 }
 
 .ck-content h1 {
@@ -153,6 +157,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content ol
 {
     padding: 0 50px;
+    margin-bottom: 12px;
+}
+
+.ck-content li > ul,
+.ck-content li > ol
+{
+    margin-top: calc(0.5 * var(--ck-content-line-height));
     margin-bottom: calc(0.5 * var(--ck-content-line-height));
 }
 
@@ -160,8 +171,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-bottom: calc(0.5 * var(--ck-content-line-height));
 }
 
-.ck-content li > ul {
-    margin-top: calc(0.5 * var(--ck-content-line-height));
+.ck-content li > p {
+    margin-bottom: calc(0.5 * var(--ck-content-line-height));
 }
 
 .ck-content input[type="checkbox"] {
