@@ -81,7 +81,7 @@ core modules from their default installation.
 
 =cut
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use utf8;
@@ -106,8 +106,6 @@ use Term::ReadLine;    # avoids error when checking for Term::ReadLine::Gnu
 use Kernel::MinimalPerlVersion    ();
 use Kernel::System::Environment   ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
-
-## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps InputOutput::RequireBriefOpen);
 
 # [InstType] => {
 #    CMD                     => '[cmd to install OS package]',
@@ -1457,6 +1455,8 @@ if (0) {
 
 if ($DoGenerateCpanfiles) {
     my $Home = dirname($RealBin);
+
+    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps OTOBO::ProhibitOpen InputOutput::RequireBriefOpen);
 
     # remember the old STDOUT filehandle
     open( my $OldOutFh, '>&', STDOUT ) or die "Can't dup STDOUT: $!";
