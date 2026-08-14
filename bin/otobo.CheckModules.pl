@@ -1645,7 +1645,15 @@ else {
             );
         }
     }
-    print "\n";
+
+    # the postamble
+    print <<~'END_POSTAMBLE';
+
+    Pass the option --help for more command line options. Helpful options are:
+        --features for listing features
+        --list     for listing required modules and the standard and the most useful features
+        --all      for listing required, optional, and bundled modules
+    END_POSTAMBLE
 }
 
 sub Check {
