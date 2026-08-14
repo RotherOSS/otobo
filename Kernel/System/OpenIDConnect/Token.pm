@@ -21,7 +21,6 @@ use warnings;
 # core modules
 
 # CPAN modules
-
 use Crypt::JWT qw(decode_jwt);
 
 # OTOBO modules

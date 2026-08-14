@@ -21,13 +21,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-
-use LWP::Simple;
-use LWP::UserAgent;
-use HTTP::Request::Common;
-use URI::Escape qw(uri_escape_utf8);
-use Crypt::JWT  qw(decode_jwt);
-use JSON;
+use LWP::UserAgent ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -198,7 +192,6 @@ sub GetIssuer {
 
 =head2 GetTokenEndpoint()
 
-
 Returns the token endpoint for this OpenIDConfig.
 
     my $Issuer = $OIDCConfigurationObject->GetTokenEndpoint(
@@ -227,7 +220,6 @@ sub GetTokenEndpoint {
 }
 
 =head2 GetAuthorizationEndpoint()
-
 
 Returns the authorization (aka login) endpoint for this OpenIDConfig.
 

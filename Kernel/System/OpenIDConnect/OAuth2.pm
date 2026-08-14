@@ -21,13 +21,9 @@ use warnings;
 # core modules
 
 # CPAN modules
-
-use LWP::Simple;
-use LWP::UserAgent;
-use HTTP::Request::Common;
-use URI::Escape qw(uri_escape_utf8);
-use Crypt::JWT  qw(decode_jwt);
-use JSON;
+use LWP::UserAgent        ();
+use HTTP::Request::Common qw(POST);
+use URI::Escape           qw(uri_escape_utf8);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -349,7 +345,6 @@ sub GetAuthURL {
 }
 
 sub _GetUserAgent {
-
     my ( $Self, %Param ) = @_;
 
     my $SSLOptions = $Param{SSLOptions};
