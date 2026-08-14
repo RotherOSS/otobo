@@ -30,7 +30,6 @@ use parent qw(Plack::Component);
 
 # OTOBO modules
 use Kernel::Language             qw(Translatable);
-use Kernel::System::DateTime     ();
 use Kernel::Output::HTML::Layout ();
 
 our @ObjectDependencies = (
