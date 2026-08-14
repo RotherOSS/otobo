@@ -133,12 +133,6 @@ feature 'apache:mod_perl', 'Support for feature apache:mod_perl' => sub {
 
 };
 
-feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
-    # Required for authentication via OpenIDConnect.
-    requires 'Crypt::JWT';
-
-};
-
 feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL or MariaDB database.
     requires 'DBD::MariaDB', '1.24';
@@ -206,6 +200,9 @@ feature 'devel:profiling', 'Modules for profiling Perl code' => sub {
 
     # plack middleware for profiling a plack app like otobo.psgi
     requires 'Plack::Middleware::Profiler::NYTProf', '>= 0.17';
+
+    # plack middleware for profiling a plack app like otobo.psgi
+    requires 'Devel::Cover', '>= 1.52';
 
 };
 
@@ -350,6 +347,12 @@ feature 'mail:sasl', 'DIGEST-MD5 authentication in IMAP and SASL mechanism in SM
 
 };
 
+feature 'oauth:openidconnect', 'Support for feature oauth:openidconnect' => sub {
+    # Required for authentication via OpenIDConnect.
+    requires 'Crypt::JWT';
+
+};
+
 feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
@@ -477,6 +480,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # plack middleware for profiling a plack app like otobo.psgi
     requires 'Plack::Middleware::Profiler::NYTProf', '>= 0.17';
+
+    # plack middleware for profiling a plack app like otobo.psgi
+    requires 'Devel::Cover', '>= 1.52';
 
     # language packs from the CLDR project
     requires 'Locale::CLDR::Locales::Ar', '== 0.44.1';
