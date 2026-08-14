@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 # core modules
-use List::Util qw(any none);
+use List::Util qw(none);
 
 # CPAN modules
 

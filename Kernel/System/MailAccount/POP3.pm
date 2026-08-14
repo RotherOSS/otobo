@@ -25,17 +25,16 @@ use utf8;
 use Net::POP3 3.08 ();
 
 # CPAN modules
-use IO::Socket::SSL ();
 
 # OTOBO modules
-use Kernel::System::OpenIDConnect::OAuth2MailExtensions;
+use Kernel::System::OpenIDConnect::OAuth2MailExtensions ();
 
-no warnings('once');    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+no warnings 'once';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
 # monkey patch support for XOAUTH2/OAUTHBEARER into Net::Cmd
 *Net::Cmd::Otobo_OAuth2 = \&Kernel::System::OpenIDConnect::OAuth2MailExtensions::NetCmdOAuth2;
 
-use warnings('once');
+use warnings 'once';
 
 our @ObjectDependencies = (
     'Kernel::Config',

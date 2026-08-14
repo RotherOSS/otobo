@@ -23,8 +23,8 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use Encode;
-use MIME::Base64 qw(encode_base64 decode_base64);
+use Encode       qw(decode);
+use MIME::Base64 qw(decode_base64 encode_base64);
 
 # CPAN modules
 

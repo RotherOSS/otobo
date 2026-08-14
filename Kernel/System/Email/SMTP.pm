@@ -26,7 +26,7 @@ use warnings;
 use Net::SMTP;
 
 # OTOBO modules
-use Kernel::System::OpenIDConnect::OAuth2MailExtensions;
+use Kernel::System::OpenIDConnect::OAuth2MailExtensions ();
 
 no warnings('once');    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 

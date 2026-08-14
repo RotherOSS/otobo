@@ -25,7 +25,6 @@ use POSIX qw(ceil);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

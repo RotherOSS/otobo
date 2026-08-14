@@ -21,12 +21,10 @@ use strict;
 use warnings;
 
 # core modules
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
 use Net::SMTP;
-use Mail::IMAPClient ();
-use IO::Socket::SSL  ();
 
 # OTOBO modules
 

@@ -21,7 +21,12 @@ package Kernel::System::Log::File;
 use strict;
 use warnings;
 
-use File::Basename qw(basename dirname);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use File::Basename qw(dirname);
 use File::Copy     qw(move);
 
 our @ObjectDependencies = (

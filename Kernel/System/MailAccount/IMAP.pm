@@ -28,17 +28,16 @@ use utf8;
 
 # CPAN modules
 use Mail::IMAPClient 3.40 ();
-use IO::Socket::SSL ();
 
 # OTOBO modules
-use Kernel::System::OpenIDConnect::OAuth2MailExtensions;
+use Kernel::System::OpenIDConnect::OAuth2MailExtensions ();
 
-no warnings('once');    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+no warnings 'once';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
 # monkey patch support for XOAUTH2/OAUTHBEARER into Mail::IMAPClient
 *Mail::IMAPClient::Otobo_OAuth2 = \&Kernel::System::OpenIDConnect::OAuth2MailExtensions::ImapClientOAuth2;
 
-use warnings('once');
+use warnings 'once';
 
 our @ObjectDependencies = (
     'Kernel::Config',

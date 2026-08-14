@@ -24,7 +24,6 @@ use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 # core modules
 
 # CPAN modules
-use Email::Address::XS ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
