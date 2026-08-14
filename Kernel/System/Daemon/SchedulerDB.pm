@@ -1967,7 +1967,7 @@ sub RecurrentTaskExecute {
 
     my $CacheKey = "$Param{TaskName}::$Param{TaskType}";
 
-    # read cache
+    # Get the time that triggered the last execution of this task.
     my $Cache = $CacheObject->Get(
         Type           => 'SchedulerDBRecurrentTaskExecute',
         Key            => $CacheKey,
@@ -1975,6 +1975,7 @@ sub RecurrentTaskExecute {
         CacheInBackend => 1,
     );
 
+    # Nothing to do. The time that triggered this call already has already triggered an execution of the task.
     return 1 if $Cache && $Cache eq $Param{PreviousEventTimestamp};
 
     # get needed objects
@@ -2029,7 +2030,8 @@ sub RecurrentTaskExecute {
 
     if ( $LastExecutionTimeStamp eq $Param{PreviousEventTimestamp} ) {
 
-        # set cache
+        # Communicate the time that triggered the current execution
+        # to the next invocation of this subroutine RecurrentTaskExecute().
         $CacheObject->Set(
             Type           => 'SchedulerDBRecurrentTaskExecute',
             Key            => $CacheKey,
