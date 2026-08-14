@@ -21,13 +21,13 @@ use warnings;
 use v5.24;
 use utf8;
 
+use parent 'TAP::Formatter::Console::Session';
+
 # core modules
-use File::Path qw(remove_tree mkpath);
+use File::Path qw(mkpath);
 
 # CPAN modules
-use XML::LibXML;
-
-use parent 'TAP::Formatter::Console::Session';
+use XML::LibXML ();
 
 our $ObjectManagerDisabled = 1;
 

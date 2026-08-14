@@ -21,13 +21,12 @@ use warnings;
 use v5.24;
 use utf8;
 
+use parent 'TAP::Formatter::Console';
+
 # core modules
-use File::Path qw(remove_tree);
 
 # Otobo modules
-use Kernel::System::UnitTest::Formatter::Session;
-
-use parent 'TAP::Formatter::Console';
+use Kernel::System::UnitTest::Formatter::Session ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -43,7 +42,6 @@ our $ObjectManagerDisabled = 1;
 #
 
 sub new {
-
     my ( $Type, $Params ) = @_;
 
     # allocate new hash for object
