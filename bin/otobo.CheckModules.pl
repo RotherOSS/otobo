@@ -196,6 +196,13 @@ my %IsStandardFeature = (
     'apache:mod_perl' => 1,
 );
 
+# These features should be printed out when --list was passed.
+my %IsImportantOptionalFeature = (
+    'aaacore'             => 1,
+    'zzznone'             => 1,
+    'oauth:openidconnect' => 1,    # special case, as this had been reported as missing
+);
+
 # defines a set of features considered standard for docker environments
 # used for creating the file 'cpanfile.docker'
 my %IsDockerFeature = (
@@ -1455,9 +1462,12 @@ if (0) {
 }
 
 if ($DoGenerateCpanfiles) {
-    my $Home = dirname($RealBin);
+
+    # option --generate-cpanfiles was passed
 
     ## no critic qw(OTOBO::ProhibitLowPrecedenceOps OTOBO::ProhibitOpen InputOutput::RequireBriefOpen);
+
+    my $Home = dirname($RealBin);
 
     # remember the old STDOUT filehandle
     open( my $OldOutFh, '>&', STDOUT ) or die "Can't dup STDOUT: $!";
@@ -1554,6 +1564,7 @@ elsif ($DoPrintFeatures) {
 }
 else {
 
+    # when --all, --list or --flist was passed
     my %Features;
     if ($DoPrintAllModules) {
         MODULE:
@@ -1568,9 +1579,11 @@ else {
         $Features{zzznone} = 1;
     }
     else {
-        $IsStandardFeature{aaacore} = 1;
-        $IsStandardFeature{zzznone} = 1;
-        %Features                   = @FeatureList ? map { $_ => 1 } @FeatureList : %IsStandardFeature;
+        %Features = @FeatureList
+            ?
+            map { $_ => 1 } @FeatureList
+            :
+            ( %IsStandardFeature, %IsImportantOptionalFeature );
     }
 
     my %PrintFeatures;
