@@ -58,7 +58,7 @@ sub Data {
         'Just start typing to filter...' => 'Csak kezdjen el gépelni a szűréshez…',
         'Configuration Import' => 'Beállítás importálás',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Itt tud egy beállítófájlt feltölteni az ACL-ek importálásához a rendszerre. A fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodul exportálta.',
+            'Itt tölthet fel egy beállítófájlt, hogy ACL-eket importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodulja exportálta.',
         'This field is required.' => 'Ez a mező kötelező.',
         'Overwrite existing ACLs?' => 'Felülírja a meglévő ACL-eket?',
         'Upload ACL configuration' => 'ACL beállítás feltöltése',
@@ -203,7 +203,7 @@ sub Data {
         'Filter for Notifications' => 'Szűrő az értesítésekhez',
         'Filter for notifications' => 'Szűrő az értesítésekhez',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            'Itt tud egy beállítófájlt feltölteni az időpont-értesítések importálásához a rendszerre. A fájlnak .yml formátumban kell lennie, ahogy az időpont-értesítés modul exportálta.',
+            'Itt tölthet fel egy beállítófájlt, hogy időpont-értesítéseket importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy az időpont-értesítés modulja exportálta.',
         'Overwrite existing notifications?' => 'Felülírja a meglévő értesítéseket?',
         'Upload Notification configuration' => 'Értesítés beállítások feltöltése',
         'Import Notification configuration' => 'Értesítés beállítások importálása',
@@ -1596,7 +1596,7 @@ sub Data {
         'Ticket Notification Management' => 'Jegyértesítés-kezelés',
         'Include invalid notifications' => 'Érvénytelen értesítések felvétele',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            'Itt tud egy beállítófájlt feltölteni a jegyértesítések importálásához a rendszerre. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés modul exportálta.',
+            'Itt tölthet fel egy beállítófájlt, hogy jegyértesítéseket importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés modulja exportálta.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             'Itt választhatja ki, hogy mely események fogják aktiválni ezt az értesítést. Egy további jegyszűrő alkalmazható lent a csak egy bizonyos feltétellel rendelkező jegynél történő küldéshez.',
         'Ticket Filter' => 'Jegyszűrő',
@@ -4132,7 +4132,7 @@ sub Data {
         'Select the attribute dynamic field that references an object' =>
             'Egy objektumra hivatkozó attribútum dinamikus mező kiválasztása',
         'A field of type %s is currently not usable as lens attribute.' =>
-            'Egy %s típusú mező jelenleg nem használható lencseattribútumként.',
+            'Egy %s típusú mező jelenleg nem használható lencsék attribútumaként.',
         'Field %s is not a reference field.' => 'A(z) %s mező nem hivatkozási mező.',
         'Not a valid dynamic field.' => 'Nem érvényes dinamikus mező.',
 
@@ -7522,7 +7522,7 @@ Az Ön ügyfélszolgálati csapata
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből stb. használatát engedélyezi) az ügyintézői felületen.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
-            'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből, stb. használatát engedélyezi) az ügyfélfelületen.',
+            'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből stb. használatát engedélyezi) az ügyfélfelületen.',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'Meghatározza, hogy az első bejegyzést kinyitva kell megjeleníteni, amely látható a kapcsolódó ügyfélnél. Ha semmi sincs meghatározva, akkor a legutolsó bejegyzés lesz kinyitva.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
