@@ -652,8 +652,8 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.651
-    pathname: H/HM/HMBRAND/DBI-1.651.tgz
+  DBI-1.652
+    pathname: H/HM/HMBRAND/DBI-1.652.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -709,7 +709,7 @@ DISTRIBUTIONS
       DBD::Sponge::dr 12.010003
       DBD::Sponge::st 12.010003
       DBDI 12.015129
-      DBI 1.651
+      DBI 1.652
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -749,12 +749,12 @@ DISTRIBUTIONS
       DBI::SQL::Nano::Table_ 1.015544
       DBI::Util::CacheMemory 0.010315
       DBI::Util::_accessor 0.009479
-      DBI::common 1.651
+      DBI::common 1.652
     requirements:
       ExtUtils::MakeMaker 6.48
       Module::Load 0.22
       Test::Simple 0.96
-      perl 5.008001
+      perl 5.012000
   DBIx-Connector-0.60
     pathname: A/AR/ARISTOTLE/DBIx-Connector-0.60.tar.gz
     provides:
