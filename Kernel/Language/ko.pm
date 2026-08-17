@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.782161234991424;
+    $Self->{Completeness}        = 0.782608695652174;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -747,7 +747,6 @@ sub Data {
         'Object attribute' => '',
         'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
             '',
-        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
         'matches mask attribute' => '',
         'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
             '',
@@ -997,7 +996,6 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
-        'Select the items you want to ' => '',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'Generic Agents List' => '',
@@ -1614,8 +1612,6 @@ sub Data {
         'Trusted' => '신뢰할 수 있는',
         'Dispatching' => '파견',
         'Edit Mail Account' => '메일 계정 편집',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
 
         # Template: AdminNavigationBar
         'Administration Overview' => '관리 개요',

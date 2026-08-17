@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.997427101200686;
+    $Self->{Completeness}        = 0.999856979405034;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -59,7 +59,7 @@ sub Data {
         'Just start typing to filter...' => 'Csak kezdjen el gépelni a szűréshez…',
         'Configuration Import' => 'Beállítás importálás',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Itt tölthet fel egy beállítófájlt, hogy ACL-ek importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodulja exportálta.',
+            'Itt tölthet fel egy beállítófájlt, hogy ACL-eket importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy az ACL szerkesztőmodulja exportálta.',
         'This field is required.' => 'Ez a mező kötelező.',
         'Overwrite existing ACLs?' => 'Felülírja a meglévő ACL-eket?',
         'Upload ACL configuration' => 'ACL beállítás feltöltése',
@@ -572,7 +572,7 @@ sub Data {
         'Filter for Dynamic Fields' => 'Szűrő a dinamikus mezőkhöz',
         'Filter for dynamic fields' => 'Szűrő a dinamikus mezőkhöz',
         'Filter field by object type' => 'Mező szűrése objektumtípus szerint',
-        'Filter field by field type' => '',
+        'Filter field by field type' => 'Mező szűrése mezőtípus szerint',
         'Filter field by namespace' => 'Mező szűrése névtér szerint',
         'Add new field for object' => 'Új mező hozzáadása az objektumhoz',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -733,10 +733,10 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '%s – %s',
-        'Select the items you want to import.' => '',
+        'Select the items you want to import.' => 'Válassza ki az importálni kívánt elemeket.',
         'Select the desired elements and confirm the import with \'import\'.' =>
             'Válassza ki a kívánt elemeket, majd erősítse meg az importálást az „Importálás” gombbal.',
-        'Select the items you want to export.' => '',
+        'Select the items you want to export.' => 'Válassza ki az exportálni kívánt elemeket.',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
             'Itt exportálhatja a dinamikus mezők és a dinamikus mező képernyőinek beállítófájlját, hogy azokat egy másik rendszerbe importálhassa. A beállítófájl YAML formátumban kerül exportálásra.',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
@@ -752,7 +752,6 @@ sub Data {
         'Object attribute' => 'Objektum attribútuma',
         'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
             'A hivatkozott objektum azon attribútumának kiválasztása, amely alapján a kiválasztható bejegyzések szűrve lesznek.',
-        'Invalid ReferenceFilter_ReferenceObjectAttribute' => 'Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum',
         'matches mask attribute' => 'maszkattribútumra illeszkedik',
         'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
             'A szerkesztési maszk attribútumának kiválasztása a hivatkozott objektum kiválasztott attribútumával való összehasonlításhoz.',
@@ -1002,7 +1001,6 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => 'Általános ügyintézők',
-        'Select the items you want to ' => 'Válassza ki azokat az elemeket, amelyekkel ezt szeretné tenni: ',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             'Itt exportálhatja az általános ügyintézők beállítófájlját, hogy azokat egy másik rendszerbe importálhassa. A beállítófájl YAML formátumban kerül exportálásra.',
         'Generic Agents List' => 'Általános ügyintézők listája',
@@ -1611,7 +1609,7 @@ sub Data {
         'Do you really want to delete this mail account?' => 'Valóban törölni szeretné ezt a levelezési fiókot?',
         'OIDC Account' => 'OIDC-fiók',
         'Select the %sOIDC%s account to use for OAuth2 authentication.' =>
-            '',
+            'Az OAuth2-hitelesítéshez használandó %sOIDC-fiók%s kiválasztása.',
         'Example: mail.example.com' => 'Példa: mail.example.com',
         'IMAP Folder' => 'IMAP mappa',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1619,8 +1617,6 @@ sub Data {
         'Trusted' => 'Megbízható',
         'Dispatching' => 'Kézbesítés',
         'Edit Mail Account' => 'Levelezőfiók szerkesztése',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
 
         # Template: AdminNavigationBar
         'Administration Overview' => 'Adminisztrációs áttekintő',
@@ -1638,7 +1634,7 @@ sub Data {
         'Ticket Notification Management' => 'Jegyértesítés-kezelés',
         'Include invalid notifications' => 'Érvénytelen értesítések felvétele',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            'Itt tölthet fel egy beállítófájlt, hogy jegyértesítések importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés modulja exportálta.',
+            'Itt tölthet fel egy beállítófájlt, hogy jegyértesítéseket importáljon a rendszerbe. A fájlnak .yml formátumban kell lennie, ahogy a jegyértesítés modulja exportálta.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             'Itt választhatja ki, hogy mely események fogják aktiválni ezt az értesítést. Egy további jegyszűrő alkalmazható lent a csak egy bizonyos feltétellel rendelkező jegynél történő küldéshez.',
         'Ticket Filter' => 'Jegyszűrő',
@@ -1740,7 +1736,7 @@ sub Data {
         'This page displays an overview of configured OIDC provider profiles.' =>
             'Ez az oldal a beállított OIDC-szolgáltatói profilok áttekintését jeleníti meg.',
         'You can connect OIDC profiles with a OIDC functional account %shere%s.' =>
-            '',
+            '%sItt kapcsolhatja össze%s az OIDC-profilokat egy OIDC funkcionális fiókkal.',
         'Delete Profile' => 'Profil törlése',
         'OpenID Connect Provider Profiles for Outgoing Web Service Calls (GenericInterface Invoker)' =>
             'OpenID Connect-szolgáltatói profilok a kimenő webszolgáltatás kéréseihez (általános felület meghívó)',
@@ -4801,9 +4797,9 @@ sub Data {
         'This Activity Dialog is not available to the current Process!' =>
             'Ez a tevékenység-párbeszédablak nem érhető el a jelenlegi folyamathoz!',
         'Activity dialogs currently used in global activities may not be set to non-global.' =>
-            '',
+            'A globális tevékenységekben jelenleg használt tevékenység-párbeszédablakok nem állíthatók be nem globálisra.',
         'Activity dialogs currently used in non-global activities of other processes may not be set to non-global.' =>
-            '',
+            'Az egyéb folyamatok nem globális tevékenységeiben jelenleg használt tevékenység-párbeszédablakok nem állíthatók át nem globálisra.',
         'There was an error updating the ActivityDialog' => 'Hiba történt a tevékenység-párbeszédablak frissítésekor',
         'Edit Activity Dialog "%s"' => 'Tevékenység-párbeszédablak szerkesztése: „%s”',
         'Agent Interface' => 'Ügyintézői felület',
@@ -5960,9 +5956,9 @@ sub Data {
         'Default owner' => 'Alapértelmezett tulajdonos',
         'Default responsible' => 'Alapértelmezett felelős',
         'Default lock' => 'Alapértelmezett zárolás',
-        'Default Customer ID' => '',
-        'Default Customer User ID' => '',
-        'Default Archive Flag' => '',
+        'Default Customer ID' => 'Alapértelmezett ügyfél-azonosító',
+        'Default Customer User ID' => 'Alapértelmezett ügyfélfelhasználó-azonosító',
+        'Default Archive Flag' => 'Alapértelmezett archiválási jelző',
         'Default subject' => 'Alapértelmezett tárgy',
         'Default body' => 'Alapértelmezett törzs',
         'Default sender type' => 'Alapértelmezett küldőtípus',
@@ -6116,7 +6112,7 @@ sub Data {
         'Did not receive the desired TokenType \'%s\' in OIDC provider response for Invoker %s!' =>
             'Nem érkezett a kívánt „%s” tokentípus az OIDC-szolgáltató válaszában a(z) %s meghívóhoz!',
         'Time left on fresh token is: %s s for Invoker %s!' => 'A friss token hátralévő ideje: %s mp a(z) %s meghívónál!',
-        'Could not get the OAuth2 token_endpoint for the Invoker.' => '',
+        'Could not get the OAuth2 token_endpoint for the Invoker.' => 'Nem sikerült lekérni az OAuth2 „token_endpoint” értékét a meghívónál.',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nincs telepítve',
@@ -7351,7 +7347,7 @@ Az Ön ügyfélszolgálati csapata
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
             'Ügyintézői jegynagyítás felületi elem, amely ügyfél-információkat jelenít meg a jegyhez az oldalsávon.',
         'AgentTicketZoom widget that displays similar ticket data in the side bar. Elasticsearch needs to be enabled before you can enable this widget.' =>
-            '',
+            'Ügyintézői jegynagyítás felületi elem, amely hasonló jegyadatokat jelenít az oldalsávon. Az Elasticsearch keresésnek engedélyezve kell lennie, mielőtt engedélyezhetné ezt a felületi elemet.',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'Ügyintézői jegynagyítás felületi elem, amely jegyadatokat jelenít az oldalsávon.',
         'Agents ↔ Groups' => 'Ügyintézők ↔ Csoportok',
@@ -8380,7 +8376,7 @@ Az Ön ügyfélszolgálati csapata
             'Meghatározza azon órák számát, amíg egy sikeres kommunikáció el lesz tárolva.',
         'Defines the number of tickets shown in the widget.' => 'Meghatározza a felületi elemben megjelenített jegyek számát.',
         'Defines the parameters for the Elasticsearch widget backend.' =>
-            '',
+            'Meghatározza az Elasticsearch felületi elem háttérprogramjának paramétereit.',
         'Defines the parameters for the customer preferences table.' => 'Meghatározza az ügyfélbeállítások tábla paramétereit.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
             'Meghatározza a vezérlőpult háttérprogram paramétereit. A „Cmd” egy paraméterekkel ellátott parancs megadásához használható. A „Group” használható a hozzáférés korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „Default” jelzi, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTL” a bővítmény gyorsítótár lejárati időtartamát jelzi percben. A „Mandatory” határozza meg, hogy a bővítmény mindig megjelenjen, és az ügyintézők ne tudják eltávolítani. Csak akkor működik, ha a „DashboardBackend::AllowCmdOutput” engedélyezve van a „Kernel/Config.pm” fájlban.',
@@ -8992,7 +8988,7 @@ Az Ön ügyfélszolgálati csapata
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'Ha „File” lett kiválasztva a LogModule modulnál, akkor meg kell adni egy naplófájlt. Ha a fájl nem létezik, a rendszer létre fogja hozni.',
         'If \'XOAUTH2\' or \'OAUTHBEARER\' is selected in the \'SendmailModule::OAuth2Method\' setting, then this setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
-            '',
+            'Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a „SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak engedélyezve kell lennie, és érvényes OIDC funkcionális fiókot kell beállítani. Az OIDC-fiókok az adminisztrátori felület „OAuth funkcionális fiókok” moduljában állíthatók be.',
         'If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.' =>
             'Ha aktiválva van, akkor további adatok, mint például az előzmények és a hivatkozások beolvasásra kerülnek egy olyan külső adatbázisból, amely az exportált jegyeket tartalmazza, és hozzáadásra kerülnek az ezen a rendszeren importált jegyekhez. Ez csak a létrehozott jegyeknél érhető el, a frissített jegyeknél nem.',
         'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
@@ -9134,7 +9130,7 @@ Az Ön ügyfélszolgálati csapata
         'List of Active CKEditor Plugins. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             'Az aktív CKEditor-bővítmények listája. Csak akkor van használva, ha a „Frontend::RichText::EnhancedMode” beállítás engedélyezve van.',
         'List of CSS files to always be loaded for the agent interface.' =>
-            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of CSS files to always be loaded for the customer interface.' =>
             'CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of JS files to always be loaded for the agent interface.' =>
@@ -10214,7 +10210,7 @@ Az Ön ügyfélszolgálati csapata
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Az ügyintéző felszínének belső neve, amelyet az ügyintézői felületen kell használni. Ellenőrizze az elérhető felszíneket a Frontend::Agent::Skins helyen.',
         'The authentication method to use for SMTP Authentication, defaults to \'Basic Auth\'. If \'XOAUTH2\' or \'OAUTHBEARER\' is selected, then the \'SendmailModule::OAuth2FunctionalAccount\' setting needs to be enabled and set to a valid OIDC functional account. OIDC accounts can be configured in the \'OAuth Functional Accounts\' module of the administrator interface.' =>
-            '',
+            'Az SMTP-hitelesítéshez használandó hitelesítési módszer, alapértelmezetten „Egyszerű hitelesítés”. Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva, akkor a „SendmailModule::OAuth2FunctionalAccount” beállításnak engedélyezve kell lennie, és érvényes OIDC funkcionális fiókot kell beállítani. Az OIDC-fiókok az adminisztrátori felület „OAuth funkcionális fiókok” moduljában állíthatók be.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             'Az ügyfél felszínének belső neve, amelyet az ügyfélfelületen kell használni. Ellenőrizze az elérhető felszíneket a Frontend::Customer::Skins helyen.',
         'The daemon registration for sync with S3.' => 'A démonregisztráció az S3-mal való szinkronizálásnál.',

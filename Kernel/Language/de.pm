@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.988707833047456;
+    $Self->{Completeness}        = 0.988701372997712;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -747,7 +747,6 @@ sub Data {
         'Object attribute' => 'Objekt-Attribut',
         'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
             'Wählen Sie ein Attribut des referenzierten Objektes, nach dem die auszuwählenden Einträge gefiltert werden sollen.',
-        'Invalid ReferenceFilter_ReferenceObjectAttribute' => 'Ungültiges ReferenceFilter_ReferenceObjectAttribute',
         'matches mask attribute' => 'entspricht dem Attribut der Maske',
         'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
             'Wählen Sie ein Attribut der bearbeiteten Maske, mit dem das ausgewählte Attribut des referenzierten Objektes verglichen werden soll.',
@@ -997,7 +996,6 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
-        'Select the items you want to ' => 'Wählen Sie die Elemente aus, um sie zu ',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             'Hier können Sie eine Konfigurationsdatei von Generic Agents exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
         'Generic Agents List' => '',
@@ -1614,8 +1612,6 @@ sub Data {
         'Trusted' => 'Vertraut',
         'Dispatching' => 'Verteilung',
         'Edit Mail Account' => 'E-Mail-Konto bearbeiten',
-        'Select the' => 'Auswahl des',
-        'Account to use for OAuth2 authentication.' => 'Konto, das für die OAuth2-Authentifizierung verwendet wird.',
 
         # Template: AdminNavigationBar
         'Administration Overview' => 'Administrations-Übersicht',

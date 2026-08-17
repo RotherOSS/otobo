@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2171,10 +2171,6 @@ msgid "Select an attribute of the referenced object by which the selectable entr
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3000,10 +2996,6 @@ msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 msgid "Generic Agents"
-msgstr ""
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
 msgstr ""
 
 #. Template: AdminGenericAgentImportExport
@@ -4828,14 +4820,6 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
-
-#. Template: AdminMailAccount
-msgid "Select the"
-msgstr ""
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminNavigationBar

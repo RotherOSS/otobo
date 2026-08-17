@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.781589479702687;
+    $Self->{Completeness}        = 0.781893592677345;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -758,7 +758,6 @@ sub Data {
         'Object attribute' => '',
         'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
             '',
-        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
         'matches mask attribute' => '',
         'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
             '',
@@ -1008,7 +1007,6 @@ sub Data {
 
         # Template: AdminGenericAgentImportExport
         'Generic Agents' => '',
-        'Select the items you want to ' => 'Выберите элементы, которые вы хотите ',
         'Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.' =>
             '',
         'Generic Agents List' => '',
@@ -1625,8 +1623,6 @@ sub Data {
         'Trusted' => 'Доверенная',
         'Dispatching' => 'Перенаправление',
         'Edit Mail Account' => 'Изменить почтовую учетную запись',
-        'Select the' => '',
-        'Account to use for OAuth2 authentication.' => '',
 
         # Template: AdminNavigationBar
         'Administration Overview' => 'Панель администратора',
