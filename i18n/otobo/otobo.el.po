@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Krikor Maroukian <krikor.maroukian@gmail.com>, 2019\n"
 "Language-Team: Greek (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -2379,10 +2379,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3260,10 +3256,6 @@ msgstr "Ηλικία"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "Αυτόματες Διαδικασίες"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5330,16 +5322,6 @@ msgstr "Αποστολή"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Επιλογή"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminNavigationBar
@@ -32340,6 +32322,11 @@ msgstr "ανάποδα"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Επιλογή"
 
 #, fuzzy
 #~| msgid "Search Results"

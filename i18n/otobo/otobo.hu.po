@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2026-08-06 18:30+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
@@ -2541,10 +2541,6 @@ msgstr ""
 "kiválasztható bejegyzések szűrve lesznek."
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr "Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum"
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr "maszkattribútumra illeszkedik"
 
@@ -3447,10 +3443,6 @@ msgstr "Életkor"
 #. Template: AdminGenericAgentImportExport
 msgid "Generic Agents"
 msgstr "Általános ügyintézők"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr "Válassza ki azokat az elemeket, amelyekkel ezt szeretné tenni: "
 
 #. Template: AdminGenericAgentImportExport
 msgid ""
@@ -5752,16 +5744,6 @@ msgstr "Kézbesítés"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Levelezőfiók szerkesztése"
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Kiválasztás"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -30147,8 +30129,8 @@ msgid ""
 "configured in the 'OAuth Functional Accounts' module of the administrator "
 "interface."
 msgstr ""
-"Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a „"
-"SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak "
+"Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva a "
+"„SendmailModule::OAuth2Method” beállításban, akkor ennek a beállításnak "
 "engedélyezve kell lennie, és érvényes OIDC funkcionális fiókot kell "
 "beállítani. Az OIDC-fiókok az adminisztrátori felület „OAuth funkcionális "
 "fiókok” moduljában állíthatók be."
@@ -35743,8 +35725,8 @@ msgid ""
 "set to a valid OIDC functional account. OIDC accounts can be configured in "
 "the 'OAuth Functional Accounts' module of the administrator interface."
 msgstr ""
-"Az SMTP-hitelesítéshez használandó hitelesítési módszer, alapértelmezetten „"
-"Egyszerű hitelesítés”. Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva, "
+"Az SMTP-hitelesítéshez használandó hitelesítési módszer, alapértelmezetten "
+"„Egyszerű hitelesítés”. Ha „XOAUTH2” vagy „OAUTHBEARER” lett kiválasztva, "
 "akkor a „SendmailModule::OAuth2FunctionalAccount” beállításnak engedélyezve "
 "kell lennie, és érvényes OIDC funkcionális fiókot kell beállítani. Az OIDC-"
 "fiókok az adminisztrátori felület „OAuth funkcionális fiókok” moduljában "
@@ -36880,6 +36862,17 @@ msgstr "megfordítás"
 #. SysConfig
 msgid "stats"
 msgstr "statisztikák"
+
+#~ msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
+#~ msgstr "Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum"
+
+#~ msgid "Select the items you want to "
+#~ msgstr "Válassza ki azokat az elemeket, amelyekkel ezt szeretné tenni: "
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Kiválasztás"
 
 #, fuzzy
 #~| msgid "Activity dialogs are not being used in this process."

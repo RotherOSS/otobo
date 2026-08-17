@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2025-11-01 12:59+0000\n"
 "Last-Translator: Lukas Majer <lmajer@christ-ag.com>\n"
 "Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-11/cs/"
@@ -2429,10 +2429,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3312,10 +3308,6 @@ msgstr "Stáří"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "Obecný Prostředek"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5383,16 +5375,6 @@ msgstr "Zařazení"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Upravit e-mailový účet"
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Vybrat"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -32480,6 +32462,11 @@ msgstr "reverzní"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Vybrat"
 
 #, fuzzy
 #~| msgid "Search Results"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Jordi Plana <jplanam@gmail.com>, 2018\n"
 "Language-Team: Catalan (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -2378,10 +2378,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3266,10 +3262,6 @@ msgstr "Antiguitat"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "AgentGenèric"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 msgid ""
@@ -5332,16 +5324,6 @@ msgstr "Remetent"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Editar compte de correu"
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Seleccionar"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -32378,6 +32360,11 @@ msgstr "capgirar"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Seleccionar"
 
 #, fuzzy
 #~| msgid "Search Results"

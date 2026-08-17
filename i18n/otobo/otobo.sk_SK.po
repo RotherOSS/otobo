@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Adam Sadovsky <sadovsky.adam@gmail.com>, 2018\n"
 "Language-Team: Slovak (Slovakia) (https://translate.otobo.org/projects/"
@@ -2398,10 +2398,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3275,10 +3271,6 @@ msgstr "Vek"
 #| msgid "Inform Agent"
 msgid "Generic Agents"
 msgstr "Informuj agenta"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5344,16 +5336,6 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Vybrať"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminNavigationBar
@@ -32351,6 +32333,11 @@ msgstr "vrátiť sa"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Vybrať"
 
 #, fuzzy
 #~| msgid "Search Results"

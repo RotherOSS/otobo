@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2022-02-06 18:13+0000\n"
 "Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: English (Canada) <https://translate.otobo.org/projects/"
@@ -2345,10 +2345,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3206,10 +3202,6 @@ msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 msgid "Generic Agents"
-msgstr ""
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
 msgstr ""
 
 #. Template: AdminGenericAgentImportExport
@@ -5244,14 +5236,6 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
-
-#. Template: AdminMailAccount
-msgid "Select the"
-msgstr ""
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminNavigationBar

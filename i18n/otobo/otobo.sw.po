@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
 "Language-Team: Swahili (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -2417,10 +2417,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3315,10 +3311,6 @@ msgstr "Umri"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "Wakala wa jumla"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5446,16 +5438,6 @@ msgstr "Tuma"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Hariri akaunti ya barua pepe"
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "chagua"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -34077,6 +34059,11 @@ msgstr "Badili"
 #. SysConfig
 msgid "stats"
 msgstr "takwimu"
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "chagua"
 
 #, fuzzy
 #~| msgid "Search Results"

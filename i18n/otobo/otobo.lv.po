@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Aleksejs Danilenko <a@bitit.lv>, 2019\n"
 "Language-Team: Latvian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -2359,10 +2359,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3237,10 +3233,6 @@ msgstr "Atvērts jau"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "Vispārīgais uzdevums"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 msgid ""
@@ -5286,16 +5278,6 @@ msgstr "Nosūtīšana"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Paņemt"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
 msgstr ""
 
 #. Template: AdminNavigationBar
@@ -32161,6 +32143,11 @@ msgstr "pretēji"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Paņemt"
 
 #, fuzzy
 #~| msgid "Search Results"

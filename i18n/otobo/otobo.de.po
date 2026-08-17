@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2026-06-30 18:28+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
@@ -2594,10 +2594,6 @@ msgstr ""
 "auszuwählenden Einträge gefiltert werden sollen."
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr "Ungültiges ReferenceFilter_ReferenceObjectAttribute"
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr "entspricht dem Attribut der Maske"
 
@@ -3503,10 +3499,6 @@ msgstr "Alter"
 #| msgid "GenericAgents"
 msgid "Generic Agents"
 msgstr "Generic Agents"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr "Wählen Sie die Elemente aus, um sie zu "
 
 #. Template: AdminGenericAgentImportExport
 msgid ""
@@ -5841,14 +5833,6 @@ msgstr "Verteilung"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "E-Mail-Konto bearbeiten"
-
-#. Template: AdminMailAccount
-msgid "Select the"
-msgstr "Auswahl des"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -37068,6 +37052,18 @@ msgstr "umgekehrt"
 #. SysConfig
 msgid "stats"
 msgstr "Stats"
+
+#~ msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
+#~ msgstr "Ungültiges ReferenceFilter_ReferenceObjectAttribute"
+
+#~ msgid "Select the items you want to "
+#~ msgstr "Wählen Sie die Elemente aus, um sie zu "
+
+#~ msgid "Select the"
+#~ msgstr "Auswahl des"
+
+#~ msgid "Account to use for OAuth2 authentication."
+#~ msgstr "Konto, das für die OAuth2-Authentifizierung verwendet wird."
 
 #~ msgid "here"
 #~ msgstr "hier"

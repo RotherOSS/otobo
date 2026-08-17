@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Andrei Miron <andrei.miron@iqrate.ro>, 2019\n"
 "Language-Team: Romanian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -2407,10 +2407,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3297,10 +3293,6 @@ msgstr "Vârstă"
 #| msgid "Agents"
 msgid "Generic Agents"
 msgstr "Agenți"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr ""
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5393,16 +5385,6 @@ msgstr "Distribuie"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Modifică Contul de Email"
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Selectează"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -32478,6 +32460,11 @@ msgstr "înapoi"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Selectează"
 
 #, fuzzy
 #~| msgid "Search Results"

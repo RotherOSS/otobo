@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:23+0000\n"
+"POT-Creation-Date: 2026-08-17 07:06+0000\n"
 "PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
@@ -2528,10 +2528,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldReference
-msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
-
-#. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
 msgstr ""
 
@@ -3434,10 +3430,6 @@ msgstr "Alder"
 #| msgid "GenericAgent"
 msgid "Generic Agents"
 msgstr "Administrasjon: Generisk Saksbehandler"
-
-#. Template: AdminGenericAgentImportExport
-msgid "Select the items you want to "
-msgstr "Velg elementene du vil "
 
 #. Template: AdminGenericAgentImportExport
 #, fuzzy
@@ -5712,16 +5704,6 @@ msgstr "Fordeling"
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
 msgstr "Rediger e-postkonto"
-
-#. Template: AdminMailAccount
-#, fuzzy
-#| msgid "Select"
-msgid "Select the"
-msgstr "Velg"
-
-#. Template: AdminMailAccount
-msgid "Account to use for OAuth2 authentication."
-msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -36063,6 +36045,14 @@ msgstr "motsatt"
 #. SysConfig
 msgid "stats"
 msgstr "statistikk"
+
+#~ msgid "Select the items you want to "
+#~ msgstr "Velg elementene du vil "
+
+#, fuzzy
+#~| msgid "Select"
+#~ msgid "Select the"
+#~ msgstr "Velg"
 
 #, fuzzy
 #~| msgid "Search Results"
