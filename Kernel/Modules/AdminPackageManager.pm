@@ -2542,7 +2542,7 @@ sub _ParseDatabaseXML {
     for my $Hash ( @{ $Param{Structure} } ) {
         if ( $Hash->{TagType} eq 'Start' ) {
             if ( $Hash->{Tag} =~ /^(Table|Insert$)/ ) {
- 
+
                 %Statement = (
                     Tag          => $Hash->{Tag},
                     Table        => $Hash->{Name} || $Hash->{Table},
@@ -2558,10 +2558,10 @@ sub _ParseDatabaseXML {
             }
             elsif ( $Statement{Tag} ) {
                 if ( $Statement{Tag} eq 'TableCreate' ) {
- 
+
                     # attach column data directly to statement
                     if ( $Hash->{Tag} eq 'Column' ) {
- 
+
                         push @{ $Statement{Column} }, [
                             [ Name          => $Hash->{Name} ],
                             [ Type          => $Hash->{Type} ],
@@ -2571,29 +2571,29 @@ sub _ParseDatabaseXML {
                             [ AutoIncrement => $Hash->{AutoIncrement} ],
                         ];
                     }
- 
+
                     # set marker for nested data entries
                     elsif ( $Hash->{Tag} =~ /^(Index|Unique|ForeignKey)$/ ) {
                         $Statement{ $Hash->{Tag} . 'Name' } = $Hash->{Name} || $Hash->{ForeignTable};
                     }
- 
+
                     # squash nested data and attach to statement
                     elsif ( $Hash->{Tag} eq 'IndexColumn' && $Statement{IndexName} ) {
- 
+
                         push @{ $Statement{Index} }, [
                             [ Name   => $Statement{IndexName} ],
                             [ Column => $Hash->{Name} ],
                         ];
                     }
                     elsif ( $Hash->{Tag} eq 'UniqueColumn' && $Statement{UniqueName} ) {
- 
+
                         push @{ $Statement{Unique} }, [
                             [ Name   => $Statement{UniqueName} ],
                             [ Column => $Hash->{Name} ],
                         ];
                     }
                     elsif ( $Hash->{Tag} eq 'Reference' && $Statement{ForeignKeyName} ) {
- 
+
                         push @{ $Statement{ForeignKey} }, [
                             [ ForeignTable => $Statement{ForeignKeyName} ],
                             [ Local        => $Hash->{Local} ],
@@ -2603,7 +2603,7 @@ sub _ParseDatabaseXML {
                 }
                 elsif ( $Statement{Tag} eq 'TableAlter' ) {
                     if ( $Hash->{Tag} eq 'ColumnAdd' ) {
- 
+
                         push @{ $Statement{ColumnAdd} }, [
                             [ Name          => $Hash->{Name} ],
                             [ Type          => $Hash->{Type} ],
@@ -2614,7 +2614,7 @@ sub _ParseDatabaseXML {
                         ];
                     }
                     elsif ( $Hash->{Tag} eq 'ColumnChange' ) {
- 
+
                         push @{ $Statement{ColumnChange} }, [
                             [ NameNew       => $Hash->{NameNew} ],
                             [ NameOld       => $Hash->{NameOld} ],
@@ -2627,9 +2627,9 @@ sub _ParseDatabaseXML {
                     }
                 }
                 elsif ( $Statement{Tag} eq 'Insert' ) {
- 
+
                     if ( $Hash->{Tag} eq 'Data' ) {
- 
+
                         push @{ $Statement{Insert} }, [
                             [ Key          => $Hash->{Key} ],
                             [ Value        => $Hash->{Content} ],
@@ -2639,35 +2639,35 @@ sub _ParseDatabaseXML {
                     }
                 }
             }
- 
+
             push @DatabaseBuffer, $Hash;
         }
         elsif ( $Hash->{TagType} eq 'End' ) {
- 
+
             # reset markers
             if ( $Hash->{Tag} =~ /^(Index|Unique|ForeignKey)/ ) {
                 $Statement{ $Hash->{Tag} . 'Name' } = '';
             }
- 
+
             # flush statement and its plain text SQLs
             elsif ( $Hash->{Tag} =~ /^(Table|Insert)/ ) {
- 
+
                 push @DatabaseBuffer, $Hash;
                 my @SQL = $DBObject->SQLProcessor(
                     Database => \@DatabaseBuffer
                 );
                 my @SQLPost = $DBObject->SQLProcessorPost();
                 push @SQL, @SQLPost;
- 
+
                 $Statement{SQL} = \@SQL;
                 @DatabaseBuffer = ();
- 
+
                 push @Data, {%Statement};
                 %Statement = ();
             }
         }
     }
- 
+
     # display each database item in its own widget
     if (@Data) {
         $LayoutObject->Block(
