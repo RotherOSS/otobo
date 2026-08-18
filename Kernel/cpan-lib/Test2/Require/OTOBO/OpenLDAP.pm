@@ -58,9 +58,10 @@ sub skip {
 
     my $Host = 'testing-openldap';
 
+    # Run test skript when we have an OpenLDAP server
     return undef if Net::Ping->new->ping($Host);
 
-    # No Selenium, skip the test
+    # Skip test skript when we don't have an OpenLDAP server
     return 'Skipped because the host testing-openldap is not reachable';
 }
 
