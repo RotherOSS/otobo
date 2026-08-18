@@ -57,8 +57,8 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
-my $AdminDn       = 'cn=openldap_admin,dc=otobotesting';
-my $AdminPassword = 'openldap_admin';
+my $AdminDn       = 'cn=admin,dc=otobotesting';
+my $AdminPassword = 'admin';
 my $RandomID      = $Helper->GetRandomID;
 
 # Set up the initial configuration.
