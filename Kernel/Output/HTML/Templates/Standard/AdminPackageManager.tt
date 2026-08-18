@@ -715,9 +715,14 @@
                     <h2>[% Data.Tag | html %] ([% Data.Type | html %])</h2>
                 </div>
 [% RenderBlockStart("PackageItemDatabaseStatement") %]
-                <div class="WidgetSimple SpacingTop">
+                <div class="WidgetSimple Collapsed">
+                    <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                        </div>
+                        <h2>[% Data.Tag | html %]: [% Data.Table | html %] ([% Data.Version | html %])</h2>
+                    </div>
                     <div class="Content">
-                        <h3 class="SpacingTop">[% Data.Tag | html %]: [% Data.Table | html %] ([% Data.Version | html %])</h3>
 [% RenderBlockStart("PackageItemDatabaseStatementTable") %]
                         <table class="DataTable W100pc">
                             <thead>
