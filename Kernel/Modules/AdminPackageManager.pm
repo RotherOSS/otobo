@@ -2737,6 +2737,8 @@ sub _ParseDatabaseXML {
             }
         }
     }
+
+    return 1;
 }
 
 1;
