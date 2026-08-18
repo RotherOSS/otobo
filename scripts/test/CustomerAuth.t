@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.26;
 use strict;
 use warnings;
 use utf8;
@@ -24,9 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -68,10 +67,7 @@ my $TestUserID = $CustomerUserObject->CustomerUserAdd(
     UserID         => 1,
 );
 
-$Self->True(
-    $TestUserID,
-    "Creating test customer user",
-);
+ok( $TestUserID, 'Creating test customer user' );
 
 # set pw
 my @Tests = (
@@ -143,31 +139,20 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
             UserLogin => $UserRand,
             PW        => $Test->{Password},
         );
-
-        $Self->True(
-            $PasswordSet,
-            "Password set"
-        );
+        ok( $PasswordSet, 'Password set' );
 
         my $CustomerAuthResult = $CustomerAuthObject->Auth(
             User => $UserRand,
             Pw   => $Test->{Password},
         );
-
-        $Self->True(
-            $CustomerAuthResult,
-            "CryptType $CryptType Password '$Test->{Password}'",
-        );
+        ok( $CustomerAuthResult, "CryptType $CryptType Password '$Test->{Password}'" );
 
         $CustomerAuthResult = $CustomerAuthObject->Auth(
             User => $UserRand,
             Pw   => $Test->{Password},
         );
 
-        $Self->True(
-            $CustomerAuthResult,
-            "CryptType $CryptType Password '$Test->{Password}' (cached)",
-        );
+        ok( $CustomerAuthResult, "CryptType $CryptType Password '$Test->{Password}' (cached)" );
 
         if ( $CryptType eq 'bcrypt' ) {
             my $OldCost = $ConfigObject->Get('Customer::AuthModule::DB::bcryptCost') // 12;
@@ -184,7 +169,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
                 Pw   => $Test->{Password},
             );
 
-            $Self->Is(
+            is(
                 $CustomerAuthResult,
                 $Test->{AuthResult},
                 "CryptType $CryptType old Password '$Test->{Password}' with changed default cost ($NewCost)",
@@ -194,18 +179,14 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
                 UserLogin => $UserRand,
                 PW        => $Test->{Password},
             );
-
-            $Self->True(
-                $PasswordSet,
-                "Password set - with new cost $NewCost"
-            );
+            ok( $PasswordSet, "Password set - with new cost $NewCost" );
 
             $CustomerAuthResult = $CustomerAuthObject->Auth(
                 User => $UserRand,
                 Pw   => $Test->{Password},
             );
 
-            $Self->Is(
+            is(
                 $CustomerAuthResult,
                 $Test->{AuthResult},
                 "CryptType $CryptType new Password '$Test->{Password}' with changed default cost ($NewCost)",
@@ -222,21 +203,14 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
             User => $UserRand,
             Pw   => 'wrong_pw',
         );
-
-        $Self->False(
-            $CustomerAuthResult,
-            "CryptType $CryptType Password '$Test->{Password}' (wrong password)",
-        );
+        ok( !$CustomerAuthResult, "CryptType $CryptType Password '$Test->{Password}' (wrong password)" );
 
         $CustomerAuthResult = $CustomerAuthObject->Auth(
             User => 'non_existing_user_id',
             Pw   => $Test->{Password},
         );
 
-        $Self->False(
-            $CustomerAuthResult,
-            "CryptType $CryptType Password '$Test->{Password}' (wrong user)",
-        );
+        ok( !$CustomerAuthResult, "CryptType $CryptType Password '$Test->{Password}' (wrong user)" );
     }
 }
 
@@ -251,10 +225,7 @@ my $Success = $CustomerUserObject->CustomerUserUpdate(
     UserID         => 1,
 );
 
-$Self->True(
-    $Success,
-    "Invalidating test customer user",
-);
+ok( $Success, 'Invalidating test customer user' );
 
 # Check auth for customer user which password is encrypted by crypt algorithm different than system one.
 @Tests = (
@@ -283,11 +254,7 @@ for my $Test (@Tests) {
         ValidID        => 1,
         UserID         => 1,
     );
-
-    $Self->True(
-        $CustomerUserID,
-        "CustomerUserID $CustomerUserID is created",
-    );
+    ok( $CustomerUserID, "CustomerUserID $CustomerUserID is created" );
 
     $Kernel::OM->ObjectsDiscard(
         Objects => [
@@ -308,11 +275,7 @@ for my $Test (@Tests) {
         UserLogin => $Test->{UserLogin},
         PW        => $Test->{Password},
     );
-
-    $Self->True(
-        $PasswordSet,
-        "Password '$Test->{Password}' is set"
-    );
+    ok( $PasswordSet, "Password '$Test->{Password}' is set" );
 }
 
 # System is set to sha1 crypt type at this moment and
@@ -322,11 +285,9 @@ my $Result = $CustomerUserAuthObject->Auth(
     Pw   => $Tests[0]->{Password},
 );
 
-$Self->True(
+ok(
     $Result,
     "System crypt type - $Tests[1]->{CryptType}, crypt type for customer password - $Tests[0]->{CryptType}, customer password '$Tests[0]->{Password}'",
 );
 
-# cleanup is done by RestoreDatabase
-
-done_testing();
+done_testing;
