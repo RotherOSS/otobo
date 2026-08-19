@@ -59,7 +59,7 @@ my $RandomID = $Helper->GetRandomID;
 # Some LDAP related settings
 my $LDAPHost          = 'testing-openldap';
 my $LDAPPort          = 1389;
-my $LDAPBaseDN        = 'dc=otobotesting';
+my $LDAPBaseDN        = "dc=bigband_$RandomID,dc=otobotesting";
 my $LDAPAdminDn       = 'cn=admin,dc=otobotesting';
 my $LDAPAdminPassword = 'admin';
 
@@ -131,123 +131,91 @@ my $LDAPAdminPassword = 'admin';
         }
     ];
 
-    # eradicate all customer auth backends
-    push @Settings, map { [ "Customer::AuthModule$_" => undef ] } ( '', 1 .. 10 );
-
-    # Set up authentication backend in the slot 7.
-    # The settings must conform to the settings in docker-compose/testing/openldap.yml
-    # in the docker-compose repository.
-    # See Kernel/Config/Defaults.pm for documentation.
-    push @Settings,
-        [ 'Customer::AuthModule7'                 => 'Kernel::System::CustomerAuth::LDAP' ],
-        [ 'Customer::AuthModule::UseSyncBackend7' => 0 ],
-        [
-            'Customer::AuthModule::LDAP::Host7' => $LDAPHost,
-        ],
-        [
-            'Customer::AuthModule::LDAP::BaseDN7' => $LDAPBaseDN,
-        ],
-        [ 'Customer::AuthModule::LDAP::UID7'          => 'uid' ],
-        [ 'Customer::AuthModule::LDAP::SearchUserDN7' => $LDAPAdminDn ],
-        [ 'Customer::AuthModule::LDAP::SearchUserPw7' => $LDAPAdminPassword ],
-        [ 'Customer::AuthModule::LDAP::Params7'       => { port => $LDAPPort } ],
-        ;
-
     AlterConfig( \@Settings );
-
 }
 
-# Test authentication for the test users that had been created
-# during startup of the LDAP server.
+# read the fixtures from a ldif file, LDAP Data Interchange Format
+# Inject a random ID into the distinct name, in order to allow successive runs.
 {
-    my @Tests = (
-        {
-            Name         => 'wrong password',
-            UserLogin    => 'keeperscabin',
-            UserPassword => 'keeperscabinAAAA',
-            AuthResult   => undef,
-        },
-        {
-            Name         => 'wrong user',
-            UserLogin    => 'keeperscabinBBBB',
-            UserPassword => 'keeperscabin',
-            AuthResult   => undef,
-        },
-        {
-            Name             => 'correct user and password keeperscabin',
-            UserLogin        => 'keeperscabin',
-            UserPassword     => 'keeperscabin',
-            AuthResult       => 'keeperscabin',
-            ExpectedUserData => {
-                CompanyConfig => {},
-                Config        => {
-                    AdminSetPreferences => 0,
-                    Map                 => [],
-                    Module              => 'Kernel::System::CustomerUser::LDAP',
-                    Name                => 'LDAP Backend',
-                    Params              => {
-                        BaseDN => $LDAPBaseDN,
-                        Host   => $LDAPHost,
-                        Params => {
-                            port => $LDAPPort,
-                        },
-                        UserDN => $LDAPAdminDn,
-                    },
-                },
-                Source          => 'CustomerUser5',
-                UserAuthBackend => '7',
-                UserCustomerID  => 'keeperscabin.peacockgarden@otobotesting',
-                UserEmail       => 'keeperscabin.peacockgarden@otobotesting',
-                UserFirstname   => 'Holger',
-                UserFullname    => 'Holger Heger',
-                UserID          => 'keeperscabin',
-                UserLastname    => 'Heger',
-                UserLogin       => 'keeperscabin',
-            }
-        },
-        {
-            Name             => 'correct user and password mansion',
-            UserLogin        => 'mansion',
-            UserPassword     => 'mansion',
-            AuthResult       => 'mansion',
-            ExpectedUserData => {
-                CompanyConfig => {},
-                Config        => {},
-                UserLogin     => 'mansion',
-            },
-        },
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Home         = $ConfigObject->Get('Home');
+    my $LdifPath     = "$Home/scripts/test/sample/LDAP/CustomerUserOpenLDAP.ldif";
+    note "Importing LDIF file $LdifPath";
+    ok( -f $LdifPath, 'LDIF file exists' );
+    ok( -r $LdifPath, 'LDIF file is readable' );
+
+    my $Ldap       = Net::LDAP->new("$LDAPHost:$LDAPPort");
+    my $BindResult = $Ldap->bind(
+        dn       => $LDAPAdminDn,
+        password => $LDAPAdminPassword,
     );
+    ok( !$BindResult->code(), 'LDAP bind was succesful' );
+    diag $BindResult->error;
+    my $Ldif = Net::LDAP::LDIF->new( $LdifPath, 'r', onerror => 'undef' );
+    while ( !$Ldif->eof ) {
+        my $Entry = $Ldif->read_entry;
+        if ( $Ldif->error() ) {
+            fail('read entry from ldif file');
+            diag "Error msg: ",    $Ldif->error;
+            diag "Error lines:\n", $Ldif->error_lines;
+        }
+        else {
+            # The ldif file contains placeholder for the random id. Replace those.
+            my $Dn = $Entry->dn;
+            $Dn =~ s/\Q[[RANDOM_ID]]\E/$RandomID/g;
+            $Entry->dn($Dn);
 
-    # create the auth object and the user object only after the config adaptions
-    my $AuthObject         = $Kernel::OM->Get('Kernel::System::CustomerAuth');
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+            ATTR:
+            for my $Attr (qw(dc)) {
+                my @Values = map {s/\Q[[RANDOM_ID]]\E/$RandomID/rg} $Entry->get_value($Attr);
 
-    for my $Test (@Tests) {
-        subtest $Test->{Name} => sub {
-            my $AuthResult = $AuthObject->Auth(
-                User => $Test->{UserLogin},
-                Pw   => $Test->{UserPassword},
-            );
-            is(
-                $AuthResult,
-                $Test->{AuthResult},
-                'authentication',
-            );
+                next ATTR unless @Values;
 
-            if ( $Test->{ExpectedUserData} ) {
-                my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $Test->{UserLogin},
-                );
+                $Entry->replace( $Attr => \@Values );
+            }
 
-                #diag explain( \%CustomerUserData );
-                like(
-                    \%CustomerUserData,
-                    $Test->{ExpectedUserData},
-                    'CustomerUserDataGet()'
-                );
+            my $AddResult = $Ldap->add($Entry);
+            if ( $AddResult->code ) {
+                fail("added entry $Dn");
+                diag $AddResult->error;
+            }
+            else {
+                pass("added entry $Dn");
             }
         }
     }
+
+    # clean up
+    $Ldif->done;
+    $Ldap->unbind;
 }
+
+# create the user object only after the config adaptions
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+    User => 'trombone_shorty',
+);
+
+diag explain( \%CustomerUserData );
+
+my $ExpectedUserData = {
+    CompanyConfig  => {},
+    Config         => {},
+    Source         => 'CustomerUser5',
+    UserCustomerID => 'trombone.shorty@otobotesting',
+    UserEmail      => 'trombone.shorty@otobotesting',
+    UserFirstname  => 'Troy',
+    UserFullname   => 'Troy Andrews',
+    UserID         => 'trombone_shorty',
+    UserLastname   => 'Andrews',
+    UserLogin      => 'trombone_shorty',
+    UserMailString => 'trombone.shorty@otobotesting',
+};
+like(
+    \%CustomerUserData,
+    $ExpectedUserData,
+    'CustomerUserDataGet() for trombone_shorty'
+);
 
 done_testing;
