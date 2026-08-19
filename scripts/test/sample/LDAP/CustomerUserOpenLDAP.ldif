@@ -1,0 +1,30 @@
+##################
+# Customer Users #
+##################
+
+# The domain dc=otobotesting has been added in the bootstrap of the testing-openldap container.
+
+# Create the bigband domain, including a random id
+# This will be the BaseDN in CustomerUser/OpenLDAP.t.
+dn: dc=bigband_[[RANDOM_ID]],dc=otobotesting
+objectClass: domain
+dc: bigband_[[RANDOM_ID]]
+description: a big band is used as an example
+
+# a big band has a horns section
+dn: ou=horns,dc=bigband_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: organizationalUnit
+ou: horns
+
+# example customer user, a horn player in the horns section of the bigband
+dn: cn=trombone_shorty,ou=horns,dc=bigband_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: inetOrgPerson
+givenName: Troy
+cn: trombone_shorty
+sn: Andrews
+uid: trombone_shorty
+mail: trombone.shorty@otobotesting
+preferredLanguage: lou
+userPassword: trombone_shorty
