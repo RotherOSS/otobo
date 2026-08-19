@@ -59,13 +59,13 @@ sub Param {
 
     # get auth module
     my $Module      = $ConfigObject->Get($AuthModule);
-    my $AuthBackend = $Param{UserData}->{UserAuthBackend};
+    my $AuthBackend = $Param{UserData}->{UserAuthBackend};    # integer in range [1,10]
     if ($AuthBackend) {
         $Module = $ConfigObject->Get( $AuthModule . $AuthBackend );
     }
 
     # return on no pw reset backends
-    return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
+    return if $Module =~ m/LDAP|HTTPBasicAuth|Radius/i;
 
     my @Params = (
         {
