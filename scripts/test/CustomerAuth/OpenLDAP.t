@@ -22,6 +22,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Explain;
 use Net::LDAP       ();
 use Net::LDAP::LDIF ();
 
@@ -53,12 +54,14 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $RandomID = $Helper->GetRandomID;
 
-my $AdminDn       = 'cn=admin,dc=otobotesting';
-my $AdminPassword = 'admin';
-my $RandomID      = $Helper->GetRandomID;
+# Some LDAP related settings
+my $LDAPHost          = 'testing-openldap';
+my $LDAPPort          = 1389;
+my $LDAPBaseDN        = 'dc=otobotesting';
+my $LDAPAdminDn       = 'cn=admin,dc=otobotesting';
+my $LDAPAdminPassword = 'admin';
 
 # Set up the initial configuration.
 {
@@ -69,7 +72,66 @@ my $RandomID      = $Helper->GetRandomID;
         [ 'CheckEmailAddresses' => 0 ],
         ;
 
-    # first eradicate all custumer auth backends
+    # eradicate customer user backends
+    push @Settings, map { [ "CustomerUser$_" => undef ] } ( '', 1 .. 10 );
+
+    # Set up customer user backend with LDAP in slot 5
+    push @Settings, [
+        CustomerUser5 => {
+            Name   => 'LDAP Backend',
+            Module => 'Kernel::System::CustomerUser::LDAP',
+            Params => {
+                Host         => $LDAPHost,
+                BaseDN       => $LDAPBaseDN,
+                SSCOPE       => 'sub',
+                UserDN       => $LDAPAdminDn,
+                UserPw       => $LDAPAdminPassword,
+                AlwaysFilter => '',
+                Die          => 0,
+                Params       => {
+                    port    => $LDAPPort,
+                    timeout => 120,
+                    async   => 0,
+                    version => 3,
+                    verify  => 'none',
+                },
+            },
+            CustomerKey                          => 'uid',
+            CustomerID                           => 'mail',
+            CustomerUserListFields               => [ 'cn',  'mail' ],
+            CustomerUserSearchFields             => [ 'uid', 'cn', 'mail' ],
+            CustomerUserSearchPrefix             => '',
+            CustomerUserSearchSuffix             => '*',
+            CustomerUserSearchListLimit          => 250,
+            CustomerUserPostMasterSearchFields   => ['mail'],
+            CustomerUserNameFields               => [ 'givenname', 'sn' ],
+            CustomerUserNameFieldsJoin           => ' ',
+            CustomerUserExcludePrimaryCustomerID => 0,
+            TranslateManagerTo                   => 'sAMAccountName',
+            AdminSetPreferences                  => 0,
+
+            # cache time to live in sec. - cache any ldap queries
+            CacheTTL => 0,
+            Map      => [
+
+                # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
+                [ 'UserTitle',      'Title or salutation', 'title',           1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserFirstname',  'Firstname',           'givenname',       1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserLastname',   'Lastname',            'sn',              1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserLogin',      'Username',            'uid',             1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserEmail',      'Email',               'mail',            1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserCustomerID', 'CustomerID',          'mail',            0, 1, 'var', '', 1, undef, undef ],
+                [ 'UserPhone',      'Phone',               'telephonenumber', 1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserAddress',    'Address',             'postaladdress',   1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserComment',    'Comment',             'description',     1, 0, 'var', '', 1, undef, undef ],
+
+                # this is needed, if "SMIME::FetchFromCustomer" is active
+                # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+            ],
+        }
+    ];
+
+    # eradicate all customer auth backends
     push @Settings, map { [ "Customer::AuthModule$_" => undef ] } ( '', 1 .. 10 );
 
     # Set up authentication backend in the slot 7.
@@ -77,17 +139,22 @@ my $RandomID      = $Helper->GetRandomID;
     # in the docker-compose repository.
     # See Kernel/Config/Defaults.pm for documentation.
     push @Settings,
-        [ 'Customer::AuthModule7'                     => 'Kernel::System::CustomerAuth::LDAP' ],
-        [ 'Customer::AuthModule::UseSyncBackend7'     => 0 ],
-        [ 'Customer::AuthModule::LDAP::Host7'         => 'testing-openldap' ],
-        [ 'Customer::AuthModule::LDAP::BaseDN7'       => 'dc=otobotesting' ],
+        [ 'Customer::AuthModule7'                 => 'Kernel::System::CustomerAuth::LDAP' ],
+        [ 'Customer::AuthModule::UseSyncBackend7' => 0 ],
+        [
+            'Customer::AuthModule::LDAP::Host7' => $LDAPHost,
+        ],
+        [
+            'Customer::AuthModule::LDAP::BaseDN7' => $LDAPBaseDN,
+        ],
         [ 'Customer::AuthModule::LDAP::UID7'          => 'uid' ],
-        [ 'Customer::AuthModule::LDAP::SearchUserDN7' => $AdminDn ],
-        [ 'Customer::AuthModule::LDAP::SearchUserPw7' => $AdminPassword ],
-        [ 'Customer::AuthModule::LDAP::Params7'       => { port => 1389 } ],
+        [ 'Customer::AuthModule::LDAP::SearchUserDN7' => $LDAPAdminDn ],
+        [ 'Customer::AuthModule::LDAP::SearchUserPw7' => $LDAPAdminPassword ],
+        [ 'Customer::AuthModule::LDAP::Params7'       => { port => $LDAPPort } ],
         ;
 
     AlterConfig( \@Settings );
+
 }
 
 # Test authentication for the test users that had been created
@@ -107,20 +174,53 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => undef,
         },
         {
-            Name         => 'correct user and password keeperscabin',
-            UserLogin    => 'keeperscabin',
-            UserPassword => 'keeperscabin',
-            AuthResult   => 'keeperscabin',
+            Name             => 'correct user and password keeperscabin',
+            UserLogin        => 'keeperscabin',
+            UserPassword     => 'keeperscabin',
+            AuthResult       => 'keeperscabin',
+            ExpectedUserData => {
+                CompanyConfig => {},
+                Config        => {
+                    AdminSetPreferences => 0,
+                    Map                 => [],
+                    Module              => 'Kernel::System::CustomerUser::LDAP',
+                    Name                => 'LDAP Backend',
+                    Params              => {
+                        BaseDN => $LDAPBaseDN,
+                        Host   => $LDAPHost,
+                        Params => {
+                            port => $LDAPPort,
+                        },
+                        UserDN => $LDAPAdminDn,
+                    },
+                },
+                Source          => 'CustomerUser5',
+                UserAuthBackend => '7',
+                UserCustomerID  => 'keeperscabin.peacockgarden@otobotesting',
+                UserEmail       => 'keeperscabin.peacockgarden@otobotesting',
+                UserFirstname   => 'Holger',
+                UserFullname    => 'Holger Heger',
+                UserID          => 'keeperscabin',
+                UserLastname    => 'Heger',
+                UserLogin       => 'keeperscabin',
+            }
         },
         {
-            Name         => 'correct user and password mansion',
-            UserLogin    => 'mansion',
-            UserPassword => 'mansion',
-            AuthResult   => 'mansion',
+            Name             => 'correct user and password mansion',
+            UserLogin        => 'mansion',
+            UserPassword     => 'mansion',
+            AuthResult       => 'mansion',
+            ExpectedUserData => {
+                CompanyConfig => {},
+                Config        => {},
+                UserLogin     => 'mansion',
+            },
         },
     );
 
-    my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
+    # create the auth object and the user object only after the config adaptions
+    my $AuthObject         = $Kernel::OM->Get('Kernel::System::CustomerAuth');
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     for my $Test (@Tests) {
         subtest $Test->{Name} => sub {
@@ -133,7 +233,20 @@ my $RandomID      = $Helper->GetRandomID;
                 $Test->{AuthResult},
                 'authentication',
             );
-        };
+
+            if ( $Test->{ExpectedUserData} ) {
+                my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                    User => $Test->{UserLogin},
+                );
+
+                #diag explain( \%CustomerUserData );
+                like(
+                    \%CustomerUserData,
+                    $Test->{ExpectedUserData},
+                    'CustomerUserDataGet'
+                );
+            }
+        }
     }
 }
 
