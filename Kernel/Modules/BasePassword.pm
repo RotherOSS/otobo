@@ -238,40 +238,40 @@ Returns:
 sub _AuthModuleGet {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $FrontendType = $Self->_FrontendTypeGet();
 
-    my $Module;
-
     # Agent
     if ( $FrontendType eq 'Agent' ) {
-        $Module = $ConfigObject->Get('AuthModule');
-        return $Module if !$LayoutObject->{UserID};
+        my $Module = $ConfigObject->Get('AuthModule');
 
-        my %User = $UserObject->GetUserData(
+        return $Module unless $LayoutObject->{UserID};
+
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my %User       = $UserObject->GetUserData(
             UserID => $LayoutObject->{UserID},
         );
-        return $Module if !%User || !$User{UserAuthBackend};
 
-        $Module = $ConfigObject->Get( 'AuthModule' . $User{UserAuthBackend} ) || $Module;
-        return $Module;
+        return $Module unless %User;
+        return $Module unless $User{UserAuthBackend};
+        return $ConfigObject->Get( 'AuthModule' . $User{UserAuthBackend} ) || $Module;
     }
 
     # Customer user
-    $Module = $ConfigObject->Get('Customer::AuthModule');
-    return $Module if !$LayoutObject->{UserID};
+    my $Module = $ConfigObject->Get('Customer::AuthModule');
 
-    my %User = $CustomerUserObject->CustomerUserDataGet(
+    return $Module unless $LayoutObject->{UserID};
+
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my %User               = $CustomerUserObject->CustomerUserDataGet(
         User => $LayoutObject->{UserID},
     );
-    return $Module if !%User || !$User{UserAuthBackend};
 
-    $Module = $ConfigObject->Get( 'Customer::AuthModule' . $User{UserAuthBackend} ) || $Module;
-    return $Module;
+    return $Module unless %User;
+    return $Module unless $User{UserAuthBackend};
+    return $ConfigObject->Get( 'Customer::AuthModule' . $User{UserAuthBackend} ) || $Module;
 }
 
 =head2 _RedirectPasswordDialog()
