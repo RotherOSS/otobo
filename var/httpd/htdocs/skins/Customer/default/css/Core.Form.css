@@ -70,7 +70,7 @@ fieldset.ModularForm .FieldCell {
     position: relative; /* to allow for positioning and sizing relative to the field cell */
 }
 
-fieldset.ModularForm .Field {
+fieldset.ModularForm .FieldCell > .Field {
     width: calc(100% - var(--FieldEndWhitespace));
     display: inline-block;
 }
