@@ -18,13 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
 use File::Path qw(mkpath rmtree);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
@@ -93,52 +94,28 @@ if ( !$SMIMEObject ) {
     diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("$OpenSSLBin exists");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin is executable");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("certificate store $CertPath exists");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("certificate store $CertPath is a directory");
     }
     elsif ( !-w $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+        fail("certificate store $CertPath is writable");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("private path $PrivatePath exists");
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+    elsif ( !-d $PrivatePath ) {
+        fail("private path $PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("private path $PrivatePath is writable");
     }
 
     done_testing();
@@ -263,7 +240,7 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
     );
 
     for my $SQL ( @SQL, @SQLPost ) {
-        $Self->True(
+        ok(
             $DBObject->Do( SQL => $SQL ),
             "Login-table $TableName created",
         );
@@ -280,7 +257,7 @@ my $SQL = "INSERT INTO $TableName
 VALUES
     (?, ?, ?, ?, ?, ?, ?, ?, 1, current_timestamp, 1, current_timestamp, 1)";
 
-my $Pwd = $MainObject->GenerateRandomString(
+my $Password = $MainObject->GenerateRandomString(
     Length => 8,
 );
 
@@ -291,7 +268,7 @@ for my $CustomerUser (@UnitTestCustomerUsers) {
             \$CustomerUser->{Login},
             \$CustomerUser->{Email},
             \'unittest_customer_id',
-            \$Pwd,
+            \$Password,
             \'Mr',
             \$CustomerUser->{FirstName},
             \$CustomerUser->{LastName},
@@ -303,7 +280,7 @@ for my $CustomerUser (@UnitTestCustomerUsers) {
         Bind => [ \$CustomerUser->{Login} ],
     );
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Self->Is(
+        is(
             $Row[1],
             $CustomerUser->{Email},
             "CustomerUser $Row[0] with $CustomerUser->{CertificateType} added into CustomerUserTable ",
@@ -400,7 +377,7 @@ for my $Customer ( sort keys %Customers ) {
         Pw   => $Customers{$Customer},
     );
 
-    $Self->Is(
+    is(
         $AuthResult,
         $Customer,
         "CustomerUser $Customer login OK",
@@ -413,7 +390,7 @@ my $OldOKCount = 0;
 for my $Cert ( sort @CertList ) {
     $OldOKCount++;
 }
-$Self->Is(
+is(
     $OldOKCount,
     $CertCount,
     "NewCertificates not yet imported",
@@ -439,9 +416,9 @@ for my $CustomerUser ( sort keys %List ) {
         Search => $User{UserEmail},
     );
 
-    $Self->True(
+    ok(
         $CertificateFilename[0]{Filename},
-        "Certificate for $User{UserEmail} was imported",
+        "Certificate for $User{UserEmail} was imported in CustomerUserDataGet()",
     );
 
     # check
@@ -453,10 +430,7 @@ for my $CustomerUser ( sort keys %List ) {
     my %Remove = $SMIMEObject->CertificateRemove(
         Filename => $CertificateFilename[0]{Filename},
     );
-    $Self->False(
-        $Remove{Success},
-        "$Remove{Message}",
-    );
+    ok( $Remove{Successful}, "$Remove{Message}" );
 
     #2nd try - fetching from customer
     my @Files = $SMIMEObject->FetchFromCustomer(
@@ -468,7 +442,7 @@ for my $CustomerUser ( sort keys %List ) {
         DontAdd => 1,
     );
 
-    $Self->True(
+    ok(
         $CertificateFilename2nd[0],
         "Certificate for $User{UserEmail} found",
     );
@@ -477,8 +451,8 @@ for my $CustomerUser ( sort keys %List ) {
     my %Remove2nd = $SMIMEObject->CertificateRemove(
         Filename => $CertificateFilename2nd[0]{Filename},
     );
-    $Self->False(
-        $Remove2nd{Success},
+    ok(
+        !$Remove2nd{Success},
         "$Remove2nd{Message}",
     );
 }
@@ -489,31 +463,25 @@ for my $CustomerUser ( sort keys %List ) {
 
     my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
     my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
-    $Self->True(
+    ok(
         $SQL[0],
         'SQLProcessor() DROP TABLE',
     );
 
     for my $SQL (@SQL) {
-        $Self->True(
+        ok(
             $DBObject->Do( SQL => $SQL ) || 0,
             "Do() DROP TABLE ($SQL)",
         );
     }
 }
 
-# TODO - second stage
-# create a real LDAP server to test against
+# see scripts/test/CustomerUser/OpenLDAP.t for a test with LDAP
 
 # delete needed test directories
 for my $Directory ( $CertPath, $PrivatePath ) {
     my $Success = rmtree( [$Directory] );
-    $Self->True(
-        $Success,
-        "Directory deleted - '$Directory'",
-    );
+    ok( $Success, "Directory deleted - '$Directory'" );
 }
 
-# cleanup is done by RestoreDatabase.
-
-done_testing();
+done_testing;
