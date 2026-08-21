@@ -1,9 +1,12 @@
 # Overview
 
 The directory scripts/test/sample/SMIME holds sample files for the S/MIME unit tests. The relevant S/MIME test scripts are:
+
 - scripts/test/SMIME.t
 - scripts/test/SMIME/ConvertCertFormat.t
 - scripts/test/SMIME/EmailHandling.t
+
+Additionally scripts/test/CustomerUser/OpenLDAP.t tests how SMIME certificates can be distributed over LDAP.
 
 # How to create a multi CA environment (Root and 2 Intermediate CAs)
 
@@ -117,7 +120,7 @@ manually.
     > openssl x509 -in SMIMEUserCertificate-Axel.crt -outform der -out SMIMEUserCertificate-Axel.der
     > openssl pkcs12 -export -out SMIMEUserCertificate-Axel.pfx -inkey SMIMEUserPrivateKey-Axel.pem  -in SMIMEUserCertificate-Axel.crt -certfile SMIMECACertificate-Cabinet.crt
 
-# See also:
+## See also:
 
 - https://en.wikipedia.org/wiki/Journey_to_the_Center_of_the_Earth
 - https://linuxconfig.org/how-to-generate-a-self-signed-ssl-certificate-on-linux for a tutorial.
@@ -125,9 +128,16 @@ manually.
 - https://stackoverflow.com/questions/36920558/is-there-anyway-to-specify-basicconstraints-for-openssl-cert-via-command-line
 - https://www.hasslinger.com/index.php/en/blog/ssl-zertifikate-mit-openssl-konvertieren
 
+# Storing and retrieving SMIME certificates from LDAP
 
+There are two attributes where SMIME certifcates are stored in the inetOrgPerson entity in LDAP. userSMIMECertificate
+is apparently not supported by OTOBO.
+The userCertificate LDAP attribute has the certificate that allows sending encrypted mails to the person.
+The sender basically needs the public key of the recipient.
 
+## See also:
 
+- https://crypto.stackexchange.com/questions/60537/what-exactly-is-the-contents-of-the-ldap-usersmimecertificate-attribute
 
 # Documentation based on the old version as imported in OTOBO 10.0.1
 
