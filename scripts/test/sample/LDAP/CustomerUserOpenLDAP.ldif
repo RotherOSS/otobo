@@ -18,6 +18,8 @@ objectClass: organizationalUnit
 ou: horns
 
 # example customer user, a horn player in the horns section of the bigband
+# The mail is the same as in scripts/test/SMIME.t as it
+# has to match with the certificate.
 dn: cn=trombone_shorty,ou=horns,dc=bigband_[[RANDOM_ID]],dc=otobotesting
 changetype: add
 objectClass: inetOrgPerson
@@ -25,6 +27,6 @@ givenName: Troy
 cn: trombone_shorty
 sn: Andrews
 uid: trombone_shorty
-mail: trombone.shorty@otobotesting
+mail: unittest@example.org
 preferredLanguage: lou
 userPassword: trombone_shorty
