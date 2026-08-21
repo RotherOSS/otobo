@@ -25,6 +25,9 @@ use Test2::V0;
 use Test2::Tools::Explain;
 use Net::LDAP       ();
 use Net::LDAP::LDIF ();
+use File::Path      qw(mkpath);
+use Path::Class     qw(file);
+use JSON            qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -46,6 +49,16 @@ sub AlterConfig {
     return;
 }
 
+sub GetEmailAndCertificate {
+    my ($Home) = @_;
+
+    # That test data is also used in scripts/test/SMIME.t
+    my $TestConfigJSON = file("$Home/scripts/test/sample/SMIME/smime_test.json")->slurp;
+    my $TestConfig     = decode_json($TestConfigJSON);
+
+    return ( $TestConfig->{'1'}->{'Email'}, $TestConfig->{'1'}->{'Pem'} );
+}
+
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -63,14 +76,31 @@ my $LDAPBaseDN        = "dc=bigband_$RandomID,dc=otobotesting";
 my $LDAPAdminDn       = 'cn=admin,dc=otobotesting';
 my $LDAPAdminPassword = 'admin';
 
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# create directory for certificates and private keys
+my $Home        = $ConfigObject->Get('Home');
+my $CertPath    = "$Home/var/tmp/certs_$RandomID";
+my $PrivatePath = "$Home/var/tmp/private_$RandomID";
+mkpath( [$CertPath], 0, 0770 );       ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+ok( -d $CertPath, 'cert dir was created' );
+mkpath( [$PrivatePath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+ok( -d $PrivatePath, 'private dir was created' );
+
 # Set up the initial configuration.
 {
     my @Settings;
 
     # disable email checks when an new user is created
+    push @Settings, [ 'CheckEmailAddresses' => 0 ];
+
+    # activate fetching of certificates from LDAP
+    # FetchFromCustomer() will be called in CustomerUserDataGet()
     push @Settings,
-        [ 'CheckEmailAddresses' => 0 ],
-        ;
+        [ 'SMIME'                    => 1 ],
+        [ 'SMIME::FetchFromCustomer' => 1 ],
+        [ 'SMIME::CertPath'          => $CertPath ],
+        [ 'SMIME::PrivatePath'       => $PrivatePath ];
 
     # eradicate customer user backends
     push @Settings, map { [ "CustomerUser$_" => undef ] } ( '', 1 .. 10 );
@@ -126,7 +156,7 @@ my $LDAPAdminPassword = 'admin';
                 [ 'UserComment',    'Comment',             'description',     1, 0, 'var', '', 1, undef, undef ],
 
                 # this is needed, if "SMIME::FetchFromCustomer" is active
-                # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+                [ 'UserSMIMECertificate', 'SMIMECertificate', 'userCertificate;binary', 0, 1, 'var', '', 1, undef, undef ],
             ],
         }
     ];
@@ -134,12 +164,18 @@ my $LDAPAdminPassword = 'admin';
     AlterConfig( \@Settings );
 }
 
+# some test data
+my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+my ( $Email, $Pem ) = GetEmailAndCertificate($Home);
+
+#diag $Email;
+#diag $Pem;
+
 # read the fixtures from a ldif file, LDAP Data Interchange Format
 # Inject a random ID into the distinct name, in order to allow successive runs.
 {
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Home         = $ConfigObject->Get('Home');
-    my $LdifPath     = "$Home/scripts/test/sample/LDAP/CustomerUserOpenLDAP.ldif";
+    my $Home     = $ConfigObject->Get('Home');
+    my $LdifPath = "$Home/scripts/test/sample/LDAP/CustomerUserOpenLDAP.ldif";
     note "Importing LDIF file $LdifPath";
     ok( -f $LdifPath, 'LDIF file exists' );
     ok( -r $LdifPath, 'LDIF file is readable' );
@@ -174,6 +210,25 @@ my $LDAPAdminPassword = 'admin';
                 $Entry->replace( $Attr => \@Values );
             }
 
+            # Add the certificate here in the test script as LDIF demands
+            # that date containing newlines is encoded in Base64. And encoding
+            # Base64 text in Base64 again is just too much messing with the mind.
+            #
+            # LDAP requires that userCertificate is formatted as DER, which is a binary format.
+
+            if ( $Dn =~ m/trombone_shorty/ ) {
+
+                # Create original PEM certificate file.
+                my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
+                my ( $FileHandle, $TmpPemFn ) = $FileTempObject->TempFile();
+                print $FileHandle $Pem;
+                close $FileHandle;
+                my $Der = qx~$SMIMEObject->{Cmd} x509 -outform der -in $TmpPemFn 2>&1~;
+                ok( $Der =~ m/Straubing1/, 'binary data contains sensible string Straubing1' );
+
+                $Entry->add( 'userCertificate;binary' => $Der );
+            }
+
             my $AddResult = $Ldap->add($Entry);
             if ( $AddResult->code ) {
                 fail("added entry $Dn");
@@ -197,25 +252,72 @@ my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
     User => 'trombone_shorty',
 );
 
-diag explain( \%CustomerUserData );
+#diag explain(\%CustomerUserData);
 
 my $ExpectedUserData = {
-    CompanyConfig  => {},
-    Config         => {},
-    Source         => 'CustomerUser5',
-    UserCustomerID => 'trombone.shorty@otobotesting',
-    UserEmail      => 'trombone.shorty@otobotesting',
-    UserFirstname  => 'Troy',
-    UserFullname   => 'Troy Andrews',
-    UserID         => 'trombone_shorty',
-    UserLastname   => 'Andrews',
-    UserLogin      => 'trombone_shorty',
-    UserMailString => 'trombone.shorty@otobotesting',
+    CompanyConfig        => {},
+    Config               => {},
+    Source               => 'CustomerUser5',
+    UserCustomerID       => $Email,
+    UserEmail            => $Email,
+    UserFirstname        => 'Troy',
+    UserFullname         => 'Troy Andrews',
+    UserID               => 'trombone_shorty',
+    UserLastname         => 'Andrews',
+    UserLogin            => 'trombone_shorty',
+    UserMailString       => $Email,
+    UserSMIMECertificate => qr/Straubing1/,
 };
 like(
     \%CustomerUserData,
     $ExpectedUserData,
     'CustomerUserDataGet() for trombone_shorty'
 );
+
+# Add a sanity test for the user certificate
+{
+    my %List = $CustomerUserObject->CustomerSearch(
+        PostMasterSearch => $Email,
+        Valid            => 1,
+    );
+    ok( ( scalar keys %List ) > 0, "found a customer user with mail = $Email" );
+
+    CUSTOMERUSER:
+    for my $CustomerUser ( sort keys %List ) {
+        my %User = $CustomerUserObject->CustomerUserDataGet(
+            User => $CustomerUser,
+        );
+
+        ok( $User{UserSMIMECertificate}, "got certificate for $CustomerUser" );
+
+        next CUSTOMERUSER unless $User{UserSMIMECertificate};
+
+        # 1st try with CertificateSearch
+        my @CertificateFilename = $SMIMEObject->CertificateSearch(
+            Search => $Email,
+        );
+
+        ok( $CertificateFilename[0]{Filename},                "Certificate for $Email was imported in CustomerUserDataGet()" );
+        ok( -f "$CertPath/$CertificateFilename[0]{Filename}", "Certificate for $Email exists" );
+
+        # check
+        my $Certificate = $SMIMEObject->CertificateGet(
+            Filename => $CertificateFilename[0]{Filename},
+        );
+
+        like(
+            $Certificate,
+            qr/BEGIN CERTIFICATE.*END CERTIFICATE/s,
+            'found the certificate'
+        );
+
+        # remove
+        my %Remove = $SMIMEObject->CertificateRemove(
+            Filename => $CertificateFilename[0]{Filename},
+        );
+        ok( $Remove{Successful},                   "$Remove{Message}" );
+        ok( !-e $CertificateFilename[0]{Filename}, "Certificate for $Email no longer exists" );
+    }
+}
 
 done_testing;
