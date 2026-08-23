@@ -187,6 +187,9 @@ my ( $Email, $Pem ) = GetEmailAndCertificate($Home);
     );
     ok( !$BindResult->code(), 'LDAP bind was succesful' );
     diag $BindResult->error;
+
+    is( $Ldap->version(), 3, 'Communication protocol is LDAPv3' );
+
     my $Ldif = Net::LDAP::LDIF->new( $LdifPath, 'r', onerror => 'undef' );
     while ( !$Ldif->eof ) {
         my $Entry = $Ldif->read_entry;
