@@ -297,7 +297,7 @@ sub Run {
                     for my $Type (qw(pre post)) {
 
                         # parse and output stream of xml database statements
-                        my @Data = $Self->_ParseDatabaseXML(
+                        $Self->_ParseDatabaseXML(
                             Structure => $Structure{$Key}->{$Type},
                             Key       => $Key,
                             Type      => $Type,
@@ -566,7 +566,7 @@ sub Run {
                     for my $Type (qw(pre post)) {
 
                         # parse and output stream of xml database statements
-                        my @Data = $Self->_ParseDatabaseXML(
+                        $Self->_ParseDatabaseXML(
                             Structure => $Structure{$Key}->{$Type},
                             Key       => $Key,
                             Type      => $Type,
