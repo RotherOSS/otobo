@@ -62,7 +62,7 @@ for my $Key (qw( args command cpan_audit total_advisories )) {
 # check the version of CPANSA::DB and CPAN::Audit
 {
     my %ExpectedVersion = (
-        db      => '20260811.001',
+        db      => '20260816.002',
         version => '20260622.001',
     );
     is(
@@ -102,10 +102,10 @@ for my $DistName ( keys $ThawedAuditReport->{dists}->%* ) {
     $Dist->{advisories} = [
         grep {
             ( !$_->{otobo_evaluation} )
-            ||
-            ( $_->{otobo_evaluation}->{has_been_evaluated} // -1) == 0
-            ||
-            $_->{otobo_evaluation}->{is_relevant_for_otobo}
+                ||
+                ( $_->{otobo_evaluation}->{has_been_evaluated} // -1 ) == 0
+                ||
+                $_->{otobo_evaluation}->{is_relevant_for_otobo}
         } $Dist->{advisories}->@*
     ];
 
