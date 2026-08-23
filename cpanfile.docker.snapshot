@@ -616,11 +616,11 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Output 1.031
       Test::Simple 0.9
-  DBD-Pg-3.20.2
-    pathname: T/TU/TURNSTEP/DBD-Pg-3.20.2.tar.gz
+  DBD-Pg-3.21.0
+    pathname: T/TU/TURNSTEP/DBD-Pg-3.21.0.tar.gz
     provides:
-      Bundle::DBD::Pg v3.20.2
-      DBD::Pg v3.20.2
+      Bundle::DBD::Pg v3.21.0
+      DBD::Pg v3.21.0
     requirements:
       DBI 1.614
       ExtUtils::MakeMaker 6.58
@@ -662,8 +662,8 @@ DISTRIBUTIONS
       Devel::CheckLib 1.09
       ExtUtils::MakeMaker 0
       perl 5.008001
-  DBI-1.651
-    pathname: H/HM/HMBRAND/DBI-1.651.tgz
+  DBI-1.652
+    pathname: H/HM/HMBRAND/DBI-1.652.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -719,7 +719,7 @@ DISTRIBUTIONS
       DBD::Sponge::dr 12.010003
       DBD::Sponge::st 12.010003
       DBDI 12.015129
-      DBI 1.651
+      DBI 1.652
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -759,12 +759,12 @@ DISTRIBUTIONS
       DBI::SQL::Nano::Table_ 1.015544
       DBI::Util::CacheMemory 0.010315
       DBI::Util::_accessor 0.009479
-      DBI::common 1.651
+      DBI::common 1.652
     requirements:
       ExtUtils::MakeMaker 6.48
       Module::Load 0.22
       Test::Simple 0.96
-      perl 5.008001
+      perl 5.012000
   DBIx-Connector-0.60
     pathname: A/AR/ARISTOTLE/DBIx-Connector-0.60.tar.gz
     provides:
@@ -3314,66 +3314,66 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  URI-5.35
-    pathname: O/OA/OALDERS/URI-5.35.tar.gz
+  URI-5.36
+    pathname: O/OA/OALDERS/URI-5.36.tar.gz
     provides:
-      URI 5.35
-      URI::Escape 5.35
-      URI::Heuristic 5.35
-      URI::IRI 5.35
-      URI::QueryParam 5.35
-      URI::Split 5.35
-      URI::URL 5.35
-      URI::WithBase 5.35
-      URI::data 5.35
-      URI::file 5.35
-      URI::file::Base 5.35
-      URI::file::FAT 5.35
-      URI::file::Mac 5.35
-      URI::file::OS2 5.35
-      URI::file::QNX 5.35
-      URI::file::Unix 5.35
-      URI::file::Win32 5.35
-      URI::ftp 5.35
-      URI::ftpes 5.35
-      URI::ftps 5.35
-      URI::geo 5.35
-      URI::gopher 5.35
-      URI::http 5.35
-      URI::https 5.35
-      URI::icap 5.35
-      URI::icaps 5.35
-      URI::irc 5.35
-      URI::ircs 5.35
-      URI::ldap 5.35
-      URI::ldapi 5.35
-      URI::ldaps 5.35
-      URI::mailto 5.35
-      URI::mms 5.35
-      URI::news 5.35
-      URI::nntp 5.35
-      URI::nntps 5.35
-      URI::otpauth 5.35
-      URI::pop 5.35
-      URI::rlogin 5.35
-      URI::rsync 5.35
-      URI::rtsp 5.35
-      URI::rtspu 5.35
-      URI::scp 5.35
-      URI::sftp 5.35
-      URI::sip 5.35
-      URI::sips 5.35
-      URI::smb 5.35
-      URI::smtp 5.35
-      URI::snews 5.35
-      URI::ssh 5.35
-      URI::telnet 5.35
-      URI::tn3270 5.35
-      URI::urn 5.35
-      URI::urn::isbn 5.35
-      URI::urn::oid 5.35
-      URI::ws 5.35
-      URI::wss 5.35
+      URI 5.36
+      URI::Escape 5.36
+      URI::Heuristic 5.36
+      URI::IRI 5.36
+      URI::QueryParam 5.36
+      URI::Split 5.36
+      URI::URL 5.36
+      URI::WithBase 5.36
+      URI::data 5.36
+      URI::file 5.36
+      URI::file::Base 5.36
+      URI::file::FAT 5.36
+      URI::file::Mac 5.36
+      URI::file::OS2 5.36
+      URI::file::QNX 5.36
+      URI::file::Unix 5.36
+      URI::file::Win32 5.36
+      URI::ftp 5.36
+      URI::ftpes 5.36
+      URI::ftps 5.36
+      URI::geo 5.36
+      URI::gopher 5.36
+      URI::http 5.36
+      URI::https 5.36
+      URI::icap 5.36
+      URI::icaps 5.36
+      URI::irc 5.36
+      URI::ircs 5.36
+      URI::ldap 5.36
+      URI::ldapi 5.36
+      URI::ldaps 5.36
+      URI::mailto 5.36
+      URI::mms 5.36
+      URI::news 5.36
+      URI::nntp 5.36
+      URI::nntps 5.36
+      URI::otpauth 5.36
+      URI::pop 5.36
+      URI::rlogin 5.36
+      URI::rsync 5.36
+      URI::rtsp 5.36
+      URI::rtspu 5.36
+      URI::scp 5.36
+      URI::sftp 5.36
+      URI::sip 5.36
+      URI::sips 5.36
+      URI::smb 5.36
+      URI::smtp 5.36
+      URI::snews 5.36
+      URI::ssh 5.36
+      URI::telnet 5.36
+      URI::tn3270 5.36
+      URI::urn 5.36
+      URI::urn::isbn 5.36
+      URI::urn::oid 5.36
+      URI::ws 5.36
+      URI::wss 5.36
     requirements:
       Carp 0
       Cwd 0
@@ -3385,6 +3385,7 @@ DISTRIBUTIONS
       MIME::Base64 2
       Net::Domain 0
       Scalar::Util 0
+      Unicode::Normalize 0
       constant 0
       integer 0
       overload 0
@@ -3393,10 +3394,10 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  Variable-Magic-0.64
-    pathname: V/VP/VPIT/Variable-Magic-0.64.tar.gz
+  Variable-Magic-0.65
+    pathname: V/VP/VPIT/Variable-Magic-0.65.tar.gz
     provides:
-      Variable::Magic 0.64
+      Variable::Magic 0.65
     requirements:
       Carp 0
       Config 0
@@ -3773,9 +3774,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
-      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
@@ -3786,7 +3785,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
