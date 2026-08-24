@@ -109,6 +109,12 @@ sub Run {
 
     my $DriverObject = $Kernel::OM->Get( $Config->{Module} );
 
+    if ( $DriverObject->can('GetFieldTypeSettings') ) {
+        $Self->{FieldTypeSettings}->{$FieldType} = $DriverObject->GetFieldTypeSettings(
+            ObjectType => $ObjectType,
+        );
+    }
+
     my $PossibleConditions = $DriverObject->GetPossibleExecutionConditions(
         ObjectType => $ObjectType,
         FieldID    => $ParamObject->GetParam( Param => 'ID' ),
