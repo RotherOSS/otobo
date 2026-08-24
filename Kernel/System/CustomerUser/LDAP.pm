@@ -16,12 +16,17 @@
 
 package Kernel::System::CustomerUser::LDAP;
 
+use v5.26;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -39,9 +44,7 @@ our @ObjectDependencies = (
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed data
     for my $Needed (qw( PreferencesObject CustomerUserMap )) {
@@ -52,10 +55,7 @@ sub new {
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 200;
 
     # get ldap preferences
-    $Self->{Die} = 0;
-    if ( defined $Self->{CustomerUserMap}->{Params}->{Die} ) {
-        $Self->{Die} = $Self->{CustomerUserMap}->{Params}->{Die};
-    }
+    $Self->{Die} = $Self->{CustomerUserMap}->{Params}->{Die} // 0;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -146,14 +146,8 @@ sub new {
     $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{Params}->{AlwaysFilter} || '';
 
     $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
-    $Self->{SearchPrefix}             = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
-    if ( !defined $Self->{SearchPrefix} ) {
-        $Self->{SearchPrefix} = '';
-    }
-    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{CustomerUserSearchSuffix};
-    if ( !defined $Self->{SearchSuffix} ) {
-        $Self->{SearchSuffix} = '*';
-    }
+    $Self->{SearchPrefix}             = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix} // '';
+    $Self->{SearchSuffix}             = $Self->{CustomerUserMap}->{CustomerUserSearchSuffix} // '*';
 
     # charset settings
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
@@ -188,7 +182,10 @@ sub _Connect {
     return 1 if $Self->{LDAP};
 
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    $Self->{LDAP} = Net::LDAP->new( $Self->{Host}, %{ $Self->{Params} } );
+    $Self->{LDAP} = Net::LDAP->new(
+        $Self->{Host},
+        $Self->{Params}->%*
+    );
 
     if ( !$Self->{LDAP} ) {
         if ( $Self->{Die} ) {
@@ -1393,7 +1390,8 @@ sub CustomerUserDataGet {
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         next ENTRY if $Entry->[5] eq 'dynamic_field';
-        push( @Attributes, $Entry->[2] );
+
+        push @Attributes, $Entry->[2];
     }
     my $Filter = "($Self->{CustomerKey}=" . escape_filter_value( $Param{User} ) . ')';
 
@@ -1649,12 +1647,13 @@ sub SearchPreferences {
 sub _ConvertFrom {
     my ( $Self, $Text ) = @_;
 
-    return if !defined $Text;
+    return unless defined $Text;
 
-    if ( !$Self->{SourceCharset} ) {
-        return $Text;
-    }
+    # _ConvertFrom() does nothing except in special cases where SourceCharset is set.
+    return $Text unless $Self->{SourceCharset};
 
+    # When SourceCharset is 'utf-8' then set the UTF-8 flag
+    # without checkeck whether the taxt actually is valid UTF-8.
     return $Kernel::OM->Get('Kernel::System::Encode')->Convert(
         Text => $Text,
         From => $Self->{SourceCharset},
