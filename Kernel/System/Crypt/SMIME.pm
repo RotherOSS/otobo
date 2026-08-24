@@ -275,8 +275,8 @@ sub Crypt {
 
     my $CryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $CryptedFile );
 
-    return if !$CryptedRef;
-    return $$CryptedRef;
+    return unless $CryptedRef;
+    return $CryptedRef->$*;
 }
 
 =head2 Decrypt()
@@ -500,9 +500,8 @@ sub Sign {
 
     my $SignedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $SignFile );
 
-    return if !$SignedRef;
-    return $$SignedRef;
-
+    return unless $SignedRef;
+    return $SignedRef->$*;
 }
 
 =head2 Verify()
@@ -1134,7 +1133,7 @@ sub CertificateGet {
     if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my $File           = "$Self->{CertPath}/$Param{Filename}";
@@ -1175,7 +1174,7 @@ sub CertificateRemove {
     if ( !$Param{Filename} && $Param{Hash} && $Param{Fingerprint} ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my %Result;
@@ -1384,7 +1383,7 @@ sub CertificateRead {
     if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my $File = "$Self->{CertPath}/$Param{Filename}";
@@ -1711,7 +1710,7 @@ sub PrivateGet {
             Modulus => $Param{Modulus},
         );
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my $File = "$Self->{PrivatePath}/$Param{Filename}";
@@ -1724,14 +1723,13 @@ sub PrivateGet {
         $Private = $MainObject->FileRead( Location => $File );
     }
 
-    return if !$Private;
+    return unless $Private;
 
     # read secret
     $File = "$Self->{PrivatePath}/$Param{Filename}.P";
     my $Secret = $MainObject->FileRead( Location => $File );
 
     return ( $$Private, $$Secret ) if ( $Private && $Secret );
-
     return;
 }
 
@@ -1774,7 +1772,7 @@ sub PrivateRemove {
             Message    => "Filename not found for hash: $Param{Hash} in: $Self->{PrivatePath}, $!!",
         );
 
-        return %Return if !$Param{Filename};
+        return %Return unless $Param{Filename};
     }
 
     my $SecretDelete = unlink "$Self->{PrivatePath}/$Param{Filename}.P";
