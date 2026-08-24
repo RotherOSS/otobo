@@ -29,5 +29,7 @@ sn: Andrews
 uid: trombone_shorty
 mail: unittest@example.org
 postaladdress: Schneemannstraße 24 ☃$Dezemberdorf ㋋$Weihnachtsland ⭐
+# four spaces before 'Cold' and before the freeing face
+physicalDeliveryOfficeName:     Cold Room "The Fridge"    🥶
 preferredLanguage: lou
 userPassword: trombone_shorty

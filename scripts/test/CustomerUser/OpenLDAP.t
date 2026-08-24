@@ -138,7 +138,7 @@ ok( -d $PrivatePath, 'private dir was created' );
             },
             CustomerKey                          => 'uid',
             CustomerID                           => 'mail',
-            CustomerUserListFields               => [ 'cn',  'mail' ],
+            CustomerUserListFields               => [ 'givenName', 'sn', 'physicalDeliveryOfficeName', 'mail' ],
             CustomerUserSearchFields             => [ 'uid', 'cn', 'mail' ],
             CustomerUserSearchPrefix             => '',
             CustomerUserSearchSuffix             => '*',
@@ -155,22 +155,20 @@ ok( -d $PrivatePath, 'private dir was created' );
             Map      => [
 
                 # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-                [ 'UserTitle',      'Title or salutation', 'title',           1, 0, 'var', '', 1, undef, undef ],
-                [ 'UserFirstname',  'Firstname',           'givenname',       1, 1, 'var', '', 1, undef, undef ],
-                [ 'UserLastname',   'Lastname',            'sn',              1, 1, 'var', '', 1, undef, undef ],
-                [ 'UserLogin',      'Username',            'uid',             1, 1, 'var', '', 1, undef, undef ],
-                [ 'UserEmail',      'Email',               'mail',            1, 1, 'var', '', 1, undef, undef ],
-                [ 'UserCustomerID', 'CustomerID',          'mail',            0, 1, 'var', '', 1, undef, undef ],
-                [ 'UserPhone',      'Phone',               'telephonenumber', 1, 0, 'var', '', 1, undef, undef ],
-                [ 'UserAddress',    'Address',             'postaladdress',   1, 0, 'var', '', 1, undef, undef ],
-                [ 'UserComment',    'Comment',             'description',     1, 0, 'var', '', 1, undef, undef ],
-
-                # this is needed, if "SMIME::FetchFromCustomer" is active
-                [ 'UserSMIMECertificate', 'SMIMECertificate', 'userCertificate;binary', 0, 1, 'var', '', 1, undef, undef ],
+                [ 'UserTitle',            'Title or salutation', 'title',                      1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserFirstname',        'Firstname',           'givenname',                  1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserLastname',         'Lastname',            'sn',                         1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserLogin',            'Username',            'uid',                        1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserEmail',            'Email',               'mail',                       1, 1, 'var', '', 1, undef, undef ],
+                [ 'UserCustomerID',       'CustomerID',          'mail',                       0, 1, 'var', '', 1, undef, undef ],
+                [ 'UserPhone',            'Phone',               'telephonenumber',            1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserAddress',          'Address',             'postaladdress',              1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserComment',          'Comment',             'description',                1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserDeliveryOffice',   'Delivery Office',     'physicalDeliveryOfficeName', 1, 0, 'var', '', 1, undef, undef ],
+                [ 'UserSMIMECertificate', 'SMIMECertificate',    'userCertificate;binary',     0, 1, 'var', '', 1, undef, undef ],
             ],
         }
     ];
-
     AlterConfig( \@Settings );
 }
 
@@ -268,9 +266,10 @@ my $ExpectedUserData = {
     UserID               => 'trombone_shorty',
     UserLastname         => 'Andrews',
     UserLogin            => 'trombone_shorty',
-    UserMailString       => $Email,
+    UserMailString       => q{"Troy Andrews Cold Room \"The Fridge\"    🥶" <unittest@example.org>},
     UserSMIMECertificate => $Der,
     UserAddress          => q{Schneemannstraße 24 ☃$Dezemberdorf ㋋$Weihnachtsland ⭐},
+    UserDeliveryOffice   => q{Cold Room "The Fridge"    🥶},
 };
 like(
     \%CustomerUserData,
