@@ -3825,6 +3825,15 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Test-utf8-1.03
+    pathname: S/SC/SCHWIGON/Test-utf8-1.03.tar.gz
+    provides:
+      Test::utf8 1.03
+    requirements:
+      ExtUtils::MakeMaker 6.59
+      Test::Builder 0
+      Test::Builder::Tester 0.09
+      perl 5.007003
   Test2-Tools-Explain-0.02
     pathname: P/PE/PETDANCE/Test2-Tools-Explain-0.02.tar.gz
     provides:

@@ -275,7 +275,7 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'oauth:openidconnect', 'Support for feature oauth:openidconnect' => sub {
+# feature 'oauth:openidconnect', 'Needed for OpenIDConnect' => sub {
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
 

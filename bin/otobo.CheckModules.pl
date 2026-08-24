@@ -1343,6 +1343,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test::utf8',
+        Features  => ['devel:test'],
+        Comment   => 'test encoding related assertions',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Test2::Tools::HTTP',
         Features  => ['devel:test'],
         Comment   => 'testing PSGI apps and URLs',

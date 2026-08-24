@@ -228,6 +228,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
 
+    # test encoding related assertions
+    requires 'Test::utf8';
+
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
@@ -347,7 +350,7 @@ feature 'mail:sasl', 'DIGEST-MD5 authentication in IMAP and SASL mechanism in SM
 
 };
 
-feature 'oauth:openidconnect', 'Support for feature oauth:openidconnect' => sub {
+feature 'oauth:openidconnect', 'Needed for OpenIDConnect' => sub {
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
 
@@ -462,6 +465,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
+
+    # test encoding related assertions
+    requires 'Test::utf8';
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
