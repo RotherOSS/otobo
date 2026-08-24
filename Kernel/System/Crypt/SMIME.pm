@@ -824,31 +824,31 @@ sub FetchFromCustomer {
         }
     }
 
+    # if don't add, maybe in UnitTests
+    return if $Param{DontAdd};
+
     my @CertFileList;
 
     # Check found CustomerUsers
+    LOGIN:
     for my $Login ( sort keys %CustomerUsers ) {
         my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
             User => $Login,
         );
 
         # Add Certificate if available
-        if ( $CustomerUser{UserSMIMECertificate} ) {
+        next LOGIN unless $CustomerUser{UserSMIMECertificate};
 
-            # if don't add, maybe in UnitTests
-            return @CertFileList if $Param{DontAdd};
+        # Convert certificate to PEM format. Works for pk7, pk12, pem, and der.
+        my $PEMCert = $Self->ConvertCertFormat(
+            String => $CustomerUser{UserSMIMECertificate},
+        );
 
-            # Convert certificate to PEM format. Works for pk7, pk12, pem, and der.
-            my $PEMCert = $Self->ConvertCertFormat(
-                String => $CustomerUser{UserSMIMECertificate},
-            );
-
-            my %Result = $Self->CertificateAdd(
-                Certificate => $PEMCert,
-            );
-            if ( $Result{Successful} && $Result{Successful} == 1 ) {
-                push @CertFileList, $Result{Filename};
-            }
+        my %Result = $Self->CertificateAdd(
+            Certificate => $PEMCert,
+        );
+        if ( $Result{Successful} && $Result{Successful} == 1 ) {
+            push @CertFileList, $Result{Filename};
         }
     }
 
