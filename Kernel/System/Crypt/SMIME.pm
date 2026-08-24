@@ -262,7 +262,7 @@ sub Crypt {
     my ( $FHCrypted, $CryptedFile ) = $FileTempObject->TempFile();
     close $FHCrypted;
 
-    my $Options    = "smime -encrypt -binary -$Self->{Cipher} -in $PlainFile -out $CryptedFile $CertFileStrg";
+    my $Options    = "$Self->{CMSSubCmd} -encrypt -binary -$Self->{Cipher} -in $PlainFile -out $CryptedFile $CertFileStrg";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -346,11 +346,12 @@ sub Decrypt {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
+    my $Options = "$Self->{CMSSubCmd} -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
         . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
 
+    # TODO: check whether the patters are still valid with `openssl cms`
     if (
         $Param{SearchingNeededKey}
         && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
@@ -480,7 +481,7 @@ sub Sign {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
+    my $Options = "$Self->{CMSSubCmd} -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
         . " -text -binary -passin file:$SecretFile";
 
     # add the certfile parameter
@@ -566,7 +567,7 @@ sub Verify {
         $CertificateOption = "-CAfile $Param{CACert}";
     }
 
-    my $Options = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+    my $Options = "$Self->{CMSSubCmd} -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
         . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
@@ -587,6 +588,7 @@ sub Verify {
     my $SignerCertRef    = $MainObject->FileRead( Location => $SignerFile );
     my $SignedContentRef = $MainObject->FileRead( Location => $VerifiedFile );
 
+    # TODO: check whether the patters are still valid with `openssl cms`
     # return message
     if ( $Message =~ /Verification successful/i ) {
 
@@ -2433,7 +2435,14 @@ sub _Init {
     $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+    # explictly set HOME
+    $Self->{Cmd} = 'HOME=' . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+
+    # Declare the subcommand for dealing with CMS certificates
+    # CMS is basically the same as PKCS#7.
+    # The command 'openssl cms' supersedes the old command 'openssl smime'. The major difference
+    # is that newer versions of the certificate format are supported by 'openssl cms'.
+    $Self->{CMSSubCmd} = 'cms';
 
     # get the openssl version string,
     # e.g. "OpenSSL 0.9.8e 23 Feb 2007" or "OpenSSL 3.0.3 3 May 2022 (Library: OpenSSL 3.0.3 3 May 2022)"
