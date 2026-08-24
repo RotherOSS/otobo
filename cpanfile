@@ -295,7 +295,7 @@ feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
 
 feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
-    requires 'Net::LDAP';
+    requires 'Net::LDAP', '>= 0.66';
 
 };
 
@@ -410,7 +410,7 @@ feature 'optional', 'Support for feature optional' => sub {
     requires 'Encode::HanExtra', '>= 0.23';
 
     # Required for directory authentication.
-    requires 'Net::LDAP';
+    requires 'Net::LDAP', '>= 0.66';
 
     # create and use a local lib/ for perl modules with PERL5LIB
     requires 'Compress::Raw::Zlib';

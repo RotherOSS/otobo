@@ -280,7 +280,7 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
-    requires 'Net::LDAP';
+    requires 'Net::LDAP', '>= 0.66';
 
 # };
 

@@ -1126,10 +1126,11 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Net::LDAP',
-        Comment   => 'Required for directory authentication.',
-        Features  => ['div:ldap'],
-        InstTypes => {
+        Module          => 'Net::LDAP',
+        VersionRequired => '>= 0.66',                                  # release in April 2019, check add just for avoiding very old versions
+        Comment         => 'Required for directory authentication.',
+        Features        => ['div:ldap'],
+        InstTypes       => {
             aptget => 'libnet-ldap-perl',
             emerge => 'dev-perl/perl-ldap',
             zypper => 'perl-ldap',
