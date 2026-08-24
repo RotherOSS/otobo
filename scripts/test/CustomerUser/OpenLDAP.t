@@ -23,6 +23,7 @@ use utf8;
 # CPAN modules
 use Test2::V0;
 use Test2::Tools::Explain;
+use Test::utf8      qw(isnt_flagged_utf8 is_flagged_utf8 is_sane_utf8 is_valid_string);
 use Net::LDAP       ();
 use Net::LDAP::LDIF ();
 use File::Path      qw(mkpath);
@@ -270,12 +271,27 @@ my $ExpectedUserData = {
     UserLogin            => 'trombone_shorty',
     UserMailString       => $Email,
     UserSMIMECertificate => qr/Straubing1/,
+    UserAddress          => q{Schneemannstraße 24 ☃$Dezemberdorf ㋋$Weihnachtsland ⭐},
 };
 like(
     \%CustomerUserData,
     $ExpectedUserData,
     'CustomerUserDataGet() for trombone_shorty'
 );
+
+# check the encoding of some attributes
+for my $Attr (qw(UserFirstname UserLastname UserEmail UserAddress)) {
+    subtest "UTF-8 checking '$Attr'" => sub {
+        is_valid_string( $CustomerUserData{$Attr} );
+        is_flagged_utf8( $CustomerUserData{$Attr} );
+        is_sane_utf8( $CustomerUserData{$Attr} );
+    };
+}
+subtest "UserSMIMECertificate shouldn't be UTF-8" => sub {
+    my $Attr = 'UserSMIMECertificate';
+    is_valid_string( $CustomerUserData{$Attr} );
+    isnt_flagged_utf8( $CustomerUserData{$Attr} );
+};
 
 # Add a sanity test for the user certificate
 {
