@@ -19,6 +19,8 @@ package Kernel::System::CustomerUser::LDAP;
 use v5.26;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
