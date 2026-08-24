@@ -1474,7 +1474,6 @@ sub CustomerUserDataGet {
     return if !$Data{UserLogin};
 
     # to build the UserMailString
-    my $UserMailString = '';
     my @UserMailStringParts;
 
     my $CustomerUserListFieldsMap = $Self->{CustomerUserMap}->{CustomerUserListFields};
@@ -1482,18 +1481,21 @@ sub CustomerUserDataGet {
         $CustomerUserListFieldsMap = [ 'first_name', 'last_name', 'email', ];
     }
 
-    for my $Field ( @{$CustomerUserListFieldsMap} ) {
+    FIELD:
+    for my $Field ( $CustomerUserListFieldsMap->@* ) {
 
         my $Value = $Self->_ConvertFrom( $Result2->get_value($Field) ) || '';
 
-        if ($Value) {
-            if ( $Field =~ /^targetaddress$/i ) {
-                $Value =~ s/SMTP:(.*)/$1/;
-            }
-            push @UserMailStringParts, $Value;
+        # it is not obvious why q{0} is not a valid value
+        next FIELD unless $Value;
+
+        if ( $Field =~ /^targetaddress$/i ) {
+            $Value =~ s/SMTP:(.*)/$1/;
         }
+
+        push @UserMailStringParts, $Value;
     }
-    $UserMailString = join ' ', @UserMailStringParts;
+    my $UserMailString = join ' ', @UserMailStringParts;
     $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
 
     # add the UserMailString to the data hash
