@@ -125,6 +125,7 @@ ok( -d $PrivatePath, 'private dir was created' );
                     async   => 0,
                     version => 3,
                     verify  => 'none',
+                    raw     => qr/(?:userCertificate|;binary)/i,
                 },
             },
             CustomerKey                          => 'uid',
