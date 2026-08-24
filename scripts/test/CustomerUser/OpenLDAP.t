@@ -51,13 +51,21 @@ sub AlterConfig {
 }
 
 sub GetEmailAndCertificate {
-    my ($Home) = @_;
+    my ( $Home, $SMIMEObject ) = @_;
 
     # That test data is also used in scripts/test/SMIME.t
     my $TestConfigJSON = file("$Home/scripts/test/sample/SMIME/smime_test.json")->slurp;
     my $TestConfig     = decode_json($TestConfigJSON);
+    my $Pem            = $TestConfig->{'1'}->{'Pem'};
 
-    return ( $TestConfig->{'1'}->{'Email'}, $TestConfig->{'1'}->{'Pem'} );
+    # Create DER string from PEM, binary
+    my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
+    my ( $FileHandle, $TmpPemFn ) = $FileTempObject->TempFile();
+    print $FileHandle $Pem;
+    close $FileHandle;
+    my $Der = qx~$SMIMEObject->{Cmd} x509 -outform der -in $TmpPemFn 2>&1~;
+
+    return ( $TestConfig->{'1'}->{'Email'}, $Pem, $Der );
 }
 
 # get helper object
@@ -168,10 +176,8 @@ ok( -d $PrivatePath, 'private dir was created' );
 
 # some test data
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-my ( $Email, $Pem ) = GetEmailAndCertificate($Home);
-
-#diag $Email;
-#diag $Pem;
+my ( $Email, $Pem, $Der ) = GetEmailAndCertificate( $Home, $SMIMEObject );
+ok( $Der =~ m/Straubing1/, 'DER contains sensible string Straubing1' );
 
 # read the fixtures from a ldif file, LDAP Data Interchange Format
 # Inject a random ID into the distinct name, in order to allow successive runs.
@@ -223,14 +229,6 @@ my ( $Email, $Pem ) = GetEmailAndCertificate($Home);
 
             if ( $Dn =~ m/trombone_shorty/ ) {
 
-                # Create original PEM certificate file.
-                my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
-                my ( $FileHandle, $TmpPemFn ) = $FileTempObject->TempFile();
-                print $FileHandle $Pem;
-                close $FileHandle;
-                my $Der = qx~$SMIMEObject->{Cmd} x509 -outform der -in $TmpPemFn 2>&1~;
-                ok( $Der =~ m/Straubing1/, 'binary data contains sensible string Straubing1' );
-
                 $Entry->add( 'userCertificate;binary' => $Der );
             }
 
@@ -271,7 +269,7 @@ my $ExpectedUserData = {
     UserLastname         => 'Andrews',
     UserLogin            => 'trombone_shorty',
     UserMailString       => $Email,
-    UserSMIMECertificate => qr/Straubing1/,
+    UserSMIMECertificate => $Der,
     UserAddress          => q{Schneemannstraße 24 ☃$Dezemberdorf ㋋$Weihnachtsland ⭐},
 };
 like(
@@ -292,6 +290,7 @@ subtest "UserSMIMECertificate shouldn't be UTF-8" => sub {
     my $Attr = 'UserSMIMECertificate';
     is_valid_string( $CustomerUserData{$Attr} );
     isnt_flagged_utf8( $CustomerUserData{$Attr} );
+    like( $CustomerUserData{$Attr}, qr/Straubing1/, 'sanity check for substring Straubing1' );
 };
 
 # Add a sanity test for the user certificate
