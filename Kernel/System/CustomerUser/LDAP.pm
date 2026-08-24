@@ -38,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailAddress',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -1473,33 +1474,47 @@ sub CustomerUserDataGet {
 
     return if !$Data{UserLogin};
 
-    # to build the UserMailString
-    my @UserMailStringParts;
-
-    my $CustomerUserListFieldsMap = $Self->{CustomerUserMap}->{CustomerUserListFields};
-    if ( !IsArrayRefWithData($CustomerUserListFieldsMap) ) {
-        $CustomerUserListFieldsMap = [ 'first_name', 'last_name', 'email', ];
-    }
-
-    FIELD:
-    for my $Field ( $CustomerUserListFieldsMap->@* ) {
-
-        my $Value = $Self->_ConvertFrom( $Result2->get_value($Field) ) || '';
-
-        # it is not obvious why q{0} is not a valid value
-        next FIELD unless $Value;
-
-        if ( $Field =~ /^targetaddress$/i ) {
-            $Value =~ s/SMTP:(.*)/$1/;
+    # build the UserMailString, e.g q{"Troy Andrews Cold Room \"The Fridge\"    🥶" <unittest@example.org>}
+    {
+        my $Fields = $Self->{CustomerUserMap}->{CustomerUserListFields};
+        if ( !IsArrayRefWithData($Fields) ) {
+            $Fields = [ 'first_name', 'last_name', 'email', ];
         }
 
-        push @UserMailStringParts, $Value;
-    }
-    my $UserMailString = join ' ', @UserMailStringParts;
-    $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        my @Values;
+        FIELD:
+        for my $Field ( $Fields->@* ) {
 
-    # add the UserMailString to the data hash
-    $Data{UserMailString} = $UserMailString;
+            # _ConvertFrom() is usually a no-op
+            my $Value = $Self->_ConvertFrom( $Result2->get_value($Field) ) || '';
+
+            # it is not obvious why q{0} is not a valid value
+            next FIELD unless $Value;
+
+            if ( $Field =~ /^targetaddress$/i ) {
+                $Value =~ s/SMTP:(.*)/$1/;
+            }
+
+            push @Values, $Value;
+        }
+
+        if (@Values) {
+
+            # Format compliant to RFC 5322. This is relevant when the real name
+            # contain commas, double quotes, or other special symbols.
+            #
+            # It is expected that the last part is the address.
+            my $Address = pop @Values;
+            my $Phrase  = join ' ', @Values;
+            $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                RealName => $Phrase,
+                Address  => $Address,
+            );
+        }
+        else {
+            $Data{UserMailString} = '';
+        }
+    }
 
     # compat!
     $Data{UserID} = $Data{UserLogin};
