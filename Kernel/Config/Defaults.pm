@@ -1882,13 +1882,21 @@ via the Preferences button after logging in.
 #            [ 'UserEmail',       Translatable('Email'),               'mail',                1, 1, 'var', '', 1, undef, undef ],
 #            [ 'UserCustomerID',  Translatable('CustomerID'),          'mail',                0, 1, 'var', '', 1, undef, undef ],
 #            # [ 'UserCustomerIDs', Translatable('CustomerIDs'),         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
-#            # [ 'UserManager',       Translatable('Manager'),           'manager',             1, 0, 'var', '', 1, undef, undef ],
+#            # [ 'UserManager',     Translatable('Manager'),             'manager',             1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserPhone',       Translatable('Phone'),               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserAddress',     Translatable('Address'),             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserComment',     Translatable('Comment'),             'description',         1, 0, 'var', '', 1, undef, undef ],
 #
-#            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+#            # The variable UserSMIMECertificate is needed when "SMIME::FetchFromCustomer" is activated.
+#            # In most cases it is assigned a DER encoded, that is binary, certificate which is fetched from LDAP.
+#            #
+#            # The LDAP attribute 'userCertificate;binary' has been working with at least OpenLDAP 1.5.0. The appended ';binary'
+#            # is required by RFC 4523, https://www.rfc-editor.org/info/rfc4523/#section-4.1.
+#            # Declaring only 'userCertificate' also works in at least some cases.
+#            # Declaring 'userSMIMECertificate' is not expected to work as per RFC 2798 this attribute
+#            # holds a PKCS#7 signed message, https://www.rfc-editor.org/info/rfc2798/#section-2.8 . This format
+#            # is not supported by OTOBO.
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userCertificate;binary', 0, 1, 'var', '', 1, undef, undef ],
 #
 #            # Dynamic field example
 #            # [ 'DynamicField_Name_X',   undef,                          'Name_X',              0, 0, 'dynamic_field', undef, 0, undef, undef ],
