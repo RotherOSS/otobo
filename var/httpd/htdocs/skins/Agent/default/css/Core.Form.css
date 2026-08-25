@@ -1162,6 +1162,11 @@ fieldset.ModularForm {
         flex-flow: row wrap;
     }
 
+    fieldset.ModularForm .InputField_Search,
+    fieldset.ModularForm .InputField_Autocomplete {
+        min-width: 32px;
+    }
+
     fieldset.ModularForm div.DnDUpload {
         width: 100%;
     }
