@@ -1834,8 +1834,9 @@ via the Preferences button after logging in.
 #            # in case you want to add always one filter to each LDAP query, use
 #            # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #            AlwaysFilter => '',
-#            # if the charset of your ldap server is iso-8859-1, use this:
-#            # SourceCharset => 'iso-8859-1',
+#            # There is no known use case for the option SourceCharset as LDAPv3 always sends UTF-8 encoded data.
+#            # But make sure the Params->raw is set as that setting enforces the decoding on the Perl side.
+#            #SourceCharset => 'iso-8859-1',
 #            # die if backend can't work, e. g. can't connect to server
 #            Die => 0,
 #            # Net::LDAP::new() parameters (if needed - for more info see perldoc Net::LDAP)
