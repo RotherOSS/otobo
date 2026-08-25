@@ -478,9 +478,10 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'DBI',
-        Required  => 1,
-        InstTypes => {
+        Module          => 'DBI',
+        VersionRequired => 1.614,    # from 2010, added AutoInactiveDestroy which is used in DBIx::Connector
+        Required        => 1,
+        InstTypes       => {
             aptget => 'libdbi-perl',
             emerge => 'dev-perl/DBI',
             zypper => 'perl-DBI',
