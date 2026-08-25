@@ -555,12 +555,15 @@ sub LoadDefaults {
     # is not in use.
 #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
 
-    # parameters to Net::LDAP->new(), for more info see perldoc Net::LDAP
+    # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+    # The parameter 'raw' indicates that most incoming data are to be considered
+    # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #    $Self->{'AuthModule::LDAP::Params'} = {
 #        port    => 389,
 #        timeout => 120,
 #        async   => 0,
 #        version => 3,
+#        raw     => qr/userCertificate|;binary/,
 #    };
 
     # Die if backend can't work, e. g. can't connect to server.
@@ -730,12 +733,15 @@ sub LoadDefaults {
 #        UserEmail     => 'mail',
 #    };
 
-    # parameters to Net::LDAP->new(), for more info see perldoc Net::LDAP
+    # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+    # The parameter 'raw' indicates that most incoming data are to be considered
+    # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #    $Self->{'AuthSyncModule::LDAP::Params'} = {
 #        port    => 389,
 #        timeout => 120,
 #        async   => 0,
 #        version => 3,
+#        raw     => qr/userCertificate|;binary/,
 #    };
 
 
@@ -1581,12 +1587,15 @@ via the Preferences button after logging in.
     # in your ldap directory exists user@domain.
 #    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
-    # parameters to Net::LDAP->new(), for more info see perldoc Net::LDAP
+    # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+    # The parameter 'raw' indicates that most incoming data are to be considered
+    # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
 #        port    => 389,
 #        timeout => 120,
 #        async   => 0,
 #        version => 3,
+#        raw     => qr/userCertificate|;binary/,
 #    };
     # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
 #    $Self->{'Customer::AuthModule::LDAP::StartTLS'} = 'required';
@@ -1823,35 +1832,49 @@ via the Preferences button after logging in.
 #        Params => {
 #            # LDAP host
 #            Host => 'ldaps://bay.csuhayward.edu',
+#
 #            # LDAP base dn
 #            BaseDN => 'ou=seas,o=csuh',
+#
 #            # search scope (one|sub)
 #            SSCOPE => 'sub',
+#
 #            # The following is valid but would only be necessary if the
 #            # anonymous user does NOT have permission to read from the LDAP tree
 #            UserDN => '',
+#
 #            UserPw => '',
+#
 #            # in case you want to add always one filter to each LDAP query, use
 #            # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #            AlwaysFilter => '',
+#
+#            # die if backend can't work, e. g. can't connect to server
+#            Die => 0,
+#
 #            # There is no known use case for the option SourceCharset as LDAPv3 always sends UTF-8 encoded data.
 #            # But make sure the Params->raw is set as that setting enforces the decoding on the Perl side.
 #            #SourceCharset => 'iso-8859-1',
-#            # die if backend can't work, e. g. can't connect to server
-#            Die => 0,
+#
 #            # Net::LDAP::new() parameters (if needed - for more info see perldoc Net::LDAP)
+#            # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+#            # The parameter 'raw' indicates that most incoming data are to be considered
+#            # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #            Params => {
 #                port    => 389,
 #                timeout => 120,
 #                async   => 0,
 #                version => 3,
-#                verify  => 'require', 
+#                verify  => 'require',
+#                raw     => qr/userCertificate|;binary/,
 #            },
 #        },
 #        # customer unique id
 #        CustomerKey => 'uid',
+#
 #        # customer #
 #        CustomerID => 'mail',
+#
 #        # The last field must always be the email address so that a valid
 #        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        CustomerUserListFields => ['cn', 'mail'],
