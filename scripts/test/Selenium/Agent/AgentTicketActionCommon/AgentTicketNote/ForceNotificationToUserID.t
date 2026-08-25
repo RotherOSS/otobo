@@ -214,7 +214,7 @@ $Selenium->InputFieldValueSet(
 );
 $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
 $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-$Selenium->find_element( "#submitRichText", 'css' )->click();
+$Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
 # Process mail queue items.
 MailQueueProcess();
@@ -485,7 +485,7 @@ $Selenium->InputFieldValueSet(
 );
 $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
 $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-$Selenium->find_element( "#submitRichText", 'css' )->click();
+$Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
 # Process mail queue items.
 MailQueueProcess();
