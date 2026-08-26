@@ -51,7 +51,7 @@ sub Run {
         || 'AdminQueueAutoResponse';
     $Param{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
 # Rother OSS /     
-    $Param{NoUpdate} = $ParamObject->GetParam( Param => 'NoUpdate' ) || '';
+    $Param{NotifyNoUpdate} = $ParamObject->GetParam( Param => 'NotifyNoUpdate' ) || '';
 # EO 
 
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -71,13 +71,12 @@ sub Run {
         );
 
 # Rother OSS / 
-        if ($Param{NoUpdate}) {
+        if ($Param{NotifyNoUpdate}) {
             $Output .= $LayoutObject->Notify(
                 Info => "No permission to update auto responses for this queue.",
                 Priority => 'Error'
             );
         }
-# EO 
         if ( $Self->{LightAdmin} ) {
             $QueueData{Permission} = $QueueObject->QueueListPermission(
                 QueueIDs => [ $Param{ID} ],
@@ -88,13 +87,14 @@ sub Run {
             if ( !$QueueData{Permission} ) {
                 %QueueData = ();
             }
-            elsif ( $QueueData{Permission} eq 'ro' && !$Param{NoUpdate}) {
+            elsif ( $QueueData{Permission} eq 'ro' && !$Param{NotifyNoUpdate}) {
                 $Output .= $LayoutObject->Notify(
                     Priority => 'Notice',
                     Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit auto responses for this queue.'),
                 );
             }
         }
+# EO
 
         $LayoutObject->Block(
             Name => 'Overview',
@@ -138,10 +138,26 @@ sub Run {
 #                Class        => 'Modernize W50pc',
 #            );
             if (%QueueData) {
+
                 # get all valid Auto Responses data for appropriate Auto Responses type
                 my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
                     TypeID => $TypeID,
                 );
+
+                if ( $Self->{LightAdmin} ) {
+                    for my $AutoResponseID ( sort keys %AutoResponseListByType ) {
+                        my %Queues     = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => $AutoResponseID );
+                        my $Permission = $QueueObject->QueueListPermission(
+                            QueueIDs => [ keys %Queues ],
+                            UserID   => $Self->{UserID},
+                            Default  => 'rw',
+                        );
+                        if ( $Permission ne 'rw' ) {
+                            delete $AutoResponseListByType{$AutoResponseID};
+                        }
+                    }
+                }
+
 
                 # get selected Auto Responses for appropriate Auto Responses type and Queue
                 my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
@@ -194,7 +210,7 @@ sub Run {
             # No permission to change the template.
             if ( $Permission ne 'rw' ) {
                 return $LayoutObject->Redirect(
-                    OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID};NoUpdate=1"
+                    OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID};NotifyNoUpdate=1"
                 );
             }
         }

@@ -103,6 +103,7 @@ sub Run {
                 );
             }
         }
+        $Data{LightAdmin} = $Self->{LightAdmin};
 # EO
         $Self->_Edit(
             Action => 'Change',

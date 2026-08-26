@@ -1508,7 +1508,22 @@ sub QueueListPermission {
     return $Permission;
 }
 
-# Rother OSS / 
+# Rother OSS /
+
+=head2 QueueSignatureMemberList()
+
+get queues associated to a signature
+
+    my %Queues = $QueueObject->QueueSignatureMemberList( SignatureID => 123 );
+
+Returns:
+    %Queues = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+=cut
+
 sub QueueSignatureMemberList {
     my ( $Self, %Param ) = @_;
 
@@ -1561,6 +1576,20 @@ sub QueueSignatureMemberList {
 
     return %Queues;
 }
+
+=head2 QueueAutoResponseMemberList()
+
+get queues associated to an auto response
+
+    my %Queues = $QueueObject->QueueSAutoResponseMemberList( AutoResponseID => 123 );
+
+Returns:
+    %Queues = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+=cut
 
 sub QueueAutoResponseMemberList {
     my ( $Self, %Param ) = @_;

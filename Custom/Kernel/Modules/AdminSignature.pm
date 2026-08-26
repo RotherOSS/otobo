@@ -106,6 +106,7 @@ sub Run {
                 );
             }
         }
+        $Data{LightAdmin} = $Self->{LightAdmin};
 # EO 
         $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') )
             if ( $Notification && $Notification eq 'Update' );
@@ -455,7 +456,7 @@ sub _Overview {
 # Rother OSS / 
     if ( $Self->{LightAdmin} ) {
 
-        # check queue permissions of linked templates.
+        # check queue permissions of linked signatures.
         for my $ListKey ( keys %List ) {
             my %Data = $SignatureObject->SignatureGet( ID => $ListKey );
             my %Queues = $QueueObject->QueueSignatureMemberList(
