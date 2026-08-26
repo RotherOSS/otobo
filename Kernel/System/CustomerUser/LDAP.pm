@@ -1556,7 +1556,7 @@ sub CustomerUserAdd {
     if ( $Self->{ReadOnly} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Customer backend is read only!'
+            Message  => 'Customer backend is read only!',
         );
         return;
     }

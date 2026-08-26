@@ -16,8 +16,11 @@
 
 package Kernel::System::CustomerUser::DB;
 
+use v5.26;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use Digest::SHA ();
@@ -37,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailAddress',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -1268,32 +1272,46 @@ sub CustomerUserDataGet {
         return;
     }
 
-    my $CustomerUserListFieldsMap = $Self->{CustomerUserMap}->{CustomerUserListFields};
-    if ( !IsArrayRefWithData($CustomerUserListFieldsMap) ) {
-        $CustomerUserListFieldsMap = [ 'first_name', 'last_name', 'email', ];
+    # build the UserMailString, e.g q{"Troy Andrews Cold Room \"The Fridge\"    🥶" <unittest@example.org>}
+    {
+        my $Fields = $Self->{CustomerUserMap}->{CustomerUserListFields};
+        if ( !IsArrayRefWithData($Fields) ) {
+            $Fields = [ 'first_name', 'last_name', 'email', ];
+        }
+
+        # Get the keys of the %Data hash that correspond to the table attributes
+        my @CustomerUserListFields;
+        for my $Field ( $Fields->@* ) {
+            my @FieldNames = map { $_->[0] } grep { $_->[2] eq $Field } @{ $Self->{CustomerUserMap}->{Map} };
+            push @CustomerUserListFields, $FieldNames[0];
+        }
+
+        my @Values;
+
+        FIELD:
+        for my $Field (@CustomerUserListFields) {
+            next FIELD unless $Data{$Field};
+
+            push @Values, $Data{$Field};
+        }
+
+        if (@Values) {
+
+            # Format compliant to RFC 5322. This is relevant when the real name
+            # contain commas, double quotes, or other special symbols.
+            #
+            # It is expected that the last part is the address.
+            my $Address = pop @Values;
+            my $Phrase  = join ' ', @Values;
+            $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                RealName => $Phrase,
+                Address  => $Address,
+            );
+        }
+        else {
+            $Data{UserMailString} = '';
+        }
     }
-
-    # Order fields by CustomerUserListFields (see bug#13821).
-    my @CustomerUserListFields;
-    for my $Field ( @{$CustomerUserListFieldsMap} ) {
-        my @FieldNames = map { $_->[0] } grep { $_->[2] eq $Field } @{ $Self->{CustomerUserMap}->{Map} };
-        push @CustomerUserListFields, $FieldNames[0];
-    }
-
-    my $UserMailString = '';
-    my @UserMailStringParts;
-
-    FIELD:
-    for my $Field (@CustomerUserListFields) {
-        next FIELD if !$Data{$Field};
-
-        push @UserMailStringParts, $Data{$Field};
-    }
-    $UserMailString = join ' ', @UserMailStringParts;
-    $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
-
-    # add the UserMailString to the data hash
-    $Data{UserMailString} = $UserMailString;
 
     # compat!
     $Data{UserID} = $Data{UserLogin};
@@ -1319,7 +1337,7 @@ sub CustomerUserDataGet {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerUserDataGet::$Param{User}",
+            Key   => 'CustomerUserDataGet::' . $Param{User},
             Value => { %Data, %Preferences },
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
