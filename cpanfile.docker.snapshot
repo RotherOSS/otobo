@@ -616,11 +616,11 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Output 1.031
       Test::Simple 0.9
-  DBD-Pg-3.21.0
-    pathname: T/TU/TURNSTEP/DBD-Pg-3.21.0.tar.gz
+  DBD-Pg-3.21.2
+    pathname: T/TU/TURNSTEP/DBD-Pg-3.21.2.tar.gz
     provides:
-      Bundle::DBD::Pg v3.21.0
-      DBD::Pg v3.21.0
+      Bundle::DBD::Pg v3.21.2
+      DBD::Pg v3.21.2
     requirements:
       DBI 1.614
       ExtUtils::MakeMaker 6.58
@@ -844,15 +844,15 @@ DISTRIBUTIONS
       strict 0
       warnings 0
       warnings::register 0
-  DateTime-Locale-1.45
-    pathname: D/DR/DROLSKY/DateTime-Locale-1.45.tar.gz
+  DateTime-Locale-1.46
+    pathname: D/DR/DROLSKY/DateTime-Locale-1.46.tar.gz
     provides:
-      DateTime::Locale 1.45
-      DateTime::Locale::Base 1.45
-      DateTime::Locale::Catalog 1.45
-      DateTime::Locale::Data 1.45
-      DateTime::Locale::FromData 1.45
-      DateTime::Locale::Util 1.45
+      DateTime::Locale 1.46
+      DateTime::Locale::Base 1.46
+      DateTime::Locale::Catalog 1.46
+      DateTime::Locale::Data 1.46
+      DateTime::Locale::FromData 1.46
+      DateTime::Locale::Util 1.46
     requirements:
       Carp 0
       Dist::CheckConflicts 0.02
@@ -3775,6 +3775,7 @@ DISTRIBUTIONS
       Net::LDAPS 0.06
     requirements:
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
@@ -3785,6 +3786,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
