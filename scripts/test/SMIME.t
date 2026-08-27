@@ -158,40 +158,38 @@ my %Search = (
 
 my $TestText = 'hello1234567890öäüß';
 
+# Test the three test cases that are set up in the JSON file
 for my $Count ( 1 .. 3 ) {
     subtest "Testcase $Count" => sub {
 
-        my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
-        ok( !$Certs[0], "Search() before CertificateAdd() has no results" );
+        my @CertsBeforeAdd = $SMIMEObject->Search( Search => $Search{$Count} );
+        is( \@CertsBeforeAdd, [], 'Search() before CertificateAdd() has no results' );
 
         # add certificate ...
         my $CertString = $MainObject->FileRead(
             Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
             Filename  => "SMIMECertificate-$Count.asc",
         );
-        my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-
-        $Certs[0]->{Filename} = $Result{Filename};
-
+        my %Result = $SMIMEObject->CertificateAdd( Certificate => $CertString->$* );
         ok( $Result{Successful}, "CertificateAdd() - $Result{Message}" );
 
-        # test if read cert from file is the same as in unittest file
+        # test if the added certificate from file is the same as in unittest file
         is(
-            ${$CertString},
+            $CertString->$*,
             $TestConfig->{$Count}->{Pem},
-            "CertificateSearch() - Test if read cert from file is the same as in unittest file",
+            "CertificateSearch() - Test if added cert from file is the same as in unittest file",
         );
 
-        @Certs = $SMIMEObject->CertificateSearch(
+        # Search after the certificate has been added.
+        my @Certs = $SMIMEObject->CertificateSearch(
             Search => $Search{$Count},
         );
-
         ok( $Certs[0], "CertificateSearch()" );
 
         IDTEST:
-        for my $ID ( sort keys %{ $TestConfig->{$Count} } ) {
+        for my $ID ( sort keys $TestConfig->{$Count}->%* ) {
 
-            next IDTEST if ( $ID eq 'Pem' );
+            next IDTEST if $ID eq 'Pem';
 
             if ( IsArrayRefWithData( $TestConfig->{$Count}->{$ID} ) ) {
 
@@ -2695,6 +2693,4 @@ for my $Count ( 1 .. 3 ) {
 rmtree($CertPath);
 rmtree($PrivatePath);
 
-# cleanup is done by RestoreDatabase
-
-done_testing();
+done_testing;
