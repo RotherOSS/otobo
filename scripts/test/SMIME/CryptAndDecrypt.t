@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Explain;
 use File::Path  qw(make_path rmtree);
 use Path::Class qw(file);
 use JSON::XS    qw(decode_json);
@@ -139,14 +140,13 @@ my %Search = (
     1 => 'unittest@example.org',
     2 => 'unittest2@example.org',
     3 => 'unittest3@example.org',
-    4 => 'unittest4@example.org',
-    5 => 'unittest5@example.org',
 );
 
 my $TestText = 'hello1234567890öäüß';
 
 # Test the three test cases that are set up in the JSON file
 # These test were originally in SMIME.t
+my ( %Count2Filename, %Count2Crypted );
 for my $Count ( 1 .. 3 ) {
     subtest "Testcase $Count" => sub {
 
@@ -172,7 +172,8 @@ for my $Count ( 1 .. 3 ) {
         my @Certs = $SMIMEObject->CertificateSearch(
             Search => $Search{$Count},
         );
-        ok( $Certs[0], "CertificateSearch()" );
+        like( \@Certs, array { item hash { filename => T() }; end() }, "single result CertificateSearch()" );
+        $Count2Filename{$Count} = $Certs[0]->{Filename};
 
         IDTEST:
         for my $ID ( sort keys $TestConfig->{$Count}->%* ) {
@@ -238,6 +239,7 @@ for my $Count ( 1 .. 3 ) {
             Message  => $TestText,
             Filename => $Certs[0]->{Filename},
         );
+        $Count2Crypted{$Count} = $Crypted;
         ok( $Crypted, "Crypt() by cert filename" );
 
         ok(
@@ -246,14 +248,15 @@ for my $Count ( 1 .. 3 ) {
             "Crypt() - Data seems ok (crypted)",
         );
 
-        # decrypt
-        my %Decrypt = $SMIMEObject->Decrypt(
-            Message  => $Crypted,
-            Filename => $Certs[0]->{Filename},
-        );
-
-        ok( $Decrypt{Successful}, "Decrypt() by cert filename - Successful: $Decrypt{Message}" );
-        is( $Decrypt{Data}, $TestText, "Decrypt() - Data" );
+        # decrypt with the correct certificate
+        {
+            my %Decrypt = $SMIMEObject->Decrypt(
+                Message  => $Crypted,
+                Filename => $Certs[0]->{Filename},
+            );
+            ok( $Decrypt{Successful}, "Decrypt() by cert filename - Successful: $Decrypt{Message}" );
+            is( $Decrypt{Data}, $TestText, "Decrypt() - Data" );
+        }
 
         # sign
         my $Sign = $SMIMEObject->Sign(
@@ -316,11 +319,7 @@ for my $Count ( 1 .. 3 ) {
                     Fingerprint => $Certs[0]->{Fingerprint},
                 );
                 ok( $Decrypt{Successful}, "Decrypt() - Successful .$File" );
-                is(
-                    $Decrypt{Data},
-                    $Reference,
-                    "Decrypt() - Data .$File",
-                );
+                is( $Decrypt{Data}, $Reference, "Decrypt() - Data .$File" );
 
                 # sign
                 my $Signed = $SMIMEObject->Sign(
@@ -345,6 +344,19 @@ for my $Count ( 1 .. 3 ) {
             }
         }
     };
+}
+
+# decrypt with the incorrect certificate
+for my $Count ( 1 .. 3 ) {
+    my $InvalidCertCount = ( $Count % 3 ) + 1;      # 3 => 1
+    my %Decrypt          = $SMIMEObject->Decrypt(
+        Message            => $Count2Crypted{$Count},
+        Filename           => $Count2Filename{$InvalidCertCount},
+        SearchingNeededKey => 1,
+    );
+    diag explain( \%Decrypt );
+    ok( !$Decrypt{Successful}, "Error decrypting by cert filename" );
+    is( $Decrypt{Message}, "Error decrypting CMS using private key\n", 'Message for failed decrypt' );
 }
 
 # delete keys
