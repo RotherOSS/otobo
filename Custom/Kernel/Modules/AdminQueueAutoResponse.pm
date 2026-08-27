@@ -31,12 +31,11 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-# Rother OSS / 
+# Rother OSS /
     if ( !$Param{AccessRw} && $Param{AccessRo} ) {
         $Self->{LightAdmin} = 1;
     }
-# EO 
+# EO
 
     return $Self;
 }
@@ -50,9 +49,6 @@ sub Run {
     $Param{Action} = $ParamObject->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
     $Param{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
-# Rother OSS /     
-    $Param{NotifyNoUpdate} = $ParamObject->GetParam( Param => 'NotifyNoUpdate' ) || '';
-# EO 
 
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
@@ -69,14 +65,7 @@ sub Run {
         my %QueueData = $QueueObject->QueueGet(
             ID => $Param{ID},
         );
-
-# Rother OSS / 
-        if ($Param{NotifyNoUpdate}) {
-            $Output .= $LayoutObject->Notify(
-                Info => "No permission to update auto responses for this queue.",
-                Priority => 'Error'
-            );
-        }
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
             $QueueData{Permission} = $QueueObject->QueueListPermission(
                 QueueIDs => [ $Param{ID} ],
@@ -87,7 +76,7 @@ sub Run {
             if ( !$QueueData{Permission} ) {
                 %QueueData = ();
             }
-            elsif ( $QueueData{Permission} eq 'ro' && !$Param{NotifyNoUpdate}) {
+            elsif ( $QueueData{Permission} eq 'ro' ) {
                 $Output .= $LayoutObject->Notify(
                     Priority => 'Notice',
                     Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit auto responses for this queue.'),
@@ -117,7 +106,7 @@ sub Run {
         );
         for my $TypeID ( sort keys %TypeResponsesData ) {
 
-# Rother OSS / 
+# Rother OSS /
 #            # get all valid Auto Responses data for appropriate Auto Responses type
 #            my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
 #                TypeID => $TypeID,
@@ -174,7 +163,7 @@ sub Run {
                     Class        => 'Modernize W50pc',
                 );
             }
-# EO 
+# EO
             $LayoutObject->Block(
                 Name => 'ChangeItemList',
                 Data => {
@@ -196,7 +185,7 @@ sub Run {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
 
             my %Queues = $QueueObject->QueueAutoResponseMemberList(
@@ -210,11 +199,11 @@ sub Run {
             # No permission to change the template.
             if ( $Permission ne 'rw' ) {
                 return $LayoutObject->Redirect(
-                    OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID};NotifyNoUpdate=1"
+                    OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID}"
                 );
             }
         }
-# EO 
+# EO
 
         my @NewIDs = ();
 
@@ -291,7 +280,7 @@ sub Run {
                 QueueHeader => $QueueHeader,
             },
         );
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
 
             # Filter out queues without permission.
@@ -304,7 +293,7 @@ sub Run {
                 delete $QueueData{$QueueID} if !$RwQueues{$QueueID};
             }
         }
-# EO 
+# EO
 
         # if there are any queues, they are shown
         if (%QueueData) {
@@ -331,7 +320,7 @@ sub Run {
 
         # get valid Auto Response IDs
         my %AutoResponseList = $AutoResponseObject->AutoResponseList();
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
             for my $AutoResponseID ( sort keys %AutoResponseList ) {
                 my %Queues     = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => $AutoResponseID );
@@ -345,7 +334,7 @@ sub Run {
                 }
             }
         }
-# EO 
+# EO
 
         # if there are any auto responses, they are shown
         if ( keys %AutoResponseList ) {

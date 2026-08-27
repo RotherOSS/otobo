@@ -41,11 +41,11 @@ sub new {
 
     $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
-# Rother OSS / 
+# Rother OSS /
     if ( !$Param{AccessRw} && $Param{AccessRo} ) {
         $Self->{LightAdmin} = 1;
     }
-# EO 
+# EO
 
     return $Self;
 }
@@ -57,7 +57,7 @@ sub Run {
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
-# Rother OSS / 
+# Rother OSS /
     my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
 # EO
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
@@ -84,7 +84,7 @@ sub Run {
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
             my %Queues = $QueueObject->QueueSignatureMemberList(
                 SignatureID => $ID
@@ -106,8 +106,7 @@ sub Run {
                 );
             }
         }
-        $Data{LightAdmin} = $Self->{LightAdmin};
-# EO 
+# EO
         $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') )
             if ( $Notification && $Notification eq 'Update' );
 
@@ -152,7 +151,7 @@ sub Run {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
         }
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
 
             my %Queues = $QueueObject->QueueSignatureMemberList(
@@ -169,7 +168,7 @@ sub Run {
                 $Errors{NoPermission} = 1;
             }
         }
-# EO 
+# EO
 
         # if no errors occurred
         if ( !%Errors ) {
@@ -204,7 +203,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-# Rother OSS /         
+# Rother OSS /
 #        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         my $ErrorInfo = $Errors{NoPermission} ?
                         'No permission to update this signature.' :
@@ -213,7 +212,7 @@ sub Run {
             Info => $ErrorInfo,
             Priority => 'Error'
         );
-# EO 
+# EO
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -415,9 +414,9 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-# Rother OSS / 
+# Rother OSS /
     my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-# EO 
+# EO
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -453,7 +452,7 @@ sub _Overview {
     my %List            = $SignatureObject->SignatureList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
-# Rother OSS / 
+# Rother OSS /
     if ( $Self->{LightAdmin} ) {
 
         # check queue permissions of linked signatures.
@@ -472,7 +471,7 @@ sub _Overview {
             }
         }
     }
-# Rother OSS / 
+# Rother OSS /
 
     # if there are any results, they are shown
     if (%List) {

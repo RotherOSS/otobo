@@ -221,8 +221,9 @@
                             <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
                         </div>
                         <div class="Clear"></div>
-
-                    [% IF !Data.LightAdmin || Data.Permission == 'rw' %]
+# Rother OSS /
+                    [% IF Data.Permission != 'ro' %]
+# EO
                         <div class="Field">
                             [% IF Data.Action == 'Change' %]
                                 <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
@@ -235,7 +236,9 @@
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>
                         <div class="Clear"></div>
+# Rother OSS /
                     [% END %]
+# EO
                     </fieldset>
                 </form>
             </div>

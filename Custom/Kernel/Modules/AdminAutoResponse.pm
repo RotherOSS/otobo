@@ -40,11 +40,11 @@ sub new {
     );
 
     $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
-# Rother OSS / 
+# Rother OSS /
     if ( !$Param{AccessRw} && $Param{AccessRo} ) {
         $Self->{LightAdmin} = 1;
     }
-# EO 
+# EO
     return $Self;
 }
 
@@ -54,9 +54,7 @@ sub Run {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
-# Rother OSS / 
     my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
-# EO 
 
     $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
 
@@ -81,11 +79,9 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
-            my %Queues = $QueueObject->QueueAutoResponseMemberList(
-                AutoResponseID => $ID
-            );
+            my %Queues = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => $ID );
             $Data{Permission} = $QueueObject->QueueListPermission(
                 QueueIDs => [ keys %Queues ],
                 UserID   => $Self->{UserID},
@@ -103,7 +99,6 @@ sub Run {
                 );
             }
         }
-        $Data{LightAdmin} = $Self->{LightAdmin};
 # EO
         $Self->_Edit(
             Action => 'Change',
@@ -145,12 +140,9 @@ sub Run {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
         }
-# Rother OSS / 
+# Rother OSS /
         if ( $Self->{LightAdmin} ) {
-
-            my %Queues = $QueueObject->QueueAutoResponseMemberList(
-                AutoResponseID => $GetParam{ID}
-            );
+            my %Queues = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => $GetParam{ID} );
             my $Permission = $QueueObject->QueueListPermission(
                 QueueIDs => [ keys %Queues ],
                 UserID   => $Self->{UserID},
@@ -162,7 +154,7 @@ sub Run {
                 $Errors{NoPermission} = 1;
             }
         }
-# EO 
+# EO
 
         # if no errors occurred
         if ( !%Errors ) {
@@ -180,7 +172,9 @@ sub Run {
                     )
                 {
                     my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
-                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=Change;ID=$ID" );
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=Change;ID=$ID"
+                    );
                 }
                 else {
 
@@ -193,16 +187,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-# Rother OSS / 
-#        $Output .= $LayoutObject->Notify( Priority => 'Error' );
-        my $ErrorInfo = $Errors{NoPermission} ?
-                        'No permission to update this auto response.' :
-                        'There were errors, could not update this auto response.';
-        $Output .= $LayoutObject->Notify(
-            Info => $ErrorInfo,
-            Priority => 'Error'
-        );
-# EO 
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -318,7 +303,6 @@ sub Run {
         $Output .= $LayoutObject->Footer();
         return $Output;
     }
-
 }
 
 sub _Edit {
@@ -405,11 +389,10 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-# Rother OSS / 
+# Rother OSS /
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-# EO 
+# EO
     my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -431,10 +414,11 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
+# Rother OSS /
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
     my %List = $AutoResponseObject->AutoResponseList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
-# Rother OSS / 
     if ( $Self->{LightAdmin} ) {
 
         # check queue permissions of linked templates.
@@ -453,7 +437,7 @@ sub _Overview {
             }
         }
     }
-# EO 
+# EO
 
     # if there are any results, they are shown
     if (%List) {
