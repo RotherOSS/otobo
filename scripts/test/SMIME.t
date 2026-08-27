@@ -1271,13 +1271,8 @@ HZ4=
                     . " $WrongPrivateSecretFile with wrong name",
             );
 
-            my $FileExists;
-            if ( -e $WrongPrivateSecretFileLocation ) {
-                $FileExists = 1;
-            }
-
-            $Self->True(
-                $FileExists,
+            ok(
+                -e $WrongPrivateSecretFileLocation,
                 "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile"
                     . " exists with true (before normalize)",
             );
@@ -1327,19 +1322,12 @@ HZ4=
         my $CorrectPrivateSecretFile         = "$PrivateKeyFile.P";
         my $CorrectPrivateSecretFileLocation = "$PrivatePath/$CorrectPrivateSecretFile";
 
-        my $FileExists;
-
         # the correct file does not exist at this time
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->False(
-            $FileExists,
+        ok(
+            !-e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with false (before normalize)",
         );
-        $FileExists = 0;
 
         # normalize private secret
         my $Response = $SMIMEObject->CheckCertPath();
@@ -1357,28 +1345,18 @@ HZ4=
         }
 
         # by this time after the normalization the file should not exist
-        if ( -e $WrongPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->False(
-            $FileExists,
+        ok(
+            !-e $WrongPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename:"
                 . " $WrongPrivateSecretFile exists with false (after normalize)",
         );
-        $FileExists = 0;
 
         # the file should be renamed to the correct format at this point
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->True(
-            $FileExists,
+        ok(
+            -e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename: $CorrectPrivateSecretFile exists"
                 . " with true (after normalize)",
         );
-        $FileExists = 0;
 
         # leave the correct private secret file for the next test
         pass(
@@ -1422,28 +1400,18 @@ HZ4=
         }
 
         # by this time after the normalization the file should not exist (since contents are equal)
-        if ( -e $WrongPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->False(
-            $FileExists,
+        ok(
+            !-e $WrongPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
                 . " with false (after normalize duplicate file same content)",
         );
-        $FileExists = 0;
 
         # the file should be renamed to the correct format at this point
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->True(
-            $FileExists,
+        ok(
+            -e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with true (after normalize duplicate file same content)",
         );
-        $FileExists = 0;
 
         # leave the correct file again but modify its content this will cause that both file exists
         # at the end
@@ -1492,28 +1460,18 @@ HZ4=
 
         # by this time after the normalization the file should still exists
         # (since contents are different)
-        if ( -e $WrongPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->True(
-            $FileExists,
+        ok(
+            -e $WrongPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
                 . " with true (after normalize duplicate file different content)",
         );
-        $FileExists = 0;
 
         # the correct private secret file still exists
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
-        $Self->True(
-            $FileExists,
+        ok(
+            -e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with true (after normalize duplicate file same content)",
         );
-        $FileExists = 0;
 
         # remove files from file system
         my $FileDeleteSuccess = $MainObject->FileDelete(
@@ -1571,17 +1529,11 @@ HZ4=
             );
 
             # sanity checks
-            my $FileExists;
-            if ( -e $WrongCAFileLocation ) {
-                $FileExists = 1;
-            }
-
-            $Self->True(
-                $FileExists,
+            ok(
+                -e $WrongCAFileLocation,
                 "Re-Hash $TestName: Wrong CA $CAName filename: $WrongCAFile exists with true"
                     . " (before re-hash)",
             );
-            $FileExists = 0;
 
             my $ContentSCALARRef = $MainObject->FileRead(
                 Location => $WrongCAFileLocation,
@@ -1602,16 +1554,11 @@ HZ4=
                 );
 
                 # sanity checks
-                if ( -e $WrongCAPrivateKeyFileLocation ) {
-                    $FileExists = 1;
-                }
-
-                $Self->True(
-                    $FileExists,
+                ok(
+                    -e $WrongCAPrivateKeyFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private key filename:"
                         . " $WrongCAPrivateKeyFile exists with true (before re-hash)",
                 );
-                $FileExists = 0;
 
                 $ContentSCALARRef = $MainObject->FileRead(
                     Location => $WrongCAPrivateKeyFileLocation,
@@ -1632,17 +1579,11 @@ HZ4=
                     Location => $WrongCAPrivateSecretFileLocation,
                     Content  => \$WrongCAPrivateSecretFileContent,
                 );
-
-                if ( -e $WrongCAPrivateSecretFileLocation ) {
-                    $FileExists = 1;
-                }
-
-                $Self->True(
-                    $FileExists,
+                ok(
+                    -e $WrongCAPrivateSecretFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
                         . " $WrongCAPrivateSecretFile exists with true (before re-hash)",
                 );
-                $FileExists = 0;
 
                 $ContentSCALARRef = $MainObject->FileRead(
                     Location => $WrongCAPrivateSecretFileLocation,
@@ -1685,34 +1626,22 @@ HZ4=
 
             # check if wrong CA certificates, private keys and secrets exists
             {
-                my $FileExists;
-                if ( -e $WrongCAFileLocation ) {
-                    $FileExists = 1;
-                }
-                $Self->False(
-                    $FileExists,
+                ok(
+                    !-e $WrongCAFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName certificate filename: $WrongCAFile"
                         . " File exists with false (after re-hash)",
                 );
             }
             if ($UsePrivateKeys) {
-                my $FileExists;
-                if ( -e $WrongCAPrivateKeyFileLocation ) {
-                    $FileExists = 1;
-                }
-                $Self->False(
-                    $FileExists,
+                ok(
+                    !-e $WrongCAPrivateKeyFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private key filename:"
                         . " $WrongCAPrivateKeyFile File exists with false (after re-hash)",
                 );
             }
             if ( $UsePrivateSecrets && !$UsePrivateKeys ) {
-                my $FileExists;
-                if ( -e $WrongCAPrivateSecretFileLocation ) {
-                    $FileExists = 1;
-                }
-                $Self->True(
-                    $FileExists,
+                ok(
+                    -e $WrongCAPrivateSecretFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
                         . " $WrongCAPrivateSecretFile File exists with true (after re-hash)"
                         . " there was no private key",
@@ -1721,34 +1650,22 @@ HZ4=
 
             # check if correct CA certificates, private keys and secrets exists
             {
-                my $FileExists;
-                if ( -e $CorrectCAFileLocation ) {
-                    $FileExists = 1;
-                }
-                $Self->True(
-                    $FileExists,
+                ok(
+                    -e $CorrectCAFileLocation,
                     "Re-Hash $TestName: Correct CA $CAName certificate filename: $CorrectCAFile"
                         . " File exists with true (after re-hash)",
                 );
             }
             if ($UsePrivateKeys) {
-                my $FileExists;
-                if ( -e $CorrectCAPrivateKeyFileLocation ) {
-                    $FileExists = 1;
-                }
-                $Self->True(
-                    $FileExists,
+                ok(
+                    -e $CorrectCAPrivateKeyFileLocation,
                     "Re-Hash $TestName: Correct CA $CAName private key filename:"
                         . " $CorrectCAPrivateKeyFile File exists with true (after re-hash)",
                 );
             }
             if ( $UsePrivateSecrets && !$UsePrivateKeys ) {
-                my $FileExists;
-                if ( -e $CorrectCAPrivateSecretFileLocation ) {
-                    $FileExists = 1;
-                }
-                $Self->False(
-                    $FileExists,
+                ok(
+                    !-e $CorrectCAPrivateSecretFileLocation,
                     "Re-Hash $TestName: Correct CA $CAName private secret filename:"
                         . " $CorrectCAPrivateSecretFile File exists with false (after re-hash)"
                         . " there was not private key",
