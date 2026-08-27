@@ -288,6 +288,8 @@ decrypt a message and returns a hash (Successful, Message, Data)
         Filename => $Filename,
     );
 
+or
+
     my %Message = $CryptObject->Decrypt(
         Message     => $CryptedMessage,
         Hash        => $Hash,
@@ -352,28 +354,29 @@ sub Decrypt {
     unlink $SecretFile;
 
     # TODO: check whether the patters are still valid with `openssl cms`
-    if (
-        $Param{SearchingNeededKey}
-        && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
-        && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
-        )
-    {
-        return (
-            Successful => 0,
-            Message    => 'Impossible to decrypt with installed private keys!',
-        );
-    }
-
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't decrypt: $LogMessage!"
-        );
+        if (
+            $Param{SearchingNeededKey}
+            && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
+            && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
+            )
+        {
+            return (
+                Successful => 0,
+                Message    => 'Impossible to decrypt with installed private keys!',
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't decrypt: $LogMessage!"
+            );
 
-        return (
-            Successful => 0,
-            Message    => $LogMessage,
-        );
+            return (
+                Successful => 0,
+                Message    => $LogMessage,
+            );
+        }
     }
 
     my $DecryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $PlainFile );
