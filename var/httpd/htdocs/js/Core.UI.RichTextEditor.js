@@ -192,6 +192,18 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             htmlSupport: {
                 allow: [
                     {
+                        name: 'style',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'p',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
                         name: 'span',
                         attributes: true,
                         classes: true,
@@ -204,13 +216,67 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         styles: true
                     },
                     {
-                        name: 'style',
+                        name: 'img',
                         attributes: true,
                         classes: true,
                         styles: true
                     },
                     {
                         name: 'table',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'caption',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'colgroup',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'col',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'thead',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'tbody',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'tfoot',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'th',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'tr',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'td',
                         attributes: true,
                         classes: true,
                         styles: true
