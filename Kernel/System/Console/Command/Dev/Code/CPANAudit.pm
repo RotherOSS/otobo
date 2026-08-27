@@ -204,6 +204,7 @@ END_REASON
 The advisory is about the module Text::LineFold. This module is not used in OTOBO.
 It is installed only because it is included in Unicode::LineBreak.
 Unicode::LineBreak is installed because Unicode::GCString is needed by the test suite.
+END_REASON
 
         crypt_with_md5 => <<'END_REASON',
 The advisory is relevant only when customer or user passwords are stored in the database in MD5 crypted form.
