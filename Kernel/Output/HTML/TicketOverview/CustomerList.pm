@@ -190,7 +190,7 @@ sub Run {
                 $Conf->{ColorSelection} //= {};
                 my $Color = $Conf->{ColorSelection}{ $Ticket{$CatName} } // $Conf->{ColorDefault};
 
-                push @{ $Categories{ $Conf->{Order} } }, {
+                push @{ $Categories{ $Conf->{Order} // 9999 } }, {
                     Text   => $Text,
                     Color  => $Color,
                     Value  => $Ticket{$CatName},
@@ -250,7 +250,7 @@ sub Run {
                 $Conf->{ColorSelection} //= {};
                 my $Color = $Conf->{ColorSelection}{ $ValueStrg->{Value} } // $Conf->{ColorDefault};
 
-                push @{ $Categories{ $Conf->{Order} } }, {
+                push @{ $Categories{ $Conf->{Order} // 9999 } }, {
                     Text   => $Text,
                     Color  => $Color,
                     Value  => $ValueStrg->{Value},
