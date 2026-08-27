@@ -146,7 +146,7 @@ my %Search = (
 my $TestText = 'hello1234567890öäüß';
 
 # Add certificates and private keys which will be needed later on.
-# Crypt(), DeCrypt(), Sign(), and Verify() are tested in SMIME/CryptAndDecrypt.t
+# Crypt(), DeCrypt(), Sign(), and Verify() are tested in SMIME/CryptDecryptAndSignVerify.t
 for my $Count ( 1 .. 3 ) {
     subtest "set up certificate and private key $Count" => sub {
 
