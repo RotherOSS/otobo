@@ -61,7 +61,9 @@ sub new {
 
 =head2 TempFile()
 
-returns an opened temporary file handle and its file name.
+returns an file handle which is opened for writing and the name of the file.
+The file will be unlinked when the program exits.
+The file handle will be closed when the instance of C<Kernel::System::FileTemp> is destroyed.
 Please note that you need to close the file handle for other processes to write to it.
 
     my ($FileHandle, $Filename) = $TempObject->TempFile(
