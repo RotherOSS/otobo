@@ -60,8 +60,9 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $Home = $ConfigObject->Get('Home');
 
 # set up temporary dirs
-my $CertPath    = "$Home/var/tmp/certs";
-my $PrivatePath = "$Home/var/tmp/private";
+my $Random      = $Helper->GetRandomID;
+my $CertPath    = "$Home/var/tmp/certs_$Random";
+my $PrivatePath = "$Home/var/tmp/private_$Random";
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
 rmtree($CertPath);
