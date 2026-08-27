@@ -246,6 +246,9 @@ END_REASON
             is_relevant_for_otobo => 0,
             reason                => $Reason{text_linefold},
         },
+
+        # Updating Crypt::PasswdMD5 in Kernel/cpan-lib is not an option.
+        # The new version adds a dependency on Crypt::URandom, which is an XS module
         'CPANSA-Crypt-PasswdMD5-2026-6659' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{crypt_with_md5},
