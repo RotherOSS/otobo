@@ -42,11 +42,12 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Crypt::SMIME - smime crypt backend lib
+Kernel::System::Crypt::SMIME - S/MIME crypt backend lib
 
 =head1 DESCRIPTION
 
-This is a sub module of Kernel::System::Crypt and contains all smime functions.
+The  module Kernel::System::Crypt contains S/MIME functions. S/MIME stands for Secure/Multipurpose Internet Mail Extensions.
+It provides support crypting/decrypting and signing/verifying MIME messages.
 
 =head1 PUBLIC INTERFACE
 
@@ -55,7 +56,6 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -63,7 +63,7 @@ sub new {
     # check if module is enabled
     return 0 unless $Kernel::OM->Get('Kernel::Config')->Get('SMIME');
 
-    # more setup, get setting from the SysConfig
+    # more setup, get settings from the SysConfig
     $Self->_Init();
 
     # check working ENV
@@ -234,7 +234,7 @@ sub Crypt {
     SEARCHPARAM:
     for my $SearchParam (@CertificateSearchParams) {
 
-        next SEARCHPARAM if !IsHashRefWithData($SearchParam);
+        next SEARCHPARAM unless IsHashRefWithData($SearchParam);
 
         my $Certificate = $Self->CertificateGet( %{$SearchParam} );
         my ( $FHCertificate, $CertFile ) = $FileTempObject->TempFile();
@@ -367,18 +367,18 @@ sub Decrypt {
     }
 
     my $DecryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $PlainFile );
-    if ( !$DecryptedRef ) {
-        return (
-            Successful => 0,
-            Message    => "OpenSSL: Can't read $PlainFile!",
-            Data       => undef,
-        );
 
-    }
+    # in case of problems
+    return (
+        Successful => 0,
+        Message    => "OpenSSL: Can't read $PlainFile!",
+        Data       => undef,
+    ) unless $DecryptedRef;
 
+    # success
     return (
         Successful => 1,
-        Message    => "OpenSSL: OK",
+        Message    => 'OpenSSL: OK',
         Data       => $$DecryptedRef,
     );
 }
@@ -579,7 +579,9 @@ sub Verify {
 
     # TODO: check whether the patters are still valid with `openssl cms`
     # return message
-    if ( $Message =~ /Verification successful/i ) {
+    if ( $Message =~ m/Verification successful/i ) {
+
+        # The actual message is: "CMS Verification successful\n"
 
         # Determine email address(es) from attributes of signer certificate.
         my %SignerCertAttributes;
@@ -620,7 +622,7 @@ sub Verify {
         );
     }
 
-    # digest failure means that the content of the email does not match witht he signature
+    # digest failure means that the content of the email does not match with the signature
     elsif ( $Message =~ m{digest failure}i ) {
         %Return = (
             SignatureFound => 1,
@@ -634,6 +636,8 @@ sub Verify {
         );
     }
     else {
+
+        # For example: $Message = "CMS Verification failure\n"
         %Return = (
             SignatureFound => 0,
             Successful     => 0,
