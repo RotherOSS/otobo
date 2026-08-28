@@ -350,9 +350,8 @@ for my $Count ( 1 .. 3 ) {
 for my $Count ( 1 .. 3 ) {
     my $InvalidCertCount = ( $Count % 3 ) + 1;      # 3 => 1
     my %Decrypt          = $SMIMEObject->Decrypt(
-        Message            => $Count2Crypted{$Count},
-        Filename           => $Count2Filename{$InvalidCertCount},
-        SearchingNeededKey => 1,
+        Message  => $Count2Crypted{$Count},
+        Filename => $Count2Filename{$InvalidCertCount},
     );
     diag explain( \%Decrypt );
     ok( !$Decrypt{Successful}, "Error decrypting by cert filename" );

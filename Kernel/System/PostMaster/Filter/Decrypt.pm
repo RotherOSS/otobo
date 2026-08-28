@@ -270,17 +270,16 @@ sub _DecryptSMIME {
             return;
         }
 
+        # try the private keys for decryption
         my %Decrypt;
-        PRIVATESEARCH:
-        for my $CertResult ( values %PrivateKeys ) {
-
-            # decrypt
+        PRIVATE_KEY:
+        for my $PrivateKey ( values %PrivateKeys ) {
             %Decrypt = $SMIMEObject->Decrypt(
-                Message            => $DecryptBody,
-                SearchingNeededKey => 1,
-                %{$CertResult},
+                Message => $DecryptBody,
+                $PrivateKey->%*,
             );
-            last PRIVATESEARCH if ( $Decrypt{Successful} );
+
+            last PRIVATE_KEY if $Decrypt{Successful};
         }
 
         # ok, decryption went fine

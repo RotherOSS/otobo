@@ -353,30 +353,17 @@ sub Decrypt {
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
 
-    # TODO: check whether the patters are still valid with `openssl cms`
+    # no output is expected when decryption was successful
     if ($LogMessage) {
-        if (
-            $Param{SearchingNeededKey}
-            && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
-            && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
-            )
-        {
-            return (
-                Successful => 0,
-                Message    => 'Impossible to decrypt with installed private keys!',
-            );
-        }
-        else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't decrypt: $LogMessage!"
-            );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't decrypt: $LogMessage!"
+        );
 
-            return (
-                Successful => 0,
-                Message    => $LogMessage,
-            );
-        }
+        return (
+            Successful => 0,
+            Message    => $LogMessage,
+        );
     }
 
     my $DecryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $PlainFile );
