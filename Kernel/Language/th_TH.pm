@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.476401601830664;
+    $Self->{Completeness}        = 0.476463013306625;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1864,9 +1864,6 @@ sub Data {
         'List of Files' => 'รายการไฟล์',
         'Permission' => 'การอนุญาต',
         'Download file from package!' => 'ดาวน์โหลดไฟล์จากแพคเกจ',
-        'Required' => 'ที่จำเป็น',
-        'Primary Key' => '',
-        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File Differences for File %s' => '',
         'File differences for file %s' => 'ความแตกต่างของไฟล์สำหรับไฟล์ %s',

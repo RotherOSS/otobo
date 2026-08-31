@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.00214530892448513;
+    $Self->{Completeness}        = 0.00214622978966948;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1870,9 +1870,6 @@ sub Data {
         'List of Files' => '',
         'Permission' => '',
         'Download file from package!' => '',
-        'Required' => '',
-        'Primary Key' => '',
-        'Auto Increment' => '',
         'SQL' => '',
         'File Differences for File %s' => '',
         'File differences for file %s' => '',

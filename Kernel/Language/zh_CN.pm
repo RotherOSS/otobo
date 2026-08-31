@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.867133867276888;
+    $Self->{Completeness}        = 0.86707683502647;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1870,9 +1870,6 @@ sub Data {
         'List of Files' => '文件清单',
         'Permission' => '权限',
         'Download file from package!' => '从软件包中下载这个文件！',
-        'Required' => '必需的',
-        'Primary Key' => '主密钥',
-        'Auto Increment' => '自动增加',
         'SQL' => 'SQL',
         'File Differences for File %s' => '文件%s的文件差异',
         'File differences for file %s' => '文件跟%s 有差异',
