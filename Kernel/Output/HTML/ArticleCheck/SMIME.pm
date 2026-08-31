@@ -154,13 +154,11 @@ sub Check {
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
-        return if !$Message;
 
-        my @Email = ();
-        my @Lines = split( /\n/, $Message );
-        for my $Line (@Lines) {
-            push( @Email, $Line . "\n" );
-        }
+        return unless $Message;
+
+        # Turn the message string into an array of lines
+        my @Email = map {"$_\n"} split /\n/, $Message;
 
         my $ParserObject = Kernel::System::EmailParser->new(
             Email => \@Email,
@@ -429,11 +427,7 @@ sub Check {
             # parse and update clear content
             if ( %SignCheck && $SignCheck{Content} ) {
 
-                my @Email = ();
-                my @Lines = split( /\n/, $SignCheck{Content} );
-                for (@Lines) {
-                    push( @Email, $_ . "\n" );
-                }
+                my @Email        = map {"$_\n"} split /\n/, $SignCheck{Content};
                 my $ParserObject = Kernel::System::EmailParser->new(
                     Email => \@Email,
                 );
