@@ -231,8 +231,8 @@ sub ValidateIDToken {
             ClientSettings   => $Param{ClientSettings},
             ProviderSettings => $Param{ProviderSettings},
         },
-        ExpectedAudiences => $Param{ClientSettings}{ClientID},
-        AuthorizedParty   => $Param{ClientSettings}{ClientID},
+        ExpectedAudience => $Param{ClientSettings}{ClientID},
+        AuthorizedParty  => $Param{ClientSettings}{ClientID},
     );
 
     if ( !$Result->{Success} ) {

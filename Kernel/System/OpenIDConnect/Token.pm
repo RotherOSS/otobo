@@ -191,7 +191,7 @@ sub TimeLeft {
     my $Result = $TokenObject->Validate(
         Token             => $Token,
         OpenIDConfig      => $OpenIDConfig,
-        ExpectedAudiences => <space separated list>, # defaults to OIDC client_id for id_tokens
+        ExpectedAudience  => <space separated list>, # defaults to OIDC client_id for id_tokens
         ExpectedScopes    => <space separated list>, # optional
         AuthorizedParty   => '<identifier>',         # optional
     );
