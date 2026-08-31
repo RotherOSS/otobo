@@ -57,6 +57,8 @@ sub new {
     return $Self;
 }
 
+# Note that this module is not only checking encryption, but also tries
+# to decrypt it hasn't been done before.
 sub Check {
     my ( $Self, %Param ) = @_;
 
@@ -74,7 +76,8 @@ sub Check {
 
     # check if article is an email
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{ $Param{Article} // {} } );
-    return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
+
+    return unless $ArticleBackendObject->ChannelNameGet() eq 'Email';
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my %Flags         = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
@@ -111,12 +114,13 @@ sub Check {
         %SignCheck = $SMIMEObject->Verify( Message => $Param{Article}->{Body} );
         if (%SignCheck) {
 
-            # remember to result
+            # remember the result for the method Filter()
             $Self->{Result} = \%SignCheck;
         }
         else {
 
-            # return with error
+            # This branch should never be entered as Verify() returns an empty list
+            # only when no Message was passed. And there is a check that $Param{Article}->{Body} is not empty.
             push(
                 @Return,
                 {
@@ -315,6 +319,9 @@ sub Check {
                 );
 
                 if ( !%SignCheck ) {
+
+                    # This branch is likely never entered as $Decrypt{Data} should not be empty
+                    # when Decrypt() was successful.
                     $ArticleObject->ArticleFlagSet(
                         TicketID  => $Param{Article}{TicketID},
                         ArticleID => $Param{Article}{ArticleID},
@@ -466,10 +473,11 @@ sub Check {
                         );
                     }
                 }
-
             }
-
             elsif ( !%SignCheck ) {
+
+                # This branch should never be entered as Verify() returns an empty list
+                # only when no Message was passed. And there is a check that $Message is not empty.
                 $ArticleObject->ArticleFlagSet(
                     TicketID  => $Param{Article}{TicketID},
                     ArticleID => $Param{Article}{ArticleID},
@@ -532,6 +540,7 @@ sub Check {
             for my $Signer ( @{ $SignCheck{Signers} } ) {
                 if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
                     $SignerSenderMatch = 1;
+
                     last SIGNER;
                 }
             }
@@ -624,7 +633,6 @@ sub Check {
                 }
             );
         }
-
     }
 
     return @Return;
@@ -644,4 +652,5 @@ sub Filter {
     }
     return 1;
 }
+
 1;
