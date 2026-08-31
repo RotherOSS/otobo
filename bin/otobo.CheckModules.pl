@@ -207,6 +207,7 @@ my %IsImportantOptionalFeature = (
 # used for creating the file 'cpanfile.docker'
 my %IsDockerFeature = (
     %IsCommonFeature,
+    'chart:gnuplot'       => 1,
     'db:odbc'             => 1,
     'db:postgresql'       => 1,
     'db:sqlite'           => 1,
@@ -233,6 +234,7 @@ my %IsDockerFeature = (
 # used for creating the file 'cpanfile.plackup'
 my %IsPlackupFeature = (
     %IsCommonFeature,
+    'chart:gnuplot'       => 1,
     'db:odbc'             => 1,
     'db:postgresql'       => 1,
     'db:sqlite'           => 1,
@@ -248,6 +250,7 @@ my %IsPlackupFeature = (
 my %FeatureDescription = (
     'aaacore'             => 'Required packages',
     'apache'              => 'Recommended features for setups using apache',
+    'chart:gnuplot'       => 'Drawing bar charts using Gnuplot',
     'db'                  => 'Database support (installing one is required)',
     'db:mysql'            => 'Support for database MySQL',
     'db:odbc'             => 'Support for database access via ODBC',
@@ -877,6 +880,20 @@ my @NeededModules = (
         Comment   => 'For internationalised sorting',
         InstTypes => {
             aptget => 'perl',
+        },
+    },
+
+    # Feature chart:gnuplot
+    {
+        Module          => 'Gnuplot::Builder',
+        VersionRequired => '>= 0.33',                                    # relased 2026-04-23
+        Features        => ['chart:gnuplot'],
+        Comment         => 'interface to Gnuplot, for drawing charts',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
 
