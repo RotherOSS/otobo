@@ -515,18 +515,21 @@ sub Check {
             # made if sender and signer addresses does not match
 
             # get original sender from email
-            my $Message = $ArticleBackendObject->ArticlePlain(
-                TicketID  => $Param{Article}->{TicketID},
-                ArticleID => $Self->{ArticleID},
-                UserID    => $Self->{UserID},
-            );
-            my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
-            my $ParserObjectOrig = Kernel::System::EmailParser->new(
-                Email => \@OrigEmail,
-            );
+            my ($OrigSender);
+            {
+                my $Message = $ArticleBackendObject->ArticlePlain(
+                    TicketID  => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+                my @OrigEmail        = map {"$_\n"} split /\n/, $Message;
+                my $ParserObjectOrig = Kernel::System::EmailParser->new(
+                    Email => \@OrigEmail,
+                );
 
-            my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
-            my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+            }
 
             # compare sender email to signer email
             my $SignerSenderMatch = 0;
