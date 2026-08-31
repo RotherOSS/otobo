@@ -523,11 +523,6 @@ returns:
 sub Verify {
     my ( $Self, %Param ) = @_;
 
-    my %Return;
-    my $Message     = '';
-    my $MessageLong = '';
-    my $UsedKey     = '';
-
     # check needed stuff
     if ( !$Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -561,8 +556,9 @@ sub Verify {
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
+    my $MessageLong = join '', @LogLines;
+    my $Message = '';
     for my $LogLine (@LogLines) {
-        $MessageLong .= $LogLine;
         if ( $LogLine =~ /^\d.*:(.+?):.+?:.+?:$/ || $LogLine =~ /^\d.*:(.+?)$/ ) {
             $Message .= ";$1";
         }
@@ -579,6 +575,7 @@ sub Verify {
 
     # TODO: check whether the patters are still valid with `openssl cms`
     # return message
+    my %Return;
     if ( $Message =~ m/Verification successful/i ) {
 
         # The actual message is: "CMS Verification successful\n"
