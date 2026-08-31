@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2026-03-10 19:00+0000\n"
 "Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
@@ -5878,18 +5878,6 @@ msgstr "أذونات"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "تحميل الملف من الحزمة!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "مطلوب"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "المفتاح الأساسي"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "زيادة تلقائية"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32853,6 +32841,15 @@ msgstr "عكس"
 #. SysConfig
 msgid "stats"
 msgstr "إحصائيات"
+
+#~ msgid "Required"
+#~ msgstr "مطلوب"
+
+#~ msgid "Primary Key"
+#~ msgstr "المفتاح الأساسي"
+
+#~ msgid "Auto Increment"
+#~ msgstr "زيادة تلقائية"
 
 #~ msgid "Comment code"
 #~ msgstr "كود التعليق"

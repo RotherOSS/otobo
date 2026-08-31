@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2021-04-21 08:44+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
@@ -5747,18 +5747,6 @@ msgstr "Tilladdelse"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Download fil fra pakke!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Påkrævet"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -30996,6 +30984,9 @@ msgstr "omvendt"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Påkrævet"
 
 #~ msgid "Find and replace all"
 #~ msgstr "Find og erstat alle"

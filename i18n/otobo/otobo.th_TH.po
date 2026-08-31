@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
 "Language-Team: Thai (Thailand) (https://translate.otobo.org/projects/otobo10/"
@@ -5638,18 +5638,6 @@ msgstr "การอนุญาต"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "ดาวน์โหลดไฟล์จากแพคเกจ"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "ที่จำเป็น"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -31208,6 +31196,9 @@ msgstr "ย้อนกลับ"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "ที่จำเป็น"
 
 #~ msgid "Example Template"
 #~ msgstr "ตัวอย่างแม่แบบ"

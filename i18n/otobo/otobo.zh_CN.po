@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
@@ -5704,18 +5704,6 @@ msgstr "权限"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "从软件包中下载这个文件！"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "必需的"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "主密钥"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "自动增加"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -31943,6 +31931,15 @@ msgstr "倒序"
 #. SysConfig
 msgid "stats"
 msgstr "stats（统计）"
+
+#~ msgid "Required"
+#~ msgstr "必需的"
+
+#~ msgid "Primary Key"
+#~ msgstr "主密钥"
+
+#~ msgid "Auto Increment"
+#~ msgstr "自动增加"
 
 #~ msgid "Comment code"
 #~ msgstr "注释代码"

@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Andrei Miron <andrei.miron@iqrate.ro>, 2019\n"
 "Language-Team: Romanian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5683,18 +5683,6 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Download file from package!"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Necesar"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -30792,6 +30780,9 @@ msgstr "înapoi"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Necesar"
 
 #~ msgid "Example Template"
 #~ msgstr "Sablon exemplu"

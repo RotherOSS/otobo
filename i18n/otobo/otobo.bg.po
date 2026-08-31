@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2022-12-14 11:48+0000\n"
 "Last-Translator: Yasen Arsov <jarsov@gmail.com>\n"
 "Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5825,18 +5825,6 @@ msgstr "Позволения"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Сваляне на файла от пакета!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Задължителен"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -30911,6 +30899,9 @@ msgstr "обърнато"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Задължителен"
 
 #~ msgid "Traceback"
 #~ msgstr "Проследяване"

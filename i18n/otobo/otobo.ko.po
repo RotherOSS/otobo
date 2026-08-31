@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5786,18 +5786,6 @@ msgstr "허가"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "패키지에서 파일을 다운로드 하십시오!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "필수"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "기본 키"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "자동 증가"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32990,6 +32978,15 @@ msgstr "거꾸로"
 #. SysConfig
 msgid "stats"
 msgstr "통계"
+
+#~ msgid "Required"
+#~ msgstr "필수"
+
+#~ msgid "Primary Key"
+#~ msgstr "기본 키"
+
+#~ msgid "Auto Increment"
+#~ msgstr "자동 증가"
 
 #~ msgid "Comment code"
 #~ msgstr "주석 코드"

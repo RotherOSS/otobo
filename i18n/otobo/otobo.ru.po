@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2023-08-11 20:42+0000\n"
 "Last-Translator: Иван Юрьевич Пигасов <itd@avsst.ru>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6048,18 +6048,6 @@ msgstr "Права доступа"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Загрузить файл из пакета!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Требуется"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Главный ключ"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Авто инкремент"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -33546,6 +33534,15 @@ msgstr "обратный"
 #. SysConfig
 msgid "stats"
 msgstr "отчеты"
+
+#~ msgid "Required"
+#~ msgstr "Требуется"
+
+#~ msgid "Primary Key"
+#~ msgstr "Главный ключ"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Авто инкремент"
 
 #~ msgid "Comment code"
 #~ msgstr "Закомметировать код"

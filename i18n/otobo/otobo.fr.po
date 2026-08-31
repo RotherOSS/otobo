@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2025-11-25 14:41+0000\n"
 "Last-Translator: Manuel Girardin <Manuel.Girardin@unil.ch>\n"
 "Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-11/fr/"
@@ -5856,18 +5856,6 @@ msgstr "Droits"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Télécharger le fichier depuis le paquet !"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Obligatoire"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Clef primaire"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Incrément automatique"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -31224,6 +31212,15 @@ msgstr "inverse"
 #. SysConfig
 msgid "stats"
 msgstr "statistiques"
+
+#~ msgid "Required"
+#~ msgstr "Obligatoire"
+
+#~ msgid "Primary Key"
+#~ msgstr "Clef primaire"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Incrément automatique"
 
 #~ msgid "Comment code"
 #~ msgstr "Commenter le code"

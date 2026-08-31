@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2026-07-21 16:45+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
@@ -6171,18 +6171,6 @@ msgstr "Berechtigungen"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Datei aus dem Paket herunterladen!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Benötigt"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Primärer Schlüssel"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Automatisch erhöhen"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -35358,6 +35346,15 @@ msgstr "umgekehrt"
 #. SysConfig
 msgid "stats"
 msgstr "Stats"
+
+#~ msgid "Required"
+#~ msgstr "Benötigt"
+
+#~ msgid "Primary Key"
+#~ msgstr "Primärer Schlüssel"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Automatisch erhöhen"
 
 #~ msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
 #~ msgstr "Ungültiges ReferenceFilter_ReferenceObjectAttribute"

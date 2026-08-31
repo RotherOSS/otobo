@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2022-12-31 11:47+0000\n"
 "Last-Translator: Markus Hynnä <markus.hynna@mynamaki.fi>\n"
 "Language-Team: Finnish <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5589,18 +5589,6 @@ msgstr "Käyttöoikeus"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Lataa tiedosto paketista!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Vaadittu"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -30641,6 +30629,9 @@ msgstr "käänteinen"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Vaadittu"
 
 #~ msgid "Error Details"
 #~ msgstr "Virheen tarkemmat tiedot"

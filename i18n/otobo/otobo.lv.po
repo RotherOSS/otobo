@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Aleksejs Danilenko <a@bitit.lv>, 2019\n"
 "Language-Team: Latvian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5590,18 +5590,6 @@ msgstr "Tiesības"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Lejupielādēt failu (datni) no pakotnes!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Pieprasīts"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -30643,6 +30631,9 @@ msgstr "pretēji"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Pieprasīts"
 
 #~ msgid "Traceback"
 #~ msgstr "Izsekot vēsturei"

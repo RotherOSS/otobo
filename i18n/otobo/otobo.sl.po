@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Blaz Drolc <blaz.drolc@gmail.com>, 2019\n"
 "Language-Team: Slovenian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5605,18 +5605,6 @@ msgstr "Dovolenje"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Prenesi datoteko iz paketa!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Obvezna"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -30757,6 +30745,9 @@ msgstr "obratno"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Obvezna"
 
 #~ msgid "Error Details"
 #~ msgstr "Podrobnosti o napaki"

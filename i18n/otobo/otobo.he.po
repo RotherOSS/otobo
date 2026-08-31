@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Idan Cohen <idan2cohen@gmail.com>, 2019\n"
 "Language-Team: Hebrew (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5579,18 +5579,6 @@ msgstr "הרשאה"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "הורדת קובץ מהחבילה!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "נדרש"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -30612,6 +30600,9 @@ msgstr "הפוך"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "נדרש"
 
 #~ msgid "Error Details"
 #~ msgstr "פרטי השגיאה"

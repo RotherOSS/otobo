@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
 "Language-Team: Malay (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5772,18 +5772,6 @@ msgstr "Kebenaran"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Muat turun fail dari pakej!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Diperlukan"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Kunci Utama"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Kenaikan Auto"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32615,6 +32603,15 @@ msgstr "berbalik"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Diperlukan"
+
+#~ msgid "Primary Key"
+#~ msgstr "Kunci Utama"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Kenaikan Auto"
 
 #~ msgid "Example Template"
 #~ msgstr "Contoh Templat"

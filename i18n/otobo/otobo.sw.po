@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-06 08:06+0000\n"
+"POT-Creation-Date: 2026-08-31 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
 "Language-Team: Swahili (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -5716,18 +5716,6 @@ msgstr "Ruhusa"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Pakua faili kutoka kwenye kifurushi"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Hitajika"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32300,6 +32288,9 @@ msgstr "Badili"
 #. SysConfig
 msgid "stats"
 msgstr "takwimu"
+
+#~ msgid "Required"
+#~ msgstr "Hitajika"
 
 #~ msgid "Example Template"
 #~ msgstr "Kiolezo cha mfano"
