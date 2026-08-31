@@ -19,7 +19,14 @@ package Kernel::System::Crypt::SMIME;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -35,11 +42,12 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Crypt::SMIME - smime crypt backend lib
+Kernel::System::Crypt::SMIME - S/MIME crypt backend lib
 
 =head1 DESCRIPTION
 
-This is a sub module of Kernel::System::Crypt and contains all smime functions.
+The  module Kernel::System::Crypt contains S/MIME functions. S/MIME stands for Secure/Multipurpose Internet Mail Extensions.
+It provides support crypting/decrypting and signing/verifying MIME messages.
 
 =head1 PUBLIC INTERFACE
 
@@ -48,7 +56,6 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -56,7 +63,7 @@ sub new {
     # check if module is enabled
     return 0 unless $Kernel::OM->Get('Kernel::Config')->Get('SMIME');
 
-    # more setup, get setting from the SysConfig
+    # more setup, get settings from the SysConfig
     $Self->_Init();
 
     # check working ENV
@@ -227,7 +234,7 @@ sub Crypt {
     SEARCHPARAM:
     for my $SearchParam (@CertificateSearchParams) {
 
-        next SEARCHPARAM if !IsHashRefWithData($SearchParam);
+        next SEARCHPARAM unless IsHashRefWithData($SearchParam);
 
         my $Certificate = $Self->CertificateGet( %{$SearchParam} );
         my ( $FHCertificate, $CertFile ) = $FileTempObject->TempFile();
@@ -255,7 +262,7 @@ sub Crypt {
     my ( $FHCrypted, $CryptedFile ) = $FileTempObject->TempFile();
     close $FHCrypted;
 
-    my $Options    = "smime -encrypt -binary -$Self->{Cipher} -in $PlainFile -out $CryptedFile $CertFileStrg";
+    my $Options    = "$Self->{CMSSubCmd} -encrypt -binary -$Self->{Cipher} -in $PlainFile -out $CryptedFile $CertFileStrg";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -268,8 +275,8 @@ sub Crypt {
 
     my $CryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $CryptedFile );
 
-    return if !$CryptedRef;
-    return $$CryptedRef;
+    return unless $CryptedRef;
+    return $CryptedRef->$*;
 }
 
 =head2 Decrypt()
@@ -280,6 +287,8 @@ decrypt a message and returns a hash (Successful, Message, Data)
         Message  => $CryptedMessage,
         Filename => $Filename,
     );
+
+or
 
     my %Message = $CryptObject->Decrypt(
         Message     => $CryptedMessage,
@@ -339,23 +348,12 @@ sub Decrypt {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
+    my $Options = "$Self->{CMSSubCmd} -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
         . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
 
-    if (
-        $Param{SearchingNeededKey}
-        && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
-        && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
-        )
-    {
-        return (
-            Successful => 0,
-            Message    => 'Impossible to decrypt with installed private keys!',
-        );
-    }
-
+    # no output is expected when decryption was successful
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -369,18 +367,18 @@ sub Decrypt {
     }
 
     my $DecryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $PlainFile );
-    if ( !$DecryptedRef ) {
-        return (
-            Successful => 0,
-            Message    => "OpenSSL: Can't read $PlainFile!",
-            Data       => undef,
-        );
 
-    }
+    # in case of problems
+    return (
+        Successful => 0,
+        Message    => "OpenSSL: Can't read $PlainFile!",
+        Data       => undef,
+    ) unless $DecryptedRef;
 
+    # success
     return (
         Successful => 1,
-        Message    => "OpenSSL: OK",
+        Message    => 'OpenSSL: OK',
         Data       => $$DecryptedRef,
     );
 }
@@ -473,7 +471,7 @@ sub Sign {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
+    my $Options = "$Self->{CMSSubCmd} -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
         . " -text -binary -passin file:$SecretFile";
 
     # add the certfile parameter
@@ -492,9 +490,8 @@ sub Sign {
 
     my $SignedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $SignFile );
 
-    return if !$SignedRef;
-    return $$SignedRef;
-
+    return unless $SignedRef;
+    return $SignedRef->$*;
 }
 
 =head2 Verify()
@@ -526,11 +523,6 @@ returns:
 sub Verify {
     my ( $Self, %Param ) = @_;
 
-    my %Return;
-    my $Message     = '';
-    my $MessageLong = '';
-    my $UsedKey     = '';
-
     # check needed stuff
     if ( !$Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -559,13 +551,14 @@ sub Verify {
         $CertificateOption = "-CAfile $Param{CACert}";
     }
 
-    my $Options = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+    my $Options = "$Self->{CMSSubCmd} -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
         . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
+    my $MessageLong = join '', @LogLines;
+    my $Message = '';
     for my $LogLine (@LogLines) {
-        $MessageLong .= $LogLine;
         if ( $LogLine =~ /^\d.*:(.+?):.+?:.+?:$/ || $LogLine =~ /^\d.*:(.+?)$/ ) {
             $Message .= ";$1";
         }
@@ -580,8 +573,12 @@ sub Verify {
     my $SignerCertRef    = $MainObject->FileRead( Location => $SignerFile );
     my $SignedContentRef = $MainObject->FileRead( Location => $VerifiedFile );
 
+    # TODO: check whether the patters are still valid with `openssl cms`
     # return message
-    if ( $Message =~ /Verification successful/i ) {
+    my %Return;
+    if ( $Message =~ m/Verification successful/i ) {
+
+        # The actual message is: "CMS Verification successful\n"
 
         # Determine email address(es) from attributes of signer certificate.
         my %SignerCertAttributes;
@@ -622,7 +619,7 @@ sub Verify {
         );
     }
 
-    # digest failure means that the content of the email does not match witht he signature
+    # digest failure means that the content of the email does not match with the signature
     elsif ( $Message =~ m{digest failure}i ) {
         %Return = (
             SignatureFound => 1,
@@ -636,6 +633,8 @@ sub Verify {
         );
     }
     else {
+
+        # For example: $Message = "CMS Verification failure\n"
         %Return = (
             SignatureFound => 0,
             Successful     => 0,
@@ -1125,7 +1124,7 @@ sub CertificateGet {
     if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my $File           = "$Self->{CertPath}/$Param{Filename}";
@@ -1166,7 +1165,7 @@ sub CertificateRemove {
     if ( !$Param{Filename} && $Param{Hash} && $Param{Fingerprint} ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my %Result;
@@ -1375,7 +1374,7 @@ sub CertificateRead {
     if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my $File = "$Self->{CertPath}/$Param{Filename}";
@@ -1702,7 +1701,7 @@ sub PrivateGet {
             Modulus => $Param{Modulus},
         );
 
-        return if !$Param{Filename};
+        return unless $Param{Filename};
     }
 
     my $File = "$Self->{PrivatePath}/$Param{Filename}";
@@ -1715,14 +1714,13 @@ sub PrivateGet {
         $Private = $MainObject->FileRead( Location => $File );
     }
 
-    return if !$Private;
+    return unless $Private;
 
     # read secret
     $File = "$Self->{PrivatePath}/$Param{Filename}.P";
     my $Secret = $MainObject->FileRead( Location => $File );
 
     return ( $$Private, $$Secret ) if ( $Private && $Secret );
-
     return;
 }
 
@@ -1765,7 +1763,7 @@ sub PrivateRemove {
             Message    => "Filename not found for hash: $Param{Hash} in: $Self->{PrivatePath}, $!!",
         );
 
-        return %Return if !$Param{Filename};
+        return %Return unless $Param{Filename};
     }
 
     my $SecretDelete = unlink "$Self->{PrivatePath}/$Param{Filename}.P";
@@ -2426,7 +2424,14 @@ sub _Init {
     $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+    # explictly set HOME
+    $Self->{Cmd} = 'HOME=' . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+
+    # Declare the subcommand for dealing with CMS certificates
+    # CMS is basically the same as PKCS#7.
+    # The command 'openssl cms' supersedes the old command 'openssl smime'. The major difference
+    # is that newer versions of the certificate format are supported by 'openssl cms'.
+    $Self->{CMSSubCmd} = 'cms';
 
     # get the openssl version string,
     # e.g. "OpenSSL 0.9.8e 23 Feb 2007" or "OpenSSL 3.0.3 3 May 2022 (Library: OpenSSL 3.0.3 3 May 2022)"

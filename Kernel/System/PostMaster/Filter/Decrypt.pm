@@ -37,9 +37,7 @@ our @ObjectDependencies = (
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Get parser object.
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
@@ -272,17 +270,16 @@ sub _DecryptSMIME {
             return;
         }
 
+        # try the private keys for decryption
         my %Decrypt;
-        PRIVATESEARCH:
-        for my $CertResult ( values %PrivateKeys ) {
-
-            # decrypt
+        PRIVATE_KEY:
+        for my $PrivateKey ( values %PrivateKeys ) {
             %Decrypt = $SMIMEObject->Decrypt(
-                Message            => $DecryptBody,
-                SearchingNeededKey => 1,
-                %{$CertResult},
+                Message => $DecryptBody,
+                $PrivateKey->%*,
             );
-            last PRIVATESEARCH if ( $Decrypt{Successful} );
+
+            last PRIVATE_KEY if $Decrypt{Successful};
         }
 
         # ok, decryption went fine
@@ -303,6 +300,8 @@ sub _DecryptSMIME {
             );
 
             if ( !%SignCheck ) {
+
+                # unlikely to happen as $Decrypt{Data} is unlikely to be empty
                 $Param{GetParam}{Signed} = 'Internal error during verification!';
             }
             elsif ( $SignCheck{SignatureFound} && $SignCheck{Content} ) {
@@ -381,7 +380,10 @@ sub _DecryptSMIME {
         }
 
         elsif ( !%SignCheck ) {
+
+            # unlikely to happen as $Decrypt{Body} is unlikely to be empty
             $Param{GetParam}{Signed} = 'Internal error during verification!';
+
             return;
         }
     }
@@ -389,7 +391,10 @@ sub _DecryptSMIME {
     elsif ( $DecryptBody =~ m{^-----BEGIN PKCS7-----}i ) {
         %SignCheck = $SMIMEObject->Verify( Message => $DecryptBody );
         if ( !%SignCheck ) {
+
+            # unlikely to happen as $Decrypt{Body} is unlikely to be empty
             $Param{GetParam}{Signed} = 'Internal error during verification!';
+
             return;
         }
     }

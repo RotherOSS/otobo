@@ -73,6 +73,9 @@ Kernel::Output::HTML::Layout - all generic HTML functions
 
 All generic HTML functions. E. g. to get options fields, template processing, ...
 
+The methods implemented in the F<Kernel/Output/HTML/Layout/*.pm> module files are
+added to this module.
+
 =head1 PUBLIC INTERFACE
 
 =head2 new()

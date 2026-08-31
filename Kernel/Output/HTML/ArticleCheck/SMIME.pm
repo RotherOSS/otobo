@@ -58,6 +58,8 @@ sub new {
     return $Self;
 }
 
+# Note that this module is not only checking encryption, but also tries
+# to decrypt it hasn't been done before.
 sub Check {
     my ( $Self, %Param ) = @_;
 
@@ -75,7 +77,8 @@ sub Check {
 
     # check if article is an email
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{ $Param{Article} // {} } );
-    return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
+
+    return unless $ArticleBackendObject->ChannelNameGet() eq 'Email';
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my %Flags         = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
@@ -113,12 +116,13 @@ sub Check {
         %SignCheck = $SMIMEObject->Verify( Message => $Param{Article}->{Body} );
         if (%SignCheck) {
 
-            # remember to result
+            # remember the result for the method Filter()
             $Self->{Result} = \%SignCheck;
         }
         else {
 
-            # return with error
+            # This branch should never be entered as Verify() returns an empty list
+            # only when no Message was passed. And there is a check that $Param{Article}->{Body} is not empty.
             push(
                 @Return,
                 {
@@ -152,13 +156,11 @@ sub Check {
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
-        return if !$Message;
 
-        my @Email = ();
-        my @Lines = split( /\n/, $Message );
-        for my $Line (@Lines) {
-            push( @Email, $Line . "\n" );
-        }
+        return unless $Message;
+
+        # Turn the message string into an array of lines
+        my @Email = map {"$_\n"} split /\n/, $Message;
 
         my $ParserObject = Kernel::System::EmailParser->new(
             Email => \@Email,
@@ -263,17 +265,16 @@ sub Check {
                 return @Return;
             }
 
+            # try the found private keys for decrypting
             my %Decrypt;
-            PRIVATESEARCH:
-            for my $CertResult ( values %PrivateKeys ) {
-
-                # decrypt
+            PRIVATE_KEY:
+            for my $PrivateKey ( values %PrivateKeys ) {
                 %Decrypt = $SMIMEObject->Decrypt(
-                    Message            => $Message,
-                    SearchingNeededKey => 1,
-                    %{$CertResult},
+                    Message => $Message,
+                    $PrivateKey->%*,
                 );
-                last PRIVATESEARCH if ( $Decrypt{Successful} );
+
+                last PRIVATE_KEY if $Decrypt{Successful};
             }
 
             # ok, decryption went fine
@@ -316,6 +317,9 @@ sub Check {
                 );
 
                 if ( !%SignCheck ) {
+
+                    # This branch is likely never entered as $Decrypt{Data} should not be empty
+                    # when Decrypt() was successful.
                     $ArticleObject->ArticleFlagSet(
                         TicketID  => $Param{Article}{TicketID},
                         ArticleID => $Param{Article}{ArticleID},
@@ -423,11 +427,7 @@ sub Check {
             # parse and update clear content
             if ( %SignCheck && $SignCheck{Content} ) {
 
-                my @Email = ();
-                my @Lines = split( /\n/, $SignCheck{Content} );
-                for (@Lines) {
-                    push( @Email, $_ . "\n" );
-                }
+                my @Email        = map {"$_\n"} split /\n/, $SignCheck{Content};
                 my $ParserObject = Kernel::System::EmailParser->new(
                     Email => \@Email,
                 );
@@ -467,10 +467,11 @@ sub Check {
                         );
                     }
                 }
-
             }
-
             elsif ( !%SignCheck ) {
+
+                # This branch should never be entered as Verify() returns an empty list
+                # only when no Message was passed. And there is a check that $Message is not empty.
                 $ArticleObject->ArticleFlagSet(
                     TicketID  => $Param{Article}{TicketID},
                     ArticleID => $Param{Article}{ArticleID},
@@ -514,18 +515,21 @@ sub Check {
             # made if sender and signer addresses does not match
 
             # get original sender from email
-            my $Message = $ArticleBackendObject->ArticlePlain(
-                TicketID  => $Param{Article}->{TicketID},
-                ArticleID => $Self->{ArticleID},
-                UserID    => $Self->{UserID},
-            );
-            my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
-            my $ParserObjectOrig = Kernel::System::EmailParser->new(
-                Email => \@OrigEmail,
-            );
+            my ($OrigSender);
+            {
+                my $Message = $ArticleBackendObject->ArticlePlain(
+                    TicketID  => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+                my @OrigEmail        = map {"$_\n"} split /\n/, $Message;
+                my $ParserObjectOrig = Kernel::System::EmailParser->new(
+                    Email => \@OrigEmail,
+                );
 
-            my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
-            my $OrigSender = $EmailAddressObject->GetAddress( Email => $OrigFrom );
+                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+            }
 
             # compare sender email to signer email
             my $SignerSenderMatch = 0;
@@ -533,6 +537,7 @@ sub Check {
             for my $Signer ( @{ $SignCheck{Signers} } ) {
                 if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
                     $SignerSenderMatch = 1;
+
                     last SIGNER;
                 }
             }
@@ -625,7 +630,6 @@ sub Check {
                 }
             );
         }
-
     }
 
     return @Return;
@@ -645,4 +649,5 @@ sub Filter {
     }
     return 1;
 }
+
 1;

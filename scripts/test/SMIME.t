@@ -25,13 +25,11 @@ use utf8;
 use Test2::V0;
 use File::Path  qw(make_path rmtree);
 use Path::Class qw(file);
-use JSON        qw(decode_json);
+use JSON::XS    qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
-
-our $Self;
 
 # NOTE: This test relies on the following SMIME certs in $HOME/scripts/test/sample/SMIME
 # - SMIMECertificate-1.asc
@@ -62,8 +60,9 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $Home = $ConfigObject->Get('Home');
 
 # set up temporary dirs
-my $CertPath    = "$Home/var/tmp/certs";
-my $PrivatePath = "$Home/var/tmp/private";
+my $Random      = $Helper->GetRandomID;
+my $CertPath    = "$Home/var/tmp/certs_$Random";
+my $PrivatePath = "$Home/var/tmp/private_$Random";
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
 rmtree($CertPath);
@@ -83,7 +82,8 @@ my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
 # get the openssl major version, e.g. 1 for version 1.0.0
 # openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
-my $OpenSSLVersionString = qx{$OpenSSLBin version};                                                       # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
+my $OpenSSLVersionString = qx{$OpenSSLBin version};    # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
+diag "OpenSSL $OpenSSLVersionString";
 my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
 ok( $OpenSSLMajorVersion >= 0, 'openssl has version 1.0.0 or newer' );
 
@@ -92,18 +92,6 @@ $ConfigObject->Set(
     Key   => 'SMIME',
     Value => 1,
 );
-
-# check if openssl is located there
-if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') ) {
-
-    # maybe it's a mac with macport
-    if ( -e '/opt/local/bin/openssl' ) {
-        $ConfigObject->Set(
-            Key   => 'SMIME::Bin',
-            Value => '/opt/local/bin/openssl',
-        );
-    }
-}
 
 # create crypt object
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
@@ -157,63 +145,18 @@ my %Search = (
 
 my $TestText = 'hello1234567890öäüß';
 
+# Add certificates and private keys which will be needed later on.
+# Crypt(), DeCrypt(), Sign(), and Verify() are tested in SMIME/CryptDecryptAndSignVerify.t
 for my $Count ( 1 .. 3 ) {
-    subtest "Testcase $Count" => sub {
-
-        my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
-        ok( !$Certs[0], "Search() before CertificateAdd() has no results" );
+    subtest "set up certificate and private key $Count" => sub {
 
         # add certificate ...
         my $CertString = $MainObject->FileRead(
             Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
             Filename  => "SMIMECertificate-$Count.asc",
         );
-        my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-
-        $Certs[0]->{Filename} = $Result{Filename};
-
-        ok( $Result{Successful}, "CertificateAdd() - $Result{Message}" );
-
-        # test if read cert from file is the same as in unittest file
-        is(
-            ${$CertString},
-            $TestConfig->{$Count}->{Pem},
-            "CertificateSearch() - Test if read cert from file is the same as in unittest file",
-        );
-
-        @Certs = $SMIMEObject->CertificateSearch(
-            Search => $Search{$Count},
-        );
-
-        ok( $Certs[0], "CertificateSearch()" );
-
-        IDTEST:
-        for my $ID ( sort keys %{ $TestConfig->{$Count} } ) {
-
-            next IDTEST if ( $ID eq 'Pem' );
-
-            if ( IsArrayRefWithData( $TestConfig->{$Count}->{$ID} ) ) {
-
-                my $Success = 0;
-
-                for my $String ( @{ $TestConfig->{$Count}->{$ID} } ) {
-                    $Success = 1 if $Certs[0]->{$ID} eq $String;
-                }
-
-                if ( !$Success ) {
-                    diag "$ID not found in list: '$Certs[0]->{$ID}'";
-                }
-
-                ok( $Success, "CertificateSearch() - $ID" );
-            }
-            else {
-                is(
-                    $Certs[0]->{$ID} || '',
-                    $TestConfig->{$Count}->{$ID},
-                    "CertificateSearch() - $ID",
-                );
-            }
-        }
+        my %CertificateAddResult = $SMIMEObject->CertificateAdd( Certificate => $CertString->$* );
+        ok( $CertificateAddResult{Successful}, "CertificateAdd() - $CertificateAddResult{Message}" );
 
         # and private key
         my $KeyString = $MainObject->FileRead(
@@ -224,139 +167,11 @@ for my $Count ( 1 .. 3 ) {
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
             Filename  => "SMIMEPrivateKeyPass-$Count.asc",
         );
-        %Result = $SMIMEObject->PrivateAdd(
+        my %PrivateAddResult = $SMIMEObject->PrivateAdd(
             Private => ${$KeyString},
             Secret  => ${$Secret},
         );
-        ok( $Result{Successful}, "PrivateAdd()" );
-
-        my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
-
-        ok( $Keys[0], "PrivateSearch()" );
-
-        my $CertificateString = $SMIMEObject->CertificateGet(
-            Hash        => $Certs[0]->{Hash},
-            Fingerprint => $Certs[0]->{Fingerprint},
-        );
-        ok( $CertificateString, "CertificateGet()" );
-
-        my $PrivateKeyString = $SMIMEObject->PrivateGet(
-            Hash    => $Keys[0]->{Hash},
-            Modulus => $Certs[0]->{Modulus},
-        );
-        ok( $PrivateKeyString, "PrivateGet()" );
-
-        # crypt
-        my $Crypted = $SMIMEObject->Crypt(
-            Message  => $TestText,
-            Filename => $Certs[0]->{Filename},
-        );
-        ok( $Crypted, "Crypt() by cert filename" );
-
-        ok(
-            $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
-                && $Crypted =~ m{Content-Transfer-Encoding: base64},
-            "Crypt() - Data seems ok (crypted)",
-        );
-
-        # decrypt
-        my %Decrypt = $SMIMEObject->Decrypt(
-            Message  => $Crypted,
-            Filename => $Certs[0]->{Filename},
-        );
-
-        ok( $Decrypt{Successful}, "Decrypt() by cert filename - Successful: $Decrypt{Message}" );
-        is( $Decrypt{Data}, $TestText, "Decrypt() - Data" );
-
-        # sign
-        my $Sign = $SMIMEObject->Sign(
-            Message  => $TestText,
-            Filename => $Certs[0]->{Filename},
-        );
-
-        ok( $Sign, "Sign()" );
-
-        # verify
-        my %Verify = $SMIMEObject->Verify(
-            Message => $Sign,
-            CACert  => "$CertPath/$Certs[0]->{Filename}",
-        );
-
-        ok( $Verify{Successful}, "Verify() - self signed sending certificate path" );
-        is( $Verify{SignerCertificate}, $TestConfig->{$Count}->{Pem}, "Verify()" );
-
-        # verify failure on manipulated text
-        my $ManipulatedSign = $Sign;
-        $ManipulatedSign =~ s{Q}{W}g;
-        %Verify = $SMIMEObject->Verify(
-            Message => $ManipulatedSign,
-            CACert  => "$CertPath/$Certs[0]->{Filename}",
-        );
-
-        ok( !$Verify{Successful}, "Verify() - on manipulated text" );
-
-        # file checks
-        # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
-        #       to base64 first?
-        #    for my $File (qw(xls txt doc png pdf))
-        for my $File (qw(txt)) {
-            subtest "Fileextension $File" => sub {
-                my $Content = $MainObject->FileRead(
-                    Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-                    Filename  => "PGP-Test1.$File",
-                    Mode      => 'binmode',
-                );
-                my $Reference = ${$Content};
-                $Reference =~ s{\n}{\r\n}gsm;
-
-                # crypt
-                my $Crypted = $SMIMEObject->Crypt(
-                    Message     => $Reference,
-                    Hash        => $Certs[0]->{Hash},
-                    Fingerprint => $Certs[0]->{Fingerprint},
-                );
-                ok( $Crypted, "Crypt()" );
-                ok(
-                    $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
-                        && $Crypted =~ m{Content-Transfer-Encoding: base64},
-                    "Crypt() - Data seems ok (crypted)",
-                );
-
-                # decrypt
-                my %Decrypt = $SMIMEObject->Decrypt(
-                    Message     => $Crypted,
-                    Hash        => $Certs[0]->{Hash},
-                    Fingerprint => $Certs[0]->{Fingerprint},
-                );
-                ok( $Decrypt{Successful}, "Decrypt() - Successful .$File" );
-                is(
-                    $Decrypt{Data},
-                    $Reference,
-                    "Decrypt() - Data .$File",
-                );
-
-                # sign
-                my $Signed = $SMIMEObject->Sign(
-                    Message     => $Reference,
-                    Hash        => $Keys[0]->{Hash},
-                    Fingerprint => $Keys[0]->{Fingerprint},
-                );
-
-                ok( $Signed, "Sign() .$File" );
-
-                # verify
-                my %Verify = $SMIMEObject->Verify(
-                    Message => $Signed,
-                    CACert  => "$CertPath/$Certs[0]->{Filename}",
-                );
-                ok( $Verify{Successful}, "Verify() .$File" );
-                is(
-                    $Verify{SignerCertificate},
-                    $TestConfig->{$Count}->{Pem},
-                    "Verify() .$File - SignerCertificate",
-                );
-            }
-        }
+        ok( $PrivateAddResult{Successful}, "PrivateAdd() - $PrivateAddResult{Message}" );
     };
 }
 
@@ -1224,11 +1039,7 @@ HZ4=
         my @Result = $SMIMEObject->CertificateSearch(
             Search => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint}
         );
-        is(
-            \@Result,
-            [],
-            "# CertificateSearch(), certificate not found, successfully deleted",
-        );
+        is( \@Result, [], "# CertificateSearch(), certificate not found, successfully deleted" );
     }
 
     for my $Number ( 2 .. 3 ) {
@@ -1279,13 +1090,8 @@ HZ4=
                     . " $WrongPrivateSecretFile with wrong name",
             );
 
-            my $FileExists;
-            if ( -e $WrongPrivateSecretFileLocation ) {
-                $FileExists = 1;
-            }
-
             ok(
-                $FileExists,
+                -e $WrongPrivateSecretFileLocation,
                 "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile"
                     . " exists with true (before normalize)",
             );
@@ -1323,8 +1129,7 @@ HZ4=
             "NormalizePrivateSecret: Created private key filename: $PrivateKeyFile",
         );
 
-        ok(
-            1,
+        pass(
             "----Normalize Private Secrets wrong private secret filename----"
         );
 
@@ -1336,19 +1141,12 @@ HZ4=
         my $CorrectPrivateSecretFile         = "$PrivateKeyFile.P";
         my $CorrectPrivateSecretFileLocation = "$PrivatePath/$CorrectPrivateSecretFile";
 
-        my $FileExists;
-
         # the correct file does not exist at this time
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            !$FileExists,
+            !-e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with false (before normalize)",
         );
-        $FileExists = 0;
 
         # normalize private secret
         my $Response = $SMIMEObject->CheckCertPath();
@@ -1366,32 +1164,21 @@ HZ4=
         }
 
         # by this time after the normalization the file should not exist
-        if ( -e $WrongPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            !$FileExists,
+            !-e $WrongPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename:"
                 . " $WrongPrivateSecretFile exists with false (after normalize)",
         );
-        $FileExists = 0;
 
         # the file should be renamed to the correct format at this point
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            $FileExists,
+            -e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename: $CorrectPrivateSecretFile exists"
                 . " with true (after normalize)",
         );
-        $FileExists = 0;
 
         # leave the correct private secret file for the next test
-        ok(
-            1,
+        pass(
             "----Normalize Private Secret duplicated files with same content----"
         );
 
@@ -1432,33 +1219,22 @@ HZ4=
         }
 
         # by this time after the normalization the file should not exist (since contents are equal)
-        if ( -e $WrongPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            !$FileExists,
+            !-e $WrongPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
                 . " with false (after normalize duplicate file same content)",
         );
-        $FileExists = 0;
 
         # the file should be renamed to the correct format at this point
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            $FileExists,
+            -e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with true (after normalize duplicate file same content)",
         );
-        $FileExists = 0;
 
         # leave the correct file again but modify its content this will cause that both file exists
         # at the end
-        ok(
-            1,
+        pass(
             "----Normalize Private Secret duplicated files with different content----"
         );
 
@@ -1498,36 +1274,23 @@ HZ4=
 
         # output details if process was not successful
         if ( !$Response->{Success} ) {
-            ok(
-                0,
-                $Response->{Details},
-            );
+            fail( $Response->{Details} );
         }
 
         # by this time after the normalization the file should still exists
         # (since contents are different)
-        if ( -e $WrongPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            $FileExists,
+            -e $WrongPrivateSecretFileLocation,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
                 . " with true (after normalize duplicate file different content)",
         );
-        $FileExists = 0;
 
         # the correct private secret file still exists
-        if ( -e $CorrectPrivateSecretFileLocation ) {
-            $FileExists = 1;
-        }
-
         ok(
-            $FileExists,
+            -e $CorrectPrivateSecretFileLocation,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with true (after normalize duplicate file same content)",
         );
-        $FileExists = 0;
 
         # remove files from file system
         my $FileDeleteSuccess = $MainObject->FileDelete(
@@ -1585,17 +1348,11 @@ HZ4=
             );
 
             # sanity checks
-            my $FileExists;
-            if ( -e $WrongCAFileLocation ) {
-                $FileExists = 1;
-            }
-
             ok(
-                $FileExists,
+                -e $WrongCAFileLocation,
                 "Re-Hash $TestName: Wrong CA $CAName filename: $WrongCAFile exists with true"
                     . " (before re-hash)",
             );
-            $FileExists = 0;
 
             my $ContentSCALARRef = $MainObject->FileRead(
                 Location => $WrongCAFileLocation,
@@ -1616,16 +1373,11 @@ HZ4=
                 );
 
                 # sanity checks
-                if ( -e $WrongCAPrivateKeyFileLocation ) {
-                    $FileExists = 1;
-                }
-
                 ok(
-                    $FileExists,
+                    -e $WrongCAPrivateKeyFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private key filename:"
                         . " $WrongCAPrivateKeyFile exists with true (before re-hash)",
                 );
-                $FileExists = 0;
 
                 $ContentSCALARRef = $MainObject->FileRead(
                     Location => $WrongCAPrivateKeyFileLocation,
@@ -1646,17 +1398,11 @@ HZ4=
                     Location => $WrongCAPrivateSecretFileLocation,
                     Content  => \$WrongCAPrivateSecretFileContent,
                 );
-
-                if ( -e $WrongCAPrivateSecretFileLocation ) {
-                    $FileExists = 1;
-                }
-
                 ok(
-                    $FileExists,
+                    -e $WrongCAPrivateSecretFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
                         . " $WrongCAPrivateSecretFile exists with true (before re-hash)",
                 );
-                $FileExists = 0;
 
                 $ContentSCALARRef = $MainObject->FileRead(
                     Location => $WrongCAPrivateSecretFileLocation,
@@ -1699,34 +1445,22 @@ HZ4=
 
             # check if wrong CA certificates, private keys and secrets exists
             {
-                my $FileExists;
-                if ( -e $WrongCAFileLocation ) {
-                    $FileExists = 1;
-                }
                 ok(
-                    !$FileExists,
+                    !-e $WrongCAFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName certificate filename: $WrongCAFile"
                         . " File exists with false (after re-hash)",
                 );
             }
             if ($UsePrivateKeys) {
-                my $FileExists;
-                if ( -e $WrongCAPrivateKeyFileLocation ) {
-                    $FileExists = 1;
-                }
                 ok(
-                    !$FileExists,
+                    !-e $WrongCAPrivateKeyFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private key filename:"
                         . " $WrongCAPrivateKeyFile File exists with false (after re-hash)",
                 );
             }
             if ( $UsePrivateSecrets && !$UsePrivateKeys ) {
-                my $FileExists;
-                if ( -e $WrongCAPrivateSecretFileLocation ) {
-                    $FileExists = 1;
-                }
                 ok(
-                    $FileExists,
+                    -e $WrongCAPrivateSecretFileLocation,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
                         . " $WrongCAPrivateSecretFile File exists with true (after re-hash)"
                         . " there was no private key",
@@ -1735,34 +1469,22 @@ HZ4=
 
             # check if correct CA certificates, private keys and secrets exists
             {
-                my $FileExists;
-                if ( -e $CorrectCAFileLocation ) {
-                    $FileExists = 1;
-                }
                 ok(
-                    $FileExists,
+                    -e $CorrectCAFileLocation,
                     "Re-Hash $TestName: Correct CA $CAName certificate filename: $CorrectCAFile"
                         . " File exists with true (after re-hash)",
                 );
             }
             if ($UsePrivateKeys) {
-                my $FileExists;
-                if ( -e $CorrectCAPrivateKeyFileLocation ) {
-                    $FileExists = 1;
-                }
                 ok(
-                    $FileExists,
+                    -e $CorrectCAPrivateKeyFileLocation,
                     "Re-Hash $TestName: Correct CA $CAName private key filename:"
                         . " $CorrectCAPrivateKeyFile File exists with true (after re-hash)",
                 );
             }
             if ( $UsePrivateSecrets && !$UsePrivateKeys ) {
-                my $FileExists;
-                if ( -e $CorrectCAPrivateSecretFileLocation ) {
-                    $FileExists = 1;
-                }
                 ok(
-                    !$FileExists,
+                    !-e $CorrectCAPrivateSecretFileLocation,
                     "Re-Hash $TestName: Correct CA $CAName private secret filename:"
                         . " $CorrectCAPrivateSecretFile File exists with false (after re-hash)"
                         . " there was not private key",
@@ -2155,10 +1877,7 @@ HZ4=
 
             # output details if process was not successful
             if ( !$Response->{Success} ) {
-                ok(
-                    0,
-                    $Response->{Details},
-                );
+                fail( $Response->{Details} );
             }
 
             # check certificates with correct names
@@ -2382,8 +2101,9 @@ HZ4=
         my $CertificateText = $SMIMEObject->CertificateRead( %{ $Test->{Params} } );
 
         if ( $Test->{Success} ) {
-            ok(
-                defined $CertificateText,
+            isnt(
+                $CertificateText,
+                undef,
                 "CertificateRead() $Test->{Name}: should return the certificate",
             );
 
@@ -2447,10 +2167,7 @@ HZ4=
 # attributes cache tests
 for my $Count ( 1 .. 3 ) {
     my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
-    ok(
-        !$Certs[0],
-        "#$Count Search()",
-    );
+    is( \@Certs, [], "#$Count Search()" );
 
     # add certificate ...
     my $CertString = $MainObject->FileRead(
@@ -2497,8 +2214,9 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
-    ok(
-        defined $Cache,
+    isnt(
+        $Cache,
+        undef,
         "#$Count Cache for Certificate Attributes is not empty",
 
     );
@@ -2575,8 +2293,9 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Private',
         Key  => $PrivateCacheKey,
     );
-    ok(
-        defined $Cache,
+    isnt(
+        $Cache,
+        undef,
         "#$Count Cache for Private Attributes is not empty",
 
     );
@@ -2626,8 +2345,9 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
-    ok(
-        defined $Cache,
+    isnt(
+        $Cache,
+        undef,
         "#$Count Cache for Certificate Attributes after private is not empty",
 
     );

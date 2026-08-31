@@ -14,6 +14,12 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+=head1 NAME
+
+make_certs.pl - create sample files in scripts/test/sample/SMIME
+
+=cut
+
 use v5.24;
 use strict;
 use warnings;
@@ -65,11 +71,16 @@ for my $ID ( 1 .. 3 ) {
         $Email .= ', unittest4@example.org, unittest5@example.org';
     }
 
-    # the openssl command line assembled
+    # Create a top-level self-singed certificate, aka a root X.509 CA certificate.
+    # These kind of certificate needs to be put into the trust store.
     my $Days = $ExpireInDays;
-    if ( $ID == 4 ) {
+    if ( $ID == 4 ) {    # currently not used
         $Days = 1;
     }
+
+    # openssl req: create a new certificate or a new certificate request
+    # -x509: create a new certificate
+    # -newkey rse:4096: generate a new private key
     my $Cmd = "openssl req -x509 -newkey rsa:4096 -passout 'pass:$Password' -keyout $KeyOut -out $CertOut -sha256 -days $Days -subj '$Subject' $SubjectAltName";
 
     print "$Cmd\n";
