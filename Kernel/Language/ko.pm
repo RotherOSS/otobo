@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.8196990016391;
+    $Self->{Completeness}        = 0.819618366129994;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1717,9 +1717,6 @@ sub Data {
         'List of Files' => '파일 목록',
         'Permission' => '허가',
         'Download file from package!' => '패키지에서 파일을 다운로드 하십시오!',
-        'Required' => '필수',
-        'Primary Key' => '기본 키',
-        'Auto Increment' => '자동 증가',
         'SQL' => 'SQL',
         'File Differences for File %s' => '파일 %s의 파일 차이점',
         'File differences for file %s' => '파일 %s의 파일 차이점',

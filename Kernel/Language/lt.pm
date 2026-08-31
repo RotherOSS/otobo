@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.202056325435852;
+    $Self->{Completeness}        = 0.201997614788312;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1717,9 +1717,6 @@ sub Data {
         'List of Files' => 'Failų sąrašas',
         'Permission' => 'Leidimas',
         'Download file from package!' => 'Parsiųsti failą iš paketo!',
-        'Required' => 'Reikalaujama',
-        'Primary Key' => '',
-        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File Differences for File %s' => '',
         'File differences for file %s' => 'Skirtumai tarp failų %s',

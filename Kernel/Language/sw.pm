@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.413053196244971;
+    $Self->{Completeness}        = 0.413088849135361;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1720,9 +1720,6 @@ sub Data {
         'List of Files' => 'Orodha ya mafaili',
         'Permission' => 'Ruhusa',
         'Download file from package!' => 'Pakua faili kutoka kwenye kifurushi',
-        'Required' => 'Hitajika',
-        'Primary Key' => '',
-        'Auto Increment' => '',
         'SQL' => 'SQL',
         'File Differences for File %s' => '',
         'File differences for file %s' => 'Tofauti ya faili kwa faili %s',
