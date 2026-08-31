@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2023-05-11 13:38+0000\n"
 "Last-Translator: Kris Van Cauwenberge <kris.van.cauwenberge@coteng.com>\n"
 "Language-Team: Dutch <https://translate.otobo.org/projects/otobo10/otobo/nl/"
@@ -6437,18 +6437,6 @@ msgstr "Permissie"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Download bestand van pakket."
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Verplicht"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Primaire Sleutel"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Automatisch ophogen"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -33170,6 +33158,15 @@ msgstr "omgekeerd"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Verplicht"
+
+#~ msgid "Primary Key"
+#~ msgstr "Primaire Sleutel"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Automatisch ophogen"
 
 #, fuzzy
 #~| msgid "Select"

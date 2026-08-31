@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2024-11-27 01:34+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <http://weblate.otobo.org/projects/otobo/otobo-11/ja/"
@@ -6528,18 +6528,6 @@ msgstr "権限"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "パッケージからファイルをダウンロードしてください！"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "必要項目"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "主キー"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "自動カウントアップ"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -34542,6 +34530,15 @@ msgstr "反転"
 #. SysConfig
 msgid "stats"
 msgstr "統計"
+
+#~ msgid "Required"
+#~ msgstr "必要項目"
+
+#~ msgid "Primary Key"
+#~ msgstr "主キー"
+
+#~ msgid "Auto Increment"
+#~ msgstr "自動カウントアップ"
 
 #~ msgid "Select the items you want to "
 #~ msgstr "必要な項目を選択してください "

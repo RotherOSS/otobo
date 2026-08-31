@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
@@ -6621,18 +6621,6 @@ msgstr "to"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Last ned fil fra pakke!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Påkrevd"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Primærnøkkel"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Automatisk økning"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -36045,6 +36033,15 @@ msgstr "motsatt"
 #. SysConfig
 msgid "stats"
 msgstr "statistikk"
+
+#~ msgid "Required"
+#~ msgstr "Påkrevd"
+
+#~ msgid "Primary Key"
+#~ msgstr "Primærnøkkel"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Automatisk økning"
 
 #~ msgid "Select the items you want to "
 #~ msgstr "Velg elementene du vil "

@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Ann Li <dn.annli@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://translate.otobo.org/projects/"
@@ -6225,18 +6225,6 @@ msgstr "權限"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "從軟件包中下載這個文件"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "必需的"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32388,6 +32376,9 @@ msgstr "倒序"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "必需的"
 
 #, fuzzy
 #~| msgid "Select"

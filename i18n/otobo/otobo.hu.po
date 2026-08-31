@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2026-08-06 18:30+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
@@ -6646,18 +6646,6 @@ msgstr "Jogosultság"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Fájl letöltése a csomagból!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Kötelező"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Elsődleges kulcs"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Automatikus növelés"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -36862,6 +36850,15 @@ msgstr "megfordítás"
 #. SysConfig
 msgid "stats"
 msgstr "statisztikák"
+
+#~ msgid "Required"
+#~ msgstr "Kötelező"
+
+#~ msgid "Primary Key"
+#~ msgstr "Elsődleges kulcs"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Automatikus növelés"
 
 #~ msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
 #~ msgstr "Érvénytelen hivatkozásszűrő hivatkozásobjektum-attribútum"

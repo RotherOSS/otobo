@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2021-04-28 16:01+0000\n"
 "Last-Translator: elpaso <eldaras20@gmail.com>\n"
 "Language-Team: Lithuanian <https://translate.otobo.org/projects/otobo10/"
@@ -6262,18 +6262,6 @@ msgstr "Leidimas"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Parsiųsti failą iš paketo!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Reikalaujama"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32460,6 +32448,9 @@ msgstr "atšaukti/panaikinti"
 #. SysConfig
 msgid "stats"
 msgstr "statistika"
+
+#~ msgid "Required"
+#~ msgstr "Reikalaujama"
 
 #, fuzzy
 #~| msgid "Select"

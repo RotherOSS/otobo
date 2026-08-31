@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Turkish (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6200,18 +6200,6 @@ msgstr "İzin"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Paketten dosya indir!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Gerektirir"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32313,6 +32301,9 @@ msgstr "ters"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Gerektirir"
 
 #, fuzzy
 #~| msgid "Select"

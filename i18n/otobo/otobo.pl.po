@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2023-07-08 21:28+0000\n"
 "Last-Translator: Miroslaw Lach <m.weblate@lach.waw.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
@@ -6545,18 +6545,6 @@ msgstr "Prawo dostępu"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Pobierz plik z pakietu!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Wymagany"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "Klucz podstawowy"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "Automatycznie zwiększane"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -33983,6 +33971,15 @@ msgstr "odwróć"
 #. SysConfig
 msgid "stats"
 msgstr "statystyki"
+
+#~ msgid "Required"
+#~ msgstr "Wymagany"
+
+#~ msgid "Primary Key"
+#~ msgstr "Klucz podstawowy"
+
+#~ msgid "Auto Increment"
+#~ msgstr "Automatycznie zwiększane"
 
 #~ msgid "Select the items you want to "
 #~ msgstr "Wybierz elementy, które chcesz "

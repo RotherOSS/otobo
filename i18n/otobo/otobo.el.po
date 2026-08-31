@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Krikor Maroukian <krikor.maroukian@gmail.com>, 2019\n"
 "Language-Team: Greek (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6192,18 +6192,6 @@ msgstr "Δικαίωμα"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Κατέβασμα αρχείου απο πακέτο !"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Απαιτείται"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32322,6 +32310,9 @@ msgstr "ανάποδα"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Απαιτείται"
 
 #, fuzzy
 #~| msgid "Select"

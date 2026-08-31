@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Isabell Long <isabell@issyl0.co.uk>, 2019\n"
 "Language-Team: English (United Kingdom) (https://translate.otobo.org/"
@@ -6369,18 +6369,6 @@ msgstr "Permission"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "Download file from package!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "Required"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -34349,6 +34337,9 @@ msgstr "reverse"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "Required"
 
 #, fuzzy
 #~| msgid "Select"

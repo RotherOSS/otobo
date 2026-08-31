@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2022-02-06 18:13+0000\n"
 "Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: English (Canada) <https://translate.otobo.org/projects/"
@@ -6059,18 +6059,6 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Download file from package!"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
 msgstr ""
 
 #. Template: AdminPackageManager

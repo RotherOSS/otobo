@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2019\n"
 "Language-Team: Persian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6376,18 +6376,6 @@ msgstr "حقوق دسترسی"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "دریافت فایل از بسته!"
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "الزامی"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr "کلید اولیه"
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr "افزایش خودکار"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -34334,6 +34322,15 @@ msgstr "برگردان"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "الزامی"
+
+#~ msgid "Primary Key"
+#~ msgstr "کلید اولیه"
+
+#~ msgid "Auto Increment"
+#~ msgstr "افزایش خودکار"
 
 #, fuzzy
 #~| msgid "Select"

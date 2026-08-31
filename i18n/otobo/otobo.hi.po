@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-17 07:06+0000\n"
+"POT-Creation-Date: 2026-08-31 13:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Hindi (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6149,18 +6149,6 @@ msgstr "अनुमति"
 #. Template: AdminPackageManager
 msgid "Download file from package!"
 msgstr "संकुल से फ़ाइल डाउनलोड करें "
-
-#. Template: AdminPackageManager
-msgid "Required"
-msgstr "आवश्यकता"
-
-#. Template: AdminPackageManager
-msgid "Primary Key"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Auto Increment"
-msgstr ""
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -32897,6 +32885,9 @@ msgstr "उलटा"
 #. SysConfig
 msgid "stats"
 msgstr ""
+
+#~ msgid "Required"
+#~ msgstr "आवश्यकता"
 
 #, fuzzy
 #~| msgid "Select"
