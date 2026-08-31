@@ -133,6 +133,12 @@ feature 'apache:mod_perl', 'Support for feature apache:mod_perl' => sub {
 
 };
 
+feature 'chart:gnuplot', 'Drawing bar charts using Gnuplot' => sub {
+    # interface to Gnuplot, for drawing charts
+    requires 'Gnuplot::Builder', '>= 0.33';
+
+};
+
 feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL or MariaDB database.
     requires 'DBD::MariaDB', '1.24';
@@ -357,6 +363,9 @@ feature 'oauth:openidconnect', 'Needed for OpenIDConnect' => sub {
 };
 
 feature 'optional', 'Support for feature optional' => sub {
+    # interface to Gnuplot, for drawing charts
+    requires 'Gnuplot::Builder', '>= 0.33';
+
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
 
