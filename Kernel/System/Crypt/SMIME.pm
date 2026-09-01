@@ -617,7 +617,7 @@ sub Verify {
     }
 
     # digest failure means that the content of the email does not match with the signature
-    elsif ( $Message =~ m{digest failure}i ) {
+    elsif ( $Message =~ m{digest failure|CMS Verification failure}i ) {
         %Return = (
             SignatureFound => 1,
             Successful     => 0,
