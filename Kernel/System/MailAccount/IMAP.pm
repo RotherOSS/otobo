@@ -127,7 +127,7 @@ sub Connect {
 
             return {
                 Successful => 0,
-                Message    => "IMAP - Can't connect to $Param{Host}: $@\n"
+                Message    => "ImapTLS: Can't connect to $Param{Host}: $@\n"
             };
         }
 
@@ -145,18 +145,9 @@ sub Connect {
                 IMAPObject => $IMAPObject,
             );
         }
-
-        my $ErrorMsg = $@;
-
-        # mail server rejected the token, invalidate it
-        $TokenProviderObject->InvalidateToken(
-            AccountName => $AccountName,
-            Token       => $Token->{Token},
-        );
-
         return (
             Successful => 0,
-            Message    => "IMAP - OAuth2 authentication failed: $ErrorMsg\n"
+            Message    => "ImapTLS: Can't connect to $Param{Host}: $@\n"
         );
     }
 

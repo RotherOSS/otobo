@@ -562,8 +562,7 @@ sub RequesterPerformRequest {
 
     # Create header container and add proper content type.
     # These headers will be used for calling the remote server.
-    my %Headers     = ( 'Content-Type' => 'application/json' );
-    my $OAuth2Token = '';
+    my %Headers = ( 'Content-Type' => 'application/json' );
 
     # Add AdditionalHeaders, but do not overwrite existing headers
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
@@ -728,14 +727,14 @@ sub RequesterPerformRequest {
                 };
             }
 
-            $OAuth2Token = $TokenResult->{Token};
+            my $Token = $TokenResult->{Token};
 
             $Self->{DebuggerObject}->Debug(
                 Summary => Translatable("Attached OAuth2 Bearer Token"),
-                Data    => $OAuth2Token,
+                Data    => $Token,
             );
 
-            $Headers{Authorization} = "Bearer $OAuth2Token";
+            $Headers{Authorization} = "Bearer $Token";
         }
 
         # kerberos
@@ -1082,20 +1081,6 @@ sub RequesterPerformRequest {
 
     my $ResponseCode    = $RestClient->responseCode();
     my $ResponseContent = $RestClient->responseContent();
-
-    if ($OAuth2Token) {
-
-        # if OAuth2 Token was used, but server rejected with
-        # 401 - Unauthorized, we invalidate the Token.
-        if ( $ResponseCode == 401 ) {
-
-            my $AccountName = $Config->{Authentication}->{OAuthAccountName};
-            $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenProvider')->InvalidateToken(
-                Token       => $OAuth2Token,
-                AccountName => $AccountName,
-            );
-        }
-    }
 
     # Return early in case an error on response.
     if ($ResponseError) {

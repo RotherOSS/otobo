@@ -125,12 +125,6 @@ sub SaveToken {
     or
 
     my $Success = $TokenRepositoryObject->DeleteToken(
-        Token => <tokenstring>
-    );
-
-    or
-
-    my $Success = $TokenRepositoryObject->DeleteToken(
         TokenID => <id>
     );
 
@@ -148,18 +142,6 @@ sub DeleteToken {
         my $DeleteSuccess = $DBObject->Do(
             SQL  => "DELETE FROM oauth2_token_storage WHERE id = ?",
             Bind => [ \$TokenID ],
-        );
-
-        return $DeleteSuccess;
-    }
-
-    if ( $Param{Token} ) {
-
-        my $Token = $Param{Token};
-
-        my $DeleteSuccess = $DBObject->Do(
-            SQL  => "DELETE FROM oauth2_token_storage WHERE token = ?",
-            Bind => [ \$Token ],
         );
 
         return $DeleteSuccess;

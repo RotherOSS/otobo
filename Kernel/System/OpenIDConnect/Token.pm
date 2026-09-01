@@ -171,11 +171,7 @@ sub TimeLeft {
 
     my $TokenData = $Self->Inspect(%Param);
     if ( !$TokenData ) {
-
-        # Not every provider issues JWT-formatted access_tokens (e.g. Google's
-        # access_token is opaque, only its id_token is a JWT). Decoding failure
-        # here does not mean the token is expired.
-        return 600;
+        return 0;
     }
 
     if ( !$TokenData->{exp} ) {

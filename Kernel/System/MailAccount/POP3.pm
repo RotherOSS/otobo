@@ -97,13 +97,6 @@ sub _Authenticate {
             $Port
         );
         if ( !defined $NOM ) {
-
-            # mail server rejected the token, invalidate it
-            $TokenProviderObject->InvalidateToken(
-                AccountName => $AccountName,
-                Token       => $Token->{Token},
-            );
-
             $PopObject->quit();
             return (
                 Successful => 0,

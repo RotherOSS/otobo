@@ -248,50 +248,6 @@ sub Fetch {
     );
 }
 
-=head2 InvalidateToken()
-
-Used to remove a Token from DB and Cache when the server rejected it.
-
-    $TokenProviderObject->InvalidateToken(
-        AccountName  => '<SomeAccountName>',
-        Token        => <tokenstring>,           # the plain token string
-    );
-
-=cut
-
-sub InvalidateToken {
-
-    my ( $Self, %Param ) = @_;
-
-    for my $Needed (qw/AccountName Token/) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-
-            return;
-        }
-    }
-
-    my $Token       = $Param{Token};
-    my $AccountName = $Param{AccountName};
-
-    my $TokenRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenRepository');
-    $TokenRepository->DeleteToken( Token => $Token );
-
-    my $CacheType = "TokenProvider";
-    my $CacheKey  = join( ',', 'Invoker', $AccountName, 'access_token' );
-
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    $CacheObject->Delete(
-        Type => $CacheType,
-        Key  => $CacheKey,
-    );
-
-    return;
-}
-
 =head2 sub FetchToken()
 
     Called internaly when password or client_credential grant are configured.
@@ -805,14 +761,7 @@ sub _ProcessNewToken {
     my $TokenType    = $Param{TokenType};
     my $Token        = $Param{Token};
 
-    my $TokenObject     = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Token');
-    my $TokenRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenRepository');
-
-    # clean up existing tokens of same type for same account
-    $TokenRepository->DeleteToken(
-        AccountName => $AccountName,
-        TokenType   => $TokenType,
-    );
+    my $TokenObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Token');
 
     my $TokenData;
 
@@ -868,6 +817,8 @@ sub _ProcessNewToken {
     }
 
     my $ExpiresAt = $TokenData->{exp};
+
+    my $TokenRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenRepository');
 
     my $Success = $TokenRepository->SaveToken(
         AccountName => $AccountName,

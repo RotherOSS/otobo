@@ -224,12 +224,6 @@ sub Check {
             my $Code  = $SMTPWrapper->( 'code', );
             my $Error = $Code . ', ' . $SMTPWrapper->( 'message', );
 
-            # mail server rejected the token, invalidate it
-            $TokenProviderObject->InvalidateToken(
-                AccountName => $AccountName,
-                Token       => $Token->{Token},
-            );
-
             $SMTPWrapper->( 'quit', );
 
             $Param{CommunicationLogObject}->ObjectLog(
