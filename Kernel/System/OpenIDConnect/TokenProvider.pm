@@ -248,6 +248,50 @@ sub Fetch {
     );
 }
 
+=head2 InvalidateAccessToken()
+
+Used to remove a Token from DB and Cache when the server rejected it.
+
+    $TokenProviderObject->InvalidateAccessToken(
+        AccountName  => '<SomeAccountName>',
+        Token        => <tokenstring>,           # the plain token string
+    );
+
+=cut
+
+sub InvalidateAccessToken {
+
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw/AccountName Token/) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    my $Token       = $Param{Token};
+    my $AccountName = $Param{AccountName};
+
+    my $TokenRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenRepository');
+    $TokenRepository->DeleteToken( Token => $Token );
+
+    my $CacheType = "TokenProvider";
+    my $CacheKey  = join( ',', 'Invoker', $AccountName, 'access_token' );
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    $CacheObject->Delete(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return;
+}
+
 =head2 sub FetchToken()
 
     Called internaly when password or client_credential grant are configured.
@@ -720,7 +764,6 @@ sub _PopulateCache {
     my $AccountName = $Param{AccountName};
     my $TokenType   = $Param{TokenType};
     my $Token       = $Param{Token};
-    my $ExpiresAt   = $Param{ExpiresAt} || 600;    # 10 mins
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     my $TokenObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Token');
@@ -761,7 +804,14 @@ sub _ProcessNewToken {
     my $TokenType    = $Param{TokenType};
     my $Token        = $Param{Token};
 
-    my $TokenObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Token');
+    my $TokenObject     = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Token');
+    my $TokenRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenRepository');
+
+    # clean up existing tokens of same type for same account
+    $TokenRepository->DeleteToken(
+        AccountName => $AccountName,
+        TokenType   => $TokenType,
+    );
 
     my $TokenData;
 
@@ -816,9 +866,7 @@ sub _ProcessNewToken {
         $TokenData = $Result->{TokenData};
     }
 
-    my $ExpiresAt = $TokenData->{exp};
-
-    my $TokenRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenRepository');
+    my $ExpiresAt = IsHashRefWithData($TokenData) ? $TokenData->{exp} : undef;
 
     my $Success = $TokenRepository->SaveToken(
         AccountName => $AccountName,
@@ -835,7 +883,6 @@ sub _ProcessNewToken {
             AccountName => $AccountName,
             TokenType   => $TokenType,
             Token       => $Token,
-            ExpiresAt   => $ExpiresAt,
         );
     }
 

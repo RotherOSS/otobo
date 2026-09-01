@@ -146,6 +146,15 @@ sub Connect {
                 IMAPObject => $IMAPObject,
             );
         }
+
+        my $ErrorMsg = $@;
+
+        # mail server rejected the token, invalidate it
+        $TokenProviderObject->InvalidateAccessToken(
+            AccountName => $AccountName,
+            Token       => $Token->{Token},
+        );
+
         return (
             Successful => 0,
             Message    => "$Type: Can't connect to $Param{Host}: $@\n"
