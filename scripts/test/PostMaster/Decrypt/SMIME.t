@@ -303,7 +303,7 @@ my %FirstArticle = $ArticleBackendObject->ArticleGet( %{ $ArticleIndex[0] } );
 is(
     $Ticket{Queue},
     'Junk',
-    "Ticket created in $Ticket{Queue}",
+    'Ticket created in queue Junk',
 );
 
 my $GetBody = $FirstArticle{Body};

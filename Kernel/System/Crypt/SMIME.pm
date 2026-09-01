@@ -353,17 +353,47 @@ sub Decrypt {
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
 
-    # no output is expected when decryption was successful
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't decrypt: $LogMessage!"
-        );
 
-        return (
-            Successful => 0,
-            Message    => $LogMessage,
-        );
+        # The existence of a message indicates that decryption wasn't successful
+
+        if (
+            $Param{SearchingNeededKey}
+            &&
+            $LogMessage =~ m{Error decrypting CMS using private key}
+            )
+        {
+            # Known failures from "openssl cms -decrypt" are usually not logged.
+            if ( $Self->{Debug} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'debug',
+                    Message  => "Can't decrypt: $LogMessage!"
+                );
+            }
+
+            return (
+                Successful => 0,
+                Message    => 'Impossible to decrypt with installed private keys!',
+            );
+        }
+        else {
+
+            # Log a message in unusual cases.
+            #
+            # This includes the obsolete messages that were emitted by "openssl smime -decrypt"
+            #     Error decrypting PKCS#7 structure
+            #     40B7187BA37A0000:error:10800073:PKCS7 routines:PKCS7_dataDecode:no recipient matches certificate:../crypto/pkcs7/pk7_doit.c:570:
+            #     40B7187BA37A0000:error:10800077:PKCS7 routines:PKCS7_decrypt:decrypt error:../crypto/pkcs7/pk7_smime.c:512:
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't decrypt: $LogMessage!"
+            );
+
+            return (
+                Successful => 0,
+                Message    => $LogMessage,
+            );
+        }
     }
 
     my $DecryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $PlainFile );
@@ -379,7 +409,7 @@ sub Decrypt {
     return (
         Successful => 1,
         Message    => 'OpenSSL: OK',
-        Data       => $$DecryptedRef,
+        Data       => $DecryptedRef->$*,
     );
 }
 
@@ -546,18 +576,15 @@ sub Verify {
 
     # path to the cert, when self signed certs
     # specially for openssl 1.0
-    my $CertificateOption = '';
-    if ( $Param{CACert} ) {
-        $CertificateOption = "-CAfile $Param{CACert}";
-    }
+    my $CAfileOption = $Param{CACert} ? "-CAfile $Param{CACert}" : '';
 
     my $Options = "$Self->{CMSSubCmd} -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-        . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
+        . "-CApath $Self->{CertPath} $CAfileOption";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
     my $MessageLong = join '', @LogLines;
-    my $Message = '';
+    my $Message     = '';
     for my $LogLine (@LogLines) {
         if ( $LogLine =~ /^\d.*:(.+?):.+?:.+?:$/ || $LogLine =~ /^\d.*:(.+?)$/ ) {
             $Message .= ";$1";
@@ -620,7 +647,7 @@ sub Verify {
     }
 
     # digest failure means that the content of the email does not match with the signature
-    elsif ( $Message =~ m{digest failure}i ) {
+    elsif ( $Message =~ m{digest failure|CMS Verification failure}i ) {
         %Return = (
             SignatureFound => 1,
             Successful     => 0,
@@ -634,7 +661,9 @@ sub Verify {
     }
     else {
 
-        # For example: $Message = "CMS Verification failure\n"
+        # For example unsigned contend:
+        #     Error reading SMIME Content Info
+        #     40C7496F7B730000:error:068000CD:asn1 encoding routines:SMIME_read_ASN1_ex:invalid mime type:../crypto/asn1/asn_mime.c:502:type: text/plain
         %Return = (
             SignatureFound => 0,
             Successful     => 0,
@@ -2428,9 +2457,10 @@ sub _Init {
     $Self->{Cmd} = 'HOME=' . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
     # Declare the subcommand for dealing with CMS certificates
-    # CMS is basically the same as PKCS#7.
+    # CMS stands for "Cryptographic Message Syntax" and is basically the same as PKCS#7.
     # The command 'openssl cms' supersedes the old command 'openssl smime'. The major difference
     # is that newer versions of the certificate format are supported by 'openssl cms'.
+    # Also the log messages have changed.
     $Self->{CMSSubCmd} = 'cms';
 
     # get the openssl version string,

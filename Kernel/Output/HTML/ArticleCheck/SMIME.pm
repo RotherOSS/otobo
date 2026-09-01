@@ -270,7 +270,8 @@ sub Check {
             PRIVATE_KEY:
             for my $PrivateKey ( values %PrivateKeys ) {
                 %Decrypt = $SMIMEObject->Decrypt(
-                    Message => $Message,
+                    Message            => $Message,
+                    SearchingNeededKey => 1,
                     $PrivateKey->%*,
                 );
 
@@ -343,7 +344,12 @@ sub Check {
                 }
 
                 # not signed at all
-                elsif ( $SignCheck{Message} =~ /^OpenSSL: Error reading S\/MIME message/ ) {
+                elsif (
+                    $SignCheck{Message} =~ m/Error reading S\/MIME message/    # openssl smime
+                    ||
+                    $SignCheck{Message} =~ m/Error reading SMIME Content Info/    # openssl cms
+                    )
+                {
                     %SignCheck = ();
                 }
 

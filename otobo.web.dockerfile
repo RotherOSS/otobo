@@ -215,7 +215,7 @@ USER $OTOBO_USER
 # Under Docker the Elasticsearch Daemon is running on the host 'elastic' instead of '127.0.0.1'.
 # The webservice configuration is in a YAML file and it is not obvious how
 # to change settings for webservices.
-# So we take the easy was out and do the change directly in the XML file,
+# So we take the easy was out and do the two substitutions directly in the XML file,
 # before installer.pl has run.
 # Doing this already in the initial database insert allows installer.pl
 # to pick up the changed host and to check whether Elasticsearch is available.
