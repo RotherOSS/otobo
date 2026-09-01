@@ -353,17 +353,34 @@ sub Decrypt {
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
 
-    # no output is expected when decryption was successful
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't decrypt: $LogMessage!"
-        );
 
-        return (
-            Successful => 0,
-            Message    => $LogMessage,
-        );
+        # The existence of a message indicates that decryption wasn't successful
+        if (
+            $Param{SearchingNeededKey}
+            && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
+            && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
+            )
+        {
+            # avoid log message when no no private key was found
+            return (
+                Successful => 0,
+                Message    => 'Impossible to decrypt with installed private keys!',
+            );
+        }
+        else {
+
+            # log a message in unusual cases
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't decrypt: $LogMessage!"
+            );
+
+            return (
+                Successful => 0,
+                Message    => $LogMessage,
+            );
+        }
     }
 
     my $DecryptedRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $PlainFile );

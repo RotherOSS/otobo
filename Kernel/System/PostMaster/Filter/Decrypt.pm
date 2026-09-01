@@ -273,7 +273,8 @@ sub _DecryptSMIME {
         PRIVATE_KEY:
         for my $PrivateKey ( values %PrivateKeys ) {
             %Decrypt = $SMIMEObject->Decrypt(
-                Message => $DecryptBody,
+                Message            => $DecryptBody,
+                SearchingNeededKey => 1,
                 $PrivateKey->%*,
             );
 

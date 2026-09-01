@@ -270,7 +270,8 @@ sub Check {
             PRIVATE_KEY:
             for my $PrivateKey ( values %PrivateKeys ) {
                 %Decrypt = $SMIMEObject->Decrypt(
-                    Message => $Message,
+                    Message            => $Message,
+                    SearchingNeededKey => 1,
                     $PrivateKey->%*,
                 );
 
