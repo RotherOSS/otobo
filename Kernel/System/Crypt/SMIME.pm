@@ -554,7 +554,7 @@ sub Verify {
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
     my $MessageLong = join '', @LogLines;
-    my $Message = '';
+    my $Message     = '';
     for my $LogLine (@LogLines) {
         if ( $LogLine =~ /^\d.*:(.+?):.+?:.+?:$/ || $LogLine =~ /^\d.*:(.+?)$/ ) {
             $Message .= ";$1";
@@ -2427,9 +2427,10 @@ sub _Init {
     $Self->{Cmd} = 'HOME=' . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
     # Declare the subcommand for dealing with CMS certificates
-    # CMS is basically the same as PKCS#7.
+    # CMS stands for "Cryptographic Message Syntax" and is basically the same as PKCS#7.
     # The command 'openssl cms' supersedes the old command 'openssl smime'. The major difference
     # is that newer versions of the certificate format are supported by 'openssl cms'.
+    # Also the log messages have changed.
     $Self->{CMSSubCmd} = 'cms';
 
     # get the openssl version string,
