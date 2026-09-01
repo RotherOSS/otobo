@@ -163,7 +163,7 @@
         [% RenderBlockStart("TransitionActionRow") %]
                 <li>
                     <h4>
-                        [% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])
+                        [% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])[% IF !Data.ProcessEntityID %] – global[% END %]
                         <span>[% Translate("Module name") | html %]: [% Data.Module | html %]</span>
                     </h4>
         [% RenderBlockStart("Config") %]
