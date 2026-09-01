@@ -257,8 +257,8 @@ sub _DecryptSMIME {
             my @PrivateKeysResult = $SMIMEObject->PrivateSearch(
                 Search => $EmailAddress,
             );
-            for my $Cert (@PrivateKeysResult) {
-                $PrivateKeys{ $Cert->{Filename} } = $Cert;
+            for my $Key (@PrivateKeysResult) {
+                $PrivateKeys{ $Key->{Filename} } = $Key;
             }
         }
 
@@ -451,6 +451,7 @@ sub _DecryptSMIME {
                     . ")"
                     . ", but sender address $OrigSender: does not match certificate address!";
 
+                # not sure why the message get shortened to 30 characters
                 my $Flag = $SignCheck{Message}
                     ?
                     ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ) . '... (see info)' : $SignCheck{Message} )
