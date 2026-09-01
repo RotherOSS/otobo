@@ -356,13 +356,21 @@ sub Decrypt {
     if ($LogMessage) {
 
         # The existence of a message indicates that decryption wasn't successful
+
         if (
             $Param{SearchingNeededKey}
-            && $LogMessage =~ m{PKCS7_dataDecode:no recipient matches certificate}
-            && $LogMessage =~ m{PKCS7_decrypt:decrypt error}
+            &&
+            $LogMessage =~ m{Error decrypting CMS using private key}
             )
         {
-            # avoid log message when no no private key was found
+            # Known failures from "openssl cms -decrypt" are usually not logged.
+            if ( $Self->{Debug} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'debug',
+                    Message  => "Can't decrypt: $LogMessage!"
+                );
+            }
+
             return (
                 Successful => 0,
                 Message    => 'Impossible to decrypt with installed private keys!',
@@ -370,7 +378,12 @@ sub Decrypt {
         }
         else {
 
-            # log a message in unusual cases
+            # Log a message in unusual cases.
+            #
+            # This includes the obsolete messages that were emitted by "openssl smime -decrypt"
+            #     Error decrypting PKCS#7 structure
+            #     40B7187BA37A0000:error:10800073:PKCS7 routines:PKCS7_dataDecode:no recipient matches certificate:../crypto/pkcs7/pk7_doit.c:570:
+            #     40B7187BA37A0000:error:10800077:PKCS7 routines:PKCS7_decrypt:decrypt error:../crypto/pkcs7/pk7_smime.c:512:
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't decrypt: $LogMessage!"
@@ -396,7 +409,7 @@ sub Decrypt {
     return (
         Successful => 1,
         Message    => 'OpenSSL: OK',
-        Data       => $$DecryptedRef,
+        Data       => $DecryptedRef->$*,
     );
 }
 
