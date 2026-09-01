@@ -23,9 +23,9 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use File::Path  qw(make_path rmtree);
-use Path::Class qw(file);
-use JSON::XS    qw(decode_json);
+use File::Path       qw(make_path rmtree);
+use Path::Class      qw(file);
+use Cpanel::JSON::XS qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
