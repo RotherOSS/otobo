@@ -546,13 +546,10 @@ sub Verify {
 
     # path to the cert, when self signed certs
     # specially for openssl 1.0
-    my $CertificateOption = '';
-    if ( $Param{CACert} ) {
-        $CertificateOption = "-CAfile $Param{CACert}";
-    }
+    my $CAfileOption = $Param{CACert} ? "-CAfile $Param{CACert}" : '';
 
     my $Options = "$Self->{CMSSubCmd} -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-        . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
+        . "-CApath $Self->{CertPath} $CAfileOption";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
 
@@ -634,7 +631,9 @@ sub Verify {
     }
     else {
 
-        # For example: $Message = "CMS Verification failure\n"
+        # For example unsigned contend:
+        #     Error reading SMIME Content Info
+        #     40C7496F7B730000:error:068000CD:asn1 encoding routines:SMIME_read_ASN1_ex:invalid mime type:../crypto/asn1/asn_mime.c:502:type: text/plain
         %Return = (
             SignatureFound => 0,
             Successful     => 0,
