@@ -2754,10 +2754,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.56
-    pathname: N/NL/NLNETLABS/Net-DNS-1.56.tar.gz
+  Net-DNS-1.57
+    pathname: N/NL/NLNETLABS/Net-DNS-1.57.tar.gz
     provides:
-      Net::DNS 1.56
+      Net::DNS 1.57
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2054
       Net::DNS::DomainName1035 2054
@@ -2768,7 +2768,7 @@ DISTRIBUTIONS
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2054
+      Net::DNS::Parameters 2059
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2786,8 +2786,8 @@ DISTRIBUTIONS
       Net::DNS::RR::DELEG 2053
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
-      Net::DNS::RR::DNSKEY 2042
-      Net::DNS::RR::DS 2042
+      Net::DNS::RR::DNSKEY 2059
+      Net::DNS::RR::DS 2059
       Net::DNS::RR::DSYNC 2003
       Net::DNS::RR::EUI48 2003
       Net::DNS::RR::EUI64 2003
@@ -2816,26 +2816,28 @@ DISTRIBUTIONS
       Net::DNS::RR::NSEC3PARAM 2003
       Net::DNS::RR::NULL 2002
       Net::DNS::RR::OPENPGPKEY 2003
-      Net::DNS::RR::OPT 2054
-      Net::DNS::RR::OPT::CHAIN 2054
-      Net::DNS::RR::OPT::CLIENT_SUBNET 2054
-      Net::DNS::RR::OPT::COOKIE 2054
-      Net::DNS::RR::OPT::DAU 2054
-      Net::DNS::RR::OPT::DHU 2054
-      Net::DNS::RR::OPT::EXPIRE 2054
-      Net::DNS::RR::OPT::EXTENDED_ERROR 2054
-      Net::DNS::RR::OPT::KEY_TAG 2054
-      Net::DNS::RR::OPT::N3U 2054
-      Net::DNS::RR::OPT::NSID 2054
-      Net::DNS::RR::OPT::PADDING 2054
-      Net::DNS::RR::OPT::REPORT_CHANNEL 2054
-      Net::DNS::RR::OPT::TCP_KEEPALIVE 2054
-      Net::DNS::RR::OPT::ZONEVERSION 2054
+      Net::DNS::RR::OPT 2059
+      Net::DNS::RR::OPT::CHAIN 2059
+      Net::DNS::RR::OPT::CLIENT_SUBNET 2059
+      Net::DNS::RR::OPT::COOKIE 2059
+      Net::DNS::RR::OPT::DAU 2059
+      Net::DNS::RR::OPT::DHU 2059
+      Net::DNS::RR::OPT::EXPIRE 2059
+      Net::DNS::RR::OPT::EXTENDED_ERROR 2059
+      Net::DNS::RR::OPT::KEY_TAG 2059
+      Net::DNS::RR::OPT::MQTYPE_QUERY 2059
+      Net::DNS::RR::OPT::MQTYPE_RESPONSE 2059
+      Net::DNS::RR::OPT::N3U 2059
+      Net::DNS::RR::OPT::PADDING 2059
+      Net::DNS::RR::OPT::REPORT_CHANNEL 2059
+      Net::DNS::RR::OPT::TCP_KEEPALIVE 2059
+      Net::DNS::RR::OPT::UPDATE_LEASE 2059
+      Net::DNS::RR::OPT::ZONEVERSION 2059
       Net::DNS::RR::PTR 2002
       Net::DNS::RR::PX 2003
       Net::DNS::RR::RESINFO 2003
       Net::DNS::RR::RP 2002
-      Net::DNS::RR::RRSIG 2057
+      Net::DNS::RR::RRSIG 2059
       Net::DNS::RR::RT 2003
       Net::DNS::RR::SIG 2057
       Net::DNS::RR::SMIMEA 2003
@@ -2846,7 +2848,7 @@ DISTRIBUTIONS
       Net::DNS::RR::SVCB 2043
       Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
-      Net::DNS::RR::TSIG 2003
+      Net::DNS::RR::TSIG 2060
       Net::DNS::RR::TXT 2003
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
@@ -2855,7 +2857,7 @@ DISTRIBUTIONS
       Net::DNS::Resolver::Base 2057
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
-      Net::DNS::Resolver::UNIX 2053
+      Net::DNS::Resolver::UNIX 2059
       Net::DNS::Resolver::android 2007
       Net::DNS::Resolver::cygwin 2002
       Net::DNS::Resolver::os2 2007
@@ -4531,19 +4533,25 @@ DISTRIBUTIONS
       Net::LDAPS 0.06
     requirements:
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
