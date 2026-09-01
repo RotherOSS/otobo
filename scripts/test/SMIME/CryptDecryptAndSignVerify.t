@@ -356,7 +356,11 @@ for my $Count ( 1 .. 3 ) {
     );
     diag explain( \%Decrypt );
     ok( !$Decrypt{Successful}, "Error decrypting by cert filename" );
-    is( $Decrypt{Message}, "Error decrypting CMS using private key\n", 'Message for failed decrypt' );
+    is(
+        $Decrypt{Message},
+        'Impossible to decrypt with installed private keys!',
+        'Message for failed decrypt'
+    );
 }
 
 # delete keys
