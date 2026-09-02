@@ -39,6 +39,10 @@ sub new {
 
     $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
     return $Self;
 }
 
@@ -49,6 +53,7 @@ sub Run {
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
+    my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
 
     $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
@@ -73,6 +78,27 @@ sub Run {
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        if ( $Self->{LightAdmin} ) {
+            my %Queues = $QueueObject->QueueSignatureMemberList(
+                SignatureID => $ID
+            );
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission for the template.
+            if ( !$Data{Permission} ) {
+                %Data = ();
+            }
+            elsif ( $Data{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit this signature.'),
+                );
+            }
+        }
         $Output .= $LayoutObject->Notify( Info => Translatable('Signature updated!') )
             if ( $Notification && $Notification eq 'Update' );
 
@@ -117,6 +143,22 @@ sub Run {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
         }
+        if ( $Self->{LightAdmin} ) {
+
+            my %Queues = $QueueObject->QueueSignatureMemberList(
+                SignatureID => $GetParam{ID}
+            );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission to change the template.
+            if ( $Permission ne 'rw' ) {
+                $Errors{NoPermission} = 1;
+            }
+        }
 
         # if no errors occurred
         if ( !%Errors ) {
@@ -151,7 +193,13 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Notify( Priority => 'Error' );
+        my $ErrorInfo = $Errors{NoPermission} ?
+                        'No permission to update this signature.' :
+                        'There were errors, could not update this signature.';
+        $Output .= $LayoutObject->Notify(
+            Info => $ErrorInfo,
+            Priority => 'Error'
+        );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
@@ -353,6 +401,7 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -388,6 +437,24 @@ sub _Overview {
     my %List            = $SignatureObject->SignatureList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
+    if ( $Self->{LightAdmin} ) {
+
+        # check queue permissions of linked signatures.
+        for my $ListKey ( keys %List ) {
+            my %Data = $SignatureObject->SignatureGet( ID => $ListKey );
+            my %Queues = $QueueObject->QueueSignatureMemberList(
+                SignatureID => $Data{ID}
+            );
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+            if (!$Data{Permission}) {
+                delete $List{$ListKey}
+            }
+        }
+    }
 
     # if there are any results, they are shown
     if (%List) {
