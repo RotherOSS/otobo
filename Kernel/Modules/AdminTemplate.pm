@@ -609,6 +609,22 @@ sub _Overview {
         Valid  => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
+    # check queue permissions of linked templates.
+    if ( $Self->{LightAdmin} ) {
+        for my $ListKey ( keys %List ) {
+            my %Data = $StandardTemplateObject->StandardTemplateGet( ID => $ListKey );
+            my %Queues = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $Data{ID} );
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+            if (!$Data{Permission}) {
+                delete $List{$ListKey}
+            }
+        }
+    }
+
     # if there are any results, they are shown
     if (%List) {
 
@@ -627,17 +643,6 @@ sub _Overview {
         {
 
             my %Data = %{ $ListGet{$ID} };
-
-            # check queue permissions of linked templates.
-            if ( $Self->{LightAdmin} ) {
-                my %Queues = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $Data{ID} );
-                $Data{Permission} = $QueueObject->QueueListPermission(
-                    QueueIDs => [ keys %Queues ],
-                    UserID   => $Self->{UserID},
-                    Default  => 'rw',
-                );
-                next ID if !$Data{Permission};
-            }
 
             my @SelectedAttachment;
             my %SelectedAttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentStandardTemplateMemberList(
