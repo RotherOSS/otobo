@@ -1,7 +1,7 @@
 %YAML 1.1
 ---
 
-# Workflow for building devel Docker images and pushing them to Docker hub.
+# Workflow for building devel Docker images and pushing them to Docker Hub.
 # See docker_image_builder_rel.yml for the workflow that builds
 # the release Docker images.
 name: 'DockerImageBuilderDevel'
@@ -11,10 +11,11 @@ on:
   # Build a devel Docker image whenever there is a push into the listed branches.
   push:
     branches:
-      - rel-10_0
+      - rel-10_0 # no longer in development
       - rel-10_1
       - rel-11_0
       - rel-11_1
+      - rel-11_2
 
 jobs:
   BuildDockerImage:
@@ -62,7 +63,7 @@ jobs:
         # they can be used in the later steps.
         name: Setup
         run: |
-          branch="${{ github.ref_name }}"                     # e.g rel-10_0
+          branch="${{ github.ref_name }}"                     # e.g rel-11_1
           docker_tag="${{ matrix.tag_prefix }}$branch"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
@@ -89,7 +90,7 @@ jobs:
         uses: dorny/paths-filter@v4
         id: has-changes
         with:
-          base: "${{ github.ref_name }}"                     # e.g rel-10_0
+          base: "${{ github.ref_name }}"                     # e.g rel-11_1
           filters: |
             context_and_dockerfile:
               - '${{ matrix.context }}/**'
