@@ -26,10 +26,13 @@ The following persons contributed to OTOBO:
 * Charly Zauleck <chz@rother-oss.com>
 * dennis-dko <dk@rother-oss.com>
 * Jens Pfeifer <jp@znuny.com>
+* Jonathan Casavilca <jonathan@ayte.co>
 * Helmut Wollmersdorfer <helmut@wollmersdorfer.at>
 * Lars Dɪᴇᴄᴋᴏᴡ <lad@otobo.de>
+* splayfery <splayfery@gmail.com>
 * Philipp Kesler <philipp.kesler@hein.de>
 * Przemysław Wilkosz <office@wilkosz.net>
+* Stefan Eisenmann <stefane2741@gmail.com>
 * Intalio <intalio@intalio.pl>
 * Kozo Sakurai <sakurai@io-architect.com>
 * Rui Alves <rua@rother-oss.com>
@@ -50,6 +53,7 @@ The following persons contributed to OTOBO:
 * Andreas Schmieder <andreas.schmieder@googlemail.com>
 * Markus Hynnä <markus.hynna@mynamaki.fi>
 * Oleksandr Mykhailov <o.mykhailov@etg.ua>
+* Micke <micke90s@googlemail.com>
 * Yasen Arsov <jarsov@gmail.com>
 * helabasa <R45XvezA@pm.me>
 * wetzf <84456263+wetzf@users.noreply.github.com>
@@ -78,6 +82,7 @@ The following persons contributed to OTOBO:
 * Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>
 * Massimo Composta <m.composta@e-time.it>
 * Matthias Bethke <mb@znuny.com>
+* MichaelThumes <MichaelThumes@users.noreply.github.com>
 * Miguel Sanchez Quintero <miguel@ayte.co>
 * Miroslaw Lach <m.weblate@lach.waw.pl>
 * Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>
@@ -87,6 +92,7 @@ The following persons contributed to OTOBO:
 * Tai Khoa Pham <tpham@t3-it.de>
 * Tore Morkemo <morkemo@gmail.com>
 * Triston Armstrong <tarmstrong95@proton.me>
+* Trung Minh Lai <trung.lai@hitachivantara.com>
 * Yuriy Purisev <duh.khv@gmail.com>
 * sternenseemann <0rpkxez4ksa01gb3typccl0i@systemli.org>
 * uid66 <19481514+uid66@users.noreply.github.com>
