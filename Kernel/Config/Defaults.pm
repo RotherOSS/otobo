@@ -518,7 +518,7 @@ sub LoadDefaults {
     #   Currently max. supported cost value is 31.
     # $Self->{'AuthModule::DB::bcryptCost'} = 12;
 
-    # This is an example configuration for an LDAP auth. backend.
+    # This is an example configuration for an LDAP authentication backend.
     # (take care that Net::LDAP is installed!)
 #    $Self->{AuthModule} = 'Kernel::System::Auth::LDAP';
 #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
@@ -542,9 +542,9 @@ sub LoadDefaults {
     # (e. g. user needs to be in a group xyz to use otobo)
 #    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otoboallow,ou=posixGroups,dc=example,dc=com';
 #    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
-    # for ldap posixGroups objectclass (just uid)
+    # for LDAP posixGroups objectclass (just uid)
 #    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
-    # for non ldap posixGroups objectclass (with full user dn)
+    # for non LDAP posixGroups objectclass (with full user dn)
 #    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
 
     # The following is valid but would only be necessary if the
@@ -552,14 +552,14 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
 
-    # in case you want to add always one filter to each ldap query, use
+    # in case you want to add always one filter to each LDAP query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
     # or if you want to filter with a logical OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
 #    $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each login name, then
     # you can use this option. e. g. user just want to use user but
-    # in your ldap directory exists user@domain.
+    # in your LDAP directory exists user@domain.
 #    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # In case you want to convert all given usernames to lower letters you
@@ -569,12 +569,15 @@ sub LoadDefaults {
     # is not in use.
 #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
 
-    # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+    # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+    # The parameter 'raw' indicates that most incoming data are to be considered
+    # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #    $Self->{'AuthModule::LDAP::Params'} = {
 #        port    => 389,
 #        timeout => 120,
 #        async   => 0,
 #        version => 3,
+#        raw     => qr/userCertificate|;binary/,
 #    };
 
     # Die if backend can't work, e. g. can't connect to server.
@@ -700,7 +703,7 @@ sub LoadDefaults {
     # authentication)                                     #
     # --------------------------------------------------- #
     # This is an example configuration for an LDAP auth sync. backend.
-    # (take care that Net::LDAP is installed!)
+    # (make sure that Net::LDAP is installed!)
 #    $Self->{AuthSyncModule} = 'Kernel::System::Auth::Sync::LDAP';
 #    $Self->{'AuthSyncModule::LDAP::Host'} = 'ldap.example.com';
 #        to use ldaps protocol, specify url with ldaps:// scheme
@@ -744,12 +747,15 @@ sub LoadDefaults {
 #        UserEmail     => 'mail',
 #    };
 
-    # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+    # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+    # The parameter 'raw' indicates that most incoming data are to be considered
+    # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #    $Self->{'AuthSyncModule::LDAP::Params'} = {
 #        port    => 389,
 #        timeout => 120,
 #        async   => 0,
 #        version => 3,
+#        raw     => qr/userCertificate|;binary/,
 #    };
 
 
@@ -1547,7 +1553,7 @@ via the Preferences button after logging in.
 #    $Self->{'Customer::AuthModule::DB::CryptType'} = 'sha2';
 
     # This is an example configuration for an LDAP auth. backend.
-    # (take care that Net::LDAP is installed!)
+    # (make sure that Net::LDAP is installed!)
 #    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
 #    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
 #        to use ldaps protocol, specify url with ldaps:// scheme
@@ -1590,12 +1596,15 @@ via the Preferences button after logging in.
     # in your ldap directory exists user@domain.
 #    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
-    # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+    # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+    # The parameter 'raw' indicates that most incoming data are to be considered
+    # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
 #        port    => 389,
 #        timeout => 120,
 #        async   => 0,
 #        version => 3,
+#        raw     => qr/userCertificate|;binary/,
 #    };
     # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
 #    $Self->{'Customer::AuthModule::LDAP::StartTLS'} = 'required';
@@ -1825,41 +1834,56 @@ via the Preferences button after logging in.
     };
 
 # CustomerUser
-# (customer user ldap backend and settings)
+# (customer user LDAP backend and settings)
 #    $Self->{CustomerUser} = {
 #        Name => 'LDAP Backend',
 #        Module => 'Kernel::System::CustomerUser::LDAP',
 #        Params => {
-#            # ldap host
+#            # LDAP host
 #            Host => 'ldaps://bay.csuhayward.edu',
-#            # ldap base dn
+#
+#            # LDAP base dn
 #            BaseDN => 'ou=seas,o=csuh',
+#
 #            # search scope (one|sub)
 #            SSCOPE => 'sub',
+#
 #            # The following is valid but would only be necessary if the
 #            # anonymous user does NOT have permission to read from the LDAP tree
 #            UserDN => '',
+#
 #            UserPw => '',
-#            # in case you want to add always one filter to each ldap query, use
+#
+#            # in case you want to add always one filter to each LDAP query, use
 #            # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #            AlwaysFilter => '',
-#            # if the charset of your ldap server is iso-8859-1, use this:
-#            # SourceCharset => 'iso-8859-1',
+#
 #            # die if backend can't work, e. g. can't connect to server
 #            Die => 0,
-#            # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+#
+#            # There is no known use case for the option SourceCharset as LDAPv3 always sends UTF-8 encoded data.
+#            # But make sure the Params->raw is set as that setting enforces the decoding on the Perl side.
+#            #SourceCharset => 'iso-8859-1',
+#
+#            # Net::LDAP::new() parameters (if needed - for more info see perldoc Net::LDAP)
+#            # Parameters to Net::LDAP->new(). For more info see `perldoc Net::LDAP`.
+#            # The parameter 'raw' indicates that most incoming data are to be considered
+#            # as UTF-8 encoded strings. Only the attributes matching the regex are to be considered as binary.
 #            Params => {
 #                port    => 389,
 #                timeout => 120,
 #                async   => 0,
 #                version => 3,
 #                verify  => 'require',
+#                raw     => qr/userCertificate|;binary/,
 #            },
 #        },
 #        # customer unique id
 #        CustomerKey => 'uid',
+#
 #        # customer #
 #        CustomerID => 'mail',
+#
 #        # The last field must always be the email address so that a valid
 #        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        CustomerUserListFields => ['cn', 'mail'],
@@ -1873,13 +1897,13 @@ via the Preferences button after logging in.
 #        CustomerUserNameFieldsJoin => ' ',
 #        # show customer user and customer tickets in customer interface
 #        CustomerUserExcludePrimaryCustomerID => 0,
-#        # add a ldap filter for valid users (expert setting)
+#        # add a LDAP filter for valid users (expert setting)
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
 #        # Translate manager flag in mapping from its Distinguished Name to cn, sAMAccountName, uid, mail, etc.
 #        TranslateManagerTo => 'sAMAccountName',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
-#        # cache time to live in sec. - cache any ldap queries
+#        # cache time to live in sec. - cache any LDAP queries
 #        CacheTTL => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
@@ -1891,13 +1915,21 @@ via the Preferences button after logging in.
 #            [ 'UserEmail',       Translatable('Email'),               'mail',                1, 1, 'var', '', 1, undef, undef ],
 #            [ 'UserCustomerID',  Translatable('CustomerID'),          'mail',                0, 1, 'var', '', 1, undef, undef ],
 #            # [ 'UserCustomerIDs', Translatable('CustomerIDs'),         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
-#            # [ 'UserManager',       Translatable('Manager'),           'manager',             1, 0, 'var', '', 1, undef, undef ],
+#            # [ 'UserManager',     Translatable('Manager'),             'manager',             1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserPhone',       Translatable('Phone'),               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserAddress',     Translatable('Address'),             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserComment',     Translatable('Comment'),             'description',         1, 0, 'var', '', 1, undef, undef ],
 #
-#            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+#            # The variable UserSMIMECertificate is needed when "SMIME::FetchFromCustomer" is activated.
+#            # In most cases it is assigned a DER encoded, that is binary, certificate which is fetched from LDAP.
+#            #
+#            # The LDAP attribute 'userCertificate;binary' has been working with at least OpenLDAP 1.5.0. The appended ';binary'
+#            # is required by RFC 4523, https://www.rfc-editor.org/info/rfc4523/#section-4.1.
+#            # Declaring only 'userCertificate' also works in at least some cases.
+#            # Declaring 'userSMIMECertificate' is not expected to work as per RFC 2798 this attribute
+#            # holds a PKCS#7 signed message, https://www.rfc-editor.org/info/rfc2798/#section-2.8 . This format
+#            # is not supported by OTOBO.
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userCertificate;binary', 0, 1, 'var', '', 1, undef, undef ],
 #
 #            # Dynamic field example
 #            # [ 'DynamicField_Name_X',   undef,                          'Name_X',              0, 0, 'dynamic_field', undef, 0, undef, undef ],
