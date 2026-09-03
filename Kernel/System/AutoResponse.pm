@@ -586,8 +586,8 @@ sub QueueAutoResponseMemberList {
         . " ORDER BY q.name";
 
     return if !$DBObject->Prepare(
-        SQL => $SQL,
-        Bind  => [ \$Param{AutoResponseID} ]
+        SQL  => $SQL,
+        Bind => [ \$Param{AutoResponseID} ]
     );
 
     # fetch the result

@@ -2139,8 +2139,8 @@ sub QueueSignatureMemberList {
         . " ORDER BY name";
 
     return if !$DBObject->Prepare(
-        SQL => $SQL,
-        Bind  => [ \$Param{SignatureID} ]
+        SQL  => $SQL,
+        Bind => [ \$Param{SignatureID} ]
     );
 
     # fetch the result

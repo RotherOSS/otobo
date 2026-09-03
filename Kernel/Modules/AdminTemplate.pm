@@ -611,16 +611,16 @@ sub _Overview {
 
     # check queue permissions of linked templates.
     if ( $Self->{LightAdmin} ) {
-        for my $ListKey ( keys %List ) {
-            my %Data = $StandardTemplateObject->StandardTemplateGet( ID => $ListKey );
+        for my $TemplateID ( keys %List ) {
+            my %Data   = $StandardTemplateObject->StandardTemplateGet( ID => $TemplateID );
             my %Queues = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $Data{ID} );
             $Data{Permission} = $QueueObject->QueueListPermission(
                 QueueIDs => [ keys %Queues ],
                 UserID   => $Self->{UserID},
                 Default  => 'rw',
             );
-            if (!$Data{Permission}) {
-                delete $List{$ListKey}
+            if ( !$Data{Permission} ) {
+                delete $List{$TemplateID};
             }
         }
     }

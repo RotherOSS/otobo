@@ -53,7 +53,7 @@ sub Run {
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
-    my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
 
     $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
@@ -193,11 +193,13 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-        my $ErrorInfo = $Errors{NoPermission} ?
-                        'No permission to update this signature.' :
-                        'There were errors, could not update this signature.';
+        my $ErrorInfo = $Errors{NoPermission}
+            ?
+            'No permission to update this signature.'
+            :
+            'There were errors, could not update this signature.';
         $Output .= $LayoutObject->Notify(
-            Info => $ErrorInfo,
+            Info     => $ErrorInfo,
             Priority => 'Error'
         );
         $Self->_Edit(
@@ -440,8 +442,8 @@ sub _Overview {
     if ( $Self->{LightAdmin} ) {
 
         # check queue permissions of linked signatures.
-        for my $ListKey ( keys %List ) {
-            my %Data = $SignatureObject->SignatureGet( ID => $ListKey );
+        for my $SignatureID ( keys %List ) {
+            my %Data   = $SignatureObject->SignatureGet( ID => $SignatureID );
             my %Queues = $QueueObject->QueueSignatureMemberList(
                 SignatureID => $Data{ID}
             );
@@ -450,8 +452,8 @@ sub _Overview {
                 UserID   => $Self->{UserID},
                 Default  => 'rw',
             );
-            if (!$Data{Permission}) {
-                delete $List{$ListKey}
+            if ( !$Data{Permission} ) {
+                delete $List{$SignatureID};
             }
         }
     }
@@ -461,9 +463,9 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
-        for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $SignatureID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $SignatureObject->SignatureGet( ID => $ListKey );
+            my %Data = $SignatureObject->SignatureGet( ID => $SignatureID );
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
