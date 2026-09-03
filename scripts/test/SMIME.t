@@ -101,34 +101,23 @@ if ($SMIMEObject) {
     pass('got SMIME support');
 }
 else {
-    diag "NOTICE: No SMIME support!";
+    diag "NOTICE: No SMIME support! Running some sanity checks";
 
-    if ( !-e $OpenSSLBin ) {
-        fail("$OpenSSLBin exists");
-    }
-    elsif ( !-x $OpenSSLBin ) {
-        fail("$OpenSSLBin is executable!");
-    }
-    elsif ( !-e $CertPath ) {
-        fail("$CertPath exists");
-    }
-    elsif ( !-d $CertPath ) {
-        fail("$CertPath is a directory");
-    }
-    elsif ( !-r $CertPath ) {
-        fail("$CertPath is readable");
-    }
-    elsif ( !-e $PrivatePath ) {
-        fail("$PrivatePath exists");
-    }
-    elsif ( !-d $PrivatePath ) {
-        fail("$PrivatePath is a directory");
-    }
-    elsif ( !-w $PrivatePath ) {
-        fail("$PrivatePath is writable");
-    }
+    ok( -e $OpenSSLBin, "$OpenSSLBin exists" );
+    ok( -f _,           "$OpenSSLBin is afile" );
+    ok( -x _,           "$OpenSSLBin is executable" );
 
-    done_testing();
+    ok( -e $CertPath, "$CertPath exists" );
+    ok( -d _,         "$CertPath is a directory" );
+    ok( -r _,         "$CertPath is readable" );
+    ok( -w _,         "$CertPath is writable" );
+
+    ok( -e $PrivatePath, "$PrivatePath exists" );
+    ok( -d _,            "$PrivatePath is a directory" );
+    ok( -r _,            "$PrivatePath is readable" );
+    ok( -w _,            "$PrivatePath is writable" );
+
+    done_testing;
 
     exit 0;
 }
