@@ -20,16 +20,17 @@ use warnings;
 use utf8;
 
 # core modules
+use File::Path qw(make_path rmtree);
 
 # CPAN modules
 use Test2::V0;
-use File::Path       qw(make_path rmtree);
 use Path::Class      qw(file);
 use Cpanel::JSON::XS qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+use Test2::Require::OTOBO::OpenSSL;          # run test script only when the openssl binary is available
 
 # NOTE: This test relies on the following SMIME certs in $HOME/scripts/test/sample/SMIME
 # - SMIMECertificate-1.asc
