@@ -121,7 +121,6 @@ sub Run {
                     }
                 }
 
-
                 # get selected Auto Responses for appropriate Auto Responses type and Queue
                 my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
                     QueueID => $Param{ID},
@@ -194,7 +193,7 @@ sub Run {
                 }
 
                 # no permission to change.
-                if ( !$AutoResponseListByType{ $ParamAutoResponseID } ) {
+                if ( !$AutoResponseListByType{$ParamAutoResponseID} ) {
                     return $LayoutObject->Redirect(
                         OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID}"
                     );

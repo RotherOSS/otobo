@@ -135,7 +135,7 @@ sub Run {
             }
         }
         if ( $Self->{LightAdmin} ) {
-            my %Queues = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $GetParam{ID} );
+            my %Queues     = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $GetParam{ID} );
             my $Permission = $QueueObject->QueueListPermission(
                 QueueIDs => [ keys %Queues ],
                 UserID   => $Self->{UserID},
@@ -379,7 +379,7 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
@@ -403,14 +403,14 @@ sub _Overview {
         Data => \%Param,
     );
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
-    my %List = $AutoResponseObject->AutoResponseList(
+    my %List               = $AutoResponseObject->AutoResponseList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
     if ( $Self->{LightAdmin} ) {
 
         # check queue permissions of linked templates.
-        for my $ListKey ( keys %List ) {
-            my %Data = $AutoResponseObject->AutoResponseGet( ID => $ListKey );
+        for my $AutoResponseID ( keys %List ) {
+            my %Data   = $AutoResponseObject->AutoResponseGet( ID => $AutoResponseID );
             my %Queues = $AutoResponseObject->QueueAutoResponseMemberList(
                 AutoResponseID => $Data{ID}
             );
@@ -419,8 +419,8 @@ sub _Overview {
                 UserID   => $Self->{UserID},
                 Default  => 'rw',
             );
-            if (!$Data{Permission}) {
-                delete $List{$ListKey}
+            if ( !$Data{Permission} ) {
+                delete $List{$AutoResponseID};
             }
         }
     }
