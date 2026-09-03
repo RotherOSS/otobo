@@ -207,6 +207,13 @@ sub DebugLog {
         $DataString = 'No data provided';
     }
 
+    # mask configured attributes
+    my $BlackListedParams = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Debugger::Settings::RedactParameter') // [];
+    for my $RedactParam ( $BlackListedParams->@* ) {
+        $DataString =~ s/"$RedactParam":(\s*)".+?"(,|\n|\})/"$RedactParam":$1"xxx"$2/g;
+        $DataString =~ s/'$RedactParam' =\> '.+?'(,|\n|\})/'$RedactParam => 'xxx'$1/g;
+    }
+
     if ( !$Self->{TestMode} ) {
 
         if ( $DebugLevels{ $Param{DebugLevel} } >= $DebugLevels{ $Self->{DebugThreshold} } ) {
