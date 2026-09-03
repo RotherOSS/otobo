@@ -22,22 +22,22 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $Self
 use Kernel::System::UnitTest::Selenium;
+use Test2::Require::OTOBO::Selenium;             # run Selenium tests only when Selenium is configured
 
 our $Self;
 
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+my $Selenium     = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-$Selenium->RunTest(
-    sub {
-
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
+{
+    {
         # Define needed variable.
         my $RandomID = $Helper->GetRandomID();
         my %VerifyStatsReportData;
@@ -157,10 +157,7 @@ $Selenium->RunTest(
         my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
 
         if ($BrowserFound) {
-            $Self->True(
-                $BrowserFound,
-                "Browser is found, skip test case - SidebarColumn 'Note'"
-            );
+            pass("Browser is found, skip test case - SidebarColumn 'Note'");
         }
         else {
 
@@ -555,7 +552,6 @@ JAVASCRIPT
             "Imported stats is deleted - ID $TestStatID",
         );
     }
+}
 
-);
-
-$Self->DoneTesting();
+done_testing;
