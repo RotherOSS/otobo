@@ -38,7 +38,9 @@ sub new {
     );
 
     $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
-
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
     return $Self;
 }
 
@@ -48,6 +50,7 @@ sub Run {
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+    my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 
     $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
 
@@ -72,6 +75,25 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        if ( $Self->{LightAdmin} ) {
+            my %Queues = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $ID );
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission for the template.
+            if ( !$Data{Permission} ) {
+                %Data = ();
+            }
+            elsif ( $Data{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit this auto response.'),
+                );
+            }
+        }
         $Self->_Edit(
             Action => 'Change',
             %Data,
@@ -110,6 +132,19 @@ sub Run {
         for my $Needed (qw(Name ValidID AddressID TypeID Subject)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+        if ( $Self->{LightAdmin} ) {
+            my %Queues     = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $GetParam{ID} );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission to change the template.
+            if ( $Permission ne 'rw' ) {
+                $Errors{NoPermission} = 1;
             }
         }
 
@@ -258,7 +293,6 @@ sub Run {
         $Output .= $LayoutObject->Footer();
         return $Output;
     }
-
 }
 
 sub _Edit {
@@ -345,8 +379,8 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -368,9 +402,28 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $AutoResponseObject->AutoResponseList(
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+    my %List               = $AutoResponseObject->AutoResponseList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
+    if ( $Self->{LightAdmin} ) {
+
+        # check queue permissions of linked templates.
+        for my $AutoResponseID ( keys %List ) {
+            my %Data   = $AutoResponseObject->AutoResponseGet( ID => $AutoResponseID );
+            my %Queues = $AutoResponseObject->QueueAutoResponseMemberList(
+                AutoResponseID => $Data{ID}
+            );
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+            if ( !$Data{Permission} ) {
+                delete $List{$AutoResponseID};
+            }
+        }
+    }
 
     # if there are any results, they are shown
     if (%List) {

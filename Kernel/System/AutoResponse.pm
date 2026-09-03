@@ -547,6 +547,58 @@ sub AutoResponseQueue {
     return 1;
 }
 
+=head2 QueueAutoResponseMemberList()
+
+get queues associated to an auto response
+
+    my %Queues = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => 123 );
+
+Returns:
+    %Queues = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+=cut
+
+sub QueueAutoResponseMemberList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{AutoResponseID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no AutoResponseID!',
+        );
+        return;
+    }
+
+    # get needed objects
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+    my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
+
+    # get queues
+    my $SQL = "SELECT q.id, q.name "
+        . " FROM queue q, queue_auto_response qar WHERE "
+        . " qar.auto_response_id = ? AND "
+        . " qar.queue_id = q.id AND "
+        . " q.valid_id IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )"
+        . " ORDER BY q.name";
+
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$Param{AutoResponseID} ]
+    );
+
+    # fetch the result
+    my %Queues;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Queues{ $Row[0] } = $Row[1];
+    }
+
+    return %Queues;
+}
+
 =begin Internal:
 
 =head2 _NameExistsCheck()
