@@ -316,6 +316,12 @@ sub Main {
             [ CustomerPanelSessionName => join( '_', 'OTOBOCustomerInterface', $SystemID ) ],
         );
 
+        # In a Docker based installation we know where chromium is located.
+        # Set GoogleChrome::Bin so that Statistics Reports can generate colorful graphs right away.
+        push @Settings, (
+            [ 'GoogleChrome::Bin' => '/usr/bin/chromium' ],
+        );
+
         # These settings are useful for testing and development
         push @Settings, (
             [ MinimumLogLevel => 'info' ],    # more verbose log output
