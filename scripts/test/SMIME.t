@@ -20,16 +20,17 @@ use warnings;
 use utf8;
 
 # core modules
+use File::Path qw(make_path rmtree);
 
 # CPAN modules
 use Test2::V0;
-use File::Path       qw(make_path rmtree);
 use Path::Class      qw(file);
 use Cpanel::JSON::XS qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+use Test2::Require::OTOBO::OpenSSL;          # run test script only when the openssl binary is available
 
 # NOTE: This test relies on the following SMIME certs in $HOME/scripts/test/sample/SMIME
 # - SMIMECertificate-1.asc
@@ -100,34 +101,23 @@ if ($SMIMEObject) {
     pass('got SMIME support');
 }
 else {
-    diag "NOTICE: No SMIME support!";
+    diag "NOTICE: No SMIME support! Running some sanity checks";
 
-    if ( !-e $OpenSSLBin ) {
-        fail("$OpenSSLBin exists");
-    }
-    elsif ( !-x $OpenSSLBin ) {
-        fail("$OpenSSLBin is executable!");
-    }
-    elsif ( !-e $CertPath ) {
-        fail("$CertPath exists");
-    }
-    elsif ( !-d $CertPath ) {
-        fail("$CertPath is a directory");
-    }
-    elsif ( !-r $CertPath ) {
-        fail("$CertPath is readable");
-    }
-    elsif ( !-e $PrivatePath ) {
-        fail("$PrivatePath exists");
-    }
-    elsif ( !-d $PrivatePath ) {
-        fail("$PrivatePath is a directory");
-    }
-    elsif ( !-w $PrivatePath ) {
-        fail("$PrivatePath is writable");
-    }
+    ok( -e $OpenSSLBin, "$OpenSSLBin exists" );
+    ok( -f _,           "$OpenSSLBin is afile" );
+    ok( -x _,           "$OpenSSLBin is executable" );
 
-    done_testing();
+    ok( -e $CertPath, "$CertPath exists" );
+    ok( -d _,         "$CertPath is a directory" );
+    ok( -r _,         "$CertPath is readable" );
+    ok( -w _,         "$CertPath is writable" );
+
+    ok( -e $PrivatePath, "$PrivatePath exists" );
+    ok( -d _,            "$PrivatePath is a directory" );
+    ok( -r _,            "$PrivatePath is readable" );
+    ok( -w _,            "$PrivatePath is writable" );
+
+    done_testing;
 
     exit 0;
 }

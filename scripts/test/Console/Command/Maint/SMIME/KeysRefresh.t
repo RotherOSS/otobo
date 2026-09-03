@@ -28,6 +28,7 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::Crypt::SMIME ();
+use Test2::Require::OTOBO::OpenSSL;              # run test script only when the openssl binary is available
 
 our $Self;
 

@@ -13,9 +13,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Test2::Require::OTOBO::Selenium;
+package Test2::Require::OTOBO::OpenSSL;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
@@ -32,37 +32,35 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 =head1 NAME
 
-Test2::Require::OTOBO::Selenium - run tests only when Selenium is available
+Test2::Require::OTOBO::OpenSSL - run tests only when openssl is available
 
 =head1 SYNOPSIS
 
     # to be included on top of a test script
-    use Test2::Require::OTOBO::Selenium;
+    use Test2::Require::OTOBO::OpenSSL;
 
 =head1 DESCRIPTION
 
-This module requires that Selenium is present. Actually it is only checking whether
-the SysConfig contains an non-empty setting C<SeleniumTestConfig>.
+This module requires that the executable openssl is present.
 
 =head1 PUBLIC INTERFACE
 
 =head2 skip()
 
-Check whether C<SeleniumTestConfig> is there.
+Check whether openssl is available,
 
 =cut
 
 sub skip {
     my ($Class, @ImportArgs) = @_;
 
-    my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
-    my $SeleniumActive = $SeleniumTestsConfig->%*;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
-    # We have Selenium, do not skip
-    return undef if $SeleniumActive;
+    return 'Skipped because $OpenSSLBin does not exist' unless -e $OpenSSLBin;
 
-    # No Selenium, skip the test
-    return 'Skipped because Selenium is not available';
+    # not skipping
+    return undef;
 }
 
 1;

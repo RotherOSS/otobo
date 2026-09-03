@@ -26,6 +26,7 @@ use File::Path qw(mkpath rmtree);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Test2::Require::OTOBO::OpenSSL;          # run test script only when the openssl binary is available
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
