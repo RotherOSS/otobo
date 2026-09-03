@@ -76,7 +76,7 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         if ( $Self->{LightAdmin} ) {
-            my %Queues = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => $ID );
+            my %Queues = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $ID );
             $Data{Permission} = $QueueObject->QueueListPermission(
                 QueueIDs => [ keys %Queues ],
                 UserID   => $Self->{UserID},
@@ -135,7 +135,7 @@ sub Run {
             }
         }
         if ( $Self->{LightAdmin} ) {
-            my %Queues = $QueueObject->QueueAutoResponseMemberList( AutoResponseID => $GetParam{ID} );
+            my %Queues = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $GetParam{ID} );
             my $Permission = $QueueObject->QueueListPermission(
                 QueueIDs => [ keys %Queues ],
                 UserID   => $Self->{UserID},
@@ -411,7 +411,7 @@ sub _Overview {
         # check queue permissions of linked templates.
         for my $ListKey ( keys %List ) {
             my %Data = $AutoResponseObject->AutoResponseGet( ID => $ListKey );
-            my %Queues = $QueueObject->QueueAutoResponseMemberList(
+            my %Queues = $AutoResponseObject->QueueAutoResponseMemberList(
                 AutoResponseID => $Data{ID}
             );
             $Data{Permission} = $QueueObject->QueueListPermission(
