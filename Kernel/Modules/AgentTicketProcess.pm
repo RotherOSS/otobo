@@ -405,7 +405,7 @@ sub Run {
         );
     }
 
-    # if invalid process is detected on a ActivityDilog pop-up screen show an error message
+    # if invalid process is detected on a ActivityDialog pop-up screen show an error message
     elsif (
         $Self->{Subaction} eq 'DisplayActivityDialog'
         && !$FollowupProcessList->{$ProcessEntityID}
@@ -559,7 +559,7 @@ sub _RenderAjax {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # Get the activity dialog's Submit Param's or Config Params
+    # Get the activity dialog's Submit Params or Config Params
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
@@ -859,7 +859,7 @@ sub _RenderAjax {
 
     push @JSONCollector, @DynamicFieldAJAX;
 
-    # update ticket body and attachements if needed.
+    # update ticket body and attachments if needed.
     if ( $ActivateStandardTemplates && $ChangedElements{StandardTemplateID} ) {
         my @TicketAttachments;
         my $TemplateText;
@@ -905,7 +905,7 @@ sub _RenderAjax {
                 );
             }
 
-            # send a list of attachments in the upload cache back to the clientside JavaScript
+            # send a list of attachments in the upload cache back to the client-side JavaScript
             # which renders then the list of currently uploaded attachments
             @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                 FormID => $Self->{FormID},
@@ -1112,7 +1112,7 @@ sub _GetParam {
     $GetParam{ActivityEntityID}       = $ActivityEntityID // $ParamObject->GetParam( Param => 'ActivityEntityID' );
     $GetParam{ProcessEntityID}        = $ProcessEntityID;
 
-    # Get the activitydialogs's Submit Param's or Config Params
+    # Get the activitydialogs's Submit Params or Config Params
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
@@ -1196,7 +1196,7 @@ sub _GetParam {
                 )
             {
 
-                # map the GetParam's Date Values to our DateParamHash
+                # map the GetParam Date Values to our DateParamHash
                 my %DateParam = (
                     Prefix => $Prefix,
                     map {
@@ -1271,7 +1271,7 @@ sub _GetParam {
             }
         }
 
-        # if no Submitted nor Ticket Param get ActivityDialog Config's Param
+        # if no Submitted nor Ticket Param get ActivityDialog Config Param
         if ( $CurrentField ne 'CustomerID' ) {
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
         }
@@ -1447,7 +1447,7 @@ sub _OutputActivityDialog {
     my %Error         = ();
     my %ErrorMessages = ();
 
-    # If we had Errors, we got an Errorhash
+    # If we had Errors, we got an Error hash
     %Error         = %{ $Param{Error} }         if ( IsHashRefWithData( $Param{Error} ) );
     %ErrorMessages = %{ $Param{ErrorMessages} } if ( IsHashRefWithData( $Param{ErrorMessages} ) );
 
@@ -1608,7 +1608,7 @@ sub _OutputActivityDialog {
         );
     }
 
-    # Add PageHeader, Navbar, Formheader (Process/ActivityDialogHeader)
+    # Add Page Header, Nav bar, Form header (Process/ActivityDialogHeader)
     my $Output;
     my $MainBoxClass;
 
@@ -3463,7 +3463,7 @@ sub _RenderResponsible {
     }
 
     # if we have a user already and the field is not mandatory and it is the same as in ticket, then
-    #    set it to none (as it doesn't need to be changed afterall)
+    #    set it to none (as it doesn't need to be changed after all)
     elsif (
         $SelectedValue
         && $Param{ActivityDialogField}{Display} != 2
@@ -3631,7 +3631,7 @@ sub _RenderOwner {
     }
 
     # if we have a user already and the field is not mandatory and it is the same as in ticket, then
-    #    set it to none (as it doesn't need to be changed afterall)
+    #    set it to none (as it doesn't need to be changed after all)
     elsif (
         $SelectedValue
         && $Param{ActivityDialogField}{Display} != 2
@@ -5008,7 +5008,7 @@ sub _StoreActivityDialog {
 
         $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldName } = $PossibleValuesFilter;
 
-        # if we have an invisible field, use config's default value
+        # if we have an invisible field, use config default value
         if ( $ActivityDialog->{Fields}{ 'DynamicField_' . $DynamicFieldName } && $ActivityDialog->{Fields}{ 'DynamicField_' . $DynamicFieldName }{Display} == 0 )
         {
             if (
@@ -5932,7 +5932,7 @@ sub _DisplayProcessList {
         },
     );
 
-    # on initial screen from navbar there is no IsMainWinow but also no IsProcessEnroll,
+    # on initial screen from navbar there is no IsMainWindow but also no IsProcessEnroll,
     # then it must be a MainWindow
     if ( !$Self->{IsMainWindow} && !$Self->{IsProcessEnroll} ) {
         $Self->{IsMainWindow} = 1;
