@@ -8536,9 +8536,10 @@ via the Preferences button after logging in.
                 <Item Key="Print" Translatable="1">Print</Item>
                 <Item Key="CSV" Translatable="1">CSV</Item>
                 <Item Key="Excel" Translatable="1">Excel</Item>
-                <Item Key="D3::BarChart" Translatable="1">Graph: Bar Chart</Item>
-                <Item Key="D3::LineChart" Translatable="1">Graph: Line Chart</Item>
-                <Item Key="D3::StackedAreaChart" Translatable="1">Graph: Stacked Area Chart</Item>
+                <Item Key="Gnuplot::BarChart" Translatable="1">Graph: Bar Chart</Item>
+                <Item Key="D3::BarChart" Translatable="1">Graph: Bar Chart (D3)</Item>
+                <Item Key="D3::LineChart" Translatable="1">Graph: Line Chart (D3)</Item>
+                <Item Key="D3::StackedAreaChart" Translatable="1">Graph: Stacked Area Chart (D3)</Item>
             </Hash>
         </Value>
     </Setting>
