@@ -19,10 +19,13 @@ package Kernel::Modules::AgentStatisticsReports;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
 # CPAN modules
+use List::Util qw(any);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -38,8 +41,7 @@ sub new {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    for my $NeededData (qw( UserID Subaction AccessRo SessionID ))
-    {
+    for my $NeededData (qw(UserID Subaction AccessRo SessionID )) {
         if ( !$Param{$NeededData} ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Got no %s!', $NeededData ),
@@ -49,7 +51,7 @@ sub new {
     }
 
     # AccessRw controls the adding/editing of statistics.
-    for my $Param (qw( AccessRw RequestedURL)) {
+    for my $Param (qw(AccessRw RequestedURL)) {
         if ( $Param{$Param} ) {
             $Self->{$Param} = $Param{$Param};
         }
@@ -292,16 +294,22 @@ sub EditScreen {
 
     $Frontend{BrowserFound} = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
 
-    my %Format = %{ $ConfigObject->Get('Stats::Format') || {} };
-
+    # Get supported formats.
     my %FilteredFormats;
-    for my $Key ( sort keys %Format ) {
-        if ( $Frontend{BrowserFound} ) {
-            $FilteredFormats{$Key} = $Format{$Key} if $Key =~ m{^D3|^Print}smx;
-        }
-        else {
-            $FilteredFormats{$Key} = $Format{$Key} if $Key eq 'Print';
-        }
+    {
+        my %Format = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
+
+        # The format 'Print' is always supported.
+        # 'CSV' and 'Excel' are not supported.
+        # Other formats depend on the existence of needed binaries.
+        %FilteredFormats =
+            map { $_ => $Format{$_} }
+            grep {
+                ( $Frontend{BrowserFound} && m/^D3::/ )
+                ||
+                ( $_ eq 'Print' )
+            }
+            keys %Format;
     }
 
     # Languages for offline generation
@@ -326,25 +334,19 @@ sub EditScreen {
 
     my @StatsDropdownList;
 
-    my $StatsHook = $ConfigObject->Get('Stats::StatsHook');
+    my $StatsHook = $ConfigObject->Get('Stats::StatsHook');    # usually 'Stat#' or a translation thereof
 
+    STAT_ID:
     for my $StatID ( @{ $StatsList // [] } ) {
         my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $StatID );
 
-        my $HasAvailableFormat;
-        VALUE:
-        for my $Value ( @{ $Stat->{Format} } ) {
-            next VALUE if !defined $FilteredFormats{$Value};
-            $HasAvailableFormat++;
-        }
+        # check whether format is supported
+        next STAT_ID unless any { $FilteredFormats{$_} } $Stat->{Format}->@*;
 
-        if ($HasAvailableFormat) {
-            push @StatsDropdownList, {
-                Key   => $StatID,
-                Value => $StatsHook . $Stat->{StatNumber} . " - " . $Stat->{Title},
-            };
-        }
-
+        push @StatsDropdownList, {
+            Key   => $StatID,
+            Value => $StatsHook . $Stat->{StatNumber} . " - " . $Stat->{Title},
+        };
     }
 
     # Dropdown with possible stats to add
@@ -819,17 +821,24 @@ sub StatsAddWidgetAJAX {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
-    my %Format       = %{ $ConfigObject->Get('Stats::Format') || {} };
-
+    # Get supported formats.
     my %FilteredFormats;
-    for my $Key ( sort keys %Format ) {
-        if ($BrowserFound) {
-            $FilteredFormats{$Key} = $Format{$Key} if $Key =~ m{^D3|^Print}smx;
-        }
-        else {
-            $FilteredFormats{$Key} = $Format{$Key} if $Key eq 'Print';
-        }
+    {
+        my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
+
+        my %Format = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
+
+        # The format 'Print' is always supported.
+        # 'CSV' and 'Excel' are not supported.
+        # Other formats depend on the existence of needed binaries.
+        %FilteredFormats =
+            map { $_ => $Format{$_} }
+            grep {
+                ( $BrowserFound && m/^D3::/ )
+                ||
+                ( $_ eq 'Print' )
+            }
+            keys %Format;
     }
 
     my $StatsParamsWidget = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsWidget(

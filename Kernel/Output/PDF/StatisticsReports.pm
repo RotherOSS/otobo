@@ -20,11 +20,13 @@ use v5.24;
 use strict;
 use warnings;
 use namespace::autoclean;
+use utf8;
 
 # core modules
 use File::stat qw(stat);
 
 # CPAN modules
+use List::Util               qw(first);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -221,10 +223,11 @@ sub GeneratePDF {
 
     STAT_CONFIG:
     for my $StatConfig ( @{ $StatsReport{Config}->{StatsConfiguration} // [] } ) {
-        next STAT_CONFIG if !ref $StatConfig;
+        next STAT_CONFIG unless ref $StatConfig;
 
         my $StatID = $StatConfig->{StatGetParams}->{StatID};
-        next STAT_CONFIG if !$StatID;
+
+        next STAT_CONFIG unless $StatID;
 
         my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
             StatID => $StatID,
@@ -240,13 +243,13 @@ sub GeneratePDF {
         next STAT_CONFIG if $@;
 
         # Check available formats from stat
-        my ($FirstFoundFormat) = grep {m/^D3|Print/} ( $Stat->{Format} // [] )->@*;
+        my $FirstFoundFormat = first {m/^(?:D3::|Print)/} ( $Stat->{Format} // [] )->@*;
 
         # Use the format selected by the user or the first available format.
         my $Format = $StatConfig->{StatGetParams}->{Format} || $FirstFoundFormat;
 
         # Skip stat if format is wrong.
-        next STAT_CONFIG unless $Format =~ m/^D3|Print/;
+        next STAT_CONFIG unless $Format =~ m/^(?:D3::|Print)/;
 
         if ( $StatCounter++ > 0 ) {
             $PDFObject->PageNew(
@@ -302,9 +305,11 @@ sub GeneratePDF {
             );
         }
 
-        # Direct table output in PDF
-        if ( $Format eq 'Print' || !$BrowserFound ) {
-
+        # Direct table output in PDF when the format is 'Print' or there is no chart drawing command
+        if (
+            ( ! ( $Format =~ m/^D3::/ && $BrowserFound ) )
+        )
+        {
             # if array = empty
             if ( !@StatArray ) {
                 push @StatArray, [ ' ', 0 ];
