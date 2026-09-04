@@ -557,7 +557,7 @@ sub EditFieldValueValidate {
         my $Allowed;
         for my $ValueItem ( $Value->@* ) {
 
-            $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
+            $Allowed = ( grep { ( $_ // '' ) eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
             if ($Allowed) {
 
@@ -700,7 +700,7 @@ sub DisplayValueRender {
     }
 
     # set field link TODO: (Prio 5) think about multi value
-    $Link = scalar @ObjectIDs == 1 ? $Link : undef;
+    $Link = @ObjectIDs == 1 ? $Link : undef;
 
     # return a data structure
     return {
@@ -1507,7 +1507,7 @@ sub _GetEntityIDForLinking {
     my $LinkKey  = $Param{LinkKey};
 
     # determine name for the K/S/DynamicField/ObjectType/* ObjectTypeHandler class
-    # upgrade ConfigItem typenames to long form (starting with ITSM*)
+    # upgrade ConfigItem type names to long form (starting with ITSM*)
     # and treat ConfigItemVersion like ConfigItem
     $TypeName =~ s/^ConfigItem/ITSMConfigItem/;
     $TypeName =~ s/^ITSMConfigItemVersion/ITSMConfigItem/;
