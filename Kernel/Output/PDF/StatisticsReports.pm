@@ -26,7 +26,10 @@ use utf8;
 use File::stat qw(stat);
 
 # CPAN modules
-use List::Util               qw(first);
+use Gnuplot::Builder::Script  qw();
+use Gnuplot::Builder::Dataset qw();
+use List::Util                qw(first);
+use Data::Dx;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -269,6 +272,8 @@ sub GeneratePDF {
             );
         };
 
+        Dx \@StatArray;
+        Dx $StatConfig;
         shift @StatArray;    # the TitleArrayRef is not used
         my $HeadArrayRef = shift @StatArray;
 
@@ -437,6 +442,64 @@ sub GeneratePDF {
                 }
                 chomp $CommandOutput;
             }
+            elsif ( $Format =~ m/^Gnuplot::/ ) {
+                $TempPNGFilename = "$TempPNGDir/gnuplot.png";
+
+                my $Builder = Gnuplot::Builder::Script->new;
+
+                Dx $Format;
+                Dx $HeadArrayRef;
+                Dx \@StatArray;
+                if ( $Format eq 'Gnuplot::BarChart' ) {
+                    $Builder->set(
+                        terminal          => 'png size 500,500 enhanced',
+                        #auto              => [ qw(x y) ],
+                        'style data'      => 'histogram',
+                        'style histogram' => 'cluster gap 1',
+                        #grid              => 'x y',
+                        xtic              => 'rotate by -45 scale 0'
+                    );
+                    $Builder->setq( output => $TempPNGFilename );
+                    my @InlineData = join ' ', map { qq{'$_'} } $HeadArrayRef->@*;
+                    push @InlineData,
+                        map { join ' ', $_->@* }
+                        map { $_->[0] = qq{'$_->[0]'}; $_ }
+                        @StatArray;
+                    Dx \@InlineData;
+                    my $Dataset = Gnuplot::Builder::Dataset->new( q{'-'} );
+                    $Dataset->set_data( join "\n", @InlineData );
+                    $Dataset->set( using => '2' );
+                    Dx $Dataset->to_string();
+                    my $Dataset4 = $Dataset->new_child;
+                    $Dataset4->setq_source('');
+                    $Dataset4->set( using => '5' );
+                    my $Dataset5 = $Dataset->new_child;
+                    $Dataset5->setq_source('');
+                    $Dataset5->set( using => '5:xticlabels(1)' );
+                    Dx $Dataset4->to_string();
+                    Dx $Dataset5->to_string();
+                    Dx $Builder->to_string();
+                    my $Out2 = $Builder->plot($Dataset, $Dataset4, $Dataset5 );
+                    #my $Out2 = $Builder->plot($Dataset);
+                    Dx $Out2;
+                }
+                else {
+
+                    # a sine wave as placeholder
+                    $Builder->set(
+                        terminal => 'png size 500,500 enhanced',
+                        grid     => 'x y',
+                        xrange   => '[-100:100]',
+                        yrange   => '[-1:1]',
+                        xlabel   => '"x" offset 0,1',
+                        ylabel   => '"y" offset 1,0',
+                    );
+                    $Builder->setq( output => $TempPNGFilename );
+                    $Builder->unset("key");
+                    $Builder->define( 'f(x)' => 'sin(pi * x)' );
+                    my $Out2 = $Builder->plot("f(x)");    ## output sin_wave.png
+                    Dx \$Out2;
+                }
             }
 
             my $TmpPNGStat = stat $TempPNGFilename;
