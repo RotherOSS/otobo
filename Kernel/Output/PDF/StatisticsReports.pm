@@ -371,55 +371,54 @@ sub GeneratePDF {
                 Move => 'relativ',
                 Y    => -6,
             );
-
         }
 
-        # D3 charts; load in Chrome and generate PNG to embed in PDF.
+        # Generate a PNG image and embed it in the PDF
+        # D3 charts:      load in Chrome and save a screenshot as PNG
         else {
-            my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-            # This is needed because we run this function also from a console commands where
-            #   there is no Action initially.
-            local $LayoutObject->{Action} = 'AgentStatisticsReports';
-
-            # Generate local file URLs for Chrome or (ok, this is a hack).
-            local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
-            local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
-            my $Output = join '',
-                $LayoutObject->Header( Type => 'Small' ),
-                $LayoutObject->Output(
-                    Data => {
-                        %{$Stat},
-                        RawData => [
-                            [$Title],
-                            $HeadArrayRef,
-                            @StatArray,
-                        ],
-                        Format => $Format,
-                    },
-                    TemplateFile => 'StatisticsReports/Graph2PNG',
-                ),
-                $LayoutObject->Footer( Type => 'Small' );
-
-            # Remove HTTP headers
-            $Output =~ s{\A.*?(<!DOCTYPE)}{$1}smx;
-
-            my ( $TempHTMLFH, $TempHTMLFilename ) = $Kernel::OM->Get('Kernel::System::FileTemp')->TempFile(
-                Suffix => '.html',
-            );
-            close($TempHTMLFH);
-            $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-                Location => $TempHTMLFilename,
-                Mode     => 'utf8',
-                Content  => \$Output,
-            );
-
-            my $TempPNGDir      = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
-            my $TempPNGFilename = "$TempPNGDir/screenshot.png";                              # Chrome requires this file name
-
+            my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            my $TempPNGDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+            my $TempPNGFilename;
             my $CommandOutput;
 
-            if ($GoogleChromeBinary) {
+            if ( $Format =~ m/^D3::/ ) {
+                $TempPNGFilename = "$TempPNGDir/screenshot.png";    # Chrome requires this file name
+
+                # This is needed because we run this function also from a console commands where
+                #   there is no Action initially.
+                local $LayoutObject->{Action} = 'AgentStatisticsReports';
+
+                # Generate local file URLs for Chrome or (ok, this is a hack).
+                local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
+                local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
+                my $Output = join '',
+                    $LayoutObject->Header( Type => 'Small' ),
+                    $LayoutObject->Output(
+                        Data => {
+                            %{$Stat},    # TODO: this is unused
+                            RawData => [
+                                [$Title],
+                                $HeadArrayRef,
+                                @StatArray,
+                            ],
+                            Format => $Format,
+                        },
+                        TemplateFile => 'StatisticsReports/Graph2PNG',
+                    ),
+                    $LayoutObject->Footer( Type => 'Small' );
+
+                # Remove HTTP headers
+                $Output =~ s{\A.*?(<!DOCTYPE)}{$1}smx;
+
+                my ( $TempHTMLFH, $TempHTMLFilename ) = $Kernel::OM->Get('Kernel::System::FileTemp')->TempFile(
+                    Suffix => '.html',
+                );
+                close $TempHTMLFH;
+                $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+                    Location => $TempHTMLFilename,
+                    Mode     => 'utf8',
+                    Content  => \$Output,
+                );
 
                 # Chrome outputs with a fixed "screenshot.png" file name in the current folder.
                 #   Attempt to use --virtual-time-budget to wait for the chart to be rendered.
@@ -429,11 +428,12 @@ sub GeneratePDF {
                 #   The real reason is still unknown.
                 $CommandOutput
                     = `cd $TempPNGDir; '$GoogleChromeBinary' --no-sandbox --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
+                if ($!) {
+                    $CommandOutput .= "$!";
+                }
+                chomp $CommandOutput;
             }
-            if ($!) {
-                $CommandOutput .= "$!";
             }
-            chomp $CommandOutput;
 
             my $TmpPNGStat = stat $TempPNGFilename;
             if ( $TmpPNGStat && $TmpPNGStat->size ) {
