@@ -459,8 +459,8 @@ sub EditFieldRender {
         );
     }
 
-    # write rendered value to FormCache for later usage in EditFieldValueValidate
-    if ( $Value && !$Param{ServerError} ) {
+    # for AutoComplete fields, write rendered value to FormCache for later usage in EditFieldValueValidate
+    if ( $DFDetails->{EditFieldMode} eq 'AutoComplete' && $Value && !$Param{ServerError} ) {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $Param{LayoutObject},
             Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
