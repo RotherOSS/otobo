@@ -10613,6 +10613,7 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
+
     <!-- Begin Statistic Reports -->
     <Setting Name="Frontend::Module###AgentStatisticsReports" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
@@ -10712,6 +10713,13 @@ via the Preferences button after logging in.
                     </Array>
                 </Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Gnuplot::Bin" Required="0" Valid="0">
+        <Description Translatable="1">Defines the path to the gnuplot binary.</Description>
+        <Navigation>Core::Gnuplot</Navigation>
+        <Value>
+            <Item ValueRegex="" ValueType="File">/usr/bin/gnuplot</Item>
         </Value>
     </Setting>
     <Setting Name="GoogleChrome::Bin" Required="0" Valid="0">
