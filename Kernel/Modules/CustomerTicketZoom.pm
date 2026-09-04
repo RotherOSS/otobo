@@ -1174,6 +1174,7 @@ sub Run {
     # Get values for Ticket fields and use default value for Article fields, if given (this
     # screen generates a new article, then article fields will be always default value or
     # empty at the beginning).
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( values $Self->{FollowUpDynamicField}->%* ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1185,6 +1186,20 @@ sub Run {
         elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
             $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
         }
+
+        my $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
+            Behavior           => 'IsReferenceField',
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD unless $IsReferenceField;
+
+        $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+            LayoutObject => $LayoutObject,
+            FormID       => $Self->{FormID},
+            Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+            Value        => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+        );
     }
 
     my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');

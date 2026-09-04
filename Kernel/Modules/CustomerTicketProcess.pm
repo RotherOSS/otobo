@@ -1049,6 +1049,23 @@ sub _OutputActivityDialog {
 
         # build hash of field configs without suffix attached to name
         my %FieldConfigsPlain = map { $_ => { $Self->{DynamicField}{$_}->%*, Name => $_ } } keys $Self->{DynamicField}->%*;
+        DYNAMICFIELDNAME:
+        for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+            my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
+            my $IsReferenceField   = $DynamicFieldBackendObject->HasBehavior(
+                Behavior           => 'IsReferenceField',
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            next DYNAMICFIELDNAME unless $IsReferenceField;
+
+            $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+                LayoutObject => $LayoutObject,
+                FormID       => $Self->{FormID},
+                Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+                Value        => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldName"},
+            );
+        }
 
         # get values and visibility of dynamic fields
         my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
