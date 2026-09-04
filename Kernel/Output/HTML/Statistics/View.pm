@@ -712,7 +712,7 @@ sub GeneralSpecificationsWidget {
         Class      => 'Modernize',
     );
 
-    # get the default selected formats
+    # get the default selected formats, including D3 Graphs, not including Gnuplot Graphs
     my $DefaultSelectedFormat = $ConfigObject->Get('Stats::DefaultSelectedFormat') || [];
 
     # Create a new statistic
