@@ -4,6 +4,7 @@
 <Cache>1</Cache>
 <Description>Monatsauflistung, in der dargestellt wird, welche Statusveränderung an den jeweiligen Monatstagen geschehen sind.</Description>
 <Format>CSV</Format>
+<Format>Gnuplot::BarChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>

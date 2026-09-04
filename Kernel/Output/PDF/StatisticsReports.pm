@@ -65,6 +65,8 @@ sub GeneratePDF {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $GoogleChromeBinary = $Kernel::OM->Get('Kernel::Config')->Get('GoogleChrome::Bin');
     my $BrowserFound       = $GoogleChromeBinary ? 1 : 0;
+    my $GnuplotBinary      = $Kernel::OM->Get('Kernel::Config')->Get('Gnuplot::Bin');
+    my $GnuplotFound       = $GnuplotBinary ? 1 : 0;
 
     my $Page = $LayoutObject->{LanguageObject}->Translate('Page');
     my $Time = $LayoutObject->{Time};
@@ -243,13 +245,13 @@ sub GeneratePDF {
         next STAT_CONFIG if $@;
 
         # Check available formats from stat
-        my $FirstFoundFormat = first {m/^(?:D3::|Print)/} ( $Stat->{Format} // [] )->@*;
+        my $FirstFoundFormat = first {m/^(?:Gnuplot|D3|Print)/} ( $Stat->{Format} // [] )->@*;
 
         # Use the format selected by the user or the first available format.
         my $Format = $StatConfig->{StatGetParams}->{Format} || $FirstFoundFormat;
 
         # Skip stat if format is wrong.
-        next STAT_CONFIG unless $Format =~ m/^(?:D3::|Print)/;
+        next STAT_CONFIG unless $Format =~ m/^(?:Gnuplot|D3|Print)/;
 
         if ( $StatCounter++ > 0 ) {
             $PDFObject->PageNew(
@@ -307,7 +309,9 @@ sub GeneratePDF {
 
         # Direct table output in PDF when the format is 'Print' or there is no chart drawing command
         if (
-            ( ! ( $Format =~ m/^D3::/ && $BrowserFound ) )
+            ( !( $Format =~ m/^D3::/ && $BrowserFound ) )
+            &&
+            ( !( $Format =~ m/^Gnuplot::/ && $GnuplotFound ) )
         )
         {
             # if array = empty
@@ -319,7 +323,7 @@ sub GeneratePDF {
             my $CellData;
             my $CounterRow  = 0;
             my $CounterHead = 0;
-            for my $Content ( @{$HeadArrayRef} ) {
+            for my $Content ( $HeadArrayRef->@* ) {
                 $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
                 $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
                 $CounterHead++;
@@ -374,6 +378,7 @@ sub GeneratePDF {
         }
 
         # Generate a PNG image and embed it in the PDF
+        # Gnuplot charts: generate PNG with gnuplot
         # D3 charts:      load in Chrome and save a screenshot as PNG
         else {
             my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -396,7 +401,7 @@ sub GeneratePDF {
                     $LayoutObject->Output(
                         Data => {
                             RawData => [
-                                [$Title],
+                                [$Title],   # not used
                                 $HeadArrayRef,
                                 @StatArray,
                             ],

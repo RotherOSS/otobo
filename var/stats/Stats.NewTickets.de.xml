@@ -3,6 +3,7 @@
 <Cache>1</Cache>
 <Description>Anzahl der neuen Tickets pro Tag und Queue, die im letzten Monat in das System gelangt sind.</Description>
 <Format>CSV</Format>
+<Format>Gnuplot::BarChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>

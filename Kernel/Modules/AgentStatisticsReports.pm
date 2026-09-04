@@ -292,6 +292,7 @@ sub EditScreen {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    $Frontend{GnuplotFound} = $ConfigObject->Get('Gnuplot::Bin')      ? 1 : 0;
     $Frontend{BrowserFound} = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
 
     # Get supported formats.
@@ -305,6 +306,8 @@ sub EditScreen {
         %FilteredFormats =
             map { $_ => $Format{$_} }
             grep {
+                ( $Frontend{GnuplotFound} && m/^Gnuplot::/ )
+                ||
                 ( $Frontend{BrowserFound} && m/^D3::/ )
                 ||
                 ( $_ eq 'Print' )
@@ -824,6 +827,7 @@ sub StatsAddWidgetAJAX {
     # Get supported formats.
     my %FilteredFormats;
     {
+        my $GnuplotFound = $ConfigObject->Get('Gnuplot::Bin')      ? 1 : 0;
         my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
 
         my %Format = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
@@ -834,6 +838,8 @@ sub StatsAddWidgetAJAX {
         %FilteredFormats =
             map { $_ => $Format{$_} }
             grep {
+                ( $GnuplotFound && m/^Gnuplot::/ )
+                ||
                 ( $BrowserFound && m/^D3::/ )
                 ||
                 ( $_ eq 'Print' )
