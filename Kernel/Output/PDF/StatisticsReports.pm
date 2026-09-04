@@ -395,7 +395,6 @@ sub GeneratePDF {
                     $LayoutObject->Header( Type => 'Small' ),
                     $LayoutObject->Output(
                         Data => {
-                            %{$Stat},    # TODO: this is unused
                             RawData => [
                                 [$Title],
                                 $HeadArrayRef,
