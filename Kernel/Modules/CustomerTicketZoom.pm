@@ -1693,7 +1693,7 @@ sub _Mask {
         my $ProcessEntityIDField = 'DynamicField_'
             . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
-        # get the DF where the AtivityEntityID is stored
+        # get the DF where the ActivityEntityID is stored
         my $ActivityEntityIDField = 'DynamicField_'
             . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
@@ -2281,9 +2281,8 @@ sub _Mask {
         # add rich text editor
         if ( $LayoutObject->{BrowserRichText} ) {
 
-            # use height/width defined for this screen
+            # use height defined for this screen
             $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-            $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
             # set up customer rich text editor
             $LayoutObject->CustomerSetRichTextParameters(

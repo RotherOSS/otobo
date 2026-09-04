@@ -19,10 +19,16 @@ package Kernel::Modules::AdminNotificationEvent;
 use strict;
 use warnings;
 
-our $ObjectManagerDisabled = 1;
+# core modules
+use List::Util qw(any);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -298,7 +304,7 @@ sub Run {
 
         # checking if article filter exist if necessary
         if (
-            grep { $_ eq 'ArticleCreate' || $_ eq 'ArticleSend' }
+            any { $_ eq 'ArticleCreate' || $_ eq 'ArticleSend' }
             @{ $GetParam{Data}->{Events} || [] }
             )
         {
@@ -555,7 +561,7 @@ sub Run {
 
         # define ServerError Message if necessary
         if (
-            grep { $_ eq 'ArticleCreate' || $_ eq 'ArticleSend' }
+            any { $_ eq 'ArticleCreate' || $_ eq 'ArticleSend' }
             @{ $GetParam{Data}->{Events} || [] }
             )
         {
@@ -1098,7 +1104,7 @@ sub _Edit {
                     # show the queue but disable it
                     $RwQueues{$QueueID} = $RoQueues{$QueueID};
 
-                    # this can have the sideeffect that if the agent has rw on queue X::Y, but queue X gets added here,
+                    # this can have the side effect that if the agent has rw on queue X::Y, but queue X gets added here,
                     # X::Y will be disabled as part of the branch, too, but the agent cannot alter this notification anyways
                     push @DisabledQueues,  $QueueID;
                     push @VisibleSelected, $QueueID;
@@ -1288,10 +1294,9 @@ sub _Edit {
     # add rich text editor
     if ( $Param{RichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         my $Config = $ConfigObject->Get("Frontend::Admin::$Self->{Action}");
         $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
@@ -1567,7 +1572,7 @@ sub _Edit {
                 if ($IsActive) {
 
                     my $TransportChecked = '';
-                    if ( grep { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
+                    if ( any { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
                         $TransportChecked = 'checked ';
                     }
 
@@ -1585,7 +1590,7 @@ sub _Edit {
                     # it should decide if the default value for the
                     # notification on AgentPreferences is enabled or not
                     my $AgentEnabledByDefault = 0;
-                    if ( grep { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
+                    if ( any { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
                         $AgentEnabledByDefault = 1;
                     }
                     elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
@@ -1608,7 +1613,7 @@ sub _Edit {
                 }
                 else {
 
-                    # This trasnport needs to be active before use it.
+                    # This transport needs to be active before use it.
                     $LayoutObject->Block(
                         Name => 'TransportRowNotActive',
                         Data => {

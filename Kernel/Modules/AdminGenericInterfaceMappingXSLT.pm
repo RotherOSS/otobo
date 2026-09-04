@@ -67,6 +67,7 @@ sub Run {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require(
             $LibRequired,
         );
+
         next LIBREQUIRED if $LibFound;
 
         return $LayoutObject->ErrorScreen(
@@ -272,7 +273,6 @@ sub _ShowEdit {
             Data => {
                 %Param,
                 RichTextHeight => '600',
-                RichTextWidth  => '99%',
                 RichTextType   => 'CodeMirror',
             },
         );
@@ -425,8 +425,6 @@ sub _GetParams {
     $GetParam->{DataInclude} = \@DataInclude;
 
     # Check validity.
-    my $LibXML  = XML::LibXML->new();
-    my $LibXSLT = XML::LibXSLT->new();
     my ( $StyleDoc, $StyleSheet );
     eval {
         $StyleDoc = XML::LibXML->load_xml(

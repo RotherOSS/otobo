@@ -688,13 +688,6 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###RichTextWidth" Required="0" Valid="1">
-        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
-        </Value>
-    </Setting>
     <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###RichTextHeight" Required="0" Valid="1">
         <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
