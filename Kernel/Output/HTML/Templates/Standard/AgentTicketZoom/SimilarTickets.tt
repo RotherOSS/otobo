@@ -31,7 +31,6 @@
                         </a>
                         <span>
                         [% Ticket.$TicketID.Title | html %]
-                        [% Ticket.$TicketID.Created | html %]
                         </span>
                     </div>
 [% END %]
