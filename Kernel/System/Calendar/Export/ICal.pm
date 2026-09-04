@@ -409,16 +409,47 @@ sub Export {
             }
         }
 
-        # add both required and optional properties
-        # remove time zone flag for all day appointments
-        $ICalEvent->add_properties(
-            summary         => $Appointment{Title},
-            dtstart         => $Appointment{AllDay} ? substr( $ICalStartTime->ical(), 0, -1 ) : $ICalStartTime->ical(),
-            dtend           => $Appointment{AllDay} ? substr( $ICalEndTime->ical(),   0, -1 ) : $ICalEndTime->ical(),
-            uid             => $Appointment{UniqueID},
-            'last-modified' => $ICalChangeTime->ical(),
-            %ICalEventProperties,
-        );
+# add both required and optional properties
+# remove time zone flag for all day appointments
+
+my $ICalStartTimeString = $ICalStartTime->ical();
+my $ICalEndTimeString   = $ICalEndTime->ical();
+
+# Date::ICal serializes UTC midnight as YYYYMMDDZ.
+# For a timed iCalendar DATE-TIME, the time component is mandatory.
+# Convert:
+#
+#     YYYYMMDDZ
+#
+# to:
+#
+#     YYYYMMDDT000000Z
+#
+# This must NOT be done for all-day appointments, where YYYYMMDD is
+# the correct iCalendar DATE representation.
+if ( !$Appointment{AllDay} ) {
+
+    if ( $ICalStartTimeString =~ /^(\d{8})Z$/ ) {
+        $ICalStartTimeString = $1 . 'T000000Z';
+    }
+
+    if ( $ICalEndTimeString =~ /^(\d{8})Z$/ ) {
+        $ICalEndTimeString = $1 . 'T000000Z';
+    }
+}
+
+$ICalEvent->add_properties(
+    summary         => $Appointment{Title},
+    dtstart         => $Appointment{AllDay}
+        ? substr( $ICalStartTimeString, 0, -1 )
+        : $ICalStartTimeString,
+    dtend           => $Appointment{AllDay}
+        ? substr( $ICalEndTimeString, 0, -1 )
+        : $ICalEndTimeString,
+    uid             => $Appointment{UniqueID},
+    'last-modified' => $ICalChangeTime->ical(),
+    %ICalEventProperties,
+);
 
         # add repeatable properties
         for my $Repeatable (@ICalRepeatableProperties) {
