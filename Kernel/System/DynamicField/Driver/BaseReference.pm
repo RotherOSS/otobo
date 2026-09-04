@@ -459,11 +459,11 @@ sub EditFieldRender {
         );
     }
 
-    # write rendered value to FormCache for later usage in EditFieldValueValidate
-    if ( $Value && !$Param{ServerError} ) {
+    # for AutoComplete fields, write rendered value to FormCache for later usage in EditFieldValueValidate
+    if ( $DFDetails->{EditFieldMode} eq 'AutoComplete' && $Value && !$Param{ServerError} ) {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $Param{LayoutObject},
-            Key          => 'RenderedValue_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+            Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
             Value        => $Value,
         );
     }
@@ -529,7 +529,7 @@ sub EditFieldValueValidate {
         # if no LastSearchResult is present, use rendered value
         $LastSearchResults //= $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'RenderedValue_DynamicField_' . $DFName,
+            Key          => 'PossibleValues_DynamicField_' . $DFName,
         );
 
         if ( $DynamicFieldConfig->{Config}{PossibleNone} ) {
@@ -557,7 +557,7 @@ sub EditFieldValueValidate {
         my $Allowed;
         for my $ValueItem ( $Value->@* ) {
 
-            $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
+            $Allowed = ( grep { ( $_ // '' ) eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
             if ($Allowed) {
 
@@ -700,7 +700,7 @@ sub DisplayValueRender {
     }
 
     # set field link TODO: (Prio 5) think about multi value
-    $Link = scalar @ObjectIDs == 1 ? $Link : undef;
+    $Link = @ObjectIDs == 1 ? $Link : undef;
 
     # return a data structure
     return {
@@ -1507,7 +1507,7 @@ sub _GetEntityIDForLinking {
     my $LinkKey  = $Param{LinkKey};
 
     # determine name for the K/S/DynamicField/ObjectType/* ObjectTypeHandler class
-    # upgrade ConfigItem typenames to long form (starting with ITSM*)
+    # upgrade ConfigItem type names to long form (starting with ITSM*)
     # and treat ConfigItemVersion like ConfigItem
     $TypeName =~ s/^ConfigItem/ITSMConfigItem/;
     $TypeName =~ s/^ITSMConfigItemVersion/ITSMConfigItem/;

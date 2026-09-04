@@ -525,7 +525,7 @@ sub Run {
 
         # multiple addresses list
         # check email address
-        my $CountFrom = scalar @MultipleCustomer || 1;
+        my $CountFrom = @MultipleCustomer || 1;
         my %CustomerDataFrom;
         if ( $Article{CustomerUserID} ) {
             %CustomerDataFrom = $CustomerUserObject->CustomerUserDataGet(
@@ -756,6 +756,20 @@ sub Run {
             }
 
             $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+
+            my $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
+                Behavior           => 'IsReferenceField',
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            next DYNAMICFIELD unless $IsReferenceField;
+
+            $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+                LayoutObject => $LayoutObject,
+                FormID       => $Self->{FormID},
+                Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+                Value        => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            );
         }
 
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
@@ -1293,7 +1307,7 @@ sub Run {
             );
 
             # check if just one customer user exists
-            # if just one, fillup CustomerUserID and CustomerID
+            # if just one, fill up CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
             for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
@@ -2333,7 +2347,7 @@ sub Run {
                     );
                 }
 
-                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # send a list of attachments in the upload cache back to the client-side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $Self->{FormID},

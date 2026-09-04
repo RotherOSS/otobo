@@ -346,7 +346,7 @@ sub EditFieldRender {
     if ( $Value && !$Param{ServerError} ) {
         $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
             LayoutObject => $Param{LayoutObject},
-            Key          => 'RenderedValue_DynamicField_' . $Param{DynamicFieldConfig}{Name},
+            Key          => 'PossibleValues_DynamicField_' . $Param{DynamicFieldConfig}{Name},
             Value        => $Value,
         );
     }
@@ -464,7 +464,7 @@ sub EditFieldValueValidate {
         # if no LastEvaluationResult is present, use rendered value
         $LastEvaluationResult //= $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
             LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'RenderedValue_DynamicField_' . $DFName,
+            Key          => 'PossibleValues_DynamicField_' . $DFName,
         );
 
         # check if EditFieldValue matches last evaluation result

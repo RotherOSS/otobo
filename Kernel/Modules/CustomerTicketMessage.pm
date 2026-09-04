@@ -241,6 +241,25 @@ sub Run {
             }
         }
 
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( values $Self->{DynamicField}->%* ) {
+
+            my $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
+                Behavior           => 'IsReferenceField',
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            next DYNAMICFIELD unless $IsReferenceField;
+
+            $Kernel::OM->Get('Kernel::System::Web::FormCache')->SetFormData(
+                LayoutObject => $LayoutObject,
+                FormID       => $Self->{FormID},
+                Key          => 'PossibleValues_DynamicField_' . $DynamicFieldConfig->{Name},
+                Value        => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            );
+        }
+
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
 
         # gather fields which are supposed to be hidden when autoselected
@@ -658,7 +677,7 @@ sub Run {
 
             $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
 
-            # do not validate on insisible fields
+            # do not validate invisible fields
             if ( $Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
 
                 my $ValidationResult = $BackendObject->EditFieldValueValidate(
