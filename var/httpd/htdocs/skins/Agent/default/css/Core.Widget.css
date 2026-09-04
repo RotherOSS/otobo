@@ -401,6 +401,29 @@ ul.Tablelike li.Header + li {
     min-height: 0;
 }
 
+.similarTickets {
+    padding:4px;
+    vertical-align:top;
+}
+
+.similarTickets a {
+    display:inline-block;
+    max-width:100px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-wrap:nowrap;
+    white-space: nowrap;
+}
+
+.similarTickets span {
+    display:inline-block;
+    max-width:180px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-wrap:nowrap;
+    white-space: nowrap;
+}
+
 /**
  * @subaction   ActionMenu
  */

@@ -22,17 +22,19 @@
                     <h2>[% Translate(Data.WidgetTitle) | html %]</h2>
                 </div>
                 <div class="Content">
-                    <fieldset class="TableLike FixedLabelSmall Narrow">
 [% RenderBlockStart("SimilarTickets") %]
 [% FOREACH Ticket IN Data %]
 [% FOREACH TicketID IN Ticket.keys %]
-                        <p class="Value" title="[% Ticket.$TicketID.ArticlesExternal.0.Body | html %]">
-                            <a target="_blank" href="/otobo/index.pl?Action=AgentTicketZoom;TicketID=[% TicketID | url %]">[% Ticket.$TicketID.Title | html %]</a>
-                        </p>
-                        <div class="Clear"></div>
+                    <div class="similarTickets" title="[% Ticket.$TicketID.ArticlesExternal.0.Body | html %]" >
+                        <a target="_blank" href="/otobo/index.pl?Action=AgentTicketZoom;TicketID=[% TicketID | url %]">
+                        [% Ticket.$TicketID.TicketNumber | html %]
+                        </a>
+                        <span>
+                        [% Ticket.$TicketID.Title | html %]
+                        </span>
+                    </div>
 [% END %]
 [% END %]
 [% RenderBlockEnd("SimilarTickets") %]
-                    </fieldset>
                 </div>
             </div>
