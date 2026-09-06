@@ -2427,6 +2427,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -4048,66 +4049,66 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  URI-5.36
-    pathname: O/OA/OALDERS/URI-5.36.tar.gz
+  URI-5.37
+    pathname: O/OA/OALDERS/URI-5.37.tar.gz
     provides:
-      URI 5.36
-      URI::Escape 5.36
-      URI::Heuristic 5.36
-      URI::IRI 5.36
-      URI::QueryParam 5.36
-      URI::Split 5.36
-      URI::URL 5.36
-      URI::WithBase 5.36
-      URI::data 5.36
-      URI::file 5.36
-      URI::file::Base 5.36
-      URI::file::FAT 5.36
-      URI::file::Mac 5.36
-      URI::file::OS2 5.36
-      URI::file::QNX 5.36
-      URI::file::Unix 5.36
-      URI::file::Win32 5.36
-      URI::ftp 5.36
-      URI::ftpes 5.36
-      URI::ftps 5.36
-      URI::geo 5.36
-      URI::gopher 5.36
-      URI::http 5.36
-      URI::https 5.36
-      URI::icap 5.36
-      URI::icaps 5.36
-      URI::irc 5.36
-      URI::ircs 5.36
-      URI::ldap 5.36
-      URI::ldapi 5.36
-      URI::ldaps 5.36
-      URI::mailto 5.36
-      URI::mms 5.36
-      URI::news 5.36
-      URI::nntp 5.36
-      URI::nntps 5.36
-      URI::otpauth 5.36
-      URI::pop 5.36
-      URI::rlogin 5.36
-      URI::rsync 5.36
-      URI::rtsp 5.36
-      URI::rtspu 5.36
-      URI::scp 5.36
-      URI::sftp 5.36
-      URI::sip 5.36
-      URI::sips 5.36
-      URI::smb 5.36
-      URI::smtp 5.36
-      URI::snews 5.36
-      URI::ssh 5.36
-      URI::telnet 5.36
-      URI::tn3270 5.36
-      URI::urn 5.36
-      URI::urn::isbn 5.36
-      URI::urn::oid 5.36
-      URI::ws 5.36
-      URI::wss 5.36
+      URI 5.37
+      URI::Escape 5.37
+      URI::Heuristic 5.37
+      URI::IRI 5.37
+      URI::QueryParam 5.37
+      URI::Split 5.37
+      URI::URL 5.37
+      URI::WithBase 5.37
+      URI::data 5.37
+      URI::file 5.37
+      URI::file::Base 5.37
+      URI::file::FAT 5.37
+      URI::file::Mac 5.37
+      URI::file::OS2 5.37
+      URI::file::QNX 5.37
+      URI::file::Unix 5.37
+      URI::file::Win32 5.37
+      URI::ftp 5.37
+      URI::ftpes 5.37
+      URI::ftps 5.37
+      URI::geo 5.37
+      URI::gopher 5.37
+      URI::http 5.37
+      URI::https 5.37
+      URI::icap 5.37
+      URI::icaps 5.37
+      URI::irc 5.37
+      URI::ircs 5.37
+      URI::ldap 5.37
+      URI::ldapi 5.37
+      URI::ldaps 5.37
+      URI::mailto 5.37
+      URI::mms 5.37
+      URI::news 5.37
+      URI::nntp 5.37
+      URI::nntps 5.37
+      URI::otpauth 5.37
+      URI::pop 5.37
+      URI::rlogin 5.37
+      URI::rsync 5.37
+      URI::rtsp 5.37
+      URI::rtspu 5.37
+      URI::scp 5.37
+      URI::sftp 5.37
+      URI::sip 5.37
+      URI::sips 5.37
+      URI::smb 5.37
+      URI::smtp 5.37
+      URI::snews 5.37
+      URI::ssh 5.37
+      URI::telnet 5.37
+      URI::tn3270 5.37
+      URI::urn 5.37
+      URI::urn::isbn 5.37
+      URI::urn::oid 5.37
+      URI::ws 5.37
+      URI::wss 5.37
     requirements:
       Carp 0
       Cwd 0
@@ -4553,5 +4554,4 @@ DISTRIBUTIONS
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
-      XML::SAX::Base 0
       perl 5.008001
