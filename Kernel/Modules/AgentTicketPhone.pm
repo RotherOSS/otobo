@@ -1293,7 +1293,7 @@ sub Run {
             );
 
             # check if just one customer user exists
-            # if just one, fillup CustomerUserID and CustomerID
+            # if just one, fill up CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
             for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
@@ -2333,7 +2333,7 @@ sub Run {
                     );
                 }
 
-                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # send a list of attachments in the upload cache back to the client-side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $Self->{FormID},
@@ -3163,9 +3163,8 @@ sub _MaskPhoneNew {
     # add rich text editor
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(

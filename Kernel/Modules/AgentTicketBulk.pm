@@ -19,6 +19,12 @@ package Kernel::Modules::AgentTicketBulk;
 use strict;
 use warnings;
 
+# core modules
+use List::Util qw(any none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -131,7 +137,6 @@ sub Run {
         );
 
         if ( $Config->{State} ) {
-            my %State;
             my %StateList = $Self->_GetStates(
                 %GetParam,
                 StateType => $Config->{StateType},
@@ -683,7 +688,7 @@ sub Run {
         my $Counter       = 1;
         $Param{TicketsWereLocked} = 0;
 
-        # if the tickets are to merged, precompute the ticket to merge to.
+        # if the tickets are to merged, pre-compute the ticket to merge to.
         # (it's the same for all tickets, so do it only once):
         my $MainTicketID;
 
@@ -745,7 +750,7 @@ sub Run {
 
             # check if it's already locked by somebody else
             if ( $Config->{RequiredLock} ) {
-                if ( grep ( { $_ eq $TicketID } @IgnoreLockedTicketIDs ) ) {
+                if ( any { $_ eq $TicketID } @IgnoreLockedTicketIDs ) {
                     push @TicketsWithError, $Ticket{TicketNumber};
                     next TICKET_ID;
                 }
@@ -990,9 +995,6 @@ sub Run {
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
-                    my %StateData = $StateObject->StateGet(
-                        ID => $Ticket{StateID},
-                    );
 
                     # should i set the pending date?
                     if ( $Ticket{StateType} =~ /^pending/i ) {
@@ -1216,8 +1218,6 @@ sub _GetRecipientList {
 
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -1299,7 +1299,7 @@ sub _GetRecipientList {
         next TICKETID if !$Customer;
 
         # Customer recipients are unique.
-        push @Recipients, $Customer if !grep { $_ eq $Customer } @Recipients;
+        push @Recipients, $Customer if none { $_ eq $Customer } @Recipients;
     }
 
     return @Recipients;
@@ -1336,7 +1336,6 @@ sub _Mask {
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -1576,9 +1575,8 @@ sub _Mask {
     # add rich text editor for note & email
     if ( $LayoutObject->{BrowserRichText} ) {
 
-        # use height/width defined for this screen
+        # use height defined for this screen
         $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
