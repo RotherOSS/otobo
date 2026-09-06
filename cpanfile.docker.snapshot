@@ -186,22 +186,22 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  Authen-SASL-2.2000
-    pathname: E/EH/EHUELS/Authen-SASL-2.2000.tar.gz
+  Authen-SASL-2.2100
+    pathname: E/EH/EHUELS/Authen-SASL-2.2100.tar.gz
     provides:
-      Authen::SASL 2.2000
-      Authen::SASL::CRAM_MD5 2.2000
-      Authen::SASL::EXTERNAL 2.2000
-      Authen::SASL::Perl 2.2000
-      Authen::SASL::Perl::ANONYMOUS 2.2000
-      Authen::SASL::Perl::CRAM_MD5 2.2000
-      Authen::SASL::Perl::DIGEST_MD5 2.2000
-      Authen::SASL::Perl::EXTERNAL 2.2000
-      Authen::SASL::Perl::GSSAPI 2.2000
-      Authen::SASL::Perl::LOGIN 2.2000
-      Authen::SASL::Perl::OAUTHBEARER 2.2000
-      Authen::SASL::Perl::PLAIN 2.2000
-      Authen::SASL::Perl::XOAUTH2 2.2000
+      Authen::SASL 2.2100
+      Authen::SASL::CRAM_MD5 2.2100
+      Authen::SASL::EXTERNAL 2.2100
+      Authen::SASL::Perl 2.2100
+      Authen::SASL::Perl::ANONYMOUS 2.2100
+      Authen::SASL::Perl::CRAM_MD5 2.2100
+      Authen::SASL::Perl::DIGEST_MD5 2.2100
+      Authen::SASL::Perl::EXTERNAL 2.2100
+      Authen::SASL::Perl::GSSAPI 2.2100
+      Authen::SASL::Perl::LOGIN 2.2100
+      Authen::SASL::Perl::OAUTHBEARER 2.2100
+      Authen::SASL::Perl::PLAIN 2.2100
+      Authen::SASL::Perl::XOAUTH2 2.2100
     requirements:
       Crypt::URandom 0
       Digest::HMAC_MD5 0
@@ -401,10 +401,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.43
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.43.tar.gz
+  Cpanel-JSON-XS-4.44
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.44.tar.gz
     provides:
-      Cpanel::JSON::XS 4.43
+      Cpanel::JSON::XS 4.44
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -802,14 +802,14 @@ DISTRIBUTIONS
       Term::ANSIColor 4.06
       Test::More 0
       perl 5.012
-  Data-OptList-0.114
-    pathname: R/RJ/RJBS/Data-OptList-0.114.tar.gz
+  Data-OptList-0.115
+    pathname: R/RJ/RJBS/Data-OptList-0.115.tar.gz
     provides:
-      Data::OptList 0.114
+      Data::OptList 0.115
     requirements:
       ExtUtils::MakeMaker 6.78
       List::Util 0
-      Params::Util 0
+      Params::SomeUtil 0
       Sub::Install 0.921
       perl 5.012
       strict 0
@@ -1913,10 +1913,10 @@ DISTRIBUTIONS
       GSSAPI 0.18
       LWP::Debug 0
       MIME::Base64 2.12
-  LWP-MediaTypes-6.04
-    pathname: O/OA/OALDERS/LWP-MediaTypes-6.04.tar.gz
+  LWP-MediaTypes-6.05
+    pathname: O/OA/OALDERS/LWP-MediaTypes-6.05.tar.gz
     provides:
-      LWP::MediaTypes 6.04
+      LWP::MediaTypes 6.05
     requirements:
       Carp 0
       Exporter 0
@@ -2753,10 +2753,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.56
-    pathname: N/NL/NLNETLABS/Net-DNS-1.56.tar.gz
+  Net-DNS-1.57
+    pathname: N/NL/NLNETLABS/Net-DNS-1.57.tar.gz
     provides:
-      Net::DNS 1.56
+      Net::DNS 1.57
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2054
       Net::DNS::DomainName1035 2054
@@ -2767,7 +2767,7 @@ DISTRIBUTIONS
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2054
+      Net::DNS::Parameters 2059
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2785,8 +2785,8 @@ DISTRIBUTIONS
       Net::DNS::RR::DELEG 2053
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
-      Net::DNS::RR::DNSKEY 2042
-      Net::DNS::RR::DS 2042
+      Net::DNS::RR::DNSKEY 2059
+      Net::DNS::RR::DS 2059
       Net::DNS::RR::DSYNC 2003
       Net::DNS::RR::EUI48 2003
       Net::DNS::RR::EUI64 2003
@@ -2815,26 +2815,28 @@ DISTRIBUTIONS
       Net::DNS::RR::NSEC3PARAM 2003
       Net::DNS::RR::NULL 2002
       Net::DNS::RR::OPENPGPKEY 2003
-      Net::DNS::RR::OPT 2054
-      Net::DNS::RR::OPT::CHAIN 2054
-      Net::DNS::RR::OPT::CLIENT_SUBNET 2054
-      Net::DNS::RR::OPT::COOKIE 2054
-      Net::DNS::RR::OPT::DAU 2054
-      Net::DNS::RR::OPT::DHU 2054
-      Net::DNS::RR::OPT::EXPIRE 2054
-      Net::DNS::RR::OPT::EXTENDED_ERROR 2054
-      Net::DNS::RR::OPT::KEY_TAG 2054
-      Net::DNS::RR::OPT::N3U 2054
-      Net::DNS::RR::OPT::NSID 2054
-      Net::DNS::RR::OPT::PADDING 2054
-      Net::DNS::RR::OPT::REPORT_CHANNEL 2054
-      Net::DNS::RR::OPT::TCP_KEEPALIVE 2054
-      Net::DNS::RR::OPT::ZONEVERSION 2054
+      Net::DNS::RR::OPT 2059
+      Net::DNS::RR::OPT::CHAIN 2059
+      Net::DNS::RR::OPT::CLIENT_SUBNET 2059
+      Net::DNS::RR::OPT::COOKIE 2059
+      Net::DNS::RR::OPT::DAU 2059
+      Net::DNS::RR::OPT::DHU 2059
+      Net::DNS::RR::OPT::EXPIRE 2059
+      Net::DNS::RR::OPT::EXTENDED_ERROR 2059
+      Net::DNS::RR::OPT::KEY_TAG 2059
+      Net::DNS::RR::OPT::MQTYPE_QUERY 2059
+      Net::DNS::RR::OPT::MQTYPE_RESPONSE 2059
+      Net::DNS::RR::OPT::N3U 2059
+      Net::DNS::RR::OPT::PADDING 2059
+      Net::DNS::RR::OPT::REPORT_CHANNEL 2059
+      Net::DNS::RR::OPT::TCP_KEEPALIVE 2059
+      Net::DNS::RR::OPT::UPDATE_LEASE 2059
+      Net::DNS::RR::OPT::ZONEVERSION 2059
       Net::DNS::RR::PTR 2002
       Net::DNS::RR::PX 2003
       Net::DNS::RR::RESINFO 2003
       Net::DNS::RR::RP 2002
-      Net::DNS::RR::RRSIG 2057
+      Net::DNS::RR::RRSIG 2059
       Net::DNS::RR::RT 2003
       Net::DNS::RR::SIG 2057
       Net::DNS::RR::SMIMEA 2003
@@ -2845,7 +2847,7 @@ DISTRIBUTIONS
       Net::DNS::RR::SVCB 2043
       Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
-      Net::DNS::RR::TSIG 2003
+      Net::DNS::RR::TSIG 2060
       Net::DNS::RR::TXT 2003
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
@@ -2854,7 +2856,7 @@ DISTRIBUTIONS
       Net::DNS::Resolver::Base 2057
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
-      Net::DNS::Resolver::UNIX 2053
+      Net::DNS::Resolver::UNIX 2059
       Net::DNS::Resolver::android 2007
       Net::DNS::Resolver::cygwin 2002
       Net::DNS::Resolver::os2 2007
@@ -3012,22 +3014,17 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  Params-Util-1.102
-    pathname: R/RE/REHSACK/Params-Util-1.102.tar.gz
+  Params-SomeUtil-1.09
+    pathname: P/PL/PLICEASE/Params-SomeUtil-1.09.tar.gz
     provides:
-      Params::Util 1.102
-      Params::Util::PP 1.102
+      Params::SomeUtil 1.09
     requirements:
-      Carp 0
-      ExtUtils::MakeMaker 0
-      File::Basename 0
-      File::Copy 0
-      File::Path 0
-      File::Spec 0
-      IPC::Cmd 0
+      ExtUtils::CBuilder 0.27
+      ExtUtils::MakeMaker 6.52
+      File::Spec 0.80
       Scalar::Util 1.18
-      XSLoader 0.22
-      parent 0
+      Test::More 0.87
+      perl 5.005030
   Params-ValidationCompiler-0.31
     pathname: D/DR/DROLSKY/Params-ValidationCompiler-0.31.tar.gz
     provides:
@@ -3068,7 +3065,6 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
-      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -3511,16 +3507,16 @@ DISTRIBUTIONS
       Test::Warn 0
       parent 0
       perl v5.6.0
-  Sub-Exporter-0.991
-    pathname: R/RJ/RJBS/Sub-Exporter-0.991.tar.gz
+  Sub-Exporter-0.992
+    pathname: R/RJ/RJBS/Sub-Exporter-0.992.tar.gz
     provides:
-      Sub::Exporter 0.991
-      Sub::Exporter::Util 0.991
+      Sub::Exporter 0.992
+      Sub::Exporter::Util 0.992
     requirements:
       Carp 0
       Data::OptList 0.100
       ExtUtils::MakeMaker 6.78
-      Params::Util 0.14
+      Params::SomeUtil 0.14
       Sub::Install 0.92
       perl 5.012
       strict 0
@@ -4038,66 +4034,66 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  URI-5.36
-    pathname: O/OA/OALDERS/URI-5.36.tar.gz
+  URI-5.37
+    pathname: O/OA/OALDERS/URI-5.37.tar.gz
     provides:
-      URI 5.36
-      URI::Escape 5.36
-      URI::Heuristic 5.36
-      URI::IRI 5.36
-      URI::QueryParam 5.36
-      URI::Split 5.36
-      URI::URL 5.36
-      URI::WithBase 5.36
-      URI::data 5.36
-      URI::file 5.36
-      URI::file::Base 5.36
-      URI::file::FAT 5.36
-      URI::file::Mac 5.36
-      URI::file::OS2 5.36
-      URI::file::QNX 5.36
-      URI::file::Unix 5.36
-      URI::file::Win32 5.36
-      URI::ftp 5.36
-      URI::ftpes 5.36
-      URI::ftps 5.36
-      URI::geo 5.36
-      URI::gopher 5.36
-      URI::http 5.36
-      URI::https 5.36
-      URI::icap 5.36
-      URI::icaps 5.36
-      URI::irc 5.36
-      URI::ircs 5.36
-      URI::ldap 5.36
-      URI::ldapi 5.36
-      URI::ldaps 5.36
-      URI::mailto 5.36
-      URI::mms 5.36
-      URI::news 5.36
-      URI::nntp 5.36
-      URI::nntps 5.36
-      URI::otpauth 5.36
-      URI::pop 5.36
-      URI::rlogin 5.36
-      URI::rsync 5.36
-      URI::rtsp 5.36
-      URI::rtspu 5.36
-      URI::scp 5.36
-      URI::sftp 5.36
-      URI::sip 5.36
-      URI::sips 5.36
-      URI::smb 5.36
-      URI::smtp 5.36
-      URI::snews 5.36
-      URI::ssh 5.36
-      URI::telnet 5.36
-      URI::tn3270 5.36
-      URI::urn 5.36
-      URI::urn::isbn 5.36
-      URI::urn::oid 5.36
-      URI::ws 5.36
-      URI::wss 5.36
+      URI 5.37
+      URI::Escape 5.37
+      URI::Heuristic 5.37
+      URI::IRI 5.37
+      URI::QueryParam 5.37
+      URI::Split 5.37
+      URI::URL 5.37
+      URI::WithBase 5.37
+      URI::data 5.37
+      URI::file 5.37
+      URI::file::Base 5.37
+      URI::file::FAT 5.37
+      URI::file::Mac 5.37
+      URI::file::OS2 5.37
+      URI::file::QNX 5.37
+      URI::file::Unix 5.37
+      URI::file::Win32 5.37
+      URI::ftp 5.37
+      URI::ftpes 5.37
+      URI::ftps 5.37
+      URI::geo 5.37
+      URI::gopher 5.37
+      URI::http 5.37
+      URI::https 5.37
+      URI::icap 5.37
+      URI::icaps 5.37
+      URI::irc 5.37
+      URI::ircs 5.37
+      URI::ldap 5.37
+      URI::ldapi 5.37
+      URI::ldaps 5.37
+      URI::mailto 5.37
+      URI::mms 5.37
+      URI::news 5.37
+      URI::nntp 5.37
+      URI::nntps 5.37
+      URI::otpauth 5.37
+      URI::pop 5.37
+      URI::rlogin 5.37
+      URI::rsync 5.37
+      URI::rtsp 5.37
+      URI::rtspu 5.37
+      URI::scp 5.37
+      URI::sftp 5.37
+      URI::sip 5.37
+      URI::sips 5.37
+      URI::smb 5.37
+      URI::smtp 5.37
+      URI::snews 5.37
+      URI::ssh 5.37
+      URI::telnet 5.37
+      URI::tn3270 5.37
+      URI::urn 5.37
+      URI::urn::isbn 5.37
+      URI::urn::oid 5.37
+      URI::ws 5.37
+      URI::wss 5.37
     requirements:
       Carp 0
       Cwd 0
@@ -4529,19 +4525,15 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
       JSON 0
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
-      XML::SAX::Base 0
       perl 5.008001
