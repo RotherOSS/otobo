@@ -1067,7 +1067,6 @@ my @NeededModules = (
             emerge => 'dev-perl/Const-Fast',
             zypper => 'perl-Const-Fast',
             ports  => 'devel/p5-Const-Fast',
-
         },
     },
 
