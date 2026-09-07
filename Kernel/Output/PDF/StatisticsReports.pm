@@ -28,8 +28,7 @@ use File::stat qw(stat);
 # CPAN modules
 use Gnuplot::Builder::Script  qw();
 use Gnuplot::Builder::Dataset qw();
-use List::Util                qw(first);
-use Data::Dx;
+use List::AllUtils            qw(first indexes);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -317,7 +316,7 @@ sub GeneratePDF {
             ( !( $Format =~ m/^D3::/ && $BrowserFound ) )
             &&
             ( !( $Format =~ m/^Gnuplot::/ && $GnuplotFound ) )
-        )
+            )
         {
             # if array = empty
             if ( !@StatArray ) {
@@ -406,7 +405,7 @@ sub GeneratePDF {
                     $LayoutObject->Output(
                         Data => {
                             RawData => [
-                                [$Title],   # not used
+                                [$Title],    # not used
                                 $HeadArrayRef,
                                 @StatArray,
                             ],
@@ -447,41 +446,92 @@ sub GeneratePDF {
 
                 my $Builder = Gnuplot::Builder::Script->new;
 
-                Dx $Format;
-                Dx $HeadArrayRef;
-                Dx \@StatArray;
+                # Example for the incoming data:
+                # $HeadArrayRef = [
+                #                   "Queue",
+                #                   "closed successful",
+                #                   "closed unsuccessful",
+                #                   "merged",
+                #                   "new",
+                #                   "open",
+                #                   "pending auto close+",
+                #                   "pending auto close-",
+                #                   "pending reminder",
+                #                   "removed",
+                #                   "Sum",
+                #                 ]
+                # \@StatArray = [
+                #                 ["Junk", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                #                 ["Misc", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                #                 ["Postmaster", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                #                 ["Raw", 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+                #                 ["fill-up-queue10561661", 0, 0, 0, 11, 0, 0, 0, 0, 0, 11],
+                #                 ["fill-up-queue1694343", 0, 0, 0, 13, 0, 0, 0, 0, 0, 13],
+                #                 ["fill-up-queue2158423", 0, 0, 0, 10, 0, 0, 0, 0, 0, 10],
+                #                 ["fill-up-queue24956368", 0, 0, 0, 17, 0, 0, 0, 0, 0, 17],
+                #                 ["Sum", 0, 0, 0, 223, 0, 0, 0, 0, 0, 223],
+                #               ]
+
+                # The incoming data contains a column that sums up the previous elements in the row.
+                # It also contains a row that sums up the previous elements of the column.
+                # Both must be removed for the bar chart as otherwise the chart would be dominated
+                # by the sum values.
+
+                # Delete the sum row.
+                @StatArray = grep { $_->[0] ne 'Sum' } @StatArray;
+
+                # First find the indexes of the potentially multiple 'Sum' colums
+                my @SumColNums = indexes { $_ eq 'Sum' } $HeadArrayRef->@*;
                 if ( $Format eq 'Gnuplot::BarChart' ) {
+
+                    # The Gnuplot histogram is putting the values of a line on the same xtick.
+                    # The D3 based bar chart is putting the values of a column on the same xtick.
+                    # Order to achieve the same output we need to transpose the data.
+                    unshift @StatArray, $HeadArrayRef;
+                    my @TransposedStatArray;
+                    for my $Row ( 0 .. $#StatArray ) {
+                        for my $Col ( 0 .. $StatArray[$Row]->$#* ) {
+                            $TransposedStatArray[$Col][$Row] = $StatArray[$Row][$Col];
+                        }
+                    }
+
+                    # It is easier to remove rows then colums. So remove the Sum rows from the transposed stats array.
+                    for my $ColNum (@SumColNums) {
+                        undef $TransposedStatArray[$ColNum];
+                    }
+                    @TransposedStatArray = grep {defined} @TransposedStatArray;
+                    my $BoxKeys = shift @TransposedStatArray;
                     $Builder->set(
-                        terminal          => 'png size 500,500 enhanced',
-                        #auto              => [ qw(x y) ],
+                        'term pngcairo'   => 'size 1000,1000 square',
+                        auto              => [qw(x y)],
                         'style data'      => 'histogram',
                         'style histogram' => 'cluster gap 1',
-                        #grid              => 'x y',
-                        xtic              => 'rotate by -45 scale 0'
+                        'style fill'      => 'solid noborder',
+                        #boxwidth          => '9',
+                        xtic              => 'rotate by -45 scale 0',
+                        key               => 'above font ",6"',
                     );
                     $Builder->setq( output => $TempPNGFilename );
-                    my @InlineData = join ' ', map { qq{'$_'} } $HeadArrayRef->@*;
-                    push @InlineData,
+                    my @InlineData =
                         map { join ' ', $_->@* }
-                        map { $_->[0] = qq{'$_->[0]'}; $_ }
-                        @StatArray;
-                    Dx \@InlineData;
-                    my $Dataset = Gnuplot::Builder::Dataset->new( q{'-'} );
+                        map { $_->[0] = qq{"$_->[0]"}; $_ }
+                        @TransposedStatArray;
+
+                    # The first dataset holds the table
+                    my @Datasets;
+                    my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
                     $Dataset->set_data( join "\n", @InlineData );
-                    $Dataset->set( using => '2' );
-                    Dx $Dataset->to_string();
-                    my $Dataset4 = $Dataset->new_child;
-                    $Dataset4->setq_source('');
-                    $Dataset4->set( using => '5' );
-                    my $Dataset5 = $Dataset->new_child;
-                    $Dataset5->setq_source('');
-                    $Dataset5->set( using => '5:xticlabels(1)' );
-                    Dx $Dataset4->to_string();
-                    Dx $Dataset5->to_string();
-                    Dx $Builder->to_string();
-                    my $Out2 = $Builder->plot($Dataset, $Dataset4, $Dataset5 );
-                    #my $Out2 = $Builder->plot($Dataset);
-                    Dx $Out2;
+                    $Dataset->set( using => '2:xticlabels(1)' );
+                    $Dataset->setq( title => $BoxKeys->[1] );
+                    push @Datasets, $Dataset;
+                    for my $Col ( 3 .. (scalar $BoxKeys->@*)) {
+                        my $ChildDataset = $Dataset->new_child;
+                        $ChildDataset->setq_source('');                            # use data from the previous dataset
+                        $ChildDataset->set( using => $Col );
+                        $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
+                        push @Datasets, $ChildDataset;
+                    }
+                    my $Out2 = $Builder->plot(@Datasets);
                 }
                 else {
 
@@ -498,7 +548,6 @@ sub GeneratePDF {
                     $Builder->unset("key");
                     $Builder->define( 'f(x)' => 'sin(pi * x)' );
                     my $Out2 = $Builder->plot("f(x)");    ## output sin_wave.png
-                    Dx \$Out2;
                 }
             }
 
