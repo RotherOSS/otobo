@@ -681,13 +681,14 @@ sub GetFieldState {
             # if the value would change, we need to verify that the user is really allowed
             # to access the provided referenced object via this form
             # this is the case if either the referenced object was shown via a search (1)
-            # or is currently stored for the edited ticket/ci/... (2)
+            # or has been rendered (2)
+            # or is currently stored for the edited ticket/ci/... (3)
             my $LastSearchResults = $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
                 LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
                 Key          => 'PossibleValues_' . $ReferenceDFName,
             );
 
-            # in set case, we fetch the template values and either concat them to the search results
+            # in set case, we fetch the template values and either concatenate them to the search results
             #   or, if no search results are present, use the template values entirely
             if ( defined $Param{SetIndex} ) {
                 my $TemplateName          = $DynamicFieldConfig->{Config}{ReferenceDFName} . '_Template';
