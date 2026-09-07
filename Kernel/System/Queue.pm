@@ -2093,4 +2093,71 @@ sub ImportQueueTemplates {
     return 1;
 }
 
+=head2 QueueSignatureMemberList()
+
+get queues associated to a signature
+
+    my %Queues = $QueueObject->QueueSignatureMemberList( SignatureID => 123 );
+
+Returns:
+    %Queues = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+=cut
+
+sub QueueSignatureMemberList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{SignatureID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no SignatureID!',
+        );
+        return;
+    }
+
+    # get needed objects
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+    my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
+
+    my $CacheKey;
+
+    # check if this result is present (in cache)
+    $CacheKey = "QueuesSignatures::$Param{SignatureID}";
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if ref $Cache eq 'HASH';
+
+    # get queues
+    my $SQL = "SELECT id, name FROM queue WHERE signature_id = ? AND "
+        . " valid_id IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )"
+        . " ORDER BY name";
+
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$Param{SignatureID} ]
+    );
+
+    # fetch the result
+    my %Queues;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Queues{ $Row[0] } = $Row[1];
+    }
+
+    # store queues (in cache)
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Queues,
+    );
+
+    return %Queues;
+}
+
 1;
