@@ -238,6 +238,17 @@ sub Run {
         );
     }
     else {
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+        my $Permission  = $QueueObject->QueueListPermission(
+            QueueIDs => [ $Self->{QueueID} ],
+            UserID   => $Self->{UserID},
+        );
+
+        if ( !$Permission ) {
+            $LayoutObject->FatalError(
+                Message => 'Invalid QueueID!',
+            );
+        }
         @ViewableQueueIDs = ( $Self->{QueueID} );
     }
 
