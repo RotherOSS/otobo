@@ -1250,7 +1250,7 @@ sub Text {
 
 =head2 Image()
 
-Output a image
+Output an image
 
     $True = $PDFObject->Image(
         File   => '/path/image.gif',  # (gif|jpeg|jpg|png)
@@ -1317,7 +1317,11 @@ sub Image {
         $ImageFile = $Self->{CacheImageObject}->{ $Param{File} };
     }
     else {
-        if ( $Param{File} =~ m/\.gif$/i ) {
+        if ( $Param{File} =~ m/\.pdf$/i ) {
+            my $ChartPDF    = PDF::API2->open($Param{File});
+            $ImageFile = $Self->{PDF}->embed_page($ChartPDF, 1); # only single page
+        }
+        elsif ( $Param{File} =~ m/\.gif$/i ) {
             $ImageFile = $Self->{PDF}->image_gif( $Param{File} );
         }
         elsif ( $Param{File} =~ m/\.(?:jpeg|jpg)$/i ) {
@@ -1331,6 +1335,7 @@ sub Image {
                 Priority => 'error',
                 Message  => "Imagetype of File $Param{File} not supported",
             );
+
             return;
         }
 
@@ -1364,6 +1369,9 @@ sub Image {
 
     if ( defined( $Param{Type} ) && $Param{Type} eq 'ReturnFalse' && $Reduce ) {
         $Return = 0;
+    }
+    elsif ( $Param{File} =~ m/\.pdf$/ ) {
+        $Self->{Page}->object($ImageFile, 0, 0, 2);
     }
     else {
 

@@ -386,12 +386,12 @@ sub GeneratePDF {
         # D3 charts:      load in Chrome and save a screenshot as PNG
         else {
             my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-            my $TempPNGDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
-            my $TempPNGFilename;
+            my $TempImageDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+            my $TempImageFilename;
             my $CommandOutput;
 
             if ( $Format =~ m/^D3::/ ) {
-                $TempPNGFilename = "$TempPNGDir/screenshot.png";    # Chrome requires this file name
+                $TempImageFilename = "$TempImageDir/screenshot.png";    # Chrome requires this file name
 
                 # This is needed because we run this function also from a console commands where
                 #   there is no Action initially.
@@ -435,7 +435,7 @@ sub GeneratePDF {
                 #   subsequent call to $PDFObject->Image() <PDF::API2::image_png() internally> will be extremely slow.
                 #   The real reason is still unknown.
                 $CommandOutput
-                    = `cd $TempPNGDir; '$GoogleChromeBinary' --no-sandbox --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
+                    = `cd $TempImageDir; '$GoogleChromeBinary' --no-sandbox --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
                 if ($!) {
                     $CommandOutput .= "$!";
                 }
@@ -448,7 +448,7 @@ sub GeneratePDF {
                 local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBinary --persist";
 
                 # The location where gnuplot writes the graph
-                $TempPNGFilename = "$TempPNGDir/gnuplot.png";
+                $TempImageFilename = "$TempImageDir/gnuplot.pdf";
 
                 my $Builder = Gnuplot::Builder::Script->new;
 
@@ -508,7 +508,8 @@ sub GeneratePDF {
                     @TransposedStatArray = grep {defined} @TransposedStatArray;
                     my $BoxKeys = shift @TransposedStatArray;
                     $Builder->set(
-                        'term pngcairo'   => 'size 1000,1000 square',
+                        #'term pngcairo'   => 'square',
+                        'term pdfcairo'   => 'square',
                         auto              => [qw(x y)],
                         'style data'      => 'histogram',
                         'style histogram' => 'cluster gap 1',
@@ -517,7 +518,7 @@ sub GeneratePDF {
                         xtic              => 'rotate by -45 scale 0',
                         key               => 'above font ",6"',
                     );
-                    $Builder->setq( output => $TempPNGFilename );
+                    $Builder->setq( output => $TempImageFilename );
                     my @InlineData =
                         map { join ' ', $_->@* }
                         map { $_->[0] = qq{"$_->[0]"}; $_ }
@@ -550,17 +551,17 @@ sub GeneratePDF {
                         xlabel   => '"x" offset 0,1',
                         ylabel   => '"y" offset 1,0',
                     );
-                    $Builder->setq( output => $TempPNGFilename );
+                    $Builder->setq( output => $TempImageFilename );
                     $Builder->unset("key");
                     $Builder->define( 'f(x)' => 'sin(pi * x)' );
                     my $Out2 = $Builder->plot("f(x)");    ## output sin_wave.png
                 }
             }
 
-            my $TmpPNGStat = stat $TempPNGFilename;
-            if ( $TmpPNGStat && $TmpPNGStat->size ) {
+            my $TempImageStat = stat $TempImageFilename;
+            if ( $TempImageStat && $TempImageStat->size ) {
                 $PDFObject->Image(
-                    File   => $TempPNGFilename,
+                    File   => $TempImageFilename,
                     Width  => 1200 * ( 300 / 72 ),
                     Height => 900 * ( 300 / 72 ),
                 );
