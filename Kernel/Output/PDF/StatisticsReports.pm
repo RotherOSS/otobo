@@ -442,6 +442,12 @@ sub GeneratePDF {
                 chomp $CommandOutput;
             }
             elsif ( $Format =~ m/^Gnuplot::/ ) {
+
+                # The default Gnuplot command to 'gnuplot --persist'. Looking for gnuplot in PATH works fine,
+                # but the OTOBO convention is to use the configured executable.
+                local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBinary --persist";
+
+                # The location where gnuplot writes the graph
                 $TempPNGFilename = "$TempPNGDir/gnuplot.png";
 
                 my $Builder = Gnuplot::Builder::Script->new;
