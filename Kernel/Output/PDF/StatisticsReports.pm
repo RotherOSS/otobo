@@ -452,6 +452,15 @@ sub GeneratePDF {
 
                 my $Builder = Gnuplot::Builder::Script->new;
 
+                # The terminal and tha output file name are the same for all Gnuplot formats
+                $Builder->set(
+                    auto            => [qw(x y)],
+                    'term pdfcairo' => 'square',           # TODO: same size as the Chromium screenshot
+                    xtic            => 'rotate by -45 scale 0',
+                    key             => 'above font ",6"',
+                );
+                $Builder->setq( output => $TempImageFilename );
+
                 # Example for the incoming data:
                 # $HeadArrayRef = [
                 #                   "Queue",
@@ -478,22 +487,19 @@ sub GeneratePDF {
                 #                 ["Sum", 0, 0, 0, 223, 0, 0, 0, 0, 0, 223],
                 #               ]
 
-                # The incoming data contains a column that sums up the previous elements in the row.
-                # It also contains a row that sums up the previous elements of the column.
-                # Both must be removed for the bar chart as otherwise the chart would be dominated
-                # by the sum values.
+                my @Datasets;
+                {
+                    # The incoming data contains a column that sums up the previous elements in the row.
+                    # It also contains a row that sums up the previous elements of the column.
+                    # Both must be removed for the bar chart as otherwise the chart would be dominated
+                    # by the sum values.
+                    @StatArray = grep { $_->[0] ne 'Sum' } @StatArray;
 
-                # Delete the sum row.
-                @StatArray = grep { $_->[0] ne 'Sum' } @StatArray;
-
-                # First find the indexes of the potentially multiple 'Sum' colums
-                my @SumColNums = indexes { $_ eq 'Sum' } $HeadArrayRef->@*;
-                if ( any { $Format eq $_ } qw(Gnuplot::ClusteredBarChart Gnuplot::StackedBarChart) ) {
-
-                    # The Gnuplot histogram is putting the values of a line on the same xtick.
-                    # The D3 based bar chart is putting the values of a column on the same xtick.
-                    # Order to achieve the same output we need to transpose the data.
+                    # First find the indexes of the non 'Sum' colums
+                    my @NonSumColNums = indexes { $_ ne 'Sum' } $HeadArrayRef->@*;
                     unshift @StatArray, $HeadArrayRef;
+
+                    # Transpose as D3 and Gnuplot seem to see the data differently
                     my @TransposedStatArray;
                     for my $Row ( 0 .. $#StatArray ) {
                         for my $Col ( 0 .. $StatArray[$Row]->$#* ) {
@@ -501,38 +507,16 @@ sub GeneratePDF {
                         }
                     }
 
-                    # It is easier to remove rows then colums. So remove the Sum rows from the transposed stats array.
-                    for my $ColNum (@SumColNums) {
-                        undef $TransposedStatArray[$ColNum];
-                    }
-                    @TransposedStatArray = grep {defined} @TransposedStatArray;
+                    # It is easier to remove rows than colums. So remove the Sum rows from the transposed stats array.
+                    @TransposedStatArray = @TransposedStatArray[@NonSumColNums];
+
                     my $BoxKeys = shift @TransposedStatArray;
-
-                    # The format of the graph determines the histogram style. Default is 'cluster'.
-                    Dx $Format;
-                    my $HistogramStyle = $Format eq 'Gnuplot::StackedBarChart' ? 'rowstacked' : 'cluster';
-                    Dx $HistogramStyle;
-                    $Builder->set(
-
-                        #'term pngcairo'   => 'square',
-                        'term pdfcairo'       => 'square',           # TODO: same size as the Chromium screenshot
-                        auto                  => [qw(x y)],
-                        'style data'          => 'histogram',
-                        'style histogram'     => "$HistogramStyle gap 1",
-                        'style fill'          => 'solid noborder',
-                        'palette'             => 'viridis',
-
-                        xtic => 'rotate by -45 scale 0',
-                        key  => 'above font ",6"',
-                    );
-                    $Builder->setq( output => $TempImageFilename );
                     my @InlineData =
                         map { join ' ', $_->@* }
                         map { $_->[0] = qq{"$_->[0]"}; $_ }
                         @TransposedStatArray;
 
                     # The first dataset holds the table
-                    my @Datasets;
                     my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
                     $Dataset->set_data( join "\n", @InlineData );
                     $Dataset->set( using => '2:xticlabels(1)' );
@@ -545,24 +529,30 @@ sub GeneratePDF {
                         $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
                         push @Datasets, $ChildDataset;
                     }
-                    my $Out2 = $Builder->plot(@Datasets);
-                }
-                else {
 
-                    # a sine wave as placeholder
-                    $Builder->set(
-                        terminal => 'png size 500,500 enhanced',
-                        grid     => 'x y',
-                        xrange   => '[-100:100]',
-                        yrange   => '[-1:1]',
-                        xlabel   => '"x" offset 0,1',
-                        ylabel   => '"y" offset 1,0',
-                    );
-                    $Builder->setq( output => $TempImageFilename );
-                    $Builder->unset("key");
-                    $Builder->define( 'f(x)' => 'sin(pi * x)' );
-                    my $Out2 = $Builder->plot("f(x)");    ## output sin_wave.png
                 }
+
+                if ( $Format eq 'Gnuplot::LineChart' ) {
+
+                    $Builder->set(
+                        'style data'          => 'lines',
+                    );
+
+                }
+                elsif ( any { $Format eq $_ } qw(Gnuplot::ClusteredBarChart Gnuplot::StackedBarChart) ) {
+
+                    # The format of the graph determines the histogram style. Default is 'cluster'.
+                    my $HistogramStyle = $Format eq 'Gnuplot::StackedBarChart' ? 'rowstacked' : 'cluster';
+                    $Builder->set(
+
+                        #'term pngcairo'   => 'square',
+                        'style data'          => 'histogram',
+                        'style histogram'     => "$HistogramStyle gap 1",
+                        'style fill'          => 'solid noborder',
+                    );
+                }
+
+                my $Out3 = $Builder->plot(@Datasets);
             }
 
             my $TempImageStat = stat $TempImageFilename;
