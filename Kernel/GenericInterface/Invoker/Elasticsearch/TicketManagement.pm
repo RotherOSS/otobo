@@ -881,11 +881,20 @@ sub HandleResponse {
     #     "type":"document_missing_exception",\
     #     "reason":"[_doc][5]: document missing","index_uuid":"rH43T-SsTz-H_k8aFg13dQ","shard":"0","index":"ticket"},"status":404}
     if ( $Param{Data}->{error} && $Param{Data}->{error}->{type} eq 'document_missing_exception' ) {
+        # Elasticsearch can report either "[_doc][5]: document missing" or "[5]: document missing".
+        my $Reason = $Param{Data}->{error}->{reason} // '';
+        my ($TicketID) = $Reason =~ m/ \A (?: \Q[_doc]\E )? \[ ([0-9]+) \]: \s document \s missing \z /x;
+        if ( !$TicketID ) {
+            return {
+                Success      => 0,
+                ErrorMessage => 'Could not determine TicketID from Elasticsearch document_missing_exception.',
+            };
+        }
+
         my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create the ticket
-        my ($TicketID) = $Param{Data}->{error}->{reason} =~ m/ \Q[_doc][\E ([0-9]+) \Q]:\E \s /x;    # e.g. "[_doc][5]: "
         my $Errors = 0;
         if ( !$ESObject->TicketCreate( TicketID => $TicketID ) ) {
             $Errors++;
