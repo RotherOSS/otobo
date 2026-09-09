@@ -137,11 +137,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         var ClassicEditor = CKEditor5Wrapper.ClassicEditor;
+        // Custom plugins (e.g. from OTOBO packages) can be registered in the
+        // window.CKEditor5CustomPlugins registry. The CKEditor5Wrapper module
+        // namespace itself is not extensible, so bundled plugins are looked up
+        // there and custom ones in the registry.
+        let CustomPlugins = window.CKEditor5CustomPlugins || {};
         let EnabledPlugins = [];
         for (let pluginName of PluginList) {
-            let Plugin = CKEditor5Wrapper[pluginName];
+            let Plugin = CKEditor5Wrapper[pluginName] || CustomPlugins[pluginName];
             if (Plugin) {
-                EnabledPlugins.push(CKEditor5Wrapper[pluginName]);
+                EnabledPlugins.push(Plugin);
             } else {
                 Core.Exception.ShowError('Couldn\'t find plugin: ' + pluginName, 'JavaScriptError');
             }
