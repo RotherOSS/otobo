@@ -3,7 +3,8 @@
 <Cache>1</Cache>
 <Description>Havi áttekintő, amely egy kiválasztott hónapban történt napi állapotváltozásokat mutatja ki.</Description>
 <Format>CSV</Format>
-<Format>Gnuplot::BarChart</Format>
+<Format>Gnuplot::ClusteredBarChart</Format>
+<Format>Gnuplot::StackedBarChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>

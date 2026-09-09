@@ -4,7 +4,8 @@
 <Title>Új jegyek</Title>
 <Description>Az új jegyek összes száma naponta és várólistánként, amelyek a múlt hónap során lettek létrehozva.</Description>
 <Format>CSV</Format>
-<Format>Gnuplot::BarChart</Format>
+<Format>Gnuplot::ClusteredBarChart</Format>
+<Format>Gnuplot::StackedBarChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>

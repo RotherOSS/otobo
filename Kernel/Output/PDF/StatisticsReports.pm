@@ -28,7 +28,7 @@ use File::stat qw(stat);
 # CPAN modules
 use Gnuplot::Builder::Script  qw();
 use Gnuplot::Builder::Dataset qw();
-use List::AllUtils            qw(first indexes);
+use List::AllUtils            qw(any first indexes);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -385,7 +385,7 @@ sub GeneratePDF {
         # Gnuplot charts: generate PNG with gnuplot
         # D3 charts:      load in Chrome and save a screenshot as PNG
         else {
-            my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
             my $TempImageDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
             my $TempImageFilename;
             my $CommandOutput;
@@ -488,7 +488,7 @@ sub GeneratePDF {
 
                 # First find the indexes of the potentially multiple 'Sum' colums
                 my @SumColNums = indexes { $_ eq 'Sum' } $HeadArrayRef->@*;
-                if ( $Format eq 'Gnuplot::BarChart' ) {
+                if ( any { $Format eq $_ } qw(Gnuplot::ClusteredBarChart Gnuplot::StackedBarChart) ) {
 
                     # The Gnuplot histogram is putting the values of a line on the same xtick.
                     # The D3 based bar chart is putting the values of a column on the same xtick.
@@ -507,16 +507,23 @@ sub GeneratePDF {
                     }
                     @TransposedStatArray = grep {defined} @TransposedStatArray;
                     my $BoxKeys = shift @TransposedStatArray;
+
+                    # The format of the graph determines the histogram style. Default is 'cluster'.
+                    Dx $Format;
+                    my $HistogramStyle = $Format eq 'Gnuplot::StackedBarChart' ? 'rowstacked' : 'cluster';
+                    Dx $HistogramStyle;
                     $Builder->set(
+
                         #'term pngcairo'   => 'square',
-                        'term pdfcairo'   => 'square',
-                        auto              => [qw(x y)],
-                        'style data'      => 'histogram',
-                        'style histogram' => 'cluster gap 1',
-                        'style fill'      => 'solid noborder',
-                        #boxwidth          => '9',
-                        xtic              => 'rotate by -45 scale 0',
-                        key               => 'above font ",6"',
+                        'term pdfcairo'       => 'square',           # TODO: same size as the Chromium screenshot
+                        auto                  => [qw(x y)],
+                        'style data'          => 'histogram',
+                        'style histogram'     => "$HistogramStyle gap 1",
+                        'style fill'          => 'solid noborder',
+                        'palette'             => 'viridis',
+
+                        xtic => 'rotate by -45 scale 0',
+                        key  => 'above font ",6"',
                     );
                     $Builder->setq( output => $TempImageFilename );
                     my @InlineData =
@@ -531,7 +538,7 @@ sub GeneratePDF {
                     $Dataset->set( using => '2:xticlabels(1)' );
                     $Dataset->setq( title => $BoxKeys->[1] );
                     push @Datasets, $Dataset;
-                    for my $Col ( 3 .. (scalar $BoxKeys->@*)) {
+                    for my $Col ( 3 .. ( scalar $BoxKeys->@* ) ) {
                         my $ChildDataset = $Dataset->new_child;
                         $ChildDataset->setq_source('');                            # use data from the previous dataset
                         $ChildDataset->set( using => $Col );
