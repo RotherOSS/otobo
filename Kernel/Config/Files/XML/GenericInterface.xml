@@ -1155,4 +1155,13 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="GenericInterface::Debugger::Settings::RedactParameter" Required="0" Valid="1">
+        <Description Translatable="1">Define names of sensitive parameters. Their contents will be redacted in the debugger (for example, credentials). Note: Redaction will not affect previously logged data, it only takes effect for future requests.</Description>
+        <Navigation>GenericInterface::Debugger::Settings</Navigation>
+        <Value>
+            <Array>
+                <Item>Password</Item>
+            </Array>
+        </Value>
+    </Setting>
 </otobo_config>
