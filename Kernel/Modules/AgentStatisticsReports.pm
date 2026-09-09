@@ -829,8 +829,7 @@ sub StatsAddWidgetAJAX {
     {
         my $GnuplotFound = $ConfigObject->Get('Gnuplot::Bin')      ? 1 : 0;
         my $BrowserFound = $ConfigObject->Get('GoogleChrome::Bin') ? 1 : 0;
-
-        my %Format = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
+        my %Format       = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
 
         # The format 'Print' is always supported.
         # 'CSV' and 'Excel' are not supported.

@@ -4,7 +4,8 @@
 <Title>Áttekintő a rendszeren lévő összes jegyről</Title>
 <Description>A rendszeren lévő összes jegy jelenlegi állapota időkorlátozások nélkül.</Description>
 <Format>CSV</Format>
-<Format>Gnuplot::BarChart</Format>
+<Format>Gnuplot::ClusteredBarChart</Format>
+<Format>Gnuplot::StackedBarChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>

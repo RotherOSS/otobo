@@ -4,7 +4,8 @@
 <Title>Overview about all tickets in the system</Title>
 <Description>Current state of all tickets in the system without time restrictions.</Description>
 <Format>CSV</Format>
-<Format>Gnuplot::BarChart</Format>
+<Format>Gnuplot::ClusteredBarChart</Format>
+<Format>Gnuplot::StackedBarChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>
