@@ -1166,11 +1166,9 @@ sub GetFieldState {
                 ObjectName         => undef,
             ) // [];
 
-            my @InnerFields = map { $_->{DF} } $SetConfig->{Config}->{Include}->@*;
-
             for my $SetIndex ( 0 .. $#SetValue ) {
 
-                for my $DFName (@InnerFields) {
+                for my $DFName ( keys $DynamicField->%* ) {
 
                     $Return{Sets}{$DFName}{DynamicFieldConfig} = $DynamicField->{$DFName};
                     $Return{Sets}{$DFName}{Values}{ $DFName . "_" . $SetIndex } = $OldValues->[$SetIndex]->{$DFName};
