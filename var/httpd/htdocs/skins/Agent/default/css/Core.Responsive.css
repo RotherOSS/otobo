@@ -1479,12 +1479,27 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-top: -22px;
     }
 
-
     #OverviewBody.Overview.TicketList {
         overflow-y:auto;
     }
 
+    .similarTickets a {
+        display:inline-block;
+        max-width:50px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        text-wrap:nowrap;
+        white-space: nowrap;
+    }
 
+    .similarTickets span {
+        display:inline-block;
+        max-width:180px !important;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        text-wrap:nowrap;
+        white-space: nowrap;
+    }
 }
 
 /*  ~ Tablet landscape */
