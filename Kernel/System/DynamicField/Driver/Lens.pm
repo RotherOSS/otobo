@@ -440,40 +440,14 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = '';
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
 
-    # check value
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        @Values = @{ $Param{Value} };
-    }
-    else {
-        @Values = ( $Param{Value} );
-    }
-
-    # prevent joining undefined values
-    @Values = map { $_ // '' } @Values;
-
-    # set new line separator
-    my $ItemSeparator = ', ';
-
-    # Output transformations
-    $Value = join( $ItemSeparator, @Values );
-    my $Title = $Value;
-
-    # cut strings if needed
-    if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
-        $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
-    }
-    if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
-        $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
-    }
-
-    # return a data structure
-    return {
-        Value => $Value,
-        Title => $Title,
-    };
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ReadableValueRender(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 sub TemplateValueTypeGet {
