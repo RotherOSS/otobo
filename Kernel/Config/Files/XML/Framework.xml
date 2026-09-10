@@ -8539,6 +8539,7 @@ via the Preferences button after logging in.
                 <Item Key="Gnuplot::ClusteredBarChart" Translatable="1">Graph: Clustered Bar Chart (Gnuplot)</Item>
                 <Item Key="Gnuplot::StackedBarChart" Translatable="1">Graph: Stacked Bar Chart (Gnuplot)</Item>
                 <Item Key="Gnuplot::LineChart" Translatable="1">Graph: Line Chart (Gnuplot)</Item>
+                <Item Key="Gnuplot::StackedAreaChart" Translatable="1">Graph: Stacked Area Chart (Gnuplot)</Item>
                 <Item Key="D3::BarChart" Translatable="1">Graph: Bar Chart (D3)</Item>
                 <Item Key="D3::LineChart" Translatable="1">Graph: Line Chart (D3)</Item>
                 <Item Key="D3::StackedAreaChart" Translatable="1">Graph: Stacked Area Chart (D3)</Item>
