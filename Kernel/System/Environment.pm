@@ -503,10 +503,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.17',
         },
         {
-            'Comment'         => 'needed by LWP::Protocol::https',
+            'Comment'         => 'needed by LWP::Protocol::https, provide a fallback for certificates',
             'Module'          => 'Mozilla::CA',
             'Required'        => 1,
-            'VersionRequired' => '== 20250602',
+            'VersionRequired' => '== 20260813',
         },
         {
             'Comment'         => 'needed by LWP::Protocol::https',

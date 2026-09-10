@@ -113,8 +113,8 @@ requires 'Module::Find', '== 0.15';
 # needed by otobo.psgi
 requires 'Module::Refresh', '== 0.17';
 
-# needed by LWP::Protocol::https
-requires 'Mozilla::CA', '== 20250602';
+# needed by LWP::Protocol::https, provide a fallback for certificates
+requires 'Mozilla::CA', '== 20260813';
 
 # needed by LWP::Protocol::https
 requires 'Net::HTTP', '== 6.24';
