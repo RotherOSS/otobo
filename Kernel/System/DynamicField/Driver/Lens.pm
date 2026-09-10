@@ -31,13 +31,9 @@ use List::Util qw(any);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::Output::HTML::Layout',
-    'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicFieldValue',
