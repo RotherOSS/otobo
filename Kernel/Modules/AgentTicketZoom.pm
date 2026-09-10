@@ -1918,13 +1918,16 @@ sub MaskAgentZoom {
                                         # no ValueMaxChars here, enough space available
                                     );
 
+                                    # use translation here to be able to reduce the character length in the template
+                                    my $Label = $LayoutObject->{LanguageObject}->Translate( $IncludeDFConfig->{Label} );
+
                                     my %IncludeField = (
                                         $IncludeDFConfig->{Name} => $ValueStrg->{Title},
                                         Name                     => $IncludeDFConfig->{Name},
                                         Title                    => $ValueStrg->{Title},
                                         Value                    => $ValueStrg->{Value},
                                         ValueKey                 => $ValueItem->{ $IncludeDFConfig->{Name} },
-                                        Label                    => $IncludeDFConfig->{Label},
+                                        Label                    => $Label,
                                         Link                     => $ValueStrg->{Link},
                                         LinkPreview              => $ValueStrg->{LinkPreview},
 
@@ -2107,13 +2110,16 @@ sub MaskAgentZoom {
                             # no ValueMaxChars here, enough space available
                         );
 
+                        # use translation here to be able to reduce the character length in the template
+                        my $Label = $LayoutObject->{LanguageObject}->Translate( $IncludeDFConfig->{Label} );
+
                         my %IncludeField = (
                             $IncludeDFConfig->{Name} => $ValueStrg->{Title},
                             Name                     => $IncludeDFConfig->{Name},
                             Title                    => $ValueStrg->{Title},
                             Value                    => $ValueStrg->{Value},
                             ValueKey                 => $ValueItem->{ $IncludeDFConfig->{Name} },
-                            Label                    => $IncludeDFConfig->{Label},
+                            Label                    => $Label,
                             Link                     => $ValueStrg->{Link},
                             LinkPreview              => $ValueStrg->{LinkPreview},
 
