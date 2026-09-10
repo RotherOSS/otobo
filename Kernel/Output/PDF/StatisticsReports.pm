@@ -516,28 +516,63 @@ sub GeneratePDF {
                         map { $_->[0] = qq{"$_->[0]"}; $_ }
                         @TransposedStatArray;
 
-                    # The first dataset holds the table
-                    my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
-                    $Dataset->set_data( join "\n", @InlineData );
-                    $Dataset->set( using => '2:xticlabels(1)' );
-                    $Dataset->setq( title => $BoxKeys->[1] );
-                    push @Datasets, $Dataset;
-                    for my $Col ( 3 .. ( scalar $BoxKeys->@* ) ) {
-                        my $ChildDataset = $Dataset->new_child;
-                        $ChildDataset->setq_source('');                            # use data from the previous dataset
-                        $ChildDataset->set( using => $Col );
-                        $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
-                        push @Datasets, $ChildDataset;
+                    # for stacked area we need to sum up the colums to the left
+                    if ( $Format eq 'Gnuplot::StackedAreaChart' ) {
+                        $Builder->add(<<~END_SCRIPT);
+                            firstcol=2
+                            cumulated(i)=((i>firstcol)?column(i)+cumulated(i-1):(i==firstcol)?column(i):1/0)
+                            END_SCRIPT
                     }
 
+                    my $MaxCol = $BoxKeys->@*;
+                    if ( $Format eq 'Gnuplot::StackedAreaChart' ) {
+
+                        # The first dataset holds the table
+                        my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
+                        my $Sum = join '+', map { '$' . $_ } ( 2 .. $MaxCol);
+                        $Dataset->set_data( join "\n", @InlineData );
+                        $Dataset->set( using => "($Sum):xticlabels(1)" );
+                        $Dataset->setq( title => $BoxKeys->[$MaxCol-1] );
+                        push @Datasets, $Dataset;
+                        for my $Col ( 3 .. $MaxCol-1 ) {
+                            my $ChildDataset = $Dataset->new_child;
+                            $ChildDataset->setq_source('');                            # use data from the previous dataset
+
+                            # See https://newspaint.wordpress.com/2013/09/11/creating-a-filled-stack-graph-in-gnuplot/
+                            # sum up data
+                            my $Sum = join '+', map { '$' . $_ } ( $Col .. $MaxCol);
+                            $ChildDataset->set( using => "($Sum)" );
+                            $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
+                            push @Datasets, $ChildDataset;
+                        }
+                    }
+                    else {
+
+                        # The first dataset holds the table
+                        my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
+                        $Dataset->set_data( join "\n", @InlineData );
+                        $Dataset->set( using => '2:xticlabels(1)' );
+                        $Dataset->setq( title => $BoxKeys->[1] );
+                        push @Datasets, $Dataset;
+                        for my $Col ( 3 .. $MaxCol ) {
+                            my $ChildDataset = $Dataset->new_child;
+                            $ChildDataset->setq_source('');                            # use data from the previous dataset
+                            $ChildDataset->set( using => $Col );
+                            $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
+                            push @Datasets, $ChildDataset;
+                        }
+                    }
                 }
 
                 if ( $Format eq 'Gnuplot::LineChart' ) {
-
                     $Builder->set(
-                        'style data'          => 'lines',
+                        'style data' => 'lines',
                     );
-
+                }
+                elsif ( $Format eq 'Gnuplot::StackedAreaChart' ) {
+                    $Builder->set(
+                        'style data' => 'filledcurve x1', # color down to the x-axis
+                    );
                 }
                 elsif ( any { $Format eq $_ } qw(Gnuplot::ClusteredBarChart Gnuplot::StackedBarChart) ) {
 
