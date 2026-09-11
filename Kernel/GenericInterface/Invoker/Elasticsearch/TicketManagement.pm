@@ -881,6 +881,7 @@ sub HandleResponse {
     #     "type":"document_missing_exception",\
     #     "reason":"[_doc][5]: document missing","index_uuid":"rH43T-SsTz-H_k8aFg13dQ","shard":"0","index":"ticket"},"status":404}
     if ( $Param{Data}->{error} && $Param{Data}->{error}->{type} eq 'document_missing_exception' ) {
+
         # Elasticsearch can report either "[_doc][5]: document missing" or "[5]: document missing".
         my $Reason = $Param{Data}->{error}->{reason} // '';
         my ($TicketID) = $Reason =~ m/ \A (?: \Q[_doc]\E )? \[ ([0-9]+) \]: \s document \s missing \z /x;
