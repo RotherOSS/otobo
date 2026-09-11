@@ -38,13 +38,15 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::OpenIDConnect::Token
+Kernel::System::OpenIDConnect::Token - Inspect and Validate OAuth2 Tokens
 
-Inspect and Validate OAuth2 Tokens
+=head1 DESCRIPTION
 
-=head1 SYNOPSIS
+OAuth2 Tokens for OpenID Connect.
 
-OAuth2 Tokens for OpenID Connect
+=head1 PUBLIC INTERFACE
+
+=head2 new()
 
 create an object
 
@@ -55,18 +57,14 @@ create an object
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Inspect()
 
-    Inspect Token payload without validating the signature.
+Inspect Token payload without validating the signature.
 
     my $TokenData = $TokenObject->Inspect(
         Token => $Token,
@@ -112,7 +110,7 @@ sub Inspect {
 
 =head2 sub IsTokenStillValid()
 
-    Return true if a Token is still valid
+Return true if a Token is still valid
 
     my $Boolean = $TokenObject->IsTokenStillValid( Token => $Token );
 
@@ -175,7 +173,7 @@ sub TimeLeft {
     }
 
     if ( !$TokenData->{exp} ) {
-        return 600;    # offline_token has not expiry
+        return 600;    # offline_token has no expiry, use 10 minutes as default
     }
 
     # time window
@@ -186,7 +184,7 @@ sub TimeLeft {
 
 =head2 Validate()
 
-    Validates a Token
+Validates a Token
 
     my $Result = $TokenObject->Validate(
         Token             => $Token,
@@ -196,11 +194,11 @@ sub TimeLeft {
         AuthorizedParty   => '<identifier>',         # optional
     );
 
-    returns
+returns
 
     { Success => 0, Error => 'msg' }
 
-    or
+or
 
     { Success => 1, TokenData => {...} }
 
