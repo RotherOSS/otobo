@@ -128,6 +128,7 @@ sub Run {
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+    my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -195,6 +196,19 @@ sub Run {
         TicketID      => $Self->{TicketID},
         DynamicFields => 1,
     );
+
+    my $Permission = $QueueObject->QueueListPermission(
+        QueueIDs => [ $Ticket{QueueID} ],
+        UserID   => $Self->{UserID},
+    );
+
+    # error screen, don't show ticket
+    if ( !$Permission || $Permission ne 'rw' ) {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            WithHeader => 'yes',
+        );
+    }
 
     # get lock state
     my $TicketBackType = 'TicketBack';
