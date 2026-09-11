@@ -902,16 +902,19 @@ sub HandleResponse {
         }
 
         # create the articles
-        my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
-        for my $Article (@ArticleList) {
-            my $Success = $ESObject->ArticleCreate(
-                TicketID  => $TicketID,
-                ArticleID => $Article->{ArticleID},
-            );
-            $Errors++ if !$Success;
+        if ( !$Errors ) {
+            my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
+            for my $Article (@ArticleList) {
+                my $Success = $ESObject->ArticleCreate(
+                    TicketID  => $TicketID,
+                    ArticleID => $Article->{ArticleID},
+                );
+                $Errors++ if !$Success;
+            }
         }
 
-        # ignoring errors
+        # The errors are ignored.
+        # Recovery of the Elasticsearch indexing is tried again when the ticket is changed again.
     }
 
     return {
