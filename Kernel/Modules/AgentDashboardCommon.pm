@@ -436,6 +436,23 @@ sub Run {
         my $SortBy  = $ParamObject->GetParam( Param => 'SortBy' );
         my $OrderBy = $ParamObject->GetParam( Param => 'OrderBy' );
 
+        my $Direction = $OrderBy;
+
+        if ($ParamObject->GetParam( Param => 'SortingColumn' ) eq $SortBy) {
+            $Direction = $Direction eq 'Up' ? 'Down' : 'Up';
+        }
+
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => 'DASH_SORT_'.$Name,
+            Value  => $SortBy,
+        );
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => 'DASH_ORDER_'.$Name,
+            Value  => $Direction,
+        );
+
         my %Element = $Self->_Element(
             Name                  => $Name,
             Configs               => $Config,
@@ -611,14 +628,22 @@ sub Run {
 
     # try every backend to load and execute it
     my @ContainerNames;
+
+    my %Preferences = $UserObject->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
     NAME:
     for my $Name (@Order) {
+
 
         # get element data
         my %Element = $Self->_Element(
             Name     => $Name,
             Configs  => $Config,
             Backends => \%Backends,
+            SortBy   => $Preferences{'DASH_SORT_'.$Name} || '',
+            OrderBy  => $Preferences{'DASH_ORDER_'.$Name} || '',
         );
         next NAME if !%Element;
 
