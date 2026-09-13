@@ -277,4 +277,4 @@ then
 fi
 
 # as a fallback execute the passed command
-exec_whatever $@
+exec_whatever "$@"
