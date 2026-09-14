@@ -58,10 +58,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck.ck-toolbar__items {
     gap: 1px;
 }
+
+.ck.ck-editor__main {
+    --InitialHeight: 320px;
+    height: var(--InitialHeight);
+}
+
+.ck.ck-editor__editable {
+    box-sizing: border-box;
+    height: 100%;
+}
  
 .ck-source-editing-area {
     width: 100% !important;
-    height: 320px;
+    height: 100%;
 }
 
 .ck-source-editing-area > textarea {
@@ -69,6 +79,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     position: relative;
     width: 100% !important;
     height: 100%;
+    resize: none;
 }
 
 .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
