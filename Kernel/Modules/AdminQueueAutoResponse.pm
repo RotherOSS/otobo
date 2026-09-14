@@ -29,6 +29,9 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
 
     return $Self;
 }
@@ -47,17 +50,34 @@ sub Run {
     my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 
+    # get Type Auto Responses data
+    my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
+
     if ( $Self->{Subaction} eq 'Change' ) {
         $Output .= $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-
-        # get Type Auto Responses data
-        my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
 
         # get queue data
         my %QueueData = $QueueObject->QueueGet(
             ID => $Param{ID},
         );
+        if ( $Self->{LightAdmin} ) {
+            $QueueData{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ $Param{ID} ],
+                UserID   => $Self->{UserID},
+            );
+
+            # No permission for the queue.
+            if ( !$QueueData{Permission} ) {
+                %QueueData = ();
+            }
+            elsif ( $QueueData{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit auto responses for this queue.'),
+                );
+            }
+        }
 
         $LayoutObject->Block(
             Name => 'Overview',
@@ -80,25 +100,42 @@ sub Run {
         );
         for my $TypeID ( sort keys %TypeResponsesData ) {
 
-            # get all valid Auto Responses data for appropriate Auto Responses type
-            my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
-                TypeID => $TypeID,
-            );
+            if (%QueueData) {
 
-            # get selected Auto Responses for appropriate Auto Responses type and Queue
-            my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
-                QueueID => $Param{ID},
-                Type    => $TypeResponsesData{$TypeID},
-            );
+                # get all valid Auto Responses data for appropriate Auto Responses type
+                my %AutoResponseListByType = $AutoResponseObject->AutoResponseList(
+                    TypeID => $TypeID,
+                );
 
-            $Param{DataStrg} = $LayoutObject->BuildSelection(
-                Name         => "IDs_$TypeID",
-                SelectedID   => $AutoResponseData{AutoResponseID} || '',
-                Data         => \%AutoResponseListByType,
-                Size         => 1,
-                PossibleNone => 1,
-                Class        => 'Modernize W50pc',
-            );
+                if ( $Self->{LightAdmin} ) {
+                    for my $AutoResponseID ( sort keys %AutoResponseListByType ) {
+                        my %Queues     = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $AutoResponseID );
+                        my $Permission = $QueueObject->QueueListPermission(
+                            QueueIDs => [ keys %Queues ],
+                            UserID   => $Self->{UserID},
+                            Default  => 'rw',
+                        );
+                        if ( $Permission ne 'rw' ) {
+                            delete $AutoResponseListByType{$AutoResponseID};
+                        }
+                    }
+                }
+
+                # get selected Auto Responses for appropriate Auto Responses type and Queue
+                my %AutoResponseData = $AutoResponseObject->AutoResponseGetByTypeQueueID(
+                    QueueID => $Param{ID},
+                    Type    => $TypeResponsesData{$TypeID},
+                );
+
+                $Param{DataStrg} = $LayoutObject->BuildSelection(
+                    Name         => "IDs_$TypeID",
+                    SelectedID   => $AutoResponseData{AutoResponseID} || '',
+                    Data         => \%AutoResponseListByType,
+                    Size         => 1,
+                    PossibleNone => 1,
+                    Class        => 'Modernize W50pc',
+                );
+            }
             $LayoutObject->Block(
                 Name => 'ChangeItemList',
                 Data => {
@@ -120,6 +157,49 @@ sub Run {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
+        if ( $Self->{LightAdmin} ) {
+
+            # check if user has rw permissions on the QueueID
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ $Param{ID} ],
+                UserID   => $Self->{UserID},
+            );
+
+            # no permission to change.
+            if ( $Permission ne 'rw' ) {
+                return $LayoutObject->Redirect(
+                    OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID}"
+                );
+            }
+
+            # check if user has permissions on every AutoResponseID
+            CHECK_AUTO_RESPONSE_ID:
+            for my $TypeID ( sort keys %TypeResponsesData ) {
+                my $ParamAutoResponseID = $ParamObject->GetParam( Param => "IDs_$TypeID" );
+
+                next CHECK_AUTO_RESPONSE_ID if !$ParamAutoResponseID;
+                my %AutoResponseListByType = $AutoResponseObject->AutoResponseList( TypeID => $TypeID );
+
+                for my $AutoResponseID ( keys %AutoResponseListByType ) {
+                    my %Queues     = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $AutoResponseID );
+                    my $Permission = $QueueObject->QueueListPermission(
+                        QueueIDs => [ keys %Queues ],
+                        UserID   => $Self->{UserID},
+                        Default  => 'rw',
+                    );
+                    if ( $Permission ne 'rw' ) {
+                        delete $AutoResponseListByType{$AutoResponseID};
+                    }
+                }
+
+                # no permission to change.
+                if ( !$AutoResponseListByType{$ParamAutoResponseID} ) {
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID}"
+                    );
+                }
+            }
+        }
 
         my @NewIDs = ();
 
@@ -196,6 +276,18 @@ sub Run {
                 QueueHeader => $QueueHeader,
             },
         );
+        if ( $Self->{LightAdmin} ) {
+
+            # Filter out queues without permission.
+            my %RwQueues = $QueueObject->GetAllQueues(
+                UserID => $Self->{UserID},
+                Type   => 'rw',
+            );
+
+            for my $QueueID ( keys %QueueData ) {
+                delete $QueueData{$QueueID} if !$RwQueues{$QueueID};
+            }
+        }
 
         # if there are any queues, they are shown
         if (%QueueData) {
@@ -222,6 +314,19 @@ sub Run {
 
         # get valid Auto Response IDs
         my %AutoResponseList = $AutoResponseObject->AutoResponseList();
+        if ( $Self->{LightAdmin} ) {
+            for my $AutoResponseID ( sort keys %AutoResponseList ) {
+                my %Queues     = $AutoResponseObject->QueueAutoResponseMemberList( AutoResponseID => $AutoResponseID );
+                my $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => [ keys %Queues ],
+                    UserID   => $Self->{UserID},
+                    Default  => 'rw',
+                );
+                if ( $Permission ne 'rw' ) {
+                    delete $AutoResponseList{$AutoResponseID};
+                }
+            }
+        }
 
         # if there are any auto responses, they are shown
         if ( keys %AutoResponseList ) {
