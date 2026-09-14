@@ -1164,7 +1164,7 @@ sub ACLImport {
 
     my @ObjectTypes = qw(Ticket);
     if ( $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled( Name => 'ITSMConfigurationManagement' ) ) {
-        push @ObjectTypes, 'ConfigItem';
+        push @ObjectTypes, 'ITSMConfigItem';
     }
 
     # update preselection cache
