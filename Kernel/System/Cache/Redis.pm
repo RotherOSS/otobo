@@ -212,7 +212,11 @@ sub CleanUp {
         for my $Type (@ToBeDeletedTypes) {
             my ( $Cursor, $KeysRef ) = ( 0, [] );
             do {
-                ( $Cursor, $KeysRef ) = $Self->{Redis}->scan( $Cursor, MATCH => "$Type:*", COUNT => 1000 );
+                ( $Cursor, $KeysRef ) = $Self->{Redis}->scan(
+                    $Cursor,
+                    MATCH => "$Type:*",
+                    COUNT => 1000
+                );
                 $Self->{Redis}->del( @{$KeysRef} ) if @{$KeysRef};
             } while ($Cursor);
         }

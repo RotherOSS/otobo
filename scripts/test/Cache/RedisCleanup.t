@@ -25,16 +25,19 @@ use Test2::V0;
 use Kernel::System::Cache::Redis;
 
 {
+
     package Local::Redis;
 
     sub new {
         return bless {
             Deleted => [],
             Scans   => [],
-        }, shift;
+            },
+            shift;
     }
 
-    sub scan {
+    # Match the public Redis client API, whose method names are lowercase.
+    sub scan {    ## no critic qw(OTOBO::RequireCamelCase)
         my ( $Self, $Cursor, %Param ) = @_;
 
         push @{ $Self->{Scans} }, [ $Cursor, \%Param ];
@@ -43,51 +46,60 @@ use Kernel::System::Cache::Redis;
         my $Type = $Param{MATCH};
         $Type =~ s{:\*$}{};
 
-        return ( 42, ["$Type:a"] )             if $Cursor == 0;
-        return ( 99, [] )                       if $Cursor == 42;
+        return ( 42, ["$Type:a"] ) if $Cursor == 0;
+        return ( 99, [] )          if $Cursor == 42;
         return ( 0,  [ "$Type:a", "$Type:b" ] );
     }
 
-    sub del {
-        my $Self = shift;
+    sub del {    ## no critic qw(OTOBO::RequireCamelCase)
+        my ( $Self, @Keys ) = @_;
 
-        push @{ $Self->{Deleted} }, [@_];
+        push @{ $Self->{Deleted} }, [@Keys];
 
-        return scalar @_;
+        return scalar @Keys;
     }
 
-    sub flushdb {
-        $_[0]->{Flushed}++;
+    sub flushdb {    ## no critic qw(OTOBO::RequireCamelCase)
+        my ($Self) = @_;
+
+        $Self->{Flushed}++;
 
         return 1;
     }
 
-    sub smembers {
+    sub smembers {    ## no critic qw(OTOBO::RequireCamelCase)
         return qw(Target Retained);
     }
 }
 
 {
-    package Local::Log;
+    # Keep the supporting test doubles local to this standalone test.
+    package Local::Log;    ## no critic qw(Modules::ProhibitMultiplePackages)
 
     sub Log {
-        $_[0]->{Errors}++;
+        my ($Self) = @_;
+
+        $Self->{Errors}++;
 
         return;
     }
 }
 
 {
-    package Local::ObjectManager;
+
+    package Local::ObjectManager;    ## no critic qw(Modules::ProhibitMultiplePackages)
 
     sub Get {
-        return $_[0]->{LogObject};
+        my ($Self) = @_;
+
+        return $Self->{LogObject};
     }
 }
 
 $Kernel::OM = bless {
     LogObject => bless( {}, 'Local::Log' ),
-}, 'Local::ObjectManager';
+    },
+    'Local::ObjectManager';
 
 sub CacheBackendCreate {
     my $RedisObject = Local::Redis->new();
@@ -103,9 +115,27 @@ ok( $CacheObject->CleanUp( Type => 'Target' ), 'target cleanup succeeds' );
 is(
     $RedisObject->{Scans},
     [
-        [ 0,  { MATCH => 'Target:*', COUNT => 1000 } ],
-        [ 42, { MATCH => 'Target:*', COUNT => 1000 } ],
-        [ 99, { MATCH => 'Target:*', COUNT => 1000 } ],
+        [
+            0,
+            {
+                MATCH => 'Target:*',
+                COUNT => 1000
+            }
+        ],
+        [
+            42,
+            {
+                MATCH => 'Target:*',
+                COUNT => 1000
+            }
+        ],
+        [
+            99,
+            {
+                MATCH => 'Target:*',
+                COUNT => 1000
+            }
+        ],
     ],
     'all SCAN calls use the batch hint and continue through an empty page',
 );
@@ -133,7 +163,7 @@ is( $RedisObject->{Flushed}, 1, 'full cleanup retains FLUSHDB behavior' );
 ( $CacheObject, $RedisObject ) = CacheBackendCreate();
 $RedisObject->{Fail} = 1;
 ok( !$CacheObject->CleanUp( Type => 'Target' ), 'Redis errors fail cleanup' );
-is( $Kernel::OM->{LogObject}->{Errors}, 1, 'Redis errors are logged' );
-is( $RedisObject->{Deleted}, [], 'keys are not deleted after a failed SCAN' );
+is( $Kernel::OM->{LogObject}->{Errors}, 1,  'Redis errors are logged' );
+is( $RedisObject->{Deleted},            [], 'keys are not deleted after a failed SCAN' );
 
 done_testing();
