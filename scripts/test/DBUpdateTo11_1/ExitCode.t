@@ -28,6 +28,9 @@ use FindBin    qw($RealBin);
 # CPAN modules
 use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::Main;
+
 my $Home = "$RealBin/../../..";
 
 my $TempHome = tempdir( CLEANUP => 1 );
@@ -37,7 +40,7 @@ make_path("$TempHome/Kernel/System");
 copy(
     "$Home/scripts/DBUpdate-to-11.1.pl",
     "$TempHome/scripts/DBUpdate-to-11.1.pl",
-) or die "Could not copy DB update launcher: $!";
+) || die "Could not copy DB update launcher: $!";
 
 my %Modules = (
     'Kernel/System/ObjectManager.pm' => <<'EOF',
@@ -61,11 +64,14 @@ sub Run {
 EOF
 );
 
+# Only file utilities are needed; keep this launcher test independent of the database.
+my $MainObject = Kernel::System::Main->new();
 for my $Module ( sort keys %Modules ) {
-    open my $Filehandle, '>', "$TempHome/$Module"
-        or die "Could not create $Module: $!";
-    print {$Filehandle} $Modules{$Module};
-    close $Filehandle or die "Could not close $Module: $!";
+    $MainObject->FileWrite(
+        Location => "$TempHome/$Module",
+        Content  => \$Modules{$Module},
+        Mode     => 'utf8',
+    ) || die "Could not create $Module: $!";
 }
 
 for my $Test (
