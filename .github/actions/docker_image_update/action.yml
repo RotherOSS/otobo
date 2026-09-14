@@ -29,6 +29,14 @@ inputs:
       List of tags under which the new Docker image should be available on Docker hub.
     required: true
 
+  platforms:
+    description: |
+      Comma-separated list of target platforms for the Docker image, e.g. 'linux/amd64,linux/arm64'.
+      The Build step (with load) always builds for the runner platform only (for sanity checking).
+      The Push step builds and pushes for all specified platforms.
+    required: false
+    default: 'linux/amd64'
+
 #outputs:
 
 runs:
@@ -49,6 +57,10 @@ runs:
         env:
           ENV_AS_JSON:    ${{ toJSON(env) }}
           GITHUB_AS_JSON: ${{ toJSON(github) }}
+
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
 
       -
         name: Set up Docker Buildx
@@ -103,10 +115,12 @@ runs:
         # finally upload to DockerHub
         # using the provided dockerhub_tags
         # the built image is already available in the job
+        # When multiple platforms are specified, a manifest list is pushed.
         name: Push to DockerHub
         uses: docker/build-push-action@v7
         with:
           push: true
+          platforms: ${{ inputs.platforms }}
           context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           pull: true
