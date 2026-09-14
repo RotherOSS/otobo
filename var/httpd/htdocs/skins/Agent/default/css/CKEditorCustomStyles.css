@@ -39,8 +39,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     --ck-color-focus-border: var(--colMainHover);
 }
 
+.ck.ck-editor__main {
+    --InitialHeight: 320px;
+    height: var(--InitialHeight);
+}
+
 .ck.ck-editor__editable {
     box-sizing: border-box;
+    height: 100%;
 }
 
 .ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label {
@@ -53,7 +59,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-source-editing-area {
     width: 100% !important;
-    height: 320px;
+    height: 100%;
 }
 
 .ck-source-editing-area > textarea {
@@ -61,6 +67,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     position: relative;
     width: 100% !important;
     height: 100% !important;
+    resize: none;
 }
 
 .ck-content.ck-editor__editable_inline {
