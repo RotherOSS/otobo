@@ -25,8 +25,8 @@ use Getopt::Long    ();
 use Term::ANSIColor qw(colored);
 
 # CPAN modules
-use IO::Interactive();
-use Encode::Locale();
+use IO::Interactive qw(is_interactive);
+use Encode::Locale  ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -66,12 +66,8 @@ sub new {
     $Self->{Name} = $Type;
     $Self->{Name} =~ s{Kernel::System::Console::Command::}{}smx;
 
-    $Self->{ANSI} = 1;
-
     # Check if we are in an interactive terminal, disable colors otherwise.
-    if ( !IO::Interactive::is_interactive() ) {
-        $Self->{ANSI} = 0;
-    }
+    $Self->{ANSI} = is_interactive() ? 1 : 0;
 
     # Force creation of the EncodeObject as it initialzes STDOUT/STDERR for unicode output.
     $Kernel::OM->Get('Kernel::System::Encode');
@@ -487,11 +483,7 @@ sub Execute {
     }
 
     # If we have an interactive console, make sure that the output can handle UTF-8.
-    if (
-        IO::Interactive::is_interactive()
-        && !$Kernel::OM->Get('Kernel::Config')->Get('SuppressConsoleEncodingCheck')
-        )
-    {
+    if ( is_interactive() && !$Kernel::OM->Get('Kernel::Config')->Get('SuppressConsoleEncodingCheck') ) {
         my $ConsoleEncoding = lc $Encode::Locale::ENCODING_CONSOLE_OUT;
 
         if ( $ConsoleEncoding ne 'utf-8' ) {
