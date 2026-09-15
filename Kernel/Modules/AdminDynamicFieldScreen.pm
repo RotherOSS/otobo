@@ -26,6 +26,7 @@ use List::Util qw(any none);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -490,14 +491,14 @@ sub _ShowEdit {
 
     # set default size for template
     $Param{Size}   = 'Size1of4';
-    $Param{Header} = 'Dynamic Fields for this Screen';
+    $Param{Header} = Translatable('Dynamic Fields for this Screen');
 
     if ( $Param{Type} eq 'DynamicField' ) {
 
         %AvailableElements = %Screens;
         %OtherElements     = %DynamicFields;
 
-        $Param{Header}      = 'Screens for this Dynamic Field';
+        $Param{Header}      = Translatable('Screens for this Dynamic Field');
         $Param{HiddenReset} = 'Hidden';
     }
     elsif ( $Param{Type} eq 'DynamicFieldScreen' ) {
