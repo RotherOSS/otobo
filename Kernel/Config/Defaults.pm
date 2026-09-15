@@ -561,6 +561,13 @@ sub LoadDefaults {
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth.
 #    $Self->{AuthModule} = 'Kernel::System::Auth::HTTPBasicAuth';
+    # When OTOBO runs behind a reverse proxy (nginx, Apache mod_proxy, Traefik, the Docker
+    # setup), the web server can not set $ENV{REMOTE_USER}. The proxy forwards the identity
+    # in the HTTP header "Remote-User" instead. As any client could send that header, it is
+    # ignored unless the next option is enabled AND the request carries the shared secret
+    # 'WebServer::ProxySecret' (see the section "Web Settings"). The proxy must also strip
+    # client supplied "Remote-User" headers, see the shipped web server configuration.
+#    $Self->{'AuthModule::HTTPBasicAuth::TrustProxyHeader'} = 1;
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
 #    $Self->{'AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
@@ -963,6 +970,11 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # Web Settings
     # --------------------------------------------------- #
+    # Shared secret that a reverse proxy in front of OTOBO sends in the HTTP header
+    # X-OTOBO-Proxy-Secret to prove its identity. It is required before OTOBO accepts an
+    # authenticated user from the "Remote-User" header (see the auth settings above). Use a
+    # long random string. Can also be provided via the environment variable OTOBO_PROXY_SECRET.
+#    $Self->{'WebServer::ProxySecret'} = 'replace me with a long random string';
     # WebMaxFileUpload
     # (Max size for browser file uploads - default ~ 48 MB)
     $Self->{WebMaxFileUpload} = 48000000;
@@ -1546,7 +1558,9 @@ via the Preferences button after logging in.
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
 #   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
-
+    # See the notes on 'AuthModule::HTTPBasicAuth::TrustProxyHeader' above. The header
+    # "Remote-User" is only accepted from a trusted reverse proxy when this is enabled.
+#   $Self->{'Customer::AuthModule::HTTPBasicAuth::TrustProxyHeader'} = 1;
     # In case there is a leading domain in the REMOTE_USER, you can
     # replace it by the next config option.
 #   $Self->{'Customer::AuthModule::HTTPBasicAuth::Replace'} = 'example_domain\\';
