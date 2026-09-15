@@ -30,8 +30,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     overflow: hidden;
 }
 
+.WidgetSimple > .Content.ProcessInfo fieldset,
+.WidgetSimple > .Content.ProcessInfo .SetDynamicField > div {
+    display: grid;
+    grid-template-columns: repeat(4, 255px);
+    gap: 0 10px;
+    align-items: start;
+}
+
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer {
-    float: left;
+    float: none;
     width: 255px;
     margin: 0px 10px 10px 0px;
     background-color: #efefef;
@@ -81,16 +89,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
-    margin-left: calc(12.5% - 2px);
+    grid-column: 1 / -1;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
-    margin-left: calc( 12.5% + 20px );
-}
-
-.FieldSetSeparator {
-    float: none;
-    clear: both;
+.WidgetSimple > .Content.ProcessInfo .FieldSetSeparator {
+    grid-column: 1 / -1;
     border-bottom: 1px solid #ccc;
     padding-bottom: 7px;
     font-size: 12px;
