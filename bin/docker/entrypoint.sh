@@ -55,7 +55,7 @@ function handle_docker_firsttime() {
 # An easy way to start bash.
 # Or list files.
 function exec_whatever() {
-    exec $@
+    exec "$@"
 }
 
 # Every 2 minutes try to start, or restart, the OTOBO Daemon.
@@ -277,4 +277,4 @@ then
 fi
 
 # as a fallback execute the passed command
-exec_whatever $@
+exec_whatever "$@"
