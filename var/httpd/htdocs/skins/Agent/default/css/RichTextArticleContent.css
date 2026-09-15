@@ -62,18 +62,24 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-bottom: 0px;
 }
 
-.ck-content a {
+.ck-content a,
+.ck-content a.mention {
     text-decoration: none;
+    background-color: transparent;
     color: #001bff;
 }
 
 .ck-content a:hover,
-.ck-content a:focus {
+.ck-content a.mention:hover,
+.ck-content a:focus,
+.ck-content a.mention:focus {
     color: #00023c;
+    background-color: transparent;
 }
 
 .ck-content *:visited {
     color: #001bff;
+    background-color: transparent;
 }
 
 .ck-content strong {
