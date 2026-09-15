@@ -1338,7 +1338,6 @@ fieldset.ModularForm {
         flex-direction: column;
         z-index: 10;
         position: relative;
-        overflow: hidden;
         height: var(--InitialHeight);
         width: min( 100%, var(--PreferredWidth) );
         max-width: 100%
@@ -1428,7 +1427,6 @@ fieldset.ModularForm {
         grid-template-areas:   "label                                       field                                                                               multivaluebuttons";
         grid-template-columns:  calc( 30% - var(--field-column-gap)*2 )     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
         grid-column-gap: var(--field-column-gap);
-        overflow: hidden;
     }
 
     /* +- button div for multivalue rows */
@@ -1480,7 +1478,6 @@ fieldset.ModularForm {
         grid-template-rows: min-content 1fr;
         grid-template-columns: min(calc( 100% - ( var(--multivalue-buttons-width) + var(--field-column-gap) )), var(--max-field-width))  var( --multivalue-buttons-width );
         grid-column-gap: var(--field-column-gap);
-        overflow: hidden;
         vertical-align: top;
     }
     
