@@ -1662,11 +1662,8 @@ sub _DynamicFieldsCreate {
 
     my $Error = 0;
 
-    # check dynamic fields and split dynamic fields in three separate groups
+    # check dynamic fields
     my %Namespaces;
-    my @NormalFields;
-    my @LensFields;
-    my @SetFields;
     for my $DynamicFieldConfig (@DynamicFields) {
 
         # check for namespaces
@@ -1680,23 +1677,7 @@ sub _DynamicFieldsCreate {
         if ( $FieldName =~ /^([^-]+)-/ ) {
             $Namespaces{$1} = 1;
         }
-
-        # sort field into fitting array
-        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
-            push @LensFields, $DynamicFieldConfig;
-        }
-        elsif ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
-            push @SetFields, $DynamicFieldConfig;
-        }
-        else {
-            push @NormalFields, $DynamicFieldConfig;
-        }
     }
-
-    # sort lens fields in case a lens has another lens as attribute dynamic field
-    my @LensFieldsSorted = sort {
-        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
-    } @LensFields;
 
     # namespace handling
     if (%Namespaces) {
@@ -1771,9 +1752,85 @@ sub _DynamicFieldsCreate {
         }
     }
 
+    # sort function to sort dynamic field configurations based on dependencies between them
+    #   considered dependencies:
+    #       - attribute and reference fields of lenses
+    #       - fields included in sets
+    sub SortFieldDependencies {
+        my ( $Self, $a, $b ) = @_;
+
+        # neither of the two fields is lens or set - no dependencies
+        return 0 if ( $a->{FieldType} ne 'Lens' && $a->{FieldType} ne 'Set' && $b->{FieldType} ne 'Lens' && $b->{FieldType} ne 'Set' );
+
+        # one field is lens or set, the other not - sort special fields behind normal fields
+        return -1 if ( ( $a->{FieldType} eq 'Lens' || $a->{FieldType} eq 'Set' ) && ( $b->{FieldType} ne 'Lens' && $b->{FieldType} ne 'Set' ) );
+        return 1  if ( ( $b->{FieldType} eq 'Lens' || $b->{FieldType} eq 'Set' ) && ( $a->{FieldType} ne 'Lens' && $a->{FieldType} ne 'Set' ) );
+
+        # resolve dependencies of lenses and sets
+        if ( $a->{FieldType} eq 'Lens' ) {
+
+            # a depends on b, because b is either attribute or reference field of a
+            if ( $a->{Config}{AttributeDF} eq $b->{Name} || $a->{Config}{ReferenceDF} eq $b->{Name} ) {
+                return -1;
+            }
+        }
+        elsif ( $a->{FieldType} eq 'Set' ) {
+            for my $IncludeItem ( $a->{Config}{Include}->@* ) {
+
+                # a depends on b, because b is one of the inner fields of a
+                if ( $IncludeItem->{DF} && $IncludeItem->{DF} eq $b->{FieldName} ) {
+                    return -1;
+                }
+                elsif ( $IncludeItem->{Grid} ) {
+                    for my $Row ( $IncludeItem->{Grid}{Rows}->@* ) {
+                        for my $RowItem ( $Row->@* ) {
+
+                            # a depends on b, because b is one of the inner fields of a
+                            if ( $RowItem->{DF} && $RowItem->{DF} eq $b->{FieldName} ) {
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( $b->{FieldType} eq 'Lens' ) {
+
+            # b depends on a, because a is either attribute or reference field of b
+            if ( $b->{Config}{AttributeDF} eq $a->{Name} || $b->{Config}{ReferenceDF} eq $a->{Name} ) {
+                return 1;
+            }
+        }
+        elsif ( $b->{FieldType} eq 'Set' ) {
+            for my $IncludeItem ( $b->{Config}{Include}->@* ) {
+
+                # b depends on a, because a is one of the inner fields of b
+                if ( $IncludeItem->{DF} && $IncludeItem->{DF} eq $a->{FieldName} ) {
+                    return 1;
+                }
+                elsif ( $IncludeItem->{Grid} ) {
+                    for my $Row ( $IncludeItem->{Grid}{Rows}->@* ) {
+                        for my $RowItem ( $Row->@* ) {
+
+                            # b depends on a, because a is one of the inner fields of b
+                            if ( $RowItem->{DF} && $RowItem->{DF} eq $a->{FieldName} ) {
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    my @SortedFields = sort SortFieldDependencies @DynamicFields;
+
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField ( @NormalFields, @LensFieldsSorted, @SetFields ) {
+    for my $NewDynamicField (@SortedFields) {
 
         # field config transformation
         $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigName2ID(
