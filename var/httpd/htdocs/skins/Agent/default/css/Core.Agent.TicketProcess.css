@@ -30,62 +30,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     overflow: hidden;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer {
-    float: left;
-    width: 255px;
-    margin: 0px 10px 10px 0px;
-    background-color: #efefef;
-    border: 1px solid #ddd;
-    line-height: 150%;
-    overflow-wrap: break-word;
+.WidgetSimple > .Content.ProcessInfo fieldset,
+.WidgetSimple > .Content.ProcessInfo .SetDynamicField > div {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 10px;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label {
-    color: #686868;
-    border-bottom: 1px solid #ccc;
-    text-shadow: 0px 1px 0px #FAFAFA;
-    padding: 2px 7px;
-    position: relative;
-    display: block;
-    font-size: 11px;
+.WidgetSimple > .Content.ProcessInfo .FieldContainer {
+    float: none;
+    width: auto;
+    margin: 0 0 10px 0;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p {
-    background-color: #fff;
-    padding: 4px 7px 2px 7px;
-    font-size: 11px;
+.WidgetSimple > .Content.ProcessInfo .FieldSetSeparator {
+    grid-column: 1 / -1;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
-    text-overflow: ellipsis;
-    overflow: auto;
-    display: block;
-    max-height: 69.5px;
-    word-wrap: break-word;
+.WidgetSimple > .Content.ProcessInfo .SetDynamicField {
+    grid-column: 1 / -1;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.ValueLong {
-    display: none;
+.WidgetSimple > .Content.ProcessInfo .FieldContainer {
+    float: none;
+    width: auto;
+    margin: 0 0 10px 0;
+    min-width: 0;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label .ShowFieldInfoOverlay {
-    display: block;
-    position: absolute;
-    right: 0px;
-    top: 2px;
-    color: #00023c;
-    font-size: 12px;
-    width: 19px;
-    height: 18px;
-    text-align: center;
-}
-
-.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
-    margin-left: calc(12.5% - 2px);
-}
-
-.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
-    margin-left: calc( 12.5% + 20px );
+.WidgetSimple > .Content.ProcessInfo .FieldContainer .Value {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .FieldSetSeparator {

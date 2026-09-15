@@ -519,34 +519,37 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      This function initializes events for process widget.
      */
      function InitOverviewWidget() {
-        var WidgetWidth, FieldsPerRow, FieldMargin, FieldWidth;
-
-        if ($('.DynamicFieldAutoResize').length > 0) {
-            WidgetWidth  = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10);
-            FieldMargin  = parseInt($('.DynamicFieldAutoResize').css('margin-right'), 10) + 2;
-            FieldsPerRow = 4;
-
-            // define amount of fields per row depending on display resolution
+        var WidgetWidth, Columns;
+    
+        function UpdateOverviewColumns() {
+            if ($('.DynamicFieldAutoResize').length === 0) {
+                return;
+            }
+    
+            WidgetWidth = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10);
+            Columns = 4;
+    
             if (WidgetWidth < 400) {
-                FieldsPerRow = 1;
+                Columns = 1;
             }
             else if (WidgetWidth < 600) {
-                FieldsPerRow = 2;
+                Columns = 2;
             }
             else if (WidgetWidth < 1000) {
-                FieldsPerRow = 3;
+                Columns = 3;
             }
 
-            // determine the needed field width and resize the fields
-            if (FieldsPerRow === 1) {
-                FieldWidth = '100%';
-            }
-            else {
-                FieldWidth = parseInt(WidgetWidth / FieldsPerRow - FieldMargin - 1, 10) || 0;
-            }
-
-            $('.DynamicFieldAutoResize').width(FieldWidth);
+            $('#DynamicFieldsWidget fieldset, #DynamicFieldsWidget .SetDynamicField > div').css(
+                'grid-template-columns',
+                'repeat(' + Columns + ', minmax(0, 1fr))'
+            );
         }
+    
+        UpdateOverviewColumns();
+    
+        $(window).off('resize.OverviewWidget').on('resize.OverviewWidget', function() {
+            UpdateOverviewColumns();
+        });
 
         $('.ShowFieldInfoOverlay').on('click', function() {
 
