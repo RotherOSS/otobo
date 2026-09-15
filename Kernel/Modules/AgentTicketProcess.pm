@@ -2722,7 +2722,7 @@ sub _RenderDynamicField {
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}{Display} == 2,
-        ACLHidden            => ( $Param{ActivityDialogField}{Display} == 2 && !$Param{Visibility} ),
+        ACLHidden            => !$Param{Visibility},
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
         Object               => $Param{Object},
