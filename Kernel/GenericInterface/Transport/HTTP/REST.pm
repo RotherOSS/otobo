@@ -679,8 +679,9 @@ sub RequesterPerformRequest {
                 && IsStringWithData( $Config->{Proxy}->{ProxyPassword} )
                 )
             {
-                $Headers{'Proxy-Authorization'} = 'Basic ' . encode_base64(
-                    $Config->{Proxy}->{ProxyUser} . ':' . $Config->{Proxy}->{ProxyPassword}
+                $Headers{'Proxy-Authorization'} = $Self->_BasicAuthorizationHeader(
+                    User     => $Config->{Proxy}->{ProxyUser},
+                    Password => $Config->{Proxy}->{ProxyPassword},
                 );
             }
         }
@@ -696,8 +697,9 @@ sub RequesterPerformRequest {
             && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
             )
         {
-            $Headers{Authorization} = 'Basic ' . encode_base64(
-                $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
+            $Headers{Authorization} = $Self->_BasicAuthorizationHeader(
+                User     => $Config->{Authentication}->{BasicAuthUser},
+                Password => $Config->{Authentication}->{BasicAuthPassword},
             );
         }
 
@@ -1334,6 +1336,12 @@ sub _Error {
         Success      => 0,
         ErrorMessage => $Param{Summary},
     };
+}
+
+sub _BasicAuthorizationHeader {
+    my ( $Self, %Param ) = @_;
+
+    return 'Basic ' . encode_base64( "$Param{User}:$Param{Password}", '' );
 }
 
 # introduced for OTOBOTicketInvoker
