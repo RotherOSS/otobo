@@ -72,6 +72,9 @@ ENV LANG=C.UTF-8
 # Attention: specify OTOBO_WEB_PORT to 5000 in .env when
 # starting HTTP with 'docker-compose -f docker-compose.yml up'
 ENV OTOBO_NGINX_WEB_HOST=172.17.0.1
+# Shared secret sent to OTOBO in the header X-OTOBO-Proxy-Secret. Empty means "do not send".
+# Must be defined here so that envsubst always replaces the placeholder in the templates.
+ENV OTOBO_NGINX_PROXY_SECRET=""
 ENV OTOBO_NGINX_WEB_PORT=5000
 ENV OTOBO_WEB_HTTPS_PORT=443
 

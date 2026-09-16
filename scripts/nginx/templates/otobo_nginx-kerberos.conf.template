@@ -45,8 +45,21 @@ server {
 
     #access_log  /var/log/nginx/host.access.log  main;
 
-    # proxy to the otobo webapp accessible from the host
-    # pass on information about the client
+    # The GenericInterface is used by API clients that speak neither Kerberos nor SAML.
+    # It is therefore excluded from SSO. The identity for GenericInterface requests comes
+    # from the credentials in the request itself, never from a header: the include below
+    # removes any client supplied Remote-User header, and no REMOTE_USER header is added.
+    location /otobo/nph-genericinterface.pl {
+        auth_gss off;
+
+        include snippets/otobo-proxy-headers.conf;
+        proxy_set_header X-OTOBO-Proxy-Secret "${OTOBO_NGINX_PROXY_SECRET}";
+
+        proxy_pass       http://${OTOBO_NGINX_WEB_HOST}:${OTOBO_NGINX_WEB_PORT}/otobo/nph-genericinterface.pl;
+    }
+
+    # Everything else is protected by Kerberos SSO.
+
     location / {
 
         # Settings for using Kerberos SSO (mostly untested)
@@ -57,10 +70,19 @@ server {
         auth_gss_realm ${OTOBO_NGINX_KERBEROS_REALM};
         auth_gss_allow_basic_fallback on;
 
-        proxy_set_header X-Forwarded-Host $host:$server_port;
-        proxy_set_header X-Forwarded-Server $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        # Common headers, including the removal of a client supplied Remote-User header.
+        # The include MUST come before REMOTE_USER is set.
+        include snippets/otobo-proxy-headers.conf;
+
+        # Prove to OTOBO that this request comes from the proxy. Set the same value in the
+        # OTOBO container as OTOBO_PROXY_SECRET (or WebServer::ProxySecret). Together with
+        # 'AuthModule::HTTPBasicAuth::TrustProxyHeader' = 1 this makes OTOBO accept the
+        # authenticated user below.
+        proxy_set_header X-OTOBO-Proxy-Secret "${OTOBO_NGINX_PROXY_SECRET}";
+
+        # The user authenticated by auth_gss. OTOBO reads this as the header "Remote-User".
+        proxy_set_header REMOTE_USER $remote_user;
+
         proxy_pass       http://${OTOBO_NGINX_WEB_HOST}:${OTOBO_NGINX_WEB_PORT}/;
     }
 }
