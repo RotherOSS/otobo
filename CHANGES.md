@@ -1,4 +1,79 @@
 
+# OTOBO 11.1.0 beta3 2026-09-16
+- 2026-09-16 10:12:45 +0200 [Bugfix]   ProcessManagement Transition: 'or' doesn't work properly (https://github.com/RotherOSS/otobo/issues/6126) - in progress
+- 2026-09-15 11:57:55 +0200 Translated using Weblate (Hungarian)
+- 2026-09-15 15:23:28 +0200 [Bugfix]   DynamicField Set: Mandatory inner fields in hidden Sets prevent form submit in AgentTicketProcess (https://github.com/RotherOSS/otobo/issues/6131)
+- 2026-09-15 13:47:22 +0200 update sample files (https://github.com/RotherOSS/otobo/issues/6128) - in progress
+- 2026-09-14 14:11:37 +0200 [Bugfix]   ACLImport: Incorrect object type causes Internal Server Error upon ConfigItem ACL import (https://github.com/RotherOSS/otobo/issues/6119)
+- 2026-09-10 13:07:05 +0200 [Bugfix]   DynamicField Lens on Set does not use Set ReadableValueRender (https://github.com/RotherOSS/otobo/issues/6104)
+- 2026-09-14 12:38:17 +0200 [Bugfix]   Can't translate DynamicField labels of dynamic fields inside a DynamicField-Set (https://github.com/RotherOSS/otobo/issues/6099)
+- 2026-09-14 10:36:37 +0200 [Enhanced] prevent queue name enumeration in AgentTicketQueue module (https://github.com/RotherOSS/otobo/issues/6092)
+- 2026-09-10 13:48:35 +0200 Update Mozilla::CA to 20260813 (https://github.com/RotherOSS/otobo/issues/6106)
+- 2026-09-10 07:16:55 +0200 [Bugfix]   DynamicField Set: Re-appearing Set with grid in set definition fails (https://github.com/RotherOSS/otobo/issues/6102)
+- 2026-09-07 13:52:26 +0200 [Bugfix]   Initial page load: Allow ACL calculations based on dynamic field lens (https://github.com/RotherOSS/otobo/issues/6094)
+- 2026-09-04 13:32:31 +0200 [Bugfix]   Enable ACLs to work properly on Set-inner fields in a Lens to a Set (https://github.com/RotherOSS/otobo/issues/6086)
+- 2026-09-04 11:23:07 +0200 [Enhanced] Improve ES similar widget styling (https://github.com/RotherOSS/otobo/issues/6088)
+- 2026-09-03 21:02:36 +0200 Add a test script dependency check for OpenSSL (https://github.com/RotherOSS/otobo/issues/6068)
+- 2026-09-03 13:58:15 +0200 Create devel images for the OTOBO 11.2.x release series (https://github.com/RotherOSS/otobo/issues/6077)
+- 2026-08-25 10:14:31 +0200 [Bugfix]   Customer Certificates are stored incorrectly (https://github.com/RotherOSS/otobo/issues/5952)
+- 2026-09-01 17:20:16 +0200 [Bugfix]   S/MIME messages in CMS format cannot be decrypted (https://github.com/RotherOSS/otobo/issues/5998) - in progress
+- 2026-09-01 16:58:59 +0200 [Enhanced] Process Management: Implement global vs. local scoping and namespaces for process elements (https://github.com/RotherOSS/otobo/issues/5589)
+- 2026-08-27 14:08:52 +0200 CKEditor 5: GeneralHtmlSupport allow list is hardcoded, stripping e.g. image border styles (https://github.com/RotherOSS/otobo/issues/5897)
+- 2026-08-31 09:07:17 +0200 [Bugfix]   parameter misspelled (https://github.com/RotherOSS/otobo/issues/6071)
+- 2026-08-27 12:25:21 +0200 Evaluate the cpansec advisory CPANSA-Crypt-PasswdMD5-2026-6659 (https://github.com/RotherOSS/otobo/issues/5656)
+- 2026-08-26 12:26:06 +0200 [Bugfix]   Use Kernel::System::EmailAddress::Format() in Kernel::System:::CustomerUser backends (https://github.com/RotherOSS/otobo/issues/6051)
+- 2026-08-25 15:37:16 +0100 Update moment.js from 2.29.3 to 2.30.1 (https://github.com/RotherOSS/otobo/issues/6061)
+- 2026-08-25 13:43:39 +0200 Selenium Test for AgentTicketNote - ForceNotification (https://github.com/RotherOSS/otobo/issues/6059)
+- 2026-08-25 13:30:59 +0200 Performance optimization: unneeded anonymous sub in Kernel::System::DB::Connect() (https://github.com/RotherOSS/otobo/issues/3746)
+- 2026-08-24 15:22:29 +0200 Enable FieldTypeSettings for custom script fields. (https://github.com/RotherOSS/otobo/issues/6053)
+- 2026-08-23 10:39:34 +0200 [Bugfix]   Package description incorrectly parses insert statements. (https://github.com/RotherOSS/otobo/issues/5947)
+- 2026-08-21 09:40:28 +0200 [Tidied]   Tidy dynamic field widget implementation. (https://github.com/RotherOSS/otobo/issues/6048)
+- 2026-08-20 13:20:29 +0200 Add "server_tokens=off" to Nginx config. (https://github.com/RotherOSS/otobo/issues/6046)
+- 2026-08-19 11:01:43 +0200 [Bugfix]   Customer Interface: Tooltips for input fields are layouted out of place (https://github.com/RotherOSS/otobo/issues/6023)
+- 2026-08-19 08:56:38 +0200 Restore some old style and small fixes around gaps in customer edit forms. (https://github.com/RotherOSS/otobo/issues/6043)
+- 2026-08-14 16:44:19 +0200 [Tidied]   Clean up code based on suggestions from the tool 'perlimports' (https://github.com/RotherOSS/otobo/issues/6038)
+- 2026-08-14 14:12:40 +0200 [Bugfix]   Missing dependency Crypt::JWT not listed in otobo.CheckModules.pl (breaks OIDC/OAuth2 Functional Accounts) (https://github.com/RotherOSS/otobo/issues/5968)
+- 2026-08-14 12:37:38 +0200 [Tidied]   Remove useless cache invalidation for the cache key q{$CacheKey} (https://github.com/RotherOSS/otobo/issues/6035)
+- 2026-08-07 18:20:07 +0200 Remove entrypoint.sh dependency for native systemd file (https://github.com/RotherOSS/otobo/issues/5956)
+- 2026-08-13 14:13:46 +0200 [Bugfix]   AdminDynamicFieldLens: Fix ConfigItem field type names in whitelist (https://github.com/RotherOSS/otobo/issues/6025)
+- 2026-08-12 15:56:06 +0200 [Bugfix]   use correct config key for optional oauth2 webservice-restrictions (https://github.com/RotherOSS/otobo/issues/6015)
+- 2026-07-24 11:54:49 +0200 [Bugfix]   skip similiar ticket ES search if ticket doesn't have any articles (https://github.com/RotherOSS/otobo/issues/5930)
+- 2026-08-13 10:36:07 +0200 No need to use spnego-http-auth-nginx-module (https://github.com/RotherOSS/otobo/issues/4507)
+- 2026-08-13 07:29:28 +0200 [Tidied]   Clean up Ticket Mask Styles (https://github.com/RotherOSS/otobo/issues/3861) - in progress
+- 2026-08-12 17:05:37 +0200 [Tidied]   Remove cache of type SchedulerDB and key TaskListUnlocked (https://github.com/RotherOSS/otobo/issues/6017)
+- 2026-08-12 15:00:30 +0200 [Bugfix]   Improve interactions between Lens and Reference DFs (https://github.com/RotherOSS/otobo/issues/3186)
+- 2026-08-10 15:28:35 +0200 DF Attachment: Implement necessary JS adaptions for initialization (https://github.com/RotherOSS/otobo/issues/6012)
+- 2026-08-12 09:16:03 +0200 [Bugfix]   AdminOAuthTokenStore admin menu entry is disabled by default, making the new OIDC Functional Accounts feature undiscoverable (https://github.com/RotherOSS/otobo/issues/5971)
+- 2026-07-28 12:47:56 +0200 [Bugfix]   Improve ExternalSourceTransform (https://github.com/RotherOSS/otobo/issues/5942)
+- 2026-08-12 07:05:26 +0200 [Bugfix]   CKEditor nested bullet point list have different margin between layers (https://github.com/RotherOSS/otobo/issues/5966)
+- 2026-08-11 12:50:41 +0200 Update `AUTHORS.md` (https://github.com/RotherOSS/otobo/issues/5903) - in progress
+- 2026-08-06 09:31:21 +0200 [Bugfix]   Ticket split action runs into incorrectly quoted address line phrases. (https://github.com/RotherOSS/otobo/issues/5945)
+- 2026-08-11 09:56:37 +0200 [Bugfix]   Login button is not accessable via tab key (https://github.com/RotherOSS/otobo/issues/5351)
+- 2026-08-10 18:47:58 +0200 The parameter CustomerIDRaw is not documented in Kernel::System::CustomerUser::CustomerSearch() (https://github.com/RotherOSS/otobo/issues/5992)
+- 2026-08-10 11:43:36 +0200 Improve logging around OAuth2. (https://github.com/RotherOSS/otobo/issues/5991) - in progress
+- 2026-08-06 14:57:20 +0200 [Tidied]   JavaScript: Replace numerical capture groups (https://github.com/RotherOSS/otobo/issues/5926)
+- 2026-08-06 09:29:52 +0200 [Bugfix]   Meaningless error message in dynamic field reference screen (https://github.com/RotherOSS/otobo/issues/5939)
+- 2026-08-06 08:48:02 +0200 [Bugfix]   SysConfigMigrateDynamicFieldNamespaces (Task 15) fails on legacy empty-string entry in DynamicField::Namespaces (https://github.com/RotherOSS/otobo/issues/5970)
+- 2026-08-06 07:05:29 +0200 VirtualFS Write: Check for `Content` insufficient (https://github.com/RotherOSS/otobo/issues/5572)
+- 2026-08-06 07:27:32 +0200 [Tidied]   AdminSQLBox: Prevent unnecessary warning because of uninitialized value (https://github.com/RotherOSS/otobo/issues/5977)
+- 2026-08-05 17:37:20 +0200 [Bugfix]   $Param{Queue} should be filled in AgentDynamicFieldDBSearch.pm  and in CustomerDynamicFieldDBSearch.pm (https://github.com/RotherOSS/otobo/issues/5552)
+- 2026-08-04 13:03:07 +0100 [Bugfix]   Submitting a form is not possible if a mandatory article dynamic field is hidden by ACL (https://github.com/RotherOSS/otobo/issues/5722)
+- 2026-08-04 12:25:31 +0200 Issue #5959: remove otobo-initial_insert-webservice.xml (https://github.com/RotherOSS/otobo/issues/5959)
+- 2026-08-03 19:12:31 +0200 cli: error in Maint::Log::CommunicationLog lists unknown parameter (https://github.com/RotherOSS/otobo/issues/5929)
+- 2026-08-03 12:25:23 +0200 [Bugfix]   Recurrence count in AgentAppointmentEdit (https://github.com/RotherOSS/otobo/issues/2035) - in progress
+- 2026-07-31 12:21:54 +0200 DynamicField Richtext doesn't look good in a Process Activity Dialog (https://github.com/RotherOSS/otobo/issues/3720)
+- 2026-06-10 14:07:21 +0200 [Tidied]    Eliminate special case in Kernel::System::Package::_ConfiguredRepositoryDefinitionGet() (https://github.com/RotherOSS/otobo/issues/3524)
+- 2025-12-09 09:19:09 +0100 [Enhanced] Rewrite detect attachment postmaster filter. (https://github.com/RotherOSS/otobo/issues/3422)
+- 2025-09-15 16:41:13 +0200 Nested LDAP Sync: use complete information from memberurl attribute (https://github.com/RotherOSS/otobo/issues/4696)
+- 2024-07-08 12:32:04 +0100 Wrong sum when adding up time at the same article (https://github.com/RotherOSS/otobo/issues/3592)
+- 2026-07-30 15:16:06 +0200 [Enhanced] Enable DynamicField Database to be used in Sets (https://github.com/RotherOSS/otobo/issues/5915)
+- 2026-07-30 10:24:41 +0200 DynamicField Database: Further restrict filterable dynamic fields for OTOBO 11.1 (https://github.com/RotherOSS/otobo/issues/5924)
+- 2026-07-27 07:25:38 +0200 [Bugfix]   DynamicField Database: Value not deleted properly when clicking minus on last existing multivalue element (https://github.com/RotherOSS/otobo/issues/5932)
+- 2026-05-31 18:47:49 +0200 [Enhanced] AdminDynamicField: Implement field type filtering (https://github.com/RotherOSS/otobo/issues/5584)
+- 2026-07-28 09:40:18 +0200 [Security] Implement POST forms for article and ticket actions (https://github.com/RotherOSS/otobo/issues/5817)
+- 2026-05-06 16:05:44 +0200 Translated using Weblate (German)
+
+
 # OTOBO 11.1.0 beta2 2026-07-27
 - 2026-07-24 16:22:31 +0200 Allow to pass subroutines as validator in K::S::Web::Request::Get() (https://github.com/RotherOSS/otobo/issues/5779)
 - 2026-07-24 12:28:37 +0200 Upgrade Perl to version 5.44 in the Docker image (https://github.com/RotherOSS/otobo/issues/5909)
@@ -3495,4 +3570,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
