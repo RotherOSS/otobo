@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999856918014022;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5382,7 +5382,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
-            '',
+            'Az ügyfél vezérlőpultjának „%s” csempéje regisztrációja érvénytelen! A sorrendnek számnak és egyedinek kell lennie.',
         'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.' =>
             'Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! Vagy modul, vagy sablon szükséges.',
 
