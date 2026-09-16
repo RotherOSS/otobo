@@ -1,4 +1,38 @@
 
+# OTOBO 11.0.18 2026-09-16
+- 2026-09-15 13:47:22 +0200 update sample files (https://github.com/RotherOSS/otobo/issues/6128) - in progress
+- 2026-09-10 13:07:05 +0200 [Bugfix]   DynamicField Lens on Set does not use Set ReadableValueRender (https://github.com/RotherOSS/otobo/issues/6104)
+- 2026-09-14 10:36:37 +0200 [Enhanced] prevent queue name enumeration in AgentTicketQueue module (https://github.com/RotherOSS/otobo/issues/6092)
+- 2026-09-10 14:17:30 +0200 [Bugfix]   Can't translate DynamicField labels of dynamic fields inside a DynamicField-Set (https://github.com/RotherOSS/otobo/issues/6099)
+- 2026-09-10 13:48:35 +0200 Update Mozilla::CA to 20260813 (https://github.com/RotherOSS/otobo/issues/6106)
+- 2026-09-04 13:32:31 +0200 [Bugfix]   Enable ACLs to work properly on Set-inner fields in a Lens to a Set (https://github.com/RotherOSS/otobo/issues/6086)
+- 2026-08-25 10:14:31 +0200 [Bugfix]   Customer Certificates are stored incorrectly (https://github.com/RotherOSS/otobo/issues/5952)
+- 2026-09-01 17:04:54 +0200 [Bugfix]   S/MIME messages in CMS format cannot be decrypted (https://github.com/RotherOSS/otobo/issues/5998) - in progress
+- 2026-08-27 12:25:21 +0200 Evaluate the cpansec advisory CPANSA-Crypt-PasswdMD5-2026-6659 (https://github.com/RotherOSS/otobo/issues/5656)
+- 2026-08-25 15:37:16 +0100 Update moment.js from 2.29.3 to 2.30.1 (https://github.com/RotherOSS/otobo/issues/6061)
+- 2026-08-25 13:43:39 +0200 Selenium Test for AgentTicketNote - ForceNotification (https://github.com/RotherOSS/otobo/issues/6059)
+- 2026-08-23 10:39:34 +0200 [Bugfix]   Package description incorrectly parses insert statements. (https://github.com/RotherOSS/otobo/issues/5947)
+- 2026-08-13 14:13:46 +0200 [Bugfix]   AdminDynamicFieldLens: Fix ConfigItem field type names in whitelist (https://github.com/RotherOSS/otobo/issues/6025)
+- 2026-07-28 12:47:56 +0200 [Bugfix]   Improve ExternalSourceTransform (https://github.com/RotherOSS/otobo/issues/5942)
+- 2026-08-11 12:50:41 +0200 Update `AUTHORS.md` (https://github.com/RotherOSS/otobo/issues/5903) - in progress
+- 2026-08-11 09:56:37 +0200 [Bugfix]   Login button is not accessable via tab key (https://github.com/RotherOSS/otobo/issues/5351)
+- 2026-08-10 18:47:58 +0200 The parameter CustomerIDRaw is not documented in Kernel::System::CustomerUser::CustomerSearch() (https://github.com/RotherOSS/otobo/issues/5992)
+- 2026-08-06 15:00:46 +0200 Translated using Weblate (Hungarian)
+- 2026-08-06 14:57:20 +0200 [Tidied]   JavaScript: Replace numerical capture groups (https://github.com/RotherOSS/otobo/issues/5926)
+- 2026-08-06 09:29:52 +0200 [Bugfix]   Meaningless error message in dynamic field reference screen (https://github.com/RotherOSS/otobo/issues/5939)
+- 2026-08-06 07:05:29 +0200 VirtualFS Write: Check for `Content` insufficient (https://github.com/RotherOSS/otobo/issues/5572)
+- 2026-08-06 07:27:32 +0200 [Tidied]   AdminSQLBox: Prevent unnecessary warning because of uninitialized value (https://github.com/RotherOSS/otobo/issues/5977)
+- 2026-08-05 17:37:20 +0200 [Bugfix]   $Param{Queue} should be filled in AgentDynamicFieldDBSearch.pm  and in CustomerDynamicFieldDBSearch.pm (https://github.com/RotherOSS/otobo/issues/5552)
+- 2026-08-04 13:03:07 +0100 [Bugfix]   Submitting a form is not possible if a mandatory article dynamic field is hidden by ACL (https://github.com/RotherOSS/otobo/issues/5722)
+- 2026-08-03 19:12:31 +0200 cli: error in Maint::Log::CommunicationLog lists unknown parameter (https://github.com/RotherOSS/otobo/issues/5929)
+- 2026-07-31 12:21:54 +0200 DynamicField Richtext doesn't look good in a Process Activity Dialog (https://github.com/RotherOSS/otobo/issues/3720)
+- 2025-12-09 09:19:09 +0100 [Enhanced] Rewrite detect attachment postmaster filter. (https://github.com/RotherOSS/otobo/issues/3422)
+- 2025-09-15 16:41:13 +0200 Nested LDAP Sync: use complete information from memberurl attribute (https://github.com/RotherOSS/otobo/issues/4696)
+- 2024-07-08 12:32:04 +0100 Wrong sum when adding up time at the same article (https://github.com/RotherOSS/otobo/issues/3592)
+- 2026-07-27 07:25:38 +0200 [Bugfix]   DynamicField Database: Value not deleted properly when clicking minus on last existing multivalue element (https://github.com/RotherOSS/otobo/issues/5932)
+- 2026-05-06 16:05:44 +0200 Translated using Weblate (German)
+
+
 # OTOBO 11.0.17 2026-07-27
 - 2026-07-24 12:24:48 +0200 Upgrade Perl to version 5.44 in the Docker image (https://github.com/RotherOSS/otobo/issues/5909)
 - 2026-07-23 15:34:03 +0200 DynamicField Database: Allow only dynamic fields of object types ticket and article as filter attributes (https://github.com/RotherOSS/otobo/issues/5922)
@@ -3223,6 +3257,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
