@@ -322,7 +322,7 @@ sub TransitionCheck {
             return;
         }
 
-        my $ConditionLinking = $Transitions->{$TransitionEntityID}->{ConditionLinking} || '';
+        my $ConditionLinking = $Transitions->{$TransitionEntityID}->{ConditionLinking} || 'and';
 
         # If there is something else than 'and', 'or', 'xor' log defect Transition Config.
         if (
