@@ -1,4 +1,21 @@
 
+# OTOBO 10.1.19 2026-09-16
+- 2026-09-15 13:47:22 +0200 update sample files (https://github.com/RotherOSS/otobo/issues/6128) - in progress
+- 2026-09-14 10:36:37 +0200 [Enhanced] prevent queue name enumeration in AgentTicketQueue module (https://github.com/RotherOSS/otobo/issues/6092)
+- 2026-09-10 13:48:35 +0200 Update Mozilla::CA to 20260813 (https://github.com/RotherOSS/otobo/issues/6106)
+- 2026-08-27 12:25:21 +0200 Evaluate the cpansec advisory CPANSA-Crypt-PasswdMD5-2026-6659 (https://github.com/RotherOSS/otobo/issues/5656)
+- 2026-08-25 15:37:16 +0100 Update moment.js from 2.29.3 to 2.30.1 (https://github.com/RotherOSS/otobo/issues/6061)
+- 2026-08-11 12:50:41 +0200 Update `AUTHORS.md` (https://github.com/RotherOSS/otobo/issues/5903) - in progress
+- 2026-08-11 09:56:37 +0200 [Bugfix]   Login button is not accessable via tab key (https://github.com/RotherOSS/otobo/issues/5351)
+- 2026-08-10 18:47:58 +0200 The parameter CustomerIDRaw is not documented in Kernel::System::CustomerUser::CustomerSearch() (https://github.com/RotherOSS/otobo/issues/5992)
+- 2026-08-06 07:27:32 +0200 [Tidied]   AdminSQLBox: Prevent unnecessary warning because of uninitialized value (https://github.com/RotherOSS/otobo/issues/5977)
+- 2026-08-05 17:37:20 +0200 [Bugfix]   $Param{Queue} should be filled in AgentDynamicFieldDBSearch.pm  and in CustomerDynamicFieldDBSearch.pm (https://github.com/RotherOSS/otobo/issues/5552)
+- 2026-08-05 12:59:04 +0200 VirtualFS Write: Check for `Content` insufficient (https://github.com/RotherOSS/otobo/issues/5572)
+- 2026-08-04 13:03:07 +0100 [Bugfix]   Submitting a form is not possible if a mandatory article dynamic field is hidden by ACL (https://github.com/RotherOSS/otobo/issues/5722)
+- 2026-08-03 19:12:31 +0200 cli: error in Maint::Log::CommunicationLog lists unknown parameter (https://github.com/RotherOSS/otobo/issues/5929)
+- 2025-09-15 16:41:13 +0200 Nested LDAP Sync: use complete information from memberurl attribute (https://github.com/RotherOSS/otobo/issues/4696)
+
+
 # OTOBO 10.1.18 2026-07-27
 - 2026-07-15 17:29:45 +0200 Translated using Weblate (Hungarian)
 - 2026-05-06 16:05:44 +0200 Translated using Weblate (German)
@@ -2010,6 +2027,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
