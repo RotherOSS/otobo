@@ -1627,11 +1627,52 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             StartActivityEntityID = '', EndActivityEntityID = '',
             AssignedTransitionActions = [];
 
+        function SortAvailableTransitionActions() {
+            var $list = $('#AvailableTransitionActions');
+
+            // sort elements by namespace first, then by name
+            // elements without a namespace should always come last
+            $list.children('li').sort((a, b) =>
+                (($(a).data('namespace') || "\xFF").toLowerCase()).localeCompare(
+                    ($(b).data('namespace') || "\xFF").toLowerCase()
+                ) ||
+                $(a).data('name').toLowerCase().localeCompare(
+                    $(b).data('name').toLowerCase()
+                )
+            ).appendTo($list);
+        }
+
+        function StopEvent(Event) {
+
+            // rerun sort if element was dragged within left list
+            if ($(Event.target).attr('id') === 'AvailableTransitionActions') {
+                SortAvailableTransitionActions();
+            }
+        }
+
+        function TransferEvent(_Event, UI) {
+
+            // only rerun filter and sort if the element was removed from the right list
+            if (UI.sender.attr('id') === 'AssignedTransitionActions') {
+                Core.UI.Table.InitTableFilter($('#FilterAvailableTransitionActions'), $('#AvailableTransitionActions'));
+                SortAvailableTransitionActions();
+            }
+        }
+
         // Initialize Allocation List
-        Core.UI.AllocationList.Init("#AvailableTransitionActions, #AssignedTransitionActions", ".AllocationList");
+        Core.UI.AllocationList.Init(
+            "#AvailableTransitionActions, #AssignedTransitionActions",
+            ".AllocationList",
+            TransferEvent,
+            null,
+            StopEvent
+        );
 
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableTransitionActions'), $('#AvailableTransitionActions'));
+
+        // Initial sort of left list
+        SortAvailableTransitionActions();
 
         // store process data to hidden field for later merging
         $('#ProcessData').val(Core.JSON.Stringify(window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process));
