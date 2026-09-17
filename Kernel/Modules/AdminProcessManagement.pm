@@ -1802,8 +1802,9 @@ sub Run {
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
+                            Global          => $ElementData->{ProcessEntityID} ? 0 : 1,
                             ProcessEntityID => $EntityID,
-                            AvailableIn     => $AvailableIn,    #only used for ActivityDialogs
+                            AvailableIn     => $AvailableIn,                              #only used for ActivityDialogs
                         },
                     );
                 }
@@ -2076,8 +2077,9 @@ sub _ShowEdit {
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
+                            Global          => $ElementData->{ProcessEntityID} ? 0 : 1,
                             ProcessEntityID => $ProcessData->{EntityID},
-                            AvailableIn     => $AvailableIn,               #only used for ActivityDialogs
+                            AvailableIn     => $AvailableIn,                              #only used for ActivityDialogs
                         },
                     );
                 }
