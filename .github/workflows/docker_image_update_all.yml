@@ -128,9 +128,8 @@ jobs:
           'rel-11_1_0-beta3',                              'latest-11_1', 'devel-rel-11_1'
         ]
 
-        exclude:
-
-          # As of 2026-09-16 no elements of the matrix have to be excluded.
+        # As of 2026-09-16 no elements of the matrix have to be excluded.
+        #exclude:
 
         include:
           # the latest release for every release branch - has to be updated
