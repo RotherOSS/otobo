@@ -1079,8 +1079,15 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         function SortAvailableActivityDialogs() {
             var $list = $('#AvailableActivityDialogs');
 
-            $list.children('li').sort(
-                    (a, b) => a.title.localeCompare(b.title)
+            // sort elements by namespace first, then by name
+            // elements without a namespace should always come last
+            $list.children('li').sort((a, b) =>
+                (($(a).data('namespace') || "\xFF").toLowerCase()).localeCompare(
+                    ($(b).data('namespace') || "\xFF").toLowerCase()
+                ) ||
+                $(a).data('name').toLowerCase().localeCompare(
+                    $(b).data('name').toLowerCase()
+                )
             ).appendTo($list);
         }
 
