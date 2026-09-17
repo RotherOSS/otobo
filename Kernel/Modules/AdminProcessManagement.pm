@@ -1762,10 +1762,15 @@ sub Run {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
+
+                # sort elements by namespace first, then by name
+                # elements without a namespace should always come last
                 ELEMENT:
                 for my $ElementData (
-                    sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
-                    @{$ElementList}
+                    sort {
+                        lc( $a->{Namespace} || "\xFF" ) cmp lc( $b->{Namespace} || "\xFF" )
+                            || lc( $a->{Name} ) cmp lc( $b->{Name} )
+                    } @{$ElementList}
                     )
                 {
                     next ELEMENT unless !$ElementData->{ProcessEntityID} ||
@@ -2031,10 +2036,15 @@ sub _ShowEdit {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
+
+                # sort elements by namespace first, then by name
+                # elements without a namespace should always come last
                 ELEMENT:
                 for my $ElementData (
-                    sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
-                    @{$ElementList}
+                    sort {
+                        lc( $a->{Namespace} || "\xFF" ) cmp lc( $b->{Namespace} || "\xFF" )
+                            || lc( $a->{Name} ) cmp lc( $b->{Name} )
+                    } @{$ElementList}
                     )
                 {
                     next ELEMENT unless !$ElementData->{ProcessEntityID} ||
