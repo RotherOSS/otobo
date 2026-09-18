@@ -82,7 +82,7 @@ The following persons contributed to OTOBO:
 * Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>
 * Massimo Composta <m.composta@e-time.it>
 * Matthias Bethke <mb@znuny.com>
-* MichaelThumes <MichaelThumes@users.noreply.github.com>
+* Michael Thumes <mit@rother-oss.com>
 * Miguel Sanchez Quintero <miguel@ayte.co>
 * Miroslaw Lach <m.weblate@lach.waw.pl>
 * Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>
@@ -97,6 +97,9 @@ The following persons contributed to OTOBO:
 * sternenseemann <0rpkxez4ksa01gb3typccl0i@systemli.org>
 * uid66 <19481514+uid66@users.noreply.github.com>
 * Иван Юрьевич Пигасов <itd@avsst.ru>
+* Christopher Bock <christopher@bocki.com>
+* Krzysztof Wielgosz <14099566+frankii91@users.noreply.github.com>
+* pat-s <patrick.schratz@gmail.com>
 
 The following persons contributed to OTRS:
 
