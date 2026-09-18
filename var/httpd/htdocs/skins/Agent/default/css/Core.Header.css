@@ -322,6 +322,9 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     transition: all ease 0.3s;
     position: relative;
     top:1px;
+
+    max-width:40vW;
+    overflow: hidden;
 }
 
 #ToolBar .Extended textarea:focus {
@@ -343,7 +346,6 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #ToolBar .Extended.SearchFulltext {
     position: relative;
-    max-width: 40%;
 }
 
 #ToolBar .Extended.SearchFulltext:before {
