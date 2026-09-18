@@ -40,6 +40,6 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-scripts::DBUpdateTo11_1::Run();
+my $Success = scripts::DBUpdateTo11_1::Run();
 
-exit 0;
+exit( $Success ? 0 : 1 );
