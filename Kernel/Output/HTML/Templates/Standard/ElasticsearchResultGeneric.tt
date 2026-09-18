@@ -89,7 +89,7 @@
 [% RenderBlockEnd("ElasticSearchResultGenericFAQNumber") %]
 [% RenderBlockStart("ElasticSearchResultGenericColumn") %]
                 <td>
-                    <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | truncate(40) | html %]</div>
+                    <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | html %]</div>
                 </td>
 [% RenderBlockEnd("ElasticSearchResultGenericColumn") %]
 [% RenderBlockEnd("ElasticSearchResultGenericTicketColumn") %]
