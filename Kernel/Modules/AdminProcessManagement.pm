@@ -1762,10 +1762,15 @@ sub Run {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
+
+                # sort elements by namespace first, then by name
+                # elements without a namespace should always come last
                 ELEMENT:
                 for my $ElementData (
-                    sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
-                    @{$ElementList}
+                    sort {
+                        lc( $a->{Namespace} || "\xFF" ) cmp lc( $b->{Namespace} || "\xFF" )
+                            || lc( $a->{Name} ) cmp lc( $b->{Name} )
+                    } @{$ElementList}
                     )
                 {
                     next ELEMENT unless !$ElementData->{ProcessEntityID} ||
@@ -1797,8 +1802,9 @@ sub Run {
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
+                            Global          => $ElementData->{ProcessEntityID} ? 0 : 1,
                             ProcessEntityID => $EntityID,
-                            AvailableIn     => $AvailableIn,    #only used for ActivityDialogs
+                            AvailableIn     => $AvailableIn,                              #only used for ActivityDialogs
                         },
                     );
                 }
@@ -2031,10 +2037,15 @@ sub _ShowEdit {
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
+
+                # sort elements by namespace first, then by name
+                # elements without a namespace should always come last
                 ELEMENT:
                 for my $ElementData (
-                    sort { lc( $a->{Name} ) cmp lc( $b->{Name} ) }
-                    @{$ElementList}
+                    sort {
+                        lc( $a->{Namespace} || "\xFF" ) cmp lc( $b->{Namespace} || "\xFF" )
+                            || lc( $a->{Name} ) cmp lc( $b->{Name} )
+                    } @{$ElementList}
                     )
                 {
                     next ELEMENT unless !$ElementData->{ProcessEntityID} ||
@@ -2066,8 +2077,9 @@ sub _ShowEdit {
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
+                            Global          => $ElementData->{ProcessEntityID} ? 0 : 1,
                             ProcessEntityID => $ProcessData->{EntityID},
-                            AvailableIn     => $AvailableIn,               #only used for ActivityDialogs
+                            AvailableIn     => $AvailableIn,                              #only used for ActivityDialogs
                         },
                     );
                 }
