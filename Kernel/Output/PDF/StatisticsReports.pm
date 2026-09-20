@@ -42,24 +42,18 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub GeneratePDF {
     my ( $Self, %Param ) = @_;
 
-    my %StatsReport = %{ $Param{StatsReport} };
-
+    my %StatsReport  = %{ $Param{StatsReport} };
     my $UserLanguage = $Param{UserLanguage};
 
-    my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $StatsReportObject = $Kernel::OM->Get('Kernel::System::StatsReport');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # Always create a new instance here. This might be called from a script to produce
     #   several reports in one process, and that fails with one instance.
@@ -270,8 +264,8 @@ sub GeneratePDF {
             );
         };
 
-        my $TitleArrayRef = shift @StatArray;
-        my $HeadArrayRef  = shift @StatArray;
+        shift @StatArray;    # the TitleArrayRef is not used
+        my $HeadArrayRef = shift @StatArray;
 
         my %StatReportSettings = %{ $StatConfig->{StatReportSettings} // {} };
 
