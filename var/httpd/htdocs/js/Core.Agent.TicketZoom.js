@@ -885,6 +885,16 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 return false;
             });
         });
+
+        $('[name=DestQueueID]').parents('form').on('submit', function(Event) {
+            if ( $('[name=DestQueueID]').val() == 0 ) {
+                Event.preventDefault();
+                Event.stopPropagation();
+
+                let $Form = $('[name=DestQueueID]').parents('form');
+                Core.UI.Popup.OpenPopup( $Form.attr('action') + '?' + Core.AJAX.SerializeForm($Form), 'TicketAction' );
+            }
+        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
