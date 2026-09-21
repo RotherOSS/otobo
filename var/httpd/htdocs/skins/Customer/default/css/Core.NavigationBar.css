@@ -260,10 +260,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 #oooAvatar > .Initials {
-    height: 32px;
     line-height: 32px;
-    width: 32px;
-    border-radius: 16px;
 }
 
 #oooUser > .oooLogout {
