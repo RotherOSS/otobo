@@ -91,7 +91,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableTransitionActions">
 [% RenderBlockStart("AvailableTransitionActionRow") %]
-                                <li data-id="[% Data.ID | html %]" id="[% Data.EntityID | html %]" data-name="[% Data.Name %]" data-namespace="[% Data.Namespace %]" data-process="[% Data.ProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
+                                <li data-id="[% Data.ID | html %]" id="[% Data.EntityID | html %]" data-name="[% Data.Name | html %]" data-namespace="[% Data.Namespace | html %]" data-process="[% Data.ProcessEntityID | html %]" title="[% Translate("Name: %s, EntityID: %s", Data.Name, Data.EntityID) | html %]">
                                     [% IF Data.Namespace %][% Data.Namespace | html %] – [% END %][% Data.Name | html %] ([% Data.EntityID | html %])
                                     <span class="Functions">
                                         <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-process="[% Data.ProcessEntityID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon" title="[% Translate("Edit") | html %]">
