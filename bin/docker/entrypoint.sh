@@ -52,10 +52,13 @@ function handle_docker_firsttime() {
     mv $g_dir_otobo_next/docker_firsttime $g_dir_otobo_next/docker_firsttime_handled
 }
 
-# An easy way to start bash.
-# Or list files.
+# The fallback exec_whatever() can be used to start bash
+# or to execute any other command.
 function exec_whatever() {
-    exec $@
+
+    # The quotes around $@ ensure that all arguments are quoted.
+    # This allows arguments wiht embedded white space.
+    exec "$@"
 }
 
 # Every 2 minutes try to start, or restart, the OTOBO Daemon.
