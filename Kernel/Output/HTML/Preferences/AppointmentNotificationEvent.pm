@@ -58,8 +58,6 @@ sub new {
 
     my %NotificationList = $NotificationEventObject->NotificationList( Type => 'Appointment' );
 
-    my $NotificationConfig = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Admin::AdminAppointmentNotificationEvent');
-
     # get valid object
     my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
@@ -258,9 +256,6 @@ sub Run {
             $MandatoryFulfilled{ $Identifier->{NotificationID} } = 1;
         }
     }
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # now check if there are notifications for which no transport has been selected
     for my $NotificationID (@MandatoryNotificationIDs) {

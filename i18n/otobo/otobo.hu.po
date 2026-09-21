@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-08-31 13:01+0000\n"
-"PO-Revision-Date: 2026-08-06 18:30+0000\n"
+"PO-Revision-Date: 2026-09-16 06:25+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
 "otobo/hu/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16\n"
+"X-Generator: Weblate 2026.9\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -17713,16 +17713,12 @@ msgid "Can`t remove SessionID."
 msgstr "Nem lehet eltávolítani a munkamenet-azonosítót."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-#, fuzzy
-#| msgid ""
-#| "Registration for tile %s of CustomerDashboard is invalid! Order needs to "
-#| "be a unique number."
 msgid ""
 "Registration for tile '%s' of CustomerDashboard is invalid! Order needs to "
 "be a number and unique."
 msgstr ""
-"Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! A "
-"sorrendnek egyedi számnak kell lennie."
+"Az ügyfél vezérlőpultjának „%s” csempéje regisztrációja érvénytelen! A "
+"sorrendnek számnak és egyedinek kell lennie."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid ""

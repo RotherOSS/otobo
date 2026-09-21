@@ -45,13 +45,32 @@ server {
 
     #access_log  /var/log/nginx/host.access.log  main;
 
+    # This plain reverse proxy does not perform SSO. If you add an SSO mechanism (e.g. an
+    # auth module in front of OTOBO) and configure OTOBO's HTTPBasicAuth backend, exclude the
+    # GenericInterface from SSO enforcement, because API clients can not perform interactive
+    # SSO. A matching location must come BEFORE "location /". Example:
+    #
+    #location /otobo/nph-genericinterface.pl {
+    #    # no SSO / auth_request here
+    #    include snippets/otobo-proxy-headers.conf;   # also strips a client Remote-User header
+    #    proxy_set_header X-OTOBO-Proxy-Secret "${OTOBO_NGINX_PROXY_SECRET}";
+    #    proxy_pass       http://${OTOBO_NGINX_WEB_HOST}:${OTOBO_NGINX_WEB_PORT}/otobo/nph-genericinterface.pl;
+    #}
+
     # proxy to the otobo webapp accessible from the host
     # pass on information about the client
     location / {
-        proxy_set_header X-Forwarded-Host $host:$server_port;
-        proxy_set_header X-Forwarded-Server $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        include snippets/otobo-proxy-headers.conf;
+
+        # Prove to OTOBO that this request comes from the proxy. Set the same value in the
+        # OTOBO container as OTOBO_PROXY_SECRET (or WebServer::ProxySecret). An empty value
+        # means the header is not sent. Only needed when OTOBO uses an HTTPBasicAuth backend
+        # with AuthModule::HTTPBasicAuth::TrustProxyHeader enabled; harmless otherwise.
+        proxy_set_header X-OTOBO-Proxy-Secret "${OTOBO_NGINX_PROXY_SECRET}";
+
+        # When this proxy performs SSO, forward the authenticated user to OTOBO:
+        #proxy_set_header REMOTE_USER $remote_user;
+
         proxy_pass       http://${OTOBO_NGINX_WEB_HOST}:${OTOBO_NGINX_WEB_PORT}/;
     }
 }

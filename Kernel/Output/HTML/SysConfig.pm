@@ -48,13 +48,9 @@ Create an object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 SettingRender()
@@ -128,7 +124,6 @@ EOF
 
         my $SaveText   = $LanguageObject->Translate('Save this setting');
         my $CancelText = $LanguageObject->Translate('Cancel editing and unlock this setting');
-        my $ResetText  = $LanguageObject->Translate('Reset this setting to its default value.');
 
         $HTML .= "
                                 <div class='SettingUpdateBox'>
@@ -268,7 +263,8 @@ sub SettingAddItem {
                 my $HashKey = $Structure[$Index];
 
                 my ($Item) = grep { $HashKey eq $_->{Key} } @{ $DedicatedDefaultItem->{Item} };
-                last STRUCTURE if !$Item;
+
+                last STRUCTURE unless $Item;
 
                 $DedicatedDefaultItem = $Item->{Hash}->[0];
             }
@@ -605,7 +601,6 @@ sub _SettingRender {
                 },
             },
         );
-        my @Items;
 
         my $RemoveThisEntry = $LanguageObject->Translate("Remove this entry");
         $Result .= "<div class='Hash' ";
@@ -665,9 +660,7 @@ sub _SettingRender {
 
             if ( $Item->{Hash} || $Item->{Array} ) {
 
-                # Complex structure - HoA or HoH
-
-                my $Key = $Item->{Hash} ? 'Hash' : 'Array';
+                # Complex structure - Hash of Arrayrefs or Hash of Hashrefs, HoA or HoH
 
                 $Result .= "<div class='HashItem'>\n";
 
@@ -810,9 +803,6 @@ sub _SettingRender {
             }
         }
 
-        my $KeyTranslation     = $LanguageObject->Translate('Key');
-        my $ContentTranslation = $LanguageObject->Translate('Content');
-
         my $AddNewEntry = $LanguageObject->Translate("Add new entry");
         $Result .= "
     <button data-suffix=\"$Param{IDSuffix}_Hash###\" value=\"$AddNewEntry\" title=\"$AddNewEntry\" type=\"button\" class=\"AddHashKey";
@@ -849,8 +839,6 @@ sub _SettingRender {
                 },
             },
         );
-
-        my @Items;
 
         my $RemoveThisEntry = $LanguageObject->Translate("Remove this entry");
 
@@ -891,8 +879,6 @@ sub _SettingRender {
             if ( $Item->{Hash} || $Item->{Array} ) {
 
                 # Complex structure - AoA or AoH
-
-                my $Key = $Item->{Hash} ? 'Hash' : 'Array';
 
                 $Result .= "<div class='ArrayItem'>";
 

@@ -322,26 +322,7 @@ sub TransitionCheck {
             return;
         }
 
-        my $ConditionLinking = $Transitions->{$TransitionEntityID}->{ConditionLinking} || '';
-
-        # If we don't have a ConditionLinking set it to 'and' by default compatibility with OTRS 3.3.x
-        if ( !$ConditionLinking ) {
-            $ConditionLinking = $Transitions->{$TransitionEntityID}->{Condition}->{Type} || 'and';
-        }
-        if (
-            !$Transitions->{$TransitionEntityID}->{Condition}->{ConditionLinking}
-            && !$Transitions->{$TransitionEntityID}->{Condition}->{Type}
-            )
-        {
-
-            $Self->DebugLog(
-                MessageType => 'Custom',
-                Message     =>
-                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}' No Condition Linking"
-                    . " as Condition->Type or Condition->ConditionLinking was found, using 'and' as"
-                    . " default!",
-            );
-        }
+        my $ConditionLinking = $Transitions->{$TransitionEntityID}->{ConditionLinking} || 'and';
 
         # If there is something else than 'and', 'or', 'xor' log defect Transition Config.
         if (
@@ -403,7 +384,7 @@ sub TransitionCheck {
 
             my ( $FieldSuccess, $FieldFail ) = ( 0, 0 );
 
-            FIELDLNAME:
+            FIELDNAME:
             for my $FieldName ( sort keys %{ $ActualCondition->{Fields} } ) {
                 if ( $FieldName =~ /([\w\-]+)::([\w\-]+)/ && IsArrayRefWithData( $Param{Data}->{$1} ) ) {
                     my @ValueList;
@@ -553,7 +534,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -577,9 +558,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'NotString' ) {
 
@@ -664,7 +645,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -688,9 +669,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
 
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'AllString' ) {
@@ -776,7 +757,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -800,9 +781,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'Array' ) {
 
@@ -848,7 +829,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -865,9 +846,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'Hash' ) {
 
@@ -889,7 +870,7 @@ sub TransitionCheck {
                         )
                     {
                         $FieldFail++;
-                        next FIELDLNAME;
+                        next FIELDNAME;
                     }
 
                     # Find all Data Hash values that equal to the Condition Match Values.
@@ -929,7 +910,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
 
                     }
                     else {
@@ -947,9 +928,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'Regexp' )
                 {
@@ -1046,7 +1027,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -1070,9 +1051,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'NotRegexp' )
                 {
@@ -1170,7 +1151,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -1194,9 +1175,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'AllRegexp' )
                 {
@@ -1294,7 +1275,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -1318,9 +1299,9 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'Module' ) {
 
@@ -1371,7 +1352,7 @@ sub TransitionCheck {
                             return $TransitionEntityID;
                         }
 
-                        next CONDITIONNAME if $ConditionLinking ne 'or' && $CondType eq 'or';
+                        last FIELDNAME if $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
@@ -1389,13 +1370,13 @@ sub TransitionCheck {
                         next TRANSITIONENTITYID if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Condition if all Condition Fields have to be true.
-                        next CONDITIONNAME if $CondType eq 'and';
+                        last FIELDNAME if $CondType eq 'and';
                     }
-                    next FIELDLNAME;
+                    next FIELDNAME;
                 }
             }
 
-            # FIELDLNAME End.
+            # FIELDNAME End.
             if ( $CondType eq 'and' ) {
 
                 # if we had no failing check this condition matched.

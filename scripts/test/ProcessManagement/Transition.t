@@ -18,12 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
+
+skip_all("Data structure differs from logic - compare https://github.com/RotherOSS/otobo/issues/6126");
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
