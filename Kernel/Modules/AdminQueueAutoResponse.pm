@@ -157,6 +157,12 @@ sub Run {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
+
+        my @NewIDs = ();
+
+        # get Type Auto Responses data
+        my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
+
         if ( $Self->{LightAdmin} ) {
 
             # check if user has rw permissions on the QueueID
@@ -171,9 +177,6 @@ sub Run {
                     OP => "Action=$Self->{Action};Subaction=Change;ID=$Param{ID}"
                 );
             }
-
-            # get Type Auto Responses data
-            my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
 
             # check if user has permissions on every AutoResponseID
             CHECK_AUTO_RESPONSE_ID:
@@ -203,11 +206,6 @@ sub Run {
                 }
             }
         }
-
-        my @NewIDs = ();
-
-        # get Type Auto Responses data
-        my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
 
         # set Auto Responses IDs for this queue.
         for my $TypeID ( sort keys %TypeResponsesData ) {
