@@ -241,6 +241,10 @@ sub Run {
     $ACLCompatGetParam{QueueID}    = $GetParam{DestQueueID};
     $ACLCompatGetParam{Queue}      = $GetParam{DestQueue};
 
+    # special case: even with MoveType dropdown, it is possible to open a popup
+    #   in this case, we need the FormID to detect that we are in a popup, which needs to be closed later on
+    my $IsPopup = $ParamObject->GetParam( Param => 'FormID' ) ? 1 : 0;
+
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
 
@@ -1309,12 +1313,12 @@ sub Run {
     if ( !$AccessNew || $NextScreen eq 'LastScreenOverview' ) {
 
         # Module directly called
-        if ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'form' ) {
+        if ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'form' && !$IsPopup ) {
             return $LayoutObject->Redirect( OP => $Self->{LastScreenOverview} );
         }
 
         # Module opened in popup
-        elsif ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'link' ) {
+        elsif ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'link' || $IsPopup ) {
             return $LayoutObject->PopupClose(
                 URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
             );
@@ -1322,7 +1326,7 @@ sub Run {
     }
 
     # Module directly called
-    if ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'form' ) {
+    if ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'form' && !$IsPopup ) {
         return $LayoutObject->Redirect(
             OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}"
                 . ( $ArticleID ? ";ArticleID=$ArticleID" : '' ),
@@ -1330,7 +1334,7 @@ sub Run {
     }
 
     # Module opened in popup
-    elsif ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'link' ) {
+    elsif ( $ConfigObject->Get('Ticket::Frontend::MoveType') eq 'link' || $IsPopup ) {
         return $LayoutObject->PopupClose(
             URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}"
                 . ( $ArticleID ? ";ArticleID=$ArticleID" : '' ),
