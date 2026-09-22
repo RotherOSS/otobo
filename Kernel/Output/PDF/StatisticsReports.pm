@@ -225,7 +225,7 @@ sub GeneratePDF {
     my $TranslateTimeZone = $LayoutObject->{LanguageObject}->Translate('Time Zone');
 
     STAT_CONFIG:
-    for my $StatConfig ( ($StatsReport{Config}->{StatsConfiguration} // [])->@* ) {
+    for my $StatConfig ( ( $StatsReport{Config}->{StatsConfiguration} // [] )->@* ) {
         next STAT_CONFIG unless ref $StatConfig;
 
         my $StatID = $StatConfig->{StatGetParams}->{StatID};
@@ -448,15 +448,19 @@ sub GeneratePDF {
                 # The location where gnuplot writes the graph
                 $TempImageFilename = "$TempImageDir/gnuplot.pdf";
 
-                my $Builder = Gnuplot::Builder::Script->new;
-
                 # The terminal and tha output file name are the same for all Gnuplot formats.
-                # The size is hardcoded to fit on A4 paper. The ratio is 4:3 as it the case with 'chromium --screenshot'.
-                $Builder->set(
-                    auto            => [qw(x y)],
-                    'term pdfcairo' => 'square',           # TODO: same size as the Chromium screenshot
-                    xtic            => 'rotate by -45 scale 0',
-                    key             => 'above font ",6"',
+                # The size is hardcoded to fit on A4 paper. There is no special reason for the x:y ratio,
+                # just trial and error.
+                # 'chromium --screenshot' gives an 800:600 image, but leaves quite some empty space.
+                my $Builder = Gnuplot::Builder::Script->new(
+
+                    #'terminal pdfcairo background' => 'rgb "gray90"',   # no background, tranparent in case of overlaps
+                    auto                     => [qw(x y)],          # autosize x- and y-axis to fit the data
+                    'terminal pdfcairo size' => '26.8cm,13.4cm',    # A4 landscape is 29,7 x 21.0 cm²
+                    'terminal pdfcairo font' => '",12"',            # no special font, but small font size
+                    'terminal pdfcairo'      => 'square',           # rectangular ending of the bars
+                    bmargin                  => 'at screen 0.1',    # increase the bottom margin in order to accomodate the two line x-labels
+                    key                      => 'above',            # place the legend above the plot
                 );
                 $Builder->setq( output => $TempImageFilename );
 
@@ -496,7 +500,11 @@ sub GeneratePDF {
 
                     # First find the indexes of the non 'Sum' colums
                     my @NonSumColNums = indexes { $_ ne 'Sum' } $HeadArrayRef->@*;
-                    unshift @StatArray, $HeadArrayRef;
+
+                    # As a workaround for long labels on the x-axis, we put every other label on a new line.
+                    # A line break is indicated by the two characters '\' and 'n', not by a literal newline.
+                    my @XLabelsOnTwoLines = map { ( $_ % 2 ? '\n' : '' ) . $HeadArrayRef->[$_] } 0 .. $HeadArrayRef->$#*;
+                    unshift @StatArray, \@XLabelsOnTwoLines;
 
                     # Transpose as D3 and Gnuplot seem to see the data differently
                     my @TransposedStatArray;
@@ -528,18 +536,18 @@ sub GeneratePDF {
 
                         # The first dataset holds the table
                         my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
-                        my $Sum = join '+', map { '$' . $_ } ( 2 .. $MaxCol);
+                        my $Sum     = join '+', map { '$' . $_ } ( 2 .. $MaxCol );
                         $Dataset->set_data( join "\n", @InlineData );
                         $Dataset->set( using => "($Sum):xticlabels(1)" );
-                        $Dataset->setq( title => $BoxKeys->[$MaxCol-1] );
+                        $Dataset->setq( title => $BoxKeys->[ $MaxCol - 1 ] );
                         push @Datasets, $Dataset;
-                        for my $Col ( 3 .. $MaxCol-1 ) {
+                        for my $Col ( 3 .. $MaxCol - 1 ) {
                             my $ChildDataset = $Dataset->new_child;
-                            $ChildDataset->setq_source('');                            # use data from the previous dataset
+                            $ChildDataset->setq_source('');    # use data from the previous dataset
 
                             # See https://newspaint.wordpress.com/2013/09/11/creating-a-filled-stack-graph-in-gnuplot/
                             # sum up data
-                            my $Sum = join '+', map { '$' . $_ } ( $Col .. $MaxCol);
+                            my $Sum = join '+', map { '$' . $_ } ( $Col .. $MaxCol );
                             $ChildDataset->set( using => "($Sum)" );
                             $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
                             push @Datasets, $ChildDataset;
@@ -570,7 +578,7 @@ sub GeneratePDF {
                 }
                 elsif ( $Format eq 'Gnuplot::StackedAreaChart' ) {
                     $Builder->set(
-                        'style data' => 'filledcurve x1', # color down to the x-axis
+                        'style data' => 'filledcurve x1',    # color down to the x-axis
                     );
                 }
                 elsif ( any { $Format eq $_ } qw(Gnuplot::ClusteredBarChart Gnuplot::StackedBarChart) ) {
@@ -578,23 +586,21 @@ sub GeneratePDF {
                     # The format of the graph determines the histogram style. Default is 'cluster'.
                     my $HistogramStyle = $Format eq 'Gnuplot::StackedBarChart' ? 'rowstacked' : 'cluster';
                     $Builder->set(
-
-                        #'term pngcairo'   => 'square',
-                        'style data'          => 'histogram',
-                        'style histogram'     => "$HistogramStyle gap 1",
-                        'style fill'          => 'solid noborder',
+                        'style data'      => 'histogram',
+                        'style histogram' => "$HistogramStyle gap 1",
+                        'style fill'      => 'solid noborder',
                     );
                 }
 
-                my $Out3 = $Builder->plot(@Datasets);
+                my $PlotOut = $Builder->plot(@Datasets);
             }
 
             my $TempImageStat = stat $TempImageFilename;
             if ( $TempImageStat && $TempImageStat->size ) {
                 $PDFObject->Image(
                     File   => $TempImageFilename,
-                    Width  => 1200 * ( 300 / 72 ), # width in dots for 300 dpi
-                    Height => 900  * ( 300 / 72 ), # height in dots for 300 dpi
+                    Width  => 1200 * ( 300 / 72 ),    # width in dots for 300 dpi
+                    Height => 900 * ( 300 / 72 ),     # height in dots for 300 dpi
                 );
             }
             else {
