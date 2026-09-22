@@ -352,13 +352,6 @@ sub Connect {
                 }
             }
 
-            # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
-            # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
-            # this is no longer necessary.
-            #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-            #    $ConnectAttributes{pg_enable_utf8} = 1;
-            #}
-
             $Cache{$CacheKey} = DBIx::Connector->new(
                 $Self->{DSN},
                 $Self->{USER},
