@@ -1370,20 +1370,25 @@ sub Image {
         $Return = 0;
     }
     elsif ( $Param{File} =~ m/\.pdf$/ ) {
-        $Self->{Page}->object($ImageFile, 0, 0, 2);
+        my $PositionY = $Position{Y} - $Param{Height};
+        $Image->object(
+            $ImageFile, $Position{X}, $PositionY,
+        );
+
+        # set new position
+        $Self->_CurPositionSet( Y => $PositionY );
     }
     else {
 
         # output the image
+        my $PositionY = $Position{Y} - $Param{Height};
         $Image->image(
-            $ImageFile,    $Position{X}, $Position{Y} - $Param{Height},
+            $ImageFile,    $Position{X}, $PositionY,
             $Param{Width}, $Param{Height},
         );
 
         # set new position
-        $Self->_CurPositionSet(
-            Y => $Position{Y} - $Param{Height},
-        );
+        $Self->_CurPositionSet( Y => $PositionY );
     }
 
     return $Return;
