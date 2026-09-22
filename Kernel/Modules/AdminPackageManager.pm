@@ -85,7 +85,12 @@ sub Run {
             );
         }
         my %Structure = $PackageObject->PackageParse( String => $Package );
-        my $File      = '';
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
+        my $File = '';
         if ( ref $Structure{Filelist} eq 'ARRAY' ) {
             for my $Hash ( @{ $Structure{Filelist} } ) {
                 if ( $Hash->{Location} eq $Location ) {
@@ -184,6 +189,11 @@ sub Run {
 
         # parse package
         my %Structure = $PackageObject->PackageParse( String => $Package );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
 
         # online verification
         my $Verified = $PackageObject->PackageVerify(
@@ -509,6 +519,11 @@ sub Run {
             return $LayoutObject->ErrorScreen( Message => $Package );
         }
         my %Structure = $PackageObject->PackageParse( String => $Package );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
 
         $Frontend{Name} = $Structure{Name}->{Content};
 
@@ -851,6 +866,11 @@ sub Run {
         my %Structure = $PackageObject->PackageParse(
             String => $Package,
         );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
 
         # intro screen
         my %Data;
@@ -948,6 +968,11 @@ sub Run {
         my %Structure = $PackageObject->PackageParse(
             String => $Package,
         );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
 
         # intro screen
         if ( !$PackageObject->PackageReinstall( String => $Package ) ) {
@@ -1028,6 +1053,11 @@ sub Run {
         my %Structure = $PackageObject->PackageParse(
             String => $Package,
         );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
 
         # intro screen
         my %Data;
@@ -1124,6 +1154,11 @@ sub Run {
         my %Structure = $PackageObject->PackageParse(
             String => $Package,
         );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
 
         # unsinstall the package
         if ( !$PackageObject->PackageUninstall( String => $Package ) ) {
@@ -1261,6 +1296,11 @@ sub Run {
         my %Structure = $PackageObject->PackageParse(
             String => $Package,
         );
+        if ( !%Structure ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('The file is not valid!'),
+            );
+        }
         my $File = $PackageObject->PackageBuild(%Structure);
 
         return $LayoutObject->Attachment(
@@ -2041,6 +2081,11 @@ sub _InstallHandling {
 
     # parse package
     my %Structure = $PackageObject->PackageParse( String => $Param{Package} );
+    if ( !%Structure ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('The file is not valid!'),
+        );
+    }
 
     # online verification
     my $Verified = $PackageObject->PackageVerify(
@@ -2300,6 +2345,11 @@ sub _UpgradeHandling {
     my %Structure = $PackageObject->PackageParse(
         String => $Param{Package},
     );
+    if ( !%Structure ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('The file is not valid!'),
+        );
+    }
 
     # intro screen
     my %Data;
