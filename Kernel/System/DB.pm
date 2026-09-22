@@ -137,10 +137,10 @@ sub new {
         return;
     }
 
-    # normalize
+    # normalize the database driver module
     $Self->{'DB::Type'} = lc $Self->{'DB::Type'};
 
-    # load backend module
+    # load the database driver module
     {
         my $GenericModule = 'Kernel::System::DB::' . $Self->{'DB::Type'};
 
@@ -356,7 +356,9 @@ to get the database version
 
     my $DBVersion = $DBObject->Version();
 
-    returns: "MySQL 5.1.1";
+returns for example:
+
+    "MySQL 5.1.1";
 
 =cut
 
@@ -379,18 +381,18 @@ sub Version {
 
 to quote sql parameters
 
-    quote strings, date and time:
-    =============================
+Quote strings, date and time:
+
     my $DBString = $DBObject->Quote( "This isn't a problem!" );
 
     my $DBString = $DBObject->Quote( "2005-10-27 20:15:01" );
 
-    quote integers:
-    ===============
+Quote integers:
+
     my $DBString = $DBObject->Quote( 1234, 'Integer' );
 
-    quote numbers (e. g. 1, 1.4, 42342.23424):
-    ==========================================
+Quote numbers (e. g. 1, 1.4, 42342.23424):
+
     my $DBString = $DBObject->Quote( 1234, 'Number' );
 
 =cut
@@ -631,37 +633,37 @@ sub _InitSlaveDB {
 
 =head2 Prepare()
 
-to prepare and execute a SELECT statement
+prepares and executes a SELECT statement.
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL   => 'SELECT id, name FROM table',
         Limit => 10,
     );
 
-or in case you want just to get row 10 until 30
+Or in case you want just to get row 10 until 30:
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL   => 'SELECT id, name FROM table',
         Start => 10,
         Limit => 20,
     );
 
-in case you don't want utf-8 encoding for some columns, use this:
+In case you don't want utf-8 encoding for some columns, use this:
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL    => 'SELECT id, name, content FROM table',
         Encode => [ 1, 1, 0 ],
     );
 
-It is recommended to use bind variables:
+Using bind variables is recommended:
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    $DBObject->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
         Encode => [ 1, 1, 0 ],
-        Bind   => [ \$Var1, \$Var2 ],
+        Bind   => [ \($Var1, $Var2) ],
     );
 
 =cut
@@ -813,7 +815,7 @@ sub Prepare {
 
 =head2 FetchrowArray()
 
-to process the results of a SELECT statement
+to process the results of a SELECT statement.
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
@@ -823,6 +825,8 @@ to process the results of a SELECT statement
     while (my @Row = $DBObject->FetchrowArray()) {
         print "$Row[0]:$Row[1]\n";
     }
+
+Note that while we are within a fetch loop, no other database interaction may take place.
 
 =cut
 
@@ -856,7 +860,7 @@ sub FetchrowArray {
         $Self->{LimitStart} = 0;
     }
 
-    # return
+    # fetch the data from the DB
     my @Row = $Self->{Cursor}->fetchrow_array();
 
     if ( !$Self->{Backend}->{'DB::Encode'} ) {
@@ -1217,8 +1221,8 @@ generate SQL condition query based on a search expression
         Value => '(ABC+DEF)',
     );
 
-    add SearchPrefix and SearchSuffix to search, in this case
-    for "(ABC*+DEF*)"
+add SearchPrefix and SearchSuffix to search, in this case
+for "(ABC*+DEF*)"
 
     my $SQL = $DBObject->QueryCondition(
         Key          => 'some_col',
@@ -1228,21 +1232,21 @@ generate SQL condition query based on a search expression
         Extended     => 1, # use also " " as "&&", e.g. "bob smith" -> "bob&&smith"
     );
 
-    example of a more complex search condition
+example of a more complex search condition
 
     my $SQL = $DBObject->QueryCondition(
         Key   => 'some_col',
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    for a earch condition over more columns
+for a search condition over more columns
 
     my $SQL = $DBObject->QueryCondition(
         Key   => [ 'some_col_a', 'some_col_b' ],
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    Returns the SQL string or "1=0" if the query could not be parsed correctly.
+Returns the SQL string or "1=0" if the query could not be parsed correctly.
 
     my $SQL = $DBObject->QueryCondition(
         Key      => [ 'some_col_a', 'some_col_b' ],
@@ -1250,7 +1254,7 @@ generate SQL condition query based on a search expression
         BindMode => 1,
     );
 
-    return the SQL String with ?-values and a array with values references:
+return the SQL String with ?-values and a array with values references:
 
     $BindModeResult = (
         'SQL'    => 'WHERE testa LIKE ? AND testb NOT LIKE ? AND testc = ?'
@@ -1392,7 +1396,7 @@ sub QueryCondition {
     my $Close = 0;
 
     # for processing
-    my @Array     = split( //, $Param{Value} );
+    my @Array     = split //, $Param{Value};
     my $SQL       = '';
     my $Word      = '';
     my $Not       = 0;
@@ -1709,7 +1713,7 @@ Return the SQL String with ?-values and a array with values references in bind m
         'Values' => [1, 2, 3, 4, 5, 6],
     );
 
-    or
+or
 
     $BindModeResult = (
         'SQL'    => '( ticket_id IN (?, ?, ?, ?, ?, ?) OR ticket_id IN ( ?, ... ) )',
@@ -1720,7 +1724,7 @@ Returns the SQL string for a negated in condition:
 
     my $SQL = "ticket_id NOT IN (1, 2, 3, 4, 5, 6)"
 
-    or
+or
 
     my $SQL = "( ticket_id NOT IN ( 1, 2, 3, 4, 5, 6 ... ) AND ticket_id NOT IN ( ... ) )"
 
@@ -1851,8 +1855,8 @@ escapes special characters within a query string
         QueryString => 'customer with (brackets) and & and -',
     );
 
-    Result would be a string in which all special characters are escaped.
-    Special characters are those which are returned by _SpecialCharactersGet().
+Result would be a string in which all special characters are escaped.
+Special characters are those which are returned by _SpecialCharactersGet().
 
     $QueryStringEscaped = 'customer with \(brackets\) and \& and \-';
 
@@ -1952,6 +1956,7 @@ sub Rollback {
 
 =cut
 
+# Attention: This method might be used outside this package, despite the prefix '_'
 sub _Decrypt {
     my ( $Self, $Pw ) = @_;
 
@@ -1966,6 +1971,7 @@ sub _Decrypt {
     return $Pw;
 }
 
+# Attention: This method might be used outside this package, despite the prefix '_'
 sub _Encrypt {
     my ( $Self, $Pw ) = @_;
 
