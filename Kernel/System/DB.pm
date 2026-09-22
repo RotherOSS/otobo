@@ -335,19 +335,21 @@ sub Connect {
                 }
 
                 # run the found commands after a connection is established
-                $Callbacks{connected} = sub {
-                    my $DatabaseHandle = shift;
+                if ( $DBConnectSQL || $DeactivateSQL ) {
+                    $Callbacks{connected} = sub {
+                        my $DatabaseHandle = shift;
 
-                    if ($DBConnectSQL) {
-                        $DatabaseHandle->do($DBConnectSQL);
-                    }
+                        if ($DBConnectSQL) {
+                            $DatabaseHandle->do($DBConnectSQL);
+                        }
 
-                    if ($DeactivateSQL) {
-                        $DatabaseHandle->do($DeactivateSQL);
-                    }
+                        if ($DeactivateSQL) {
+                            $DatabaseHandle->do($DeactivateSQL);
+                        }
 
-                    return;
-                };
+                        return;
+                    };
+                }
             }
 
             # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
