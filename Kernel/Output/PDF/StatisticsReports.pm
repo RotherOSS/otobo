@@ -16,7 +16,7 @@
 
 package Kernel::Output::PDF::StatisticsReports;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
@@ -221,12 +221,11 @@ sub GeneratePDF {
         );
     }
 
-    my $StatCounter = 0;
-
+    my $StatCounter       = 0;
     my $TranslateTimeZone = $LayoutObject->{LanguageObject}->Translate('Time Zone');
 
     STAT_CONFIG:
-    for my $StatConfig ( @{ $StatsReport{Config}->{StatsConfiguration} // [] } ) {
+    for my $StatConfig ( ($StatsReport{Config}->{StatsConfiguration} // [])->@* ) {
         next STAT_CONFIG unless ref $StatConfig;
 
         my $StatID = $StatConfig->{StatGetParams}->{StatID};
@@ -255,6 +254,7 @@ sub GeneratePDF {
         # Skip stat if format is wrong.
         next STAT_CONFIG unless $Format =~ m/^(?:Gnuplot|D3|Print)/;
 
+        # each stat is on a new page
         if ( $StatCounter++ > 0 ) {
             $PDFObject->PageNew(
                 %PageParam,
@@ -271,8 +271,6 @@ sub GeneratePDF {
             );
         };
 
-        Dx \@StatArray;
-        Dx $StatConfig;
         shift @StatArray;    # the TitleArrayRef is not used
         my $HeadArrayRef = shift @StatArray;
 
@@ -381,9 +379,9 @@ sub GeneratePDF {
             );
         }
 
-        # Generate a PNG image and embed it in the PDF
-        # Gnuplot charts: generate PNG with gnuplot
-        # D3 charts:      load in Chrome and save a screenshot as PNG
+        # Generate an image and embed it in the PDF
+        # Gnuplot charts: generate PDF with Gnuplot
+        # D3 charts:      load the chart in Chrome and save a screenshot as PNG
         else {
             my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
             my $TempImageDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
@@ -452,7 +450,8 @@ sub GeneratePDF {
 
                 my $Builder = Gnuplot::Builder::Script->new;
 
-                # The terminal and tha output file name are the same for all Gnuplot formats
+                # The terminal and tha output file name are the same for all Gnuplot formats.
+                # The size is hardcoded to fit on A4 paper. The ratio is 4:3 as it the case with 'chromium --screenshot'.
                 $Builder->set(
                     auto            => [qw(x y)],
                     'term pdfcairo' => 'square',           # TODO: same size as the Chromium screenshot
@@ -518,7 +517,7 @@ sub GeneratePDF {
 
                     # for stacked area we need to sum up the colums to the left
                     if ( $Format eq 'Gnuplot::StackedAreaChart' ) {
-                        $Builder->add(<<~END_SCRIPT);
+                        $Builder->add(<<~'END_SCRIPT');
                             firstcol=2
                             cumulated(i)=((i>firstcol)?column(i)+cumulated(i-1):(i==firstcol)?column(i):1/0)
                             END_SCRIPT
@@ -594,8 +593,8 @@ sub GeneratePDF {
             if ( $TempImageStat && $TempImageStat->size ) {
                 $PDFObject->Image(
                     File   => $TempImageFilename,
-                    Width  => 1200 * ( 300 / 72 ),
-                    Height => 900 * ( 300 / 72 ),
+                    Width  => 1200 * ( 300 / 72 ), # width in dots for 300 dpi
+                    Height => 900  * ( 300 / 72 ), # height in dots for 300 dpi
                 );
             }
             else {
