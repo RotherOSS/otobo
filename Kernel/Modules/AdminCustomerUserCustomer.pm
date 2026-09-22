@@ -38,9 +38,10 @@ sub Run {
     my $ParamObject           = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
 
     # set search limit
-    my $SearchLimit = 200;
+    my $SearchLimit = $ConfigObject->Get('AdminCustomerUser::SearchLimit') || 200;
 
     $Param{Search} = $ParamObject->GetParam( Param => 'Search' ) || '*';
 

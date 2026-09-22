@@ -322,17 +322,20 @@ sub Connect {
             # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
             my %Callbacks;
             {
+                # Run a backend specific command that initializes the connection
+                my $DBConnectSQL;
                 if ( $Self->{Backend}->{'DB::Connect'} ) {
+                    $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
+                }
 
-                    # run a command for initializing a session
-                    my $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
+                # maybe deactivate foreign key checks
+                my $DeactivateSQL;
+                if ( $Self->{DeactivateForeignKeyChecks} ) {
+                    $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
+                }
 
-                    # maybe deactivate foreign key checks
-                    my $DeactivateSQL;
-                    if ( $Self->{DeactivateForeignKeyChecks} ) {
-                        $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
-                    }
-
+                # run the found commands after a connection is established
+                if ( $DBConnectSQL || $DeactivateSQL ) {
                     $Callbacks{connected} = sub {
                         my $DatabaseHandle = shift;
 
@@ -347,13 +350,6 @@ sub Connect {
                         return;
                     };
                 }
-
-                # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
-                # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
-                # this is no longer necessary.
-                #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-                #    $ConnectAttributes{pg_enable_utf8} = 1;
-                #}
             }
 
             $Cache{$CacheKey} = DBIx::Connector->new(

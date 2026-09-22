@@ -1302,7 +1302,7 @@ sub Image {
     $Param{Width}  = $Param{Width} / ( 300 / 72 );
     $Param{Height} = $Param{Height} / ( 300 / 72 );
 
-    my $Image = $Self->{Page}->gfx();
+    my $Image = $Self->{Page}->graphics; # an instance of PDF::API2::Content
     my $ImageFile;
 
     # if image already used, use the existing image object
@@ -1450,7 +1450,7 @@ sub HLine {
     }
 
     # output the lines in top and bottom of the page
-    my $Line = $Self->{Page}->gfx();
+    my $Line = $Self->{Page}->graphics;
     $Line->fillcolor( $Param{Color} );
 
     # check values
@@ -2472,7 +2472,7 @@ sub _TableCellOutput {
 
     # output background
     if ( $Param{BackgroundColor} ne 'NULL' ) {
-        my $Background = $Self->{Page}->gfx();
+        my $Background = $Self->{Page}->graphics;
         $Background->fillcolor( $Param{BackgroundColor} );
         $Background->rect( $Position{X}, $Position{Y}, $Param{Width}, -( $Param{Height} ) );
         $Background->fill();
@@ -2480,7 +2480,7 @@ sub _TableCellOutput {
 
     # output top border
     if ( $Param{Border} > 0 ) {
-        my $BorderTop = $Self->{Page}->gfx();
+        my $BorderTop = $Self->{Page}->graphics;
         $BorderTop->fillcolor( $Param{BorderColor} );
         $BorderTop->rect( $Position{X}, $Position{Y}, $Param{Width}, -( $Param{Border} ) );
         $BorderTop->fill();
@@ -2488,7 +2488,7 @@ sub _TableCellOutput {
 
     # output right border
     if ( $Param{Border} > 0 ) {
-        my $BorderRight = $Self->{Page}->gfx();
+        my $BorderRight = $Self->{Page}->graphics;
         $BorderRight->fillcolor( $Param{BorderColor} );
         $BorderRight->rect(
             ( $Position{X} + $Param{Width} - $Param{Border} ),
@@ -2499,7 +2499,7 @@ sub _TableCellOutput {
 
     # output bottom border
     if ( $Param{Border} > 0 ) {
-        my $BorderBottom = $Self->{Page}->gfx();
+        my $BorderBottom = $Self->{Page}->graphics;
         $BorderBottom->fillcolor( $Param{BorderColor} );
         $BorderBottom->rect(
             $Position{X}, ( $Position{Y} - $Param{Height} + $Param{Border} ),
@@ -2510,7 +2510,7 @@ sub _TableCellOutput {
 
     # output left border
     if ( $Param{Border} > 0 ) {
-        my $BorderLeft = $Self->{Page}->gfx();
+        my $BorderLeft = $Self->{Page}->graphics;
         $BorderLeft->fillcolor( $Param{BorderColor} );
         $BorderLeft->rect( $Position{X}, $Position{Y}, $Param{Border}, -( $Param{Height} ) );
         $BorderLeft->fill();
