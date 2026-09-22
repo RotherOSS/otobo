@@ -60,7 +60,6 @@ server {
     location / {
 
         # Settings for using Kerberos SSO (mostly untested)
-        proxy_set_header REMOTE_USER $remote_user;
         auth_gss on;
         auth_gss_keytab /etc/krb5.keytab;
         auth_gss_service_name ${OTOBO_NGINX_KERBEROS_SERVICE_NAME};
