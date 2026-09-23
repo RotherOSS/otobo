@@ -419,8 +419,6 @@ sub Start {
 }
 
 sub Stop {
-    my %Param = @_;
-
     my $RunningDaemonPID = _PIDUnlock();
 
     if ($RunningDaemonPID) {
@@ -443,7 +441,6 @@ sub Stop {
 }
 
 sub Status {
-    my %Param = @_;
 
     if ( -e $PIDFile ) {
 
@@ -629,7 +626,6 @@ sub _LogFilesSet {
 }
 
 sub _LogFilesCleanup {
-    my %Param = @_;
 
     # skip cleanup if OTOBO log rotation is not enabled
     my $RotationType = lc( $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::RotationType') || 'otobo' );
@@ -661,7 +657,6 @@ sub _LogFilesCleanup {
 }
 
 sub _GetDaemonModules {
-    my %Param = @_;
 
     $Kernel::OM->ObjectsDiscard(
         Objects => [ 'Kernel::Config', ],
@@ -710,14 +705,14 @@ sub _StopDaemonModules {
 
     # Wait for active daemon processes to stop (typically 30 secs, or just 5 if forced).
     WAITTIME:
-    for my $WaitTime ( 1 .. $DaemonStopWait ) {
+    for ( 1 .. $DaemonStopWait ) {
 
         my $ProcessesStillRunning;
         MODULE:
         for my $Module ( sort keys %DaemonModules ) {
 
-            next MODULE if !$Module;
-            next MODULE if !$DaemonModules{$Module}->{PID};
+            next MODULE unless $Module;
+            next MODULE unless $DaemonModules{$Module}->{PID};
 
             # Check if PID is still alive.
             if ( !kill 0, $DaemonModules{$Module}->{PID} ) {
