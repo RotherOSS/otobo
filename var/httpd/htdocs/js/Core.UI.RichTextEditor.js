@@ -510,8 +510,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         })
             .then(editor => {
 
-                //CKEditorInspector.attach( editor );
-
                 /* Generate ID for current Editor */
                 editor.ElementId = EditorID;
                 CKEditorInstances[$EditorArea.attr('id')] = editor;
@@ -555,7 +553,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
                 
                 // set initial Editor height as defined by the System Configurations
-                console.log(Core.Config.Get("RichText.Height"));
                 $CKEditorMain.css("--InitialHeight", Core.Config.Get("RichText.Height") + "px");
 
                 // resize editor on mode change
