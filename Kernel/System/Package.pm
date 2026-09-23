@@ -3377,6 +3377,9 @@ sub _GetIntegratedPackages {
                 'OAuth2-Mail',
                 'Elasticsearch-FAQ',
             ],
+            2 => [
+                'LightAdmin-AutoRepliesAndSignatures',
+            ],
         }
     };
 }
