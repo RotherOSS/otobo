@@ -36,8 +36,6 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
     # get needed objects
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
     my $CSVObject     = $Kernel::OM->Get('Kernel::System::CSV');

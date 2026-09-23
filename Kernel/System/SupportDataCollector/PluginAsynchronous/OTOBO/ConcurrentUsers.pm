@@ -50,8 +50,8 @@ sub Run {
     # get the full display path
     my $DisplayPathFull = $Self->GetDisplayPath();
 
-    # get the display path, display type and additional information for the output
-    my ( $DisplayPath, $DisplayType, $DisplayAdditional ) = split( m{[\@\:]}, $DisplayPathFull // '' );
+    # get additional information for the output, the first two parts of $DisplayPathFull are not needed
+    my ( undef, undef, $DisplayAdditional ) = split( m{[\@\:]}, $DisplayPathFull // '' );
 
     # get the table columns (possible with label)
     my @TableColumns = split( m{,}, $DisplayAdditional // '' );
@@ -95,7 +95,6 @@ sub RunAsynchronous {
     my $Self = shift;
 
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $SystemTimeNow  = $DateTimeObject->ToEpoch();
 
     $DateTimeObject->Add( Hours => 1 );
 

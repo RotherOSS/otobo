@@ -21,6 +21,11 @@ use warnings;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -121,11 +126,10 @@ sub Run {
     }
 
     return $Self->GetResults();
-
 }
 
 sub _CheckHealth {
-    my ( $Self, $Connections ) = @_;
+    my ( undef, $Connections ) = @_;
 
     # Success if all is Successful;
     # Failed if all is Failed;
@@ -141,7 +145,6 @@ sub _CheckHealth {
     }
 
     return $Health;
-
 }
 
 1;
