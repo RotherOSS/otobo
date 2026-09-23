@@ -142,17 +142,15 @@ sub DocumentNew {
     # get time object
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    # set document infos
-    $Self->{PDF}->info(
-        'Author'       => $PDFCreator,
-        'CreationDate' => "D:"
-            . $DateTimeObject->Format( Format => '%Y%m%d%H:%M:%S' )
-            . "+01'00'",
-        'Creator'  => $PDFCreator,
-        'Producer' => $PDFCreator,
-        'Title'    => $Self->{Document}->{Title},
-        'Subject'  => $Self->{Document}->{Title},
-    );
+    # set document metadata
+    $Self->{PDF}->author($PDFCreator);
+    $Self->{PDF}->created(
+        'D:' . $DateTimeObject->Format( Format => '%Y%m%d%H:%M:%S' ) . q{+01'00'}
+    );    # not sure why UT offset is hard coded
+    $Self->{PDF}->creator($PDFCreator);
+    $Self->{PDF}->producer($PDFCreator);
+    $Self->{PDF}->title( $Self->{Document}->{Title} );
+    $Self->{PDF}->subject( $Self->{Document}->{Title} );
 
     # add font directory
     # the font path from the OS and from PDF::API2 still have precedence
@@ -1302,7 +1300,7 @@ sub Image {
     $Param{Width}  = $Param{Width} / ( 300 / 72 );
     $Param{Height} = $Param{Height} / ( 300 / 72 );
 
-    my $Image = $Self->{Page}->graphics; # an instance of PDF::API2::Content
+    my $Image = $Self->{Page}->graphics;    # an instance of PDF::API2::Content
     my $ImageFile;
 
     # if image already used, use the existing image object
