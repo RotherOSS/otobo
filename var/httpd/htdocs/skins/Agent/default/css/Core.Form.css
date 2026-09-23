@@ -1333,24 +1333,22 @@ fieldset.ModularForm {
     }
     
     fieldset.ModularForm .FieldCell .RichTextField {
-        --InitialHeight: 320px;
         --PreferredWidth: 620px;
         flex-direction: column;
         z-index: 10;
         position: relative;
-        overflow: hidden;
-        height: var(--InitialHeight);
         width: min( 100%, var(--PreferredWidth) );
         max-width: 100%
     }
 
-    fieldset.ModularForm .RichTextField > .RichTextField_resizeHandle {
+    fieldset.ModularForm .RichTextField > .CKEditor_resizeHandle {
         --handle-width: 30px;
+        --handle-height: 4px;
         position: absolute;
-        bottom: calc( var(--field-padding-vertical) - 0.5px );
+        bottom: calc( var(--handle-height) / 2 );
         width: var( --handle-width );
         box-sizing: border-box;
-        height: 4px;
+        height: var(--handle-height);
         left: calc( 50% - var( --handle-width ) / 2 );
         border-radius: 5px;
         background-color: var(--colBGDark);
@@ -1358,7 +1356,7 @@ fieldset.ModularForm {
         overflow: hidden;
     }
 
-    fieldset.ModularForm .RichTextField > .RichTextField_resizeHandle i {
+    fieldset.ModularForm .RichTextField > .CKEditor_resizeHandle i {
         display: block;
         margin: auto;
         margin-top: -2px;
