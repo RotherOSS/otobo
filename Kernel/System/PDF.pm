@@ -139,14 +139,23 @@ sub DocumentNew {
         return;
     }
 
-    # get time object
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    # get the creation time in the format for PDF
+    my $Now;
+    {
+        #my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime', ObjectParams => { TimeZone => 'Europe/Moscow' } );
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $Now = $DateTimeObject->Format( Format => 'D:%Y%m%d%H%M%S%z' );
+
+        # The standard OTOBOTimeZone is 'UTC'. For that time zone we get e.g "D:20260923134447+0000".
+        # For the time zone Europe/Moscow we get e.g. "D:20260923163514+0300"
+        # For compatability with PDF we need to reformat as "D:20260923134447+00'00'" or "D:20260923163514+03'00'"
+        # Note that the modifier 'a' ensures that only digits in the ASCII range match.
+        $Now =~ s/([+-]\d{2})(\d{2})$/$1'$2'/a;
+    }
 
     # set document metadata
     $Self->{PDF}->author($PDFCreator);
-    $Self->{PDF}->created(
-        'D:' . $DateTimeObject->Format( Format => '%Y%m%d%H:%M:%S' ) . q{+01'00'}
-    );    # not sure why UT offset is hard coded
+    $Self->{PDF}->created($Now);
     $Self->{PDF}->creator($PDFCreator);
     $Self->{PDF}->producer($PDFCreator);
     $Self->{PDF}->title( $Self->{Document}->{Title} );
