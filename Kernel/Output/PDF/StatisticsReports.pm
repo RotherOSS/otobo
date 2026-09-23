@@ -28,6 +28,7 @@ use File::stat qw(stat);
 # CPAN modules
 use Gnuplot::Builder::Script  qw();
 use Gnuplot::Builder::Dataset qw();
+use Gnuplot::Builder::Process qw();
 use List::AllUtils            qw(any first indexes);
 
 # OTOBO modules
@@ -593,6 +594,10 @@ sub GeneratePDF {
                 }
 
                 my $PlotOut = $Builder->plot(@Datasets);
+
+                # Finish pending work before drawing a new chart.
+                # This avoids failures when charts are drawn in quick succession
+                Gnuplot::Builder::Process->wait_all;
             }
 
             my $TempImageStat = stat $TempImageFilename;
