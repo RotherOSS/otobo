@@ -630,4 +630,26 @@ sub _DynamicFieldOrderReset {
     );
 }
 
+sub _TriggerErrorDialog {
+    my ( $Self, %Param ) = @_;
+
+    my $ErrorMessage
+        = $Param{ErrorMessage} || "Dynamic field deletion couldn't be completed. Please contact the administrator or review the logs for more information";
+
+    my $EncodedContent = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+        Data => {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        },
+    );
+
+    # JSON encoding needed as frontend does use the response for showing an error dialog if necessary
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+        ContentType => 'application/json',
+        Content     => $EncodedContent,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
+}
+
 1;
