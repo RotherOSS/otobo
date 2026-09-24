@@ -128,10 +128,21 @@ sub _DynamicFieldDelete {
         );
     }
 
-    # encoding does not matter, as $Success is either undef or an integer
+    my $Success = $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $ID,
+        UserID => $Self->{UserID},
+    );
+
+    my $EncodedContent = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+        Data => {
+            Success => $Success,
+        },
+    );
+
+    # JSON encoding needed as frontend does use the response for showing an error dialog if necessary
     return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
-        ContentType => 'text/html',
-        Content     => $Success,
+        ContentType => 'application/json',
+        Content     => $EncodedContent,
         Type        => 'inline',
         NoCache     => 1,
     );
