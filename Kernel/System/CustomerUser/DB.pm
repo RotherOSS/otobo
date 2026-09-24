@@ -1431,12 +1431,7 @@ sub CustomerUserAdd {
             }
         }
         else {
-            if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] } = $Param{ $Entry->[0] };
-            }
-            else {
-                $Value{ $Entry->[0] } = '';
-            }
+            $Value{ $Entry->[0] } = $Param{ $Entry->[0] } // '';
         }
     }
 
@@ -1590,12 +1585,7 @@ sub CustomerUserUpdate {
             }
         }
         else {
-            if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] } = $Param{ $Entry->[0] };
-            }
-            else {
-                $Value{ $Entry->[0] } = "";
-            }
+            $Value{ $Entry->[0] } = $Param{ $Entry->[0] } // '';
         }
     }
 
