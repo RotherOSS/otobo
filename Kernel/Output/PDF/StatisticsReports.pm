@@ -442,6 +442,12 @@ sub GeneratePDF {
             }
             elsif ( $Format =~ m/^Gnuplot::/ ) {
 
+                # uncomment this for debugging
+                #local $Gnuplot::Builder::Process::TAP = sub {
+                #    my ($pid, $event, $body) = @_;
+                #    warn "PID:$pid, EVENT:$event, BODY:$body";
+                #};
+
                 # The default Gnuplot command to 'gnuplot --persist'. Looking for gnuplot in PATH works fine,
                 # but the OTOBO convention is to use the configured executable.
                 local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBinary --persist";
