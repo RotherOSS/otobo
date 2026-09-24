@@ -1664,6 +1664,8 @@ sub _DynamicFieldsCreate {
 
     # check dynamic fields
     my %Namespaces;
+    my @NormalFields;
+    my @DependencyFields;
     for my $DynamicFieldConfig (@DynamicFields) {
 
         # check for namespaces
@@ -1676,6 +1678,14 @@ sub _DynamicFieldsCreate {
         }
         if ( $FieldName =~ /^([^-]+)-/ ) {
             $Namespaces{$1} = 1;
+        }
+
+        # sort field into fitting array
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' || $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+            push @DependencyFields, $DynamicFieldConfig;
+        }
+        else {
+            push @NormalFields, $DynamicFieldConfig;
         }
     }
 
@@ -1756,7 +1766,7 @@ sub _DynamicFieldsCreate {
     #   considered dependencies:
     #       - attribute and reference fields of lenses
     #       - fields included in sets
-    sub SortFieldDependencies {
+    sub SortFieldDependencies {    ## no critic qw(Subroutines::ProhibitNestedSubs)
         my ( $Self, $a, $b ) = @_;
 
         # neither of the two fields is lens or set - no dependencies
@@ -1826,11 +1836,11 @@ sub _DynamicFieldsCreate {
         return 0;
     }
 
-    my @SortedFields = sort SortFieldDependencies @DynamicFields;
+    my @SortedDependencyFields = sort SortFieldDependencies @DependencyFields;
 
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField (@SortedFields) {
+    for my $NewDynamicField ( @NormalFields, @SortedDependencyFields ) {
 
         # field config transformation
         $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigName2ID(
