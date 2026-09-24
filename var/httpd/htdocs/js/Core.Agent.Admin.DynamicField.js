@@ -201,8 +201,23 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
                 Core.AJAX.FunctionCall(
                     Core.Config.Get('Baselink'),
                     $(this).data('query-string') + 'Confirmed=1;',
-                    function() {
-                        window.location.reload();
+                    function(Response) {
+                        if (Response.Success == 1) {
+                            window.location.reload();
+                        }
+                        else {
+
+                            // use fallback if error message is empty
+                            if ( !Response.ErrorMessage ) {
+                                Response.ErrorMessage = 'The deletion could not be completed. Please review the logs for detailed information.';
+                            }
+
+                            // no need to close the previous dialog, is done automatically through opening a new one
+                            Core.UI.Dialog.ShowAlert(
+                                Core.Language.Translate('Dynamic Field Delete: An Error occurred'),
+                                Core.Language.Translate(Response.ErrorMessage),
+                            );
+                        }
                     }
                 );
             }
