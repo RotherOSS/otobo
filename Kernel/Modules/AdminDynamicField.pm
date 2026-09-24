@@ -75,8 +75,9 @@ sub Run {
 sub _DynamicFieldDelete {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LogObject   = $Kernel::OM->Get('Kernel::System::Log');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
     my $Confirmed = $ParamObject->GetParam( Param => 'Confirmed' );
     if ( !$Confirmed ) {
@@ -86,7 +87,7 @@ sub _DynamicFieldDelete {
         );
 
         return $Self->_TriggerErrorDialog(
-            ErrorMessage => 'Deletion was not confirmed!',
+            ErrorMessage => $LayoutObject->{LanguageObject}->Translate('Deletion was not confirmed!'),
         );
     }
 
@@ -103,7 +104,7 @@ sub _DynamicFieldDelete {
         );
 
         return $Self->_TriggerErrorDialog(
-            ErrorMessage => "Could not find dynamic field to be deleted!",
+            ErrorMessage => $LayoutObject->{LanguageObject}->Translate('Could not find dynamic field to be deleted!'),
         );
     }
 
@@ -114,7 +115,8 @@ sub _DynamicFieldDelete {
         );
 
         return $Self->_TriggerErrorDialog(
-            ErrorMessage => "Could not delete dynamic field '$DynamicFieldConfig->{Name}' because it is an internal field.",
+            ErrorMessage =>
+                $LayoutObject->{LanguageObject}->Translate( "Could not delete dynamic field '%s' because it is an internal field.", $DynamicFieldConfig->{Name} ),
         );
     }
 
@@ -124,7 +126,8 @@ sub _DynamicFieldDelete {
     );
     if ( !$ValuesDeleteSuccess ) {
         return $Self->_TriggerErrorDialog(
-            ErrorMessage => "Values for the dynamic field couldn't be deleted. Please contact the administrator or review the logs for more details.",
+            ErrorMessage => $LayoutObject->{LanguageObject}
+                ->Translate( "Values for the dynamic field '%s' could not be deleted. Please review the logs for more details.", $DynamicFieldConfig->{Name} ),
         );
     }
 
@@ -140,7 +143,7 @@ sub _DynamicFieldDelete {
     );
 
     # JSON encoding needed as frontend does use the response for showing an error dialog if necessary
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+    return $LayoutObject->Attachment(
         ContentType => 'application/json',
         Content     => $EncodedContent,
         Type        => 'inline',
@@ -647,8 +650,12 @@ sub _DynamicFieldOrderReset {
 sub _TriggerErrorDialog {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     my $ErrorMessage
-        = $Param{ErrorMessage} || "Dynamic field deletion couldn't be completed. Please contact the administrator or review the logs for more information";
+        = $Param{ErrorMessage}
+        || $LayoutObject->{LanguageObject}
+        ->Translate('Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information');
 
     my $EncodedContent = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => {
@@ -658,7 +665,7 @@ sub _TriggerErrorDialog {
     );
 
     # JSON encoding needed as frontend does use the response for showing an error dialog if necessary
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+    return $LayoutObject->Attachment(
         ContentType => 'application/json',
         Content     => $EncodedContent,
         Type        => 'inline',

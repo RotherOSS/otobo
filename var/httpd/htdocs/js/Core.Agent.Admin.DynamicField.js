@@ -209,13 +209,13 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
                             // use fallback if error message is empty
                             if ( !Response.ErrorMessage ) {
-                                Response.ErrorMessage = 'The deletion could not be completed. Please review the logs for detailed information.';
+                                Response.ErrorMessage = Core.Language.Translate('The deletion could not be completed. Please review the logs for detailed information.');
                             }
 
                             // no need to close the previous dialog, is done automatically through opening a new one
                             Core.UI.Dialog.ShowAlert(
                                 Core.Language.Translate('Dynamic Field Delete: An Error occurred'),
-                                Core.Language.Translate(Response.ErrorMessage),
+                                Response.ErrorMessage,
                             );
                         }
                     }
