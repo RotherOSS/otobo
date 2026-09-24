@@ -79,13 +79,15 @@ sub _DynamicFieldDelete {
     my $LogObject   = $Kernel::OM->Get('Kernel::System::Log');
 
     my $Confirmed = $ParamObject->GetParam( Param => 'Confirmed' );
-
     if ( !$Confirmed ) {
         $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Need 'Confirmed'!",
         );
-        return;
+
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => 'Deletion was not confirmed!',
+        );
     }
 
     my $ID = $ParamObject->GetParam( Param => 'ID' );
@@ -94,13 +96,15 @@ sub _DynamicFieldDelete {
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $ID,
     );
-
     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
         $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Could not find DynamicField $ID!",
         );
-        return;
+
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => "Could not find dynamic field to be deleted!",
+        );
     }
 
     if ( $DynamicFieldConfig->{InternalField} ) {
@@ -108,20 +112,19 @@ sub _DynamicFieldDelete {
             'Priority' => 'error',
             'Message'  => "Could not delete internal DynamicField $ID!",
         );
-        return;
+
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => "Could not delete dynamic field '$DynamicFieldConfig->{Name}' because it is an internal field.",
+        );
     }
 
     my $ValuesDeleteSuccess = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->AllValuesDelete(
         DynamicFieldConfig => $DynamicFieldConfig,
         UserID             => $Self->{UserID},
     );
-
-    my $Success;
-
-    if ($ValuesDeleteSuccess) {
-        $Success = $DynamicFieldObject->DynamicFieldDelete(
-            ID     => $ID,
-            UserID => $Self->{UserID},
+    if ( !$ValuesDeleteSuccess ) {
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => "Values for the dynamic field couldn't be deleted. Please contact the administrator or review the logs for more details.",
         );
     }
 
