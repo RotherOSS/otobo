@@ -147,7 +147,7 @@ sub AgentCustomerViewTable {
     for my $Field (@MapNew) {
         next FIELD unless $Field->[3];
         next FIELD unless $Field->[3] >= $ShownType;
-        next FIELD unless $Param{Data}->{ $Field->[0] };    # TODO: value '0' is not shown
+        next FIELD unless defined $Param{Data}->{ $Field->[0] } && $Param{Data}->{ $Field->[0] } ne '';
 
         {
             my %Record = (

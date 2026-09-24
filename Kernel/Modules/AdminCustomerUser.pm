@@ -333,7 +333,7 @@ sub Run {
 
             # check remaining non-dynamic-field mandatory fields
             else {
-                $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
+                $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) // '';
 
                 next ENTRY if $UpdateOnlyPreferences;
 
@@ -614,7 +614,7 @@ sub Run {
 
             # check remaining non-dynamic-field mandatory fields
             else {
-                $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
+                $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) // '';
                 if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
                     $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
                 }
@@ -1350,7 +1350,7 @@ sub _Edit {
             $Param{Value} = $Param{ $Entry->[0] } || $Param{CustomerID} || '';
         }
         else {
-            $Param{Value} = $Param{ $Entry->[0] } || '';
+            $Param{Value} = $Param{ $Entry->[0] } // '';
         }
 
         # add form option
