@@ -446,8 +446,9 @@ sub GeneratePDF {
                 # but the OTOBO convention is to use the configured executable.
                 local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBinary --persist";
 
-                # The location where gnuplot writes the graph
-                $TempImageFilename = "$TempImageDir/gnuplot.pdf";
+                # The location where gnuplot writes the graph.
+                # The format is added in the file name mainly for debugging.
+                $TempImageFilename = "$TempImageDir/gnuplot_$Format.pdf";
 
                 # The terminal and tha output file name are the same for all Gnuplot formats.
                 # The size is hardcoded to fit on A4 paper. There is no special reason for the x:y ratio,
