@@ -593,7 +593,8 @@ sub GeneratePDF {
                     );
                 }
 
-                my $PlotOut = $Builder->plot(@Datasets);
+                $CommandOutput = $Builder->plot(@Datasets);
+                chomp $CommandOutput;
 
                 # Finish pending work before drawing a new chart.
                 # This avoids failures when charts are drawn in quick succession
