@@ -138,6 +138,7 @@ sub ValueGet {
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
         $ObjectIDOrName    => $ReferencedObjectID,
+        ForLens            => $Param{ForLens},
     );
 }
 
