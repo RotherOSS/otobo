@@ -470,7 +470,34 @@ sub GeneratePDF {
                     bmargin                  => 'at screen 0.1',    # increase the bottom margin in order to accomodate the two line x-labels
                     key                      => 'above',            # place the legend above the plot
                 );
+
+                # The output file name must be quoted
                 $Builder->setq( output => $TempImageFilename );
+
+                # nicer looking line colors, which are also the bar colors
+                # courtesy of Color Brewer 2.0
+                $Builder->set(
+
+                    # https://colorbrewer2.org/?type=qualitative&scheme=Dark2&n=8
+                    'linetype 1' => q{linecolor rgb '#1b9e77'},
+                    'linetype 2' => q{linecolor rgb '#d95f02'},
+                    'linetype 3' => q{linecolor rgb '#7570b3'},
+                    'linetype 4' => q{linecolor rgb '#e7298a'},
+                    'linetype 5' => q{linecolor rgb '#66a61e'},
+                    'linetype 6' => q{linecolor rgb '#e6ab02'},
+                    'linetype 7' => q{linecolor rgb '#a6761d'},
+                    'linetype 8' => q{linecolor rgb '#666666'},
+
+                    ## https://colorbrewer2.org/?type=qualitative&scheme=Set2&n=8
+                    #'linetype 1' => q{linecolor rgb '#66c2a5'},
+                    #'linetype 2' => q{linecolor rgb '#fc8d62'},
+                    #'linetype 3' => q{linecolor rgb '#8da0cb'},
+                    #'linetype 4' => q{linecolor rgb '#e78ac3'},
+                    #'linetype 5' => q{linecolor rgb '#a6d854'},
+                    #'linetype 6' => q{linecolor rgb '#ffd92f'},
+                    #'linetype 7' => q{linecolor rgb '#e5c494'},
+                    #'linetype 8' => q{linecolor rgb '#b3b3b3'},
+                );
 
                 # Example for the incoming data:
                 # $HeadArrayRef = [
