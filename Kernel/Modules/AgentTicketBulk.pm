@@ -131,7 +131,6 @@ sub Run {
         );
 
         if ( $Config->{State} ) {
-            my %State;
             my %StateList = $Self->_GetStates(
                 %GetParam,
                 StateType => $Config->{StateType},
@@ -990,9 +989,6 @@ sub Run {
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
-                    my %StateData = $StateObject->StateGet(
-                        ID => $Ticket{StateID},
-                    );
 
                     # should i set the pending date?
                     if ( $Ticket{StateType} =~ /^pending/i ) {
@@ -1213,15 +1209,12 @@ sub Run {
 }
 
 sub _GetRecipientList {
-
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    my @Recipients;
+    my @Recipients;    # will be returned
 
     TICKETID:
     for my $TicketID ( @{ $Param{TicketIDs} } ) {
@@ -1336,7 +1329,6 @@ sub _Mask {
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -1382,7 +1374,8 @@ sub _Mask {
 
         STATE_ID:
         for my $StateID ( sort keys %StateList ) {
-            next STATE_ID if !$StateID;
+            next STATE_ID unless $StateID;
+
             my %StateData = $StateObject->StateGet( ID => $StateID );
             next STATE_ID if $StateData{TypeName} !~ /pending/i;
             $Param{DateString} = $LayoutObject->BuildDateSelection(
