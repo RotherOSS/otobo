@@ -463,12 +463,13 @@ sub GeneratePDF {
                 my $Builder = Gnuplot::Builder::Script->new(
 
                     #'terminal pdfcairo background' => 'rgb "gray90"',   # no background, tranparent in case of overlaps
-                    auto                     => [qw(x y)],          # autosize x- and y-axis to fit the data
-                    'terminal pdfcairo size' => '26.8cm,13.4cm',    # A4 landscape is 29,7 x 21.0 cm²
-                    'terminal pdfcairo font' => '",12"',            # no special font, but small font size
-                    'terminal pdfcairo'      => 'square',           # rectangular ending of the bars
-                    bmargin                  => 'at screen 0.1',    # increase the bottom margin in order to accomodate the two line x-labels
-                    key                      => 'above',            # place the legend above the plot
+                    auto                          => [qw(x y)],          # autosize x- and y-axis to fit the data
+                    'terminal pdfcairo size'      => '26.8cm,13.4cm',    # A4 landscape is 29,7 x 21.0 cm²
+                    'terminal pdfcairo font'      => '",12"',            # no special font, but small font size
+                    'terminal pdfcairo'           => 'square',           # rectangular ending of the bars
+                    'terminal pdfcairo linewidth' => 3,                  # thinker lines in line charts
+                    bmargin                       => 'at screen 0.1',    # increase the bottom margin in order to accomodate the two line x-labels
+                    key                           => 'above',            # place the legend above the plot
                 );
 
                 # The output file name must be quoted
