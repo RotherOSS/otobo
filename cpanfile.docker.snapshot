@@ -394,10 +394,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.52
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.52.tar.gz
+  Cpanel-JSON-XS-4.53
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.53.tar.gz
     provides:
-      Cpanel::JSON::XS 4.52
+      Cpanel::JSON::XS 4.53
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -651,10 +651,53 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.653
-    pathname: H/HM/HMBRAND/DBI-1.653.tgz
+  DBI-1.654
+    pathname: H/HM/HMBRAND/DBI-1.654.tgz
     provides:
-      DBI 1.653
+      Bundle::DBI 12.008696
+      DBD::DBM 0.08
+      DBD::ExampleP 12.014311
+      DBD::File 0.45
+      DBD::Gofer 0.015327
+      DBD::Gofer::Policy::Base 0.010088
+      DBD::Gofer::Policy::classic 0.010088
+      DBD::Gofer::Policy::pedantic 0.010088
+      DBD::Gofer::Policy::rush 0.010088
+      DBD::Gofer::Transport::Base 0.014121
+      DBD::Gofer::Transport::corostream 2.165300
+      DBD::Gofer::Transport::null 0.010088
+      DBD::Gofer::Transport::pipeone 0.010088
+      DBD::Gofer::Transport::stream 0.014599
+      DBD::Mem 0.001
+      DBD::NullP 12.014715
+      DBD::Proxy 0.2004
+      DBD::Sponge 12.010003
+      DBI 1.654
+      DBI::Const::GetInfo::ANSI 2.008697
+      DBI::Const::GetInfo::ODBC 2.011374
+      DBI::Const::GetInfoReturn 2.008697
+      DBI::Const::GetInfoType 2.008697
+      DBI::DBD 12.015129
+      DBI::DBD::Metadata 2.014214
+      DBI::DBD::SqlEngine 0.06
+      DBI::Gofer::Execute 0.014283
+      DBI::Gofer::Request 0.012537
+      DBI::Gofer::Response 0.011566
+      DBI::Gofer::Serializer::Base 0.009950
+      DBI::Gofer::Serializer::DataDumper 0.009950
+      DBI::Gofer::Serializer::Storable 0.015586
+      DBI::Gofer::Transport::Base 0.012537
+      DBI::Gofer::Transport::pipeone 0.012537
+      DBI::Gofer::Transport::stream 0.012537
+      DBI::Profile 2.015065
+      DBI::ProfileData 2.010008
+      DBI::ProfileDumper 2.015325
+      DBI::ProfileDumper::Apache 2.014121
+      DBI::ProfileSubs 0.009396
+      DBI::ProxyServer 0.3005
+      DBI::PurePerl 2.014286
+      DBI::SQL::Nano 1.015544
+      DBI::Util::CacheMemory 0.010315
     requirements:
       ExtUtils::MakeMaker 6.48
       Module::Load 0.22
@@ -1272,11 +1315,11 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Exception-Class-1.45
-    pathname: D/DR/DROLSKY/Exception-Class-1.45.tar.gz
+  Exception-Class-1.46
+    pathname: D/DR/DROLSKY/Exception-Class-1.46.tar.gz
     provides:
-      Exception::Class 1.45
-      Exception::Class::Base 1.45
+      Exception::Class 1.46
+      Exception::Class::Base 1.46
     requirements:
       Carp 0
       Class::Data::Inheritable 0.02
@@ -2924,10 +2967,10 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  Params-SomeUtil-1.11
-    pathname: P/PL/PLICEASE/Params-SomeUtil-1.11.tar.gz
+  Params-SomeUtil-1.12
+    pathname: P/PL/PLICEASE/Params-SomeUtil-1.12.tar.gz
     provides:
-      Params::SomeUtil 1.11
+      Params::SomeUtil 1.12
     requirements:
       ExtUtils::CBuilder 0.27
       ExtUtils::MakeMaker 6.52
@@ -4444,15 +4487,12 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
       JSON 0
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
