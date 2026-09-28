@@ -55,8 +55,7 @@ sub new {
 sub GeneratePDF {
     my ( $Self, %Param ) = @_;
 
-    my %StatsReport  = %{ $Param{StatsReport} };
-    my $UserLanguage = $Param{UserLanguage};
+    my %StatsReport = %{ $Param{StatsReport} };
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -265,10 +264,9 @@ sub GeneratePDF {
 
         my @StatArray = @{
             $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-                StatID       => $StatID,
-                GetParam     => \%GetParam,
-                UserID       => $Param{UserID},
-                UserLanguage => $UserLanguage,
+                StatID   => $StatID,
+                GetParam => \%GetParam,
+                UserID   => $Param{UserID},
             );
         };
 
