@@ -80,7 +80,6 @@ sub Run {
     my $PDFString = eval {
         $Self->_GeneratePDF(
             StatsReport => \%StatsReport,
-            UserID      => 1,
         );
     };
     if ($@) {
