@@ -820,33 +820,33 @@ Core.AJAX = (function (TargetNS) {
 
             if ( FieldInfo[1] == 0 ) {
                 if (FieldInfo[0] === 'Article') {
-                    $('#Subject').parent('div.Row').addClass("oooACLHidden");
+                    $('#Subject').closest('div.Row').addClass("oooACLHidden");
                     if ( $('#Subject').hasClass("Validate_Required") ) {
                         $('#Subject').removeClass("Validate_Required");
                         $('#Subject').addClass("Validate_Required_IfVisible");
                     }
-                    $('#RichText').parent('div.RichTextHolder').addClass("oooACLHidden");
+                    $('#RichText').closest('div.Row').addClass("oooACLHidden");
                     if ( $('#RichText').hasClass("Validate_Required") ) {
                         $('#RichText').removeClass("Validate_Required");
                         $('#RichText').addClass("Validate_Required_IfVisible");
                     }
-                    $('#oooAttachments').parent('div.Row').addClass("oooACLHidden");
+                    $('#oooAttachments').closest('div.Row').addClass("oooACLHidden");
                 }
             }
 
             else {
                 if (FieldInfo[0] === 'Article') {
-                    $('#Subject').parent('div.Row').removeClass("oooACLHidden");
+                    $('#Subject').closest('div.Row').removeClass("oooACLHidden");
                     if ( $('#Subject').hasClass("Validate_Required_IfVisible") ) {
                         $('#Subject').removeClass("Validate_Required_IfVisible");
                         $('#Subject').addClass("Validate_Required");
                     }
-                    $('#RichText').parent('div.RichTextHolder').removeClass("oooACLHidden");
+                    $('#RichText').closest('div.Row').removeClass("oooACLHidden");
                     if ( $('#RichText').hasClass("Validate_Required_IfVisible") ) {
                         $('#RichText').removeClass("Validate_Required_IfVisible");
                         $('#RichText').addClass("Validate_Required");
                     }
-                    $('#oooAttachments').parent('div.Row').removeClass("oooACLHidden");
+                    $('#oooAttachments').closest('div.Row').removeClass("oooACLHidden");
                 }
             }
         }
