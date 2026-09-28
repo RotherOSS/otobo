@@ -18,16 +18,12 @@ use strict;
 use warnings;
 use utf8;
 
-use Test2::V0;
-
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
-
-skip_all("Data structure differs from logic - compare https://github.com/RotherOSS/otobo/issues/6126");
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -280,14 +276,13 @@ my @Tests = (
         },
     },
 
-    # Check on unknown Condition Type
+    # Check on unknown ConditionLinking
     {
         Check => {
             Config => {
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'unknown123',
                         Cond1 => {
                             Fields => {
                                 Queue                => ['Raw'],
@@ -296,6 +291,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'unknown123',
                 },
             },
             Data => {
@@ -304,7 +300,7 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message            => 'TransitionCheck() (impossible Condition Type)',
+            Message            => 'TransitionCheck() (impossible ConditionLinking)',
             TestType           => 'False',
         },
     },
@@ -627,14 +623,13 @@ my @Tests = (
         },
     },
 
-    # Check: Condition->Type 'and' check
+    # Check: ConditionLinking (with Hash field) 'and' check
     {
         Check => {
             Config => {
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -658,6 +653,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -670,19 +666,18 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message            => 'TransitionCheck() (Condition->Type "and" check)',
+            Message            => 'TransitionCheck() (ConditionLinking with Hash field "and" check)',
             TestType           => 'True',
         },
     },
 
-    # Check: Condition->Type invalid 'and' check
+    # Check: ConditionLinking (with Hash field) invalid 'and' check
     {
         Check => {
             Config => {
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -706,6 +701,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -718,19 +714,18 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message            => 'TransitionCheck() (Condition->Type "and" fail check)',
+            Message            => 'TransitionCheck() (ConditionLinking with Hash field "and" fail check)',
             TestType           => 'False',
         },
     },
 
-    # Check: Condition->Type 'xor' check
+    # Check: ConditionLinking (with Hash field) 'xor' check
     {
         Check => {
             Config => {
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'xor',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -754,6 +749,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'xor',
                 },
             },
             Data => {
@@ -766,19 +762,18 @@ my @Tests = (
                 DynamicField_VWModel => ['17'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message            => 'TransitionCheck() (Condition->Type "xor" check)',
+            Message            => 'TransitionCheck() (ConditionLinking with Hash field "xor" check)',
             TestType           => 'True',
         },
     },
 
-    # Check: Condition->Type invalid 'xor' check
+    # Check: ConditionLinking (with Hash field) invalid 'xor' check
     {
         Check => {
             Config => {
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'xor',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -802,6 +797,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'xor',
                 },
             },
             Data => {
@@ -814,7 +810,7 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message            => 'TransitionCheck() (Condition->Type "xor" fail check)',
+            Message            => 'TransitionCheck() (ConditionLinking with Hash field "xor" fail check)',
             TestType           => 'False',
         },
     },
@@ -924,7 +920,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -944,6 +939,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -964,7 +960,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -984,6 +979,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1004,7 +1000,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -1024,6 +1019,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1044,7 +1040,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -1064,6 +1059,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1084,7 +1080,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => ['Raw'],
@@ -1104,6 +1099,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1124,7 +1120,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => {
@@ -1148,6 +1143,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1168,7 +1164,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => {
@@ -1192,6 +1187,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1212,7 +1208,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 Queue => {
@@ -1236,6 +1231,7 @@ my @Tests = (
                             },
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1456,7 +1452,7 @@ my @Tests = (
             },
             TransitionEntityID => 'T2' . $RandomID,
             Message            => 'TransitionCheck() (ConditionLinking "or" fail check)',
-            TestType           => 'Fail',
+            TestType           => 'False',
         },
     },
 
@@ -1483,7 +1479,7 @@ my @Tests = (
                             },
                         },
                     },
-                    ConditionLinking => 'or'
+                    ConditionLinking => 'xor'
                 },
             },
             Data => {
@@ -1539,7 +1535,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-
                         Cond1 => {
                             Type   => 'and',
                             Fields => {
@@ -1569,7 +1564,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 DynamicField_Make => {
@@ -1578,8 +1572,8 @@ my @Tests = (
                                 },
                             },
                         },
-                        ConditionLinking => 'and',
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1598,7 +1592,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-
                         Cond1 => {
                             Type   => 'and',
                             Fields => {
@@ -1608,8 +1601,8 @@ my @Tests = (
                                 },
                             },
                         },
-                        ConditionLinking => 'and',
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1628,7 +1621,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-                        Type  => 'and',
                         Cond1 => {
                             Fields => {
                                 DynamicField_Make => {
@@ -1636,9 +1628,9 @@ my @Tests = (
                                     Match => qr{t4$},
                                 },
                             },
-                            ConditionLinking => 'and',
                         },
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1657,7 +1649,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-
                         Cond1 => {
                             Type   => 'and',
                             Fields => {
@@ -1667,8 +1658,8 @@ my @Tests = (
                                 },
                             },
                         },
-                        ConditionLinking => 'and',
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1687,7 +1678,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-
                         Cond1 => {
                             Type   => 'and',
                             Fields => {
@@ -1697,8 +1687,8 @@ my @Tests = (
                                 },
                             },
                         },
-                        ConditionLinking => 'and',
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1717,7 +1707,6 @@ my @Tests = (
                 'T2' . $RandomID => {
                     Name      => 'Transition 2 optional',
                     Condition => {
-
                         Cond1 => {
                             Type   => 'and',
                             Fields => {
@@ -1727,8 +1716,8 @@ my @Tests = (
                                 },
                             },
                         },
-                        ConditionLinking => 'and',
                     },
+                    ConditionLinking => 'and',
                 },
             },
             Data => {
@@ -1736,6 +1725,152 @@ my @Tests = (
             },
             TransitionEntityID => 'T2' . $RandomID,
             Message            => 'TransitionCheck() (Regexp - or condition  wrong State new)',
+            TestType           => 'False',
+        },
+    },
+
+    # Regression checks for issue #6126: 'or' Conditions combined with the ConditionLinking.
+
+    # ConditionLinking 'xor': exactly one 'or' Condition matches
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Type   => 'or',
+                            Fields => {
+                                Queue => 'Misc',
+                                State => 'open',
+                            },
+                        },
+                        Cond2 => {
+                            Type   => 'or',
+                            Fields => {
+                                Queue => 'Misc',
+                                State => 'closed',
+                            },
+                        },
+                    },
+                    ConditionLinking => 'xor',
+                },
+            },
+            Data => {
+                Queue    => 'Raw',
+                State    => 'open',
+                Priority => '3 normal',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "xor" with one matching "or" Condition)',
+            TestType           => 'True',
+        },
+    },
+
+    # ConditionLinking 'xor': both 'or' Conditions match
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Type   => 'or',
+                            Fields => {
+                                Queue => 'Misc',
+                                State => 'open',
+                            },
+                        },
+                        Cond2 => {
+                            Type   => 'or',
+                            Fields => {
+                                Queue => 'Misc',
+                                State => 'open',
+                            },
+                        },
+                    },
+                    ConditionLinking => 'xor',
+                },
+            },
+            Data => {
+                Queue    => 'Raw',
+                State    => 'open',
+                Priority => '3 normal',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "xor" with two matching "or" Conditions)',
+            TestType           => 'False',
+        },
+    },
+
+    # ConditionLinking 'xor': failing 'and' Condition and matching 'or' Condition
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                Priority => '3 normal',
+                                Queue    => 'Misc',
+                            },
+                        },
+                        Cond2 => {
+                            Type   => 'or',
+                            Fields => {
+                                Queue => 'Misc',
+                                State => 'open',
+                            },
+                        },
+                    },
+                    ConditionLinking => 'xor',
+                },
+            },
+            Data => {
+                Queue    => 'Raw',
+                State    => 'open',
+                Priority => '3 normal',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "xor" with failing "and" and matching "or" Condition)',
+            TestType           => 'True',
+        },
+    },
+
+    # ConditionLinking 'and': matching 'or' Condition and failing 'and' Condition
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Type   => 'or',
+                            Fields => {
+                                Queue => 'Misc',
+                                State => 'open',
+                            },
+                        },
+                        Cond2 => {
+                            Type   => 'and',
+                            Fields => {
+                                Priority => '3 normal',
+                                Queue    => 'Misc',
+                            },
+                        },
+                    },
+                    ConditionLinking => 'and',
+                },
+            },
+            Data => {
+                Queue    => 'Raw',
+                State    => 'open',
+                Priority => '3 normal',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "and" with matching "or" and failing "and" Condition)',
             TestType           => 'False',
         },
     },
