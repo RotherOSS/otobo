@@ -456,6 +456,17 @@ sub GeneratePDF {
                 # The format is added in the file name mainly for debugging.
                 $TempImageFilename = "$TempImageDir/gnuplot_$Format.pdf";
 
+                # The size of the generated PDF depends on the output size
+                my %Format2PDFImageSize = (
+                    'a4'     => '26.8cm,13.4cm',    # A4 landscape is 29,7 x 21.0 cm²
+                    'letter' => '24.9cm,13.4cm',    # letter landscape is 27,9 x 21,6 × cm²
+                );
+                my $PDFImageSize = $Kernel::OM->Get('Kernel::Config')->Get('PDF::PageSize') eq 'letter'
+                    ?
+                    $Format2PDFImageSize{letter}
+                    :
+                    $Format2PDFImageSize{a4};
+
                 # The terminal and tha output file name are the same for all Gnuplot formats.
                 # The size is hardcoded to fit on A4 paper. There is no special reason for the x:y ratio,
                 # just trial and error.
@@ -464,7 +475,7 @@ sub GeneratePDF {
 
                     #'terminal pdfcairo background' => 'rgb "gray90"',   # no background, tranparent in case of overlaps
                     auto                          => [qw(x y)],          # autosize x- and y-axis to fit the data
-                    'terminal pdfcairo size'      => '26.8cm,13.4cm',    # A4 landscape is 29,7 x 21.0 cm²
+                    'terminal pdfcairo size'      => $PDFImageSize,      # depends on PDF::PageSize
                     'terminal pdfcairo font'      => '",12"',            # no special font, but small font size
                     'terminal pdfcairo'           => 'square',           # rectangular ending of the bars
                     'terminal pdfcairo linewidth' => 3,                  # thinker lines in line charts
