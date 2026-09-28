@@ -467,10 +467,22 @@ sub ValueSet {
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The field configuration is invalid!",
+            Message  => "The field configuration is invalid!" . ( $Param{ObjectID} ? " ObjectID: $Param{ObjectID}." : " ObjectName: $Param{ObjectName}." ),
         );
 
         return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+
+            return;
+        }
     }
 
     # If ObjectName has been given, fetch/create an ID for it
@@ -493,7 +505,7 @@ sub ValueSet {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
-                        "Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
+                        "Dynamic field $Param{DynamicFieldConfig}{Name}: Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}{ObjectType}!"
                 );
 
                 return;
@@ -503,25 +515,13 @@ sub ValueSet {
         }
     }
 
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-
-            return;
-        }
-    }
-
     # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -619,7 +619,7 @@ sub ValueIsDifferent {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -636,7 +636,7 @@ sub ValueIsDifferent {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -694,7 +694,7 @@ sub ValueDelete {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -716,7 +716,7 @@ sub ValueDelete {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -786,7 +786,7 @@ sub AllValuesDelete {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -803,7 +803,7 @@ sub AllValuesDelete {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -850,7 +850,7 @@ sub ValueValidate {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -867,7 +867,7 @@ sub ValueValidate {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -914,7 +914,7 @@ sub FieldValueValidate {
     }
 
     # Check DynamicFieldConfig (internally).
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -931,7 +931,7 @@ sub FieldValueValidate {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -998,10 +998,22 @@ sub ValueGet {
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The field configuration is invalid!",
+            Message  => "The field configuration is invalid!" . ( $Param{ObjectID} ? " ObjectID: $Param{ObjectID}." : " ObjectName: $Param{ObjectName}." ),
         );
 
         return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+
+            return;
+        }
     }
 
     # If ObjectName has been given, fetch an ID for it
@@ -1014,7 +1026,7 @@ sub ValueGet {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  =>
-                    "Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
+                    "Dynamic field $Param{DynamicFieldConfig}{Name}: Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}{ObjectType}!"
             );
 
             return;
@@ -1023,25 +1035,13 @@ sub ValueGet {
         $Param{ObjectID} = $ObjectIDs->{ $Param{ObjectName} };
     }
 
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!",
-            );
-
-            return;
-        }
-    }
-
     # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1095,7 +1095,7 @@ sub SearchSQLGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1112,7 +1112,7 @@ sub SearchSQLGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1158,7 +1158,7 @@ sub SearchSQLOrderFieldGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1175,7 +1175,7 @@ sub SearchSQLOrderFieldGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1250,31 +1250,6 @@ sub EditFieldValueGet {
         }
     }
 
-    # check for the data source
-    if ( !$Param{ParamObject} && !$Param{Template} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need ParamObject or Template!"
-        );
-
-        return;
-    }
-
-    # define transform dates parameter
-    if ( !defined $Param{TransformDates} ) {
-        $Param{TransformDates} = 1;
-    }
-
-    # check needed objects for transform dates
-    if ( $Param{TransformDates} && !$Param{LayoutObject} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need LayoutObject to transform dates!"
-        );
-
-        return;
-    }
-
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1297,13 +1272,38 @@ sub EditFieldValueGet {
         }
     }
 
+    # check for the data source
+    if ( !$Param{ParamObject} && !$Param{Template} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Need ParamObject or Template!"
+        );
+
+        return;
+    }
+
+    # define transform dates parameter
+    if ( !defined $Param{TransformDates} ) {
+        $Param{TransformDates} = 1;
+    }
+
+    # check needed objects for transform dates
+    if ( $Param{TransformDates} && !$Param{LayoutObject} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Need LayoutObject to transform dates!"
+        );
+
+        return;
+    }
+
     # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1379,7 +1379,7 @@ sub EditFieldValueValidate {
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The possible values filter is invalid!",
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: The possible values filter is invalid!",
         );
 
         return;
@@ -1391,7 +1391,7 @@ sub EditFieldValueValidate {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1470,7 +1470,7 @@ sub SearchFieldRender {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1491,7 +1491,7 @@ sub SearchFieldRender {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1585,35 +1585,6 @@ sub SearchFieldValueGet {
         }
     }
 
-    # check ParamObject and Profile
-    if ( !$Param{ParamObject} && !$Param{Profile} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need ParamObject or Profile!"
-        );
-
-        return;
-    }
-
-    if ( $Param{ParamObject} && $Param{Profile} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Only ParamObject or Profile must be specified but not both!"
-        );
-
-        return;
-    }
-
-    # check if profile is a hash reference
-    if ( $Param{Profile} && ref $Param{Profile} ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "The search profile is invalid!",
-        );
-
-        return;
-    }
-
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1636,13 +1607,42 @@ sub SearchFieldValueGet {
         }
     }
 
+    # check ParamObject and Profile
+    if ( !$Param{ParamObject} && !$Param{Profile} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Need ParamObject or Profile!"
+        );
+
+        return;
+    }
+
+    if ( $Param{ParamObject} && $Param{Profile} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Only ParamObject or Profile must be specified but not both!"
+        );
+
+        return;
+    }
+
+    # check if profile is a hash reference
+    if ( $Param{Profile} && ref $Param{Profile} ne 'HASH' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: The search profile is invalid!",
+        );
+
+        return;
+    }
+
     # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1701,7 +1701,7 @@ sub SearchFieldPreferences {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1718,7 +1718,7 @@ sub SearchFieldPreferences {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!",
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!",
         );
 
         return;
@@ -1806,7 +1806,7 @@ sub SearchFieldParameterBuild {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1878,7 +1878,7 @@ sub ReadableValueRender {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1977,7 +1977,7 @@ sub TemplateValueTypeGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2033,7 +2033,7 @@ sub RandomValueSet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2050,7 +2050,7 @@ sub RandomValueSet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2129,7 +2129,7 @@ sub HistoricalValuesGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2146,7 +2146,7 @@ sub HistoricalValuesGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2217,7 +2217,7 @@ sub ValueLookup {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2292,7 +2292,7 @@ sub HasBehavior {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2309,7 +2309,7 @@ sub HasBehavior {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2372,7 +2372,7 @@ sub PossibleValuesGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2389,7 +2389,7 @@ sub PossibleValuesGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2480,7 +2480,7 @@ sub BuildSelectionDataGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2497,7 +2497,7 @@ sub BuildSelectionDataGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2583,7 +2583,7 @@ sub StatsFieldParameterBuild {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2662,7 +2662,7 @@ sub StatsSearchFieldParameterBuild {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2722,7 +2722,7 @@ sub ObjectMatch {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2736,7 +2736,7 @@ sub ObjectMatch {
     if ( !defined $Param{Value} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need Value!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Need Value!"
         );
 
         return;
@@ -2751,7 +2751,7 @@ sub ObjectMatch {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2812,7 +2812,7 @@ sub ColumnFilterValuesGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID Name FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2829,7 +2829,7 @@ sub ColumnFilterValuesGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -2887,7 +2887,7 @@ sub ValueSearch {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
