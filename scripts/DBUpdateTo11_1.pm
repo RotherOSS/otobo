@@ -141,6 +141,10 @@ sub Run {
             Name   => 'Bind ArticleEdit event for Elasticsearch webservice invoker.',
             Module => 'EleasticsearchBindArticleEditEvent',
         },
+        {
+            Name   => 'Migrate to using Gnuplot for creating the charts in statistics reports.',
+            Module => 'SwitchStatisticsReportFormat',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
