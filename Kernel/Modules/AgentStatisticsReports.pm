@@ -579,13 +579,13 @@ sub EditAction {
         );
     }
 
-    my $StatsReportID = $StatsReportObject->StatsReportUpdate(
+    my $UpdateSuccess = $StatsReportObject->StatsReportUpdate(
         ID => $GetParam{StatsReportID},
         %GetParam,
         Config => \%NewConfig,
         UserID => $Self->{UserID},
     );
-    if ( !$StatsReportID ) {
+    if ( !$UpdateSuccess ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Could not update report.'),
         );
