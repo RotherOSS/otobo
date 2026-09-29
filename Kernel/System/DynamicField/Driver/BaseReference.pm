@@ -1323,6 +1323,8 @@ sub GetFieldState {
         );
     }
 
+    delete $Param{ObjectID};
+
     # fetch possible values for dynamic field
     my $PossibleValues = $Self->PossibleValuesGet(
         %Param,
