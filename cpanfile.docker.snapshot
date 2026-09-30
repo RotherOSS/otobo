@@ -651,8 +651,8 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.654
-    pathname: H/HM/HMBRAND/DBI-1.654.tgz
+  DBI-1.655
+    pathname: H/HM/HMBRAND/DBI-1.655.tgz
     provides:
       Bundle::DBI 12.008696
       DBD::DBM 0.08
@@ -672,7 +672,7 @@ DISTRIBUTIONS
       DBD::NullP 12.014715
       DBD::Proxy 0.2004
       DBD::Sponge 12.010003
-      DBI 1.654
+      DBI 1.655
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
@@ -3018,6 +3018,7 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
+      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -4491,7 +4492,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP::MediaTypes 0
       MIME::Base64 0
       Test::More 0
