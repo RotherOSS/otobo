@@ -137,6 +137,10 @@ sub Run {
             Name   => 'Enable Similar Search Widget if ES is activated.',
             Module => 'EnableSimilarSearchWidgetIfESActivated',
         },
+        {
+            Name   => 'Bind ArticleEdit event for Elasticsearch webservice invoker.',
+            Module => 'EleasticsearchBindArticleEditEvent',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
