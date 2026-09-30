@@ -1665,8 +1665,7 @@ sub _DynamicFieldsCreate {
     # check dynamic fields and split dynamic fields in three separate groups
     my %Namespaces;
     my @NormalFields;
-    my @LensFields;
-    my @SetFields;
+    my @DependencyFields;
     for my $DynamicFieldConfig (@DynamicFields) {
 
         # check for namespaces
@@ -1682,21 +1681,13 @@ sub _DynamicFieldsCreate {
         }
 
         # sort field into fitting array
-        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
-            push @LensFields, $DynamicFieldConfig;
-        }
-        elsif ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
-            push @SetFields, $DynamicFieldConfig;
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' || $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+            push @DependencyFields, $DynamicFieldConfig;
         }
         else {
             push @NormalFields, $DynamicFieldConfig;
         }
     }
-
-    # sort lens fields in case a lens has another lens as attribute dynamic field
-    my @LensFieldsSorted = sort {
-        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
-    } @LensFields;
 
     # namespace handling
     if (%Namespaces) {
@@ -1771,9 +1762,62 @@ sub _DynamicFieldsCreate {
         }
     }
 
+    sub _CheckDFDependencies {    ## no critic qw(Subroutines::ProhibitNestedSubs)
+        my ( $Self, %Param ) = @_;
+
+        if ( $Param{DynamicFieldConfig}{FieldType} eq 'Set' ) {
+            for my $IncludeItem ( $Param{DynamicFieldConfig}{Config}{Include}->@* ) {
+                if ( $IncludeItem->{DF} && ( none { $_->{Name} eq $IncludeItem->{DF} } $Param{AvailableDFs}->@* ) ) {
+                    return 0;
+                }
+                elsif ( $IncludeItem->{Grid} ) {
+                    for my $Row ( $IncludeItem->{Grid}{Rows}->@* ) {
+                        for my $RowItem ( $Row->@* ) {
+                            if ( $RowItem->{DF} && ( none { $_->{Name} eq $RowItem->{DF} } $Param{AvailableDFs}->@* ) ) {
+                                return 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+            if (
+                ( none { $_->{Name} eq $Param{DynamicFieldConfig}{Config}{AttributeDF} } $Param{AvailableDFs}->@* )
+                || ( none { $_->{Name} eq $Param{DynamicFieldConfig}{Config}{ReferenceDF} } $Param{AvailableDFs}->@* )
+                )
+            {
+                return 0;
+            }
+        }
+        else {
+            return 1;
+        }
+
+        return 1;
+    }
+
+    my @SortedDependencyFields;
+    my $LoopProtection = 0;
+    while ( ( $#SortedDependencyFields < $#DependencyFields ) && $LoopProtection < 10 ) {
+        DYNAMICFIELDCONFIG:
+        for my $DynamicFieldConfig (@DependencyFields) {
+            next DYNAMICFIELDCONFIG if any { $_->{Name} eq $DynamicFieldConfig->{Name} } @SortedDependencyFields;
+
+            my $DependenciesFulfilled = $Self->_CheckDFDependencies(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                AvailableDFs       => [ ( $DynamicFieldList->@*, @NormalFields, @SortedDependencyFields ) ],
+            );
+            if ($DependenciesFulfilled) {
+                push @SortedDependencyFields, $DynamicFieldConfig;
+            }
+        }
+        $LoopProtection++;
+    }
+
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField ( @NormalFields, @LensFieldsSorted, @SetFields ) {
+    for my $NewDynamicField ( @NormalFields, @SortedDependencyFields ) {
 
         # field config transformation
         $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigName2ID(
