@@ -2270,6 +2270,8 @@ Requester:
       - Asynchronous: '0'
         Event: ArticleCreate
       - Asynchronous: '0'
+        Event: ArticleEdit
+      - Asynchronous: '0'
         Event: TicketCustomerUpdate
       - Asynchronous: '0'
         Event: TicketQueueUpdate

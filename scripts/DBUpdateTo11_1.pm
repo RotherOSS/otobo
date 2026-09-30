@@ -134,6 +134,10 @@ sub Run {
             Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
             Module => 'RemoveRedisOverride',
         },
+        {
+            Name   => 'Bind ArticleEdit event for Elasticsearch webservice invoker.',
+            Module => 'EleasticsearchBindArticleEditEvent',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
