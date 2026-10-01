@@ -1763,8 +1763,11 @@ sub _DynamicFieldsCreate {
     }
 
     my @SortedDependencyFields;
-    my $LoopProtection = 0;
-    while ( ( $#SortedDependencyFields < $#DependencyFields ) && $LoopProtection < 10 ) {
+    my @LeftoverFields;
+    my $PreviousArraySize = -1;
+    while ( ( $#SortedDependencyFields < $#DependencyFields ) && ( $PreviousArraySize < scalar @SortedDependencyFields ) ) {
+        @LeftoverFields    = ();
+        $PreviousArraySize = scalar @SortedDependencyFields;
         DYNAMICFIELDCONFIG:
         for my $DynamicFieldConfig (@DependencyFields) {
             next DYNAMICFIELDCONFIG if any { $_->{Name} eq $DynamicFieldConfig->{Name} } @SortedDependencyFields;
@@ -1778,8 +1781,18 @@ sub _DynamicFieldsCreate {
             if ($DependenciesFulfilled) {
                 push @SortedDependencyFields, $DynamicFieldConfig;
             }
+            else {
+                push @LeftoverFields, $DynamicFieldConfig->{Name};
+            }
         }
-        $LoopProtection++;
+    }
+    if (@LeftoverFields) {
+        return {
+            Success      => 0,
+            ErrorMessage =>
+                'The dependencies for the following dynamic fields could not be resolved: %s. Please make sure all field dependencies are present in the import or on the system and that they do not contain circular references to each other.',
+            PlaceholderData => [ join( ', ', @LeftoverFields ) ],
+        };
     }
 
     # create or update dynamic fields
