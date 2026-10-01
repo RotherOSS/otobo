@@ -570,7 +570,7 @@ Core.UI.InputFields = (function (TargetNS) {
         if ($SelectObj.val()) {
 
             // Maximum available width for boxes
-            MaxWidth = $SearchObj.width() - Config.SelectionBoxOffsetRight - Config.InputFieldPadding;
+            MaxWidth = $SearchObj.innerWidth() - (Config.SelectionBoxOffsetRight + Config.InputFieldPadding);
 
             // Check which kind of selection we are dealing with
             if ($.isArray($SelectObj.val())) {
@@ -793,8 +793,10 @@ Core.UI.InputFields = (function (TargetNS) {
 
                                     // Refresh the field and get focus
                                     $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized')));
-                                    $SearchObj.width($SelectObj.outerWidth())
-                                        .trigger('blur');
+                                    if (Config.CustomerInterface !== true) {
+                                        SearchObj.width($SelectObj.outerWidth());
+                                    }
+                                    $SearchObj.trigger('blur');
                                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                                     setTimeout(function () {
                                         $SearchObj.focus();
@@ -1611,6 +1613,8 @@ Core.UI.InputFields = (function (TargetNS) {
                         $ConfirmObj,
                         ErrorTooltipPosition = 'TongueTop';
 
+                    let ListContainerMargin = 16;
+
                     function CalculateListPosition() {
 
                         // calculate available height to bottom of page
@@ -1627,25 +1631,37 @@ Core.UI.InputFields = (function (TargetNS) {
                         // calculate available height to top of page
                         AvailableHeightTop = parseInt($InputContainerObj.offset().top - $(window).scrollTop() - Config.SafeMargin, 10);
 
+                        let MaxListWidth;
+
                         if ($SelectObj.hasClass('AlignDropdownRight')) {
+
+                            let RightListPosition = window.innerWidth-($InputContainerObj.offset().left + $InputContainerObj.outerWidth());
+                            MaxListWidth = RightListPosition - 2*ListContainerMargin;
+
                             // set right position
                             $ListContainerObj
                                 .css({
-                                    right: window.innerWidth-($InputContainerObj.offset().left + $InputContainerObj.outerWidth())
+                                    right: RightListPosition,
+                                    maxWidth: MaxListWidth
                                 });
                             if ( Config.CustomerInterface === true ) {
                                 $ListContainerObj
-                                    .css('margin-right', '16px');
+                                    .css('margin-right', ListContainerMargin);
                             }
                         } else {
+
+                            let LeftListPosition = $InputContainerObj.offset().left;
+                            MaxListWidth = window.innerWidth - (LeftListPosition + 2*ListContainerMargin);
+
                             // set left position
                             $ListContainerObj
                                 .css({
-                                    left: $InputContainerObj.offset().left
+                                    left: LeftListPosition,
+                                    maxWidth: MaxListWidth
                                 });
                             if ( Config.CustomerInterface === true ) {
                                 $ListContainerObj
-                                    .css('margin-left', '16px');
+                                    .css('margin-left', ListContainerMargin);
                             }
                         }
 
@@ -1842,8 +1858,13 @@ Core.UI.InputFields = (function (TargetNS) {
                         + Config.InputFieldPadding * 2
                     );
                     // Calculate width for tree container - Customer overrides width
-                    $TreeContainerObj.css('max-width', $SearchObj.width()
-                        + Config.InputFieldPadding * 2
+                    $TreeContainerObj.css(
+                        'max-width', 
+                        window.innerWidth - (
+                            $SearchObj.offset().left + 
+                            Config.InputFieldPadding*2 + 
+                            ListContainerMargin
+                        )
                     );
                     $TreeContainerObj.css('min-width', ( $SearchObj.width()
                         + Config.InputFieldPadding * 2 ) / 3
