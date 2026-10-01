@@ -171,19 +171,27 @@ sub Run {
                 push @DynamicFieldsImport, $ImportData->{DynamicFields}->{$DynamicField};
             }
 
-            my $Success;
+            my $Return;
             if ($OverwriteExistingEntities) {
-                $Success = $ZnunyHelperObject->_DynamicFieldsCreate(@DynamicFieldsImport);
+                $Return = $ZnunyHelperObject->_DynamicFieldsCreate(@DynamicFieldsImport);
             }
             else {
-                $Success = $ZnunyHelperObject->_DynamicFieldsCreateIfNotExists(@DynamicFieldsImport);
+                $Return = $ZnunyHelperObject->_DynamicFieldsCreateIfNotExists(@DynamicFieldsImport);
             }
 
-            if ( !$Success ) {
-                return $LayoutObject->ErrorScreen(
-                    Message => 'Something went wrong during dynamic field import.',
-                    Comment => 'Please review the logs.',
-                );
+            if ( !$Return->{Success} ) {
+                if ( $Return->{ErrorMessage} ) {
+                    my @Placeholder = IsArrayRefWithData( $Return->{PlaceholderData} ) ? $Return->{PlaceholderData}->@* : ();
+                    return $LayoutObject->ErrorScreen(
+                        Message => $LayoutObject->{LanguageObject}->Translate( $Return->{ErrorMessage}, @Placeholder ),
+                    );
+                }
+                else {
+                    return $LayoutObject->ErrorScreen(
+                        Message => $LayoutObject->{LanguageObject}->Translate('Something went wrong during dynamic field import.'),
+                        Comment => 'Please review the logs.',
+                    );
+                }
             }
         }
 

@@ -1569,7 +1569,9 @@ sub _DynamicFieldsCreateIfNotExists {
         push @DynamicFieldExistsNot, $NewDynamicField;
     }
 
-    return 1 if !@DynamicFieldExistsNot;
+    if ( !@DynamicFieldExistsNot ) {
+        return { Success => 1 };
+    }
 
     return $Self->_DynamicFieldsCreate(@DynamicFieldExistsNot);
 }
@@ -1672,8 +1674,9 @@ sub _DynamicFieldsCreate {
         my $FieldName = $DynamicFieldConfig->{Name};
         if ( $FieldName !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
             return {
-                Success      => 0,
-                ErrorMessage => "Invalid DynamicField name '$FieldName'.",
+                Success         => 0,
+                ErrorMessage    => "Invalid DynamicField name '%s'.",
+                PlaceholderData => [$FieldName],
             };
         }
         if ( $FieldName =~ /^([^-]+)-/ ) {
@@ -2013,7 +2016,7 @@ sub _DynamicFieldsCreate {
         $NextOrderNumber++;
     }
 
-    return !$Error;
+    return { Success => !$Error };
 }
 
 sub _CheckDFDependencies {
