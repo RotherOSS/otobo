@@ -1766,28 +1766,27 @@ sub _DynamicFieldsCreate {
     }
 
     my @SortedDependencyFields;
-    my @LeftoverFields;
+    my @LeftoverFields    = @DependencyFields;
+    my %AvailableFields   = map { $_->{Name} => 1 } ( $DynamicFieldList->@*, @NormalFields );
     my $PreviousArraySize = -1;
     while ( ( $#SortedDependencyFields < $#DependencyFields ) && ( $PreviousArraySize < scalar @SortedDependencyFields ) ) {
-        @LeftoverFields    = ();
+        my @CurrentLeftoverFields = ();
         $PreviousArraySize = scalar @SortedDependencyFields;
         DYNAMICFIELDCONFIG:
-        for my $DynamicFieldConfig (@DependencyFields) {
-            next DYNAMICFIELDCONFIG if any { $_->{Name} eq $DynamicFieldConfig->{Name} } @SortedDependencyFields;
-
-            my %AvailableFields = map { $_->{Name} => 1 } ( $DynamicFieldList->@*, @NormalFields, @SortedDependencyFields );
-
+        for my $DynamicFieldConfig (@LeftoverFields) {
             my $DependenciesFulfilled = $Self->_CheckDFDependencies(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 AvailableDFs       => \%AvailableFields,
             );
             if ($DependenciesFulfilled) {
                 push @SortedDependencyFields, $DynamicFieldConfig;
+                $AvailableFields{ $DynamicFieldConfig->{Name} } = 1;
             }
             else {
-                push @LeftoverFields, $DynamicFieldConfig->{Name};
+                push @CurrentLeftoverFields, $DynamicFieldConfig->{Name};
             }
         }
+        @LeftoverFields = @CurrentLeftoverFields;
     }
     if (@LeftoverFields) {
         return {
