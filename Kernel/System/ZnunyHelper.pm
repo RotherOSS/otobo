@@ -1762,41 +1762,6 @@ sub _DynamicFieldsCreate {
         }
     }
 
-    sub _CheckDFDependencies {    ## no critic qw(Subroutines::ProhibitNestedSubs)
-        my ( $Self, %Param ) = @_;
-
-        if ( $Param{DynamicFieldConfig}{FieldType} eq 'Set' ) {
-            for my $IncludeItem ( $Param{DynamicFieldConfig}{Config}{Include}->@* ) {
-                if ( $IncludeItem->{DF} && ( none { $_->{Name} eq $IncludeItem->{DF} } $Param{AvailableDFs}->@* ) ) {
-                    return 0;
-                }
-                elsif ( $IncludeItem->{Grid} ) {
-                    for my $Row ( $IncludeItem->{Grid}{Rows}->@* ) {
-                        for my $RowItem ( $Row->@* ) {
-                            if ( $RowItem->{DF} && ( none { $_->{Name} eq $RowItem->{DF} } $Param{AvailableDFs}->@* ) ) {
-                                return 0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
-            if (
-                ( none { $_->{Name} eq $Param{DynamicFieldConfig}{Config}{AttributeDF} } $Param{AvailableDFs}->@* )
-                || ( none { $_->{Name} eq $Param{DynamicFieldConfig}{Config}{ReferenceDF} } $Param{AvailableDFs}->@* )
-                )
-            {
-                return 0;
-            }
-        }
-        else {
-            return 1;
-        }
-
-        return 1;
-    }
-
     my @SortedDependencyFields;
     my $LoopProtection = 0;
     while ( ( $#SortedDependencyFields < $#DependencyFields ) && $LoopProtection < 10 ) {
@@ -1804,9 +1769,11 @@ sub _DynamicFieldsCreate {
         for my $DynamicFieldConfig (@DependencyFields) {
             next DYNAMICFIELDCONFIG if any { $_->{Name} eq $DynamicFieldConfig->{Name} } @SortedDependencyFields;
 
+            my %AvailableFields = map { $_->{Name} => 1 } ( $DynamicFieldList->@*, @NormalFields, @SortedDependencyFields );
+
             my $DependenciesFulfilled = $Self->_CheckDFDependencies(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                AvailableDFs       => [ ( $DynamicFieldList->@*, @NormalFields, @SortedDependencyFields ) ],
+                AvailableDFs       => \%AvailableFields,
             );
             if ($DependenciesFulfilled) {
                 push @SortedDependencyFields, $DynamicFieldConfig;
@@ -2034,6 +2001,41 @@ sub _DynamicFieldsCreate {
     }
 
     return !$Error;
+}
+
+sub _CheckDFDependencies {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Param{DynamicFieldConfig}{FieldType} eq 'Set' ) {
+        for my $IncludeItem ( $Param{DynamicFieldConfig}{Config}{Include}->@* ) {
+            if ( $IncludeItem->{DF} && !$Param{AvailableDFs}{ $IncludeItem->{DF} } ) {
+                return 0;
+            }
+            elsif ( $IncludeItem->{Grid} ) {
+                for my $Row ( $IncludeItem->{Grid}{Rows}->@* ) {
+                    for my $RowItem ( $Row->@* ) {
+                        if ( $RowItem->{DF} && !$Param{AvailableDFs}{ $RowItem->{DF} } ) {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+        if (
+            !$Param{AvailableDFs}{ $Param{DynamicFieldConfig}{Config}{AttributeDF} }
+            || !$Param{AvailableDFs}{ $Param{DynamicFieldConfig}{Config}{ReferenceDF} }
+            )
+        {
+            return 0;
+        }
+    }
+    else {
+        return 1;
+    }
+
+    return 1;
 }
 
 =item DynamicFieldFieldOrderAfterFieldGet()
