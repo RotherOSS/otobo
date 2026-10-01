@@ -1765,11 +1765,12 @@ sub _DynamicFieldsCreate {
         }
     }
 
+    @DependencyFields = reverse @DependencyFields;
     my @SortedDependencyFields;
     my @LeftoverFields    = @DependencyFields;
     my %AvailableFields   = map { $_->{Name} => 1 } ( $DynamicFieldList->@*, @NormalFields );
     my $PreviousArraySize = -1;
-    while ( ( $#SortedDependencyFields < $#DependencyFields ) && ( $PreviousArraySize < scalar @SortedDependencyFields ) ) {
+    while ( @LeftoverFields && ( $PreviousArraySize < scalar @SortedDependencyFields ) ) {
         my @CurrentLeftoverFields = ();
         $PreviousArraySize = scalar @SortedDependencyFields;
         DYNAMICFIELDCONFIG:
@@ -1783,7 +1784,7 @@ sub _DynamicFieldsCreate {
                 $AvailableFields{ $DynamicFieldConfig->{Name} } = 1;
             }
             else {
-                push @CurrentLeftoverFields, $DynamicFieldConfig->{Name};
+                push @CurrentLeftoverFields, $DynamicFieldConfig;
             }
         }
         @LeftoverFields = @CurrentLeftoverFields;
