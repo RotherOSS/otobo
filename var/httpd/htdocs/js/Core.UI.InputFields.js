@@ -528,7 +528,6 @@ Core.UI.InputFields = (function (TargetNS) {
         var Selection,
             SelectionLength,
             $SelectionFilterObj,
-            i = 0,
             OffsetLeft = 0,
             OffsetRight = Config.SelectionBoxOffsetRight,
             MoreBox = false,
@@ -596,7 +595,7 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             // Iterate through all selected values
-            $.each(Selection, function (_Index, Value) {
+            $.each(Selection, function (Index, Value) {
                 var $SelectionObj,
                     Text,
                     $TextObj,
@@ -607,7 +606,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     return true;
                 }
 
-                if ( i === 0 && Config.CustomerInterface === true ) {
+                if ( Index === 0 && Config.CustomerInterface === true ) {
                     $InputContainerObj.parent().addClass('oooSelected');
                     // for DynamicFields
                     $InputContainerObj.parent().parent('.Field').addClass('oooSelected');
@@ -692,7 +691,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 } else {
 
                     // If first selection, we must shorten it in order to display it
-                    if (i === 0) {
+                    if (Index === 0) {
                         while (MaxWidth > 0 && OffsetLeft + $SelectionObj.outerWidth() >= MaxWidth) {
                             if ( $TextObj.text() === '...' ) {
                                 break;
@@ -726,7 +725,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                         OffsetLeft + 'px'
                                     )
                                     .html(
-                                        '<div class="Text">' + Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i) + '</div>'
+                                        '<div class="Text">' + Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - Index) + '</div>'
                                     )
                                     .on('click.InputField', function () {
                                         $SearchObj.trigger('focus');
@@ -741,7 +740,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                         OffsetLeft + 'px'
                                     )
                                     .text(
-                                        Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i)
+                                        Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - Index)
                                     )
                                     .on('click.InputField', function () {
                                         $SearchObj.trigger('focus');
@@ -762,7 +761,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Increment the offset with the width of box and right margin
                 OffsetLeft += $SelectionObj.outerWidth() + OffsetRight;
 
-                i++;
+                Index++;
             });
 
             if (Multiple && MoreBox) {
