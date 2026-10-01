@@ -1765,7 +1765,6 @@ sub _DynamicFieldsCreate {
         }
     }
 
-    @DependencyFields = reverse @DependencyFields;
     my @SortedDependencyFields;
     my @LeftoverFields    = @DependencyFields;
     my %AvailableFields   = map { $_->{Name} => 1 } ( $DynamicFieldList->@*, @NormalFields );
