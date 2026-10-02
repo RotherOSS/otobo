@@ -392,6 +392,40 @@ sub PrepareRequest {
             };
         }
     }
+    elsif ( $Param{Data}->{Event} eq 'ArticleEdit' ) {
+
+        my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+
+        my $TicketDeleteResult = $RequesterObject->Run(
+            WebserviceID => $Self->{WebserviceID},
+            Invoker      => 'TicketManagement',
+            Asynchronous => 0,
+            Data         => {
+                Event     => 'TicketDelete',
+                IndexName => 'ticket',
+                TicketID  => $Param{Data}{TicketID},
+            },
+        );
+
+        my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        # re-create the ticket
+        if ( $ESObject->TicketCreate( TicketID => $Param{Data}{TicketID} ) ) {
+
+            my @ArticleList = $ArticleObject->ArticleList( TicketID => $Param{Data}{TicketID} );
+            for my $Article (@ArticleList) {
+                my $Success = $ESObject->ArticleCreate(
+                    TicketID  => $Param{Data}{TicketID},
+                    ArticleID => $Article->{ArticleID},
+                );
+            }
+        }
+        return {
+            Success           => 1,
+            StopCommunication => 1,
+        };
+    }
 
     # gather all fields which have to be stored
     my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
