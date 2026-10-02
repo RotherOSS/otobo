@@ -28,6 +28,7 @@ use URI::Escape qw(uri_unescape);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::GenericInterface::Invoker::Elasticsearch::ManagementCommon qw(RemoveESWeightedSearchBoostSuffix);
 
 our $ObjectManagerDisabled = 1;
 
@@ -395,7 +396,9 @@ sub PrepareRequest {
 
     # gather all fields which have to be stored
     my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
-    my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
+    my $Search = RemoveESWeightedSearchBoostSuffix(
+        Data => $ConfigObject->Get('Elasticsearch::TicketSearchFields')
+    );
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my %DataToStore;

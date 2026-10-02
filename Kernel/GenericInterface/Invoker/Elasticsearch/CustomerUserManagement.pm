@@ -25,6 +25,7 @@ use warnings;
 use URI::Escape qw(uri_unescape);
 
 # OTOBO modules
+use Kernel::GenericInterface::Invoker::Elasticsearch::ManagementCommon qw(RemoveESWeightedSearchBoostSuffix);
 
 our $ObjectManagerDisabled = 1;
 
@@ -120,7 +121,9 @@ sub PrepareRequest {
 
     # gather all fields which have to be stored
     my $Store  = $ConfigObject->Get('Elasticsearch::CustomerUserStoreFields');
-    my $Search = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
+    my $Search = RemoveESWeightedSearchBoostSuffix(
+        Data => $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields')
+    );
 
     my %DataToStore;
     for my $Field ( @{$Store}, @{$Search} ) {

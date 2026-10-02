@@ -26,6 +26,8 @@ use URI::Escape qw(uri_unescape);
 
 # OTOBO modules
 
+use Kernel::GenericInterface::Invoker::Elasticsearch::ManagementCommon qw(RemoveESWeightedSearchBoostSuffix);
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -123,7 +125,9 @@ sub PrepareRequest {
     my %Content;
     {
         my $Store  = $ConfigObject->Get('Elasticsearch::CustomerCompanyStoreFields');
-        my $Search = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
+        my $Search = RemoveESWeightedSearchBoostSuffix(
+            Data => $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields')
+        );
 
         my %DataToStore;
         for my $Field ( @{$Store}, @{$Search} ) {
