@@ -323,7 +323,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     position: relative;
     top:1px;
 
-    max-width:40vW;
+    max-width: 40vW;
     overflow: hidden;
 }
 
