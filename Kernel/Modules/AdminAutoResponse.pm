@@ -403,13 +403,13 @@ sub _Overview {
         Data => \%Param,
     );
     my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
-    my %List               = $AutoResponseObject->AutoResponseList(
+    my %AutoResponseList   = $AutoResponseObject->AutoResponseList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
     if ( $Self->{LightAdmin} ) {
 
         # check queue permissions of linked templates.
-        for my $AutoResponseID ( keys %List ) {
+        for my $AutoResponseID ( keys %AutoResponseList ) {
             my %Data   = $AutoResponseObject->AutoResponseGet( ID => $AutoResponseID );
             my %Queues = $AutoResponseObject->QueueAutoResponseMemberList(
                 AutoResponseID => $Data{ID}
@@ -420,17 +420,17 @@ sub _Overview {
                 Default  => 'rw',
             );
             if ( !$Data{Permission} ) {
-                delete $List{$AutoResponseID};
+                delete $AutoResponseList{$AutoResponseID};
             }
         }
     }
 
     # if there are any results, they are shown
-    if (%List) {
+    if (%AutoResponseList) {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
-        for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $ID ( sort { $AutoResponseList{$a} cmp $AutoResponseList{$b} } keys %AutoResponseList ) {
             my %Data = $AutoResponseObject->AutoResponseGet(
                 ID => $ID,
             );
