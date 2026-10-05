@@ -59,6 +59,12 @@ sub Run {
             Module => 'RebuildConfig',
         },
         {
+            # Reconfiguring the cache backend affects the subsequent tasks.
+            # This is fine as the new cache backend should be available.
+            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
+            Module => 'RemoveRedisOverride',
+        },
+        {
             Name   => 'Deactivate autoload modules in the SysConfig.',
             Module => 'SysConfigDeactivateAutoloadModules',
         },
@@ -129,10 +135,6 @@ sub Run {
         {
             Name   => 'Enable Similar Search Widget if ES is activated.',
             Module => 'EnableSimilarSearchWidgetIfESActivated',
-        },
-        {
-            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
-            Module => 'RemoveRedisOverride',
         },
     );
     my $NumTasks = @Tasks;

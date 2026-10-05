@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
+    'Kernel::System::Cache',
 );
 
 =head1 NAME
@@ -72,6 +73,11 @@ sub Run {
 
         return 0;
     }
+
+    # Do not use the cache backend while reconfiguring it
+    $Kernel::OM->Get('Kernel::System::Cache')->Configure(
+        CacheInBackend => 0,
+    );
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
