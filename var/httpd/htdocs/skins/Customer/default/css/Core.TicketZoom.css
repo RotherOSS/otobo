@@ -223,6 +223,10 @@ fieldset .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
     border-radius: 16px;
 }
 
+.oooAvatar > .Initials {
+    line-height: 32px;
+}
+
 #ReplyButton i {
     position: relative;
     top: 2px;
