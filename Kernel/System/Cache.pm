@@ -16,8 +16,15 @@
 
 package Kernel::System::Cache;
 
+use v5.26;
 use strict;
 use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

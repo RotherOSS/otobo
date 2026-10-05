@@ -74,13 +74,12 @@ sub Run {
         return 0;
     }
 
-    # Do not use the cache backend while reconfiguring it
-    $Kernel::OM->Get('Kernel::System::Cache')->Configure(
-        CacheInBackend => 0,
+    # Force reload of Kernel::Config instance with the changed Kernel/Config.pm
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
     );
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
 
     # Tweak the SysConfig if necessary
     my $Key     = 'Cache::Module';
@@ -88,15 +87,28 @@ sub Run {
         Name => $Key,
     );
 
-    if (
-        %Setting
-        &&
-        $Setting{IsValid}
-        &&
-        ( $Setting{EffectiveValue} // '' ) eq 'Kernel::System::Cache::Redis'
-        )
-    {
-        print "    changing the SysConfig setting Cache::Module to Kernel::System::Cache::FileStorable\n";
+    # return early when there is nothing to do
+    return 1 unless %Setting;
+    return 1 unless $Setting{IsValid};
+    return 1 unless $Setting{EffectiveValue};
+    return 1 unless $Setting{EffectiveValue} eq 'Kernel::System::Cache::Redis';
+
+    # Do not use the cache backend while reconfiguring it
+    # Make the switch via Kernel::Config as Kernel::System::Cache::new() has no parameter for the backend module
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::System::Cache'],
+    );
+    $Kernel::OM->Get('Kernel::Config')->Set(
+        Key   => 'Cache::Module',
+        Value => 'Kernel::System::Cache::None'
+    );
+
+    print "    changing the SysConfig setting Cache::Module to Kernel::System::Cache::FileStorable\n";
+
+    my $Success   = 1;
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    if ($Success) {
 
         # nobody else should meddle with the SysConfig
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
@@ -120,21 +132,27 @@ sub Run {
                 Message  => "Could not update setting '$Key'.",
             );
 
-            return;
+            $Success = 0;
         }
+    }
 
-        my $Success = $SysConfigObject->SettingUnlock(
+    if ($Success) {
+
+        my $UnlockSuccess = $SysConfigObject->SettingUnlock(
             UnlockAll => 1,
         );
 
-        if ( !$Success ) {
+        if ( !$UnlockSuccess ) {
             $LogObject->Log(
                 Priority => 'error',
                 Message  => "Could not unlock settings.",
             );
 
-            return;
+            $Success = 0;
         }
+    }
+
+    if ($Success) {
 
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
             AllSettings => 1,
@@ -149,11 +167,16 @@ sub Run {
                 Message  => "Deployment failed.",
             );
 
-            return;
+            $Success = 0;
         }
     }
 
-    # looking good
+    # roll back temporarily changed objects
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+    );
+
+    return unless $Success;
     return 1;
 }
 

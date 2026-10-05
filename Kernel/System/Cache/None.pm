@@ -1,0 +1,61 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+package Kernel::System::Cache::None;
+
+use strict;
+use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
+our @ObjectDependencies = (
+);
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    return bless {}, $Type;
+}
+
+sub Set {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
+sub Get {
+    my ( $Self, %Param ) = @_;
+
+    return;
+}
+
+sub Delete {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
+sub CleanUp {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
+1;
