@@ -74,6 +74,13 @@ sub Configure {
         HasValue    => 0,
     );
 
+    $Self->AddOption(
+        Name        => 'no-cache-in-backend',
+        Description => "Do not use a caching backend like Redis or FileStorable",
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
@@ -140,6 +147,16 @@ sub Run {
     $Self->Print("<yellow>Rebuilding the system configuration...</yellow>\n");
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Turn off the cache backend.
+    # This can be useful in updates of OTOBO where the configured cache backend may be gone.
+    # A known case is the update from OTOBO 11.0.x to OTOBO 11.1.x, Docker-based, where
+    # the Redis cache backend is replaced by FileStorable.
+    if ( $Self->GetOption('no-cache-in-backend') ) {
+        $CacheObject->Configure(
+            CacheInBackend => 0,
+        );
+    }
 
     # Enable in-memory cache to improve SysConfig performance, which is normally disabled for commands.
     $CacheObject->Configure(

@@ -49,7 +49,7 @@ sub Run {
     {
         local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-        $ExitCode = $CommandObject->Execute();
+        $ExitCode = $CommandObject->Execute('--no-cache-in-backend');
     }
 
     # exit code 0 means all went well
