@@ -150,6 +150,8 @@ sub Run {
             last TASK;
         }
 
+        # Note that no new process is started for each task.
+        # So changes in $Kernel::OM carry over to the next task.
         my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_1::' . $Task->{Module} )->Run;
 
         if ( !$Success ) {
