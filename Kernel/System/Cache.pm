@@ -133,7 +133,9 @@ sub new {
         || 'Kernel::System::Cache::FileStorable';
 
     # Store backend in $Self for fastest access.
-    $Self->{CacheObject}    = $Kernel::OM->Get($CacheModule);
+    $Self->{CacheObject} = $Kernel::OM->Get($CacheModule);
+
+    # attributes which determine the behavior of the cache
     $Self->{CacheInMemory}  = $Kernel::OM->Get('Kernel::Config')->Get('Cache::InMemory')  // 1;
     $Self->{CacheInBackend} = $Kernel::OM->Get('Kernel::Config')->Get('Cache::InBackend') // 1;
 
@@ -159,7 +161,8 @@ sub Configure {
 
     SETTING:
     for my $Setting (qw(CacheInMemory CacheInBackend)) {
-        next SETTING if !exists $Param{$Setting};
+        next SETTING unless exists $Param{$Setting};
+
         $Self->{$Setting} = $Param{$Setting} ? 1 : 0;
     }
 
