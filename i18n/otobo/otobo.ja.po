@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-08-31 12:13+0000\n"
-"PO-Revision-Date: 2026-10-05 04:58+0000\n"
+"PO-Revision-Date: 2026-10-06 05:41+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <http://translate.otobo.org/projects/otobo-11-0/"
 "otobo/ja/>\n"
@@ -270,7 +270,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr "アバウト"
+msgstr "概要"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -14395,11 +14395,11 @@ msgstr "アクティビティダイアログ%sの編集"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr "担当者インターフェース"
+msgstr "担当者インタフェース"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr "顧客インターフェース"
+msgstr "顧客インタフェース"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
@@ -20893,7 +20893,7 @@ msgstr "管理者通知"
 
 #. SysConfig
 msgid "Admin area navigation for the agent interface."
-msgstr "担当者Webインタフェースの管理ナビゲーション"
+msgstr "担当者インタフェースの管理画面のナビゲーション。"
 
 #. SysConfig
 msgid "Admin contact with data."
@@ -21276,9 +21276,9 @@ msgid ""
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
 msgstr ""
-"チケットに関するサービスおよびSLA（例：email, desktop, network, ...)、および"
-"SLAの対応期限の属性を定義することを、許可します（チケット・サービス/SLA機能が"
-"有効となっている場合）。"
+"チケットのサービスと SLA（例: メール、デスクトップ、ネットワークなど）、およ"
+"び SLA のエスカレーション属性を定義できるようにします（チケットのサービス／"
+"SLA 機能が有効な場合）。"
 
 #. SysConfig
 msgid ""
@@ -25113,8 +25113,8 @@ msgid ""
 "Defines the name of the application, shown in the web interface, tabs and "
 "title bar of the web browser."
 msgstr ""
-"ウェブ・インタフェース、ウェブ・ブラウザのタブおよびタイトル・バーに表示され"
-"るアプリケーション名を定義します。"
+"Web インタフェース、タブ、Web ブラウザーのタイトルバーに表示される"
+"アプリケーション名を定義します。"
 
 #. SysConfig
 msgid ""
@@ -26106,9 +26106,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
-msgstr ""
-"リンクされたオブジェクトがそれぞれのズームマスクで表示される方式を定義しま"
-"す。"
+msgstr "各ズーム画面でのリンクオブジェクトの表示方法を決定します。"
 
 #. SysConfig
 msgid ""
@@ -26315,9 +26313,7 @@ msgstr "ダイナミックフィールド・Webサービス・バックエンド
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
-msgstr ""
-"検索結果をCSVフォーマットでエクスポートする際に利用するダイナミック・フィール"
-"ドです。"
+msgstr "検索結果を CSV 形式でエクスポートする際に使用するダイナミックフィールド。"
 
 #. SysConfig
 msgid ""
@@ -26555,11 +26551,11 @@ msgstr "ダイナミック・フィールド"
 
 #. SysConfig
 msgid "DynamicField backend registration."
-msgstr "ダイナミック・フィールドのバックエンド登録"
+msgstr "ダイナミックフィールドのバックエンドの登録。"
 
 #. SysConfig
 msgid "DynamicField object registration."
-msgstr "ダイナミックフィールドのオブジェクト登録"
+msgstr "ダイナミックフィールドのオブジェクトの登録。"
 
 #. SysConfig
 msgid "DynamicField_%s"
@@ -27216,15 +27212,15 @@ msgstr "管理者インタフェース用のフロントエンドモジュール
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
-msgstr "担当者インタフェースに関するフロントエンド・モジュールの登録です。"
+msgstr "担当者インタフェース用のフロントエンドモジュールの登録。"
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr "担当者インタフェースに関するフロントエンド・モジュールの登録です。"
+msgstr "顧客インタフェース用のフロントエンドモジュールの登録。"
 
 #. SysConfig
 msgid "Frontend module registration for the public interface."
-msgstr "公開画面のフロントエンドモジュールの定義"
+msgstr "公開インタフェース用のフロントエンドモジュールの登録。"
 
 #. SysConfig
 msgid "Full value"
@@ -28314,20 +28310,19 @@ msgstr "予約とチケットを \"Normal\" タイプのリンクで関連付け
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
-msgstr ""
-"担当者インタフェースに対して、常にロードされるCSSファイルのリストです。"
+msgstr "担当者インタフェースで常に読み込む CSS ファイルの一覧。"
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
-msgstr "顧客インタフェースに対して、常にロードされるCSSファイルのリストです。"
+msgstr "顧客インタフェースで常に読み込む CSS ファイルの一覧。"
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
-msgstr "担当者インタフェースに対して、常にロードされるJSファイルのリストです。"
+msgstr "担当者インタフェースで常に読み込む JS ファイルの一覧。"
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the customer interface."
-msgstr "顧客インタフェースに対して、常にロードされるJSファイルのリストです。"
+msgstr "顧客インタフェースで常に読み込む JS ファイルの一覧。"
 
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
@@ -28418,7 +28413,7 @@ msgstr "顧客インターフェイスのダッシュボード情報タイルの
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr "担当者Webインタフェースのローダーモジュール登録"
+msgstr "担当者インタフェース用のローダーモジュールの登録。"
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
@@ -30717,7 +30712,7 @@ msgstr "このチケットを保留に設定"
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
-msgstr "SLAが担当者によって必ず選択される必要があるかどうかを設定します。"
+msgstr "担当者が SLA を選択する必要があるかどうかを設定します。"
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the customer."
@@ -30737,7 +30732,7 @@ msgstr "担当者がキューを選択する必要があるかどうかを設定
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."
-msgstr "サービスが担当者によって必ず選択される必要があるかどうかを設定します。"
+msgstr "担当者がサービスを選択する必要があるかどうかを設定します。"
 
 #. SysConfig
 msgid "Sets if service must be selected by the customer."
@@ -33144,8 +33139,8 @@ msgid ""
 "This configuration defines all possible screens to enable or disable dynamic "
 "fields."
 msgstr ""
-"ダイナミック・フィールド管理画面でダイナミック・フィールドを表示・非表示にす"
-"る画面を指定します。"
+"この設定は、ダイナミックフィールドを有効または無効にできるすべての画面を定義"
+"します。"
 
 #. SysConfig
 msgid ""
