@@ -559,7 +559,7 @@ sub EditFieldValueValidate {
 
             $Allowed = ( grep { ( $_ // '' ) eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
-            if ($Allowed) {
+            if ( $Allowed && $ValueItem ) {
 
                 $ValueItemsPresent++;
             }
