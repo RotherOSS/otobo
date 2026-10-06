@@ -388,7 +388,7 @@ sub _RenderAjax {
                 {
                     Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
-                    SelectedID   => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
+                    SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     PossibleNone => 1,
                     Translation  => $TreeView,
                     TreeView     => $TreeView,
@@ -411,7 +411,7 @@ sub _RenderAjax {
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
                 Services  => $Services,
-                ServiceID => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
+                ServiceID => $Param{GetParam}{ $Self->{NameToID}{Service} },
             );
 
             # add SLA to the JSONCollector (Use SelectedID from web request)
@@ -420,7 +420,7 @@ sub _RenderAjax {
                 {
                     Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
-                    SelectedID   => $ParamObject->GetParam( Param => 'SLAID' ) || '',
+                    SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     PossibleNone => 1,
                     Translation  => 1,
                     Max          => 100,
@@ -441,7 +441,7 @@ sub _RenderAjax {
                 {
                     Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
-                    SelectedID   => $ParamObject->GetParam( Param => 'TypeID' ) || '',
+                    SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     PossibleNone => 1,
                     Translation  => 1,
                     Max          => 100,
