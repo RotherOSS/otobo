@@ -188,8 +188,11 @@ sub ValueSet {
                 ConfigItemHandled  => 0,
                 EditFieldValue     => 0,
                 Set                => 0,
-                DynamicFieldConfig => $AttributeDFConfig,
-                $ObjectIDOrName    => $ReferencedObjectID,
+                DynamicFieldConfig => {
+                    $AttributeDFConfig->%*,
+                    Name => $Param{DynamicFieldConfig}{Name},
+                },
+                $ObjectIDOrName => $ReferencedObjectID,
             );
         }
         return 1;
@@ -213,8 +216,11 @@ sub ValueSet {
         %Param,
         ConfigItemHandled  => 0,
         EditFieldValue     => 0,
-        DynamicFieldConfig => $AttributeDFConfig,
-        $ObjectIDOrName    => $ReferencedObjectID,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name => $Param{DynamicFieldConfig}{Name},
+        },
+        $ObjectIDOrName => $ReferencedObjectID,
     );
 }
 
