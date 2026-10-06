@@ -136,6 +136,10 @@ sub Run {
             Name   => 'Enable Similar Search Widget if ES is activated.',
             Module => 'EnableSimilarSearchWidgetIfESActivated',
         },
+        {
+            Name   => 'Add source_article_id based index to the article_version table.',
+            Module => 'DBAddSourceArticleIdIndex',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
