@@ -145,6 +145,10 @@ sub Run {
             Name   => 'Migrate to using Gnuplot for creating the charts in statistics reports.',
             Module => 'SwitchStatisticsReportFormat',
         },
+        {
+            Name   => 'Add source_article_id based index to the article_version table.',
+            Module => 'DBAddSourceArticleIdIndex',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;

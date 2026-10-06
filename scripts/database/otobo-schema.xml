@@ -1218,6 +1218,10 @@
         <IndexColumn Name="version_create_by">
         </IndexColumn>
     </Index>
+    <Index Name="article_version_source_article_id">
+        <IndexColumn Name="source_article_id"/>
+        <IndexColumn Name="article_delete"/>
+    </Index>
     <ForeignKey ForeignTable="article_sender_type">
         <Reference Foreign="id" Local="article_sender_type_id">
         </Reference>
