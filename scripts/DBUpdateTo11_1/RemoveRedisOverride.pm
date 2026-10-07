@@ -30,6 +30,7 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::ModuleRefresh ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -40,7 +41,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo11_1::RemoveRedisOverride - no longer force Redis to be caching backend
+scripts::DBUpdateTo11_1::RemoveRedisOverride - no longer force Redis to be the caching backend
 
 =head1 DESCRIPTION
 
@@ -68,16 +69,18 @@ sub Run {
         qq!$^X -i.backup_upgrade -pe 's/(?=.*\\\$Self->{.Cache::)/# commented out by DBUpdate-to-11.1.pl $Now /' /opt/otobo/Kernel/Config.pm!
     );
 
+    # Reload the changed Kernel/Config.pm and make sure that Kernel::System::Cache
+    # picks up the changed setting.
+    Kernel::System::ModuleRefresh->refresh_module('Kernel/Config.pm');
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+    );
+
     if ($Failed) {
         print "\n\n    ERROR: could not tweak Kernel/Config.pm\n";
 
         return 0;
     }
-
-    # Force reload of Kernel::Config instance with the changed Kernel/Config.pm
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
-    );
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -94,12 +97,12 @@ sub Run {
     return 1 unless $Setting{EffectiveValue} eq 'Kernel::System::Cache::Redis';
 
     # Do not use the cache backend while reconfiguring it
-    # Make the switch via Kernel::Config as Kernel::System::Cache::new() has no parameter for the backend module
+    # Make the switch via Kernel::Config as Kernel::System::Cache::new() does not have a parameter for the backend module
     $Kernel::OM->ObjectsDiscard(
         Objects => ['Kernel::System::Cache'],
     );
     $Kernel::OM->Get('Kernel::Config')->Set(
-        Key   => 'Cache::Module',
+        Key   => $Key,
         Value => 'Kernel::System::Cache::None'
     );
 
