@@ -47,11 +47,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /* End of additions from Core.Reset.css */
 
 .ck-content {
-
+    /* CKEditor 5 Variables */
     --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --ck-content-font-size: 14px;
-    --ck-content-line-height: 16px;
-    --ck-content-todo-list-checkmark-size: 16px;
+    --ck-content-font-size: 16px;
+    --ck-content-line-height: 1.2;
+    --ck-content-todo-list-checkmark-size: calc(var(--ck-content-font-size) - 2px);
+
+    /* OTOBO Variables */
+    --block-margin-bottom: calc(0.7 * var(--ck-content-line-height) * var(--ck-content-font-size));
+    --list-item-margin-bottom: calc(0.15 * var(--ck-content-line-height) * var(--ck-content-font-size)); 
+    
 
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -84,40 +89,35 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-style: italic;
 }
 
-.ck-content figure.table {
-    margin: 0 0 0 0;
-    width: 100%;
-}
-
 .ck-content p {
     line-height: var(--ck-content-line-height);
     margin-top: 0;
-    margin-bottom: calc(0.5 * var(--ck-content-line-height));
+    margin-bottom: var(--block-margin-bottom);
 }
 
 .ck-content h1 {
     font-size: 19px;
-    line-height: 21px;
+    line-height: var(--ck-content-line-height);
     margin-top: 24px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     font-weight: bold;
     color: inherit;
 } 
 
 .ck-content h2 {
     font-size: 16px;
-    line-height: 19px;
-    margin-top: 19px;
-    margin-bottom: 12px;
+    line-height: var(--ck-content-line-height);
+    margin-top: 20px;
+    margin-bottom: 13px;
     font-weight: bold;
     color: inherit;
 }
 
 .ck-content h3 {
     font-size: 14px;
-    line-height: 16px;
-    margin-top: 14px;
-    margin-bottom: 9.5px;
+    line-height: var(--ck-content-line-height);
+    margin-top: 16px;
+    margin-bottom: 11px;
     font-weight: bold;
     color: inherit;
 }
@@ -126,38 +126,49 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content h5,
 .ck-content h6 {
     font-size: 14px;
-    line-height: 16px;
-    margin-top: 14px;
-    margin-bottom: 9.5px;
+    line-height: var(--ck-content-line-height);
+    margin-top: 16px;
+    margin-bottom: 11px;
     font-weight: normal !important;
     font-style: italic;
     color: inherit;
-}
-
-.ck-content blockquote {
-    font-style: normal !important;
-    border-left: solid #000099 1.5pt !important; 
-    padding: 0cm 0cm 0cm 4pt !important;
-    margin: 0;
 }
 
 .ck-content ul,
 .ck-content ol
 {
     padding: 0 50px;
-    margin-bottom: calc(0.5 * var(--ck-content-line-height));
+    margin-bottom: var(--block-margin-bottom);
 }
 
 .ck-content li {
-    margin-bottom: calc(0.5 * var(--ck-content-line-height));
+    margin-bottom: var(--list-item-margin-bottom);
 }
 
-.ck-content li > ul {
-    margin-top: calc(0.5 * var(--ck-content-line-height));
+.ck-content li > ul, 
+.ck-content li > ol,
+.ck-content li > p {
+    margin-bottom: var(--list-item-margin-bottom);
 }
 
 .ck-content input[type="checkbox"] {
     margin: unset;
+}
+
+.ck-content figure.table {
+    margin: 0 0 var(--block-margin-bottom) 0;
+    width: 100%;
+}
+
+.ck-content blockquote {
+    font-style: normal !important;
+    border-left: solid #000099 1.5pt !important; 
+    padding: 0cm 0cm 0cm 4pt !important;
+    margin: 0 0 var(--block-margin-bottom) 0;
+}
+
+.ck-content pre {
+    margin: 0 0 var(--block-margin-bottom) 0;
 }
 
 /* default image style */
