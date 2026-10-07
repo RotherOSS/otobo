@@ -948,13 +948,13 @@ sub Run {
         }
 
         # set config start activity
-        if ( $ElementMap->{Activity}->{$ProcessData->{Config}->{StartActivity}} ) {
-            $ProcessData->{Config}->{StartActivity} = $ElementMap->{Activity}->{$ProcessData->{Config}->{StartActivity}};
+        if ( $ElementMap->{Activity}->{ $ProcessData->{Config}->{StartActivity} } ) {
+            $ProcessData->{Config}->{StartActivity} = $ElementMap->{Activity}->{ $ProcessData->{Config}->{StartActivity} };
         }
 
         # set config start activity dialog
-        if ( $ElementMap->{ActivityDialog}->{$ProcessData->{Config}->{StartActivityDialog}} ) {
-            $ProcessData->{Config}->{StartActivityDialog} = $ElementMap->{ActivityDialog}->{$ProcessData->{Config}->{StartActivityDialog}};
+        if ( $ElementMap->{ActivityDialog}->{ $ProcessData->{Config}->{StartActivityDialog} } ) {
+            $ProcessData->{Config}->{StartActivityDialog} = $ElementMap->{ActivityDialog}->{ $ProcessData->{Config}->{StartActivityDialog} };
         }
 
         # now rebuild process path config, substituting process-specific elements
