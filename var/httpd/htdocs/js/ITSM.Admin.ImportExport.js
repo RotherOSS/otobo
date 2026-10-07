@@ -24,7 +24,7 @@ ITSM.Admin = ITSM.Admin || {};
  * @namespace Admin
  * @author Rother OSS GmbH
  * @description
- *      This namespace contains the special module behaviours for ITSM Service Zoom.
+ *      This namespace contains the special module behaviors for ITSM Service Zoom.
  */
  ITSM.Admin.ImportExport = (function (TargetNS) {
 
@@ -39,7 +39,7 @@ ITSM.Admin = ITSM.Admin || {};
 
         var $NextButton, $FirstColumn;
 
-        if (Core.Config.Get('TemplateEdit4')) {
+        if (Core.Config.Get('TemplateEdit4')) {     // eslint-disable-line no-undef
 
             // find the next button and get the first column dropdown
             $NextButton = $("button.Primary[name='SubmitNextButton']").first();
@@ -78,13 +78,13 @@ ITSM.Admin = ITSM.Admin || {};
             });
         }
 
-        if (Core.Config.Get('TemplateOverview')) {
+        if (Core.Config.Get('TemplateOverview')) {      // eslint-disable-line no-undef
 
             $('button.Back').bind('click', function () {
-                location.href = Core.Config.Get('Baselink') + Core.Config.Get('BackURL');
+                location.href = Core.Config.Get('Baselink') + Core.Config.Get('BackURL');   // eslint-disable-line no-undef
             });
 
-            Core.Form.Validate.AddMethod("Validate_NumberBiggerThanZero", function(Value) {
+            Core.Form.Validate.AddMethod("Validate_NumberBiggerThanZero", function(Value) {     // eslint-disable-line no-undef
                 var Number = parseInt(Value, 10);
                 if (isNaN(Number)) {
                     return false;
@@ -97,14 +97,16 @@ ITSM.Admin = ITSM.Admin || {};
 
             });
 
-            Core.Form.Validate.AddMethod("Validate_NumberInteger", function(Value) {
+            Core.Form.Validate.AddMethod("Validate_NumberInteger", function(Value) {    // eslint-disable-line no-undef
                 return (Value.match(/^[0-9]+$/)) ? true : false;
 
             });
 
+            /* eslint-disable no-undef, camelcase */
             Core.Form.Validate.AddRule("Validate_NumberBiggerThanZero", { Validate_NumberBiggerThanZero: true });
             Core.Form.Validate.AddRule("Validate_NumberInteger", { Validate_NumberInteger: true });
             Core.Form.Validate.AddRule("Validate_NumberIntegerBiggerThanZero", { Validate_NumberInteger: true, Validate_NumberBiggerThanZero: true });
+            /* eslint-enable no-undef, camelcase */
 
         }
 
@@ -123,43 +125,43 @@ ITSM.Admin = ITSM.Admin || {};
         $('.ImportExportDelete').on('click', function () {
             var $ImportExportDeleteElement = $(this);
 
-            Core.UI.Dialog.ShowContentDialog(
+            Core.UI.Dialog.ShowContentDialog(       // eslint-disable-line no-undef
                 $('#DeleteImportExportDialogContainer'),
-                Core.Language.Translate('Delete this template'),
+                Core.Language.Translate('Delete this template'),    // eslint-disable-line no-undef
                 '240px',
                 'Center',
                 true,
                 [
                     {
                         Class: 'Primary',
-                        Label: Core.Language.Translate("Confirm"),
+                        Label: Core.Language.Translate("Confirm"),      // eslint-disable-line no-undef
                         Function: function() {
-                            $('.Dialog .InnerContent .Center').text(Core.Language.Translate("Deleting template..."));
+                            $('.Dialog .InnerContent .Center').text(Core.Language.Translate("Deleting template..."));   // eslint-disable-line no-undef
                             $('.Dialog .Content .ContentFooter').remove();
 
-                            Core.AJAX.FunctionCall(
-                                Core.Config.Get('Baselink') + 'Action=AdminImportExport;Subaction=TemplateDelete',
+                            Core.AJAX.FunctionCall(         // eslint-disable-line no-undef
+                                Core.Config.Get('Baselink') + 'Action=AdminImportExport;Subaction=TemplateDelete',      // eslint-disable-line no-undef
                                 { TemplateID: $ImportExportDeleteElement.data('id') },
                                 function(Response) {
-                                    var DialogText = Core.Language.Translate("There was an error deleting the template. Please check the logs for more information.");
+                                    var DialogText = Core.Language.Translate("There was an error deleting the template. Please check the logs for more information.");  // eslint-disable-line no-undef
                                     if (parseInt(Response, 10) > 0) {
                                         $('#TemplateID_' + parseInt(Response, 10)).fadeOut(function() {
                                             $(this).remove();
                                         });
-                                        DialogText = Core.Language.Translate("Template was deleted successfully.");
+                                        DialogText = Core.Language.Translate("Template was deleted successfully.");     // eslint-disable-line no-undef
                                     }
                                     $('.Dialog .InnerContent .Center').text(DialogText);
                                     window.setTimeout(function() {
-                                        Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
+                                        Core.UI.Dialog.CloseDialog($('.Dialog:visible'));       // eslint-disable-line no-undef
                                     }, 1000);
                                 }
                             );
                         }
                     },
                     {
-                        Label: Core.Language.Translate("Cancel"),
+                        Label: Core.Language.Translate("Cancel"),       // eslint-disable-line no-undef
                         Function: function () {
-                            Core.UI.Dialog.CloseDialog($('#DeleteImportExportDialog'));
+                            Core.UI.Dialog.CloseDialog($('#DeleteImportExportDialog'));     // eslint-disable-line no-undef
                         }
                     }
                 ]
@@ -168,7 +170,7 @@ ITSM.Admin = ITSM.Admin || {};
         });
     };
 
-    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');    // eslint-disable-line no-undef
 
     return TargetNS;
 }(ITSM.Admin.ImportExport || {}));

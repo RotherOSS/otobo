@@ -64,7 +64,7 @@ Core.Config = (function (TargetNS) {
             ConfigLevel = Config,
             Count = 0;
         for (KeyToken in Keys) {
-            if (Keys.hasOwnProperty(KeyToken)) {
+            if (Object.prototype.hasOwnProperty.call(Keys, KeyToken)) {
                 if (Keys.length === Count + 1) {
                     ConfigLevel[ConfigPrefix + Keys[KeyToken]] = Value;
                 }
@@ -95,7 +95,7 @@ Core.Config = (function (TargetNS) {
      *                                    - the number zero:     0
      *                                    - the false boolean:   false
      *                                    - the empty string:    ''
-     *                                  Contrary to Perl, the string with the numer zero, '0',
+     *                                  Contrary to Perl, the string with the number zero, '0',
      *                                  is not false.
      * @description
      *      Gets a single config value or a default value or null.
@@ -108,7 +108,7 @@ Core.Config = (function (TargetNS) {
 
         // descend into the saved config
         for (KeyToken in Keys) {
-            if (Keys.hasOwnProperty(KeyToken)) {
+            if (Object.prototype.hasOwnProperty.call(Keys, KeyToken)) {
                 // if namespace does not exists in config object, there is nothing to search for or to return
                 if (typeof ConfigLevel !== 'object') {
                     // If DefaultValue is not set, this also returns undefined

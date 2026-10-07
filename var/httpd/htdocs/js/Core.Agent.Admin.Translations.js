@@ -39,7 +39,7 @@ Core.Agent.Admin.Translations = (function (TargetNS) {
     TargetNS.Init = function () {
 
         /* Trigger work language change in overview subaction */
-        $('#UserLanguage').bind('change', function (Event) {
+        $('#UserLanguage').bind('change', function () {
             $('#UserLanguage_Search').prop('readonly', true);
             $("#LangSelection").submit();
             return false;
@@ -64,7 +64,7 @@ Core.Agent.Admin.Translations = (function (TargetNS) {
         }
 
         /* Show next fields depending on Object selection */
-        $("#Object").bind('change', function (Event) {
+        $("#Object").bind('change', function () {
 
             /* Clear and Hide all containers */
             $("#FieldContainer").html('');
@@ -121,11 +121,11 @@ Core.Agent.Admin.Translations = (function (TargetNS) {
             return false;
         });
 
-        $("#DynamicFieldID").bind('change', function (Event) {
+        $("#DynamicFieldID").bind('change', function () {
             ChangeDynamicField("DynamicFieldID");
         });
 
-        $("#DynamicFieldListWithContent").bind('change', function (Event) {
+        $("#DynamicFieldListWithContent").bind('change', function () {
             ChangeDynamicField("DynamicFieldListWithContent");
         });
 
@@ -134,7 +134,7 @@ Core.Agent.Admin.Translations = (function (TargetNS) {
             if ( $("#Subaction").val() == 'AddAction' ) {
                 if ( $("#ItemCount").length ) {
                     let Filled = 0;
-                    for (var row=1; row <= $("#ItemCount").val(); row++ ) {
+                    for (let row=1; row <= $("#ItemCount").val(); row++ ) {
                         if ( $("#TranslateInput_"+row).val().trim() != "" ) {
                             Filled++;
                         }
@@ -158,7 +158,7 @@ Core.Agent.Admin.Translations = (function (TargetNS) {
             } else if ( $("#Subaction").val() == 'ChangeAction' ) {
                 if ( parseInt($("#CountNew").val()) > 0 ) {
                     let Filled = 0;
-                    for (var row = 1; row < parseInt($("#CountNew").val()); row++ ) {
+                    for (let row = 1; row < parseInt($("#CountNew").val()); row++ ) {
                         if ( $("#TranslateInput_Change_"+row).val().trim() != "" ) {
                             Filled++;
                         }

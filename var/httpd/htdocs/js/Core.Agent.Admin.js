@@ -62,13 +62,13 @@ Core.Agent.Admin = (function (TargetNS) {
 
             Core.Agent.PreferencesUpdate('AdminNavigationBarFavourites', JSON.stringify(Favourites), function() {
 
-                var FavouriteHTML = '',
+                var FavouriteHTML,
                     RowIndex,
                     FavouriteRows = [ModuleName];
 
                 $TriggerObj.addClass('Clicked');
 
-                // also add the entry to the sidebar favourites list dynamically
+                // also add the entry to the sidebar favorites list dynamically
                 FavouriteHTML = Core.Template.Render('Agent/Admin/Favourite', {
                     'Link'  : $TriggerObj.closest('a').attr('href'),
                     'Name'  : ModuleName,
