@@ -2379,7 +2379,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2928,10 +2927,10 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Package-Stash-XS-0.30
-    pathname: E/ET/ETHER/Package-Stash-XS-0.30.tar.gz
+  Package-Stash-XS-0.32
+    pathname: E/ET/ETHER/Package-Stash-XS-0.32.tar.gz
     provides:
-      Package::Stash::XS 0.30
+      Package::Stash::XS 0.32
     requirements:
       ExtUtils::MakeMaker 0
       XSLoader 0
@@ -4480,16 +4479,21 @@ DISTRIBUTIONS
       Net::LDAPS 0.06
     requirements:
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
