@@ -384,7 +384,7 @@ sub EditFieldRender {
     for my $SetIndex ( 0 .. $#SetValue ) {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
-            $Value{"DynamicField_$Name"}          = $Visibility{"DynamicField_$Name"} ? $SetValue[$SetIndex]{$Name} : undef;
+            $Value{"DynamicField_$Name"}          = $SetValue[$SetIndex]{$Name};
             $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
             $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
         }
@@ -1172,12 +1172,6 @@ sub GetFieldState {
 
                     $Return{Sets}{$DFName}{DynamicFieldConfig} = $DynamicField->{$DFName};
                     $Return{Sets}{$DFName}{Values}{ $DFName . "_" . $SetIndex } = $OldValues->[$SetIndex]->{$DFName};
-                    if ( !exists $Return{Sets}{$DFName}{FieldStates}{ $DFName . '_' . $SetIndex } ) {
-                        $Return{Sets}{$DFName}{FieldStates}{ $DFName . '_' . $SetIndex } = {
-                            'PossibleValues'  => undef,
-                            'NotACLReducible' => 1,
-                        };
-                    }
                 }
             }
         }
