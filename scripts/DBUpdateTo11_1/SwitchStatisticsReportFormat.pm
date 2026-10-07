@@ -32,6 +32,7 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+    'Kernel::System::SysConfig',
     'Kernel::System::Console::Command::Maint::Stats::Reports::SwitchFormat',
 );
 
@@ -57,12 +58,87 @@ no guarantee that I<gnuplot> is available. Therefore the migration is only done 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
 
     # check availablilty of gnuplot
-    my $GnuplotBin = $ConfigObject->Get('Gnuplot::Bin');
+    my $Key        = 'Gnuplot::Bin';
+    my $GnuplotBin = $ConfigObject->Get($Key);
 
+    # If Gnuplot::Bin is not yet configured then activate it when available
+    if ( !$GnuplotBin ) {
+        eval {
+            my %Setting = $SysConfigObject->SettingGet(
+                Name => $Key,
+            );
+
+            # nothing to do when Gnuplot::Bin is already active
+            return if $Setting{IsValid};
+
+            # no searching in the PATH
+            my $Bin = $Setting{EffectiveValue};
+
+            # Do not activate when there is no executable gnuplot binary.
+            # There is no check whether $Bin is a file, as it often is a symlink to /etc/alternatives/gnuplot
+            return unless -x $Bin;
+
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                UserID    => 1,
+                Force     => 1,
+                DefaultID => $Setting{DefaultID},
+            );
+
+            return unless $ExclusiveLockGUID;
+
+            my %SettingUpdateResult = $SysConfigObject->SettingUpdate(
+                Name              => $Key,
+                IsValid           => 1,
+                UserID            => 1,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                EffectiveValue    => $Bin,
+            );
+
+            if ( !$SettingUpdateResult{Success} ) {
+                $LogObject->Log(
+                    Priority => 'error',
+                    Message  => 'Could not activate Gnuplot::Bin.',
+                );
+
+                return;
+            }
+
+            $SysConfigObject->SettingUnlock(
+                UserID    => 1,
+                DefaultID => $Setting{DefaultID},
+            );
+
+            my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+                Comments      => "UpgradeTo11.1 - Activate Gnuplot::Bin.",
+                UserID        => 1,
+                Force         => 1,
+                DirtySettings => [$Key],
+            );
+
+            if ( !$DeploymentResult{Success} ) {
+                $LogObject->Log(
+                    Priority => 'error',
+                    Message  => "Deployment failed.",
+                );
+
+                return;
+            }
+        };
+
+        # refresh the config object
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::Config'],
+        );
+        $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    }
+
+    # Gnuplot::Bin might have been activated since the above check
+    $GnuplotBin = $ConfigObject->Get($Key);
     if ( !$GnuplotBin ) {
         $LogObject->Log(
             Priority => 'info',
@@ -72,20 +148,10 @@ sub Run {
         return 1;
     }
 
-    my $GnuplotBinStat = stat $GnuplotBin;
-    if ( !-f $GnuplotBinStat ) {
+    if ( !-x $GnuplotBin ) {
         $LogObject->Log(
             Priority => 'info',
-            Message  => 'Skipping switch to Gnuplot as the gnuplot executable is not a file.',
-        );
-
-        return 1;
-    }
-
-    if ( !-x $GnuplotBinStat ) {
-        $LogObject->Log(
-            Priority => 'info',
-            Message  => 'Skipping switch to Gnuplot as the gnuplot executable is not executable.',
+            Message  => qq{Skipping switch to Gnuplot as the gnuplot executable'$GnuplotBin' is not executable.},
         );
 
         return 1;
