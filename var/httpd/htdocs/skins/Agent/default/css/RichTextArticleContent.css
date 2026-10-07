@@ -50,7 +50,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* CKEditor 5 Variables */
     --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --ck-content-font-size: 16px;
-    --ck-content-line-height: 1.2;
+    --ck-content-line-height: 1.2; /* has to be relative number, NO unit */
     --ck-content-todo-list-checkmark-size: calc(var(--ck-content-font-size) - 2px);
 
     /* OTOBO Variables */
@@ -147,7 +147,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-content li > ul, 
 .ck-content li > ol,
-.ck-content li > p {
+.ck-content li > p,
+.ck-content li>p:only-of-type /* override ckeditor styling */ {
     margin-bottom: var(--list-item-margin-bottom);
 }
 
