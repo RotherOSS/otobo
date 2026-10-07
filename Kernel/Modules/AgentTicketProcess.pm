@@ -640,7 +640,7 @@ sub _RenderAjax {
             );
 
             # autoselect
-            if ( !$Param{GetParam}{ $Self->{NameToID}{$CurrentField} } && $Autoselect && $Autoselect->{ $Self->{NameToID}{$CurrentField} } ) {
+            if ( !$Param{GetParam}{ $Self->{NameToID}{$CurrentField} } && $Autoselect && $Autoselect->{Dest} ) {
                 $Param{GetParam}{ $Self->{NameToID}{$CurrentField} } = $FieldRestrictionsObject->Autoselect(
                     PossibleValues => $Data,
                 ) || '';
@@ -670,7 +670,7 @@ sub _RenderAjax {
             );
 
             # autoselect
-            if ( !$Param{GetParam}{ $Self->{NameToID}{$CurrentField} } && $Autoselect && $Autoselect->{ $Self->{NameToID}{$CurrentField} } ) {
+            if ( !$Param{GetParam}{ $Self->{NameToID}{$CurrentField} } && $Autoselect && $Autoselect->{NextStateID} ) {
                 $Param{GetParam}{ $Self->{NameToID}{$CurrentField} } = $FieldRestrictionsObject->Autoselect(
                     PossibleValues => $Data,
                 ) || '';
