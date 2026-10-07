@@ -30,6 +30,7 @@ use utf8;
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
+    'Kernel::System::Log',
 );
 
 =head1 NAME
@@ -142,6 +143,23 @@ sub Run {
 
     TASK:
     for my $Task (@Tasks) {
+
+        # Set the log prefix for the messages produced via Kernel::System::Log.
+        # This allows to identify the task when inspecting the log output.
+        # This overrides the LogPrefix set by the console commands that are
+        # called in the migration tasks. This eliminates the effect where
+        # a console commands sets the LogPrefix which is then used by the
+        # successive tasks.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Log'],
+        );
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::Log' => {
+                LogPrefix => ( __FILE__ . " Task $Count/$NumTasks $Task->{Module}" ),
+            },
+        );
+        $Kernel::OM->Get('Kernel::System::Log');    # set the prefix in the global instance
+
         say "\tExecuting task $Count/$NumTasks '$Task->{Name}' ($Task->{Module}) ...";
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo11_1::' . $Task->{Module} ) ) {
