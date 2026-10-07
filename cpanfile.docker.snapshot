@@ -1529,6 +1529,34 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  Gnuplot-Builder-0.33
+    pathname: T/TO/TOSHIOITO/Gnuplot-Builder-0.33.tar.gz
+    provides:
+      Gnuplot::Builder 0.33
+      Gnuplot::Builder::Dataset undef
+      Gnuplot::Builder::JoinDict undef
+      Gnuplot::Builder::Lens undef
+      Gnuplot::Builder::PartiallyKeyedList undef
+      Gnuplot::Builder::Process undef
+      Gnuplot::Builder::Process::MockTool undef
+      Gnuplot::Builder::PrototypedData undef
+      Gnuplot::Builder::Script undef
+      Gnuplot::Builder::Tap undef
+      Gnuplot::Builder::Template undef
+      Gnuplot::Builder::Util undef
+    requirements:
+      Encode 0
+      Exporter 5.57
+      File::Spec 0
+      IPC::Open3 0
+      List::Util 1.28
+      Module::Build 0.42
+      Module::Build::Prereqs::FromCPANfile 0.02
+      POSIX 0
+      Scalar::Util 0
+      Try::Tiny 0
+      overload 0
+      parent 0
   Graph-0.9735
     pathname: E/ET/ETJ/Graph-0.9735.tar.gz
     provides:
@@ -2462,6 +2490,15 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.006001
       version 0.87
+  Module-Build-Prereqs-FromCPANfile-0.02
+    pathname: T/TO/TOSHIOITO/Module-Build-Prereqs-FromCPANfile-0.02.tar.gz
+    provides:
+      Module::Build::Prereqs::FromCPANfile 0.02
+    requirements:
+      CPAN::Meta::Prereqs 2.132830
+      Exporter 0
+      Module::CPANfile 1.0000
+      version 0.80
   Module-Build-Tiny-0.053
     pathname: L/LE/LEONT/Module-Build-Tiny-0.053.tar.gz
     provides:
@@ -2502,6 +2539,19 @@ DISTRIBUTIONS
       XSLoader 0
       parent 0
       perl 5.008001
+  Module-CPANfile-1.1004
+    pathname: M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz
+    provides:
+      Module::CPANfile 1.1004
+      Module::CPANfile::Environment undef
+      Module::CPANfile::Prereq undef
+      Module::CPANfile::Prereqs undef
+      Module::CPANfile::Requirement undef
+    requirements:
+      CPAN::Meta 2.12091
+      CPAN::Meta::Prereqs 2.12091
+      ExtUtils::MakeMaker 0
+      parent 0
   Module-Implementation-0.09
     pathname: D/DR/DROLSKY/Module-Implementation-0.09.tar.gz
     provides:
@@ -4490,7 +4540,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
