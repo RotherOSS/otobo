@@ -3583,7 +3583,6 @@ sub ConfigurationDeploy {
                     Priority => 'error',
                     Message  => "Could not create the deployment in the DB!",
                 );
-
             }
         }
 

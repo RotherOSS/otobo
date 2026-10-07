@@ -67,8 +67,8 @@ sub GeneratePDF {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $GoogleChromeBinary = $Kernel::OM->Get('Kernel::Config')->Get('GoogleChrome::Bin');
     my $BrowserFound       = $GoogleChromeBinary ? 1 : 0;
-    my $GnuplotBinary      = $Kernel::OM->Get('Kernel::Config')->Get('Gnuplot::Bin');
-    my $GnuplotFound       = $GnuplotBinary ? 1 : 0;
+    my $GnuplotBin         = $Kernel::OM->Get('Kernel::Config')->Get('Gnuplot::Bin');
+    my $GnuplotFound       = $GnuplotBin ? 1 : 0;
 
     my $Page = $LayoutObject->{LanguageObject}->Translate('Page');
     my $Time = $LayoutObject->{Time};
@@ -448,7 +448,7 @@ sub GeneratePDF {
 
                 # The default Gnuplot command to 'gnuplot --persist'. Looking for gnuplot in PATH works fine,
                 # but the OTOBO convention is to use the configured executable.
-                local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBinary --persist";
+                local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBin --persist";
 
                 # The location where gnuplot writes the graph.
                 # The format is added in the file name mainly for debugging.
