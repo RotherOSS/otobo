@@ -15,7 +15,7 @@
 
 package scripts::DBUpdateTo11_1::EnableSimilarSearchWidgetIfESActivated;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
@@ -83,7 +83,7 @@ sub Run {
         );
 
         if ( !$SettingUpdateResult{Success} ) {
-            $$LogObject->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => 'Could not activate the Similar Ticket Search Widget for the TicketZoom mask.',
             );
