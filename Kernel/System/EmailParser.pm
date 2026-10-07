@@ -183,8 +183,8 @@ sub new {
 
 =head2 GetPlainEmail()
 
-To get back the email message as a string. The returned string includes both the headers
-an the body of the MIME message.
+gets the email message as a string. The returned string includes both the headers
+and the body of the MIME message.
 
     my $UnparsedEmailMessage = $ParserObject->GetPlainEmail();
 
