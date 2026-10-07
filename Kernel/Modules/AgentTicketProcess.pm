@@ -1995,6 +1995,16 @@ sub _OutputActivityDialog {
         %DFPossibleValues = map { $_ => $DynFieldStates{Fields}{$_}{PossibleValues} } keys $Self->{DynamicField}->%*;
         %Visibility       = $DynFieldStates{Visibility}->%*;
 
+        # set new values
+        $Param{GetParam}{DynamicField} = {
+            $Param{GetParam}{DynamicField}->%*,
+            $DynFieldStates{NewValues}->%*,
+        };
+        $Param{GetParam} = {
+            $Param{GetParam}->%*,
+            $DynFieldStates{NewValues}->%*,
+        };
+
         if ($HideAutoselectedJSON) {
 
             # add Autoselect JS
