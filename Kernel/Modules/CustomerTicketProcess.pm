@@ -2351,6 +2351,15 @@ sub _RenderSLA {
         $ServerError = 'ServerError';
     }
 
+    # autoselect
+    my $Autoselect = $Kernel::OM->Get('Kernel::Config')->Get('TicketACL::Autoselect') || undef;
+    if ( !$SelectedValue && $Autoselect && $Autoselect->{SLAID} ) {
+        my $AutoselectedID = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions')->Autoselect(
+            PossibleValues => $SLAs,
+        ) || '';
+        $SelectedValue = $SLAs->{$AutoselectedID};
+    }
+
     # build SLA string
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $SLAs,
@@ -2506,6 +2515,15 @@ sub _RenderService {
         $TreeView = 1;
     }
 
+    # autoselect
+    my $Autoselect = $Kernel::OM->Get('Kernel::Config')->Get('TicketACL::Autoselect') || undef;
+    if ( !$SelectedValue && $Autoselect && $Autoselect->{ServiceID} ) {
+        my $AutoselectedID = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions')->Autoselect(
+            PossibleValues => $Services,
+        ) || '';
+        $SelectedValue = $Services->{$AutoselectedID};
+    }
+
     # build Service string
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Services,
@@ -2643,6 +2661,15 @@ sub _RenderPriority {
     my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'PriorityID'} ) {
         $ServerError = 'ServerError';
+    }
+
+    # autoselect
+    my $Autoselect = $Kernel::OM->Get('Kernel::Config')->Get('TicketACL::Autoselect') || undef;
+    if ( !$SelectedValue && $Autoselect && $Autoselect->{PriorityID} ) {
+        my $AutoselectedID = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions')->Autoselect(
+            PossibleValues => $Priorities,
+        ) || '';
+        $SelectedValue = $Priorities->{$AutoselectedID};
     }
 
     # build next Priorities string
@@ -2785,6 +2812,15 @@ sub _RenderQueue {
         $TreeView = 1;
     }
 
+    # autoselect
+    my $Autoselect = $Kernel::OM->Get('Kernel::Config')->Get('TicketACL::Autoselect') || undef;
+    if ( !$SelectedValue && $Autoselect && $Autoselect->{Dest} ) {
+        my $AutoselectedID = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions')->Autoselect(
+            PossibleValues => $Queues,
+        ) || '';
+        $SelectedValue = $Queues->{$AutoselectedID};
+    }
+
     # build next queues string
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Queues,
@@ -2915,6 +2951,15 @@ sub _RenderState {
     my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'StateID'} ) {
         $ServerError = 'ServerError';
+    }
+
+    # autoselect
+    my $Autoselect = $Kernel::OM->Get('Kernel::Config')->Get('TicketACL::Autoselect') || undef;
+    if ( !$SelectedValue && $Autoselect && $Autoselect->{NextStateID} ) {
+        my $AutoselectedID = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions')->Autoselect(
+            PossibleValues => $States,
+        ) || '';
+        $SelectedValue = $States->{$AutoselectedID};
     }
 
     # build next states string
@@ -3061,6 +3106,15 @@ sub _RenderType {
     my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TypeID'} ) {
         $ServerError = 'ServerError';
+    }
+
+    # autoselect
+    my $Autoselect = $Kernel::OM->Get('Kernel::Config')->Get('TicketACL::Autoselect') || undef;
+    if ( !$SelectedValue && $Autoselect && $Autoselect->{TypeID} ) {
+        my $AutoselectedID = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions')->Autoselect(
+            PossibleValues => $Types,
+        ) || '';
+        $SelectedValue = $Types->{$AutoselectedID};
     }
 
     # build Service string
