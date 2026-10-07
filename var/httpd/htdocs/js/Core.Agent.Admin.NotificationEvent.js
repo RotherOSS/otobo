@@ -105,7 +105,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
         });
 
         // add special validation rule
-        Core.Form.Validate.AddRule("Validate_OneChecked", {Validate_OneChecked: true});
+        Core.Form.Validate.AddRule("Validate_OneChecked", {Validate_OneChecked: true});     // eslint-disable-line camelcase
 
         // set up attributes (enable/disable) to some fields on click
         $('#EmailSecuritySettings').click(function() {

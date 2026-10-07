@@ -252,7 +252,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @description
      *      This function remove the tooltip from a rich text editor.
      */
-    function RemoveRTETooltip() {
+    function RemoveRTETooltip() {       // eslint-disable-line no-unused-vars
         TargetNS.HideRTETooltip();
     }
 
@@ -288,7 +288,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @description
      *      This function removes the tooltip in a rich text editor.
      */
-    TargetNS.RemoveRTETooltip = function ($Element) {
+    TargetNS.RemoveRTETooltip = function () {
         TargetNS.HideTooltip();
     };
 

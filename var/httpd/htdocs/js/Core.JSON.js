@@ -53,7 +53,7 @@ Core.JSON = (function (TargetNS) {
         try {
             JSONObject = JSON.parse(JSONString);
         }
-        catch (e) {
+        catch {
             JSONObject = {};
         }
 
@@ -75,7 +75,7 @@ Core.JSON = (function (TargetNS) {
         try {
             JSONString = JSON.stringify(JSONObject);
         }
-        catch (e) {
+        catch {
             JSONString = "";
         }
 

@@ -78,7 +78,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                 $('#ActivityDialogContent').empty();
 
                 // fade out the empty container so it will fade in again on processes change
-                // is not recommended to empty after fade out at this point since the transition offect
+                // is not recommended to empty after fade out at this point since the transition effect
                 // will not look so nice
                 $('#ActivityDialogContent').fadeOut('fast');
 
@@ -109,9 +109,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         $ElementToUpdate.fadeIn();
                         Core.UI.InputFields.Activate($ElementToUpdate);
                         try {
-                            /*eslint-disable no-eval */
                             eval(JavaScriptString);
-                            /*eslint-enable no-eval */
                         }
                         catch (Event) {
                             // do nothing here (code needed  to not have an empty block here)
@@ -125,7 +123,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
                             // Add class ServerError to the process select element
                             $('#ProcessEntityID').addClass('ServerError');
-                            // Set a custom error message to the proccess select element
+                            // Set a custom error message to the process select element
                             $('#ProcessEntityIDServerError').children().first().text(ErrorMessage);
                         }
 
@@ -156,7 +154,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                             Core.App.Publish('Event.App.Responsive.SmallerOrEqualScreenL');
                         }
 
-                        // trigget customer auto complete event if field is accesible
+                        // trigger customer auto complete event if field is accessible
                         if ($ElementToUpdate.find('#CustomerAutoComplete').length) {
                             Core.Agent.CustomerSearchAutoComplete.Init();
                         }
@@ -168,7 +166,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
                         Core.UI.InputFields.InitMultiValueDynamicFields();
 
-                        QuickDateButtons.Init();
+                        QuickDateButtons.Init();    // eslint-disable-line no-undef
 
                         // Bind event to StandardTemplate field.
                         $('#StandardTemplateID').on('change', function () {

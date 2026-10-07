@@ -165,7 +165,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      status is false (e.g. the article is hidden), the article gets the class 'Visible' again and
      *      the status gets changed to true.
      */
-    function ToggleMessage($Message){
+    function ToggleMessage($Message){       // eslint-disable-line no-unused-vars
         switch ($Message.attr('data-articlestate')) {
             case "untouched":
                 LoadMessage($Message);
