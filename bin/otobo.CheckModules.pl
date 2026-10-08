@@ -238,7 +238,6 @@ my %IsPlackupFeature = (
     'db:sqlite'           => 1,
     'div:cldr'            => 1,
     'div:locallib'        => 1,
-    'div:xslt'            => 1,
     'gazelle'             => 1,
     'graph:graphviz'      => 1,
     'oauth:openidconnect' => 1,

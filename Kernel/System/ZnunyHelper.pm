@@ -1569,7 +1569,9 @@ sub _DynamicFieldsCreateIfNotExists {
         push @DynamicFieldExistsNot, $NewDynamicField;
     }
 
-    return 1 if !@DynamicFieldExistsNot;
+    if ( !@DynamicFieldExistsNot ) {
+        return { Success => 1 };
+    }
 
     return $Self->_DynamicFieldsCreate(@DynamicFieldExistsNot);
 }
@@ -1665,16 +1667,16 @@ sub _DynamicFieldsCreate {
     # check dynamic fields and split dynamic fields in three separate groups
     my %Namespaces;
     my @NormalFields;
-    my @LensFields;
-    my @SetFields;
+    my @DependencyFields;
     for my $DynamicFieldConfig (@DynamicFields) {
 
         # check for namespaces
         my $FieldName = $DynamicFieldConfig->{Name};
         if ( $FieldName !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
             return {
-                Success      => 0,
-                ErrorMessage => "Invalid DynamicField name '$FieldName'.",
+                Success         => 0,
+                ErrorMessage    => "Invalid DynamicField name '%s'.",
+                PlaceholderData => [$FieldName],
             };
         }
         if ( $FieldName =~ /^([^-]+)-/ ) {
@@ -1682,21 +1684,13 @@ sub _DynamicFieldsCreate {
         }
 
         # sort field into fitting array
-        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
-            push @LensFields, $DynamicFieldConfig;
-        }
-        elsif ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
-            push @SetFields, $DynamicFieldConfig;
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' || $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+            push @DependencyFields, $DynamicFieldConfig;
         }
         else {
             push @NormalFields, $DynamicFieldConfig;
         }
     }
-
-    # sort lens fields in case a lens has another lens as attribute dynamic field
-    my @LensFieldsSorted = sort {
-        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
-    } @LensFields;
 
     # namespace handling
     if (%Namespaces) {
@@ -1771,9 +1765,41 @@ sub _DynamicFieldsCreate {
         }
     }
 
+    my @SortedDependencyFields;
+    my @LeftoverFields    = @DependencyFields;
+    my %AvailableFields   = map { $_->{Name} => 1 } ( $DynamicFieldList->@*, @NormalFields );
+    my $PreviousArraySize = -1;
+    while ( @LeftoverFields && ( $PreviousArraySize < scalar @SortedDependencyFields ) ) {
+        my @CurrentLeftoverFields = ();
+        $PreviousArraySize = scalar @SortedDependencyFields;
+        DYNAMICFIELDCONFIG:
+        for my $DynamicFieldConfig (@LeftoverFields) {
+            my $DependenciesFulfilled = $Self->_CheckDFDependencies(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                AvailableDFs       => \%AvailableFields,
+            );
+            if ($DependenciesFulfilled) {
+                push @SortedDependencyFields, $DynamicFieldConfig;
+                $AvailableFields{ $DynamicFieldConfig->{Name} } = 1;
+            }
+            else {
+                push @CurrentLeftoverFields, $DynamicFieldConfig;
+            }
+        }
+        @LeftoverFields = @CurrentLeftoverFields;
+    }
+    if (@LeftoverFields) {
+        return {
+            Success      => 0,
+            ErrorMessage =>
+                'The dependencies for the following dynamic fields could not be resolved: %s. Please make sure all field dependencies are present in the import or on the system and that they do not contain circular references to each other.',
+            PlaceholderData => [ join( ', ', @LeftoverFields ) ],
+        };
+    }
+
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField ( @NormalFields, @LensFieldsSorted, @SetFields ) {
+    for my $NewDynamicField ( @NormalFields, @SortedDependencyFields ) {
 
         # field config transformation
         $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigName2ID(
@@ -1989,7 +2015,42 @@ sub _DynamicFieldsCreate {
         $NextOrderNumber++;
     }
 
-    return !$Error;
+    return { Success => !$Error };
+}
+
+sub _CheckDFDependencies {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Param{DynamicFieldConfig}{FieldType} eq 'Set' ) {
+        for my $IncludeItem ( $Param{DynamicFieldConfig}{Config}{Include}->@* ) {
+            if ( $IncludeItem->{DF} && !$Param{AvailableDFs}{ $IncludeItem->{DF} } ) {
+                return 0;
+            }
+            elsif ( $IncludeItem->{Grid} ) {
+                for my $Row ( $IncludeItem->{Grid}{Rows}->@* ) {
+                    for my $RowItem ( $Row->@* ) {
+                        if ( $RowItem->{DF} && !$Param{AvailableDFs}{ $RowItem->{DF} } ) {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+        if (
+            !$Param{AvailableDFs}{ $Param{DynamicFieldConfig}{Config}{AttributeDF} }
+            || !$Param{AvailableDFs}{ $Param{DynamicFieldConfig}{Config}{ReferenceDF} }
+            )
+        {
+            return 0;
+        }
+    }
+    else {
+        return 1;
+    }
+
+    return 1;
 }
 
 =item DynamicFieldFieldOrderAfterFieldGet()

@@ -16,8 +16,6 @@
 
 package Kernel::System::Console::Command::Maint::Stats::Reports::Generate;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
-
 use strict;
 use warnings;
 use utf8;

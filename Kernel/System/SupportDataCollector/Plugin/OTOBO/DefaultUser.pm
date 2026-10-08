@@ -37,8 +37,7 @@ sub Run {
     my $Self = shift;
 
     # get needed objects
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     my %UserList = $UserObject->UserList(
         Type  => 'Short',

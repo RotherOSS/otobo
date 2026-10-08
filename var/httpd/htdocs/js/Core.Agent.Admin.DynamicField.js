@@ -193,22 +193,31 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
             if (window.confirm(Core.Language.Translate("Do you really want to delete this dynamic field? ALL associated data will be LOST!"))) {
 
-                Core.UI.Dialog.ShowDialog({
-                    Title: Core.Language.Translate("Delete field"),
-                    HTML: Core.Language.Translate("Deleting the field and its data. This may take a while..."),
-                    Modal: true,
-                    CloseOnClickOutside: false,
-                    CloseOnEscape: false,
-                    PositionTop: '20%',
-                    PositionLeft: 'Center',
-                    Buttons: []
-                });
+                Core.UI.Dialog.ShowWaitingDialog(
+                    Core.Language.Translate("Delete field"),
+                    Core.Language.Translate("Deleting the field and its data. This may take a while..."),
+                );
 
                 Core.AJAX.FunctionCall(
                     Core.Config.Get('Baselink'),
                     $(this).data('query-string') + 'Confirmed=1;',
-                    function() {
-                        window.location.reload();
+                    function(Response) {
+                        if (Response.Success == 1) {
+                            window.location.reload();
+                        }
+                        else {
+
+                            // use fallback if error message is empty
+                            if ( !Response.ErrorMessage ) {
+                                Response.ErrorMessage = Core.Language.Translate('The deletion could not be completed. Please review the logs for detailed information.');
+                            }
+
+                            // no need to close the previous dialog, is done automatically through opening a new one
+                            Core.UI.Dialog.ShowAlert(
+                                Core.Language.Translate('Dynamic Field Delete: An Error occurred'),
+                                Response.ErrorMessage,
+                            );
+                        }
                     }
                 );
             }

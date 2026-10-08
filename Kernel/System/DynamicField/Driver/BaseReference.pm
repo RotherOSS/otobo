@@ -559,7 +559,7 @@ sub EditFieldValueValidate {
 
             $Allowed = ( grep { ( $_ // '' ) eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
-            if ($Allowed) {
+            if ( $Allowed && $ValueItem ) {
 
                 $ValueItemsPresent++;
             }
@@ -1322,6 +1322,8 @@ sub GetFieldState {
             PossibleValues => \%PossibleValues,
         );
     }
+
+    delete $Param{ObjectID};
 
     # fetch possible values for dynamic field
     my $PossibleValues = $Self->PossibleValuesGet(

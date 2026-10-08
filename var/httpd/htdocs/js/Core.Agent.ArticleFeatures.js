@@ -62,8 +62,6 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
                             ArticleID: ArticleIDArray[1]
                         };
 
-                        var Success = 0;
-
                         Core.AJAX.FunctionCall( Core.Config.Get('CGIHandle'), Data, function (Response) {
 
                             if ( Response.Success == "1" ) {
@@ -144,8 +142,6 @@ Core.Agent.ArticleFeatures = (function (TargetNS) {
                             TicketID: TicketIDArray[1],
                             ArticleID: ArticleIDArray[1]
                         };
-
-                        var Success = 0;
 
                         Core.AJAX.FunctionCall( Core.Config.Get('CGIHandle'), Data, function (Response) {
 

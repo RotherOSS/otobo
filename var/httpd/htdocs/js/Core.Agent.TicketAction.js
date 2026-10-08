@@ -53,7 +53,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @function
      * @param {String} RecipientField - The recipient field name to add the selected recipients in the correct field.
      * @param {String} RecipientFieldLabel - The recipient field label for the output in the address book screen.
-     * @param {String} RecipientType - The recipient type for the diffrent screens.
+     * @param {String} RecipientType - The recipient type for the different screens.
      * @description
      *      Open the AgentCustomerUserAddressBook screen.
      */
@@ -290,7 +290,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      *      in the textarea or RTE will be overwritten with the template content.
      */
     TargetNS.ConfirmTemplateOverwrite = function (FieldName, $TemplateSelect, Callback) {
-        var Content = '',
+        var Content,
             LastValue = $TemplateSelect.data('LastValue') || '';
 
         // Fallback for non-richtext content

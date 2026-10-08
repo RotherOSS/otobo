@@ -75,17 +75,20 @@ sub Run {
 sub _DynamicFieldDelete {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LogObject   = $Kernel::OM->Get('Kernel::System::Log');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
     my $Confirmed = $ParamObject->GetParam( Param => 'Confirmed' );
-
     if ( !$Confirmed ) {
         $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Need 'Confirmed'!",
         );
-        return;
+
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => $LayoutObject->{LanguageObject}->Translate('Deletion was not confirmed!'),
+        );
     }
 
     my $ID = $ParamObject->GetParam( Param => 'ID' );
@@ -94,13 +97,15 @@ sub _DynamicFieldDelete {
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $ID,
     );
-
     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
         $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Could not find DynamicField $ID!",
         );
-        return;
+
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => $LayoutObject->{LanguageObject}->Translate('Could not find dynamic field to be deleted!'),
+        );
     }
 
     if ( $DynamicFieldConfig->{InternalField} ) {
@@ -108,27 +113,39 @@ sub _DynamicFieldDelete {
             'Priority' => 'error',
             'Message'  => "Could not delete internal DynamicField $ID!",
         );
-        return;
+
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage =>
+                $LayoutObject->{LanguageObject}->Translate( "Could not delete dynamic field '%s' because it is an internal field.", $DynamicFieldConfig->{Name} ),
+        );
     }
 
     my $ValuesDeleteSuccess = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->AllValuesDelete(
         DynamicFieldConfig => $DynamicFieldConfig,
         UserID             => $Self->{UserID},
     );
-
-    my $Success;
-
-    if ($ValuesDeleteSuccess) {
-        $Success = $DynamicFieldObject->DynamicFieldDelete(
-            ID     => $ID,
-            UserID => $Self->{UserID},
+    if ( !$ValuesDeleteSuccess ) {
+        return $Self->_TriggerErrorDialog(
+            ErrorMessage => $LayoutObject->{LanguageObject}
+                ->Translate( "Values for the dynamic field '%s' could not be deleted. Please review the logs for more details.", $DynamicFieldConfig->{Name} ),
         );
     }
 
-    # encoding does not matter, as $Success is either undef or an integer
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
-        ContentType => 'text/html',
-        Content     => $Success,
+    my $Success = $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $ID,
+        UserID => $Self->{UserID},
+    );
+
+    my $EncodedContent = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+        Data => {
+            Success => $Success,
+        },
+    );
+
+    # JSON encoding needed as frontend does use the response for showing an error dialog if necessary
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json',
+        Content     => $EncodedContent,
         Type        => 'inline',
         NoCache     => 1,
     );
@@ -627,6 +644,32 @@ sub _DynamicFieldOrderReset {
     # redirect to main screen
     return $LayoutObject->Redirect(
         OP => "Action=AdminDynamicField",
+    );
+}
+
+sub _TriggerErrorDialog {
+    my ( $Self, %Param ) = @_;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $ErrorMessage
+        = $Param{ErrorMessage}
+        || $LayoutObject->{LanguageObject}
+        ->Translate('Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information');
+
+    my $EncodedContent = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+        Data => {
+            Success      => 0,
+            ErrorMessage => $ErrorMessage,
+        },
+    );
+
+    # JSON encoding needed as frontend does use the response for showing an error dialog if necessary
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json',
+        Content     => $EncodedContent,
+        Type        => 'inline',
+        NoCache     => 1,
     );
 }
 

@@ -756,7 +756,7 @@ Core.Form.Validate = (function (TargetNS) {
      */
     $.validator.addMethod("Validate_DependingRequiredAND", function (Value, Element) {
         var I,
-            DependentElementIDs = [],
+            DependentElementIDs,
             $DependentElement;
 
         DependentElementIDs = GetDependentElements(Element);
@@ -783,7 +783,7 @@ Core.Form.Validate = (function (TargetNS) {
      */
     $.validator.addMethod("Validate_DependingRequiredOR", function (Value, Element) {
         var I,
-        DependentElementIDs = [],
+        DependentElementIDs,
         $DependentElement;
 
         DependentElementIDs = GetDependentElements(Element);

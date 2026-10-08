@@ -11738,6 +11738,7 @@
                 <Item>TicketOwnerUpdate</Item>
                 <Item>TicketResponsibleUpdate</Item>
                 <Item>TicketPriorityUpdate</Item>
+                <Item>LinkedObjectEventTrigger</Item>
                 <Item>HistoryAdd</Item>
                 <Item>HistoryDelete</Item>
                 <Item>TicketAccountTime</Item>

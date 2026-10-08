@@ -1531,6 +1531,7 @@ sub TicketSearch {
                         DynamicFieldConfig => $DynamicField,
                         Value              => $Text,
                         NoValidateRegex    => 1,
+                        NoDateRestriction  => 1,
                         UserID             => $Param{UserID} || 1,
                     );
                     if ( !$ValidateSuccess ) {

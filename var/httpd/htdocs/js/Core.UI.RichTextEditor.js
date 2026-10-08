@@ -509,6 +509,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             ]
         })
             .then(editor => {
+
                 /* Generate ID for current Editor */
                 editor.ElementId = EditorID;
                 CKEditorInstances[$EditorArea.attr('id')] = editor;
@@ -529,7 +530,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     dataFilter.allowElement( "style" );
                 }
 
-                /* Set Container size */
                 var $domEditableElement = $($EditorArea).closest(".RichTextField");
 
                 //Try use RichTextHolder for Customer Interface
@@ -544,67 +544,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 var sourceEditingActive = false;
 
-                $domEditableElement.resizable();
-                $domEditableElement.resizable("option", "minHeight", 200);
-                $domEditableElement.resizable("option", "handles", "s");
-                let $resizeHandle = $(".ui-resizable-s", $domEditableElement);
-                $resizeHandle.append("<i class='ooofo ooofo-more_h'></i>");
-                $resizeHandle.addClass("RichTextField_resizeHandle");
-
-                // Adjust Editor Size to match (resizable) container size
-                var UpdateEditorSize = function(newSize=null) {
-
-                    let fieldPadding = parseFloat($domEditableElement.css("padding-top"))
-                                     + parseFloat($domEditableElement.css("padding-bottom"));
-
-                    let newEditorSize;
-                    if (newSize) {
-                        newEditorSize = newSize.height - fieldPadding;
-                    } else {
-                        newEditorSize = $domEditableElement.innerHeight() - fieldPadding;
-                    }
-                    let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
-                    let newEditingAreaSize = newEditorSize - toolbarHeight;
-
-                    if (sourceEditingActive) {
-                        let $editingArea = $domEditableElement.find('.ck-source-editing-area');
-                        $editingArea.height(newEditingAreaSize);
-                        editor.editing.view.forceRender();
-                    } else {
-                        editor.editing.view.change(writer => {
-                            writer.setStyle(
-                                'height',
-                                newEditingAreaSize + 'px',
-                                editor.editing.view.document.getRoot()
-                            );
-                        });
-                    }
-                };
-
+                let $CKEditorMain = $(editor.ui.view.editable.element).parent();
+                let $resizeHandle = $("<div class='CKEditor_resizeHandle ui-resizable-handle ui-resizable-s'><i class='ooofo ooofo-more_h'></i></div>");
+                $domEditableElement.append($resizeHandle);
+                $CKEditorMain.resizable({
+                    minHeight: 150,
+                    handles: {s: $resizeHandle}
+                });
+                
                 // set initial Editor height as defined by the System Configurations
-                $domEditableElement.css("--InitialHeight", Core.Config.Get("RichText.Height") + "px");
-
-                UpdateEditorSize();
-
-                // resize editing area when editor is resized with the resizable handle
-                $domEditableElement.on('resize', function() {
-                    UpdateEditorSize();
-                });
-
-                const resizeObserver = new ResizeObserver(() => {
-                    UpdateEditorSize();
-                });
-
-                // resize editor when resizable container changes size for any reason (e.g. window resize, sidebar toggle)
-                // currently this leads to the editor growing endlessly if activated for the customer interface or
-                // RichTextEditors in TableLike forms (e.g. Admin Interface)
-                let InModularForm = $domEditableElement.closest("fieldset").hasClass("ModularForm");
-                if (!CustomerInterface && InModularForm) {
-                    resizeObserver.observe($domEditableElement.get(0));
-                }
-
-                //make sure editor size is adjusted as well whenever the toolbar changes size
-                resizeObserver.observe(editor.ui.view.toolbar.element);
+                $CKEditorMain.css("--InitialHeight", Core.Config.Get("RichText.Height") + "px");
 
                 // resize editor on mode change
                 if ( editor.plugins.has( 'SourceEditing' ) ) {
@@ -612,7 +561,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                     editor.listenTo( sourceEditing, 'change:isSourceEditingMode', () => {
                         sourceEditingActive = sourceEditing.isSourceEditingMode;
-                        UpdateEditorSize();
                     } );
                 }
 

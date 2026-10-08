@@ -923,7 +923,7 @@ sub RequesterPerformRequest {
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my ( @BodyArr, @HeadersArr, @RequestParam );
+    my ( @BodyArr, @RequestParam );
 
     if ( IsHashRefWithData( $Param{Data} ) || IsArrayRefWithData( $Param{Data} ) ) {
 
@@ -934,7 +934,6 @@ sub RequesterPerformRequest {
             # create Boundary
             my $Boundary = 'OTOBOBoundary' . int( rand(1000000) );
             $Headers{'Content-Type'} = "multipart/form-data; boundary=$Boundary";
-            push @HeadersArr, \%Headers;
 
             my @AttachmentArray;
 
@@ -1023,12 +1022,9 @@ sub RequesterPerformRequest {
     {
         # the regular case
         if ( !$IsMultiPartAttachmentUpload ) {
-            push @BodyArr,    $Param{Data};
-            push @HeadersArr, %Headers;
+            push @BodyArr, $Param{Data};
         }
         for my $Body (@BodyArr) {
-            my $Headers = shift @HeadersArr;
-
             push @RequestParam, $Controller;
 
             if ( IsStringWithData($Body) ) {

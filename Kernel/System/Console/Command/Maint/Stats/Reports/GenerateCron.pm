@@ -16,14 +16,11 @@
 
 package Kernel::System::Console::Command::Maint::Stats::Reports::GenerateCron;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
-
 use strict;
 use warnings;
 use utf8;
 
 use parent qw(
-    Kernel::System::Console::BaseCommand
     Kernel::System::Console::Command::Maint::Stats::Reports::Generate
 );
 

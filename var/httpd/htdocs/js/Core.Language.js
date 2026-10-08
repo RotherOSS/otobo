@@ -27,7 +27,7 @@ var Core = Core || {};
  */
 Core.Language = (function (TargetNS) {
 
-    var MetaData = {}, //eslint-disable-line no-unused-vars
+    var MetaData = {},
         Translations = {};
 
     /**
@@ -59,7 +59,7 @@ Core.Language = (function (TargetNS) {
      *      Translate the given string.
      */
     TargetNS.Translate = function (TranslateString) {
-        var Translated = "",
+        var Translated,
             Args;
 
         if (typeof TranslateString === 'undefined') {
@@ -80,7 +80,7 @@ Core.Language = (function (TargetNS) {
         }
 
         // otherwise, we replace all %s with the arguments given
-        // replace only replaces the first occurance, save to use in a loop
+        // replace only replaces the first occurrence, save to use in a loop
         for (Args = 1; Args < arguments.length; Args++) {
             Translated = Translated.replace('%s', arguments[Args]);
         }

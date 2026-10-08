@@ -24,7 +24,7 @@ Core.UI = Core.UI || {};
  * @memberof Core.UI
  * @author
  * @description
- *      This namespace contains all codemirror pluging related functions.
+ *      This namespace contains all codemirror plugin related functions.
  */
 Core.UI.CodeMirrorEditor = (function (TargetNS) {
 
@@ -89,7 +89,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
             }
 
             $("#CMToolbarContainer").removeClass("Hidden");
-        } catch (error) {
+        } catch {
             const ErrorDialogCloseFunction = function () {
                 Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
             };
@@ -100,7 +100,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
             );
         }
 
-        //Initializate events
+        //Initialize events
         if (Editor) {
             $(EditorElement).data('CodeMirrorInstance', Editor);
 
@@ -230,8 +230,8 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
      * @description
      *      This function receives an editor instance and indent the code
      */
-    TargetNS.IndentCode = function (cm, pred) {
-        var cm = getInstance();
+    TargetNS.IndentCode = function (cm) {
+        cm = getInstance();
         cm.eachLine(line => {
             cm.indentLine(cm.getLineNumber(line), "smart");
         });
@@ -247,8 +247,6 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
      *      This function receives an editor instance and show hint (after)
      */
     TargetNS.completeAfter = function (cm, pred) {
-        var cur = cm.getCursor();
-
         if (!pred || pred()) setTimeout(function () {
             if (!cm.state.completionActive)
                 cm.showHint({ completeSingle: false });
@@ -300,7 +298,7 @@ Core.UI.CodeMirrorEditor = (function (TargetNS) {
      *      XSLT tags autocomplete list.
      */
 
-    function XSLT_Tags() {
+    function XSLT_Tags() {      // eslint-disable-line camelcase
         var Tags = {
             "xsl:apply-imports": {},
             "xsl:apply-templates": {

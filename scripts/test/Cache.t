@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.26;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -52,15 +52,19 @@ my %FixedTimeCompatibleBackends = (
     FileStorable => 1,
 );
 
-MODULEFILE:
+MODULE_FILE:
 for my $ModuleFile (@BackendModuleFiles) {
 
-    next MODULEFILE unless $ModuleFile;
+    next MODULE_FILE unless $ModuleFile;
 
     # extract module name
     my ($Module) = $ModuleFile =~ m{ \/+ ([a-zA-Z0-9]+) \.pm $ }xms;
 
-    next MODULEFILE unless $Module;
+    next MODULE_FILE unless $Module;
+
+    # The chaching backend Kernel::System::Cache::None does nothing.
+    # So testing it like the other caching backends is not sensible.
+    next MODULE_FILE if $Module eq 'None';
 
     note "Testing $Module";
 
@@ -99,13 +103,13 @@ for my $ModuleFile (@BackendModuleFiles) {
             'construction of cache backend object'
         );
 
-        next MODULEFILE unless $CacheObject;
+        next MODULE_FILE unless $CacheObject;
 
         # Under Docker Redis should be available.
         # In a classical Installation we don't know. So we tentatively try to connect
         # to the configured Redis Server, and proceed only if that works.
         if ( $Module =~ m/Redis/i ) {
-            next MODULEFILE unless $CacheObject->{CacheObject}->_Connect();
+            next MODULE_FILE unless $CacheObject->{CacheObject}->_Connect();
         }
 
         # flush the cache to have a clear test environment

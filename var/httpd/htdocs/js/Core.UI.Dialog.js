@@ -65,7 +65,7 @@ Core.UI.Dialog = (function (TargetNS) {
         // Window height
         // - top margin of dialog twice (for top and bottom) - only use this for big dialog windows
         // - some static pixels for Header and Footer of dialog
-        var ContentScrollHeight = 0,
+        var ContentScrollHeight,
             WindowHeight = $(window).height(),
             WindowScrollTop = $(window).scrollTop(),
             DialogTopMargin = $('.Dialog:visible').offset().top,
@@ -127,7 +127,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param {Boolean} CloseOnEscape - If set to true, the escape key is checked for closing the dialog.
      * @description
      *      Initializes the key event logger for the dialog.
-     *      Must be unbinded when closing the dialog.
+     *      Must be unbound when closing the dialog.
      */
     function InitKeyEvent(CloseOnEscape) {
         var $Dialog = $('div.Dialog:visible');
@@ -208,7 +208,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param {String} Params.Type - Alert|Search (default: undefined) Defines a special type of dialog.
      * @param {String} Params.Title - Defines the title of the dialog window (default: undefined).
      * @param {String} Params.Headline - Defines a special headline within the dialog window (default: undefined). Only used for Type Alert.
-     * @param {String} Params.Text - The text which is outputtet in the dialog window (default: undefined). Only used for Type Alert.
+     * @param {String} Params.Text - The text which is outputted in the dialog window (default: undefined). Only used for Type Alert.
      * @param {String} Params.HTML - Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML (default: undefined).
      * @param {Number} Params.PositionTop - Defines the top position of the dialog window (default: undefined).
      * @param {Number} Params.PositionBottom - Defines the bottom position of the dialog window (default: undefined).
@@ -618,7 +618,7 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param {String} HTML - The content HTML which should be shown.
      * @param {String} Title - The title of the dialog.
      * @param {Number|String} PositionTop - The top position the dialog is positioned initially.
-     * @param {Numer|String} PositionLeft - The left position the dialog is positioned initially.
+     * @param {Number|String} PositionLeft - The left position the dialog is positioned initially.
      * @param {Boolean} Modal - If defined and set to true, an overlay is shown for a modal dialog.
      * @param {Array} Buttons - The button array.
      * @param {Boolean} AllowAutoGrow - If true, the InnerContent of the dialog can resize until the max window height is reached, if false (default), InnerContent of small dialogs does not resize over 200px.
@@ -728,7 +728,7 @@ Core.UI.Dialog = (function (TargetNS) {
         $(window).unbind('resize.Dialog');
         $('body').css('min-height', 'auto');
 
-        // Revert orignal html
+        // Revert original html
         if (InternalDialogCounter) {
             DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
             DialogSelectorData = Core.Data.Get($('body'), 'DialogSelector');

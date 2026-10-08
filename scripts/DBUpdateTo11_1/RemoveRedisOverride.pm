@@ -30,16 +30,18 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::ModuleRefresh ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
+    'Kernel::System::Cache',
 );
 
 =head1 NAME
 
-scripts::DBUpdateTo11_1::RemoveRedisOverride - no longer force Redis to be caching backend
+scripts::DBUpdateTo11_1::RemoveRedisOverride - no longer force Redis to be the caching backend
 
 =head1 DESCRIPTION
 
@@ -67,6 +69,13 @@ sub Run {
         qq!$^X -i.backup_upgrade -pe 's/(?=.*\\\$Self->{.Cache::)/# commented out by DBUpdate-to-11.1.pl $Now /' /opt/otobo/Kernel/Config.pm!
     );
 
+    # Reload the changed Kernel/Config.pm and make sure that Kernel::System::Cache
+    # picks up the changed setting.
+    Kernel::System::ModuleRefresh->refresh_module('Kernel/Config.pm');
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+    );
+
     if ($Failed) {
         print "\n\n    ERROR: could not tweak Kernel/Config.pm\n";
 
@@ -74,7 +83,6 @@ sub Run {
     }
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
 
     # Tweak the SysConfig if necessary
     my $Key     = 'Cache::Module';
@@ -82,15 +90,28 @@ sub Run {
         Name => $Key,
     );
 
-    if (
-        %Setting
-        &&
-        $Setting{IsValid}
-        &&
-        ( $Setting{EffectiveValue} // '' ) eq 'Kernel::System::Cache::Redis'
-        )
-    {
-        print "    changing the SysConfig setting Cache::Module to Kernel::System::Cache::FileStorable\n";
+    # return early when there is nothing to do
+    return 1 unless %Setting;
+    return 1 unless $Setting{IsValid};
+    return 1 unless $Setting{EffectiveValue};
+    return 1 unless $Setting{EffectiveValue} eq 'Kernel::System::Cache::Redis';
+
+    # Do not use the cache backend while reconfiguring it
+    # Make the switch via Kernel::Config as Kernel::System::Cache::new() does not have a parameter for the backend module
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::System::Cache'],
+    );
+    $Kernel::OM->Get('Kernel::Config')->Set(
+        Key   => $Key,
+        Value => 'Kernel::System::Cache::None'
+    );
+
+    print "    changing the SysConfig setting Cache::Module to Kernel::System::Cache::FileStorable\n";
+
+    my $Success   = 1;
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    if ($Success) {
 
         # nobody else should meddle with the SysConfig
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
@@ -114,21 +135,27 @@ sub Run {
                 Message  => "Could not update setting '$Key'.",
             );
 
-            return;
+            $Success = 0;
         }
+    }
 
-        my $Success = $SysConfigObject->SettingUnlock(
+    if ($Success) {
+
+        my $UnlockSuccess = $SysConfigObject->SettingUnlock(
             UnlockAll => 1,
         );
 
-        if ( !$Success ) {
+        if ( !$UnlockSuccess ) {
             $LogObject->Log(
                 Priority => 'error',
                 Message  => "Could not unlock settings.",
             );
 
-            return;
+            $Success = 0;
         }
+    }
+
+    if ($Success) {
 
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
             AllSettings => 1,
@@ -143,11 +170,16 @@ sub Run {
                 Message  => "Deployment failed.",
             );
 
-            return;
+            $Success = 0;
         }
     }
 
-    # looking good
+    # roll back temporarily changed objects
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+    );
+
+    return unless $Success;
     return 1;
 }
 

@@ -1256,7 +1256,8 @@ In essence, this calls C<Prepare()> and then the DBI method C<selectcol_array()>
 
 You can pass the same arguments as to the Prepare() method.
 
-Returns undef if the query failed, or a list if the query was successful:
+Returns an empty list if the query failed.
+Returns a potentially empty list if the query was successful:
 
     my @IDs = (100, 101, 102);
 

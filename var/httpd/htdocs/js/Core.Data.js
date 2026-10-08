@@ -140,7 +140,7 @@ Core.Data = (function (TargetNS) {
 
         TempObject = new Data.constructor();
         for (Key in Data) {
-            if (Data.hasOwnProperty(Key)) {
+            if (Object.prototype.hasOwnProperty.call(Data, Key)) {
                 TempObject[Key] = Core.Data.CopyObject(Data[Key]);
             }
         }

@@ -21,7 +21,12 @@ use warnings;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
 use Scalar::Util qw(blessed);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::JSON',
@@ -29,7 +34,7 @@ our @ObjectDependencies = (
 );
 
 sub _GetAsynchronousData {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
     my $Identifier = blessed($Self);
 
@@ -37,7 +42,7 @@ sub _GetAsynchronousData {
         Key => $Identifier,
     );
 
-    return if !defined $AsynchronousDataString;
+    return unless defined $AsynchronousDataString;
 
     # get asynchronous data as array ref
     my $AsynchronousData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
@@ -50,7 +55,7 @@ sub _GetAsynchronousData {
 sub _StoreAsynchronousData {
     my ( $Self, %Param ) = @_;
 
-    return 1 if !$Param{Data};
+    return 1 unless $Param{Data};
 
     my $Identifier = blessed($Self);
 

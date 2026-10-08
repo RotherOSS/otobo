@@ -30,6 +30,7 @@ use utf8;
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
+    'Kernel::System::Log',
 );
 
 =head1 NAME
@@ -40,7 +41,7 @@ scripts::DBUpdateTo11_1 - Perform system upgrade from OTOBO 11.0 to 11.1
 
 =head1 Run
 
-This method is run without parameters from the driver script F<scripts/DBUpdateTo11_1.pl>.
+This method is run without parameters from the driver script F<scripts/DBUpdate-to-11_1.pl>.
 
     scripts::DBUpdateTo11_0::Run();
 
@@ -57,6 +58,12 @@ sub Run {
             # It is essential for at least SysConfigMigrateArticleActions.
             Name   => 'Rebuild the configuration as files in Kernel/Config/Files/XML have changed.',
             Module => 'RebuildConfig',
+        },
+        {
+            # Reconfiguring the cache backend affects the subsequent tasks.
+            # This is fine as the new cache backend should be available.
+            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
+            Module => 'RemoveRedisOverride',
         },
         {
             Name   => 'Deactivate autoload modules in the SysConfig.',
@@ -131,8 +138,8 @@ sub Run {
             Module => 'EnableSimilarSearchWidgetIfESActivated',
         },
         {
-            Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
-            Module => 'RemoveRedisOverride',
+            Name   => 'Bind ArticleEdit event for Elasticsearch webservice invoker.',
+            Module => 'EleasticsearchBindArticleEditEvent',
         },
     );
     my $NumTasks = @Tasks;
@@ -140,6 +147,23 @@ sub Run {
 
     TASK:
     for my $Task (@Tasks) {
+
+        # Set the log prefix for the messages produced via Kernel::System::Log.
+        # This allows to identify the task when inspecting the log output.
+        # This overrides the LogPrefix set by the console commands that are
+        # called in the migration tasks. This eliminates the effect where
+        # a console commands sets the LogPrefix which is then used by the
+        # successive tasks.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Log'],
+        );
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::Log' => {
+                LogPrefix => ( __FILE__ . " Task $Count/$NumTasks $Task->{Module}" ),
+            },
+        );
+        $Kernel::OM->Get('Kernel::System::Log');    # set the prefix in the global instance
+
         say "\tExecuting task $Count/$NumTasks '$Task->{Name}' ($Task->{Module}) ...";
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo11_1::' . $Task->{Module} ) ) {
@@ -148,6 +172,8 @@ sub Run {
             last TASK;
         }
 
+        # Note that no new process is started for each task.
+        # So changes in $Kernel::OM carry over to the next task.
         my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_1::' . $Task->{Module} )->Run;
 
         if ( !$Success ) {

@@ -102,7 +102,6 @@ sub ValueGet {
     my $ReferencedObjectID = $Param{ReferencedObjectID} || $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
-        EditFieldValue         => $Param{UseReferenceEditField},
         Set                    => $Param{Set},
     );
 
@@ -139,6 +138,7 @@ sub ValueGet {
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
         $ObjectIDOrName    => $ReferencedObjectID,
+        ForLens            => $Param{ForLens},
     );
 }
 
@@ -188,8 +188,11 @@ sub ValueSet {
                 ConfigItemHandled  => 0,
                 EditFieldValue     => 0,
                 Set                => 0,
-                DynamicFieldConfig => $AttributeDFConfig,
-                $ObjectIDOrName    => $ReferencedObjectID,
+                DynamicFieldConfig => {
+                    $AttributeDFConfig->%*,
+                    Name => $Param{DynamicFieldConfig}{Name},
+                },
+                $ObjectIDOrName => $ReferencedObjectID,
             );
         }
         return 1;
@@ -213,8 +216,11 @@ sub ValueSet {
         %Param,
         ConfigItemHandled  => 0,
         EditFieldValue     => 0,
-        DynamicFieldConfig => $AttributeDFConfig,
-        $ObjectIDOrName    => $ReferencedObjectID,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name => $Param{DynamicFieldConfig}{Name},
+        },
+        $ObjectIDOrName => $ReferencedObjectID,
     );
 }
 
@@ -695,9 +701,8 @@ sub GetFieldState {
                 # TODO: Instead we could just send $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } as ObjectID
                 # but we would need to interpret it later (from ConfigItemID to LastVersionID, e.g.)
                 # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
-                ObjectID              => 1,                                                                                     # will not be used;
-                UseReferenceEditField => 1,
-                ReferencedObjectID    => $Param{GetParam}{DynamicField}{ $DynamicFieldConfig->{Config}{ReferenceDFName} }[0],
+                ObjectID           => 1,              # will not be used;
+                ReferencedObjectID => $ReferenceID,
             ) // '';
         }
         else {

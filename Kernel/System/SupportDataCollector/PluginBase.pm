@@ -44,13 +44,9 @@ our %Status2Name = (
 our @ObjectDependencies = ();
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # allocate new hash ref to object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 # Override this in the plugins to specify their DisplayPath
@@ -127,7 +123,7 @@ sub _AddResult {
 }
 
 sub GetResults {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
     return (
         Success => 1,

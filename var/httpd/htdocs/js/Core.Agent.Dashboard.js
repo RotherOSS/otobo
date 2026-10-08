@@ -198,7 +198,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
      * @param {string} ElementID - The ID of the element whose content should be updated with the server answer.
      * @param {jQueryObject} $Form - The jQuery object of the form with the data for the server request.
      * @description
-     *      This function binds a click event on an html element to update the preferences of the given dahsboard widget
+     *      This function binds a click event on an html element to update the preferences of the given dashboard widget
      */
     TargetNS.RegisterUpdatePreferences = function ($ClickedElement, ElementID, $Form) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
@@ -1441,7 +1441,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
      */
     function DashboardTicketWidgetFilter (WidgetFilterData) {
         $('#Dashboard' + Core.App.EscapeSelector(WidgetFilterData.Name) + '-box').find('.Tab.Actions li a').off('click').on('click', function() {
-                var Filter, AdditionalFilter = '',
+                var Filter, AdditionalFilter,
                 CustomerID, CustomerUserID;
 
                 if ($(this).parent().hasClass('AdditionalFilter')) {

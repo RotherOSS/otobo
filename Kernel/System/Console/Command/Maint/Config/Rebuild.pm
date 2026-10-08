@@ -74,6 +74,13 @@ sub Configure {
         HasValue    => 0,
     );
 
+    $Self->AddOption(
+        Name        => 'no-cache-in-backend',
+        Description => "Do not use a caching backend like Redis or FileStorable",
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
@@ -139,9 +146,27 @@ sub Run {
 
     $Self->Print("<yellow>Rebuilding the system configuration...</yellow>\n");
 
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    # Turn off the caching in the backend by setting the backend to Kernel::System::Cache::None.
+    # This can be useful in updates of OTOBO where the configured cache backend may be gone.
+    # A known case is the update from OTOBO 11.0.x to OTOBO 11.1.x, Docker-based, where
+    # the Redis cache backend is replaced by FileStorable.
+    #
+    # Note that it does not suffice to deactivate CacheInBackend as still Delete() would be called.
+    if ( $Self->GetOption('no-cache-in-backend') ) {
+
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Cache'],
+        );
+
+        # as Kernel::System::Cache::new() has no parameter for the backend module
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'Cache::Module',
+            Value => 'Kernel::System::Cache::None'
+        );
+    }
 
     # Enable in-memory cache to improve SysConfig performance, which is normally disabled for commands.
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     $CacheObject->Configure(
         CacheInMemory => 1,
     );
@@ -191,7 +216,15 @@ sub Run {
         $Error = 1;
     }
 
-    # Disable in memory cache.
+    # Back to regular cache object
+    if ( $Self->GetOption('no-cache-in-backend') ) {
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+        );
+        $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    }
+
+    # back to the regular CacheInMemory setting for console commands
     $CacheObject->Configure(
         CacheInMemory => 0,
     );

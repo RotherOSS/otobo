@@ -172,6 +172,7 @@ sub ValueValidate {
     # get necessary object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
+    my $CheckDateRestriction = ( $DateRestriction && !$Param{NoDateRestriction} ) ? 1 : 0;
     my $Success;
     for my $Value (@Values) {
 
@@ -202,7 +203,7 @@ sub ValueValidate {
             UserID => $Param{UserID},
         );
 
-        if ($DateRestriction) {
+        if ($CheckDateRestriction) {
 
             my $ValueDateTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',

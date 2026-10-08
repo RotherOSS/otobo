@@ -23,7 +23,7 @@ var QuickDateButtons = QuickDateButtons || {};
  * @description
  *      This namespace contains the special module functions for the package QuickDateButtons.
  */
-QuickDateButtons = (function (TargetNS) {
+QuickDateButtons = (function (TargetNS) {   // eslint-disable-line no-useless-assignment
 
     /**
      * @name Init
@@ -32,7 +32,7 @@ QuickDateButtons = (function (TargetNS) {
      * @description
      *      Initializes the module.
      */
-    TargetNS.Init = function ($Element) {
+    TargetNS.Init = function () {
         $('.oooQuickDate.SetDate').on('click', function () {
             var Days     = parseInt($(this).attr('data-days'));
             var CurrDate = new Date();
@@ -75,7 +75,7 @@ QuickDateButtons = (function (TargetNS) {
         });
     };
 
-    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');
+    Core.Init.RegisterNamespace(TargetNS, 'APP_GLOBAL');    // eslint-disable-line no-undef
 
     return TargetNS;
 }(QuickDateButtons || {}));
