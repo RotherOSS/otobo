@@ -55,8 +55,32 @@ sub Run {
 
     my $Output;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get config for frontend module
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
+    # check permissions
+    my $Access = $TicketObject->TicketPermission(
+        Type     => $Config->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
+
+    # error screen, don't show ticket
+    if ( !$Access ) {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            WithHeader => 'yes',
+        );
+    }
 
     # get ACL restrictions
     $TicketObject->TicketAcl(
@@ -67,9 +91,6 @@ sub Run {
         UserID        => $Self->{UserID},
     );
     my %AclAction = $TicketObject->TicketAclActionData();
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check if ACL restrictions exist
     if ( IsHashRefWithData( \%AclAction ) ) {
@@ -119,9 +140,6 @@ sub Run {
         my $CustomerUser = $Ticket{CustomerUserID};
         my $QueueID      = $Ticket{QueueID};
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
         # get list type
         my $TreeView = 0;
         if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
@@ -133,9 +151,6 @@ sub Run {
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID,
         );
-
-        # get config for frontend module
-        my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
         # get the dynamic fields for this screen
         my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
@@ -378,19 +393,6 @@ sub Form {
 
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # check permissions
-    my $Access = $TicketObject->TicketPermission(
-        Type     => $Config->{Permission},
-        TicketID => $Self->{TicketID},
-        UserID   => $Self->{UserID}
-    );
-
-    # error screen, don't show ticket
-    if ( !$Access ) {
-
-        return $LayoutObject->NoPermission( WithHeader => 'yes' );
-    }
 
     my %GetParamExtended = $Self->_GetExtendedParams();
 
