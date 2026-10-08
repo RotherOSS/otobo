@@ -557,6 +557,7 @@ sub _RenderAjax {
     # get needed objects
     my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
     my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+    my $ParamObject             = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # Get the activity dialog's Submit Params or Config Params
@@ -1963,6 +1964,7 @@ sub _OutputActivityDialog {
         %Visibility       = $DynFieldStates{Visibility}->%*;
 
         # set new values
+        $Param{GetParam}{DynamicField} //= {};
         $Param{GetParam}{DynamicField} = {
             $Param{GetParam}{DynamicField}->%*,
             $DynFieldStates{NewValues}->%*,
