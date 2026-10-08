@@ -1149,6 +1149,7 @@ sub _OutputActivityDialog {
         %Visibility       = $DynFieldStates{Visibility}->%*;
 
         # set new values
+        $Param{GetParam}{DynamicField} //= {};
         $Param{GetParam}{DynamicField} = {
             $Param{GetParam}{DynamicField}->%*,
             $DynFieldStates{NewValues}->%*,
