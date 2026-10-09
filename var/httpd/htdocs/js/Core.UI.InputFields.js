@@ -1436,7 +1436,9 @@ Core.UI.InputFields = (function (TargetNS) {
                 $SearchObj.attr('id', SearchID)
                     .addClass('InputField_Search')
                     .attr('type', 'text')
-                    .attr('role', 'search')
+                    .attr('role', 'combobox')
+                    .attr('aria-autocomplete', 'list')
+                    .attr('aria-haspopup', 'tree')
                     .attr('autocomplete', 'off');
 
                 // If original field has class small, add it to the input field, too
