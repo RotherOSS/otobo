@@ -947,6 +947,16 @@ sub Run {
             $Layout{ $ElementMap->{Activity}->{$ActivityEntityID} || $ActivityEntityID } = $Position;
         }
 
+        # set config start activity
+        if ( $ElementMap->{Activity}->{ $ProcessData->{Config}->{StartActivity} } ) {
+            $ProcessData->{Config}->{StartActivity} = $ElementMap->{Activity}->{ $ProcessData->{Config}->{StartActivity} };
+        }
+
+        # set config start activity dialog
+        if ( $ElementMap->{ActivityDialog}->{ $ProcessData->{Config}->{StartActivityDialog} } ) {
+            $ProcessData->{Config}->{StartActivityDialog} = $ElementMap->{ActivityDialog}->{ $ProcessData->{Config}->{StartActivityDialog} };
+        }
+
         # now rebuild process path config, substituting process-specific elements
         my %ConfigPath;
 
@@ -961,7 +971,7 @@ sub Run {
 
                 for my $TransitionActionEntityID ( @{ $PathData->{TransitionAction} } ) {
 
-                    push @TransitionAction, $ElementMap->{TransitionAction}->{TransitionActionEntityID} || $TransitionActionEntityID;
+                    push @TransitionAction, $ElementMap->{TransitionAction}->{$TransitionActionEntityID} || $TransitionActionEntityID;
                 }
 
                 $Path{ActivityEntityID} = $ElementMap->{Activity}->{ $PathData->{ActivityEntityID} } || $PathData->{ActivityEntityID};
