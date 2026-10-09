@@ -330,7 +330,7 @@ sub EditFieldRender {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -411,7 +411,7 @@ sub DisplayValueRender {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1215,7 +1215,7 @@ sub SearchSQLOrderFieldGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -3031,7 +3031,7 @@ sub Evaluate {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
