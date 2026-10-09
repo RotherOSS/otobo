@@ -426,6 +426,36 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name UnescapeHTML
+     * @memberof Core.App
+     * @function
+     * @returns {String} The unescaped string.
+     * @param {String} StringToUnescape - The string which is supposed to be unescaped.
+     * @description
+     *      Reverts escaping of the special HTML characters ( < > & ") in supplied string to their
+     *      corresponding entities.
+     */
+    TargetNS.UnescapeHTML = function (StringToUnescape) {
+        var HTMLEntities = {
+            '&amp;': '&',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+        };
+
+        if (!StringToUnescape) {
+            return '';
+        }
+
+        Object.keys(HTMLEntities).forEach(function (EntityKey) {
+            let EntityRegExp = new RegExp(`${EntityKey}`, "g");
+            StringToUnescape = StringToUnescape.replace(EntityRegExp, HTMLEntities[EntityKey]);
+        });
+
+        return StringToUnescape;
+    };
+
+    /**
      * @name HumanReadableDataSize
      * @memberof Core.App
      * @function
