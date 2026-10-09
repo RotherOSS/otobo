@@ -6705,6 +6705,10 @@ sub Data {
         'Reload page' => 'Seite aktualisieren',
         'Reload page (%ss)' => 'Seite aktualisieren (%ss)',
 
+        # JS File: Core.Customer
+        'Click to pause scrolling' => 'Zum Anhalten des Lauftexts klicken',
+        'Click to resume scrolling' => 'Zum Fortsetzen des Lauftexts klicken',
+
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
             'Der Namensraum %s konnte nicht initialisiert werden, weil %s nicht gefunden wurde.',
@@ -10123,6 +10127,8 @@ Ihr Helpdesk-Team
         'Clear debug log',
         'Clear search',
         'Click to delete this attachment.',
+        'Click to pause scrolling',
+        'Click to resume scrolling',
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
