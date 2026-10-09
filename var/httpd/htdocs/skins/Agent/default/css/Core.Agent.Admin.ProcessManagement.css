@@ -67,6 +67,12 @@ a.Print span {
     margin-top: 1px;
 }
 
+.AllocationList .Global {
+    float: left;
+    margin-right: 5px;
+    margin-top: 4px;
+}
+
 
 /**
  * @subsubsection     Process Element Accordion
