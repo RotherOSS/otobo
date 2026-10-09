@@ -518,40 +518,54 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @description
      *      This function initializes events for process widget.
      */
-     function InitOverviewWidget() {
-        var WidgetWidth, FieldsPerRow, FieldMargin, FieldWidth;
-
-        if ($('.DynamicFieldAutoResize').length > 0) {
-            WidgetWidth  = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10);
-            FieldMargin  = parseInt($('.DynamicFieldAutoResize').css('margin-right'), 10) + 2;
-            FieldsPerRow = 4;
+    function InitOverviewWidget() {
+        var WidgetWidth, Columns, FieldMargin, FieldWidth;
+    
+        function UpdateOverviewColumns() {
+            if ($('.DynamicFieldAutoResize').length === 0) {
+                return;
+            }
+    
+            WidgetWidth = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10);
+            FieldMargin = parseInt($('.DynamicFieldAutoResize').css('margin-right'), 10) + 2;
+            Columns     = 4;
 
             // define amount of fields per row depending on display resolution
             if (WidgetWidth < 400) {
-                FieldsPerRow = 1;
+                Columns = 1;
             }
             else if (WidgetWidth < 600) {
-                FieldsPerRow = 2;
+                Columns = 2;
             }
             else if (WidgetWidth < 1000) {
-                FieldsPerRow = 3;
+                Columns = 3;
             }
 
             // determine the needed field width and resize the fields
-            if (FieldsPerRow === 1) {
+            if (Columns === 1) {
                 FieldWidth = '100%';
             }
             else {
-                FieldWidth = parseInt(WidgetWidth / FieldsPerRow - FieldMargin - 1, 10) || 0;
+                FieldWidth = parseInt(WidgetWidth / Columns - FieldMargin - 1, 10) || 0;
             }
 
             $('.DynamicFieldAutoResize').width(FieldWidth);
+    
+            $('#DynamicFieldsWidget fieldset, #DynamicFieldsWidget .SetDynamicField > div').css(
+                'grid-template-columns',
+                'repeat(' + Columns + ', ' + FieldWidth + 'px)'
+            );
         }
+    
+        UpdateOverviewColumns();
+    
+        $(window).off('resize.OverviewWidget').on('resize.OverviewWidget', function() {
+            UpdateOverviewColumns();
+        });
 
-        $('.ShowFieldInfoOverlay').on('click', function() {
-
-            var OverlayTitle  = $(this).closest('label').attr('title'),
-                OverlayHTML   = $(this).closest('.FieldContainer').find('.Value').html();
+        $('.ShowFieldInfoOverlay').off('click.OverviewWidget').on('click.OverviewWidget', function() {
+            var OverlayTitle = $(this).closest('label').attr('title'),
+                OverlayHTML  = $(this).closest('.FieldContainer').find('.Value').html();
 
             OverlayHTML = '<div class="FieldOverlay">' + OverlayHTML + '</div>';
 
