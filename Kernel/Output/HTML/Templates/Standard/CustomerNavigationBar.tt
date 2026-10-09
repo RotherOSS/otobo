@@ -15,7 +15,7 @@
 # --
 
 <!-- start NavigationBar -->
-<div id="oooNavigation">
+<div id="oooNavigation" role="navigation">
     <div id="oooNavBarIcons">
         <div id="oooNavBarSignet">
             <img id="oooSignet" src="[% Data.URLSignet | html %]"/>
