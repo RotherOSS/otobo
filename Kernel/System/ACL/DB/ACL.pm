@@ -19,6 +19,8 @@ package Kernel::System::ACL::DB::ACL;
 use v5.26;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -44,11 +46,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ACL::DB::ACL
+Kernel::System::ACL::DB::ACL - backend for access control lists
 
 =head1 DESCRIPTION
 
-ACL DB ACL backend
+ACL DB backend.
 
 =head1 PUBLIC INTERFACE
 
@@ -225,14 +227,14 @@ sub ACLAdd {
 
 =head2 ACLDelete()
 
-delete an ACL
-
-returns 1 if success or undef otherwise
+deletes an ACL.
 
     my $Success = $ACLObject->ACLDelete(
         ID      => 123,
         UserID  => 123,
     );
+
+Returns 1 if successful or C<undef> otherwise.
 
 =cut
 
@@ -284,7 +286,7 @@ sub ACLDelete {
 
 =head2 ACLGet()
 
-get ACL attributes
+gets ACL attributes.
 
     my $ACL = $ACLObject->ACLGet(
         ID              => 123,          # ID or name is needed
@@ -437,9 +439,7 @@ sub ACLGet {
 
 =head2 ACLUpdate()
 
-update ACL attributes
-
-returns 1 if success or undef otherwise
+updates ACL attributes.
 
     my $Success = $ACLObject->ACLUpdate(
         ID             => 123,                  # mandatory
@@ -452,6 +452,8 @@ returns 1 if success or undef otherwise
         ConfigChange   => $ConfigChangeHashRef, # optional
         UserID         => 123,                  # mandatory
     );
+
+returns 1 if successful or C<undef> otherwise.
 
 =cut
 
@@ -599,7 +601,7 @@ sub ACLUpdate {
 
 =head2 ACLList()
 
-get an ACL list
+gets a mapping from ACL IDs to ACL names.
 
     my $List = $ACLObject->ACLList(
         ValidIDs        => ['1','2'],           # optional, to filter ACLs that match listed valid IDs
@@ -607,7 +609,7 @@ get an ACL list
         ObjectTypes     => ['Ticket']           # optional, currently Ticket or ConfigItem
     );
 
-    Returns:
+Returns:
 
     $List = {
         1 => 'NameOfACL',
@@ -678,7 +680,8 @@ sub ACLList {
 
     }
 
-    return if !$DBObject->Prepare( SQL => $SQL );
+    return unless $DBObject->Prepare( SQL => $SQL );
+
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -697,7 +700,7 @@ sub ACLList {
 
 =head2 ACLListGet()
 
-get an ACL list with all ACL details
+gets a list with all ACL details.
 
     my $List = $ACLObject->ACLListGet(
         UserID   => 1,
@@ -833,11 +836,11 @@ sub ACLListGet {
 
 =head2 ACLsNeedSync()
 
-Check if there are ACLs that are not yet deployed
+checks if there are ACLs that are not yet deployed.
 
     my $SyncCount = $ACLObject->ACLsNeedSync();
 
-    Returns:
+Returns:
 
     $SyncCount = 0 || Number of ALCs that need to be synced
 
@@ -865,14 +868,16 @@ sub ACLsNeedSync {
 
 =head2 ACLsNeedSyncReset()
 
-Reset synchronization information for ACLs.
+resets synchronization information for ACLs.
 
 =cut
 
 sub ACLsNeedSyncReset {
     my ( $Self, %Param ) = @_;
 
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do( SQL => 'DELETE FROM acl_sync' );
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => 'DELETE FROM acl_sync',
+    );
 
     return 1;
 }
@@ -919,7 +924,6 @@ sub ACLDump {
                 Priority => 'error',
                 Message  => 'Need Location for ResultType \'FILE\'!',
             );
-
         }
     }
 
@@ -1051,7 +1055,7 @@ END_PM_FILE
 
 =head2 ACLImport()
 
-import an ACL YAML file/content
+imports an ACL YAML file/content.
 
     my $ACLImport = $ACLObject->ACLImport(
         Content                   => $YAMLContent, # mandatory, YAML format
@@ -1186,7 +1190,7 @@ sub ACLImport {
 
 =head2 _ACLItemOutput()
 
-converts an ACL structure to perl code suitable to be saved on a perl file.
+converts an ACL structure to Perl code suitable to be saved on a Perl file.
 
     my $Output = $ACLObject->_ACLItemOutput (
         Key => 'some ACL name',
@@ -1284,8 +1288,8 @@ sub _ACLItemOutput {
 
 =head2 _ACLMigrateFrom33()
 
-Updates ACLs structure my changing the Possible->Action hash ref to a PossibleNot->Action array ref
-with just the elements that where set to 0 in the original ACL:
+updates ACLs structure my changing the Possible->Action hash ref to a PossibleNot->Action array ref
+with just the elements that where set to 0 in the original ACL.
 
     my $ACL = $ACLObject->_ACLMigrateFrom33 (
         $ACL => {
