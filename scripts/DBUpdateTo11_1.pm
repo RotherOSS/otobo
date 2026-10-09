@@ -141,6 +141,10 @@ sub Run {
             Name   => 'Bind ArticleEdit event for Elasticsearch webservice invoker.',
             Module => 'EleasticsearchBindArticleEditEvent',
         },
+        {
+            Name   => 'Add source_article_id based index to the article_version table.',
+            Module => 'DBAddSourceArticleIdIndex',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;

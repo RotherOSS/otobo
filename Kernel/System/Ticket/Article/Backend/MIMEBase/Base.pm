@@ -374,7 +374,7 @@ sub _ArticleContentPathGet {
 
         # sql query for Version View
         return if !$DBObject->Prepare(
-            SQL  => 'SELECT content_path FROM article_data_mime_version WHERE article_id IN (SELECT id FROM article_version WHERE article_id = ?)',
+            SQL  => 'SELECT content_path FROM article_data_mime_version WHERE article_id IN (SELECT id FROM article_version WHERE source_article_id = ?)',
             Bind => [ \$Param{ArticleID} ],
         );
     }
