@@ -98,13 +98,16 @@ sub Run {
 
     # Do not use the cache backend while reconfiguring it
     # Make the switch via Kernel::Config as Kernel::System::Cache::new() does not have a parameter for the backend module
-    $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::Cache'],
-    );
-    $Kernel::OM->Get('Kernel::Config')->Set(
-        Key   => $Key,
-        Value => 'Kernel::System::Cache::None'
-    );
+    {
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        local $ConfigObject->{'Cache::Module'} = 'Kernel::System::Cache::None';
+
+        # recreate the cache object using the changed config
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Cache'],
+        );
+        $Kernel::OM->Get('Kernel::System::Cache');
+    }
 
     print "    changing the SysConfig setting Cache::Module to Kernel::System::Cache::FileStorable\n";
 
@@ -176,7 +179,7 @@ sub Run {
 
     # roll back temporarily changed objects
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+        Objects => ['Kernel::System::Cache'],
     );
 
     return unless $Success;
