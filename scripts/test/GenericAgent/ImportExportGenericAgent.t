@@ -29,6 +29,7 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+my $StateObject        = $Kernel::OM->Get('Kernel::System::State');
 my $ValidObject        = $Kernel::OM->Get('Kernel::System::Valid');
 
 # get helper object
@@ -189,6 +190,74 @@ is(
     \%ImportedJob,
     \%ImportData,
     'imported data looks as expected'
+);
+
+my $StateIDClosedSuccessful = $StateObject->StateLookup( State => 'closed successful' );
+my $StateIDOpen             = $StateObject->StateLookup( State => 'open' );
+
+# testing import of names as written by the export: they are translated to IDs, only the IDs are stored
+$ImportSuccess = $GenericAgentObject->ImportGenericAgents(
+    GenericAgents => {
+        'TestGenericAgent3' . $RandomID => {
+            %ImportData,
+            Name     => 'TestGenericAgent3' . $RandomID,
+            States   => ['closed successful'],
+            NewState => 'open',
+        },
+    },
+    UserID => $TestUserID,
+);
+ok( $ImportSuccess, 'imported generic agent with names successfully' );
+
+my %ImportedJobWithNames = $GenericAgentObject->JobGet(
+    Name => 'TestGenericAgent3' . $RandomID,
+);
+is(
+    \%ImportedJobWithNames,
+    {
+        %ImportData,
+        Name       => 'TestGenericAgent3' . $RandomID,
+        StateIDs   => [$StateIDClosedSuccessful],
+        NewStateID => $StateIDOpen,
+    },
+    'names are translated to IDs, only the IDs are stored'
+);
+
+# testing import of a name that does not exist on this system:
+# this job is not imported, the other jobs of the import are
+$ImportSuccess = $GenericAgentObject->ImportGenericAgents(
+    GenericAgents => {
+        'TestGenericAgent4' . $RandomID => {
+            %ImportData,
+            Name   => 'TestGenericAgent4' . $RandomID,
+            States => [ 'closed successful', 'UnknownState' . $RandomID ],
+        },
+        'TestGenericAgent5' . $RandomID => {
+            %ImportData,
+            Name   => 'TestGenericAgent5' . $RandomID,
+            States => ['closed successful'],
+        },
+    },
+    UserID => $TestUserID,
+);
+ok( !$ImportSuccess, 'import with an unknown state reports a failure' );
+
+my %ImportedJobUnknownState = $GenericAgentObject->JobGet(
+    Name => 'TestGenericAgent4' . $RandomID,
+);
+is(
+    \%ImportedJobUnknownState,
+    {},
+    'generic agent with an unknown state is not stored'
+);
+
+my %ImportedJobKnownState = $GenericAgentObject->JobGet(
+    Name => 'TestGenericAgent5' . $RandomID,
+);
+is(
+    $ImportedJobKnownState{StateIDs},
+    [$StateIDClosedSuccessful],
+    'generic agent of the same import with a known state is stored'
 );
 
 done_testing;
