@@ -1232,7 +1232,7 @@ END_SQL
     );
 
     # Fetch first the list of IDs,
-    # as DynamicFieldGet() might use Kernell::System::DB as well
+    # as DynamicFieldGet() might use Kernel::System::DB as well
     my @DynamicFieldIDs;
     while ( my ($ID) = $DBObject->FetchrowArray ) {
         push @DynamicFieldIDs, $ID;
@@ -1972,7 +1972,7 @@ sub _DynamicFieldReorder {
     my @NeedToUpdateList;
 
     # to add or subtract the field order by 1
-    my $Substract;
+    my $Subtract;
 
     # update and add has different algorithms to select the fields to be updated
     # check if update
@@ -1986,7 +1986,7 @@ sub _DynamicFieldReorder {
 
         # set subtract mode for selected fields
         if ( $TriggerFieldOrder > $OldFieldOrder ) {
-            $Substract = 1;
+            $Subtract = 1;
         }
 
         # identify fields that needs to be updated
@@ -2017,7 +2017,7 @@ sub _DynamicFieldReorder {
     # check if delete action
     elsif ( $Param{Mode} eq 'Delete' ) {
 
-        $Substract = 1;
+        $Subtract = 1;
 
         # identify fields that needs to be updated
         DYNAMICFIELD:
@@ -2069,7 +2069,7 @@ sub _DynamicFieldReorder {
 
         # hash ref validation is not needed since it was validated before
         # check if need to add or subtract
-        if ($Substract) {
+        if ($Subtract) {
 
             # subtract 1 to the dynamic field order value
             $DynamicField->{FieldOrder}--;
