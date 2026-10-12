@@ -1803,14 +1803,15 @@ sub DynamicFieldConfigName2ID {
     if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Service Ticket) ) {
 
         # needed transformation: Name -> ID
-        my $AllNamesExist = $Self->_DynamicFieldConfigObjectIDsTranslate(
+        my $Result = $Self->_DynamicFieldConfigObjectIDsTranslate(
             DynamicFieldConfig => $DynamicFieldConfig,
             Translation        => 'Name2ID',
         );
+        $DynamicFieldConfig = $Result->{DynamicFieldConfig};
 
         # The field would refer to other objects than intended or would not be restricted at all.
         # The names that do not exist have been logged.
-        return unless $AllNamesExist;
+        return unless $Result->{Success};
     }
     elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
 
@@ -1877,10 +1878,11 @@ sub DynamicFieldConfigID2Name {
         # needed transformation: ID -> Name
         # IDs that do not exist are kept, so that the import of the field fails instead of
         # silently losing the restriction
-        $Self->_DynamicFieldConfigObjectIDsTranslate(
+        my $Result = $Self->_DynamicFieldConfigObjectIDsTranslate(
             DynamicFieldConfig => $DynamicFieldConfig,
             Translation        => 'ID2Name',
         );
+        $DynamicFieldConfig = $Result->{DynamicFieldConfig};
     }
     elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
 
@@ -1930,7 +1932,7 @@ are translated back to IDs (C<Name2ID>). The config is modified in place.
 Empty values are kept. A value that does not exist on this system is kept and logged, false is
 returned in this case.
 
-    my $Success = $DynamicFieldObject->_DynamicFieldConfigObjectIDsTranslate(
+    my $Result = $DynamicFieldObject->_DynamicFieldConfigObjectIDsTranslate(
         DynamicFieldConfig => $FieldConfig,
         Translation        => 'ID2Name',       # or 'Name2ID'
     );
@@ -1940,6 +1942,9 @@ returned in this case.
 sub _DynamicFieldConfigObjectIDsTranslate {
     my ( $Self, %Param ) = @_;
 
+    my %Result = (
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
     my $DFDetails = $Param{DynamicFieldConfig}{Config};
 
     return 1 unless IsHashRefWithData($DFDetails);
@@ -2028,7 +2033,10 @@ sub _DynamicFieldConfigObjectIDsTranslate {
         $DFDetails->{$Setting} = \@TranslatedValues;
     }
 
-    return $AllValuesTranslated;
+    $Result{DynamicFieldConfig}{Config} = $DFDetails;
+    $Result{Success} = $AllValuesTranslated;
+
+    return \%Result;
 }
 
 =head2 _DynamicFieldReorder()
