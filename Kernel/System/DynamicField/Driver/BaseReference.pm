@@ -1244,12 +1244,21 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # in case of lens pointing to a reference field, execution is necessary
-    if ( !$Param{NeedsReset} ) {
+    my $Reappears = ( $Param{CachedVisibility} && $Param{CachedVisibility}{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 );
+    if ( !$Param{NeedsReset} && !$Reappears ) {
         return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
         return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
     }
 
-    my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+    my $Value;
+
+    # field reappearing - set value of passed object data
+    if ($Reappears) {
+        $Value = $Param{DynamicFieldDataDB} ? $Param{DynamicFieldDataDB}{"DynamicField_$DynamicFieldConfig->{Name}"} : undef;
+    }
+    else {
+        $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+    }
 
     # currently, all reference field values are array refs, but just to be safe, include value transformation
     if ( !ref $Value ) {
@@ -1311,7 +1320,7 @@ sub GetFieldState {
 
         # PossibleValues are needed for display value in frontend
         #   e.g. '"Tina Tester" <tina@example.com>' (CustomerUser MailString) vs. 'tina' (CustomerUserID)
-        if ($ValueChanged) {
+        if ( $ValueChanged || $Reappears ) {
             return (
                 NewValue       => \@CheckedValues,
                 PossibleValues => \%PossibleValues,
@@ -1344,7 +1353,7 @@ sub GetFieldState {
         DataIsDifferent(
             Data1 => $Value,
             Data2 => \@CheckedValues
-        )
+        ) || $Reappears
         )
     {
         $Return{NewValue} = \@CheckedValues;
