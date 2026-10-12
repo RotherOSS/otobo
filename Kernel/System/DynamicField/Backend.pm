@@ -3191,6 +3191,7 @@ Get the new value and possible values for use in FieldRestrictions()
         Visibility         => \%Visibility,
         CachedVisibility   => $CachedVisibility // {},
         DynamicFieldConfig => $DynamicFieldConfig,
+        DynamicFieldDataDB => \%DynamicFieldDataDB,         # optional; used for setting values of reappearing dynamic fields to stored values
     );
 
 Returns:
