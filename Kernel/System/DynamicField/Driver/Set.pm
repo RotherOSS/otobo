@@ -994,8 +994,9 @@ sub GetFieldState {
         my $LoopProtection = 100;
         my %SetFieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
             %Param,
-            DynamicFields => $DynamicField,
-            GetParam      => {
+            DynamicFieldDataDB => \%DBValues,
+            DynamicFields      => $DynamicField,
+            GetParam           => {
                 %GetParam,
                 %DFParam,
                 DynamicField => \%DFParam,
