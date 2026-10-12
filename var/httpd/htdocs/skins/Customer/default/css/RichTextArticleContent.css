@@ -49,7 +49,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content {
     /* CKEditor 5 Variables */
     --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --ck-content-font-size: 16px;
+    --ck-content-font-size: 14px;
     --ck-content-line-height: 1.2; /* has to be relative number, NO unit */
     --ck-content-todo-list-checkmark-size: calc(var(--ck-content-font-size) - 2px);
 
