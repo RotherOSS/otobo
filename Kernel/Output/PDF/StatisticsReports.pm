@@ -626,7 +626,7 @@ sub GeneratePDF {
                         'style data' => 'filledcurve x1',    # color down to the x-axis
                     );
                 }
-                elsif ( any { $Format eq $_ } qw(Gnuplot::ClusteredBarChart Gnuplot::StackedBarChart) ) {
+                elsif ( any { $Format eq $_ } qw(Gnuplot::BarChart Gnuplot::StackedBarChart) ) {
 
                     # The format of the graph determines the histogram style. Default is 'cluster'.
                     my $HistogramStyle = $Format eq 'Gnuplot::StackedBarChart' ? 'rowstacked' : 'cluster';

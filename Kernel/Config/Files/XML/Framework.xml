@@ -8536,7 +8536,7 @@ via the Preferences button after logging in.
                 <Item Key="Print" Translatable="1">Print</Item>
                 <Item Key="CSV" Translatable="1">CSV</Item>
                 <Item Key="Excel" Translatable="1">Excel</Item>
-                <Item Key="Gnuplot::ClusteredBarChart" Translatable="1">Graph: Clustered Bar Chart (Gnuplot)</Item>
+                <Item Key="Gnuplot::BarChart" Translatable="1">Graph: Clustered Bar Chart (Gnuplot)</Item>
                 <Item Key="Gnuplot::StackedBarChart" Translatable="1">Graph: Stacked Bar Chart (Gnuplot)</Item>
                 <Item Key="Gnuplot::LineChart" Translatable="1">Graph: Line Chart (Gnuplot)</Item>
                 <Item Key="Gnuplot::StackedAreaChart" Translatable="1">Graph: Stacked Area Chart (Gnuplot)</Item>
