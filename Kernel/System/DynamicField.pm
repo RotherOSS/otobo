@@ -1796,7 +1796,7 @@ sub DynamicFieldConfigName2ID {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Service Ticket) ) {
 
         # needed transformation: Name -> ID
         if ( $DynamicFieldConfig->{Config}{Queue} ) {
@@ -1865,7 +1865,7 @@ sub DynamicFieldConfigID2Name {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Service Ticket) ) {
 
         # needed transformation: ID -> Name
         if ( $DynamicFieldConfig->{Config}{Queue} ) {
