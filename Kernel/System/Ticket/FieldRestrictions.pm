@@ -649,7 +649,7 @@ sub GetFieldStates {
             Type  => 'HiddenFields',
             Key   => $Param{FormID},
             Value => {%Visibility},
-            TTL   => 60 * 20,          # 20 min
+            TTL   => $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxTime') || 60 * 60 * 12,
         );
     }
 
