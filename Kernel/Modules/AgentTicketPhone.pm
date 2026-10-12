@@ -1434,6 +1434,18 @@ sub Run {
             if ( !$NewQueueID ) {
                 $Error{'DestinationInvalid'} = ' ServerError';
             }
+            else {
+                # check user permissions for selected queue
+                my $Tos = $Self->_GetTos(
+                    %GetParam,
+                    OwnerID        => $Self->{UserID},
+                    CustomerUserID => $CustomerUser,
+                );
+
+                if ( !$Tos->{$NewQueueID} ) {
+                    $Error{'DestinationInvalid'} = ' ServerError';
+                }
+            }
 
             if (
                 $ConfigObject->Get('Ticket::Service')
