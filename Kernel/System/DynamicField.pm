@@ -1818,10 +1818,29 @@ sub DynamicFieldConfigName2ID {
         my $AttributeDF = $Self->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
         );
+        if ( !IsHashRefWithData($AttributeDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{AttributeDF}' of the setting 'AttributeDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
+
         my $ReferenceDF = $Self->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
         );
+        if ( !IsHashRefWithData($ReferenceDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{ReferenceDF}' of the setting 'ReferenceDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
     }
 
@@ -1869,10 +1888,29 @@ sub DynamicFieldConfigID2Name {
         my $AttributeDF = $Self->DynamicFieldGet(
             ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
         );
+        if ( !IsHashRefWithData($AttributeDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{AttributeDF}' of the setting 'AttributeDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
+
         my $ReferenceDF = $Self->DynamicFieldGet(
             ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
         );
+        if ( !IsHashRefWithData($ReferenceDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{ReferenceDF}' of the setting 'ReferenceDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
     }
 
