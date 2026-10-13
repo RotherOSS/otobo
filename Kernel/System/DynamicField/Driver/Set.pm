@@ -366,27 +366,26 @@ sub EditFieldRender {
     # TODO: Improve
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
-    # pass visibility state of set to inner fields
-    my %Visibility = map { ( "DynamicField_$_" => 1 ) } keys $DynamicField->%*;
-    if ( $Param{ACLHidden} ) {
-        for my $Key ( keys %Visibility ) {
-            $Visibility{$Key} = 0;
-        }
-    }
+    # render at least one element, because JS for reappearing Sets relies upon at least one element being present
+    my $LoopMax = $#SetValue >= 0 ? $#SetValue : 0;
+    for my $SetIndex ( 0 .. $LoopMax ) {
 
-    if ( $Param{Visibility} ) {
-        %Visibility = (
-            %Visibility,
-            $Param{Visibility}->%*,
-        );
-    }
+        # pass scoped visibility for Set-inner field rendering
+        my %Visibility;
 
-    for my $SetIndex ( 0 .. $#SetValue ) {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
             $Value{"DynamicField_$Name"}          = $Visibility{"DynamicField_$Name"} ? $SetValue[$SetIndex]{$Name} : undef;
             $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
             $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
+
+            # whole Set is hidden: all inner fields need to be hidden, too
+            if ( $Param{ACLHidden} ) {
+                $Visibility{"DynamicField_$Name"} = 0;
+            }
+            elsif ( exists $Param{Visibility}{"DynamicField_$Name\_$SetIndex"} ) {
+                $Visibility{"DynamicField_$Name"} = $Param{Visibility}{"DynamicField_$Name\_$SetIndex"};
+            }
         }
 
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
@@ -422,9 +421,21 @@ sub EditFieldRender {
 
     # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
+
+        # pass scoped visibility for Set-inner field rendering
+        my %Visibility;
+
         for my $Name ( sort keys $DynamicField->%* ) {
             $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_Template';
             $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
+
+            # whole Set is hidden: all inner fields need to be hidden, too
+            if ( $Param{ACLHidden} ) {
+                $Visibility{"DynamicField_$Name"} = 0;
+            }
+            elsif ( exists $Param{Visibility}{"DynamicField_$Name\_Template"} ) {
+                $Visibility{"DynamicField_$Name"} = $Param{Visibility}{"DynamicField_$Name\_Template"};
+            }
         }
 
         # can be set by preceding GetFieldState()
