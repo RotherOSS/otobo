@@ -373,6 +373,9 @@ sub EditFieldRender {
         # pass scoped visibility for Set-inner field rendering
         my %Visibility;
 
+    # render at least one element, because JS for reappearing Sets relies upon at least one element being present
+    my $LoopMax = $#SetValue >= 0 ? $#SetValue : 0;
+    for my $SetIndex ( 0 .. $LoopMax ) {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
             $Value{"DynamicField_$Name"}          = $Visibility{"DynamicField_$Name"} ? $SetValue[$SetIndex]{$Name} : undef;
