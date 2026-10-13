@@ -968,11 +968,9 @@ sub GetFieldState {
         }
     }
 
-    for my $SetIndex ( 0 .. $#SetValue ) {
-
-        for my $Name ( keys $DynamicField->%* ) {
-            $DFParam{"DynamicField_$Name"} = $SetValue[$SetIndex]{$Name};
-        }
+    my %DBValues;
+    my $LoopMax = $WholeSetReAppears ? $#{ $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"} } : $#SetValue;
+    for my $SetIndex ( 0 .. $LoopMax ) {
 
         my %IndexVisibility;
 
@@ -987,6 +985,40 @@ sub GetFieldState {
                 for my $Name ( keys $DynamicField->%* ) {
                     $IndexVisibility{"DynamicField_$Name"} =
                         $Param{CachedVisibility}{"DynamicField_$Name\_$SetIndex"} // $Param{CachedVisibility}{"DynamicField_$Name\_Template"};
+                }
+            }
+        }
+
+        if ($WholeSetReAppears) {
+            for my $Name ( keys $DynamicField->%* ) {
+                $DFParam{"DynamicField_$Name"}  = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
+                $DBValues{"DynamicField_$Name"} = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
+            }
+        }
+        else {
+            for my $Name ( keys $DynamicField->%* ) {
+
+                my $DFName      = "DynamicField_" . $Name;
+                my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
+                if ( $DynamicField->{$Name}{Config}{MultiValue} ) {
+
+                    # gather OriginSetIndex values
+                    # to detect if we had delete/append operations
+                    my @OriginSetIndex = $ParamObject->GetArray(
+                        Param => 'OriginSetIndex_' . $SetConfig->{Name},
+                    );
+
+                    if (@OriginSetIndex) {
+
+                        my $OriginIndex = $OriginSetIndex[$SetIndex];
+                        if ( $OriginIndex == -1 ) {
+
+                            # $DBValues{"DynamicField_$Name"} //= undef;
+                        }
+                        else {
+                            $DBValues{"DynamicField_$Name"} //= $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$OriginIndex]{$Name};
+                        }
+                    }
                 }
             }
         }
