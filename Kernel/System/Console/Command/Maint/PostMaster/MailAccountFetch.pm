@@ -36,6 +36,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::MailAccount',
     'Kernel::System::PID',
+    'Kernel::System::DB',
 );
 
 sub Configure {
@@ -132,6 +133,9 @@ sub Run {
 
     # Set the timeout to kill the child.
     alarm $Timeout;
+
+    # Disconnect before fork
+    $Kernel::OM->Get('Kernel::System::DB')->Disconnect();
 
     # Destroy objects for the child processes.
     $Kernel::OM->ObjectsDiscard(
