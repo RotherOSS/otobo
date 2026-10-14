@@ -16,7 +16,7 @@
 
 package Kernel::Modules::AgentStatisticsReports;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
@@ -368,11 +368,13 @@ sub EditScreen {
         next STAT_CONFIG if !ref $StatConfig;
 
         my $StatID = $StatConfig->{StatGetParams}->{StatID};
+
         next STAT_CONFIG if !$StatID;
 
         my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
             StatID => $StatID,
         );
+
         next STAT_CONFIG if !ref $Stat;
 
         my @ParameterErrors;
@@ -391,6 +393,30 @@ sub EditScreen {
 
         # Fetch the stat again as StatsParamGet might have modified it in between.
         $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $StatID );
+
+        # for the widget we allow e.g. Gnuplot::BarChart even if the statistic only allows D3::BarChart
+        {
+            # $Stat->{Format} is something like ['Print', 'D3::BarChart]
+            my %NameExists      = map { $_ => 1 } $Stat->{Format}->@*;
+            my @NewFormatNames  = $Stat->{Format}->@*;                                 # keep the existing formats of the stat
+            my %FormatIsAllowed = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
+            for my $D3FormatName ( grep {m/^D3::/} $Stat->{Format}->@* ) {
+                my ( undef, $Sub ) = split /::/, $D3FormatName;
+                my $GnuplotFormatName = join '::', 'Gnuplot', $Sub;
+                if ( $FormatIsAllowed{$GnuplotFormatName} && !$NameExists{$GnuplotFormatName} ) {
+                    push @NewFormatNames, $GnuplotFormatName;
+                }
+
+                # special case, if D3::BarChart is allowed then alos allow Gnuplut::StackedBarChart
+                if ( $D3FormatName eq 'D3::BarChart' ) {
+                    if ( $FormatIsAllowed{$GnuplotFormatName} && !$NameExists{$GnuplotFormatName} ) {
+                        push @NewFormatNames, 'Gnuplot::StackedBarChart';
+                    }
+                }
+            }
+
+            $Stat->{Format} = \@NewFormatNames;
+        }
 
         my $StatsParamsWidget = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsWidget(
             Stat          => $Stat,
