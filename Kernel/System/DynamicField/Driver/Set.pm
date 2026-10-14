@@ -204,7 +204,7 @@ sub ValueSet {
                     if ( $OriginIndex == $Index ) {
 
                         # index is still at original position,
-                        # no delete/append happend
+                        # no delete/append happened
                         # but since the field is hidden,
                         # replace the incoming value
                         $FieldValue[$Index] = $OldValues->[$Index];
@@ -1048,6 +1048,7 @@ sub GetFieldState {
 
                     # OriginSetIndex does not exist yet - use stored DB value
                     else {
+                        $DFParam{$DFName}  = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
                         $DBValues{$DFName} = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
                     }
                 }
@@ -1179,6 +1180,14 @@ sub GetFieldState {
                 },
             };
         }
+    }
+
+    # fill up NewValue with existing ones
+    if ( exists $Return{NewValue} ) {
+        $Return{NewValue} = $Self->_MergeValues(
+            GetParamValue => $DFParam{"DynamicField_$SetConfig->{Name}"},
+            NewValue      => $Return{NewValue},
+        );
     }
 
     return %Return;
