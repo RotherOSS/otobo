@@ -1003,6 +1003,8 @@ sub GetFieldState {
         else {
             for my $Name ( keys $DynamicField->%* ) {
 
+                $DFParam{"DynamicField_$Name"} = $SetValue[$SetIndex]{$Name};
+
                 # pass cached visibility if given
                 if ( $Param{CachedVisibility} && exists $Param{CachedVisibility}{"DynamicField_$Name\_0"} ) {
                     $IndexVisibility{"DynamicField_$Name"} =
