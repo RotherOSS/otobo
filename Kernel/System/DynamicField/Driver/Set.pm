@@ -1136,9 +1136,6 @@ sub GetFieldState {
 
             # ajax visibility
             $Return{Visibility}{ $DFName . '_' . $SetIndex } = $SetFieldStates{Visibility}{$DFName};
-
-            # initial render visibility
-            $Return{Visibility}{$DFName} = $SetFieldStates{Visibility}{$DFName};
         }
     }
 
