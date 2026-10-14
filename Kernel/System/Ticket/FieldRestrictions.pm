@@ -399,6 +399,7 @@ sub GetFieldStates {
                 };
             }
 
+            # the visibility of Set-inner fields is handled by the Set itself in the GetFieldState() sub
             if ( $Content{Visibility} ) {
                 %Visibility = (
                     %Visibility,
