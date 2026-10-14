@@ -19,7 +19,9 @@
     <div class="Header">
         <ul class="HeaderPopup">
             <li class="HeaderPopupleft">
-                [% Translate("History of %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]
+                <h1>
+                  [% Translate("History of %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]
+                </h1>
             </li>
             <li class="HeaderPopupright">
                 <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
