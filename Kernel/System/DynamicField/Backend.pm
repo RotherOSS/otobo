@@ -3184,7 +3184,7 @@ sub ObjectDescriptionGet {
 
 =head2 GetFieldState()
 
-Get the new value and possible values for use in FieldRestrictions()
+Get the new value and possible values for use in FieldRestrictions(). Note that the Set field does return the visibility for its inner fields already with the indexed field names. Internally, the non-indexed names are used to correctly calculate the ACLs.
 
     my %Return = $BackendObject->GetFieldState(
         %Param,
