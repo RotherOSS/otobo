@@ -77,7 +77,8 @@ sub new {
 generate HTML for statistics run widget.
 
     my $HTML = $StatsViewObject->StatsParamsWidget(
-        StatID => $StatID,
+        Stat   => $Stat,
+        StatID => $StatID,      # needed only for static stats
 
         Formats => {            # optional, limit the available formats
             Print => 'Print',
@@ -104,12 +105,13 @@ sub StatsParamsWidget {
                 Priority => "error",
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
 
     # Don't allow to run an invalid stat.
-    return if !$Param{Stat}->{Valid};
+    return unless $Param{Stat}->{Valid};
 
     $Param{OutputCounter} ||= 1;
 
@@ -119,14 +121,11 @@ sub StatsParamsWidget {
         Errors => {},
     );
 
-    if ( !$StatsConfigurationValid ) {
-        return;
-    }
+    return unless $StatsConfigurationValid;
 
     my $HasUserGetParam = ref $Param{UserGetParam} eq 'HASH';
 
     my %UserGetParam = %{ $Param{UserGetParam} // {} };
-    my $Format       = $Param{Formats} || $ConfigObject->Get('Stats::Format');
 
     my $LocalGetParam = sub {
         my (%Param) = @_;
@@ -157,13 +156,14 @@ sub StatsParamsWidget {
     # if no object name is defined use an empty string
     $Stat->{ObjectName} ||= '';
 
-    # create format select box
-    my %SelectFormat;
-    VALUE:
-    for my $Value ( @{ $Stat->{Format} } ) {
-        next VALUE if !defined $Format->{$Value};
-        $SelectFormat{$Value} = $Format->{$Value};
-    }
+    # create format select box,
+    # intersection of formats allowed by the stat and allowed format from $Param{Formats} or Stats::Format
+    # $Stat->{Format} is something like ['Print', 'D3::BarChart]
+    my $Format = $Param{Formats} || $ConfigObject->Get('Stats::Format');
+    my %SelectFormat =
+        map  { $_ => $Format->{$_} }
+        grep { defined $Format->{$_} }
+        $Stat->{Format}->@*;
 
     if ( keys %SelectFormat > 1 ) {
         my %Frontend;
