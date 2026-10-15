@@ -387,7 +387,7 @@ sub EditFieldRender {
                 $Visibility{"DynamicField_$Name"} = $Param{Visibility}{"DynamicField_$Name\_$SetIndex"};
             }
 
-            $Value{"DynamicField_$Name"}          = $Visibility{"DynamicField_$Name"} ? $SetValue[$SetIndex]{$Name} : undef;
+            $Value{"DynamicField_$Name"}          = $SetValue[$SetIndex]{$Name};
             $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
             $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
 
@@ -958,7 +958,6 @@ sub GetFieldState {
     my ( $Self, %Param ) = @_;
 
     my %Return;
-    my %DBValues;
     my %GetParam  = $Param{GetParam}->%*;
     my %DFParam   = %{ $GetParam{DynamicField} // {} };
     my $SetConfig = $Param{DynamicFieldConfig};
@@ -981,24 +980,42 @@ sub GetFieldState {
         $WholeSetReAppears = 1;
     }
 
+    # necessary value handling with regard to index changes
+    #   starting point: values from database in stored order
+    #   target:         values from database in order with respect to frontend index, if present
+    my @DBValuesAll      = $Param{DynamicFieldDataDB} ? $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}->@* : ();
+    my %DBValuesPerIndex = map { ( $_ => $DBValuesAll[$_] ) } ( 0 .. $#DBValuesAll );
+    my @OriginSetIndex   = $ParamObject->GetArray( Param => "OriginSetIndex_$SetConfig->{Name}" );
+
+    # DBValuesPerIndex is a helper hash to prevent having the same index multiple times
+    my @CorrespondingDBValues;
+
+    # check for OriginSetIndex needed for initial rendering, where OriginSetIndex is not present
+    if ( @OriginSetIndex && $SetConfig->{Config}{MultiValue} ) {
+        for my $Index (@OriginSetIndex) {
+            push @CorrespondingDBValues, delete $DBValuesPerIndex{$Index};
+        }
+    }
+    else {
+        @CorrespondingDBValues = @DBValuesAll;
+    }
+
     # if the whole Set reappears, we need to iterate the stored value
     #   else, the iteration uses the frontend value from @SetValue
     my $LoopMax = $WholeSetReAppears ? $#{ $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"} } : $#SetValue;
     for my $SetIndex ( 0 .. $LoopMax ) {
 
         my %IndexVisibility;
+        my $IndexDBValues = $CorrespondingDBValues[$SetIndex];
+
+        # initialize value structures for GetFieldStates
+        %DFParam = %{ $SetValue[$SetIndex] // {} };
 
         # prepare necessary data
         if ($WholeSetReAppears) {
 
             # if the whole set is reappearing, we must treat all inner fields as reappearing
             %IndexVisibility = map { 'DynamicField_' . $_ => 0 } keys $DynamicField->%*;
-
-            # initialize value structures for GetFieldStates
-            for my $Name ( keys $DynamicField->%* ) {
-                $DFParam{"DynamicField_$Name"}  = $SetValue[$SetIndex]{$Name};
-                $DBValues{"DynamicField_$Name"} = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
-            }
         }
         else {
             for my $Name ( keys $DynamicField->%* ) {
@@ -1010,57 +1027,13 @@ sub GetFieldState {
                     $IndexVisibility{"DynamicField_$Name"} =
                         $Param{CachedVisibility}{"DynamicField_$Name\_$SetIndex"} // $Param{CachedVisibility}{"DynamicField_$Name\_Template"};
                 }
-
-                # initialize value structures for GetFieldStates
-                my $DFName = "DynamicField_" . $Name;
-                if ( $SetConfig->{Config}{MultiValue} ) {
-
-                    # gather OriginSetIndex values
-                    # to detect if we had delete/append operations
-                    my @OriginSetIndex = $ParamObject->GetArray(
-                        Param => 'OriginSetIndex_' . $SetConfig->{Name},
-                    );
-                    if (@OriginSetIndex) {
-                        my $OriginIndex = $OriginSetIndex[$SetIndex];
-                        if ( !defined $OriginIndex || $OriginIndex == -1 ) {
-
-                            # index did not exist initially,
-                            # value is result of append,
-                            # make sure empty value is used
-                            $DFParam{$DFName}  = undef;
-                            $DBValues{$DFName} = undef;
-                        }
-                        elsif ( $OriginIndex == $SetIndex ) {
-
-                            # index is still at original position,
-                            # no delete/append happened
-                            # fill with existing value
-                            $DFParam{$DFName}  = $SetValue[$SetIndex]{$Name};
-                            $DBValues{$DFName} = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
-                        }
-                        else {
-
-                            # index has moved due to delete/append
-                            # so replace incoming value with the
-                            # value from DB at the *original* index
-                            $DFParam{$DFName}  = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$OriginIndex]{$Name};
-                            $DBValues{$DFName} = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$OriginIndex]{$Name};
-                        }
-                    }
-
-                    # OriginSetIndex does not exist yet - use stored DB value
-                    else {
-                        $DFParam{$DFName}  = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
-                        $DBValues{$DFName} = $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}[$SetIndex]{$Name};
-                    }
-                }
             }
         }
 
         my $LoopProtection = 100;
         my %SetFieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
             %Param,
-            DynamicFieldDataDB => \%DBValues,
+            DynamicFieldDataDB => $IndexDBValues,
             DynamicFields      => $DynamicField,
             GetParam           => {
                 %GetParam,
