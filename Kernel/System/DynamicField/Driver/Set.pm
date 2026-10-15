@@ -369,14 +369,10 @@ sub EditFieldRender {
     # render at least one element, because JS for reappearing Sets relies upon at least one element being present
     my $LoopMax = $#SetValue >= 0 ? $#SetValue : 0;
     for my $SetIndex ( 0 .. $LoopMax ) {
+        my %Value;
 
         # pass scoped visibility for Set-inner field rendering
         my %Visibility;
-
-    # render at least one element, because JS for reappearing Sets relies upon at least one element being present
-    my $LoopMax = $#SetValue >= 0 ? $#SetValue : 0;
-    for my $SetIndex ( 0 .. $LoopMax ) {
-        my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
 
             # whole Set is hidden: all inner fields need to be hidden, too
