@@ -1261,7 +1261,10 @@ sub GetFieldState {
     }
 
     # currently, all reference field values are array refs, but just to be safe, include value transformation
-    if ( !ref $Value ) {
+    if ( !defined $Value ) {
+        $Value = [''];
+    }
+    elsif ( !ref $Value ) {
         $Value = [$Value];
     }
 
@@ -1331,8 +1334,6 @@ sub GetFieldState {
             PossibleValues => \%PossibleValues,
         );
     }
-
-    delete $Param{ObjectID};
 
     # fetch possible values for dynamic field
     my $PossibleValues = $Self->PossibleValuesGet(
