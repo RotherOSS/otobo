@@ -979,7 +979,10 @@ sub GetFieldState {
     # necessary value handling with regard to index changes
     #   starting point: values from database in stored order
     #   target:         values from database in order with respect to frontend index, if present
-    my @DBValuesAll      = $Param{DynamicFieldDataDB} ? $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}->@* : ();
+    my @DBValuesAll
+        = ( $Param{DynamicFieldDataDB} && $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"} )
+        ? $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"}->@*
+        : ();
     my %DBValuesPerIndex = map { ( $_ => $DBValuesAll[$_] ) } ( 0 .. $#DBValuesAll );
     my @OriginSetIndex   = $ParamObject->GetArray( Param => "OriginSetIndex_$SetConfig->{Name}" );
 
@@ -1002,7 +1005,7 @@ sub GetFieldState {
     for my $SetIndex ( 0 .. $LoopMax ) {
 
         my %IndexVisibility;
-        my $IndexDBValues = $CorrespondingDBValues[$SetIndex];
+        my %IndexDBValues = map { ( "DynamicField_$_" => $CorrespondingDBValues[$SetIndex]{$_} ) } keys %{ $CorrespondingDBValues[$SetIndex] // {} };
 
         # initialize value structures for GetFieldStates
         %DFParam = %{ $SetValue[$SetIndex] // {} };
@@ -1029,7 +1032,7 @@ sub GetFieldState {
         my $LoopProtection = 100;
         my %SetFieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
             %Param,
-            DynamicFieldDataDB => $IndexDBValues,
+            DynamicFieldDataDB => \%IndexDBValues,
             DynamicFields      => $DynamicField,
             GetParam           => {
                 %GetParam,
