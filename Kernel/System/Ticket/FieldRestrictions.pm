@@ -273,7 +273,15 @@ sub GetFieldStates {
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        my $DFName         = $DynamicFieldConfig->{Name};
+        my $DFName = $DynamicFieldConfig->{Name};
+
+        # skip if field has been hidden (CachedVisibility) and is also hidden now (Visibility)
+        next DYNAMICFIELD
+            if (
+                ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 )
+                && ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 )
+            );
+
         my $IsACLReducible = $Param{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsACLReducible',
@@ -281,8 +289,6 @@ sub GetFieldStates {
 
         # 1. handle hidden fields
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
-
-            next DYNAMICFIELD if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 );
 
             # values of visible fields turning invisible are deleted
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
