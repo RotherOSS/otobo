@@ -21,13 +21,13 @@ use warnings;
 
 # use ../ as lib location
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
-use File::Spec ();
-use Getopt::Std qw(getopt);
+use File::Spec  ();
+use Getopt::Std qw(getopts);
 
 # CPAN modules
 
@@ -36,7 +36,7 @@ use Kernel::System::ObjectManager ();
 
 # get options
 my %Opts;
-getopt( 'hbd', \%Opts );
+getopts( 'b:d:ch', \%Opts );
 
 if ( exists $Opts{h} ) {
     print <<'END_HELP';
@@ -44,11 +44,12 @@ if ( exists $Opts{h} ) {
 Restore an OTOBO system from backup.
 
 Usage:
- restore.pl -b /data_backup/<TIME>/ -d /opt/otobo/
+ restore.pl [-c] -b /data_backup/<TIME>/ -d /opt/otobo/
 
 Options:
  -b                     - Directory of the backup files.
  -d                     - Target OTOBO home directory.
+ [-c]                   - Perform a pre-restore integrity check of bzip2/gzip files (increases restore time)
  [-h]                   - Display help for this command.
 
 END_HELP
@@ -105,11 +106,19 @@ my $ConfigBackupGz  = File::Spec->catfile( $Opts{b}, 'Config.tar.gz' );
 my $ConfigBackupBz2 = File::Spec->catfile( $Opts{b}, 'Config.tar.bz2' );
 if ( -e $ConfigBackupGz ) {
     say "Restore $ConfigBackupGz ...";
-    system("tar -xzf $ConfigBackupGz");
+    if ( system("tar -xzf $ConfigBackupGz") ) {    # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 elsif ( -e $ConfigBackupBz2 ) {
     say "Restore $ConfigBackupBz2 ...";
-    system("tar -xjf $ConfigBackupBz2");
+    if ( system("tar -xjf $ConfigBackupBz2") ) {    # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 
 # create common objects
@@ -176,13 +185,9 @@ else {
 # check database env
 if ( $DB =~ m/mysql/i ) {
     $Kernel::OM->Get('Kernel::System::DB')->Prepare( SQL => "SHOW TABLES" );
-    my $Check = 0;
-    while ( my @RowTmp = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
-        $Check++;
-    }
-    if ($Check) {
+    if ( $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
         say STDERR
-            "ERROR: Already existing tables in this database. A empty database is required for restore!";
+            "ERROR: Already existing tables in this database. An empty database is required for restore!";
 
         exit 1;
     }
@@ -192,13 +197,9 @@ else {
         SQL =>
             "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otobo' AND table_schema = 'public'",
     );
-    my $Check = 0;
-    while ( my @RowTmp = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
-        $Check++;
-    }
-    if ($Check) {
+    if ( $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
         say STDERR
-            "ERROR: Already existing tables in this database. A empty database is required for restore!";
+            "ERROR: Already existing tables in this database. An empty database is required for restore!";
 
         exit 1;
     }
@@ -213,11 +214,19 @@ my $ApplicationBackupGz  = File::Spec->catfile( $Opts{b}, 'Application.tar.gz' )
 my $ApplicationBackupBz2 = File::Spec->catfile( $Opts{b}, 'Application.tar.bz2' );
 if ( -e $ApplicationBackupGz ) {
     say "Restore $ApplicationBackupGz ...";
-    system("tar -xzf $ApplicationBackupGz");
+    if ( system("tar -xzf $ApplicationBackupGz") ) {    # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 elsif ( -e $ApplicationBackupBz2 ) {
     say "Restore $ApplicationBackupBz2 ...";
-    system("tar -xjf $ApplicationBackupBz2");
+    if ( system("tar -xjf $ApplicationBackupBz2") ) {    # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 
 # extract vardir
@@ -225,11 +234,19 @@ my $VarDirBackupGz  = File::Spec->catfile( $Opts{b}, 'VarDir.tar.gz' );
 my $VarDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'VarDir.tar.bz2' );
 if ( -e $VarDirBackupGz ) {
     say "Restore $VarDirBackupGz ...";
-    system("tar -xzf $VarDirBackupGz");
+    if ( system("tar -xzf $VarDirBackupGz") ) {          # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 elsif ( -e $VarDirBackupBz2 ) {
     say "Restore $VarDirBackupBz2 ...";
-    system("tar -xjf $VarDirBackupBz2");
+    if ( system("tar -xjf $VarDirBackupBz2") ) {         # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 
 # extract datadir
@@ -237,29 +254,49 @@ my $DataDirBackupGz  = File::Spec->catfile( $Opts{b}, 'DataDir.tar.gz' );
 my $DataDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'DataDir.tar.bz2' );
 if ( -e $DataDirBackupGz ) {
     say "Restore $DataDirBackupGz ...";
-    system("tar -xzf $DataDirBackupGz");
+    if ( system("tar -xzf $DataDirBackupGz") ) {         # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
 if ( -e $DataDirBackupBz2 ) {
     say "Restore $DataDirBackupBz2 ...";
-    system("tar -xjf $DataDirBackupBz2");
+    if ( system("tar -xjf $DataDirBackupBz2") ) {        # returns non-zero if tar extraction fails
+        say STDERR "ERROR: Invalid tar file!";
+
+        exit 1;
+    }
 }
+
+# TODO: after 'system("gunzip...' the output to STDERR does not work
 
 # import database
 my $DatabaseBackupGz  = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.gz' );
 my $DatabaseBackupBz2 = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' );
 if ( $DB =~ m/mysql/i ) {
-    say "create $DB";
+    say "Create $DB";
     if ($DatabasePw) {
         $DatabasePw = "-p'$DatabasePw'";
     }
     if ( -e $DatabaseBackupGz ) {
         say "Restore database into $DB ...";
+        if ( $Opts{c} && system("gunzip -t $DatabaseBackupGz") ) {    # returns non-zero if gunzip extraction fails
+            say STDERR "ERROR: Invalid gz file!";
+
+            exit 1;
+        }
         system(
             "gunzip -c $DatabaseBackupGz | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
         );
     }
     elsif ( -e $DatabaseBackupBz2 ) {
         say "Restore database into $DB ...";
+        if ( $Opts{c} && system("bunzip2 -t $DatabaseBackupGz") ) {    # returns non-zero if bunzip2 extraction fails
+            say STDERR "ERROR: Invalid bz2 file!";
+
+            exit 1;
+        }
         system(
             "bunzip2 -c $DatabaseBackupBz2 | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
         );
@@ -277,6 +314,11 @@ else {
             $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
+        if ( $Opts{c} && system("gunzip -t $DatabaseBackupGz") ) {    # returns non-zero if gunzip extraction fails
+            say STDERR "ERROR: Invalid gz file!";
+
+            exit 1;
+        }
         system(
             "gunzip -c $DatabaseBackupGz | psql -U$DatabaseUser $DatabaseHost $Database"
         );
@@ -288,8 +330,14 @@ else {
             $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
+        if ( $Opts{c} && system("bunzip2 -t $DatabaseBackupGz") ) {    # returns non-zero if bunzip2 extraction fails
+            say STDERR "ERROR: Invalid bz2 file!";
+
+            exit 1;
+        }
         system(
             "bunzip2 -c $DatabaseBackupBz2 | psql -U$DatabaseUser $DatabaseHost $Database"
         );
     }
 }
+say "Done.";
