@@ -1058,12 +1058,8 @@ sub ValueGet {
             ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
         );
         if ( !IsHashRefWithData($ObjectIDs) || !$ObjectIDs->{ $Param{ObjectName} } ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'debug',
-                Message  =>
-                    "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}{ObjectType}!"
-            );
 
+            # this case happens when no dynamic field value for the object has been stored so far
             return;
         }
 
