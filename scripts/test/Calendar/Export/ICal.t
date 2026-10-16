@@ -14,15 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.26;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
 # override local time zone for duration of the test
@@ -46,11 +50,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create test user
 my ( $UserLogin, $UserID ) = $Helper->TestUserCreate();
-
-$Self->True(
-    $UserID,
-    "Test user $UserID created",
-);
+ok( $UserID, "Test user $UserID created" );
 
 # create test group
 my $GroupName = 'test-calendar-group-' . $Helper->GetRandomID();
@@ -59,11 +59,7 @@ my $GroupID   = $GroupObject->GroupAdd(
     ValidID => 1,
     UserID  => 1,
 );
-
-$Self->True(
-    $GroupID,
-    "Test group $UserID created",
-);
+ok( $GroupID, "Test group $UserID created" );
 
 # add test user to test group
 my $Success = $GroupObject->PermissionGroupUserAdd(
@@ -79,11 +75,7 @@ my $Success = $GroupObject->PermissionGroupUserAdd(
     },
     UserID => 1,
 );
-
-$Self->True(
-    $Success,
-    "Test user $UserID added to test group $GroupID",
-);
+ok( $Success, "Test user $UserID added to test group $GroupID" );
 
 my @TeamID;
 my @ResourceID;
@@ -101,11 +93,7 @@ if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calenda
         ValidID => 1,
         UserID  => $UserID,
     );
-
-    $Self->True(
-        $Success,
-        'TeamAdd() - Test team created',
-    );
+    ok( $Success, 'TeamAdd() - Test team created' );
 
     my %Team = $TeamObject->TeamGet(
         Name   => $TeamName,
@@ -117,26 +105,21 @@ if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calenda
         TeamUserID => $UserID,
         UserID     => $UserID,
     );
-
-    $Self->True(
-        $Success,
-        'TeamUserAdd() - Added test user to test team',
-    );
+    ok( $Success, 'TeamUserAdd() - Added test user to test team' );
 
     push @TeamID,     $Team{ID};
     push @ResourceID, $UserID;
 }
 
 # create a test calendar for export
-my $ExportCalendarName = 'Export ' . $Helper->GetRandomID();
+my $ExportCalendarName = 'Export ' . $Helper->GetRandomID;
 my %ExportCalendar     = $CalendarObject->CalendarCreate(
     CalendarName => $ExportCalendarName,
     Color        => '#3A87AD',
     GroupID      => $GroupID,
     UserID       => $UserID,
 );
-
-$Self->True(
+ok(
     $ExportCalendar{CalendarID},
     "CalendarCreate( CalendarName => '$ExportCalendarName', Color => '#3A87AD', GroupID => $GroupID, UserID => $UserID ) - CalendarID: $ExportCalendar{CalendarID}",
 );
@@ -279,32 +262,26 @@ my @Appointments = (
     },
 );
 
-for my $Appointment (@Appointments) {
-    my $AppointmentID = $AppointmentObject->AppointmentCreate(
-        %{$Appointment},
-    );
+subtest "AppointmentCreate()" => sub {
+    for my $Appointment (@Appointments) {
+        my $AppointmentID = $AppointmentObject->AppointmentCreate(
+            %{$Appointment},
+        );
+        ok( $AppointmentID, "AppointmentID: $AppointmentID" );
+    }
+};
 
-    $Self->True(
-        $AppointmentID,
-        "AppointmentCreate() - AppointmentID: $AppointmentID",
-    );
-}
-
-# export appointments
+# export appointments in ICal format
 my $ICalString = $ExportObject->Export(
     CalendarID => $ExportCalendar{CalendarID},
     UserID     => $UserID,
 );
+ok( $ICalString, 'Export() - Calendar exported to iCal format' );
 
 # get exported appointments
 my @ExportedAppointments = $AppointmentObject->AppointmentList(
     CalendarID => $ExportCalendar{CalendarID},
     Result     => 'HASH',
-);
-
-$Self->True(
-    $ICalString,
-    'Export() - Calendar exported to iCal format',
 );
 
 # create a test calendar for import
@@ -315,23 +292,18 @@ my %ImportCalendar     = $CalendarObject->CalendarCreate(
     GroupID      => $GroupID,
     UserID       => $UserID,
 );
-
-$Self->True(
+ok(
     $ImportCalendar{CalendarID},
     "CalendarCreate( CalendarName => '$ImportCalendarName', GroupID => $GroupID, UserID => $UserID ) - CalendarID: $ImportCalendar{CalendarID}",
 );
 
-# import appointments
-$Success = $ImportObject->Import(
+# import appointments using the previous export
+my $ImportSuccess = $ImportObject->Import(
     CalendarID => $ImportCalendar{CalendarID},
     ICal       => $ICalString,
     UserID     => $UserID,
 );
-
-$Self->True(
-    $Success,
-    'Import() - Calendar imported from iCal format',
-);
+ok( $ImportSuccess, 'Import() - Calendar imported from iCal format' );
 
 # get imported appointments
 my @ImportedAppointments = $AppointmentObject->AppointmentList(
@@ -340,7 +312,7 @@ my @ImportedAppointments = $AppointmentObject->AppointmentList(
 );
 
 # number of imported and exported appointments match
-$Self->Is(
+is(
     scalar @ImportedAppointments,
     scalar @ExportedAppointments,
     'Imported appointment count'
@@ -360,7 +332,7 @@ for my $ImportedAppointment (@ImportedAppointments) {
     delete $ExportedAppointments[ $Count - 1 ]->{ParentID};
 
     # compare imported and exported appointments
-    $Self->IsDeeply(
+    is(
         $ImportedAppointment,
         $ExportedAppointments[ $Count - 1 ],
         "Imported appointment $Count",
@@ -368,4 +340,4 @@ for my $ImportedAppointment (@ImportedAppointments) {
     $Count++;
 }
 
-$Self->DoneTesting();
+done_testing;
