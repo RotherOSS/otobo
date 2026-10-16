@@ -407,7 +407,7 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[$SetIndex] // {},
-            Visibility           => \%Visibility,
+            Visibility           => %Visibility ? \%Visibility : undef,
 
             # TODO:
             #            Errors               => $Param{DFErrors},
@@ -458,7 +458,7 @@ sub EditFieldRender {
             ParamObject        => $Param{ParamObject},
             DynamicFieldValues => \%TemplateValues,
             CustomerInterface  => $Param{CustomerInterface},
-            Visibility         => \%Visibility,
+            Visibility         => %Visibility ? \%Visibility : undef,
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
