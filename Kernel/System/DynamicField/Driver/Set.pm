@@ -386,14 +386,6 @@ sub EditFieldRender {
             $Value{"DynamicField_$Name"}          = $SetValue[$SetIndex]{$Name};
             $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
             $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
-
-            # whole Set is hidden: all inner fields need to be hidden, too
-            if ( $Param{ACLHidden} ) {
-                $Visibility{"DynamicField_$Name"} = 0;
-            }
-            elsif ( exists $Param{Visibility}{"DynamicField_$Name\_$SetIndex"} ) {
-                $Visibility{"DynamicField_$Name"} = $Param{Visibility}{"DynamicField_$Name\_$SetIndex"};
-            }
         }
 
         my $DynamicFieldHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
