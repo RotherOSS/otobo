@@ -293,8 +293,8 @@ like( $ICalString, qr/BEGIN:VCALENDAR/, 'BEGIN:VCALENDAR' );
 like( $ICalString, qr/END:VCALENDAR/,   'END:VCALENDAR' );
 
 # check the serialisaton of midnight when it isn't an allday event
-like( $ICalString, qr/DTSTART:20261016Z/, 'start of 2026-10-16, midnight' );
-like( $ICalString, qr/DTEND:20261017Z/,   'start of 2026-10-17, midnight' );
+like( $ICalString, qr/DTSTART:20261016T000000Z/, 'start of 2026-10-16, midnight' );
+like( $ICalString, qr/DTEND:20261017T000000Z/,   'start of 2026-10-17, midnight' );
 
 # get exported appointments
 my @ExportedAppointments = $AppointmentObject->AppointmentList(
