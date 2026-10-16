@@ -276,11 +276,15 @@ sub GetFieldStates {
         my $DFName = $DynamicFieldConfig->{Name};
 
         # skip if field has been hidden (CachedVisibility) and is also hidden now (Visibility)
-        next DYNAMICFIELD
-            if (
-                ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 )
-                && ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 )
-            );
+        if (
+            %Visibility
+            && $Visibility{"DynamicField_$DFName"} == 0
+            && $CachedVisibility
+            && $CachedVisibility->{"DynamicField_$DFName"} == 0
+            )
+        {
+            next DYNAMICFIELD;
+        }
 
         # 1. handle fields which set their dynamic content themselves
         if (
