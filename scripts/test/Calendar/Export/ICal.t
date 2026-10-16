@@ -137,6 +137,16 @@ my @Appointments = (
         UserID      => $UserID,
     },
 
+    # midnight to midnight
+    {
+        CalendarID  => $ExportCalendar{CalendarID},
+        StartTime   => '2026-10-16 00:00:00',
+        EndTime     => '2026-10-17 00:00:00',
+        Title       => '24h from midnight to midnight',
+        Description => q{party like it's 1999 in 2026},
+        UserID      => $UserID,
+    },
+
     # all-day with resource
     {
         CalendarID => $ExportCalendar{CalendarID},
@@ -281,6 +291,10 @@ ok( $ICalString, 'Export() - Calendar exported to iCal format' );
 # some sanity checks
 like( $ICalString, qr/BEGIN:VCALENDAR/, 'BEGIN:VCALENDAR' );
 like( $ICalString, qr/END:VCALENDAR/,   'END:VCALENDAR' );
+
+# check the serialisaton of midnight when it isn't an allday event
+like( $ICalString, qr/DTSTART:20261016Z/, 'start of 2026-10-16, midnight' );
+like( $ICalString, qr/DTEND:20261017Z/,   'start of 2026-10-17, midnight' );
 
 # get exported appointments
 my @ExportedAppointments = $AppointmentObject->AppointmentList(
