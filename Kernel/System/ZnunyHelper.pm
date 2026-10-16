@@ -1806,6 +1806,14 @@ sub _DynamicFieldsCreate {
             DynamicFieldConfig => $NewDynamicField,
         );
 
+        # The config refers to objects that do not exist on this system, e.g. an unknown queue.
+        # The field is not imported, the unknown names have been logged.
+        if ( !$NewDynamicField ) {
+            $Error = 1;
+
+            next DYNAMICFIELD;
+        }
+
         my $CreateDynamicField;
 
         # check if the dynamic field already exists

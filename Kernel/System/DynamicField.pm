@@ -38,8 +38,10 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Queue',
+    'Kernel::System::Service',
     'Kernel::System::Type',
     'Kernel::System::Valid',
     'Kernel::System::YAML',
@@ -1232,7 +1234,7 @@ END_SQL
     );
 
     # Fetch first the list of IDs,
-    # as DynamicFieldGet() might use Kernell::System::DB as well
+    # as DynamicFieldGet() might use Kernel::System::DB as well
     my @DynamicFieldIDs;
     while ( my ($ID) = $DBObject->FetchrowArray ) {
         push @DynamicFieldIDs, $ID;
@@ -1776,6 +1778,8 @@ sub GetValidDynamicFields {
 
 Transformations of the dynamic field config needed for Import, which includes transitioning names in field configs into IDs.
 Note that the passed in dynamic field config is modified in place.
+Nothing is returned if a name in a setting of a reference field, e.g. a queue of a ticket field,
+does not exist on this system. The error is logged.
 
     $FieldConfig = $DynamicFieldObject->DynamicFieldConfigName2ID(
         DynamicFieldConfig => $FieldConfig,
@@ -1796,34 +1800,18 @@ sub DynamicFieldConfigName2ID {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Service Ticket) ) {
 
         # needed transformation: Name -> ID
-        if ( $DynamicFieldConfig->{Config}{Queue} ) {
-            my @QueueIDs;
-            for my $QueueName ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
-                push @QueueIDs, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $QueueName );
-            }
-            $DynamicFieldConfig->{Config}{Queue} = \@QueueIDs;
-        }
-        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
-            my @TypeIDs;
-            for my $TypeName ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
-                push @TypeIDs, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeName );
-            }
-            $DynamicFieldConfig->{Config}{TicketType} = \@TypeIDs;
-        }
-        if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
-            my %ClassName2ID = reverse %{
-                $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
-                    Class => 'ITSM::ConfigItem::Class',
-                )
-            };
-            my @ClassIDs = map
-                { $ClassName2ID{$_} }
-                $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
-            $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassIDs;
-        }
+        my $Result = $Self->_DynamicFieldConfigObjectIDsTranslate(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Translation        => 'Name2ID',
+        );
+        $DynamicFieldConfig = $Result->{DynamicFieldConfig};
+
+        # The field would refer to other objects than intended or would not be restricted at all.
+        # The names that do not exist have been logged.
+        return unless $Result->{Success};
     }
     elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
 
@@ -1831,10 +1819,29 @@ sub DynamicFieldConfigName2ID {
         my $AttributeDF = $Self->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
         );
+        if ( !IsHashRefWithData($AttributeDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{AttributeDF}' of the setting 'AttributeDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
+
         my $ReferenceDF = $Self->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
         );
+        if ( !IsHashRefWithData($ReferenceDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{ReferenceDF}' of the setting 'ReferenceDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
     }
 
@@ -1845,6 +1852,7 @@ sub DynamicFieldConfigName2ID {
 
 Transformations of the dynamic field config needed for Import/Export, which includes transitioning IDs in field configs into names.
 Note that the passed in dynamic field config is modified in place.
+IDs in the settings of reference fields that do not exist on this system are kept and logged.
 
     $FieldConfig = $DynamicFieldObject->DynamicFieldConfigID2Name(
         DynamicFieldConfig => $FieldConfig,
@@ -1865,34 +1873,16 @@ sub DynamicFieldConfigID2Name {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Service Ticket) ) {
 
         # needed transformation: ID -> Name
-        if ( $DynamicFieldConfig->{Config}{Queue} ) {
-            my @QueueNames;
-            for my $QueueID ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
-                push @QueueNames, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $QueueID );
-            }
-            $DynamicFieldConfig->{Config}{Queue} = \@QueueNames;
-        }
-        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
-            my @TypeNames;
-            for my $TypeID ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
-                push @TypeNames, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeID );
-            }
-            $DynamicFieldConfig->{Config}{TicketType} = \@TypeNames;
-        }
-        if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
-            my %ClassID2Name = %{
-                $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
-                    Class => 'ITSM::ConfigItem::Class',
-                )
-            };
-            my @ClassNames = map
-                { $ClassID2Name{$_} }
-                $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
-            $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassNames;
-        }
+        # IDs that do not exist are kept, so that the import of the field fails instead of
+        # silently losing the restriction
+        my $Result = $Self->_DynamicFieldConfigObjectIDsTranslate(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Translation        => 'ID2Name',
+        );
+        $DynamicFieldConfig = $Result->{DynamicFieldConfig};
     }
     elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
 
@@ -1900,10 +1890,29 @@ sub DynamicFieldConfigID2Name {
         my $AttributeDF = $Self->DynamicFieldGet(
             ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
         );
+        if ( !IsHashRefWithData($AttributeDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{AttributeDF}' of the setting 'AttributeDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
+
         my $ReferenceDF = $Self->DynamicFieldGet(
             ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
         );
+        if ( !IsHashRefWithData($ReferenceDF) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  =>
+                    "Dynamic field '$Param{DynamicFieldConfig}{Name}': the value '$Param{DynamicFieldConfig}{Config}{ReferenceDF}' of the setting 'ReferenceDF' does not exist on this system.",
+            );
+
+            return;
+        }
         $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
     }
 
@@ -1913,6 +1922,122 @@ sub DynamicFieldConfigID2Name {
 =begin Internal:
 
 =cut
+
+=head2 _DynamicFieldConfigObjectIDsTranslate()
+
+Translates the settings of reference fields that store IDs of other objects, e.g. the queues of a
+ticket field. For the export the IDs are translated to names (C<ID2Name>), for the import the names
+are translated back to IDs (C<Name2ID>). The config is modified in place.
+
+Empty values are kept. A value that does not exist on this system is kept and logged, false is
+returned in this case.
+
+    my $Result = $DynamicFieldObject->_DynamicFieldConfigObjectIDsTranslate(
+        DynamicFieldConfig => $FieldConfig,
+        Translation        => 'ID2Name',       # or 'Name2ID'
+    );
+
+=cut
+
+sub _DynamicFieldConfigObjectIDsTranslate {
+    my ( $Self, %Param ) = @_;
+
+    my %Result = (
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+    );
+    my $DFDetails = $Param{DynamicFieldConfig}{Config};
+
+    return 1 unless IsHashRefWithData($DFDetails);
+
+    # the settings that store IDs of other objects, with the lookups for both directions
+    my %Lookups = (
+        Queue => {
+            Name2ID => sub { $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue   => $_[0] ) },
+            ID2Name => sub { $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $_[0] ) },
+        },
+        TicketType => {
+            Name2ID => sub { $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type   => $_[0] ) },
+            ID2Name => sub { $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $_[0] ) },
+        },
+        Group => {
+            Name2ID => sub { $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group   => $_[0] ) },
+            ID2Name => sub { $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => $_[0] ) },
+        },
+        AllowedServiceIDs => {
+            Name2ID => sub { $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup( Name      => $_[0] ) },
+            ID2Name => sub { $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup( ServiceID => $_[0] ) },
+        },
+    );
+
+    # Config item classes and deployment states are entries of the general catalog. Invalid entries
+    # are translated as well, as the field config refers to them regardless of their validity.
+    my %GeneralCatalogClasses = (
+        ClassIDs     => 'ITSM::ConfigItem::Class',
+        DeplStateIDs => 'ITSM::ConfigItem::DeploymentState',
+    );
+    for my $Setting ( sort keys %GeneralCatalogClasses ) {
+        $Lookups{$Setting} = {
+            Name2ID => sub {
+                my $Item = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemGet(
+                    Class => $GeneralCatalogClasses{$Setting},
+                    Name  => $_[0],
+                );
+                return $Item ? $Item->{ItemID} : undef;
+            },
+            ID2Name => sub {
+                my $Item = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemGet(
+                    ItemID => $_[0],
+                );
+                return $Item ? $Item->{Name} : undef;
+            },
+        };
+    }
+
+    my $FieldName           = $Param{DynamicFieldConfig}{Name} // '';
+    my $AllValuesTranslated = 1;
+
+    SETTING:
+    for my $Setting ( sort keys %Lookups ) {
+        next SETTING unless IsArrayRefWithData( $DFDetails->{$Setting} );
+
+        my $Lookup = $Lookups{$Setting}{ $Param{Translation} };
+
+        my @TranslatedValues;
+        VALUE:
+        for my $Value ( $DFDetails->{$Setting}->@* ) {
+
+            # empty values, e.g. of an empty selection, are kept
+            if ( !IsStringWithData($Value) ) {
+                push @TranslatedValues, $Value;
+
+                next VALUE;
+            }
+
+            # scalar context, as some lookups return an empty list for a value that does not exist
+            my $TranslatedValue = $Lookup->($Value);
+
+            if ( !$TranslatedValue ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Dynamic field '$FieldName': the value '$Value' of the setting '$Setting' does not exist on this system.",
+                );
+                $AllValuesTranslated = 0;
+
+                # keep the value, so that it is not lost
+                $TranslatedValue = $Value;
+            }
+
+            push @TranslatedValues, $TranslatedValue;
+        }
+
+        $DFDetails->{$Setting} = \@TranslatedValues;
+    }
+
+    $Result{DynamicFieldConfig}{Config} = $DFDetails;
+    $Result{Success} = $AllValuesTranslated;
+
+    return \%Result;
+}
 
 =head2 _DynamicFieldReorder()
 
@@ -1972,7 +2097,7 @@ sub _DynamicFieldReorder {
     my @NeedToUpdateList;
 
     # to add or subtract the field order by 1
-    my $Substract;
+    my $Subtract;
 
     # update and add has different algorithms to select the fields to be updated
     # check if update
@@ -1986,7 +2111,7 @@ sub _DynamicFieldReorder {
 
         # set subtract mode for selected fields
         if ( $TriggerFieldOrder > $OldFieldOrder ) {
-            $Substract = 1;
+            $Subtract = 1;
         }
 
         # identify fields that needs to be updated
@@ -2017,7 +2142,7 @@ sub _DynamicFieldReorder {
     # check if delete action
     elsif ( $Param{Mode} eq 'Delete' ) {
 
-        $Substract = 1;
+        $Subtract = 1;
 
         # identify fields that needs to be updated
         DYNAMICFIELD:
@@ -2069,7 +2194,7 @@ sub _DynamicFieldReorder {
 
         # hash ref validation is not needed since it was validated before
         # check if need to add or subtract
-        if ($Substract) {
+        if ($Subtract) {
 
             # subtract 1 to the dynamic field order value
             $DynamicField->{FieldOrder}--;
