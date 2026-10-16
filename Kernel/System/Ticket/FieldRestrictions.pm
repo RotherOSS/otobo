@@ -273,71 +273,20 @@ sub GetFieldStates {
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        my $DFName         = $DynamicFieldConfig->{Name};
-        my $IsACLReducible = $Param{DynamicFieldBackendObject}->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
+        my $DFName = $DynamicFieldConfig->{Name};
 
-        # 1. handle hidden fields
-        if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
-
-            next DYNAMICFIELD if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 );
-
-            # values of visible fields turning invisible are deleted
-            my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
-                ref( $DFParam->{"DynamicField_$DFName"} )
-                ?
-                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
-                :
-                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
-
-            # setting ticket values for hidden fields is necessary for ACL calculation
-            if ( defined $DynamicFieldDataDB{"DynamicField_$DFName"} ) {
-
-                my $ValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    Value1             => $DFParam->{"DynamicField_$DFName"},
-                    Value2             => $DynamicFieldDataDB{"DynamicField_$DFName"},
-                );
-
-                if ($ValueIsDifferent) {
-                    $UpdateRequired = 1;
-                }
-                else {
-                    $UpdateRequired = 0;
-                }
-            }
-
-            # if values are present, FieldRestrictions have to be checked again for the newly changed elements
-            if ($UpdateRequired) {
-
-                # delete entry and remember change
-                $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
-
-                # check if we have a ticket data value and use them, if so
-                if ( defined $DynamicFieldDataDB{"DynamicField_$DFName"} ) {
-                    $NewValues{"DynamicField_$DFName"} = $DynamicFieldDataDB{"DynamicField_$DFName"};
-                }
-
-                # fields have to be added to correctly remove all content
-                if ( !$IsACLReducible ) {
-                    $Fields{$DFName} = {
-                        PossibleValues  => undef,
-                        NotACLReducible => 1,
-                    };
-                }
-                else {
-                    $Fields{$DFName} = {
-                        PossibleValues => {},
-                    };
-                }
-            }
-
+        # skip if field has been hidden (CachedVisibility) and is also hidden now (Visibility)
+        if (
+            %Visibility
+            && $Visibility{"DynamicField_$DFName"} == 0
+            && $CachedVisibility
+            && $CachedVisibility->{"DynamicField_$DFName"} == 0
+            )
+        {
             next DYNAMICFIELD;
         }
 
-        # 2. handle fields which set their dynamic content themselves
+        # 1. handle fields which set their dynamic content themselves
         if (
             $Param{DynamicFieldBackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -398,6 +347,67 @@ sub GetFieldStates {
                     %Visibility,
                     $Content{Visibility}->%*,
                 );
+            }
+
+            next DYNAMICFIELD;
+        }
+
+        my $IsACLReducible = $Param{DynamicFieldBackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
+        );
+
+        # 2. handle disappearing fields
+        if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
+
+            # values of visible fields turning invisible are deleted
+            my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
+                ref( $DFParam->{"DynamicField_$DFName"} )
+                ?
+                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
+                :
+                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
+
+            # setting ticket values for hidden fields is necessary for ACL calculation
+            if ( defined $DynamicFieldDataDB{"DynamicField_$DFName"} ) {
+
+                my $ValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value1             => $DFParam->{"DynamicField_$DFName"},
+                    Value2             => $DynamicFieldDataDB{"DynamicField_$DFName"},
+                );
+
+                if ($ValueIsDifferent) {
+                    $UpdateRequired = 1;
+                }
+                else {
+                    $UpdateRequired = 0;
+                }
+            }
+
+            # if values are present, FieldRestrictions have to be checked again for the newly changed elements
+            if ($UpdateRequired) {
+
+                # delete entry and remember change
+                $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
+
+                # check if we have a ticket data value and use them, if so
+                if ( defined $DynamicFieldDataDB{"DynamicField_$DFName"} ) {
+                    $NewValues{"DynamicField_$DFName"} = $DynamicFieldDataDB{"DynamicField_$DFName"};
+                }
+
+                # fields have to be added to correctly remove all content
+                if ( !$IsACLReducible ) {
+                    $Fields{$DFName} = {
+                        PossibleValues  => undef,
+                        NotACLReducible => 1,
+                    };
+                }
+                else {
+                    $Fields{$DFName} = {
+                        PossibleValues => {},
+                    };
+                }
             }
 
             next DYNAMICFIELD;
