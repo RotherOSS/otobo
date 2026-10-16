@@ -35,6 +35,21 @@ use Path::Class qw(dir);
 # OTOBO modules
 use Kernel::System::ObjectManager ();
 
+=head1 NAME
+
+backup.pl - backup files and database of an OTOBO installation
+
+=head1 DESCRIPTION
+
+The scripts creates various tar files containing the data to be backed up.
+
+=head1 SYNOPSIS
+
+    # pass the option -h for usage and help
+    scripts/backup.pl -h
+
+=cut
+
 # file scoped option variables
 my (
     $CompressOption,
