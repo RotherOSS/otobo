@@ -400,11 +400,12 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.53
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.53.tar.gz
+  Cpanel-JSON-XS-4.80
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.80.tar.gz
     provides:
-      Cpanel::JSON::XS 4.53
-      Cpanel::JSON::XS::Type undef
+      Cpanel::JSON::XS 4.80
+      Cpanel::JSON::XS::Boolean 4.80
+      Cpanel::JSON::XS::Type 4.80
     requirements:
       Carp 0
       Config 0
@@ -3085,12 +3086,12 @@ DISTRIBUTIONS
       Test::More 0
       Test::TCP 0
       Time::HiRes 0
-  Plack-1.0054
-    pathname: M/MI/MIYAGAWA/Plack-1.0054.tar.gz
+  Plack-1.0055
+    pathname: M/MI/MIYAGAWA/Plack-1.0055.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0054
+      Plack 1.0055
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -3149,9 +3150,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0054
+      Plack::Request 1.0055
       Plack::Request::Upload undef
-      Plack::Response 1.0054
+      Plack::Response 1.0055
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -3195,10 +3196,10 @@ DISTRIBUTIONS
       Test::More 0
       parent 0
       perl 5.008001
-  Plack-Middleware-ReverseProxy-0.16
-    pathname: M/MI/MIYAGAWA/Plack-Middleware-ReverseProxy-0.16.tar.gz
+  Plack-Middleware-ReverseProxy-0.17
+    pathname: M/MI/MIYAGAWA/Plack-Middleware-ReverseProxy-0.17.tar.gz
     provides:
-      Plack::Middleware::ReverseProxy 0.16
+      Plack::Middleware::ReverseProxy 0.17
     requirements:
       ExtUtils::MakeMaker 6.59
       Plack 0.9988
@@ -3827,10 +3828,10 @@ DISTRIBUTIONS
       Test::Harness 0
       Test::More 0.92
       perl 5.006001
-  Text-CSV_XS-1.64
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.64.tgz
+  Text-CSV_XS-1.65
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.65.tgz
     provides:
-      Text::CSV_XS 1.64
+      Text::CSV_XS 1.65
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
