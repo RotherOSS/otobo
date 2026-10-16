@@ -278,6 +278,10 @@ my $ICalString = $ExportObject->Export(
 );
 ok( $ICalString, 'Export() - Calendar exported to iCal format' );
 
+# some sanity checks
+like( $ICalString, qr/BEGIN:VCALENDAR/, 'BEGIN:VCALENDAR' );
+like( $ICalString, qr/END:VCALENDAR/,   'END:VCALENDAR' );
+
 # get exported appointments
 my @ExportedAppointments = $AppointmentObject->AppointmentList(
     CalendarID => $ExportCalendar{CalendarID},

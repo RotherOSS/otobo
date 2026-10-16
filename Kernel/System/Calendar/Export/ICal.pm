@@ -16,6 +16,7 @@
 
 package Kernel::System::Calendar::Export::ICal;
 
+use v5.26;
 use strict;
 use warnings;
 
