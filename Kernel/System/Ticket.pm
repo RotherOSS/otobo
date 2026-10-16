@@ -7608,7 +7608,7 @@ sub TicketArticleStorageSwitch {
 
         # read source attachments
         my @Attachments;
-        my %MD5Sums;
+        my %AttachmentSignatures;
 
         MD5SUMFILE:
         for my $FileID ( sort keys %InitialSourceAttachmentIndex ) {
@@ -7653,7 +7653,16 @@ sub TicketArticleStorageSwitch {
             my $MD5Sum = $MainObject->MD5sum(
                 String => $Attachment{Content},
             );
-            $MD5Sums{$MD5Sum}++;
+            my $Signature = join "\x1e", map { $_ // '' }
+                $MD5Sum,
+                $InitialSourceAttachmentIndex{$FileID}->{VersionID},
+                $InitialSourceAttachmentIndex{$FileID}->{Filename},
+                $InitialSourceAttachmentIndex{$FileID}->{ContentType},
+                $InitialSourceAttachmentIndex{$FileID}->{ContentID},
+                $InitialSourceAttachmentIndex{$FileID}->{ContentAlternative},
+                $InitialSourceAttachmentIndex{$FileID}->{Disposition},
+                $InitialSourceAttachmentIndex{$FileID}->{FilesizeRaw};
+            $AttachmentSignatures{$Signature}++;
         }
 
         # nothing to transfer
@@ -7879,10 +7888,19 @@ sub TicketArticleStorageSwitch {
             my $MD5Sum = $MainObject->MD5sum(
                 String => \$Attachment{Content},
             );
-            if ( $MD5Sums{$MD5Sum} ) {
-                $MD5Sums{$MD5Sum}--;
-                if ( !$MD5Sums{$MD5Sum} ) {
-                    delete $MD5Sums{$MD5Sum};
+            my $Signature = join "\x1e", map { $_ // '' }
+                $MD5Sum,
+                $DestinationAttachmentIndex{$FileID}->{VersionID},
+                $DestinationAttachmentIndex{$FileID}->{Filename},
+                $DestinationAttachmentIndex{$FileID}->{ContentType},
+                $DestinationAttachmentIndex{$FileID}->{ContentID},
+                $DestinationAttachmentIndex{$FileID}->{ContentAlternative},
+                $DestinationAttachmentIndex{$FileID}->{Disposition},
+                $DestinationAttachmentIndex{$FileID}->{FilesizeRaw};
+            if ( $AttachmentSignatures{$Signature} ) {
+                $AttachmentSignatures{$Signature}--;
+                if ( !$AttachmentSignatures{$Signature} ) {
+                    delete $AttachmentSignatures{$Signature};
                 }
             }
             else {
@@ -7918,7 +7936,7 @@ sub TicketArticleStorageSwitch {
         }
 
         # check if all files are moved
-        if (%MD5Sums) {
+        if (%AttachmentSignatures) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  =>

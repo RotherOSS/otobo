@@ -278,7 +278,8 @@ sub ArticleWriteAttachment {
     my $UniqueFilename = $OrigFilename;
     {
         my %Index = $Self->ArticleAttachmentIndex(
-            ArticleID => $Param{ArticleID},
+            ArticleID     => $Param{ArticleID},
+            OnlyMyBackend => 1,
         );
 
         my %UsedFile = map
