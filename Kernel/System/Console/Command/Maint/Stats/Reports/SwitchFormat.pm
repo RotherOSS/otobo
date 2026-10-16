@@ -81,10 +81,15 @@ sub Run {
     # Loop over all reports
     my $StatsReportID2Name = $StatsReportObject->StatsReportList;
 
-    if ( !IsHashRefWithData($StatsReportID2Name) ) {
-        $Self->PrintError("No statistics reports found");
+    if ( ref $StatsReportID2Name ne 'HASH' ) {
+        $Self->PrintW("List of statistics reports could not be retrieved.");
 
         return $Self->ExitCodeError();
+    }
+    elsif ( !$StatsReportID2Name->%* ) {
+        $Self->PrintWarning("There are no statistics reports. There is nothing to do.\n");
+
+        return $Self->ExitCodeOk();
     }
 
     my $NumChangedReports = 0;
