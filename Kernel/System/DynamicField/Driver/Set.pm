@@ -703,6 +703,9 @@ sub DisplayValueRender {
                 Value              => $Param{Value}[$SetIndex]{$Name},
             );
 
+            # necessary because RichText driver returns undef
+            $Element->{Title} //= '';
+
             next VALUE if !defined $Element->{Value} || $Element->{Value} eq '';
 
             if ($HTMLOutput) {
