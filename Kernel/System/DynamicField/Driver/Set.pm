@@ -1037,7 +1037,10 @@ sub GetFieldState {
             GetParam           => {
                 %GetParam,
                 %DFParam,
-                DynamicField => \%DFParam,
+                DynamicField => {
+                    $GetParam{DynamicField}->%*,
+                    %DFParam,
+                },
             },
             LoopProtection   => \$LoopProtection,
             SetIndex         => $SetIndex,
@@ -1103,7 +1106,10 @@ sub GetFieldState {
             GetParam      => {
                 %GetParam,
                 %DFParam,
-                DynamicField => \%DFParam,
+                DynamicField => {
+                    $GetParam{DynamicField}->%*,
+                    %DFParam,
+                },
             },
             LoopProtection   => \$LoopProtection,
             CachedVisibility => %IndexVisibility ? \%IndexVisibility : undef,
