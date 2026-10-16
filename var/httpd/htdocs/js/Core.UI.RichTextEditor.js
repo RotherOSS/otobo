@@ -192,32 +192,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 content: UserLanguage
             },
             htmlSupport: {
-                allow: [
-                    {
-                        name: 'span',
+                // elements configurable via Frontend::RichText::HtmlSupportAllowedElements
+                allow: (Core.Config.Get('RichText.HtmlSupportAllowedElements') || ['span', 'cite', 'style', 'table']).map(function (ElementName) {
+                    return {
+                        name: ElementName,
                         attributes: true,
                         classes: true,
                         styles: true
-                    },
-                    {
-                        name: 'cite',
-                        attributes: true,
-                        classes: true,
-                        styles: true
-                    },
-                    {
-                        name: 'style',
-                        attributes: true,
-                        classes: true,
-                        styles: true
-                    },
-                    {
-                        name: 'table',
-                        attributes: true,
-                        classes: true,
-                        styles: true
-                    },
-                ],
+                    };
+                }),
                 disallow: [
                     {
                         styles: {
