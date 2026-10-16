@@ -410,12 +410,28 @@ sub Export {
             }
         }
 
+        # Adapt the timestamps returned from Data::ICal.
+        my $DTStart = $ICalStartTime->ical;
+        my $DTEnd   = $ICalEndTime->ical;
+        if ( $Appointment{AllDay} ) {
+
+            # Remove time zone flag for all day appointments.
+            $DTStart = substr $DTStart, 0, -1;
+            $DTEnd   = substr $DTEnd,   0, -1;
+        }
+        else {
+
+            # Fix formating for non all day appointments when the start or the end is at midnight.
+            # Here midnight is 00:00:00 of the new day.
+            $DTStart =~ s/^(\d{8})Z$/$1T000000Z/;
+            $DTEnd   =~ s/^(\d{8})Z$/$1T000000Z/;
+        }
+
         # add both required and optional properties
-        # remove time zone flag for all day appointments
         $ICalEvent->add_properties(
             summary         => $Appointment{Title},
-            dtstart         => $Appointment{AllDay} ? substr( $ICalStartTime->ical(), 0, -1 ) : $ICalStartTime->ical(),
-            dtend           => $Appointment{AllDay} ? substr( $ICalEndTime->ical(),   0, -1 ) : $ICalEndTime->ical(),
+            dtstart         => $DTStart,
+            dtend           => $DTEnd,
             uid             => $Appointment{UniqueID},
             'last-modified' => $ICalChangeTime->ical(),
             %ICalEventProperties,
