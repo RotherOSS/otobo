@@ -61,6 +61,7 @@ my (
     $DatabaseType,
     $DryRun,
     $ExtraDumpOptions,
+    $DoFollowSymlinks,
 );
 my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as that is already required on the server side
 my $BackupDir        = getcwd();
@@ -70,17 +71,18 @@ sub Main {
 
     # options that used only within Main()
     my (
-        $HelpFlag,    # indicate whether the usage message should be printed
+        $DoPrintHelp,    # indicate whether the usage message should be printed
     );
 
     GetOptions(
-        'help|h'                 => \$HelpFlag,
+        'help|h'                 => \$DoPrintHelp,
         'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
         'compress|c=s'           => \$CompressOption,
         'remove-old-backups|r=i' => \$RemoveDays,
         'backup-type|t=s'        => \$BackupType,
         'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
         'extra-dump-options=s'   => \&HandleExtraDumpOptions,          # e.g. "--column-statistics=0"
+        'follow-symlinks'        => \$DoFollowSymlinks,
         'dry-run'                => \$DryRun,                          # only print the database dump commands
         'db-host=s'              => \&HandleDBHostOption,
         'db-name=s'              => \&HandleDBNameOption,
@@ -89,7 +91,7 @@ sub Main {
         'db-type=s'              => \$DatabaseType,
     ) || PrintHelpAndExit();
 
-    PrintHelpAndExit() if $HelpFlag;
+    PrintHelpAndExit() if $DoPrintHelp;
 
     return;
 }
@@ -280,9 +282,16 @@ if ($DBOnlyBackup) {
     say "Backup of filesystem data disabled by parameter $BackupType ... ";
 }
 else {
+
+    # Set up common options for tar
+    my $CreateTarOptions = "-c -$Compress";
+    if ($DoFollowSymlinks) {
+        $CreateTarOptions = "-h $CreateTarOptions";
+    }
+
     # backup Kernel/Config.pm
     print "Backup $Directory/Config.tar.$CompressEXT ... ";
-    if ( !system("tar -c -$Compress -f $Directory/Config.tar.$CompressEXT Kernel/Config*") ) {
+    if ( !system("tar $CreateTarOptions -f $Directory/Config.tar.$CompressEXT Kernel/Config*") ) {
         say "done";
     }
     else {
@@ -294,7 +303,7 @@ else {
     if ($FullBackup) {
         print "Backup $Directory/Application.tar.$CompressEXT ... ";
         my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache --exclude=.git";
-        if ( !system("tar $Excludes -c -$Compress -f $Directory/Application.tar.$CompressEXT .") ) {
+        if ( !system("tar $Excludes $CreateTarOptions -f $Directory/Application.tar.$CompressEXT .") ) {
             say "done";
         }
         else {
@@ -307,7 +316,7 @@ else {
     # backup vardir
     else {
         print "Backup $Directory/VarDir.tar.$CompressEXT ... ";
-        if ( !system("tar -c -$Compress -f $Directory/VarDir.tar.$CompressEXT var/") ) {
+        if ( !system("tar $CreateTarOptions -f $Directory/VarDir.tar.$CompressEXT var/") ) {
             print "done\n";
         }
         else {
@@ -320,7 +329,7 @@ else {
     # backup datadir
     if ( $ArticleDir !~ m/\A\Q$Home\E/ ) {
         print "Backup $Directory/DataDir.tar.$CompressEXT ... ";
-        if ( !system("tar -c -$Compress -f $Directory/DataDir.tar.$CompressEXT $ArticleDir") ) {
+        if ( !system("tar $CreateTarOptions -f $Directory/DataDir.tar.$CompressEXT $ArticleDir") ) {
             print "done\n";
         }
         else {
@@ -999,7 +1008,8 @@ Long options:
  [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
  [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
  [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
- [--extra-dump-options]       - extra options that are passed to the dump command
+ [--extra-dump-options]       - extra options that are passed to the database dump command
+ [--follow-symlinks]          - archive the files and directories referenced by symbolic links, the default is off
 
 Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
