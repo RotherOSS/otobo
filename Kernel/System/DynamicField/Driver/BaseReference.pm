@@ -1321,10 +1321,21 @@ sub GetFieldState {
             );
         }
 
+        if ( $Param{Disappears} || $Param{Reappears} ) {
+            if (
+                DataIsDifferent(
+                    Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    Data2 => \@CheckedValues,
+                )
+                )
+            {
+                $ValueChanged = 1;
+            }
+        }
+
         # PossibleValues are needed for display value in frontend
         #   e.g. '"Tina Tester" <tina@example.com>' (CustomerUser MailString) vs. 'tina' (CustomerUserID)
-        #   NOTE: if visibility changes, we don't care if value changed
-        if ( $ValueChanged || $Param{Reappears} || $Param{Disappears} ) {
+        if ($ValueChanged) {
             return (
                 NewValue       => \@CheckedValues,
                 PossibleValues => \%PossibleValues,
@@ -1358,12 +1369,11 @@ sub GetFieldState {
     }
 
     # check if value has changed
-    #   NOTE: if visibility changes, we don't care if value changed
     if (
         DataIsDifferent(
-            Data1 => $Value,
+            Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
             Data2 => \@CheckedValues
-        ) || $Param{Reappears} || $Param{Disappears}
+        )
         )
     {
         $Return{NewValue} = \@CheckedValues;
