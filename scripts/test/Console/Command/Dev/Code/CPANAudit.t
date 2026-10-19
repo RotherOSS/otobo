@@ -62,8 +62,8 @@ for my $Key (qw( args command cpan_audit total_advisories )) {
 # check the version of CPANSA::DB and CPAN::Audit
 {
     my %ExpectedVersion = (
-        db      => '20261011.003',
-        version => '20260622.001',
+        db      => '20261018.001',
+        version => '20261013.002',
     );
     is(
         $ThawedAuditReport->{meta}->{cpan_audit},
