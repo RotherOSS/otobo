@@ -234,10 +234,8 @@ sub PageBlankNew {
         return;
     }
 
-    # set PageOrientation
-    if ( !defined( $Param{PageOrientation} ) ) {
-        $Param{PageOrientation} = 'normal';
-    }
+    # set default for PageOrientation
+    $Param{PageOrientation} //= 'normal';
 
     # set margins
     $Param{MarginTop}    = $Param{MarginTop}    || 0;
@@ -1250,7 +1248,7 @@ sub Text {
 
 =head2 Image()
 
-Output a image
+Output an image
 
     $True = $PDFObject->Image(
         File   => '/path/image.gif',  # (gif|jpeg|jpg|png)
@@ -1306,6 +1304,7 @@ sub Image {
         %Dim = $Self->_CurContentDimGet();
     }
 
+    # Transform from high definition pixes to low definition pixels, 300 dpi to 72 dpi
     $Param{Width}  = $Param{Width} / ( 300 / 72 );
     $Param{Height} = $Param{Height} / ( 300 / 72 );
 
@@ -1317,7 +1316,11 @@ sub Image {
         $ImageFile = $Self->{CacheImageObject}->{ $Param{File} };
     }
     else {
-        if ( $Param{File} =~ m/\.gif$/i ) {
+        if ( $Param{File} =~ m/\.pdf$/i ) {
+            my $ChartPDF = PDF::API2->open( $Param{File} );
+            $ImageFile = $Self->{PDF}->embed_page( $ChartPDF, 1 );    # only single page
+        }
+        elsif ( $Param{File} =~ m/\.gif$/i ) {
             $ImageFile = $Self->{PDF}->image_gif( $Param{File} );
         }
         elsif ( $Param{File} =~ m/\.(?:jpeg|jpg)$/i ) {
@@ -1331,6 +1334,7 @@ sub Image {
                 Priority => 'error',
                 Message  => "Imagetype of File $Param{File} not supported",
             );
+
             return;
         }
 
@@ -1365,18 +1369,26 @@ sub Image {
     if ( defined( $Param{Type} ) && $Param{Type} eq 'ReturnFalse' && $Reduce ) {
         $Return = 0;
     }
+    elsif ( $Param{File} =~ m/\.pdf$/ ) {
+        my $PositionY = $Position{Y} - $Param{Height};
+        $Image->object(
+            $ImageFile, $Position{X}, $PositionY,
+        );
+
+        # set new position
+        $Self->_CurPositionSet( Y => $PositionY );
+    }
     else {
 
         # output the image
+        my $PositionY = $Position{Y} - $Param{Height};
         $Image->image(
-            $ImageFile,    $Position{X}, $Position{Y} - $Param{Height},
+            $ImageFile,    $Position{X}, $PositionY,
             $Param{Width}, $Param{Height},
         );
 
         # set new position
-        $Self->_CurPositionSet(
-            Y => $Position{Y} - $Param{Height},
-        );
+        $Self->_CurPositionSet( Y => $PositionY );
     }
 
     return $Return;
@@ -3040,13 +3052,18 @@ sub _CurPageNumberSet {
 
 =head2 _CurPageDimSet()
 
-Set current Page Dimension
+sets the dimension of the current page.
 
    $PDFObject->_CurPageDimSet(
-       Width           => 123,          # (optional) range between 1 and 10_000, default 595 (Din A4)
-       Height          => 321,          # (optional) range between 1 and 10_000, default 842 (Din A4)
-       PageOrientation => 'landscape',  # (optional) (normal|landscape)
+       Width           => 123,          # (optional) range between 1 and 10_000, default depends on PDF::PageSize setting
+       Height          => 321,          # (optional) range between 1 and 10_000, default depends on PDF::PageSize setting
+       PageOrientation => 'landscape',  # (optional) normal or landscape, default is normal aka portrait
    );
+
+The default XY dimensions of 595 x 842 points when PDF::PageSize is A4. For letter the default is 612 x 792 points
+These sizes are based on a resolutions of 72 dpi in the print output.
+
+Width and Height are swapped in landscape orientation.
 
 =cut
 
@@ -3083,18 +3100,16 @@ sub _CurPageDimSet {
     }
 
     # get default pagesize
-    my $DefaultWidth  = 595;    # DIN A4
-    my $DefaultHeight = 842;    # DIN A4
+    my $DefaultWidth  = 595;    # DIN A4 portrait with 72 dpi
+    my $DefaultHeight = 842;    # DIN A4 portrait with 72 dpi
     if ( $Kernel::OM->Get('Kernel::Config')->Get('PDF::PageSize') eq 'letter' ) {
-        $DefaultWidth  = 612;
-        $DefaultHeight = 792;
+        $DefaultWidth  = 612;    # letter with 72 dpi
+        $DefaultHeight = 792;    # letter with 72 dpi
     }
 
-    # set page orientation
-    if ( defined( $Param{PageOrientation} ) && $Param{PageOrientation} eq 'landscape' ) {
-        my $TmpWidth = $DefaultWidth;
-        $DefaultWidth  = $DefaultHeight;
-        $DefaultHeight = $TmpWidth;
+    # swap width and heigt when printing in landscape mode
+    if ( defined $Param{PageOrientation} && $Param{PageOrientation} eq 'landscape' ) {
+        ( $DefaultWidth, $DefaultHeight ) = ( $DefaultHeight, $DefaultWidth );
     }
 
     # set default values
@@ -3137,11 +3152,12 @@ sub _CurPageDimSet {
 
 Get current Page Dimension (Width, Height)
 
-   Return
-       $CurPageDim{Width}
-       $CurPageDim{Height}
-
    %CurPageDim = $PDFObject->_CurPageDimGet();
+
+Returns:
+
+    $CurPageDim{Width}
+    $CurPageDim{Height}
 
 =cut
 

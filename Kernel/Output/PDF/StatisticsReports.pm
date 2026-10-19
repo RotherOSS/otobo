@@ -16,15 +16,20 @@
 
 package Kernel::Output::PDF::StatisticsReports;
 
-use v5.24;
+use v5.26;
 use strict;
 use warnings;
 use namespace::autoclean;
+use utf8;
 
 # core modules
 use File::stat qw(stat);
 
 # CPAN modules
+use Gnuplot::Builder::Script  qw();
+use Gnuplot::Builder::Dataset qw();
+use Gnuplot::Builder::Process qw();
+use List::AllUtils            qw(any first indexes);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -50,8 +55,7 @@ sub new {
 sub GeneratePDF {
     my ( $Self, %Param ) = @_;
 
-    my %StatsReport  = %{ $Param{StatsReport} };
-    my $UserLanguage = $Param{UserLanguage};
+    my %StatsReport = %{ $Param{StatsReport} };
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -63,6 +67,8 @@ sub GeneratePDF {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $GoogleChromeBinary = $Kernel::OM->Get('Kernel::Config')->Get('GoogleChrome::Bin');
     my $BrowserFound       = $GoogleChromeBinary ? 1 : 0;
+    my $GnuplotBin         = $Kernel::OM->Get('Kernel::Config')->Get('Gnuplot::Bin');
+    my $GnuplotFound       = $GnuplotBin ? 1 : 0;
 
     my $Page = $LayoutObject->{LanguageObject}->Translate('Page');
     my $Time = $LayoutObject->{Time};
@@ -215,16 +221,16 @@ sub GeneratePDF {
         );
     }
 
-    my $StatCounter = 0;
-
+    my $StatCounter       = 0;
     my $TranslateTimeZone = $LayoutObject->{LanguageObject}->Translate('Time Zone');
 
     STAT_CONFIG:
-    for my $StatConfig ( @{ $StatsReport{Config}->{StatsConfiguration} // [] } ) {
-        next STAT_CONFIG if !ref $StatConfig;
+    for my $StatConfig ( ( $StatsReport{Config}->{StatsConfiguration} // [] )->@* ) {
+        next STAT_CONFIG unless ref $StatConfig;
 
         my $StatID = $StatConfig->{StatGetParams}->{StatID};
-        next STAT_CONFIG if !$StatID;
+
+        next STAT_CONFIG unless $StatID;
 
         my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
             StatID => $StatID,
@@ -240,14 +246,15 @@ sub GeneratePDF {
         next STAT_CONFIG if $@;
 
         # Check available formats from stat
-        my ($FirstFoundFormat) = grep {m/^D3|Print/} ( $Stat->{Format} // [] )->@*;
+        my $FirstFoundFormat = first {m/^(?:Gnuplot|D3|Print)/} ( $Stat->{Format} // [] )->@*;
 
         # Use the format selected by the user or the first available format.
         my $Format = $StatConfig->{StatGetParams}->{Format} || $FirstFoundFormat;
 
         # Skip stat if format is wrong.
-        next STAT_CONFIG unless $Format =~ m/^D3|Print/;
+        next STAT_CONFIG unless $Format =~ m/^(?:Gnuplot|D3|Print)/;
 
+        # each stat is on a new page
         if ( $StatCounter++ > 0 ) {
             $PDFObject->PageNew(
                 %PageParam,
@@ -257,10 +264,9 @@ sub GeneratePDF {
 
         my @StatArray = @{
             $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
-                StatID       => $StatID,
-                GetParam     => \%GetParam,
-                UserID       => $Param{UserID},
-                UserLanguage => $UserLanguage,
+                StatID   => $StatID,
+                GetParam => \%GetParam,
+                UserID   => $Param{UserID},
             );
         };
 
@@ -302,9 +308,13 @@ sub GeneratePDF {
             );
         }
 
-        # Direct table output in PDF
-        if ( $Format eq 'Print' || !$BrowserFound ) {
-
+        # Direct table output in PDF when the format is 'Print' or there is no chart drawing command
+        if (
+            ( !( $Format =~ m/^D3::/ && $BrowserFound ) )
+            &&
+            ( !( $Format =~ m/^Gnuplot::/ && $GnuplotFound ) )
+            )
+        {
             # if array = empty
             if ( !@StatArray ) {
                 push @StatArray, [ ' ', 0 ];
@@ -314,7 +324,7 @@ sub GeneratePDF {
             my $CellData;
             my $CounterRow  = 0;
             my $CounterHead = 0;
-            for my $Content ( @{$HeadArrayRef} ) {
+            for my $Content ( $HeadArrayRef->@* ) {
                 $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
                 $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
                 $CounterHead++;
@@ -366,55 +376,54 @@ sub GeneratePDF {
                 Move => 'relativ',
                 Y    => -6,
             );
-
         }
 
-        # D3 charts; load in Chrome and generate PNG to embed in PDF.
+        # Generate an image and embed it in the PDF
+        # Gnuplot charts: generate PDF with Gnuplot
+        # D3 charts:      load the chart in Chrome and save a screenshot as PNG
         else {
-            my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-            # This is needed because we run this function also from a console commands where
-            #   there is no Action initially.
-            local $LayoutObject->{Action} = 'AgentStatisticsReports';
-
-            # Generate local file URLs for Chrome or (ok, this is a hack).
-            local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
-            local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
-            my $Output = join '',
-                $LayoutObject->Header( Type => 'Small' ),
-                $LayoutObject->Output(
-                    Data => {
-                        %{$Stat},
-                        RawData => [
-                            [$Title],
-                            $HeadArrayRef,
-                            @StatArray,
-                        ],
-                        Format => $Format,
-                    },
-                    TemplateFile => 'StatisticsReports/Graph2PNG',
-                ),
-                $LayoutObject->Footer( Type => 'Small' );
-
-            # Remove HTTP headers
-            $Output =~ s{\A.*?(<!DOCTYPE)}{$1}smx;
-
-            my ( $TempHTMLFH, $TempHTMLFilename ) = $Kernel::OM->Get('Kernel::System::FileTemp')->TempFile(
-                Suffix => '.html',
-            );
-            close($TempHTMLFH);
-            $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-                Location => $TempHTMLFilename,
-                Mode     => 'utf8',
-                Content  => \$Output,
-            );
-
-            my $TempPNGDir      = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
-            my $TempPNGFilename = "$TempPNGDir/screenshot.png";                              # Chrome requires this file name
-
+            my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            my $TempImageDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+            my $TempImageFilename;
             my $CommandOutput;
 
-            if ($GoogleChromeBinary) {
+            if ( $Format =~ m/^D3::/ ) {
+                $TempImageFilename = "$TempImageDir/screenshot.png";    # Chrome requires this file name
+
+                # This is needed because we run this function also from a console commands where
+                #   there is no Action initially.
+                local $LayoutObject->{Action} = 'AgentStatisticsReports';
+
+                # Generate local file URLs for Chrome or (ok, this is a hack).
+                local $ConfigObject->{'Frontend::WebPath'}        = "file://$Home/var/httpd/htdocs/";
+                local $ConfigObject->{'Frontend::JavaScriptPath'} = "file://$Home/var/httpd/htdocs/js/";
+                my $Output = join '',
+                    $LayoutObject->Header( Type => 'Small' ),
+                    $LayoutObject->Output(
+                        Data => {
+                            RawData => [
+                                [$Title],    # not used
+                                $HeadArrayRef,
+                                @StatArray,
+                            ],
+                            Format => $Format,
+                        },
+                        TemplateFile => 'StatisticsReports/Graph2PNG',
+                    ),
+                    $LayoutObject->Footer( Type => 'Small' );
+
+                # Remove HTTP headers
+                $Output =~ s{\A.*?(<!DOCTYPE)}{$1}smx;
+
+                my ( $TempHTMLFH, $TempHTMLFilename ) = $Kernel::OM->Get('Kernel::System::FileTemp')->TempFile(
+                    Suffix => '.html',
+                );
+                close $TempHTMLFH;
+                $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+                    Location => $TempHTMLFilename,
+                    Mode     => 'utf8',
+                    Content  => \$Output,
+                );
 
                 # Chrome outputs with a fixed "screenshot.png" file name in the current folder.
                 #   Attempt to use --virtual-time-budget to wait for the chart to be rendered.
@@ -423,19 +432,225 @@ sub GeneratePDF {
                 #   subsequent call to $PDFObject->Image() <PDF::API2::image_png() internally> will be extremely slow.
                 #   The real reason is still unknown.
                 $CommandOutput
-                    = `cd $TempPNGDir; '$GoogleChromeBinary' --no-sandbox --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
+                    = `cd $TempImageDir; '$GoogleChromeBinary' --no-sandbox --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
+                if ($!) {
+                    $CommandOutput .= "$!";
+                }
+                chomp $CommandOutput;
             }
-            if ($!) {
-                $CommandOutput .= "$!";
-            }
-            chomp $CommandOutput;
+            elsif ( $Format =~ m/^Gnuplot::/ ) {
 
-            my $TmpPNGStat = stat $TempPNGFilename;
-            if ( $TmpPNGStat && $TmpPNGStat->size ) {
+                # uncomment this for debugging
+                #local $Gnuplot::Builder::Process::TAP = sub {
+                #    my ($pid, $event, $body) = @_;
+                #    warn "PID:$pid, EVENT:$event, BODY:$body";
+                #};
+
+                # The default Gnuplot command to 'gnuplot --persist'. Looking for gnuplot in PATH works fine,
+                # but the OTOBO convention is to use the configured executable.
+                local $ENV{PERL_GNUPLOT_BUILDER_PROCESS_COMMAND} = "$GnuplotBin --persist";
+
+                # The location where gnuplot writes the graph.
+                # The format is added in the file name mainly for debugging.
+                $TempImageFilename = "$TempImageDir/gnuplot_$Format.pdf";
+
+                # The size of the generated PDF depends on the output size
+                my %Format2PDFImageSize = (
+                    'a4'     => '26.8cm,13.4cm',    # A4 landscape is 29,7 x 21.0 cm²
+                    'letter' => '24.9cm,13.4cm',    # letter landscape is 27,9 x 21,6 × cm²
+                );
+                my $PDFImageSize = $Kernel::OM->Get('Kernel::Config')->Get('PDF::PageSize') eq 'letter'
+                    ?
+                    $Format2PDFImageSize{letter}
+                    :
+                    $Format2PDFImageSize{a4};
+
+                # The terminal and tha output file name are the same for all Gnuplot formats.
+                # The size is hardcoded to fit on A4 paper. There is no special reason for the x:y ratio,
+                # just trial and error.
+                # 'chromium --screenshot' gives an 800:600 image, but leaves quite some empty space.
+                my $Builder = Gnuplot::Builder::Script->new(
+
+                    #'terminal pdfcairo background' => 'rgb "gray90"',   # no background, tranparent in case of overlaps
+                    auto                          => [qw(x y)],          # autosize x- and y-axis to fit the data
+                    'terminal pdfcairo size'      => $PDFImageSize,      # depends on PDF::PageSize
+                    'terminal pdfcairo font'      => '",12"',            # no special font, but small font size
+                    'terminal pdfcairo'           => 'square',           # rectangular ending of the bars
+                    'terminal pdfcairo linewidth' => 3,                  # thinker lines in line charts
+                    bmargin                       => 'at screen 0.1',    # increase the bottom margin in order to accomodate the two line x-labels
+                    key                           => 'above',            # place the legend above the plot
+                );
+
+                # The output file name must be quoted
+                $Builder->setq( output => $TempImageFilename );
+
+                # nicer looking line colors, which are also the bar colors
+                # courtesy of Color Brewer 2.0
+                $Builder->set(
+
+                    # https://colorbrewer2.org/?type=qualitative&scheme=Dark2&n=8
+                    'linetype 1' => q{linecolor rgb '#1b9e77'},
+                    'linetype 2' => q{linecolor rgb '#d95f02'},
+                    'linetype 3' => q{linecolor rgb '#7570b3'},
+                    'linetype 4' => q{linecolor rgb '#e7298a'},
+                    'linetype 5' => q{linecolor rgb '#66a61e'},
+                    'linetype 6' => q{linecolor rgb '#e6ab02'},
+                    'linetype 7' => q{linecolor rgb '#a6761d'},
+                    'linetype 8' => q{linecolor rgb '#666666'},
+
+                    ## https://colorbrewer2.org/?type=qualitative&scheme=Set2&n=8
+                    #'linetype 1' => q{linecolor rgb '#66c2a5'},
+                    #'linetype 2' => q{linecolor rgb '#fc8d62'},
+                    #'linetype 3' => q{linecolor rgb '#8da0cb'},
+                    #'linetype 4' => q{linecolor rgb '#e78ac3'},
+                    #'linetype 5' => q{linecolor rgb '#a6d854'},
+                    #'linetype 6' => q{linecolor rgb '#ffd92f'},
+                    #'linetype 7' => q{linecolor rgb '#e5c494'},
+                    #'linetype 8' => q{linecolor rgb '#b3b3b3'},
+                );
+
+                # Example for the incoming data:
+                # $HeadArrayRef = [
+                #                   "Queue",
+                #                   "closed successful",
+                #                   "closed unsuccessful",
+                #                   "merged",
+                #                   "new",
+                #                   "open",
+                #                   "pending auto close+",
+                #                   "pending auto close-",
+                #                   "pending reminder",
+                #                   "removed",
+                #                   "Sum",
+                #                 ]
+                # \@StatArray = [
+                #                 ["Junk", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                #                 ["Misc", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                #                 ["Postmaster", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                #                 ["Raw", 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+                #                 ["fill-up-queue10561661", 0, 0, 0, 11, 0, 0, 0, 0, 0, 11],
+                #                 ["fill-up-queue1694343", 0, 0, 0, 13, 0, 0, 0, 0, 0, 13],
+                #                 ["fill-up-queue2158423", 0, 0, 0, 10, 0, 0, 0, 0, 0, 10],
+                #                 ["fill-up-queue24956368", 0, 0, 0, 17, 0, 0, 0, 0, 0, 17],
+                #                 ["Sum", 0, 0, 0, 223, 0, 0, 0, 0, 0, 223],
+                #               ]
+
+                my @Datasets;
+                {
+                    # The incoming data contains a column that sums up the previous elements in the row.
+                    # It also contains a row that sums up the previous elements of the column.
+                    # Both must be removed for the bar chart as otherwise the chart would be dominated
+                    # by the sum values.
+                    @StatArray = grep { $_->[0] ne 'Sum' } @StatArray;
+
+                    # First find the indexes of the non 'Sum' colums
+                    my @NonSumColNums = indexes { $_ ne 'Sum' } $HeadArrayRef->@*;
+
+                    # As a workaround for long labels on the x-axis, we put every other label on a new line.
+                    # A line break is indicated by the two characters '\' and 'n', not by a literal newline.
+                    my @XLabelsOnTwoLines = map { ( $_ % 2 ? '\n' : '' ) . $HeadArrayRef->[$_] } 0 .. $HeadArrayRef->$#*;
+                    unshift @StatArray, \@XLabelsOnTwoLines;
+
+                    # Transpose as D3 and Gnuplot seem to see the data differently
+                    my @TransposedStatArray;
+                    for my $Row ( 0 .. $#StatArray ) {
+                        for my $Col ( 0 .. $StatArray[$Row]->$#* ) {
+                            $TransposedStatArray[$Col][$Row] = $StatArray[$Row][$Col];
+                        }
+                    }
+
+                    # It is easier to remove rows than colums. So remove the Sum rows from the transposed stats array.
+                    @TransposedStatArray = @TransposedStatArray[@NonSumColNums];
+
+                    my $BoxKeys = shift @TransposedStatArray;
+                    my @InlineData =
+                        map { join ' ', $_->@* }
+                        map { $_->[0] = qq{"$_->[0]"}; $_ }
+                        @TransposedStatArray;
+
+                    # for stacked area we need to sum up the colums to the left
+                    if ( $Format eq 'Gnuplot::StackedAreaChart' ) {
+                        $Builder->add(<<~'END_SCRIPT');
+                            firstcol=2
+                            cumulated(i)=((i>firstcol)?column(i)+cumulated(i-1):(i==firstcol)?column(i):1/0)
+                            END_SCRIPT
+                    }
+
+                    my $MaxCol = $BoxKeys->@*;
+                    if ( $Format eq 'Gnuplot::StackedAreaChart' ) {
+
+                        # The first dataset holds the table
+                        my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
+                        my $Sum     = join '+', map { '$' . $_ } ( 2 .. $MaxCol );
+                        $Dataset->set_data( join "\n", @InlineData );
+                        $Dataset->set( using => "($Sum):xticlabels(1)" );
+                        $Dataset->setq( title => $BoxKeys->[ $MaxCol - 1 ] );
+                        push @Datasets, $Dataset;
+                        for my $Col ( 3 .. $MaxCol - 1 ) {
+                            my $ChildDataset = $Dataset->new_child;
+                            $ChildDataset->setq_source('');    # use data from the previous dataset
+
+                            # See https://newspaint.wordpress.com/2013/09/11/creating-a-filled-stack-graph-in-gnuplot/
+                            # sum up data
+                            my $Sum = join '+', map { '$' . $_ } ( $Col .. $MaxCol );
+                            $ChildDataset->set( using => "($Sum)" );
+                            $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
+                            push @Datasets, $ChildDataset;
+                        }
+                    }
+                    else {
+
+                        # The first dataset holds the table
+                        my $Dataset = Gnuplot::Builder::Dataset->new(q{'-'});
+                        $Dataset->set_data( join "\n", @InlineData );
+                        $Dataset->set( using => '2:xticlabels(1)' );
+                        $Dataset->setq( title => $BoxKeys->[1] );
+                        push @Datasets, $Dataset;
+                        for my $Col ( 3 .. $MaxCol ) {
+                            my $ChildDataset = $Dataset->new_child;
+                            $ChildDataset->setq_source('');                            # use data from the previous dataset
+                            $ChildDataset->set( using => $Col );
+                            $ChildDataset->setq( title => $BoxKeys->[ $Col - 1 ] );    # 0-based
+                            push @Datasets, $ChildDataset;
+                        }
+                    }
+                }
+
+                if ( $Format eq 'Gnuplot::LineChart' ) {
+                    $Builder->set(
+                        'style data' => 'lines',
+                    );
+                }
+                elsif ( $Format eq 'Gnuplot::StackedAreaChart' ) {
+                    $Builder->set(
+                        'style data' => 'filledcurve x1',    # color down to the x-axis
+                    );
+                }
+                elsif ( any { $Format eq $_ } qw(Gnuplot::BarChart Gnuplot::StackedBarChart) ) {
+
+                    # The format of the graph determines the histogram style. Default is 'cluster'.
+                    my $HistogramStyle = $Format eq 'Gnuplot::StackedBarChart' ? 'rowstacked' : 'cluster';
+                    $Builder->set(
+                        'style data'      => 'histogram',
+                        'style histogram' => "$HistogramStyle gap 1",
+                        'style fill'      => 'solid noborder',
+                    );
+                }
+
+                $CommandOutput = $Builder->plot(@Datasets);
+                chomp $CommandOutput;
+
+                # Finish pending work before drawing a new chart.
+                # This avoids failures when charts are drawn in quick succession
+                Gnuplot::Builder::Process->wait_all;
+            }
+
+            my $TempImageStat = stat $TempImageFilename;
+            if ( $TempImageStat && $TempImageStat->size ) {
                 $PDFObject->Image(
-                    File   => $TempPNGFilename,
-                    Width  => 1200 * ( 300 / 72 ),
-                    Height => 900 * ( 300 / 72 ),
+                    File   => $TempImageFilename,
+                    Width  => 1200 * ( 300 / 72 ),    # width in dots for 300 dpi
+                    Height => 900 * ( 300 / 72 ),     # height in dots for 300 dpi
                 );
             }
             else {

@@ -26,7 +26,7 @@ requires 'CSS::Minifier::XS', '>= 0.09';
 
 requires 'Convert::BinHex';
 
-requires 'DBI';
+requires 'DBI', '1.614';
 
 # Sane persistent database connection
 requires 'DBIx::Connector';
@@ -130,6 +130,12 @@ requires 'Plack::Middleware::ReverseProxy';
 feature 'apache:mod_perl', 'Support for feature apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
+
+};
+
+feature 'chart:gnuplot', 'Drawing bar charts using Gnuplot' => sub {
+    # interface to Gnuplot, for drawing charts
+    requires 'Gnuplot::Builder', '>= 0.33';
 
 };
 
@@ -357,6 +363,9 @@ feature 'oauth:openidconnect', 'Needed for OpenIDConnect' => sub {
 };
 
 feature 'optional', 'Support for feature optional' => sub {
+    # interface to Gnuplot, for drawing charts
+    requires 'Gnuplot::Builder', '>= 0.33';
+
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
 

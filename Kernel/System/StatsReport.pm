@@ -429,13 +429,13 @@ sub StatsReportDelete {
 
 =head2 StatsReportList()
 
-get StatsReport list
+gets a list of statistic reports.
 
-    my $List = $StatsReportObject->StatsReportList();
+    my $StatsReportID2Name = $StatsReportObject->StatsReportList();
 
-    or
+or get also the deactivated statistics reports:
 
-    my $List = $StatsReportObject->StatsReportList(
+    my $StatsReportID2Name = $StatsReportObject->StatsReportList(
         Valid => 0, # optional, defaults to 1
     );
 
@@ -445,11 +445,8 @@ sub StatsReportList {
     my ( $Self, %Param ) = @_;
 
     # Check valid param.
-    if ( !defined $Param{Valid} ) {
-        $Param{Valid} = 1;
-    }
+    $Param{Valid} //= 1;
 
-    # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # check cache
@@ -458,27 +455,23 @@ sub StatsReportList {
         Type => 'StatsReport',
         Key  => $CacheKey,
     );
+
     return $Cache if ref $Cache;
 
-    my $SQL = 'SELECT id, name FROM stats_report';
+    # query the database when the cache is not filled
 
+    my $SQL = 'SELECT id, name FROM stats_report';
     if ( $Param{Valid} ) {
 
-        # get valid object
+        # limit to active reports
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
         $SQL .= ' WHERE valid_id IN (' . join ', ', $ValidObject->ValidIDsGet() . ')';
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    return if !$DBObject->Prepare( SQL => $SQL );
-
-    my %Data;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data{ $Row[0] } = $Row[1];
-    }
+    my %ID2Name = $Kernel::OM->Get('Kernel::System::DB')->SelectMapping(
+        SQL => $SQL
+    );
 
     # get the cache TTL (in seconds)
     my $CacheTTL = int(
@@ -490,11 +483,11 @@ sub StatsReportList {
     $CacheObject->Set(
         Type  => 'StatsReport',
         Key   => $CacheKey,
-        Value => \%Data,
+        Value => \%ID2Name,
         TTL   => $CacheTTL,
     );
 
-    return \%Data;
+    return \%ID2Name;
 }
 
 1;

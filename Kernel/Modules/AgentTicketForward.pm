@@ -137,11 +137,32 @@ sub Run {
 
     my $Output;
 
-    # get ACL restrictions
-    my %PossibleActions = ( 1 => $Self->{Action} );
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get config for frontend module
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
+    # check permissions
+    my $Access = $TicketObject->TicketPermission(
+        Type     => $Config->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
+
+    # error screen, don't show ticket
+    if ( !$Access ) {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            WithHeader => 'yes',
+        );
+    }
 
     # get ticket data
     my %Ticket = $TicketObject->TicketGet(
@@ -154,6 +175,9 @@ sub Run {
         UserID  => $Self->{UserID},
     );
 
+    # get ACL restrictions
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
     my $ACL = $TicketObject->TicketAcl(
         Data          => \%PossibleActions,
         Action        => $Self->{Action},
@@ -163,9 +187,6 @@ sub Run {
         UserID        => $Self->{UserID},
     );
     my %AclAction = $TicketObject->TicketAclActionData();
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check if ACL restrictions exist
     if ($ACL) {
@@ -242,18 +263,6 @@ sub Form {
 
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # check permissions
-    my $Access = $TicketObject->TicketPermission(
-        Type     => $Config->{Permission},
-        TicketID => $Self->{TicketID},
-        UserID   => $Self->{UserID}
-    );
-
-    # error screen, don't show ticket
-    if ( !$Access ) {
-        return $LayoutObject->NoPermission( WithHeader => 'yes' );
-    }
 
     my %GetParamExtended = $Self->_GetExtendedParams();
 

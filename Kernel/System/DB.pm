@@ -275,10 +275,15 @@ sub Connect {
         # Note that the default values for the attributes RaiseError and AutoInactiveDestroy differ
         # between DBI and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector
         # they are on per default.
-        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
-        #             This is OK as the methods run(), txn(), and svp() are not used in OTOBO.
-        # AutoInactiveDestroy: Concerns only behavior on forks and such.
-        #                      Keep it activated as it is important for DBIx::Connector.
+        # RaiseError:
+        #     Explicitly turn it off as this was the previous setup in OTOBO.
+        #     This is OK as the methods run(), txn(), and svp() are not used in OTOBO.
+        # AutoInactiveDestroy:
+        #     Concerns only behavior on forks and such.
+        #     When a process forks we don't want to disconnect when the database handle
+        #     is destroyed. This is because the parent process might still
+        #     use this handle. AutoInactiveDestroy automatically sets the relevant flag
+        #     Keep it activated as it is important for DBIx::Connector.
         #
         # Driver specific attributes may be set by the driver modules. As of January 2026
         # only Kernel::System::DB::mssql and Kernel::System::DB::oracle use this opportunity.

@@ -3,6 +3,10 @@
 <Cache>0</Cache>
 <Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.</Description>
 <Format>CSV</Format>
+<Format>Gnuplot::ClusteredBarChart</Format>
+<Format>Gnuplot::StackedBarChart</Format>
+<Format>Gnuplot::LineChart</Format>
+<Format>Gnuplot::StackedAreaChart</Format>
 <Format>D3::BarChart</Format>
 <Format>D3::LineChart</Format>
 <Format>D3::StackedAreaChart</Format>

@@ -338,7 +338,7 @@ sub EditFieldRender {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -419,7 +419,7 @@ sub DisplayValueRender {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -1223,7 +1223,7 @@ sub SearchSQLOrderFieldGet {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name}: Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -3039,7 +3039,7 @@ sub Evaluate {
     if ( !$Self->{$DynamicFieldBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+            Message  => "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Backend $Param{DynamicFieldConfig}{FieldType} is invalid!"
         );
 
         return;
@@ -3184,13 +3184,14 @@ sub ObjectDescriptionGet {
 
 =head2 GetFieldState()
 
-Get the new value and possible values for use in FieldRestrictions()
+Get the new value and possible values for use in FieldRestrictions(). Note that the Set field does return the visibility for its inner fields already with the indexed field names. Internally, the non-indexed names are used to correctly calculate the ACLs.
 
     my %Return = $BackendObject->GetFieldState(
         %Param,
         Visibility         => \%Visibility,
         CachedVisibility   => $CachedVisibility // {},
         DynamicFieldConfig => $DynamicFieldConfig,
+        DynamicFieldDataDB => \%DynamicFieldDataDB,         # optional; used for setting values of reappearing dynamic fields to stored values
     );
 
 Returns:

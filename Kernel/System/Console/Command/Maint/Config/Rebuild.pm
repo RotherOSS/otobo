@@ -151,18 +151,18 @@ sub Run {
     # A known case is the update from OTOBO 11.0.x to OTOBO 11.1.x, Docker-based, where
     # the Redis cache backend is replaced by FileStorable.
     #
-    # Note that it does not suffice to deactivate CacheInBackend as still Delete() would be called.
+    # Note that it does not suffice to deactivate CacheInBackend as Delete() would still be called.
     if ( $Self->GetOption('no-cache-in-backend') ) {
 
+        # as Kernel::System::Cache::new() has no parameter for the backend module
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        local $ConfigObject->{'Cache::Module'} = 'Kernel::System::Cache::None';
+
+        # recreate the cache object using the changed config
         $Kernel::OM->ObjectsDiscard(
             Objects => ['Kernel::System::Cache'],
         );
-
-        # as Kernel::System::Cache::new() has no parameter for the backend module
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key   => 'Cache::Module',
-            Value => 'Kernel::System::Cache::None'
-        );
+        $Kernel::OM->Get('Kernel::System::Cache');
     }
 
     # Enable in-memory cache to improve SysConfig performance, which is normally disabled for commands.
@@ -219,7 +219,7 @@ sub Run {
     # Back to regular cache object
     if ( $Self->GetOption('no-cache-in-backend') ) {
         $Kernel::OM->ObjectsDiscard(
-            Objects => [ 'Kernel::Config', 'Kernel::System::Cache' ],
+            Objects => ['Kernel::System::Cache'],
         );
         $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     }

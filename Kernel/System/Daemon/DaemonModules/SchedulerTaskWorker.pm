@@ -20,8 +20,13 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
+
+# CPAN modules
 use File::Path  ();
 use Time::HiRes ();
+
+# OTOBO modules
 
 use parent qw(Kernel::System::Daemon::BaseDaemon);
 
@@ -56,8 +61,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless $Self, $Type;
+    my $Self = bless {}, $Type;
 
     # Get objects in constructor to save performance.
     $Self->{ConfigObject}      = $Kernel::OM->Get('Kernel::Config');
@@ -141,7 +145,7 @@ sub Run {
     $Self->{CurrentWorkersCount} = scalar keys %{ $Self->{CurrentWorkers} };
 
     # Get the tasks that are queued to be worked on.
-    # There is usually an implicit reconnect to the database as the database is disconnected
+    # In the worker processes there is usually a reconnect to the database as the database is disconnected
     # before the first child process is forked.
     my @TaskList = $Self->{SchedulerDBObject}->TaskListUnlocked();
 
@@ -150,8 +154,11 @@ sub Run {
 
         last TASK if $Self->{CurrentWorkersCount} >= $Self->{MaximumWorkers};
 
-        # Disconnect database before fork.
-        # TODO: why not disconnect before the loop is entered?
+        # Disconnect database before forking.
+        #
+        # The disconnect is in the task loop as it is imaginable that
+        # there is a reconnect in the parent process.
+        # Trying to close an already closed connection should be no problem.
         $Self->{DBObject}->Disconnect();
 
         # Create a fork of the current process
@@ -264,6 +271,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Could not create a child process (worker) for task id $TaskID!",
             );
+
             next TASK;
         }
 

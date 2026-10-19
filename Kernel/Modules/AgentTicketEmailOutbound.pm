@@ -120,7 +120,27 @@ sub Run {
     my $Output;
 
     # get needed objects
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get config for frontend module
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
+    # check permissions
+    my $Access = $TicketObject->TicketPermission(
+        Type     => $Config->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
+
+    # error screen, don't show ticket
+    if ( !$Access ) {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            WithHeader => 'yes',
+        );
+    }
 
     # get ACL restrictions
     my %PossibleActions = ( 1 => $Self->{Action} );
@@ -136,9 +156,6 @@ sub Run {
 
     # fetch the actual acl action data
     my %AclAction = $TicketObject->TicketAclActionData();
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check if ACL restrictions exist
     if ($ACL) {
@@ -188,12 +205,6 @@ sub Run {
         my %Ticket       = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         my $CustomerUser = $Ticket{CustomerUserID};
         my $QueueID      = $Ticket{QueueID};
-
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        # get config for frontend module
-        my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
@@ -434,18 +445,6 @@ sub Form {
 
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # check permissions
-    my $Access = $TicketObject->TicketPermission(
-        Type     => $Config->{Permission},
-        TicketID => $Self->{TicketID},
-        UserID   => $Self->{UserID}
-    );
-
-    # error screen, don't show ticket
-    if ( !$Access ) {
-        return $LayoutObject->NoPermission( WithHeader => 'yes' );
-    }
 
     my %GetParamExtended = $Self->_GetExtendedParams();
 

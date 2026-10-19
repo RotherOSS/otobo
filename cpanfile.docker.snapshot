@@ -394,11 +394,12 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.53
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.53.tar.gz
+  Cpanel-JSON-XS-4.80
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.80.tar.gz
     provides:
-      Cpanel::JSON::XS 4.53
-      Cpanel::JSON::XS::Type undef
+      Cpanel::JSON::XS 4.80
+      Cpanel::JSON::XS::Boolean 4.80
+      Cpanel::JSON::XS::Type 4.80
     requirements:
       Carp 0
       Config 0
@@ -1529,6 +1530,34 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  Gnuplot-Builder-0.33
+    pathname: T/TO/TOSHIOITO/Gnuplot-Builder-0.33.tar.gz
+    provides:
+      Gnuplot::Builder 0.33
+      Gnuplot::Builder::Dataset undef
+      Gnuplot::Builder::JoinDict undef
+      Gnuplot::Builder::Lens undef
+      Gnuplot::Builder::PartiallyKeyedList undef
+      Gnuplot::Builder::Process undef
+      Gnuplot::Builder::Process::MockTool undef
+      Gnuplot::Builder::PrototypedData undef
+      Gnuplot::Builder::Script undef
+      Gnuplot::Builder::Tap undef
+      Gnuplot::Builder::Template undef
+      Gnuplot::Builder::Util undef
+    requirements:
+      Encode 0
+      Exporter 5.57
+      File::Spec 0
+      IPC::Open3 0
+      List::Util 1.28
+      Module::Build 0.42
+      Module::Build::Prereqs::FromCPANfile 0.02
+      POSIX 0
+      Scalar::Util 0
+      Try::Tiny 0
+      overload 0
+      parent 0
   Graph-0.9735
     pathname: E/ET/ETJ/Graph-0.9735.tar.gz
     provides:
@@ -2379,6 +2408,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2462,6 +2492,15 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.006001
       version 0.87
+  Module-Build-Prereqs-FromCPANfile-0.02
+    pathname: T/TO/TOSHIOITO/Module-Build-Prereqs-FromCPANfile-0.02.tar.gz
+    provides:
+      Module::Build::Prereqs::FromCPANfile 0.02
+    requirements:
+      CPAN::Meta::Prereqs 2.132830
+      Exporter 0
+      Module::CPANfile 1.0000
+      version 0.80
   Module-Build-Tiny-0.053
     pathname: L/LE/LEONT/Module-Build-Tiny-0.053.tar.gz
     provides:
@@ -2502,6 +2541,19 @@ DISTRIBUTIONS
       XSLoader 0
       parent 0
       perl 5.008001
+  Module-CPANfile-1.1004
+    pathname: M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz
+    provides:
+      Module::CPANfile 1.1004
+      Module::CPANfile::Environment undef
+      Module::CPANfile::Prereq undef
+      Module::CPANfile::Prereqs undef
+      Module::CPANfile::Requirement undef
+    requirements:
+      CPAN::Meta 2.12091
+      CPAN::Meta::Prereqs 2.12091
+      ExtUtils::MakeMaker 0
+      parent 0
   Module-Implementation-0.09
     pathname: D/DR/DROLSKY/Module-Implementation-0.09.tar.gz
     provides:
@@ -3086,12 +3138,12 @@ DISTRIBUTIONS
       Test::More 0
       Test::TCP 0
       Time::HiRes 0
-  Plack-1.0054
-    pathname: M/MI/MIYAGAWA/Plack-1.0054.tar.gz
+  Plack-1.0055
+    pathname: M/MI/MIYAGAWA/Plack-1.0055.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0054
+      Plack 1.0055
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -3150,9 +3202,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0054
+      Plack::Request 1.0055
       Plack::Request::Upload undef
-      Plack::Response 1.0054
+      Plack::Response 1.0055
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -3196,10 +3248,10 @@ DISTRIBUTIONS
       Test::More 0
       parent 0
       perl 5.008001
-  Plack-Middleware-ReverseProxy-0.16
-    pathname: M/MI/MIYAGAWA/Plack-Middleware-ReverseProxy-0.16.tar.gz
+  Plack-Middleware-ReverseProxy-0.17
+    pathname: M/MI/MIYAGAWA/Plack-Middleware-ReverseProxy-0.17.tar.gz
     provides:
-      Plack::Middleware::ReverseProxy 0.16
+      Plack::Middleware::ReverseProxy 0.17
     requirements:
       ExtUtils::MakeMaker 6.59
       Plack 0.9988
@@ -4478,6 +4530,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0

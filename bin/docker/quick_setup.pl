@@ -316,6 +316,13 @@ sub Main {
             [ CustomerPanelSessionName => join( '_', 'OTOBOCustomerInterface', $SystemID ) ],
         );
 
+        # In a Docker based installation we know where chromium and gnuplot are located.
+        # Set Gnuplot::Bin and GoogleChrome::Bin so that Statistics Reports can generate colorful graphs right away.
+        push @Settings, (
+            [ 'Gnuplot::Bin'      => '/usr/bin/gnuplot' ],
+            [ 'GoogleChrome::Bin' => '/usr/bin/chromium' ],
+        );
+
         # These settings are useful for testing and development
         push @Settings, (
             [ MinimumLogLevel => 'info' ],    # more verbose log output

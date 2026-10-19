@@ -22,6 +22,12 @@ use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Statistics::View',
@@ -74,7 +80,6 @@ sub Run {
     my $PDFString = eval {
         $Self->_GeneratePDF(
             StatsReport => \%StatsReport,
-            UserID      => 1,
         );
     };
     if ($@) {
@@ -164,9 +169,8 @@ sub _GeneratePDF {
     my $PDFGeneratorObject = $Kernel::OM->Get('Kernel::Output::PDF::StatisticsReports');
 
     return $PDFGeneratorObject->GeneratePDF(
-        StatsReport  => \%StatsReport,
-        UserLangauge => $UserLanguage,
-        UserID       => 1,
+        StatsReport => \%StatsReport,
+        UserID      => 1,
     );
 }
 
