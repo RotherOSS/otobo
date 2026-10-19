@@ -3190,6 +3190,8 @@ Get the new value and possible values for use in FieldRestrictions(). Note that 
         %Param,
         Visibility         => \%Visibility,
         CachedVisibility   => $CachedVisibility // {},
+        Disappears         => (0|1),                        # optional; flag if the field was visible and is hidden now
+        Reappears          => (0|1),                        # optional; flag if the field was hidden and is visible now
         DynamicFieldConfig => $DynamicFieldConfig,
         DynamicFieldDataDB => \%DynamicFieldDataDB,         # optional; used for setting values of reappearing dynamic fields to stored values
     );
