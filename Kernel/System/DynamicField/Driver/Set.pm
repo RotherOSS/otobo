@@ -715,8 +715,25 @@ sub DisplayValueRender {
 
             if ($HTMLOutput) {
                 if ( $Element->{Link} ) {
+                    # fix for sets with link attribute
+                    my %LinkData = map {
+                        (
+                            $_                    => $Param{Value}[$SetIndex]{$_},
+                            'DynamicField_' . $_ => $Param{Value}[$SetIndex]{$_},
+                        )
+                    } keys $Param{Value}[$SetIndex]->%*;
+                    $LinkData{Value} = $Element->{Value};
+
+                    my $Link = $Param{LayoutObject}->Output(
+                        Template => '[% Data.Link | Interpolate %]',
+                        Data     => {
+                            %LinkData,
+                            Link => $Element->{Link},
+                        },
+                    );
+
                     $SetValue{Value}[$SetIndex]
-                        .= "<label>$Label</label><p class=\"Value\"><a href=\"$Element->{Link}\" title=\"$Element->{Title}\">$Element->{Value}</a></p><div class=\"Clear\"></div>";
+                        .= "<label>$Label</label><p class=\"Value\"><a href=\"$Link\" title=\"$Element->{Title}\">$Element->{Value}</a></p><div class=\"Clear\"></div>";
                 }
                 else {
                     $SetValue{Value}[$SetIndex]
