@@ -294,8 +294,16 @@ sub GetFieldStates {
             )
             )
         {
+
+            # changes in visibility need to be passed explicitly to the drivers
+            #   the drivers only get passed the CachedVisibility and therefor can't determine changes themselves
+            my $Disappears = ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 );
+            my $Reappears  = ( %Visibility && $Visibility{"DynamicField_$DFName"} == 1 && $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 );
+
             my %Content = $Param{DynamicFieldBackendObject}->GetFieldState(
                 %Param,
+                Disappears              => $Disappears,
+                Reappears               => $Reappears,
                 DynamicFieldDataDB      => \%DynamicFieldDataDB,
                 CachedVisibility        => $CachedVisibility,
                 DynamicFieldConfig      => $DynamicFieldConfig,

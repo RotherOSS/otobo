@@ -1244,16 +1244,15 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # in case of lens pointing to a reference field, execution is necessary
-    my $Reappears = ( $Param{CachedVisibility} && $Param{CachedVisibility}{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 );
-    if ( !$Param{NeedsReset} && !$Reappears ) {
+    if ( !$Param{NeedsReset} && !$Param{Reappears} && !$Param{Disappears} ) {
         return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
         return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
     }
 
     my $Value;
 
-    # field reappearing - set value of passed object data
-    if ($Reappears) {
+    # field reappearing or hiding - set value of passed object data
+    if ( $Param{Reappears} || $Param{Disappears} ) {
         $Value = $Param{DynamicFieldDataDB} ? $Param{DynamicFieldDataDB}{"DynamicField_$DynamicFieldConfig->{Name}"} : undef;
     }
     else {
@@ -1301,7 +1300,8 @@ sub GetFieldState {
             );
 
             # collect values and set change flag if needed
-            if ( !@ObjectIDs ) {
+            #   NOTE: in case of hiding field, we don't care for evaluation
+            if ( !@ObjectIDs && !$Param{Disappears} ) {
                 push @CheckedValues, '';
                 $ValueChanged = 1;
             }
@@ -1323,7 +1323,8 @@ sub GetFieldState {
 
         # PossibleValues are needed for display value in frontend
         #   e.g. '"Tina Tester" <tina@example.com>' (CustomerUser MailString) vs. 'tina' (CustomerUserID)
-        if ( $ValueChanged || $Reappears ) {
+        #   NOTE: if visibility changes, we don't care if value changed
+        if ( $ValueChanged || $Param{Reappears} || $Param{Disappears} ) {
             return (
                 NewValue       => \@CheckedValues,
                 PossibleValues => \%PossibleValues,
@@ -1347,14 +1348,22 @@ sub GetFieldState {
     );
 
     # filter values which are no longer allowed
-    my @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
+    #   NOTE: in case of hiding field, we don't care for evaluation
+    my @CheckedValues;
+    if ( $Param{Disappears} ) {
+        @CheckedValues = $Value->@*;
+    }
+    else {
+        @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
+    }
 
     # check if value has changed
+    #   NOTE: if visibility changes, we don't care if value changed
     if (
         DataIsDifferent(
             Data1 => $Value,
             Data2 => \@CheckedValues
-        ) || $Reappears
+        ) || $Param{Reappears} || $Param{Disappears}
         )
     {
         $Return{NewValue} = \@CheckedValues;
