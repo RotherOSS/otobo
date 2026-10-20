@@ -23,8 +23,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Sisimai::Data    ();
-use Sisimai::Message ();
+use Sisimai::Fact ();
 
 # OTOBO modules
 
@@ -56,22 +55,28 @@ sub Run {
         Value         => 'Checking if is a Bounce e-mail.',
     );
 
-    # inspect the message
-    my $BounceMessage = Sisimai::Message->new(
-        data => $Self->{ParserObject}->GetPlainEmail
+    # inspect the message, get a list of facts
+    my $Facts = Sisimai::Fact->rise(
+        {
+            data => $Self->{ParserObject}->GetPlainEmail(),
+        }
     );
 
     # undef is returned when the mail is not a bounce email
-    return 1 unless $BounceMessage;
+    return 1 unless ref $Facts eq 'ARRAY';
 
-    my $BounceData = Sisimai::Data->make( data => $BounceMessage );
+    # at least one bounce reason
+    return 1 unless $Facts->@*;
 
-    return 1 unless $BounceData;
-    return 1 unless @{$BounceData};    # at least one message
+    my $Fact = $Facts->[0];
 
-    my $MessageID = $BounceData->[0]->messageid();
+    my $MessageID = $Fact->messageid;
 
     return 1 unless $MessageID;
+
+    # for some reason the bounce reason is not added to the header
+    #my $Reason         = $Fact->reason;
+    #my $DiagnosticCode = $Fact->diagnosticcode;
 
     $MessageID = sprintf '<%s>', $MessageID;
 
