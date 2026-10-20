@@ -157,8 +157,8 @@ Creates a new instance of Kernel::System::ObjectManager.
 This is typically B<only> needed in top level (C<bin/>) scripts! All parts of the OTOBO API assume
 the ObjectManager to be present in C<$Kernel::OM> and use it.
 
-Sometimes objects need parameters to be sent to their constructors,
-these can also be passed to the ObjectManager's constructor like in the following example.
+Sometimes objects need parameters to be sent to their constructors.
+These parameters can also be passed to the ObjectManager's constructor like in the following example.
 The hash reference will be flattened and passed to the constructor of the object(s).
 
     local $Kernel::OM = Kernel::System::ObjectManager->new(
