@@ -1320,9 +1320,10 @@ sub GetFieldState {
 
         if ( $Param{Disappears} || $Param{Reappears} ) {
             if (
-                DataIsDifferent(
-                    Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-                    Data2 => \@CheckedValues,
+                $Self->ValueIsDifferent(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value1             => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    Value2             => \@CheckedValues,
                 )
                 )
             {
@@ -1353,12 +1354,6 @@ sub GetFieldState {
         PossibleValues => $PossibleValues,
     );
 
-    # used for comparison later on - needs the same undef / empty string handling as $Value
-    my $ParamValue
-        = ref $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
-        ? $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
-        : [ $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} ];
-
     # filter values which are no longer allowed
     #   NOTE: in case of hiding field, we don't care for evaluation
     my @CheckedValues;
@@ -1367,14 +1362,14 @@ sub GetFieldState {
     }
     else {
         @CheckedValues = map { $PossibleValues->{ $_ // '' } ? ( $_ // '' ) : '' } $Value->@*;
-        $ParamValue    = [ map { $PossibleValues->{ $_ // '' } ? ( $_ // '' ) : '' } $ParamValue->@* ];
     }
 
     # check if value has changed
     if (
-        DataIsDifferent(
-            Data1 => $ParamValue,
-            Data2 => \@CheckedValues
+        $Self->ValueIsDifferent(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value1             => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            Value2             => \@CheckedValues,
         )
         )
     {

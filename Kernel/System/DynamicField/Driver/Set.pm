@@ -964,9 +964,6 @@ sub GetFieldState {
 
     my $ParamObject = $Param{ParamObject} // $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # check if whole Set re-appears
-    my $WholeSetReAppears = $Param{Reappears};
-
     # necessary value handling with regard to index changes
     #   starting point: values from database in stored order
     #   target:         values from database in order with respect to frontend index, if present
@@ -992,17 +989,17 @@ sub GetFieldState {
 
     # if the whole Set reappears or disappears, we need to iterate the stored value
     #   else, the iteration uses the frontend value from @SetValue
-    my $LoopMax = ( $WholeSetReAppears || $Param{Disappears} ) ? $#{ $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"} } : $#SetValue;
+    my $LoopMax = ( $Param{Reappears} || $Param{Disappears} ) ? $#{ $Param{DynamicFieldDataDB}{"DynamicField_$SetConfig->{Name}"} } : $#SetValue;
     for my $SetIndex ( 0 .. $LoopMax ) {
 
         my %IndexVisibility;
         my %IndexDBValues = map { ( "DynamicField_$_" => $CorrespondingDBValues[$SetIndex]{$_} ) } keys %{ $CorrespondingDBValues[$SetIndex] // {} };
 
         # initialize value structures for GetFieldStates
-        %DFParam = %{ $SetValue[$SetIndex] // {} };
+        %DFParam = map { ( "DynamicField_$_" => $SetValue[$SetIndex]{$_} ) } keys %{ $SetValue[$SetIndex] // {} };
 
         # prepare necessary data
-        if ( $WholeSetReAppears || $Param{Disappears} ) {
+        if ( $Param{Reappears} || $Param{Disappears} ) {
 
             # if the whole set is reappearing, we must treat all inner fields as reappearing
             %IndexVisibility = map { 'DynamicField_' . $_ => 0 } keys $DynamicField->%*;
@@ -1080,7 +1077,7 @@ sub GetFieldState {
         my %IndexVisibility;
 
         # if the whole set is reappearing, we must treat all inner fields as reappearing
-        if ( $WholeSetReAppears || $Param{Disappears} ) {
+        if ( $Param{Reappears} || $Param{Disappears} ) {
             %IndexVisibility = map { 'DynamicField_' . $_ => 0 } keys $DynamicField->%*;
         }
         else {
@@ -1134,14 +1131,8 @@ sub GetFieldState {
     }
 
     # if whole Set is reappearing, frontend needs the number of value items
-    if ( $WholeSetReAppears || $Param{Disappears} ) {
-        if (
-            IsArrayRefWithData( $Return{NewValue} )
-            && (
-                scalar $Param{GetParam}{DynamicField}{"DynamicField_$SetConfig->{Name}"}->@* != ( $Return{NewValue} ? scalar $Return{NewValue}->@* : 1 )
-            )
-            )
-        {
+    if ( $Param{Reappears} || $Param{Disappears} ) {
+        if ( IsArrayRefWithData( $Return{NewValue} ) ) {
             my $SetValueCount     = scalar $Return{NewValue}->@*;
             my $CompleteFieldName = $SetConfig->{Name} . ( $SetConfig->{ProcessSuffix} || '' );
 
