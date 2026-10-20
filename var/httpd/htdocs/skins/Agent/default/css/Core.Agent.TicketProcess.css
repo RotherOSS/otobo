@@ -30,7 +30,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     overflow: hidden;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset {
+.WidgetSimple > .Content.ProcessInfo fieldset,
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
     display: grid;
     grid-template-columns: repeat(4, 255px);
     gap: 0 10px;
