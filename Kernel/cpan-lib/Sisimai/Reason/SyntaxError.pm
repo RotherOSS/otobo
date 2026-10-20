@@ -8,16 +8,18 @@ sub description { 'Email rejected due to syntax error at sent commands in SMTP s
 sub match { return undef }
 sub true {
     # Connection rejected due to syntax error or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: Rejected due to syntax error
     #                                   0: is not syntax error
     # @since v4.1.25
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
+    my $reply = int($argvs->{'replycode'} || 0);
 
-    return 1 if $argvs->reason eq 'syntaxerror';
-    return 1 if $argvs->replycode =~ /\A[45]0[0-7]\z/;
+    return 1 if $argvs->{'reason'} eq 'syntaxerror';
+    return 1 if $reply > 400 && $reply < 408;
+    return 1 if $reply > 500 && $reply < 508;
     return 0;
 }
 
@@ -37,12 +39,12 @@ Sisimai::Reason::SyntaxError - Bounce reason is C<syntaxerror> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::SyntaxError checks the bounce reason is C<syntaxerror> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::SyntaxError checks the bounce reason is C<syntaxerror> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that a destination mail server could not recognize SMTP command
-which is sent from a sender's MTA. Sisimai will set C<syntaxerror> to the reason
-if the value of C<replycode> begins with "50" such as 502, or 503.
+This is the error that a destination mail server could not recognize SMTP command which is sent from
+a sender's MTA. Sisimai will set C<syntaxerror> to the reason if the value of C<replycode> begins
+with "50" such as 502, or 503.
 
     Action: failed
     Status: 5.5.0
@@ -60,10 +62,10 @@ C<text()> returns string: C<syntaxerror>.
 
 C<match()> always return undef
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<syntaxerror>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<syntaxerror>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -71,7 +73,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2016,2018,2020,2021 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

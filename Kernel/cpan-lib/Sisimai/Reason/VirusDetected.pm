@@ -13,25 +13,38 @@ sub match {
     # @since v4.22.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = [
+
+    state $index = [
         'it has a potentially executable attachment',
         'the message was rejected because it contains prohibited virus or spam content',
         'this form of attachment has been used by recent viruses or other malware',
+        'virus detected',
+        'virus phishing/malicious_url detected',
         'your message was infected with a virus',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
-    # The bounce reason is security error or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # The bounce reason is "virusdetected" or not
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: virus detected
     #                                   0: virus was not detected
     # @since v4.22.0
     # @see http://www.ietf.org/rfc/rfc2822.txt
-    return undef;
+    my $class = shift;
+    my $argvs = shift // return undef;
+
+    # The value of "reason" isn't "virusdetected" when the value of "smtpcommand" is an SMTP com-
+    # mand to be sent before the SMTP DATA command because all the MTAs read the headers and the
+    # entire message body after the DATA command.
+    return 1 if $argvs->{'reason'} eq 'virusdetected';
+    return 0 if $argvs->{'smtpcommand'} eq 'CONN' || $argvs->{'smtpcommand'} eq 'HELO'
+             || $argvs->{'smtpcommand'} eq 'HELO' || $argvs->{'smtpcommand'} eq 'MAIL'
+             || $argvs->{'smtpcommand'} eq 'RCPT';
+    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
+    return 0;
 }
 
 1;
@@ -50,12 +63,11 @@ Sisimai::Reason::VirusDetected - Bounce reason is C<virusdetected> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::VirusDetected checks the bounce reason is C<virusdetected> or
-not. This class is called only Sisimai::Reason class.
+Sisimai::Reason::VirusDetected checks the bounce reason is C<virusdetected> or not. This class is
+called only Sisimai::Reason class.
 
-This is an error that any virus or trojan horse detected in the message by a
-virus scanner program at a destination mail server. This reason has been divided
-from C<securityerror> at Sisimai 4.22.0.
+This is an error that any virus or trojan horse detected in the message by a virus scanner program
+at a destination mail server. This reason has been divided from C<securityerror> at Sisimai 4.22.0.
 
     Your message was infected with a virus. You should download a virus
     scanner and check your computer for viruses.
@@ -78,10 +90,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
     my $v = 'Your message was infected with a virus. ...';
     print Sisimai::Reason::VirusDetected->match($v);    # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<virusdetected>. The argument must
-be Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<virusdetected>. The argument must be Sisimai::Fact
+object and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -89,7 +101,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2017-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2017-2021,2023 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

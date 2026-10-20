@@ -13,7 +13,10 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = [
+
+    state $index = [
+        'duplicate header',
+        'header size exceeds maximum permitted',
         'improper use of 8-bit data in message header',
         'message header size, or recipient list, exceeds policy limit',
         'message mime complexity exceeds the policy maximum',
@@ -22,14 +25,13 @@ sub match {
         'this message contain improperly-formatted binary content',
         'this message contain text that uses unnecessary base64 encoding',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
-sub true { 
+sub true {
     # Rejected email due to header format of the email
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: rejected due to content error
     #                                   0: is not content error
     # @see      http://www.ietf.org/rfc/rfc2822.txt
@@ -52,15 +54,14 @@ Sisimai::Reason::ContentError - Bounce reason is C<contenterror> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::ContentError checks the bounce reason is C<contenterror> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::ContentError checks the bounce reason is C<contenterror> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that a destination mail server has rejected email due to 
-header format of the email like the following. Sisimai will set C<contenterror>
-to the reason of email bounce if the value of Status: field in a bounce email 
-is "5.6.*".
+This is the error that a destination mail server has rejected email due to header format of the email
+like the following. Sisimai will set C<contenterror> to the reason of email bounce if the value of
+Status: field in a bounce email is "5.6.*".
 
-=over 
+=over
 
 =item - 8 bit data in message header
 
@@ -89,10 +90,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::ContentError->match('550 Message Filterd'); # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<contenterror>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<contenterror>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -100,7 +101,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018,2021,2022 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
