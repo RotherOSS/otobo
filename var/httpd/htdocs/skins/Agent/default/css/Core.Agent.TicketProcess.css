@@ -88,7 +88,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
-    margin-left: calc(12.5% - 2px);
+    grid-column: 1 / -1;
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
