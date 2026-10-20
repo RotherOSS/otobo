@@ -98,6 +98,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     grid-column: 1 / -1;
 }
 
+.WidgetSimple > .Content.ProcessInfo fieldset > .FieldSetSeparator,
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div > .FieldSetSeparator {
+    margin-bottom: 0px;
+}
+
 .FieldSetSeparator {
     float: none;
     clear: both;
