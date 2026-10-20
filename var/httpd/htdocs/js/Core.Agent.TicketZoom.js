@@ -519,50 +519,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      This function initializes events for process widget.
      */
     function InitOverviewWidget() {
-        var WidgetWidth, Columns, FieldMargin, FieldWidth;
-    
-        function UpdateOverviewColumns() {
-            if ($('.DynamicFieldAutoResize').length === 0) {
-                return;
-            }
-    
-            WidgetWidth = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10);
-            FieldMargin = parseInt($('.DynamicFieldAutoResize').css('margin-right'), 10) + 2;
-            Columns     = 4;
 
-            // define amount of fields per row depending on display resolution
-            if (WidgetWidth < 400) {
-                Columns = 1;
-            }
-            else if (WidgetWidth < 600) {
-                Columns = 2;
-            }
-            else if (WidgetWidth < 1000) {
-                Columns = 3;
-            }
-
-            // determine the needed field width and resize the fields
-            if (Columns === 1) {
-                FieldWidth = '100%';
-            }
-            else {
-                FieldWidth = parseInt(WidgetWidth / Columns - FieldMargin - 1, 10) || 0;
-            }
-
-            $('.DynamicFieldAutoResize').width(FieldWidth);
-    
-            $('#DynamicFieldsWidget fieldset, #DynamicFieldsWidget .SetDynamicField > div').css(
-                'grid-template-columns',
-                'repeat(' + Columns + ', ' + FieldWidth + 'px)'
-            );
-        }
-    
-        UpdateOverviewColumns();
-    
-        $(window).off('resize.OverviewWidget').on('resize.OverviewWidget', function() {
-            UpdateOverviewColumns();
-        });
-
+        // let CSS grid handle the field layout
         $('.ShowFieldInfoOverlay').off('click.OverviewWidget').on('click.OverviewWidget', function() {
             var OverlayTitle = $(this).closest('label').attr('title'),
                 OverlayHTML  = $(this).closest('.FieldContainer').find('.Value').html();
