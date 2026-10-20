@@ -1,5 +1,5 @@
 package Sisimai::Address;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Class::Accessor::Lite (
@@ -16,37 +16,13 @@ use Class::Accessor::Lite (
         'comment',  # [String] (Comment)
     ]
 );
-
-# Regular expression of valid RFC-5322 email address(<addr-spec>)
-my $Re = { 'rfc5322' => undef, 'ignored' => undef, 'domain' => undef, };
-BUILD_REGULAR_EXPRESSIONS: {
-    # See http://www.ietf.org/rfc/rfc5322.txt
-    #  or http://www.ex-parrot.com/pdw/Mail-RFC822-Address.html ...
-    #   addr-spec       = local-part "@" domain
-    #   local-part      = dot-atom / quoted-string / obs-local-part
-    #   domain          = dot-atom / domain-literal / obs-domain
-    #   domain-literal  = [CFWS] "[" *([FWS] dcontent) [FWS] "]" [CFWS]
-    #   dcontent        = dtext / quoted-pair
-    #   dtext           = NO-WS-CTL /     ; Non white space controls
-    #                     %d33-90 /       ; The rest of the US-ASCII
-    #                     %d94-126        ;  characters not including "[", "]", or "\"
-    my $atom           = qr;[a-zA-Z0-9_!#\$\%&'*+/=?\^`{}~|\-]+;o;
-    my $quoted_string  = qr/"(?:\\[^\r\n]|[^\\"])*"/o;
-    my $domain_literal = qr/\[(?:\\[\x01-\x09\x0B-\x0c\x0e-\x7f]|[\x21-\x5a\x5e-\x7e])*\]/o;
-    my $dot_atom       = qr/$atom(?:[.]$atom)*/o;
-    my $local_part     = qr/(?:$dot_atom|$quoted_string)/o;
-    my $domain         = qr/(?:$dot_atom|$domain_literal)/o;
-
-    $Re->{'rfc5322'} = qr/\A$local_part[@]$domain\z/o;
-    $Re->{'ignored'} = qr/\A$local_part[.]*[@]$domain\z/o;
-    $Re->{'domain'}  = qr/\A$domain\z/o;
-}
+use Sisimai::RFC1123;
 
 sub undisclosed {
     # Return pseudo recipient or sender address
     # @param    [String] argv0  Address type: true = recipient, false = sender
-    # @return   [String, undef] Pseudo recipient address or sender address or undef when the $atype
-    #                           is neither 'r' nor 's'
+    # @return   [String]        Pseudo recipient address or sender address or an empty value when
+    #                           the $argv0 is neither 'r' nor 's'
     my $class = shift;
     my $argv0 = shift // 0;
     my $local = $argv0 ? 'recipient' : 'sender';
@@ -58,12 +34,85 @@ sub is_emailaddress {
     # @param    [String] email  Email address string
     # @return   [Integer]       0: Not email address
     #                           1: Email address
-    my $class = shift;
-    my $email = shift // return 0;
+    my $class =  shift;
+    my $email =  shift // return 0; return 0 if length($email) < 5;
+       $email =~ s/\A[\s\t]+//; $email =~ s/[\s\t]+\z//;
 
-    return 0 if $email =~ /(?:[\x00-\x1f]|\x1f)/;
-    return 0 if length $email > 254;
-    return 1 if $email =~ $Re->{'ignored'};
+    my $width = length($email);
+    my $lasta = rindex($email, '@');
+
+    return 0 if $width > 254;               # The maximum length of an email address is 254
+    return 0 if $lasta < 1 || $lasta > 64;  # The maximum length of a local part is 64
+    return 0 if $width - $lasta > 253;      # The maximum length of a domain part is 252
+
+    my $quote = __PACKAGE__->is_quotedaddress($email); unless( $quote ) {
+        # The email address is not a quoted address
+        return 0 if index($email, '@') != $lasta; # There are 2 or more '@'.
+        return 0 if index($email, ' ') > 0;       # There is 1 or more ' '.
+    }
+    my $ipv46 = Sisimai::RFC1123->is_domainliteral($email);
+
+    my $j = -1; for my $e ( split('', $email) ) {
+        # 31 < The ASCII code of each character < 127
+        my $p = ord($e); $j++;
+
+        if( $j < $lasta ) {
+            # A local part of the email address: string before the last "@"
+            return 0 if $p < 32 || $p > 126;    # Before ' ', After  '~'
+            next     if $j == 0;                # The character is the first character
+
+            if( $quote ) {
+                # The email address has quoted local part like "neko@cat"@example.org
+                my $jp = substr($email, $j - 1, 1);
+                if( ord($jp) == 92 ) { # 92 = '\'
+                    # When the previous character IS '\', only the followings are allowed: '\', '"'
+                    return 0 if $p != 92 && $p != 34;
+
+                } else {
+                    # When the previous character IS NOT '\'
+                    return 0 if $p == 34 && $j + 1 < $lasta;
+                }
+            } else {
+                # The local part is not quoted
+                # ".." is not allowed in a local part when the local part is not quoted by "" but
+                # Non-RFC compliant email addresses still persist in the world.
+                #
+                # The following characters are not allowed in a local part without "..."@example.jp
+                return 0 if $e eq ',' || $e eq '@' || $e eq ':' || $e eq ';' || $e eq '(';
+                return 0 if $e eq ')' || $e eq '<' || $e eq '>' || $e eq '[' || $e eq ']';
+            }
+        } else {
+            # A domain part of the email address: string after the last "@"
+            next     if $p ==  64;  # '@'
+            return 0 if $p <   45;  # Before '-'
+            return 0 if $p ==  47;  # Equals '/'
+            return 0 if $p ==  92;  # Equals '\'
+            return 0 if $p >  122;  # After  'z'
+
+            if( $ipv46 == 0 ) {
+                # Such as "example.jp", "neko.example.org"
+                return 0 if $p > 57 && $p < 64; # ':' to '?'
+                return 0 if $p > 90 && $p < 97; # '[' to '`'
+
+            } else {
+                # Such as "[IPv4:192.0.2.25]"
+                return 0 if $p > 59 && $p < 64; # ';' to '?'
+                return 0 if $p > 93 && $p < 97; # '^' to '`'
+            }
+        }
+    }
+    return 1 if $ipv46;
+    return Sisimai::RFC1123->is_internethost(substr($email, $lasta + 1,));
+}
+
+sub is_quotedaddress {
+    # Checks that the local part of the argument is quoted address or not.
+    # @param    [String] argv0  Email address
+    # @return   [Integer]       0: is not a quoted address
+    #                           1: is a quoted address
+    my $class = shift;
+    my $argv0 = shift;
+    return 1 if index($argv0, '"') == 0 && index($argv0, '"@') > 1;
     return 0;
 }
 
@@ -81,8 +130,7 @@ sub is_mailerdaemon {
         'postmaster@', '<postmaster>', '(postmaster)'
     ];
     return 1 if grep { index($email, $_) > -1 } @$postmaster;
-    return 1 if $email eq 'mailer-daemon';
-    return 1 if $email eq 'postmaster';
+    return 1 if $email eq 'mailer-daemon' || $email eq 'postmaster';
     return 0;
 }
 
@@ -92,7 +140,7 @@ sub new {
     # @return   [Sisimai::Address]  Object or undef when the email address was not valid
     # @since    v4.22.1
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return undef; return undef if ref $argvs ne 'HASH';
     my $thing = {
         'address' => '',    # Entire email address
         'user'    => '',    # Local part
@@ -103,7 +151,6 @@ sub new {
         'name'    => '',    # Display name
     };
 
-    return undef unless ref $argvs eq 'HASH';
     return undef unless exists $argvs->{'address'};
     return undef unless $argvs->{'address'};
 
@@ -162,8 +209,7 @@ sub find {
     # @param    [String] argv1  String including email address
     # @param    [Boolean] addrs 0 = Returns list including all the elements
     #                           1 = Returns list including email addresses only
-    # @return   [Array, undef]  Email address list or undef when there is no
-    #                           email address in the argument
+    # @return   [Array]         Email address list or undef when there is no email address in the argument
     # @since    v4.22.0
     my $class = shift;
     my $argv1 = shift // return undef; y/\r//d, y/\n//d for $argv1; # Remove CR, NL
@@ -175,7 +221,7 @@ sub find {
         'quoted-string' => (1 << 1),    # "Neko, Nyaan"
         'comment-block' => (1 << 2),    # (neko)
     };
-    state $delimiters = { '<' => 1, '>' => 1, '(' => 1, ')' => 1, '"' => 1, ',' => 1 };
+    state $delimiters = {'<' => 1, '>' => 1, '(' => 1, ')' => 1, '"' => 1, ',' => 1};
     state $validemail = qr{(?>
         (?:([^\s]+|["].+?["]))          # local part
         [@]
@@ -183,7 +229,7 @@ sub find {
         )
     }x;
 
-    my $emailtable = { 'address' => '', 'name' => '', 'comment' => '' };
+    my $emailtable = {'address' => '', 'name' => '', 'comment' => ''};
     my $addrtables = [];
     my @readbuffer;
     my $readcursor = 0;
@@ -212,7 +258,7 @@ sub find {
                         # The cursor is not in neither the quoted-string nor the comment block
                         $readcursor = 0;    # reset cursor position
                         push @readbuffer, $v;
-                        $v = { 'address' => '', 'name' => '', 'comment' => '' };
+                        $v = {'address' => '', 'name' => '', 'comment' => ''};
                         $p = '';
                     }
                 } else {
@@ -345,7 +391,7 @@ sub find {
         # No email address like <neko@example.org> in the argument
         if( $v->{'name'} =~ $validemail ) {
             # String like an email address will be set to the value of "address"
-             $v->{'address'} = $1.'@'.$2;
+            $v->{'address'} = $1.'@'.$2;
 
         } elsif( __PACKAGE__->is_mailerdaemon($v->{'name'}) ) {
             # Allow if the argument is MAILER-DAEMON
@@ -410,7 +456,7 @@ sub s3s4 {
     # @param    [String] input  Text including an email address
     # @return   [String]        Email address without comment, brackets
     my $class = shift;
-    my $input = shift // return undef;
+    my $input = shift // return "";
     my $addrs = __PACKAGE__->find($input, 1) || [];
     return $input unless scalar @$addrs;
     return $addrs->[0]->{'address'};
@@ -421,11 +467,11 @@ sub expand_verp {
     # @param    [String] email  VERP Address
     # @return   [String]        Email address
     my $class = shift;
-    my $email = shift // return undef;
+    my $email = shift // return "";
     my $local = (split('@', $email, 2))[0];
 
     # bounce+neko=example.org@example.org => neko@example.org
-    return undef unless $local =~ /\A[-_\w]+?[+](\w[-._\w]+\w)[=](\w[-.\w]+\w)\z/;
+    return "" unless $local =~ /\A[-_\w]+?[+](\w[-._\w]+\w)[=](\w[-.\w]+\w)\z/;
     my $verp0 = $1.'@'.$2;
     return $verp0 if __PACKAGE__->is_emailaddress($verp0);
 }
@@ -435,20 +481,18 @@ sub expand_alias {
     # @param    [String] email  Email alias string
     # @return   [String]        Expanded email address
     my $class = shift;
-    my $email = shift // return undef;
-    return undef unless __PACKAGE__->is_emailaddress($email);
+    my $email = shift // return ""; return "" unless __PACKAGE__->is_emailaddress($email);
 
     # neko+straycat@example.org => neko@example.org
     my @local = split('@', $email);
-    return undef unless $local[0] =~ /\A([-_\w]+?)[+].+\z/;
+    return "" unless $local[0] =~ /\A([-_\w]+?)[+].+\z/;
     return $1.'@'.$local[1];
 }
 
 sub TO_JSON {
     # Instance method for JSON::encode()
     # @return   [String] The value of "address" accessor
-    my $self = shift;
-    return $self->address;
+    my $self = shift; return $self->address;
 }
 
 1;
@@ -475,13 +519,13 @@ Sisimai::Address - Email address object
 
 =head1 DESCRIPTION
 
-Sisimai::Address provide methods for dealing email address.
+C<Sisimai::Address> provide methods for dealing email address.
 
 =head1 CLASS METHODS
 
 =head2 C<B<is_emailaddress(I<email address>)>>
 
-C<is_emailaddress()> checks the argument is valid email address or not.
+C<is_emailaddress()> method checks the argument is valid email address or not.
 
     print Sisimai::Address->is_emailaddress('neko@example.jp');  # 1
     print Sisimai::Address->is_emailaddress('neko%example.jp');  # 0
@@ -494,16 +538,24 @@ C<is_emailaddress()> checks the argument is valid email address or not.
         print Sisimai::Address->is_emailaddress($e); # 1
     }
 
+=head2 C<B<is_quotedaddress(I<email address>)>>
+
+C<is_quotedaddress()> method returns 1 if an argument is like "neko@nyaan"@example.jp
+
+    print Sisimai::Address->is_quotedaddress('"neko@nyaan"@example.jp'); # 1
+    print Sisimai::Address->is_quotedaddress('neko-nyaan@example.org');  # 0
+
 =head2 C<B<is_mailerdaemon(I<email address>)>>
 
-C<is_mailerdaemon()> checks the argument is mailer-daemon or not.
+C<is_mailerdaemon()> method checks the argument is B<mailer-daemon> or not.
 
     print Sisimai::Address->is_mailerdaemon('neko@example.jp');          # 0
     print Sisimai::Address->is_mailerdaemon('mailer-daemon@example.jp'); # 1
 
 =head2 C<B<find(I<String>)>>
 
-C<find()> is a new parser for getting only email address from text including email addresses.
+C<find()> method is a new parser for getting only the email address from the given string including
+an email addresses.
 
     my $r = 'Stray cat <cat@example.org>, nyaa@example.org (White Cat)',
     my $v = Sisimai::Address->find($r);
@@ -524,7 +576,7 @@ C<find()> is a new parser for getting only email address from text including ema
 
 =head2 C<B<s3s4(I<email address>)>>
 
-C<s3s4()> works Ruleset 3, and 4 of sendmail.cf.
+C<s3s4()> method works Ruleset 3, and 4 of F<sendmail.cf>.
 
     my $r = [
         'Stray cat <cat@example.org>',
@@ -538,14 +590,14 @@ C<s3s4()> works Ruleset 3, and 4 of sendmail.cf.
 
 =head2 C<B<expand_verp(I<email address>)>>
 
-C<expand_verp()> gets the original email address from VERP
+C<expand_verp()> method gets the original email address from C<VERP>
 
     my $r = 'nyaa+neko=example.org@example.org';
     print Sisimai::Address->expand_verp($r); # neko@example.org
 
 =head2 C<B<expand_alias(I<email address>)>>
 
-C<expand_alias()> gets the original email address from alias
+C<expand_alias()> method gets the original email address from the alias address
 
     my $r = 'nyaa+neko@example.org';
     print Sisimai::Address->expand_alias($r); # nyaa@example.org
@@ -554,28 +606,28 @@ C<expand_alias()> gets the original email address from alias
 
 =head2 C<B<user()>>
 
-C<user()> returns a local part of the email address.
+C<user()> method returns a local part of the email address.
 
     my $v = Sisimai::Address->new({ 'address' => 'neko@example.org' });
     print $v->user;     # neko
 
 =head2 C<B<host()>>
 
-C<host()> returns a domain part of the email address.
+C<host()> method returns a domain part of the email address.
 
     my $v = Sisimai::Address->new({ 'address' => 'neko@example.org' });
     print $v->host;     # example.org
 
 =head2 C<B<address()>>
 
-C<address()> returns an email address
+C<address()> method returns an email address
 
     my $v = Sisimai::Address->new({ 'address' => 'neko@example.org' });
     print $v->address;     # neko@example.org
 
 =head2 C<B<verp()>>
 
-C<verp()> returns a VERP email address
+C<verp()> method returns a VERP email address
 
     my $v = Sisimai::Address->new({ 'address' => 'neko+nyaan=example.org@example.org' });
     print $v->verp;     # neko+nyaan=example.org@example.org
@@ -583,7 +635,7 @@ C<verp()> returns a VERP email address
 
 =head2 C<B<alias()>>
 
-C<alias()> returns an email address (alias)
+C<alias()> method returns an email address (alias)
 
     my $v = Sisimai::Address->new({ 'address' => 'neko+nyaan@example.org' });
     print $v->alias;    # neko+nyaan@example.org
@@ -591,7 +643,7 @@ C<alias()> returns an email address (alias)
 
 =head2 C<B<name()>>
 
-C<name()> returns a display name
+C<name()> method returns a display name
 
     my $e = '"Neko, Nyaan" <neko@example.org>';
     my $r = Sisimai::Address->find($e);
@@ -601,7 +653,7 @@ C<name()> returns a display name
 
 =head2 C<B<comment()>>
 
-C<name()> returns a comment
+C<comment()> method returns a comment
 
     my $e = '"Neko, Nyaan" <neko(nyaan)@example.org>';
     my $v = Sisimai::Address->new(shift Sisimai::Address->find($e)->@*);
@@ -614,7 +666,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2025 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

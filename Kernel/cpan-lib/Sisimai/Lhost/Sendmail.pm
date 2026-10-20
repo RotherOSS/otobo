@@ -1,27 +1,28 @@
 package Sisimai::Lhost::Sendmail;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'V8Sendmail: /usr/sbin/sendmail' }
+sub description { 'Sendmail Open Source: https://sendmail.org/' }
 sub inquire {
-    # Parse bounce messages from Sendmail
-    # @param    [Hash] mhead    Message headers of a bounce email
-    # @param    [String] mbody  Message body of a bounce email
-    # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # Decode bounce messages from Sendmail Open Source
+    # @param    [Hash] mhead    Message headers of the bounce email
+    # @param    [String] mbody  Message body of the bounce email
+    # @return   [Hash]          The list of decoded bounces and a message/rfc822 part block
+    # @return   [undef]         failed to decode or the arguments are missing
+    # @see      https://www.proofpoint.com/us/products/email-protection/open-source-email-solution
     # @since v4.0.0
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
-    my $match = 0;
 
     return undef if $mhead->{'x-aol-ip'};   # X-AOL-IP is a header defined in AOL
-    $match ||= 1 if index($mhead->{'subject'}, 'see transcript for details') > -1;
-    $match ||= 1 if index($mhead->{'subject'}, 'Warning: ')                  == 0;
+    my $match = 0; $match ||= 1 if index($mhead->{'subject'}, 'see transcript for details') > -1;
+                   $match ||= 1 if index($mhead->{'subject'}, 'Warning: ')                  == 0;
     return undef unless $match > 0;
 
+    require Sisimai::RFC1123;
     require Sisimai::SMTP::Reply;
     require Sisimai::SMTP::Status;
     require Sisimai::SMTP::Command;
@@ -41,7 +42,7 @@ sub inquire {
 
     my $fieldtable = Sisimai::RFC1894->FIELDTABLE;
     my $permessage = {};    # (Hash) Store values of each Per-Message field
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
@@ -49,26 +50,24 @@ sub inquire {
     my $esmtpreply = [];    # (Array) Reply from remote server on SMTP session
     my $sessionerr = 0;     # (Integer) Flag, 1 if it is SMTP session error
     my $anotherset = {};    # (Hash) Another error information
-    my $v = undef;
     my $p = '';
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
         # line of the beginning of the original message.
         unless( $readcursor ) {
-            # Beginning of the bounce message or message/delivery-status part
+            # Beginning of the bounce message or the message/delivery-status part
             $readcursor |= $indicators->{'deliverystatus'} if index($e, $startingof->{'message'}->[0]) == 0;
             next;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         if( my $f = Sisimai::RFC1894->match($e) ) {
             # $e matched with any field defined in RFC3464
             next unless my $o = Sisimai::RFC1894->field($e);
             $v = $dscontents->[-1];
 
-            if( $o->[-1] eq 'addr' ) {
+            if( $o->[3] eq 'addr' ) {
                 # Final-Recipient: rfc822; kijitora@example.jp
                 # X-Actual-Recipient: rfc822; kijitora@example.co.jp
                 if( $o->[0] eq 'final-recipient' ) {
@@ -85,7 +84,7 @@ sub inquire {
                     # X-Actual-Recipient: rfc822; kijitora@example.co.jp
                     $v->{'alias'} = $o->[2];
                 }
-            } elsif( $o->[-1] eq 'code' ) {
+            } elsif( $o->[3] eq 'code' ) {
                 # Diagnostic-Code: SMTP; 550 5.1.1 <userunknown@example.jp>... User Unknown
                 $v->{'spec'} = $o->[1];
                 $v->{'diagnosis'} = $o->[2];
@@ -93,6 +92,7 @@ sub inquire {
             } else {
                 # Other DSN fields defined in RFC3464
                 next unless exists $fieldtable->{ $o->[0] };
+                next if $o->[3] eq "host" && Sisimai::RFC1123->is_internethost($o->[2]) == 0;
                 $v->{ $fieldtable->{ $o->[0] } } = $o->[2];
 
                 next unless $f == 1;
@@ -109,16 +109,16 @@ sub inquire {
             if( substr($e, 0, 1) ne ' ') {
                 # Other error messages
                 if( index($e, '>>> ') == 0 ) {
-                    # >>> DATA
-                    $thecommand = Sisimai::SMTP::Command->find($e);
+                    # >>> DATA (Client Command)
+                    $thecommand ||= Sisimai::SMTP::Command->find($e);
 
                 } elsif( index($e, '<<< ') == 0 ) {
-                    # <<< Response
+                    # <<< Response from the SMTP server
                     my $cv = substr($e, 4,);
                     push @$esmtpreply, $cv unless grep { $cv eq $_ } @$esmtpreply;
 
                 } else {
-                    # Detect SMTP session error or connection error
+                    # Detect an SMTP session error or a connection error
                     next if $sessionerr;
                     if( index($e, $startingof->{'error'}->[0]) == 0 ) {
                         # ----- Transcript of session follows -----
@@ -146,7 +146,7 @@ sub inquire {
                             $anotherset->{'status'}     = $cs;
                             $anotherset->{'diagnosis'} .= ' '.$e;
 
-                        } elsif( index($e, 'Message: ') == 0 || index($e, 'Warning: ') == 0 ) {
+                        } elsif( index($e, 'Message ') == 0 || index($e, 'Warning: ') == 0 ) {
                             # Message could not be delivered for too long
                             # Warning: message still undelivered after 4 hours
                             $anotherset->{'diagnosis'} .= ' '.$e;
@@ -155,9 +155,8 @@ sub inquire {
                 }
             } else {
                 # Continued line of the value of Diagnostic-Code field
-                next unless index($p, 'Diagnostic-Code:') == 0;
-                next unless index($e, ' ') == 0;
-                $v->{'diagnosis'} .= ' '.Sisimai::String->sweep($e);
+                next if index($p, 'Diagnostic-Code:') != 0 || index($e, ' ') != 0;
+                $v->{'diagnosis'} .= ' '.$e;
             }
         }
     } continue {
@@ -166,6 +165,7 @@ sub inquire {
     }
     return undef unless $recipients;
 
+    require Sisimai::Eb;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         $e->{ $_ } ||= $permessage->{ $_ } || '' for keys %$permessage;
@@ -180,15 +180,12 @@ sub inquire {
         while(1) {
             # Replace or append the error message in "diagnosis" with the ESMTP Reply Code when the
             # following conditions have matched
-            last unless scalar @$esmtpreply;
-            last unless $recipients == 1;
-
+            last if scalar @$esmtpreply == 0 || $recipients != 1;
             $e->{'diagnosis'} = sprintf("%s %s", join(' ', @$esmtpreply), $e->{'diagnosis'});
             last;
         }
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'command'} ||= $thecommand || Sisimai::SMTP::Command->find($e->{'diagnosis'}) || '';
-        $e->{'command'} ||= 'EHLO' if scalar @$esmtpreply;
+        $e->{'command'} ||= $Sisimai::Eb::CeEHLO if scalar @$esmtpreply;
 
         while(1) {
             # Check alternative status code and override it
@@ -199,14 +196,13 @@ sub inquire {
             $e->{'status'} = $anotherset->{'status'};
             last;
         }
-
         # @example.jp, no local part
         # Get email address from the value of Diagnostic-Code field
         next unless index($e->{'recipient'}, '@') == 0;
         my $cv = Sisimai::Address->find($e->{'diagnosis'}, 1) || [];
         $e->{'recipient'} = $cv->[0]->{'address'} if scalar @$cv;
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -216,7 +212,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::Sendmail - bounce mail parser class for v8 Sendmail.
+Sisimai::Lhost::Sendmail - bounce mail decoder class for Sendmail Open Source L<https://sendmail.org/>.
 
 =head1 SYNOPSIS
 
@@ -224,8 +220,8 @@ Sisimai::Lhost::Sendmail - bounce mail parser class for v8 Sendmail.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::Sendmail parses a bounce email which created by v8 Sendmail. Methods in the module
-are called from only Sisimai::Message.
+C<Sisimai::Lhost::Sendmail> decodes a bounce email which created by Sendmail Open Source L<https://sendmail.org/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -237,8 +233,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -246,10 +242,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

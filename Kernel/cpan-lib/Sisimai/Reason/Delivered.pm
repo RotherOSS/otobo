@@ -1,12 +1,13 @@
 package Sisimai::Reason::Delivered;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
 
-sub text  { 'delivered' }
+sub text  { $Sisimai::Eb::ReSENT }
 sub description { 'Email delivered successfully' }
-sub match { return undef }
-sub true  { return undef }
+sub match { return 0 }
+sub true  { return 0 }
 
 1;
 __END__
@@ -20,36 +21,36 @@ Sisimai::Reason::Delivered - Email delivered successfully
 =head1 SYNOPSIS
 
     use Sisimai::Reason::Delivered;
-    print Sisimai::Reason::Delivered->text; # delivered
+    print Sisimai::Reason::Delivered->text; # Delivered
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::Delivered checks the email you sent is delivered successfully or not by matching
-diagnostic messages with message patterns. Sisimai will set "delivered" to the value of "reason"
-when Status: field in the bounce message begins with "2" like following:
+C<Sisimai::Reason::Delivered> checks the email you sent is delivered successfully or not by matching
+diagnostic messages with message patterns. Sisimai will set C<Delivered> to the value of C<"reason">
+when C<Status:> field in the bounce message begins with C<2> like following:
 
     Final-Recipient: rfc822; kijitora@neko.nyaan.jp
     Action: delivered
     Status: 2.1.5
     Diagnostic-Code: SMTP; 250 2.1.5 OK
 
-This class is called only Sisimai->reason method. This is NOT AN ERROR reason.
+This class is called only C<Sisimai->reason()> method. This is B<NOT AN ERROR> reason.
 
 =head1 CLASS METHODS
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<delivered>.
+C<text()> returns the fixed string C<Delivered>.
 
-    print Sisimai::Reason::Delivered->text;  # delivered
+    print Sisimai::Reason::Delivered->text;  # Delivered
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> always return undef
+C<match()> method always return C<0>
 
 =head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> always return undef
+C<true()> method always return C<0>
 
 =head1 AUTHOR
 
@@ -57,10 +58,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2016,2020,2021 azumakuniyuki, All rights reserved.
+Copyright (C) 2016,2020,2021,2024-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

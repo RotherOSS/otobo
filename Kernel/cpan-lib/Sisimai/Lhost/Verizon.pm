@@ -1,52 +1,43 @@
 package Sisimai::Lhost::Verizon;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'Verizon Wireless: https://www.verizonwireless.com' }
+sub description { 'Verizon: https://www.verizon.com/' }
 sub inquire {
     # Detect an error from Verizon
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.0.0
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
-    my $match = -1;
 
-    while(1) {
-        # Check the value of "From" header
-        # 'subject' => qr/Undeliverable Message/,
-        last unless grep { rindex($_, '.vtext.com (') > -1 } $mhead->{'received'}->@*;
-        $match = 1 if $mhead->{'from'} eq 'post_master@vtext.com';
-        $match = 0 if Sisimai::String->aligned(\$mhead->{'from'}, ['sysadmin@', '.vzwpix.com']);
-        last;
-    }
+    return undef unless grep { rindex($_, '.vtext.com (') > -1 } $mhead->{'received'}->@*;
+    my $match = -1; $match = 1 if $mhead->{'from'} eq 'post_master@vtext.com';
+                    $match = 0 if Sisimai::String->aligned(\$mhead->{'from'}, ['sysadmin@', '.vzwpix.com']);
     return undef if $match < 0;
 
+    require Sisimai::Eb;
     state $indicators = __PACKAGE__->INDICATORS;
     my $boundaries = [];
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = [];
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
     my $senderaddr = '';    # (String) Sender address in the message body
     my $subjecttxt = '';    # (String) Subject of the original message
-
-    my $startingof = {};    # (Ref->Hash) Delimiter strings
-    my $markingsof = {};    # (Ref->Hash) Delimiter patterns
     my $messagesof = {};    # (Ref->Hash) Error message patterns
-    my $v = undef;
 
     if( $match == 1 ) {
         # vtext.com
-        $markingsof = { 'message' => ['Error: '] };
-        $messagesof = {
+        my $markingsof = {'message' => ['Error: ']};
+           $messagesof = {
             # The attempted recipient address does not exist.
-            'userunknown' => ['550 - Requested action not taken: no such user here'],
+            $Sisimai::Eb::ReUSER => ['550 - Requested action not taken: no such user here'],
         };
         $boundaries = [Sisimai::RFC2045->boundary($mhead->{'content-type'}, 1)];
         $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
@@ -59,8 +50,7 @@ sub inquire {
                 $readcursor |= $indicators->{'deliverystatus'} if index($e, $markingsof->{'message'}->[0]) == 0;
                 next;
             }
-            next unless $readcursor & $indicators->{'deliverystatus'};
-            next unless length $e;
+            next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
             # Message details:
             #   Subject: Test message
@@ -94,10 +84,10 @@ sub inquire {
         }
     } else {
         # vzwpix.com
-        $startingof = { 'message' => ['Message could not be delivered to mobile'] };
-        $messagesof = { 'userunknown' => ['No valid recipients for this MM'] };
-        $boundaries = [Sisimai::RFC2045->boundary($mhead->{'content-type'})];
-        $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
+        my $startingof = {'message' => ['Message could not be delivered to mobile']};
+           $messagesof = {$Sisimai::Eb::ReUSER => ['No valid recipients for this MM']};
+           $boundaries = [Sisimai::RFC2045->boundary($mhead->{'content-type'})];
+           $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
         for my $e ( split("\n", $emailparts->[0]) ) {
             # Read error messages and delivery status lines from the head of the email to the previous
             # line of the beginning of the original message.
@@ -106,8 +96,7 @@ sub inquire {
                 $readcursor |= $indicators->{'deliverystatus'} if index($e, $startingof->{'message'}->[0]) == 0;
                 next;
             }
-            next unless $readcursor & $indicators->{'deliverystatus'};
-            next unless length $e;
+            next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
             # Original Message:
             # From: kijitora <kijitora@example.jp>
@@ -137,7 +126,7 @@ sub inquire {
             } else {
                 # Message could not be delivered to mobile.
                 # Error: No valid recipients for this MM
-                $v->{'diagnosis'} = Sisimai::String->sweep(substr($e, 7,)) if index($e, 'Error: ') == 0;
+                $v->{'diagnosis'} = substr($e, 7,) if index($e, 'Error: ') == 0;
             }
         }
     }
@@ -148,8 +137,6 @@ sub inquire {
     $emailparts->[1] .= sprintf("Subject: %s\n", $subjecttxt) if index($emailparts->[1], "\nSubject: ") < 0;
 
     for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
-
         SESSION: for my $r ( keys %$messagesof ) {
             # Verify each regular expression of session errors
             next unless grep { index($e->{'diagnosis'}, $_) > -1 } $messagesof->{ $r }->@*;
@@ -157,7 +144,7 @@ sub inquire {
             last;
         }
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -167,7 +154,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::Verizon - bounce mail parser class for C<Verizon Wireless>.
+Sisimai::Lhost::Verizon - bounce mail decoder class for Verizon L<https://www.verizon.com/>.
 
 =head1 SYNOPSIS
 
@@ -175,8 +162,8 @@ Sisimai::Lhost::Verizon - bounce mail parser class for C<Verizon Wireless>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::Verizon parses a bounce email which created by C<Verizon Wireless>. Methods in the
-module are called from only Sisimai::Message.
+C<Sisimai::Lhost::Verizon> decodes a bounce email which created by Verizon L<https://www.verizon.com/>.
+Methods in the module are called from only Sisimai::Message.
 
 =head1 CLASS METHODS
 
@@ -188,8 +175,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -197,7 +184,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

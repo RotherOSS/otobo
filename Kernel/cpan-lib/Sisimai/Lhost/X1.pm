@@ -1,6 +1,6 @@
 package Sisimai::Lhost::X1;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
@@ -10,25 +10,27 @@ sub inquire {
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.1.3
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
 
-    return undef unless index($mhead->{'subject'}, 'Returned Mail: ') == 0;
-    return undef unless index($mhead->{'from'}, '"Mail Deliver System" ') == 0;
+    my $proceedsto = 0;
+       $proceedsto = 1 if index($mhead->{'subject'}, 'Returned Mail: ') == 0;
+       $proceedsto = 1 if index($mhead->{'subject'}, 'Mail Delivery Failure') == 0;
+       $proceedsto = 1 if Sisimai::String->aligned(\$mhead->{'from'}, ['"Mail Deliver', 'System" ']);
+    return undef unless $proceedsto;
 
     state $indicators = __PACKAGE__->INDICATORS;
-    state $boundaries = ['Received: from '];
-    state $markingsof = { 'message' => ['The original message was received at '] };
+    state $boundaries = ['Content-Type: message/rfc822', 'Received: from '];
+    state $markingsof = {'message' => ['The original message was received at ']};
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
     my $datestring = '';    # (String) Date string
-    my $v = undef;
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -38,8 +40,7 @@ sub inquire {
             $readcursor |= $indicators->{'deliverystatus'} if index($e, $markingsof->{'message'}->[0]) == 0;
             next;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         # The original message was received at Thu, 29 Apr 2010 23:34:45 +0900 (JST)
         # from shironeko@example.jp
@@ -69,11 +70,8 @@ sub inquire {
     }
     return undef unless $recipients;
 
-    for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
-        $e->{'date'}      = $datestring || '';
-    }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    $_->{'date'} = $datestring || '' for @$dscontents;
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -83,7 +81,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::X1 - bounce mail parser class for C<X1>.
+Sisimai::Lhost::X1 - bounce mail decoder class for X1.
 
 =head1 SYNOPSIS
 
@@ -91,8 +89,8 @@ Sisimai::Lhost::X1 - bounce mail parser class for C<X1>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::X1 parses a bounce email which created by Unknown MTA #1. Methods in the module are
-called from only Sisimai::Message.
+C<Sisimai::Lhost::X1> decodes a bounce email which created by Unknown MTA #1. Methods in the module
+are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -104,8 +102,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -113,7 +111,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2021,2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2021,2023-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

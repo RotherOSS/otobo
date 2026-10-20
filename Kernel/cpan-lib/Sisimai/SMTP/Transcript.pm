@@ -1,30 +1,29 @@
 package Sisimai::SMTP::Transcript;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
+use Sisimai::String;
 use Sisimai::SMTP::Reply;
 use Sisimai::SMTP::Status;
 use Sisimai::SMTP::Command;
 
 sub rise {
-    # Parse a transcript of an SMTP session and makes structured data
+    # Decode the transcript of the SMTP session and makes the structured data
     # @param    [String] argv0  A transcript text MTA returned
     # @param    [String] argv1  A label string of a SMTP client
     # @param    [String] argv2  A label string of a SMTP server
     # @return   [Array]         Structured data
-    # @return   [undef]         Failed to parse or the 1st argument is missing
+    # @return   [undef]         Failed to decode or the 1st argument is missing
     # @since v5.0.0
     my $class = shift;
     my $argv0 = shift // return undef;
     my $argv1 = shift // '>>>'; # Label for an SMTP Client
     my $argv2 = shift // '<<<'; # Label for an SMTP Server
 
-    return undef unless ref $argv0 eq 'SCALAR';
-    return undef unless length $$argv0;
-
     # 1. Replace label strings of SMTP client/server at the each line
-    $$argv0 =~ s/^[ ]+$argv1\s+/>>> /gm; return undef unless index($$argv0, '>>> ') > -1;
-    $$argv0 =~ s/^[ ]+$argv2\s+/<<< /gm; return undef unless index($$argv0, '<<< ') > -1;
+    $argv0 =~ s/^[ ]+$argv1\s+/>>> /gm; return undef unless index($argv0, '>>> ') > -1;
+    $argv0 =~ s/^[ ]+$argv2\s+/<<< /gm; return undef unless index($argv0, '<<< ') > -1;
 
     # 2. Remove strings until the first '<<<' or '>>>'
     my $esmtp = [];
@@ -40,85 +39,77 @@ sub rise {
             }
         };
     };
-    my $parameters = '';    # Command parameters of MAIL, RCPT
-    my $cursession = undef; # Current session for $esmtp
 
-    my $cv = '';
-    my $p0 = index($$argv0, '<<<'); # Server response
-    my $p1 = index($$argv0, '>>>'); # Sent command
-    if( $p0 < $p1 ) {
+    my $cx = undef;                 # Current session for $esmtp
+    my $p1 = index($argv0, '>>>');  # Sent command
+    my $p2 = index($argv0, '<<<');  # Server response
+    if( $p2 < $p1 ) {
         # An SMTP server response starting with '<<<' is the first
         push @$esmtp, $table->();
-        $cursession = $esmtp->[-1];
-        $cursession->{'command'} = 'CONN';
-        $$argv0 = substr($$argv0, $p0,) if $p0 > -1;
+        $cx = $esmtp->[-1];
+        $cx->{'command'} = $Sisimai::Eb::CeCONN;
+        $argv0 = substr($argv0, $p2,) if $p2 > -1;
 
     } else {
         # An SMTP command starting with '>>>' is the first
-        $$argv0 = substr($$argv0, $p1,) if $p1 > -1;
+        $argv0 = substr($argv0, $p1,) if $p1 > -1;
     }
 
     # 3. Remove unused lines, concatenate folded lines
-    $$argv0 = substr($$argv0, 0, index($$argv0, "\n\n") - 1);   # Remove strings from the first blank line to the tail
-    $$argv0 =~ s/\n[ ]+/ /g;                                    # Concatenate folded lines to each previous line
+    $argv0 = substr($argv0, 0, index($argv0, "\n\n") - 1); # Remove strings from the first blank line to the tail
+    $argv0 =~ s/\n[ ]+/ /g;                                # Concatenate folded lines to each previous line
 
-    for my $e ( split("\n", $$argv0) ) {
+    for my $e ( split("\n", $argv0) ) {
         # 4. Read each SMTP command and server response
-        $p0 = index($e, '>>> ');
-        $p1 = index($e, ' ', $p1 + 4);
-        if( $p0 == 0 ) {
+        if( index($e, '>>> ') == 0 ) {
             # SMTP client sent a command ">>> SMTP-command arguments"
-            $cv = Sisimai::SMTP::Command->find($e) || '';
-            if( length $cv ) {
-                # >>> SMTP Command
-                my $thecommand = $cv;
-                my $commandarg = Sisimai::String->sweep(substr($e, index($e, $cv) + length($cv),));
+            my $thecommand = Sisimai::SMTP::Command->find($e) || next;
+            my $commandarg = Sisimai::String->sweep(substr($e, index($e, $thecommand) + length($thecommand),));
+            my $parameters = '';
 
-                push @$esmtp, $table->();
-                $cursession = $esmtp->[-1];
-                $cursession->{'command'} = uc $thecommand;
+            push @$esmtp, $table->();
+            $cx = $esmtp->[-1];
+            $cx->{'command'} = uc $thecommand;
 
-                if( $thecommand eq 'MAIL' || $thecommand eq 'RCPT' || $thecommand eq 'XFORWARD' ) {
-                    # MAIL or RCPT
-                    if( index($commandarg, 'FROM:') == 0 || index($commandarg, 'TO:') == 0 ) {
-                        # >>> MAIL FROM: <neko@example.com> SIZE=65535
-                        # >>> RCPT TO: <kijitora@example.org>
-                        $p0 = index($commandarg, '<');
-                        $p1 = index($commandarg, '>');
-                        $cursession->{'argument'} = substr($commandarg, $p0 + 1, $p1 - $p0 - 1);
-                        $parameters = Sisimai::String->sweep(substr($commandarg, $p1 + 1,));
+            if( $thecommand eq $Sisimai::Eb::CeMAIL || $thecommand eq $Sisimai::Eb::CeRCPT || $thecommand eq $Sisimai::Eb::CeXFWD ) {
+                # MAIL or RCPT
+                if( index($commandarg, 'FROM:') == 0 || index($commandarg, 'TO:') == 0 ) {
+                    # >>> MAIL FROM: <neko@example.com> SIZE=65535
+                    # >>> RCPT TO: <kijitora@example.org>
+                    my $p4 = index($commandarg, '<');
+                    my $p5 = index($commandarg, '>');
+                    $cx->{'argument'} = substr($commandarg, $p4 + 1, $p5 - $p4 - 1);
+                    $parameters = substr($commandarg, $p5 + 1,);
 
-                    } else {
-                        # >>> XFORWARD NAME=neko2-nyaan3.y.example.co.jp ADDR=230.0.113.2 PORT=53672
-                        # <<< 250 2.0.0 Ok
-                        # >>> XFORWARD PROTO=SMTP HELO=neko2-nyaan3.y.example.co.jp IDENT=2LYC6642BLzFK3MM SOURCE=REMOTE
-                        # <<< 250 2.0.0 Ok
-                        $parameters = $commandarg;
-                        $commandarg = '';
-                    }
-
-                    for my $f ( split(" ", $parameters) ) {
-                        # SIZE=22022, PROTO=SMTP, and so on
-                        $p0 = index($f, '=');   next if $p0 < 1;
-                        $p1 = length $f;        next if $p1 < 3;
-                        $cv = [split('=', $f)]; next unless scalar @$cv == 2;
-                        $cursession->{'parameter'}->{ lc $cv->[0] } = $cv->[1];
-                    }
                 } else {
-                    # HELO, EHLO, AUTH, DATA, QUIT or Other SMTP command
-                    $cursession->{'argument'} = $commandarg;
+                    # >>> XFORWARD NAME=neko2-nyaan3.y.example.co.jp ADDR=230.0.113.2 PORT=53672
+                    # <<< 250 2.0.0 Ok
+                    # >>> XFORWARD PROTO=SMTP HELO=neko2-nyaan3.y.example.co.jp IDENT=2LYC6642BLzFK3MM SOURCE=REMOTE
+                    # <<< 250 2.0.0 Ok
+                    $parameters = $commandarg;
+                    $commandarg = '';
                 }
+
+                for my $f ( split(" ", $parameters) ) {
+                    # SIZE=22022, PROTO=SMTP, and so on
+                    next if index($f, '=') < 1 || length $f < 3;
+
+                    my @ee = (split('=', $f)); next unless scalar @ee == 2;
+                    $cx->{'parameter'}->{ lc $ee[0] } = $ee[1];
+                }
+            } else {
+                # HELO, EHLO, AUTH, DATA, QUIT or Other SMTP command
+                $cx->{'argument'} = $commandarg;
             }
         } else {
             # SMTP server sent a response "<<< response text"
-            $p0 = index($e, '<<< '); next unless $p0 == 0; substr($e, $p0, 4, '');
+            my $p3 = index($e, '<<< '); next unless $p3 == 0; substr($e, $p3, 4, '');
 
-            $cursession->{'response'}->{'reply'}  = Sisimai::SMTP::Reply->find($e)  || '';
-            $cursession->{'response'}->{'status'} = Sisimai::SMTP::Status->find($e) || '';
-            push $cursession->{'response'}->{'text'}->@*, $e;
+            $cx->{'response'}->{'reply'}  = Sisimai::SMTP::Reply->find($e)  || '';
+            $cx->{'response'}->{'status'} = Sisimai::SMTP::Status->find($e) || '';
+            push $cx->{'response'}->{'text'}->@*, $e;
         }
     }
-
     return undef unless scalar @$esmtp;
     return $esmtp;
 }
@@ -130,7 +121,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::SMTP::Transcript - Transcript of SMTP session parser
+Sisimai::SMTP::Transcript - Transcript of the SMTP session decoder
 
 =head1 SYNOPSIS
 
@@ -139,8 +130,8 @@ Sisimai::SMTP::Transcript - Transcript of SMTP session parser
 
 =head1 DESCRIPTION
 
-Sisimai::SMTP::Transcript provides a parser method for converting transcript of SMTP session to a
-structured data.
+C<Sisimai::SMTP::Transcript> provides a decoding method for converting the transcript of the SMTP
+session to the structured data.
 
 =head1 AUTHOR
 
@@ -148,7 +139,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2022-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2022-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

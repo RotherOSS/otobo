@@ -1,76 +1,63 @@
 package Sisimai::Lhost::EZweb;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'au EZweb: http://www.au.kddi.com/mobile/' }
+sub description { 'au EZweb: https://www.au.com/mobile/' }
 sub inquire {
     # Detect an error from EZweb
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.0.0
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
-    my $match = 0;
 
     # Pre-process email headers of NON-STANDARD bounce message au by EZweb, as known as ezweb.ne.jp.
     #   Subject: Mail System Error - Returned Mail
     #   From: <Postmaster@ezweb.ne.jp>
     #   Received: from ezweb.ne.jp (wmflb12na02.ezweb.ne.jp [222.15.69.197])
     #   Received: from nmomta.auone-net.jp ([aaa.bbb.ccc.ddd]) by ...
-    $match++ if rindex($mhead->{'from'}, 'Postmaster@ezweb.ne.jp') > -1;
-    $match++ if rindex($mhead->{'from'}, 'Postmaster@au.com') > -1;
-    $match++ if $mhead->{'subject'} eq 'Mail System Error - Returned Mail';
-    $match++ if grep { rindex($_, 'ezweb.ne.jp (EZweb Mail) with') > -1 } $mhead->{'received'}->@*;
-    $match++ if grep { rindex($_, '.au.com (') > -1 } $mhead->{'received'}->@*;
+    my $match = 0; $match++ if rindex($mhead->{'from'}, 'Postmaster@ezweb.ne.jp') > -1;
+                   $match++ if rindex($mhead->{'from'}, 'Postmaster@au.com') > -1;
+                   $match++ if $mhead->{'subject'} eq 'Mail System Error - Returned Mail';
+                   $match++ if grep { rindex($_, 'ezweb.ne.jp (EZweb Mail) with') > -1 } $mhead->{'received'}->@*;
+                   $match++ if grep { rindex($_, '.au.com (') > -1 } $mhead->{'received'}->@*;
     if( defined $mhead->{'message-id'} ) {
         $match++ if substr($mhead->{'message-id'}, -13, 13) eq '.ezweb.ne.jp>';
         $match++ if substr($mhead->{'message-id'}, -8, 8) eq '.au.com>';
     }
     return undef if $match < 2;
 
+    require Sisimai::Eb;
     require Sisimai::SMTP::Command;
     state $indicators = __PACKAGE__->INDICATORS;
-    state $boundaries = ['--------------------------------------------------', 'Content-Type: message/rfc822'];
-    state $markingsof = { 'message' => ['The user(s) ', 'Your message ', 'Each of the following', '<'] };
-    state $refailures = {
-        #'notaccept'  => ['The following recipients did not receive this message:'],
-        'mailboxfull' => ['The user(s) account is temporarily over quota'],
-        'suspend'     => [
-            # http://www.naruhodo-au.kddi.com/qa3429203.html
-            # The recipient may be unpaid user...?
-            'The user(s) account is disabled.',
-            'The user(s) account is temporarily limited.',
-        ],
-        'expired' => [
-            # Your message was not delivered within 0 days and 1 hours.
-            # Remote host is not responding.
-            'Your message was not delivered within ',
-        ],
-        'onhold' => ['Each of the following recipients was rejected by a remote mail server'],
-    };
+    state $boundaries = ["--------------------------------------------------", "Content-Type: message/rfc822"];
+    state $startingof = {"message" => ['The user(s) ', 'Your message ', 'Each of the following', '<']};
+    state $unpaiduser = [
+        # http://www.naruhodo-au.kddi.com/qa3429203.html
+        # The recipient may be unpaid user...?
+        "The user(s) account is disabled.",
+        "The user(s) account is temporarily limited.",
+    ];
 
     my $fieldtable = Sisimai::RFC1894->FIELDTABLE;
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
-    my $readcursor = 0;     # (Integer) Points the current cursor position
-    my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
-    my @rxmessages; push @rxmessages, $refailures->{ $_ }->@* for keys %$refailures;
-    my $v = undef;
+    my $readcursor = 0;     # Points the current cursor position
+    my $recipients = 0;     # The number of 'Final-Recipient' header
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
         # line of the beginning of the original message.
         unless( $readcursor ) {
             # Beginning of the bounce message or message/delivery-status part
-            $readcursor |= $indicators->{'deliverystatus'} if grep { index($e, $_) > -1 } $markingsof->{'message'}->@*;
+            $readcursor |= $indicators->{'deliverystatus'} if grep { index($e, $_) > -1 } $startingof->{'message'}->@*;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         # The user(s) account is disabled.
         #
@@ -95,7 +82,8 @@ sub inquire {
                 push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                 $v = $dscontents->[-1];
             }
-            $v->{'recipient'} = Sisimai::Address->s3s4(substr($e, $p1, $p2 - $p1));
+            $v->{'recipient'}  = Sisimai::Address->s3s4(substr($e, $p1, $p2 - $p1));
+            $v->{"diagnosis"} .= " ".$e;
             $recipients++;
 
         } elsif( my $f = Sisimai::RFC1894->match($e) ) {
@@ -106,65 +94,34 @@ sub inquire {
 
         } else {
             # The line does not begin with a DSN field defined in RFC3464
+            #    >>> RCPT TO:<******@ezweb.ne.jp>
+            # <<< 550 ...
             next if Sisimai::String->is_8bit(\$e);
-            if( index($e, ' >>> ') > -1 ) {
-                #    >>> RCPT TO:<******@ezweb.ne.jp>
-                $v->{'command'} = Sisimai::SMTP::Command->find($e) || '';
-
-            } else {
-                # Check error message
-                if( grep { index($e, $_) > -1 } @rxmessages ) {
-                    # Check with regular expressions of each error
-                    $v->{'diagnosis'} .= ' '.$e;
-                } else {
-                    # >>> 550
-                    $v->{'alterrors'} .= ' '.$e;
-                }
-            }
+            $v->{"command"} = Sisimai::SMTP::Command->find($e) if index($e, " >>> ") > -1;
+            $v->{"diagnosis"} .= " ".$e;
         } # End of error message part
     }
     return undef unless $recipients;
 
     for my $e ( @$dscontents ) {
-        if( exists $e->{'alterrors'} && $e->{'alterrors'} ) {
-            # Copy alternative error message
-            $e->{'diagnosis'} ||= $e->{'alterrors'};
-            if( index($e->{'diagnosis'}, '-') == 0 || substr($e->{'diagnosis'}, -2, 2) eq '__' ) {
-                # Override the value of diagnostic code message
-                $e->{'diagnosis'} = $e->{'alterrors'} if $e->{'alterrors'};
-            }
-            delete $e->{'alterrors'};
-        }
+        # Check each value of DeliveryMatter{}, try to detect the bounce reason.
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
+        $e->{"command"} ||= Sisimai::SMTP::Command->find($e->{"diagnosis"}) || "";
 
         if( defined $mhead->{'x-spasign'} && $mhead->{'x-spasign'} eq 'NG' ) {
             # Content-Type: text/plain; ..., X-SPASIGN: NG (spamghetti, au by EZweb)
             # Filtered recipient returns message that include 'X-SPASIGN' header
-            $e->{'reason'} = 'filtered';
+            $e->{'reason'} = $Sisimai::Eb::ReFILT;
 
         } else {
-            if( $e->{'command'} eq 'RCPT' ) {
-                # set "userunknown" when the remote server rejected after RCPT command.
-                $e->{'reason'} = 'userunknown';
-
-            } else {
-                # SMTP command is not RCPT
-                SESSION: for my $r ( keys %$refailures ) {
-                    # Try to match with each session error message
-                    PATTERN: for my $rr ( $refailures->{ $r }->@* ) {
-                        # Check each error message pattern
-                        next(PATTERN) unless index($e->{'diagnosis'}, $rr) > -1;
-                        $e->{'reason'} = $r;
-                        last(SESSION);
-                    }
-                }
-            }
+            # There is no X-SPASIGN header or the value of the header is not "NG"
+            $e->{'reason'} = $Sisimai::Eb::ReQUIT if grep { index($e->{'diagnosis'}, $_) > -1 } $unpaiduser->@*;
         }
         next if $e->{'reason'};
         next if index($e->{'recipient'}, '@ezweb.ne.jp') > 1 || index($e->{'recipient'}, '@au.com') > 1;
-        $e->{'reason'} = 'userunknown';
+        $e->{"reason"} = $Sisimai::Eb::ReUSER if index($e->{"diagnosis"}, "<") == 0;
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -173,7 +130,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::EZweb - bounce mail parser class for C<au EZweb>.
+Sisimai::Lhost::EZweb - bounce mail decoder class for au EZweb L<https://www.au.com/mobile/>.
 
 =head1 SYNOPSIS
 
@@ -181,8 +138,8 @@ Sisimai::Lhost::EZweb - bounce mail parser class for C<au EZweb>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::EZweb parses a bounce email which created by C<au EZweb>. Methods in the module are
-called from only Sisimai::Message.
+C<Sisimai::Lhost::EZweb> decodes a bounce email which created by au EZweb L<https://www.au.com/mobile/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -194,8 +151,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -203,7 +160,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

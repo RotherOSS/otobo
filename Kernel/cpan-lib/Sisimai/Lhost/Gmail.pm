@@ -1,16 +1,16 @@
 package Sisimai::Lhost::Gmail;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'Gmail: https://mail.google.com' }
+sub description { 'Gmail: https://mail.google.com/' }
 sub inquire {
     # Detect an error from Gmail
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.0.0
     my $class = shift;
     my $mhead = shift // return undef;
@@ -66,22 +66,12 @@ sub inquire {
     return undef unless rindex($mhead->{'from'}, '<mailer-daemon@googlemail.com>') > -1;
     return undef unless index($mhead->{'subject'}, 'Delivery Status Notification') > -1;
 
+    require Sisimai::Eb;
     state $indicators = __PACKAGE__->INDICATORS;
     state $boundaries = ['----- Original message -----', '----- Message header follows -----'];
     state $startingof = {
         'message' => ['Delivery to the following recipient'],
         'error'   => ['The error that the other server returned was:'],
-    };
-    state $messagesof = {
-        'expired' => [
-            'DNS Error: Could not contact DNS servers',
-            'Delivery to the following recipient has been delayed',
-            'The recipient server did not accept our requests to connect',
-        ],
-        'hostunknown' => [
-            'DNS Error: Domain name not found',
-            'DNS Error: DNS server returned answer with no data',
-        ],
     };
     state $statetable = {
         # Technical details of permanent failure:
@@ -89,7 +79,7 @@ sub inquire {
         # We recommend contacting the other email provider for further information about the
         # cause of this error. The error that the other server returned was:
         # 500 Remote server does not support TLS (state 6).
-        '6'  => { 'command' => 'MAIL', 'reason' => 'systemerror' },
+        '6'  => { 'command' => $Sisimai::Eb::CeMAIL, 'reason' => $Sisimai::Eb::ReTTLS },
 
         # https://www.google.td/support/forum/p/gmail/thread?tid=08a60ebf5db24f7b&hl=en
         # Technical details of permanent failure:
@@ -97,7 +87,7 @@ sub inquire {
         # We recommend contacting the other email provider for further information about the
         # cause of this error. The error that the other server returned was:
         # 535 SMTP AUTH failed with the remote server. (state 8).
-        '8'  => { 'command' => 'AUTH', 'reason' => 'systemerror' },
+        '8'  => { 'command' => $Sisimai::Eb::CeAUTH, 'reason' => $Sisimai::Eb::RePROC },
 
         # https://www.google.co.nz/support/forum/p/gmail/thread?tid=45208164dbca9d24&hl=en
         # Technical details of temporary failure:
@@ -105,7 +95,7 @@ sub inquire {
         # We recommend contacting the other email provider for further information about the
         # cause of this error. The error that the other server returned was:
         # 454 454 TLS missing certificate: error:0200100D:system library:fopen:Permission denied (#4.3.0) (state 9).
-        '9'  => { 'command' => 'AUTH', 'reason' => 'systemerror' },
+        '9'  => { 'command' => $Sisimai::Eb::CeAUTH, 'reason' => $Sisimai::Eb::ReTTLS },
 
         # https://www.google.com/support/forum/p/gmail/thread?tid=5cfab8c76ec88638&hl=en
         # Technical details of permanent failure:
@@ -113,14 +103,14 @@ sub inquire {
         # We recommend contacting the other email provider for further information about the
         # cause of this error. The error that the other server returned was:
         # 500 Remote server does not support SMTP Authenticated Relay (state 12).
-        '12' => { 'command' => 'AUTH', 'reason' => 'relayingdenied' },
+        '12' => { 'command' => $Sisimai::Eb::CeAUTH, 'reason' => $Sisimai::Eb::RePASS },
 
         # Technical details of permanent failure:
         # Google tried to deliver your message, but it was rejected by the recipient domain.
         # We recommend contacting the other email provider for further information about the
         # cause of this error. The error that the other server returned was:
         # 550 550 5.7.1 <****@gmail.com>... Access denied (state 13).
-        '13' => { 'command' => 'EHLO', 'reason' => 'blocked' },
+        '13' => { 'command' => $Sisimai::Eb::CeEHLO, 'reason' => $Sisimai::Eb::BLOC },
 
         # Technical details of permanent failure:
         # Google tried to deliver your message, but it was rejected by the recipient domain.
@@ -128,8 +118,7 @@ sub inquire {
         # cause of this error. The error that the other server returned was:
         # 550 550 5.1.1 <******@*********.**>... User Unknown (state 14).
         # 550 550 5.2.2 <*****@****.**>... Mailbox Full (state 14).
-        #
-        '14' => { 'command' => 'RCPT', 'reason' => 'userunknown' },
+        '14' => { 'command' => $Sisimai::Eb::CeRCPT, 'reason' => $Sisimai::Eb::ReUSER },
 
         # https://www.google.cz/support/forum/p/gmail/thread?tid=7090cbfd111a24f9&hl=en
         # Technical details of permanent failure:
@@ -138,7 +127,7 @@ sub inquire {
         # cause of this error. The error that the other server returned was:
         # 550 550 5.7.1 SPF unauthorized mail is prohibited. (state 15).
         # 554 554 Error: no valid recipients (state 15).
-        '15' => { 'command' => 'DATA', 'reason' => 'filtered' },
+        '15' => { 'command' => $Sisimai::Eb::CeDATA, 'reason' => $Sisimai::Eb::ReFILT },
 
         # https://www.google.com/support/forum/p/Google%20Apps/thread?tid=0aac163bc9c65d8e&hl=en
         # Technical details of permanent failure:
@@ -147,21 +136,21 @@ sub inquire {
         # cause of this error. The error that the other server returned was:
         # 550 550 <****@***.**> No such user here (state 17).
         # 550 550 #5.1.0 Address rejected ***@***.*** (state 17).
-        '17' => { 'command' => 'DATA', 'reason' => 'filtered' },
+        '17' => { 'command' => $Sisimai::Eb::CeDATA, 'reason' => $Sisimai::Eb::ReFILT },
 
         # Technical details of permanent failure:
         # Google tried to deliver your message, but it was rejected by the recipient domain.
         # We recommend contacting the other email provider for further information about the
         # cause of this error. The error that the other server returned was:
         # 550 550 Unknown user *****@***.**.*** (state 18).
-        '18' => { 'command' => 'DATA', 'reason' => 'filtered' },
+        '18' => { 'command' => $Sisimai::Eb::CeDATA, 'reason' => $Sisimai::Eb::ReFILT },
     };
+    require Sisimai::Address;
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
-    my $v = undef;
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -170,8 +159,7 @@ sub inquire {
             # Beginning of the bounce message or message/delivery-status part
             $readcursor |= $indicators->{'deliverystatus'} if index($e, $startingof->{'message'}->[0]) == 0;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         # Technical details of permanent failure:=20
         # Google tried to deliver your message, but it was rejected by the recipient =
@@ -209,50 +197,42 @@ sub inquire {
     }
     return undef unless $recipients;
 
-    my $p1 = -1; my $p2 = -1;
+    require Sisimai::String;
+    require Sisimai::RFC1123;
     for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
+        # Get the value of remote host
+        if( Sisimai::String->aligned(\$e->{'diagnosis'}, [' by ', '. [', ']. ']) ) {
+            # Google tried to deliver your message, but it was rejected by the server for the recipient
+            # domain example.jp by mx.example.jp. [192.0.2.153].
+            my $p1 = rindex($e->{'diagnosis'}, ' by ');
+            my $p2 = rindex($e->{'diagnosis'}, '. [' );
+            my $hostname = substr($e->{'diagnosis'}, $p1 + 4, $p2 - $p1 - 4);
+            my $ipv4addr = substr($e->{'diagnosis'}, $p2 + 3, rindex($e->{'diagnosis'}, ']. ') - $p2 - 3);
 
-        unless( $e->{'rhost'} ) {
-            # Get the value of remote host
-            if( Sisimai::String->aligned(\$e->{'diagnosis'}, [' by ', '. [', ']. ']) ) {
-                # Google tried to deliver your message, but it was rejected by # the server
-                # for the recipient domain example.jp by mx.example.jp. [192.0.2.153].
-                $p1 = rindex($e->{'diagnosis'}, ' by ');
-                $p2 = rindex($e->{'diagnosis'}, '. [' );
-                my $hostname = substr($e->{'diagnosis'}, $p1 + 4, $p2 - $p1 - 4);
-                my $ipv4addr = substr($e->{'diagnosis'}, $p2 + 3, rindex($e->{'diagnosis'}, ']. ') - $p2 - 3);
-                my $lastchar = ord(uc substr($hostname, -1, 1));
-
-                $e->{'rhost'}   = $hostname if $lastchar > 64 && $lastchar < 91;
-                $e->{'rhost'} ||= $ipv4addr;
-            }
+            $e->{'rhost'}   = $hostname if Sisimai::RFC1123->is_internethost($hostname);
+            $e->{'rhost'} ||= $ipv4addr;
         }
 
-        $p1 = rindex($e->{'diagnosis'}, ' ');
-        $p2 = rindex($e->{'diagnosis'}, ')');
-        my $statecode0 = substr($e->{'diagnosis'}, $p1 + 1, $p2 - $p1 - 1) || 0;
-        if( exists $statetable->{ $statecode0 } ) {
-            # (state *)
-            $e->{'reason'}  = $statetable->{ $statecode0 }->{'reason'};
-            $e->{'command'} = $statetable->{ $statecode0 }->{'command'};
-        } else {
-            # No state code
-            SESSION: for my $r ( keys %$messagesof ) {
-                # Verify each regular expression of session errors
-                next unless grep { index($e->{'diagnosis'}, $_) > -1 } $messagesof->{ $r }->@*;
-                $e->{'reason'} = $r;
-                last;
-            }
+        while(1) {
+            # Find "(state 18)" and pick "18" as a key of statetable
+            my $p1 = rindex($e->{'diagnosis'}, ' (state '); last if $p1 < 0;
+            my $p2 = rindex($e->{'diagnosis'}, ')');        last if $p1 < 0;
+                                                            last if $p1 > $p2;
+            my $cu = substr($e->{'diagnosis'}, $p1 + 8, $p2 - $p1 - 8);
+            last unless $cu;
+
+            $e->{'reason'}  = $statetable->{ $cu }->{'reason'};
+            $e->{'command'} = $statetable->{ $cu }->{'command'};
+            last;
         }
-        next unless $e->{'reason'};
+        $e->{'reason'} ||= ''; next unless $e->{'reason'};
 
         # Set pseudo status code and override bounce reason
         $e->{'status'} = Sisimai::SMTP::Status->find($e->{'diagnosis'}) || '';
         next if length($e->{'status'}) == 0 || index($e->{'status'}, '.0') > 0;
         $e->{'reason'} = Sisimai::SMTP::Status->name($e->{'status'}) || '';
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -262,7 +242,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::Gmail - bounce mail parser class for C<Gmail>.
+Sisimai::Lhost::Gmail - bounce mail decoder class for Gmail L<https://mail.google.com/>.
 
 =head1 SYNOPSIS
 
@@ -270,8 +250,8 @@ Sisimai::Lhost::Gmail - bounce mail parser class for C<Gmail>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::Gmail parses a bounce email which created by C<Gmail>. Methods in the module are
-called from only Sisimai::Message.
+C<Sisimai::Lhost::Gmail> decodes a bounce email which created by Gmail L<https://mail.google.com/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -283,8 +263,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -292,7 +272,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

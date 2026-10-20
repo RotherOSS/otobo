@@ -23,6 +23,7 @@ Starting in the OTOBO root dir.
 ### Streamlined procedure when there are only version updates
 
 Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>.
+For large version jumps it might be good to delete the old module in F<Kernel/cpan-lib>. This avoids lingering files.
 
     cd Kernel/cpan-lib
     rm -rf local

@@ -1,5 +1,5 @@
 package Sisimai::Order;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Sisimai::Lhost;
@@ -24,83 +24,51 @@ sub make {
         'complaint-about'  => ['Sisimai::ARF'],
         'delivery-failure' => ['Sisimai::Lhost::Domino', 'Sisimai::Lhost::X2'],
         'delivery-notification' => ['Sisimai::Lhost::MessagingServer'],
-        'delivery-report'  => ['Sisimai::Lhost::PowerMTA'],
         'delivery-status'  => [
-            'Sisimai::Lhost::GSuite',
-            'Sisimai::Lhost::Outlook',
-            'Sisimai::Lhost::GoogleGroups',
-            'Sisimai::Lhost::McAfee',
             'Sisimai::Lhost::OpenSMTPD',
-            'Sisimai::Lhost::AmazonSES',
-            'Sisimai::Lhost::AmazonWorkMail',
-            'Sisimai::Lhost::ReceivingSES',
+            'Sisimai::Lhost::GoogleWorkspace',
             'Sisimai::Lhost::Gmail',
+            'Sisimai::Lhost::GoogleGroups',
+            'Sisimai::Lhost::AmazonSES',
             'Sisimai::Lhost::X3',
         ],
         'dmarc-ietf-dmarc' => ['Sisimai::ARF'],
         'email-feedback'   => ['Sisimai::ARF'],
         'failed-delivery'  => ['Sisimai::Lhost::X2'],
         'failure-delivery' => ['Sisimai::Lhost::X2'],
-        'failure-notice'   => [
-            'Sisimai::Lhost::Yahoo',
-            'Sisimai::Lhost::qmail',
-            'Sisimai::Lhost::mFILTER',
-            'Sisimai::Lhost::Activehunter',
-            'Sisimai::Lhost::X4',
-        ],
-        'loop-alert'    => ['Sisimai::Lhost::FML'],
-        'mail-could'    => ['Sisimai::Lhost::InterScanMSS'],
-        'mail-delivery' => [
+        'failure-notice'   => ['Sisimai::Lhost::qmail', 'Sisimai::Lhost::mFILTER', 'Sisimai::Lhost::Activehunter'],
+        'loop-alert'       => ['Sisimai::Lhost::FML'],
+        'mail-could'       => ['Sisimai::Lhost::TrendMicro'],
+        'mail-delivery'    => [
             'Sisimai::Lhost::Exim',
-            'Sisimai::Lhost::MailRu',
+            'Sisimai::Lhost::DragonFly',
             'Sisimai::Lhost::GMX',
-            'Sisimai::Lhost::EinsUndEins',
             'Sisimai::Lhost::Zoho',
-            'Sisimai::Lhost::MessageLabs',
-            'Sisimai::Lhost::MXLogic',
+            'Sisimai::Lhost::EinsUndEins',
+            'Sisimai::Lhost::DeutscheTelekom',
         ],
-        'mail-failure' => ['Sisimai::Lhost::Exim'],
-        'mail-not'     => ['Sisimai::Lhost::X4'],
-        'mail-system'  => ['Sisimai::Lhost::EZweb'],
-        'message-delivery' => ['Sisimai::Lhost::MailFoundry'],
-        'message-frozen'   => ['Sisimai::Lhost::Exim'],
-        'message-you'      => ['Sisimai::Lhost::Barracuda'],
-        'não-entregue'     => ['Sisimai::Lhost::Office365'],
-        'non-recapitabile' => ['Sisimai::Lhost::Exchange2007'],
-        'non-remis' => ['Sisimai::Lhost::Exchange2007'],
-        'notice'    => ['Sisimai::Lhost::Courier'],
-        'onbestelbaar'       => ['Sisimai::Lhost::Office365'],
-        'permanent-delivery' => ['Sisimai::Lhost::X4'],
-        'postmaster-notify'  => ['Sisimai::Lhost::Sendmail'],
-        'returned-mail' => [
+        'mail-failed'       => ['Sisimai::Lhost::DeutscheTelekom'],
+        'mail-failure'      => ['Sisimai::Lhost::Exim'],
+        'mail-system'       => ['Sisimai::Lhost::EZweb'],
+        'message-delivery'  => ['Sisimai::Lhost::MailFoundry'],
+        'message-frozen'    => ['Sisimai::Lhost::Exim'],
+        'non-recapitabile'  => ['Sisimai::Lhost::Exchange2007'],
+        'non-remis'         => ['Sisimai::Lhost::Exchange2007'],
+        'notice'            => ['Sisimai::Lhost::Courier'],
+        'postmaster-email'  => ['Sisimai::Lhost::Mimecast'],
+        'postmaster-notify' => ['Sisimai::Lhost::Sendmail'],
+        'returned-mail'     => [
             'Sisimai::Lhost::Sendmail',
-            'Sisimai::Lhost::Aol',
-            'Sisimai::Lhost::V5sendmail',
-            'Sisimai::Lhost::Bigfoot',
             'Sisimai::Lhost::Biglobe',
+            'Sisimai::Lhost::V5sendmail',
             'Sisimai::Lhost::X1',
         ],
-        'sorry-your' => ['Sisimai::Lhost::Facebook'],
-        'there-was'  => ['Sisimai::Lhost::X6'],
-        'undeliverable' => [
-            'Sisimai::Lhost::Office365',
-            'Sisimai::Lhost::Exchange2007',
-            'Sisimai::Lhost::Aol',
-            'Sisimai::Lhost::Exchange2003',
-        ],
-        'undeliverable-mail' => [
-            'Sisimai::Lhost::Amavis',
-            'Sisimai::Lhost::MailMarshalSMTP',
-            'Sisimai::Lhost::IMailServer',
-        ],
+        'there-was'     => ['Sisimai::Lhost::X6'],
+        'undeliverable' => ['Sisimai::Lhost::Exchange2007', 'Sisimai::Lhost::Exchange2003'],
+        'undeliverable-mail'    => ['Sisimai::Lhost::MailMarshal', 'Sisimai::Lhost::IMailServer'],
         'undeliverable-message' => ['Sisimai::Lhost::Notes', 'Sisimai::Lhost::Verizon'],
-        'undelivered-mail' => [
-            'Sisimai::Lhost::Postfix',
-            'Sisimai::Lhost::Aol',
-            'Sisimai::Lhost::SendGrid',
-            'Sisimai::Lhost::Zoho',
-        ],
-        'warning' => ['Sisimai::Lhost::Sendmail', 'Sisimai::Lhost::Exim'],
+        'undelivered-mail'      => ['Sisimai::Lhost::Postfix', 'Sisimai::Lhost::Zoho'],
+        'warning'               => ['Sisimai::Lhost::Sendmail', 'Sisimai::Lhost::Exim'],
     };
 
     if( rindex($words[0], ':') > 0 ) {
@@ -115,13 +83,6 @@ sub make {
     return $subject->{ $first } || [];
 }
 
-sub default {
-    # Make default order of MTA modules to be loaded
-    # @return   [Array] Default order list of MTA modules
-    # @since v4.13.1
-    return [map { 'Sisimai::Lhost::'.$_ } Sisimai::Lhost->index()->@*];
-}
-
 sub another {
     # Make MTA modules list as a spare
     # @return   [Array] Ordered module list
@@ -130,67 +91,48 @@ sub another {
     # There are another patterns in the value of "Subject:" header of a bounce mail generated by the
     # following MTA modules
     state $orderE0 = [
-        'Sisimai::Lhost::MailRu',
-        'Sisimai::Lhost::Yandex',
         'Sisimai::Lhost::Exim',
         'Sisimai::Lhost::Sendmail',
-        'Sisimai::Lhost::Aol',
-        'Sisimai::Lhost::Office365',
         'Sisimai::Lhost::Exchange2007',
         'Sisimai::Lhost::Exchange2003',
-        'Sisimai::Lhost::AmazonWorkMail',
         'Sisimai::Lhost::AmazonSES',
-        'Sisimai::Lhost::Barracuda',
-        'Sisimai::Lhost::InterScanMSS',
+        'Sisimai::Lhost::TrendMicro',
+        'Sisimai::Lhost::DeutscheTelekom',
         'Sisimai::Lhost::KDDI',
-        'Sisimai::Lhost::SurfControl',
+        'Sisimai::Lhost::FML',
         'Sisimai::Lhost::Verizon',
         'Sisimai::Lhost::ApacheJames',
         'Sisimai::Lhost::X2',
-        'Sisimai::Lhost::X5',
-        'Sisimai::Lhost::FML',
     ];
 
     # Fallback list: The following MTA/ESP modules is not listed orderE0
     state $orderE1 = [
         'Sisimai::Lhost::Postfix',
-        'Sisimai::Lhost::GSuite',
-        'Sisimai::Lhost::Yahoo',
-        'Sisimai::Lhost::Outlook',
-        'Sisimai::Lhost::GMX',
-        'Sisimai::Lhost::MessagingServer',
-        'Sisimai::Lhost::EinsUndEins',
-        'Sisimai::Lhost::Domino',
-        'Sisimai::Lhost::Notes',
+        'Sisimai::Lhost::OpenSMTPD',
         'Sisimai::Lhost::qmail',
         'Sisimai::Lhost::Courier',
-        'Sisimai::Lhost::OpenSMTPD',
-        'Sisimai::Lhost::Zoho',
-        'Sisimai::Lhost::MessageLabs',
-        'Sisimai::Lhost::MXLogic',
-        'Sisimai::Lhost::MailFoundry',
-        'Sisimai::Lhost::McAfee',
-        'Sisimai::Lhost::V5sendmail',
-        'Sisimai::Lhost::mFILTER',
-        'Sisimai::Lhost::SendGrid',
-        'Sisimai::Lhost::ReceivingSES',
-        'Sisimai::Lhost::Amavis',
-        'Sisimai::Lhost::PowerMTA',
-        'Sisimai::Lhost::GoogleGroups',
+        'Sisimai::Lhost::MessagingServer',
+        'Sisimai::Lhost::GoogleWorkspace',
         'Sisimai::Lhost::Gmail',
-        'Sisimai::Lhost::EZweb',
+        'Sisimai::Lhost::GMX',
+        'Sisimai::Lhost::Zoho',
+        'Sisimai::Lhost::Domino',
+        'Sisimai::Lhost::Notes',
         'Sisimai::Lhost::IMailServer',
-        'Sisimai::Lhost::MailMarshalSMTP',
+        'Sisimai::Lhost::mFILTER',
         'Sisimai::Lhost::Activehunter',
-        'Sisimai::Lhost::Bigfoot',
+        'Sisimai::Lhost::MailFoundry',
+        'Sisimai::Lhost::GoogleGroups',
+        'Sisimai::Lhost::MailMarshal',
+        'Sisimai::Lhost::V5sendmail',
+        'Sisimai::Lhost::EZweb',
         'Sisimai::Lhost::Biglobe',
-        'Sisimai::Lhost::Facebook',
-        'Sisimai::Lhost::X4',
+        'Sisimai::Lhost::EinsUndEins',
+        'Sisimai::Lhost::DragonFly',
         'Sisimai::Lhost::X1',
         'Sisimai::Lhost::X3',
         'Sisimai::Lhost::X6',
     ];
-
     return [@$orderE0, @$orderE1];
 };
 
@@ -201,7 +143,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Order - A Class for making an optimized order list for calling MTA modules in Sisimai::Lhost::*.
+Sisimai::Order - A Class for making an optimized order list for calling MTA modules in C<Sisimai::Lhost::*>
 
 =head1 SYNOPSIS
 
@@ -209,23 +151,16 @@ Sisimai::Order - A Class for making an optimized order list for calling MTA modu
 
 =head1 DESCRIPTION
 
-Sisimai::Order class makes optimized order list which include MTA modules to be loaded on first from
-MTA specific headers in the bounce mail headers such as X-Failed-Recipients, which MTA modules for
-JSON structure.
+C<Sisimai::Order> class makes optimized order list which include MTA modules to be loaded on first
+from MTA specific headers in the bounce mail headers such as C<X-Failed-Recipients:>, which MTA modules
+for JSON structure.
 
 =head1 CLASS METHODS
 
-=head2 C<B<default()>>
-
-C<default()> returns a default order of MTA modules as an array reference. The default order is
-defined at Sisimai::Lhost->index method.
-
-    print for Sisimai::Order->default->@*;
-
 =head2 C<B<another()>>
 
-C<another()> returns another list of MTA modules as an array reference. Another list is defined at
-this class.
+C<another()> method returns another list of MTA modules as an array reference. Another list is defined
+at this class.
 
     print for Sisimai::Order->another->@*;
 
@@ -235,10 +170,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2017,2019-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2017,2019-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

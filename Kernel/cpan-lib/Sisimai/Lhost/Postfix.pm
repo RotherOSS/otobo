@@ -1,35 +1,37 @@
 package Sisimai::Lhost::Postfix;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'Postfix' }
+sub description { 'Postfix: https://www.postfix.org/' }
 sub inquire {
-    # Parse bounce messages from Postfix
+    # Decode bounce messages from Postfix
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.0.0
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
     my $match = 0;
-    my $sessx = 0;
 
     if( index($mhead->{'subject'}, 'SMTP server: errors from ') > 0 ) {
         # src/smtpd/smtpd_chat.c:|337: post_mail_fprintf(notice, "Subject: %s SMTP server: errors from %s",
         # src/smtpd/smtpd_chat.c:|338:   var_mail_name, state->namaddr);
-        $match++;
-        $sessx++;
+        $match = 2;
+
     } else {
         # Subject: Undelivered Mail Returned to Sender
-        $match++ if $mhead->{'subject'} eq 'Undelivered Mail Returned to Sender';
+        $match = 1 if $mhead->{'subject'} eq 'Undelivered Mail Returned to Sender';
     }
-    return undef if $match == 0;
-    return undef if $mhead->{'x-aol-ip'};
+    return undef if $match == 0 || $mhead->{'x-aol-ip'};
 
+    require Sisimai::Eb;
+    require Sisimai::RFC1123;
+    require Sisimai::SMTP::Reply;
+    require Sisimai::SMTP::Status;
     require Sisimai::SMTP::Command;
     state $indicators = __PACKAGE__->INDICATORS;
     state $boundaries = ['Content-Type: message/rfc822', 'Content-Type: text/rfc822-headers'];
@@ -45,37 +47,34 @@ sub inquire {
     };
 
     my $permessage = {};    # (Hash) Store values of each Per-Message field
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
     my $anotherset = {};    # (Hash) Another error information
     my $nomessages = 0;     # (Integer) Delivery report unavailable
     my @commandset;         # (Array) ``in reply to * command'' list
-    my $v = undef;
     my $p = '';
 
-    if( $sessx ) {
+    if( $match == 2 ) {
         # The message body starts with 'Transcript of session follows.'
         require Sisimai::SMTP::Transcript;
-        my $transcript = Sisimai::SMTP::Transcript->rise(\$emailparts->[0], 'In:', 'Out:');
-
-        return undef unless $transcript;
-        return undef unless scalar @$transcript;
+        my $transcript = Sisimai::SMTP::Transcript->rise($emailparts->[0], 'In:', 'Out:') || return undef;
+        return undef if scalar @$transcript == 0;
 
         for my $e ( @$transcript ) {
             # Pick email addresses, error messages, and the last SMTP command.
             $v ||= $dscontents->[-1];
             $p   = $e->{'response'};
 
-            if( $e->{'command'} eq 'EHLO' || $e->{'command'} eq 'HELO' ) {
+            if( $e->{'command'} eq $Sisimai::Eb::CeEHLO || $e->{'command'} eq $Sisimai::Eb::CeHELO ) {
                 # Use the argument of EHLO/HELO command as a value of "lhost"
                 $v->{'lhost'} = $e->{'argument'};
 
-            } elsif( $e->{'command'} eq 'MAIL' ) {
+            } elsif( $e->{'command'} eq $Sisimai::Eb::CeMAIL ) {
                 # Set the argument of "MAIL" command to pseudo To: header of the original message
                 $emailparts->[1] .= sprintf("To: %s\n", $e->{'argument'}) unless length $emailparts->[1];
 
-            } elsif( $e->{'command'} eq 'RCPT' ) {
+            } elsif( $e->{'command'} eq $Sisimai::Eb::CeRCPT ) {
                 # RCPT TO: <...>
                 if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the transcript of session
@@ -105,40 +104,44 @@ sub inquire {
                 $readcursor |= $indicators->{'deliverystatus'} if grep { Sisimai::String->aligned(\$e, $_) } $startingof->{'message'}->@*;
                 next;
             }
-            next unless $readcursor & $indicators->{'deliverystatus'};
-            next unless length $e;
+            next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
             if( my $f = Sisimai::RFC1894->match($e) ) {
                 # $e matched with any field defined in RFC3464
                 next unless my $o = Sisimai::RFC1894->field($e);
                 $v = $dscontents->[-1];
 
-                if( $o->[-1] eq 'addr' ) {
+                if( $o->[3] eq 'addr' ) {
                     # Final-Recipient: rfc822; kijitora@example.jp
                     # X-Actual-Recipient: rfc822; kijitora@example.co.jp
-                    if( $o->[0] eq 'final-recipient' ) {
-                        # Final-Recipient: rfc822; kijitora@example.jp
-                        if( $v->{'recipient'} ) {
-                            # There are multiple recipient addresses in the message body.
-                            push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
-                            $v = $dscontents->[-1];
-                        }
-                        $v->{'recipient'} = $o->[2];
-                        $recipients++;
+                    if( Sisimai::Address->is_emailaddress($o->[2]) ) {
+                        # The email address is a valid email address, avoid an email address without a
+                        # valid domain part such as "neko@mailhost".
+                        if( $o->[0] eq 'final-recipient' ) {
+                            # Final-Recipient: rfc822; kijitora@example.jp
+                            if( $v->{'recipient'} ) {
+                                # There are multiple recipient addresses in the message body.
+                                push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
+                                $v = $dscontents->[-1];
+                            }
+                            $v->{'recipient'} = $o->[2];
+                            $recipients++;
 
-                    } else {
-                        # X-Actual-Recipient: rfc822; kijitora@example.co.jp
-                        $v->{'alias'} = $o->[2];
+                        } else {
+                            # X-Actual-Recipient: rfc822; kijitora@example.co.jp
+                            $v->{'alias'} = $o->[2];
+                        }
                     }
-                } elsif( $o->[-1] eq 'code' ) {
+                } elsif( $o->[3] eq 'code' ) {
                     # Diagnostic-Code: SMTP; 550 5.1.1 <userunknown@example.jp>... User Unknown
                     $v->{'spec'} = $o->[1];
-                    $v->{'spec'} = 'SMTP' if $v->{'spec'} eq 'X-POSTFIX';
+                    $v->{'spec'} = 'SMTP' if uc $v->{'spec'} eq 'X-POSTFIX';
                     $v->{'diagnosis'} = $o->[2];
 
                 } else {
                     # Other DSN fields defined in RFC3464
                     next unless exists $fieldtable->{ $o->[0] };
+                    next if $o->[3] eq "host" && Sisimai::RFC1123->is_internethost($o->[2]) == 0;
                     $v->{ $fieldtable->{ $o->[0] } } = $o->[2];
 
                     next unless $f == 1;
@@ -165,8 +168,7 @@ sub inquire {
                     # Alternative error message and recipient
                     if( index($e, ' (in reply to ') > -1 || index($e, 'command)') > -1 ) {
                         # 5.1.1 <userunknown@example.co.jp>... User Unknown (in reply to RCPT TO
-                        my $q = Sisimai::SMTP::Command->find($e);
-                        push @commandset, $q if $q;
+                        my $cv = Sisimai::SMTP::Command->find($e); push @commandset, $cv if $cv;
                         $anotherset->{'diagnosis'} .= ' '.$e if $anotherset->{'diagnosis'};
 
                     } elsif( Sisimai::String->aligned(\$e, ['<', '@', '>', '(expanded from <', '):']) ) {
@@ -210,12 +212,15 @@ sub inquire {
 
     unless( $recipients ) {
         # Fallback: get a recipient address from error messages
-        if( defined $anotherset->{'recipient'} && $anotherset->{'recipient'} ) {
-            # Set a recipient address
-            $dscontents->[-1]->{'recipient'} = $anotherset->{'recipient'};
+        for my $e ( 'recipient', 'alias' ) {
+            # Set a valid recipient address picked from $anotherset
+            next unless Sisimai::Address->is_emailaddress($anotherset->{ $e });
+            $dscontents->[-1]->{'recipient'} = $anotherset->{ $e };
             $recipients++;
+            last;
+        }
 
-        } else {
+        if( $recipients == 0 ) {
             # Get a recipient address from message/rfc822 part if the delivery report was unavailable:
             # '--- Delivery report unavailable ---'
             my $p1 = index($emailparts->[1], "\nTo: ");
@@ -248,13 +253,10 @@ sub inquire {
                 my $as = ''; # status
                 my $ar = ''; # replycode
 
-                if( $e->{'status'} eq '' || substr($e->{'status'}, -4, 4) eq '.0.0' ) {
-                    # Check the value of D.S.N. in $anotherset
+                if( Sisimai::SMTP::Status->is_ambiguous($e->{'status'}) ) {
+                    # Check the value of D.S.N. in $anotherset is neither an empty nor *.0.0.
                     $as = Sisimai::SMTP::Status->find($anotherset->{'diagnosis'}) || '';
-                    if( length($as) > 0 && substr($as, -4, 4) ne '.0.0' ) {
-                        # The D.S.N. is neither an empty nor *.0.0
-                        $e->{'status'} = $as;
-                    }
+                    $e->{'status'} = $as unless Sisimai::SMTP::Status->is_ambiguous($as);
                 }
 
                 if( $e->{'replycode'} eq '' || substr($e->{'replycode'}, -2, 2) eq '00' ) {
@@ -280,10 +282,10 @@ sub inquire {
         }
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'command'}   = shift @commandset || Sisimai::SMTP::Command->find($e->{'diagnosis'}) || '';
-        $e->{'command'} ||= 'HELO' if index($e->{'diagnosis'}, 'refused to talk to me:') > -1;
+        $e->{'command'} ||= $Sisimai::Eb::CeHELO if index($e->{'diagnosis'}, 'refused to talk to me:') > -1;
         $e->{'spec'}    ||= 'SMTP' if Sisimai::String->aligned(\$e->{'diagnosis'}, ['host ', ' said:']);
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -293,7 +295,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::Postfix - bounce mail parser class for C<Postfix>.
+Sisimai::Lhost::Postfix - bounce mail decoder class for Postfix L<https://www.postfix.org/>.
 
 =head1 SYNOPSIS
 
@@ -301,8 +303,8 @@ Sisimai::Lhost::Postfix - bounce mail parser class for C<Postfix>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::Postfix parses a bounce email which created by C<Postfix>. Methods in the module are
-called from only Sisimai::Message.
+C<Sisimai::Lhost::Postfix> decodes a bounce email which created by Postfix L<https://www.postfix.org/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -314,8 +316,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -323,7 +325,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

@@ -1,5 +1,5 @@
 package Sisimai::RFC3834;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
@@ -10,19 +10,14 @@ sub inquire {
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.1.28
     my $class = shift;
-    my $mhead = shift // return undef;
-    my $mbody = shift // return undef;
-    my $leave = 0;
-    my $match = 0;
+    my $mhead = shift // return undef; return undef unless keys %$mhead;
+    my $mbody = shift // return undef; return undef unless ref $mbody eq 'SCALAR';
     my $lower = {};
 
-    return undef unless keys %$mhead;
-    return undef unless ref $mbody eq 'SCALAR';
-
-    my $markingsof = { 'boundary' => '__SISIMAI_PSEUDO_BOUNDARY__' };
+    my $markingsof = {'boundary' => '__SISIMAI_PSEUDO_BOUNDARY__'};
     my $lowerlabel = ['from', 'to', 'subject', 'auto-submitted', 'precedence', 'x-apple-action'];
 
     for my $e ( @$lowerlabel ) {
@@ -54,8 +49,11 @@ sub inquire {
         )
         [ ]*(.+)\z
     }x;
+    state $suspending = [
+        ["this email inbox", " is no longer in use."],
+    ];
 
-    DETECT_EXCLUSION_MESSAGE: for my $e ( keys %$donotparse ) {
+    my $leave = 0; DETECT_EXCLUSION_MESSAGE: for my $e ( keys %$donotparse ) {
         # Exclude message from root@
         next unless exists  $lower->{ $e };
         next unless grep { index($lower->{ $e }, $_) > -1 } $donotparse->{ $e }->@*;
@@ -64,7 +62,7 @@ sub inquire {
     }
     return undef if $leave;
 
-    DETECT_AUTO_REPLY_MESSAGE0: for my $e ( keys %$autoreply0 ) {
+    my $match = 0; DETECT_AUTO_REPLY_MESSAGE0: for my $e ( keys %$autoreply0 ) {
         # RFC3834 Auto-Submitted and other headers
         next unless exists  $lower->{ $e };
         next unless grep { index($lower->{ $e }, $_) == 0 } $autoreply0->{ $e }->@*;
@@ -74,18 +72,18 @@ sub inquire {
     }
     return undef unless $match;
 
+    require Sisimai::Eb;
     require Sisimai::Lhost;
-    my $dscontents = [Sisimai::Lhost->DELIVERYSTATUS];
+    my $dscontents = [Sisimai::Lhost->DELIVERYSTATUS]; my $v = $dscontents->[-1];
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
     my $maxmsgline = 5;     # (Integer) Max message length(lines)
     my $haveloaded = 0;     # (Integer) The number of lines loaded from message body
     my $blanklines = 0;     # (Integer) Counter for countinuous blank lines
     my $countuntil = 1;     # (Integer) Maximun value of blank lines in the body part
-    my $v = $dscontents->[-1];
 
     RECIPIENT_ADDRESS: {
         # Try to get the address of the recipient
-        for my $e ('from', 'return-path') {
+        for my $e ('reply-to', 'from', 'return-path') {
             # Get the recipient address
             next unless exists  $mhead->{ $e };
 
@@ -107,7 +105,7 @@ sub inquire {
         $markingsof->{'boundary'} = $q if $q;
     }
 
-    BODY_PARSER: {
+    MESSAGE_BODY: {
         # Get vacation message
         for my $e ( split("\n", $$mbody) ) {
             # Read the first 5 lines except a blank line
@@ -118,9 +116,8 @@ sub inquire {
                 last if ++$blanklines > $countuntil;
                 next;
             }
-            next unless rindex($e, ' ') > -1;
-            next if      index($e, 'Content-Type')     == 0;
-            next if      index($e, 'Content-Transfer') == 0;
+            next if rindex($e, ' ') < 0;
+            next if index($e, 'Content-Type') == 0 || index($e, 'Content-Transfer') == 0;
 
             $v->{'diagnosis'} .= $e.' ';
             $haveloaded++;
@@ -128,15 +125,20 @@ sub inquire {
         }
         $v->{'diagnosis'} ||= $mhead->{'subject'};
     }
+    $v->{'reason'} = $Sisimai::Eb::ReAWAY;
 
-    $v->{'diagnosis'} = Sisimai::String->sweep($v->{'diagnosis'});
-    $v->{'reason'}    = 'vacation';
+    my $cv = lc $v->{'diagnosis'}; for my $e ( @$suspending ) {
+        # Check that the auto-replied message indicates the "Suspend" reason or not.
+        next unless Sisimai::String->aligned(\$cv, $e);
+        $v->{'reason'} = $Sisimai::Eb::ReQUIT; last;
+    }
+
     $v->{'date'}      = $mhead->{'date'};
     $v->{'status'}    = '';
 
     # Get the Subject header from the original message
     my $rfc822part = $lower->{'subject'} =~ $subjectset ? 'Subject: '.$1."\n" : '';
-    return { 'ds' => $dscontents, 'rfc822' => $rfc822part };
+    return {"ds" => $dscontents, "rfc822" => $rfc822part};
 }
 
 1;
@@ -153,21 +155,21 @@ Sisimai::RFC3834 - RFC3834 auto reply message detector
 
 =head1 DESCRIPTION
 
-Sisimai::RFC3834 is a class which called from called from only Sisimai::Message when other
-Sisimai::Lhost::* modules did not detected a bounce reason.
+C<Sisimai::RFC3834> is a class which called from called from only C<Sisimai::Message> when other
+C<Sisimai::Lhost::*> modules did not detected a bounce reason.
 
 =head1 CLASS METHODS
 
 =head2 C<B<description()>>
 
-C<description()> returns description string of this module.
+C<description()> method returns the description string of this module.
 
     print Sisimai::RFC3834->description;
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses an auto replied message and return results as an array reference. See
-Sisimai::Message for more details.
+C<inquire()> method decodes an auto replied message and return results as an array reference. See
+C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -175,7 +177,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

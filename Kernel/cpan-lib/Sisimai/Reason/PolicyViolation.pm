@@ -1,10 +1,10 @@
 package Sisimai::Reason::PolicyViolation;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
-use Sisimai::String;
+use Sisimai::Eb;
 
-sub text  { 'policyviolation' }
+sub text  { $Sisimai::Eb::ReWONT }
 sub description { 'Email rejected due to policy violation on a destination host' }
 sub match {
     # Try to match that the given text and regular expressions
@@ -13,49 +13,41 @@ sub match {
     #                           1: Matched
     # @since v4.22.0
     my $class = shift;
-    my $argv1 = shift // return undef;
+    my $argv1 = shift // return 0;
 
     state $index = [
-        'an illegal attachment on your message',
-        'because the recipient is not accepting mail with ',    # AOL Phoenix
-        'by non-member to a members-only list',
-        'closed mailing list',
-        'denied by policy',
-        'email not accepted for policy reasons',
+        "because the recipient is not accepting mail with ",    # AOL Phoenix
+        "closed mailing list",
+        "delivery not authorized, message refused",
+        "denied by policy",
         # http://kb.mimecast.com/Mimecast_Knowledge_Base/Administration_Console/Monitoring/Mimecast_SMTP_Error_Codes#554
-        'email rejected due to security policies',
-        'header are not accepted',
-        'header error',
-        'local policy violation',
-        'message bounced due to organizational settings',
-        'message given low priority',
-        'message not accepted for policy reasons',
-        'message rejected due to local policy',
-        'messages with multiple addresses',
-        'rejected for policy reasons',
-        'protocol violation',
-        'the email address used to send your message is not subscribed to this group',
-        'the message was rejected by organization policy',
-        'this message was blocked because its content presents a potential',
-        'we do not accept messages containing images or other attachments',
+        "email rejected due to security policies",
+        "for policy reasons",
+        "local policy violation",
+        "message bounced due to organizational settings",
+        "message given low priority",
+        "message was rejected by organization policy",
+        "protocol violation",
+        "support.google.com/a/answer/172179",
         "you're using a mass mailer",
     ];
-    state $pairs = [
-        ['you have exceeded the', 'allowable number of posts without solving a captcha'],
-    ];
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
-    return 1 if grep { Sisimai::String->aligned(\$argv1, $_) } @$pairs;
     return 0;
 }
 
 sub true {
-    # The bounce reason is "policyviolation" or not
+    # The bounce reason is "PolicyViolation" or not
     # @param    [Sisimai::Fact] argvs   Object to be detected the reason
-    # @return   [Integer]               1: is policy violation
-    #                                   0: is not policyviolation
+    # @return   [Integer]               1: is PolicyViolation
+    #                                   0: is not PolicyViolation
     # @since v4.22.0
     # @see http://www.ietf.org/rfc/rfc2822.txt
-    return undef;
+    my $class = shift;
+    my $argvs = shift // return 0;
+
+    return 1 if $argvs->{'reason'} eq $Sisimai::Eb::ReWONT;
+    return 0 if $argvs->{'command'} ne '' && $argvs->{'command'} ne $Sisimai::Eb::CeDATA;
+    return __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
 }
 
 1;
@@ -65,7 +57,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Reason::PolicyViolation - Bounce reason is C<policyviolation> or not.
+Sisimai::Reason::PolicyViolation - Bounce reason is C<PolicyViolation> or not.
 
 =head1 SYNOPSIS
 
@@ -74,12 +66,12 @@ Sisimai::Reason::PolicyViolation - Bounce reason is C<policyviolation> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::PolicyViolation checks the bounce reason is C<policyviolation> or not. This class
-is called only Sisimai::Reason class.
+C<Sisimai::Reason::PolicyViolation> checks the bounce reason is C<PolicyViolation> or not.
+This class is called only C<Sisimai::Reason> class.
 
-This is the error that a policy violation was detected on a destination mail host. When a header
-content or a format of the original message violates security policies, or multiple addresses exist
-in the From: header, Sisimai will set C<policyviolation>.
+This is the error that a policy violation was detected on the destination mail host. When the header
+content or the format of the original message violates their security policies, or multiple addresses
+exist in the C<From:> header, Sisimai will set C<PolicyViolation>.
 
     Action: failed
     Status: 5.7.0
@@ -91,20 +83,20 @@ in the From: header, Sisimai will set C<policyviolation>.
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<policyviolation>.
+C<text()> method returns the fixed string C<PolicyViolation>.
 
-    print Sisimai::Reason::PolicyViolation->text;  # policyviolation
+    print Sisimai::Reason::PolicyViolation->text;  # PolicyViolation
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> returns 1 if the argument matched with patterns defined in this class.
+C<match()> method returns C<1> if the argument matched with patterns defined in this class.
 
     print Sisimai::Reason::PolicyViolation->match('5.7.9 Header error');    # 1
 
 =head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<policyviolation>. The argument must be Sisimai::Fact
-object and this method is called only from Sisimai::Reason class.
+C<true()> method returns C<1> if the bounce reason is C<PolicyViolation>. The argument must be
+<CSisimai::Fact> object and this method is called only from C<Sisimai::Reason> class.
 
 =head1 AUTHOR
 
@@ -112,7 +104,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2017-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2017-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

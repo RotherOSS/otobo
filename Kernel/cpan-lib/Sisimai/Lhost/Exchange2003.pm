@@ -1,26 +1,26 @@
 package Sisimai::Lhost::Exchange2003;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
 
-sub description { 'Microsoft Exchange Server 2003' }
+sub description { 'Microsoft Exchange Server 2003: https://www.microsoft.com/microsoft-365/exchange/email' }
 sub inquire {
     # Detect an error from Microsoft Exchange Server 2003
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.1.1
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
-    my $match = 0;
 
     # X-MS-TNEF-Correlator: <00000000000000000000000000000000000000@example.com>
     # X-Mailer: Internet Mail Service (5.5.1960.3)
     # X-MS-Embedded-Report:
-    $match ||= 1 if defined $mhead->{'x-ms-embedded-report'};
+    my $match = 0; $match ||= 1 if defined $mhead->{'x-ms-embedded-report'};
     EXCHANGE_OR_NOT: while(1) {
         # Check the value of X-Mailer header
         last if $match;
@@ -58,34 +58,26 @@ sub inquire {
         'error'   => ['did not reach the following recipient(s):'],
     };
     state $errorcodes = {
-        'onhold' => [
+        $Sisimai::Eb::ReUSER => ['000C05A6'], # Unknown Recipient,
+        $Sisimai::Eb::ReFILT => ['000C0595'], # Ambiguous Recipient
+        $Sisimai::Eb::ReINET => ['00120270'], # Too Many Hops
+        $Sisimai::Eb::ReSAFE => ['000B0981'], # 502 Server does not support AUTH
+        $Sisimai::Eb::Re___1 => [ # OnHold
             '000B099C', # Host Unknown, Message exceeds size limit, ...
             '000B09AA', # Unable to relay for, Message exceeds size limit,...
             '000B09B6', # Error messages by remote MTA
         ],
-        'userunknown' => [
-            '000C05A6', # Unknown Recipient,
-        ],
-        'systemerror' => [
+        $Sisimai::Eb::RePROC => [ # SystemError
             '00010256', # Too many recipients.
             '000D06B5', # No proxy for recipient (non-smtp mail?)
         ],
-        'networkerror' => [
-            '00120270', # Too Many Hops
-        ],
-        'contenterror' => [
+        $Sisimai::Eb::ReBODY => [ # ContentError
             '00050311', # Conversion to Internet format failed
             '000502CC', # Conversion to Internet format failed
         ],
-        'securityerror' => [
-            '000B0981', # 502 Server does not support AUTH
-        ],
-        'filtered' => [
-            '000C0595', # Ambiguous Recipient
-        ],
     };
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
@@ -96,7 +88,6 @@ sub inquire {
         'date'    => '',    # The value of "Date"
         'subject' => '',    # The value of "Subject"
     };
-    my $v = undef;
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -106,8 +97,7 @@ sub inquire {
             $readcursor |= $indicators->{'deliverystatus'} if index($e, $startingof->{'message'}->[0]) == 0;
             next;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next if $statuspart;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $statuspart == 1;
 
         if( $connvalues == scalar(keys %$connheader) ) {
             # did not reach the following recipient(s):
@@ -187,7 +177,6 @@ sub inquire {
     return undef unless $recipients;
 
     for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         delete $e->{'msexch'};
 
         if( index($e->{'diagnosis'}, 'MSEXCH:') == 0 ) {
@@ -207,10 +196,9 @@ sub inquire {
 
         # Could not detect the reason from the value of "diagnosis", copy alternative error message
         next if $e->{'reason'};
-        next unless exists $e->{'alterrors'};
-        next unless length $e->{'alterrors'};
+        next unless exists $e->{'alterrors'} && length $e->{'alterrors'};
+
         $e->{'diagnosis'} = $e->{'alterrors'}.' '.$e->{'diagnosis'};
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         delete $e->{'alterrors'};
     }
 
@@ -220,7 +208,7 @@ sub inquire {
         $emailparts->[1] .= sprintf("Date: %s\n", $connheader->{'date'});
         $emailparts->[1] .= sprintf("Subject: %s\n", $connheader->{'subject'});
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -230,7 +218,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::Exchange2003 - bounce mail parser class for C<Microsft Exchange Server 2003>.
+Sisimai::Lhost::Exchange2003 - bounce mail decoder class for Microsft Exchange Server 2003 L<https://www.microsoft.com/microsoft-365/exchange/email>.
 
 =head1 SYNOPSIS
 
@@ -238,8 +226,9 @@ Sisimai::Lhost::Exchange2003 - bounce mail parser class for C<Microsft Exchange 
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::Exchange parses a bounce email which created by C<Microsoft Exchange Server 2003>.
-Methods in the module are called from only Sisimai::Message.
+C<Sisimai::Lhost::Exchange> decodes a bounce email which created by Microsoft Exchange Server 2003
+L<https://www.microsoft.com/microsoft-365/exchange/email>. Methods in the module are called from
+only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -252,8 +241,8 @@ C<description()> returns description string of this module.
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -261,10 +250,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

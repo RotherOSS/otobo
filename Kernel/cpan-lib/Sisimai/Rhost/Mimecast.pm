@@ -1,24 +1,24 @@
 package Sisimai::Rhost::Mimecast;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Sisimai::SMTP::Reply;
 
-sub get {
+sub find {
     # Detect bounce reason from https://www.mimecast.com/
-    # @param    [Sisimai::Fact] argvs   Parsed email object
+    # @param    [Sisimai::Fact] argvs   Decoded email object
     # @return   [String]                The bounce reason at Mimecast
     # @since v4.25.15
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return "";
+    return '' unless $argvs->{'diagnosticcode'};
+    return '' unless Sisimai::SMTP::Reply->test($argvs->{'replycode'});
 
-    return undef unless length $argvs->{'diagnosticcode'};
-    return undef unless Sisimai::SMTP::Reply->test($argvs->{'replycode'});
-
+    require Sisimai::Eb;
     state $messagesof = {
-        # https://community.mimecast.com/s/article/Mimecast-SMTP-Error-Codes-842605754
-        # https://community.mimecast.com/s/article/email-security-cloud-gateway-mimecast-smtp-error-codes
-        'authfailure' => [
+        # - https://community.mimecast.com/s/article/email-security-cloud-gateway-mimecast-smtp-error-codes
+        # - https://mimecastsupport.zendesk.com/hc/en-us/articles/34000709564691-Policies-Mimecast-SMTP-Error-Codes
+        $Sisimai::Eb::ReAUTH => [
             # - The inbound message has been rejected because the originated IP address isn't list-
             #   ed in the published SPF records for the sending domain.
             # - Ensure all the IP addresses for your mail servers are listed in your SPF records.
@@ -40,7 +40,7 @@ sub get {
             # - Ensure all the IP addresses for your mail servers are listed in your SPF records.
             [550, 'dmarc sender invalid - envelope rejected'],
         ],
-        'badreputation' => [
+        $Sisimai::Eb::ReFAMA => [
             # - The sending mail server is subjected to Greylisting. This requires the server to
             #   retry the connection, between one minute and 12 hours. Alternatively, the sender's
             #   IP address has a poor reputation.
@@ -55,7 +55,9 @@ sub get {
             #     You can request a review of your source IP ranges by completing our online form.
             [550, 'local ct ip reputation - (reject)'],
         ],
-        'blocked' => [
+        $Sisimai::Eb::ReBLOC => [
+            # - Sender address blocked.
+            #   A Blocked Senders Policy has blocked the sender's IP address.
             # - The sender's IP address has been blocked by a Blocked Senders Policy.
             # - Remove the entry from the policy.
             [421, 'sender address blocked'],
@@ -77,7 +79,7 @@ sub get {
             #   the associated IP address from the RBL.
             #[550, '< details of RBL >'], NEED AN ACTUAL ERROR MESSAGE STRING
         ],
-        'mesgtoobig' => [
+        $Sisimai::Eb::ReSIZE => [
             # - The email size either exceeds an Email Size Limit policy or is larger than the
             #   Mimecast service limit. The default is 100 MB for the Legacy MTA, and 200 MB for
             #   "the Latest MTA".
@@ -86,90 +88,23 @@ sub get {
             #   sage with a 70 MB attachment, can have an overall size larger than 100 MB).
             [554, 'maximum email size exceeded'],
         ],
-        'networkerror' => [
-            # - The recipients' domains have MX records configured incorrectly
-            # - Check and remove any MX records that point to hostnames with outbound references.
-            #   Only Inbound smart hosts are supported on MX records.
-            [451, 'the incorrect hostname used for inbounds'],
-            [550, 'the incorrect hostname used for inbounds'],
-
-            # - The message has too many "received headers" as it has been forwarded across multi-
-            #   ple hops. Once 25 hops have been reached, the email is rejected.
-            # - Investigate the email addresses in the communication pairs, to see what forwarders
-            #   are configured on the mail servers.
-            [554, 'mail loop detected'],
-        ],
-        'norelaying' => [
-            # - Both the sender and recipient domains specified in the transmission are external to
-            #   Mimecast, and aren't allowed to relay through the Mimecast service and/or the con-
-            #   necting IP address isn't recognized as authorized.
-            # - Mimecast customers should contact Mimecast Support to add the Authorized Outbound
-            #   address, or to take other remedial action.
-            [451, 'open relay not allowed'],
-        ],
-        'notaccept' => [
-            # - The customer account Inbound emails are disabled in the Administration Console.
-            # - Contact Mimecast Support if the account's inbound traffic should be allowed.
-            [451, 'account inbounds disabled'],
-        ],
-        'onhold' => [
-            # - The customer account outbound emails are disabled in the Administration Console.
-            # - Contact Mimecast Support if the account's outbound traffic should be allowed.
-            [451, 'account outbounds disabled'],
-
-            # - Omni Directional hostnames are enabled.
-            # - Disable Omni Directional hostnames.
-            [451, 'hostname is not authorized'],
-
-            # - Attempts are being made to journal mail that is past the set expiry threshold. The
-            #   failure will be replaced by a retry response because the message is marked for re-
-            #   try if rejected, causing the journal queue to grow.
+        $Sisimai::Eb::ReTIME => [
+            # - Journal messages past the expiration
+            # - Attempts are being made to journal mail past the set expiry threshold.
+            #   A retry response will replace the failure because the message is marked for retry
+            #   if rejected, causing the journal queue to grow.
             # - Check to confirm there are no significant time discrepancies on the mail server.
             #   Discontinue journaling old messages past the expiry threshold.
-            [550, 'journal message past expiration'],
+            [550, 'journal messages past the expiration'],
         ],
-        'policyviolation' => [
-            # - The message has triggered an Anti-Spoofing policy.
-            # - Create an Anti-Spoofing policy to take no action for the sender's address or IP ad-
-            #   dress.
-            [550, 'anti-spoofing policy - inbound not allowed'],
-            [550, 'rejected by header-based anti-spoofing policy'],
-
-            # - The message has triggered a Content Examination policy.
-            # - Either create a Content Examination Bypass policy or adjust the Content Examination
-            #   policy as required.
-            [550, 'message bounced due to content examination policy'],
-
-            # - The message has triggered a Geographical Restriction policy.
-            # - Delete or amend the policy.
-            [554, 'host network not allowed'],
-        ],
-        'rejected' => [
-            # - The sender's email address or domain has triggered a Blocked Senders Policy or
-            #   there's an SPF hard rejection.
-            # - Delete or modify the Blocked Senders policy to exclude the sender address.
-            [550, 'administrative prohibition envelope blocked'],
-
-            # - A personal block policy is in place for the email address/domain.
-            # - Remove the email address/domain from the Managed Senders list.
-            [550, 'envelope blocked - user entry'],
-            [550, 'envelope blocked - user domain entry'],
-            [550, 'rejected by header-based manually blocked senders - block for manual block'],
-
-            # - A Block Sender Policy has been applied to reject emails based on the Header From or
-            #   Envelope From address.
-            # - Delete or change the Blocked Senders policy.
-            [550, 'rejected by header-based blocked senders - block policy for header from'],
-            [550, 'envelope rejected - block policy for envelope from address'],
-        ],
-        'securityerror' => [
-            # - Messages submitted to SMTP port 587 require authentication. This error indicates
-            #   the authentication details provided were incorrect.
-            # - Check your authentication details match an internal email address in Mimecast, with
-            #   a corresponding Mimecast cloud password. Alternatively, consider sending the mes-
-            #   sage on SMTP port 25.
-            [535, 'incorrect authentication data'],
-            [550, 'submitter failed to disabled'],
+        $Sisimai::Eb::ReTTLS => [
+            # - SMTP inbound TLS has been enabled but no SSL certificate (or no valid certificate)
+            #   has been selected to be used. 
+            # - Delete or change the Secure Receipt or Secure Delivery policy enforcing TLS.
+            #   Alternatively, ensure the certificates on the mail server haven't expired.
+            #   If using a proxy server, ensure it isn't intercepting the traffic and modifying
+            #   encryption parameters.
+            ["454", "tls not available due to temporary reason"],
 
             # - This email has been sent using SMTP, but TLS is required by policy.
             # - Delete or change the Secure Receipt or Secure Delivery policy enforcing TLS.
@@ -196,30 +131,67 @@ sub get {
             # - Check you DNS has the required umbrella accounts listed as comma-separated values.
             [554, 'configuration is invalid for this certificate'],
         ],
-        'systemerror' => [
-            # - The Mimecast server is under maximum load.
-            # - No action is required from the end-user. The message will retry 30 times and when
-            #   server resources are available, the message is processed.
-            [451, 'unable to process connection at this time'],
+        $Sisimai::Eb::ReINET => [
+            # - The recipients' domains have MX records configured incorrectly
+            # - Check and remove any MX records that point to hostnames with outbound references.
+            #   Only Inbound smart hosts are supported on MX records.
+            [451, 'the incorrect hostname used for inbounds'],
+            [550, 'the incorrect hostname used for inbounds'],
 
-            # - The message was incorrectly terminated. This can be caused by:
-            #   - Files that previously contained a virus, but haven't been cleaned by an anti-virus
-            #     product, leaving traces in the message.
-            #   - Firewall issues on the sender's side.
-            #   - Incorrectly configured content rules on a security device.
-            # - Investigate the Intrusion Detection software or other SMTP protocol analyzers. If
-            #   running a Cisco Firewall, ensure the Mail- guard or SMTP Fixup module is disabled.
-            [451, 'message ended early'],
-
-            # - Generic error if the reason is unknown
-            # - Contact Mimecast Support.
-            [451, 'unable to process command'],
-
-            # - Generic error if the reason is unknown
-            # - Contact Mimecast Support.
-            [451, 'unable to process an email at this time'],
+            # - The message has too many "received headers" as it has been forwarded across multi-
+            #   ple hops. Once 25 hops have been reached, the email is rejected.
+            # - Investigate the email addresses in the communication pairs, to see what forwarders
+            #   are configured on the mail servers.
+            [554, 'mail loop detected'],
         ],
-        'toomanyconn' => [
+        $Sisimai::Eb::RePASS => [
+            # - Both the sender and recipient domains specified in the transmission are external to
+            #   Mimecast, and aren't allowed to relay through the Mimecast service and/or the con-
+            #   necting IP address isn't recognized as authorized.
+            # - Mimecast customers should contact Mimecast Support to add the Authorized Outbound
+            #   address, or to take other remedial action.
+            [451, 'open relay not allowed'],
+            [451, 'open relay is not allowed'],
+        ],
+        $Sisimai::Eb::Re00MX => [
+            # - The customer account Inbound emails are disabled in the Administration Console.
+            # - Contact Mimecast Support if the account's inbound traffic should be allowed.
+            [451, 'account inbounds disabled'],
+        ],
+        $Sisimai::Eb::Re___1 => [
+            # - The customer account outbound emails are disabled in the Administration Console.
+            # - Contact Mimecast Support if the account's outbound traffic should be allowed.
+            [451, 'account outbounds disabled'],
+
+            # - Omni Directional hostnames are enabled.
+            # - Disable Omni Directional hostnames.
+            [451, 'hostname is not authorized'],
+
+            # - Attempts are being made to journal mail that is past the set expiry threshold. The
+            #   failure will be replaced by a retry response because the message is marked for re-
+            #   try if rejected, causing the journal queue to grow.
+            # - Check to confirm there are no significant time discrepancies on the mail server.
+            #   Discontinue journaling old messages past the expiry threshold.
+            [550, 'journal message past expiration'],
+        ],
+        $Sisimai::Eb::ReWONT => [
+            # - The message has triggered an Anti-Spoofing policy.
+            # - Create an Anti-Spoofing policy to take no action for the sender's address or IP ad-
+            #   dress.
+            [550, 'anti-spoofing policy - inbound not allowed'],
+            [550, 'rejected by header-based anti-spoofing policy'],
+
+            # - The message has triggered a Content Examination policy.
+            # - Either create a Content Examination Bypass policy or adjust the Content Examination
+            #   policy as required.
+            [550, 'message bounced due to content examination policy'],
+
+            # - The message has triggered a Geographical Restriction policy.
+            # - Delete or amend the policy.
+            [554, 'host network not allowed'],
+            [554, 'host network, not allowed'],
+        ],
+        $Sisimai::Eb::ReRATE => [
             # - There are too many concurrent inbound connections for the account. The default is 20.
             # - The IP address is automatically removed from the block list after five minutes.
             #   Continued invalid connections result in the IP being readded to the block list. En-
@@ -244,7 +216,71 @@ sub get {
             # - Send the messages in smaller chunks to recipients.
             [550, 'exceeding outbound thread limit'],
         ],
-        'userunknown' => [
+        $Sisimai::Eb::ReFROM => [
+            # - The sender's email address or domain has triggered a Blocked Senders Policy or
+            #   there's an SPF hard rejection.
+            # - Delete or modify the Blocked Senders policy to exclude the sender address.
+            [550, 'administrative prohibition envelope blocked'],
+
+            # - A personal block policy is in place for the email address/domain.
+            # - Remove the email address/domain from the Managed Senders list.
+            [550, 'envelope blocked - user entry'],
+            [550, 'envelope blocked - user domain entry'],
+            [550, 'rejected by header-based manually blocked senders - block for manual block'],
+
+            # - A Block Sender Policy has been applied to reject emails based on the Header From or
+            #   Envelope From address.
+            # - Delete or change the Blocked Senders policy.
+            [550, 'rejected by header-based blocked senders - block policy for header from'],
+            [550, 'envelope rejected - block policy for envelope from address'],
+        ],
+        $Sisimai::Eb::ReSAFE => [
+            # - Messages submitted to SMTP port 587 require authentication. This error indicates
+            #   the authentication details provided were incorrect.
+            # - Check your authentication details match an internal email address in Mimecast, with
+            #   a corresponding Mimecast cloud password. Alternatively, consider sending the mes-
+            #   sage on SMTP port 25.
+            [535, 'incorrect authentication data'],
+            [550, 'submitter failed to disabled'],
+            [550, 'submitter failed to authenticate'],
+        ],
+        $Sisimai::Eb::ReSPAM => [
+            # - A signature was detected that could either be a virus, or a spam score over the
+            #   maximum threshold. The spam score isn't available in the Administration Console. If
+            #   you aren't a Mimecast customer but have emails rejected with this error code, con-
+            #   tact the recipient to adjust their configuration and permit your address. If unsuc-
+            #   cessful, your IT department can submit a request to review these email rejections
+            #   via our Sender Feedback form.
+            # - Anti-virus checks cannot be bypassed. Contact the sender to see if they can stop
+            #   these messages from being blocked. Anti-spam checks can be bypassed using a Per-
+            #   mitted Senders or Auto Allow policy. Rejected emails can be viewed in your Outbound
+            #   Activity and searching for the required email address.
+            [554, 'email rejected due to security policies'],
+        ],
+        $Sisimai::Eb::RePROC => [
+            # - The Mimecast server is under maximum load.
+            # - No action is required from the end-user. The message will retry 30 times and when
+            #   server resources are available, the message is processed.
+            [451, 'unable to process connection at this time'],
+
+            # - The message was incorrectly terminated. This can be caused by:
+            #   - Files that previously contained a virus, but haven't been cleaned by an anti-virus
+            #     product, leaving traces in the message.
+            #   - Firewall issues on the sender's side.
+            #   - Incorrectly configured content rules on a security device.
+            # - Investigate the Intrusion Detection software or other SMTP protocol analyzers. If
+            #   running a Cisco Firewall, ensure the Mail- guard or SMTP Fixup module is disabled.
+            [451, 'message ended early'],
+
+            # - Generic error if the reason is unknown
+            # - Contact Mimecast Support.
+            [451, 'unable to process command'],
+
+            # - Generic error if the reason is unknown
+            # - Contact Mimecast Support.
+            [451, 'unable to process an email at this time'],
+        ],
+        $Sisimai::Eb::ReUSER => [
             # - The email address isn't a valid SMTP address.
             # - The sender must resend the message to a valid internal email address.
             [501, 'invalid address'],
@@ -260,19 +296,6 @@ sub get {
             #   returned a valid internal user.
             # - The sender must resend the message to a valid internal recipient address.
             [550, 'invalid recipient'],
-        ],
-        'virusdetected' => [
-            # - A signature was detected that could either be a virus, or a spam score over the
-            #   maximum threshold. The spam score isn't available in the Administration Console. If
-            #   you aren't a Mimecast customer but have emails rejected with this error code, con-
-            #   tact the recipient to adjust their configuration and permit your address. If unsuc-
-            #   cessful, your IT department can submit a request to review these email rejections
-            #   via our Sender Feedback form.
-            # - Anti-virus checks cannot be bypassed. Contact the sender to see if they can stop
-            #   these messages from being blocked. Anti-spam checks can be bypassed using a Per-
-            #   mitted Senders or Auto Allow policy. Rejected emails can be viewed in your Outbound
-            #   Activity and searching for the required email address.
-            [554, 'email rejected due to security policies'],
         ],
     };
 
@@ -304,19 +327,19 @@ Sisimai::Rhost::Mimecast - Detect the bounce reason returned from Mimecast
 
 =head1 SYNOPSIS
 
-    use Sisimai::Rhost;
+    use Sisimai::Rhost::Mimecast;
 
 =head1 DESCRIPTION
 
-Sisimai::Rhost detects the bounce reason from the content of Sisimai::Fact object as an argument of
-get() method when the value of C<rhost> or C<destination> of the object is "mimecast.com". This
-class is called only Sisimai::Fact class.
+C<Sisimai::Rhost::Mimecast> detects the bounce reason from the content of C<Sisimai::Fact> object
+as an argument of C<find()> method when the value of C<rhost> or C<destination> of the object is
+C<mimecast.com>. This class is called only C<Sisimai::Fact> class.
 
 =head1 CLASS METHODS
 
-=head2 C<B<get(I<Sisimai::Fact Object>)>>
+=head2 C<B<find(I<Sisimai::Fact Object>)>>
 
-C<get()> detects the bounce reason.
+C<find()> method detects the bounce reason.
 
 =head1 AUTHOR
 
@@ -324,7 +347,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2022-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2022-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

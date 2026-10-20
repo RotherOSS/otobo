@@ -1,5 +1,5 @@
 package Sisimai::RFC2045;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Encode;
@@ -13,7 +13,7 @@ sub is_encoded {
     # @return   [Boolean]       0: Not MIME encoded string
     #                           1: MIME encoded string
     my $class = shift;
-    my $argv0 = shift || return undef;
+    my $argv0 = shift || return 0;
     my $text1 = $$argv0; $text1 =~ y/"//d;
     my @piece = ($text1);
     my $mime1 = 0;
@@ -81,7 +81,7 @@ sub decodeB {
     # @param    [String] argv0   MIME Encoded text
     # @return   [String]         MIME-Decoded text
     my $class = shift;
-    my $argv0 = shift // return undef;
+    my $argv0 = shift // return "";
 
     my $p = $$argv0 =~ m|([+/=0-9A-Za-z\r\n]+)| ? MIME::Base64::decode($1) : '';
     return \$p;
@@ -93,7 +93,7 @@ sub decodeQ {
     # @param    [String] argv1  The value of Content-Type: header
     # @return   [String]        MIME Decoded text
     my $class = shift;
-    my $argv0 = shift // return undef;
+    my $argv0 = shift // return "";
 
     my $p = MIME::QuotedPrint::decode($$argv0) || '';
     return \$p;
@@ -106,7 +106,7 @@ sub parameter {
     # @return   [String]        The value of the parameter
     # @since v5.0.0
     my $class = shift;
-    my $argv0 = shift || return undef;
+    my $argv0 = shift || return "";
     my $argv1 = shift || '';
 
     my $parameterq = length $argv1 > 0 ? $argv1.'=' : '';
@@ -128,15 +128,15 @@ sub boundary {
     #                            1: End of boundary
     # @return   [String] Boundary string
     my $class = shift;
-    my $argv0 = shift || return undef;
+    my $argv0 = shift || return "";
     my $start = shift // -1;
     my $btext = __PACKAGE__->parameter($argv0, 'boundary') || return '';
 
     # Content-Type: multipart/mixed; boundary=Apple-Mail-5--931376066
     # Content-Type: multipart/report; report-type=delivery-status;
     #    boundary="n6H9lKZh014511.1247824040/mx.example.jp"
-    $btext =  '--'.$btext if $start > -1;
-    $btext =  $btext.'--' if $start >  0;
+    $btext = '--'.$btext if $start > -1;
+    $btext = $btext.'--' if $start >  0;
     return $btext;
 }
 
@@ -152,6 +152,7 @@ sub haircut {
 
     my($upperchunk, $lowerchunk) = split("\n\n", $$block, 2);
     return ['', ''] unless $upperchunk;
+    return ['', ''] unless $lowerchunk;
     return ['', ''] unless index($upperchunk, 'Content-Type:') > -1;
 
     my $headerpart = ['', ''];  # ["text/plain; charset=iso-2022-jp; ...", "quoted-printable"]
@@ -203,14 +204,8 @@ sub haircut {
         last;
     }
 
-    LOWER: while(1) {
-        # Append LF before the lower chunk into the 2nd element of $multipart1
-        last if length $lowerchunk == 0;
-        last if substr($lowerchunk, 0, 1) eq "\n";
-
-        $multipart1->[2] .= "\n";
-        last;
-    }
+    # Append LF before the lower chunk into the 2nd element of $multipart1
+    $multipart1->[2] .= "\n" if $lowerchunk ne "" && substr($lowerchunk, 0, 1) ne "\n";
     $multipart1->[2] .= $lowerchunk;
     return $multipart1;
 }
@@ -219,21 +214,22 @@ sub levelout {
     # Split argv1: multipart/* blocks by a boundary string in argv0
     # @param    [String] argv0  The value of Content-Type header
     # @param    [String] argv1  A pointer to multipart/* message blocks
+    # @param    [Integer] depth Depth of MIME parts
     # @return   [Array]         List of each part of multipart/*
     # @since v5.0.0
     my $class = shift;
-    my $argv0 = shift || return [];
-    my $argv1 = shift || return [];
-
-    return [] unless length $argv0;
-    return [] unless length $$argv1;
+    my $argv0 = shift || return []; return [] unless length $argv0;
+    my $argv1 = shift || return []; return [] unless length $$argv1;
+    my $depth = shift // 0;         return [] if $depth > 64;
 
     my $boundary01 = __PACKAGE__->boundary($argv0, 0) || return [];
     my $multiparts = [split(/\Q$boundary01\E\n/, $$argv1)];
     my $partstable = [];
+    my $partsdepth = $depth + 1;
 
     # Remove empty or useless preamble and epilogue of multipart/* block
     shift @$multiparts if length $multiparts->[0]  < 8;
+    return []          if scalar @$multiparts     == 0;
     pop   @$multiparts if length $multiparts->[-1] < 8;
 
     while( my $e = shift @$multiparts ) {
@@ -243,10 +239,9 @@ sub levelout {
             # There is nested multipart/* block
             my $boundary02 = __PACKAGE__->boundary($f->[0], -1) || next;
             my $bodyinside = [split(/\n\n/, $f->[-1], 2)]->[-1];
-            next unless length $bodyinside > 8;
-            next unless index($bodyinside, $boundary02) > -1;
+            next if length $bodyinside < 9 || index($bodyinside, $boundary02) < 0;
 
-            my $v = __PACKAGE__->levelout($f->[0], \$bodyinside);
+            my $v = __PACKAGE__->levelout($f->[0], \$bodyinside, $partsdepth);
             push @$partstable, @$v if scalar @$v;
 
         } else {
@@ -275,13 +270,12 @@ sub makeflat {
     my $class = shift;
     my $argv0 = shift // return undef;
     my $argv1 = shift // return undef;
-
-    return \'' unless index($argv0, 'multipart/') > -1;
-    return \'' unless index($argv0, 'boundary=')  > -1;
+    return undef if index(lc $argv0, 'multipart/') < 0 || index(lc $argv0, 'boundary=') < 0;
 
     my $iso2022set = qr/charset=["']?(iso-2022-[-a-z0-9]+)['"]?\b/;
-    my $multiparts = __PACKAGE__->levelout($argv0, $argv1);
+    my $multiparts = __PACKAGE__->levelout($argv0, $argv1, 0);
     my $flattenout = '';
+    my $delimiters = ["/delivery-status", "/rfc822", "/feedback-report", "/partial"];
 
     while( my $e = shift @$multiparts ) {
         # Pick only the following parts Sisimai::Lhost will use, and decode each part
@@ -306,6 +300,16 @@ sub makeflat {
             if( $ctencoding eq 'base64' ) {
                 # Content-Transfer-Encoding: base64
                 $bodystring = __PACKAGE__->decodeB(\$bodyinside)->$*;
+                my $dontset = 0; while( my $first10 = substr($bodystring, 0, 10) ) {
+                    # Don't pick the decoded part as an error message when the part is
+                    # - BASE64 encoded.
+                    # - the value of the charset is not utf-8.
+                    # - NOT a plain text.
+                    last if     Sisimai::String->aligned(\$e->[0], ['charset', '=', 'utf-8']);
+                    last unless $first10 =~ /[\x00-\x08\x0E-\x1F\x7F-]/;
+                    $dontset = 1; last;
+                }
+                next if $dontset;
 
             } elsif( $ctencoding eq 'quoted-printable') {
                 # Content-Transfer-Encoding: quoted-printable
@@ -335,10 +339,8 @@ sub makeflat {
             # There is no Content-Transfer-Encoding header in the part
             $bodystring .= $bodyinside;
         }
-
-        if( index($mediatypev, '/delivery-status') > -1 ||
-            index($mediatypev, '/feedback-report') > -1 ||
-            index($mediatypev, '/rfc822')          > -1 ) {
+        
+        if( grep { index($mediatypev, $_) > 0 } @$delimiters ) {
             # Add Content-Type: header of each part (will be used as a delimiter at Sisimai::Lhost) into
             # the body inside when the value of Content-Type: is message/delivery-status, message/rfc822,
             # or text/rfc822-headers
@@ -373,42 +375,44 @@ Sisimai::RFC2045 - MIME Utilities
 
 =head1 DESCRIPTION
 
-Sisimai::RFC2045 is MIME Utilities for C<Sisimai>, is formerly known as C<Sisimai::MIME>.
+C<Sisimai::RFC2045> is MIME Utilities for Sisimai, is formerly known as C<Sisimai::MIME>.
 
 =head1 CLASS METHODS
 
 =head2 C<B<is_encoded(I<Scalar Reference>)>>
 
-C<is_encoded()> returns that the argument is MIME-Encoded string or not.
+C<is_encoded()> method returns that the argument is a MIME-Encoded string or not.
 
     my $e = '=?utf-8?B?55m954yr44Gr44KD44KT44GT?=';
     my $v = Sisimai::RFC2045->is_encoded(\$e);  # 1
 
 =head2 C<B<decodeH(I<Array-Ref>)>>
 
-C<decodeH()> is a decoder method for getting the original string from MIME-Encoded string in email
-headers.
+C<decodeH()> method is a decoding method for getting the original string from the MIME-Encoded string
+in the email headers.
 
     my $r = '=?utf-8?B?55m954yr44Gr44KD44KT44GT?=';
     my $v = Sisimai::RFC2045->decodeH([$r]);
 
 =head2 C<B<decodeB(I<\String>)>>
 
-C<decodeB> is a decoder method for getting the original string from MIME Base64 encoded string.
+C<decodeB> method is a decoding method for getting the original string from the MIME Base64 encoded
+string.
 
     my $r = '44Gr44KD44O844KT';
     my $v = Sisimai::RFC2045->decodeB(\$r);
 
 =head2 C<B<decodeQ(I<\String>)>>
 
-C<decodeQ> is a decoder method for getting the original string from MIME quoted-printable encoded string.
+C<decodeQ> method is a decoding method for getting the original string from the MIME quoted-printable
+encoded string.
 
     my $r = '=4e=65=6b=6f';
     my $v = Sisimai::RFC2045->decodeQ(\$r);
 
 =head2 C<B<parameter(I<String>, I<String>)>>
 
-C<parameter()> returns the value of parameter in Content-Type header.
+C<parameter()> method returns the value of parameter in C<Content-Type:> header.
 
     my $r = 'Content-Type: multipart/mixed; boundary=Apple-Mail-1-526612466'; charset=utf8;
     print Sisimai::RFC2045->parameter($r, 'charset');  # utf8
@@ -417,7 +421,7 @@ C<parameter()> returns the value of parameter in Content-Type header.
 
 =head2 C<B<boundary(I<String>, I<Integer>)>>
 
-C<boundary()> returns a boundary string from the value of Content-Type header.
+C<boundary()> method returns the boundary string from the value of C<Content-Type:> header.
 
     my $r = 'Content-Type: multipart/mixed; boundary=Apple-Mail-1-526612466';
     my $v = Sisimai::RFC2045->boundary($r);
@@ -428,18 +432,18 @@ C<boundary()> returns a boundary string from the value of Content-Type header.
 
 =head2 C<B<haircut(I<\String>, I<Boolean>)>>
 
-C<haircut()> remove unused headers from multipart/* block.
+C<haircut()> method remove unused headers from the C<multipart/* >block.
 
-=head2 C<B<levelout(I<String>, I<\String>)>>
+=head2 C<B<levelout(I<String>, I<\String>, I<Integer)>)>>
 
-C<levelout> breaks multipart/* message block into each part and returns an array reference.
+C<levelout> method breaks the C<multipart/*> message block into each part and returns an array reference.
 
 =head2 C<B<makeflat(I<String>, I<\String>)>>
 
-C<makeflat> makes flat multipart/* message: This method breaks multipart/* block into each part, remove
-parts which are not needed to parse a bounce message such as image/* MIME type, and decode an encoded
-text part (text/*, message/*) in a body of each part that has C<Content-Transfer-Encoding> header and
-the value of the header is quoted-printabe, base64, or 7bit.
+C<makeflat> method makes flat C<multipart/*> message: This method breaks C<multipart/*> block into
+each part, remove parts which are not needed to decode the bounce message such as C<image/*> MIME
+type, and decode the encoded text part (C<text/*>, C<message/*>) in the body of each part that has
+C<Content-Transfer-Encoding:> header and the value of the header is quoted-printabe, base64, or 7bit.
 
 =head1 AUTHOR
 
@@ -447,7 +451,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

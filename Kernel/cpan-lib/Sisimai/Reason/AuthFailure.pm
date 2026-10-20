@@ -1,10 +1,11 @@
 package Sisimai::Reason::AuthFailure;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
 use Sisimai::String;
 
-sub text  { 'authfailure' }
+sub text  { $Sisimai::Eb::ReAUTH }
 sub description { 'Email rejected due to SPF, DKIM, DMARC failure' }
 sub match {
     # Try to match that the given text and regular expressions
@@ -13,21 +14,21 @@ sub match {
     #                           1: Matched
     # @since v5.0.0
     my $class = shift;
-    my $argv1 = shift // return undef;
+    my $argv1 = shift // return 0;
 
     state $index = [
-        '//spf.pobox.com',
-        'bad spf records for',
-        'dmarc policy',
-        'please inspect your spf settings',
-        'sender policy framework (spf) fail',
-        'sender policy framework violation',
-        'spf (sender policy framework) domain authentication fail',
-        'spf check: fail',
+        "//spf.pobox.com",
+        "5322.From address doesn't meet the authentication requirements",
+        "bad spf records for",
+        "dmarc policy",
+        "doesn't meet the required authentication level",
+        "please inspect your spf settings",
+        "sender policy framework",
+        "spf check: fail",
     ];
     state $pairs = [
-        [' is not allowed to send mail.', '_401'],
-        ['is not allowed to send from <', " per it's spf record"],
+        ["spf: ", " is not allowed to send "],
+        ["is not allowed to send ", " spf "],
     ];
 
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
@@ -36,18 +37,18 @@ sub match {
 }
 
 sub true {
-    # The bounce reason is "authfailure" or not
+    # The bounce reason is "AuthFailure" or not
     # @param    [Sisimai::Fact] argvs   Object to be detected the reason
-    # @return   [Integer]               1: is authfailure
-    #                                   0: is not authfailure
+    # @return   [Integer]               1: is AuthFailure
+    #                                   0: is not AuthFailure
     # @see http://www.ietf.org/rfc/rfc2822.txt
     # @since v5.0.0
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return 0;
 
-    return 1 if $argvs->{'reason'} eq 'authfailure';
-    return 1 if (Sisimai::SMTP::Status->name($argvs->{'deliverystatus'}) || '') eq 'authfailure';
-    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
+    return 1 if $argvs->{'reason'} eq $Sisimai::Eb::ReAUTH;
+    return 1 if (Sisimai::SMTP::Status->name($argvs->{'deliverystatus'}) || '') eq $Sisimai::Eb::ReAUTH;
+    return __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
 }
 
 1;
@@ -57,7 +58,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Reason::AuthFailure - Bounce reason is C<authfailure> or not.
+Sisimai::Reason::AuthFailure - Bounce reason is C<AuthFailure> or not.
 
 =head1 SYNOPSIS
 
@@ -66,8 +67,8 @@ Sisimai::Reason::AuthFailure - Bounce reason is C<authfailure> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::AuthFailure checks the bounce reason is C<authfailure> or not. This class is called
-only Sisimai::Reason class.
+C<Sisimai::Reason::AuthFailure> checks the bounce reason is C<AuthFailure> or not. This class is
+called only C<Sisimai::Reason> class.
 
 This is the error that an authenticaion failure related to SPF, DKIM, or DMARC was detected on a
 destination mail host. 
@@ -81,20 +82,20 @@ destination mail host.
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<authfailure>.
+C<text()> method returns the fixed string C<AuthFailure>.
 
-    print Sisimai::Reason::AuthFailure->text;  # authfailure
+    print Sisimai::Reason::AuthFailure->text;  # AuthFailure
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> returns 1 if the argument matched with patterns defined in this class.
+C<match()> method returns C<1> if the argument matched with patterns defined in this class.
 
     print Sisimai::Reason::AuthFailure->match('5.7.0 SPF Check: fail');    # 1
 
 =head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<authfailure>. The argument must be Sisimai::Fact
-object and this method is called only from Sisimai::Reason class.
+C<true()> method returns C<1> if the bounce reason is C<AuthFailure>. The argument must be C<Sisimai::Fact>
+object and this method is called only from C<Sisimai::Reason> class.
 
 =head1 AUTHOR
 
@@ -102,7 +103,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2022-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2022-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

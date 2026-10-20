@@ -1,16 +1,16 @@
 package Sisimai::Lhost::FML;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'fml mailing list server/manager' };
+sub description { 'fml mailing list server/manager: https://www.fml.org/' };
 sub inquire {
     # Detect an error from fml mailing list server/manager
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.22.3
     my $class = shift;
     my $mhead = shift // return undef;
@@ -20,42 +20,27 @@ sub inquire {
     return undef unless index($mhead->{'from'}, '-admin@') > 0;
     return undef unless index($mhead->{'message-id'}, '.FML') > 1;
 
+    require Sisimai::Eb;
     state $boundaries = ['Original mail as follows:'];
     state $errortitle = {
-        'rejected' => [
+        $Sisimai::Eb::ReFROM => [
             ' are not member',
             'NOT MEMBER article from ',
             'reject mail ',
             'Spam mail from a spammer is rejected',
         ],
-        'systemerror' => [
+        $Sisimai::Eb::RePROC => [
             'fml system error message',
             'Loop Alert: ',
             'Loop Back Warning: ',
             'WARNING: UNIX FROM Loop',
         ],
-        'securityerror' => ['Security Alert'],
-    };
-    state $errortable = {
-        'rejected' => [
-            ' header may cause mail loop',
-            'NOT MEMBER article from ',
-            'reject mail from ',
-            'reject spammers:',
-            'You are not a member of this mailing list',
-        ],
-        'systemerror' => [
-            ' has detected a loop condition so that',
-            'Duplicated Message-ID',
-            'Loop Back Warning:',
-        ],
-        'securityerror' => ['Security alert:'],
+        $Sisimai::Eb::ReSAFE => ['Security Alert'],
     };
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
-    my $v = undef;
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -86,16 +71,6 @@ sub inquire {
     return undef unless $recipients;
 
     for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
-
-        for my $f ( keys %$errortable ) {
-            # Try to match with error messages defined in $errortable
-            next unless grep { index($e->{'diagnosis'}, $_) > -1 } $errortable->{ $f }->@*;
-            $e->{'reason'} = $f;
-            last;
-        }
-        next if $e->{'reason'};
-
         # Error messages in the message body did not matched
         for my $f ( keys %$errortitle ) {
             # Try to match with the Subject string
@@ -104,7 +79,7 @@ sub inquire {
             last;
         }
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -114,7 +89,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::FML - bounce mail parser class for FML (fml.org).
+Sisimai::Lhost::FML - bounce mail decoder class for FML L<https://www.fml.org/>.
 
 =head1 SYNOPSIS
 
@@ -122,8 +97,8 @@ Sisimai::Lhost::FML - bounce mail parser class for FML (fml.org).
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::FML parses a bounce email which created by C<fml mailing list server/manager>.
-Methods in the module are called from only Sisimai::Message.
+C<Sisimai::Lhost::FML> decodes a bounce email which created by fml mailing list server/manager
+L<https://www.fml.org/>. Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -135,8 +110,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -144,7 +119,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2017-2021,2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2017-2021,2023-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

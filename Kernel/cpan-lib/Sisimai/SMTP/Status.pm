@@ -1,8 +1,9 @@
 package Sisimai::SMTP::Status;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
-use Sisimai::String;
+use Sisimai::Eb;
+use Sisimai::RFC791;
 
 # http://www.iana.org/assignments/smtp-enhanced-status-codes/smtp-enhanced-status-codes.xhtml
 # -------------------------------------------------------------------------------------------------
@@ -161,6 +162,12 @@ use Sisimai::String;
 # X.3.5  ---    System incorrectly configured:(RFC 3463)
 #                 The system is not configured in a manner that will permit it to accept this
 #                 message.
+#
+# X.3.6  250    Requested priority was changed:(RFC 6710)
+#        251      The message was accepted for relay/delivery, but the requested priority (possibly
+#                 the implied default) was not honored. The human readable text after the status
+#                 code contains the new priority, followed by SP (space) and explanatory human
+#                 readable text.
 # -------------------------------------------------------------------------------------------------
 # X.4.0  ---    Other or undefined network or routing status:(RFC 3463)
 #                 Something went wrong with the networking, but it is not clear what the problem is,
@@ -397,7 +404,7 @@ use Sisimai::String;
 #        5xx      temporary, for example the server is operating in a mode where only higher
 #                 priority messages below certain size are accepted for transfer and delivery.
 #
-# X.7.17 5xx    Mailbox owner has changed:(RFC 6710)
+# X.7.17 5xx    Mailbox owner has changed:(RFC 7293)
 #                 This status code is returned when a message is received with a
 #                 Require-Recipient-Valid-Since field or RRVS extension and the receiving system is
 #                 able to determine that the intended recipient mailbox has not been under
@@ -480,183 +487,151 @@ use Sisimai::String;
 #       5.7.11  Encryption required for requested authentication mechanism
 # -------------------------------------------------------------------------------------------------
 use constant StandardCode => {
-    '2.1.5'  => 'delivered',    # Successfully delivered
+    '2.1.5'  => $Sisimai::Eb::ReSENT, # Successfully delivered
     # ---------------------------------------------------------------------------------------------
-    '4.1.6'  => 'hasmoved',     # Destination mailbox has moved, No forwarding address
-    '4.1.7'  => 'rejected',     # Bad sender's mailbox address syntax
-    '4.1.8'  => 'rejected',     # Bad sender's system address
-    '4.1.9'  => 'systemerror',  # Message relayed to non-compliant mailer
-    '4.2.1'  => 'suspend',      # Mailbox disabled, not accepting messages
-    '4.2.2'  => 'mailboxfull',  # Mailbox full
-    '4.2.3'  => 'exceedlimit',  # Message length exceeds administrative limit
-    '4.2.4'  => 'filtered',     # Mailing list expansion problem
-    #'4.3.0' => 'systemerror',  # Other or undefined mail system status
-    '4.3.1'  => 'systemfull',   # Mail system full
-    '4.3.2'  => 'notaccept',    # System not accepting network messages
-    '4.3.3'  => 'systemerror',  # System not capable of selected features
-    '4.3.5'  => 'systemerror',  # System incorrectly configured
-    #'4.4.0' => 'networkerror', # Other or undefined network or routing status
-    '4.4.1'  => 'expired',      # No answer from host
-    '4.4.2'  => 'networkerror', # Bad connection
-    '4.4.3'  => 'systemerror',  # Directory server failure
-    '4.4.4'  => 'networkerror', # Unable to route
-    '4.4.5'  => 'systemfull',   # Mail system congestion
-    '4.4.6'  => 'networkerror', # Routing loop detected
-    '4.4.7'  => 'expired',      # Delivery time expired
-    '4.4.8'  => 'networkerror', # Retry on IPv4
-#   '4.5.0'  => 'networkerror', # Other or undefined protocol status
-    '4.5.3'  => 'systemerror',  # Too many recipients
-    '4.5.5'  => 'systemerror',  # Wrong protocol version
-    '4.6.0'  => 'contenterror', # Other or undefined media error
-    '4.6.2'  => 'contenterror', # Conversion required and prohibited
-    '4.6.5'  => 'contenterror', # Conversion Failed
-    #'4.7.0' => 'securityerror',# Other or undefined security status
-    '4.7.1'  => 'blocked',      # Delivery not authorized, message refused
-    '4.7.2'  => 'blocked',      # Mailing list expansion prohibited
-    '4.7.5'  => 'securityerror',# Cryptographic failure
-    '4.7.6'  => 'securityerror',# Cryptographic algorithm not supported
-    '4.7.7'  => 'securityerror',# Message integrity failure
-    '4.7.12' => 'securityerror',# A password transition is needed
-    '4.7.15' => 'securityerror',# Priority Level is too low
-    '4.7.16' => 'mesgtoobig',   # Message is too big for the specified priority
-    '4.7.24' => 'authfailure',  # SPF validation error
-    '4.7.25' => 'requireptr',   # Reverse DNS validation failed
-    '4.7.26' => 'authfailure',  # Must pass either SPF or DKIM validation
+    '4.1.6'  => $Sisimai::Eb::ReMOVE, # Destination mailbox has moved, No forwarding address
+    '4.1.7'  => $Sisimai::Eb::ReFROM, # Bad sender's mailbox address syntax
+    '4.1.8'  => $Sisimai::Eb::ReFROM, # Bad sender's system address
+    '4.1.9'  => $Sisimai::Eb::RePROC, # Message relayed to non-compliant mailer
+    '4.2.1'  => $Sisimai::Eb::ReQUIT, # Mailbox disabled, not accepting messages
+    '4.2.2'  => $Sisimai::Eb::ReFULL, # Mailbox full
+    '4.2.3'  => $Sisimai::Eb::ReSIZE, # Message length exceeds administrative limit
+    '4.2.4'  => $Sisimai::Eb::RePROC, # Mailing list expansion problem
+    #'4.3.0' => $Sisimai::Eb::RePROC, # Other or undefined mail system status
+    '4.3.1'  => $Sisimai::Eb::ReDISK, # Mail system full
+    '4.3.2'  => $Sisimai::Eb::Re00MX, # System not accepting network messages
+    '4.3.3'  => $Sisimai::Eb::RePROC, # System not capable of selected features
+    '4.3.5'  => $Sisimai::Eb::RePROC, # System incorrectly configured
+    #'4.4.0' => $Sisimai::Eb::ReINET, # Other or undefined network or routing status
+    '4.4.1'  => $Sisimai::Eb::ReTIME, # No answer from host
+    '4.4.2'  => $Sisimai::Eb::ReINET, # Bad connection
+    '4.4.3'  => $Sisimai::Eb::RePROC, # Directory server failure
+    '4.4.4'  => $Sisimai::Eb::ReINET, # Unable to route
+    '4.4.5'  => $Sisimai::Eb::ReDISK, # Mail system congestion
+    '4.4.6'  => $Sisimai::Eb::ReINET, # Routing loop detected
+    '4.4.7'  => $Sisimai::Eb::ReTIME, # Delivery time expired
+    '4.4.8'  => $Sisimai::Eb::ReINET, # Retry on IPv4
+    #'4.5.0' => $Sisimai::Eb::ReINET, # Other or undefined protocol status
+    '4.5.3'  => $Sisimai::Eb::ReRATE, # Too many recipients
+    '4.5.5'  => $Sisimai::Eb::RePROC, # Wrong protocol version
+    '4.6.0'  => $Sisimai::Eb::ReBODY, # Other or undefined media error
+    '4.6.2'  => $Sisimai::Eb::ReBODY, # Conversion required and prohibited
+    '4.6.5'  => $Sisimai::Eb::ReBODY, # Conversion Failed
+    #'4.7.0' => $Sisimai::Eb::ReSAFE, # Other or undefined security status
+    '4.7.1'  => $Sisimai::Eb::ReBLOC, # Delivery not authorized, message refused
+    '4.7.2'  => $Sisimai::Eb::ReFROM, # Mailing list expansion prohibited
+    '4.7.5'  => $Sisimai::Eb::ReSAFE, # Cryptographic failure
+    '4.7.6'  => $Sisimai::Eb::ReSAFE, # Cryptographic algorithm not supported
+    '4.7.7'  => $Sisimai::Eb::ReSAFE, # Message integrity failure
+    '4.7.12' => $Sisimai::Eb::ReSAFE, # A password transition is needed
+    '4.7.15' => $Sisimai::Eb::ReSAFE, # Priority Level is too low
+    '4.7.16' => $Sisimai::Eb::ReSIZE, # Message is too big for the specified priority
+    '4.7.24' => $Sisimai::Eb::ReAUTH, # SPF validation error
+    '4.7.25' => $Sisimai::Eb::ReQPTR, # Reverse DNS validation failed
+    '4.7.26' => $Sisimai::Eb::ReAUTH, # Must pass either SPF or DKIM validation
     # ---------------------------------------------------------------------------------------------
-    '5.1.0'  => 'userunknown',  # Other address status
-    '5.1.1'  => 'userunknown',  # Bad destination mailbox address
-    '5.1.2'  => 'hostunknown',  # Bad destination system address
-    '5.1.3'  => 'userunknown',  # Bad destination mailbox address syntax
-    '5.1.4'  => 'filtered',     # Destination mailbox address ambiguous
-    '5.1.6'  => 'hasmoved',     # Destination mailbox has moved, No forwarding address
-    '5.1.7'  => 'rejected',     # Bad sender's mailbox address syntax
-    '5.1.8'  => 'rejected',     # Bad sender's system address
-    '5.1.9'  => 'systemerror',  # Message relayed to non-compliant mailer
-    '5.1.10' => 'notaccept',    # Recipient address has null MX
-    '5.2.0'  => 'filtered',     # Other or undefined mailbox status
-    '5.2.1'  => 'filtered',     # Mailbox disabled, not accepting messages
-    '5.2.2'  => 'mailboxfull',  # Mailbox full
-    '5.2.3'  => 'exceedlimit',  # Message length exceeds administrative limit
-    '5.2.4'  => 'filtered',     # Mailing list expansion problem
-    '5.3.0'  => 'systemerror',  # Other or undefined mail system status
-    '5.3.1'  => 'systemfull',   # Mail system full
-    '5.3.2'  => 'notaccept',    # System not accepting network messages
-    '5.3.3'  => 'systemerror',  # System not capable of selected features
-    '5.3.4'  => 'mesgtoobig',   # Message too big for system
-    '5.3.5'  => 'systemerror',  # System incorrectly configured
-    '5.4.0'  => 'networkerror', # Other or undefined network or routing status
-    '5.4.3'  => 'systemerror',  # Directory server failure
-    '5.4.4'  => 'hostunknown',  # Unable to route
-    '5.5.2'  => 'syntaxerror',  # If the server cannot BASE64 decode any client response (AUTH)
-    '5.5.3'  => 'toomanyconn',  # Too many recipients
-    '5.5.4'  => 'systemerror',  # Invalid command arguments
-    '5.5.5'  => 'systemerror',  # Wrong protocol version
-    '5.5.6'  => 'syntaxerror',  # Authentication Exchange line is too long
-    '5.6.0'  => 'contenterror', # Other or undefined media error
-    '5.6.1'  => 'contenterror', # Media not supported
-    '5.6.2'  => 'contenterror', # Conversion required and prohibited
-    '5.6.3'  => 'contenterror', # Conversion required but not supported
-    '5.6.5'  => 'contenterror', # Conversion Failed
-    '5.6.6'  => 'contenterror', # Message content not available
-    '5.6.7'  => 'contenterror', # Non-ASCII addresses not permitted for that sender/recipient
-    '5.6.8'  => 'contenterror', # UTF-8 string reply is required, but not permitted by the SMTP client
-    '5.6.9'  => 'contenterror', # UTF-8 header message cannot be transferred to one or more recipients
-    '5.7.0'  => 'securityerror',# Other or undefined security status
-    '5.7.1'  => 'securityerror',# Delivery not authorized, message refused
-    '5.7.2'  => 'securityerror',# Mailing list expansion prohibited
-    '5.7.3'  => 'securityerror',# Security conversion required but not possible
-    '5.7.4'  => 'securityerror',# Security features not supported
-    '5.7.5'  => 'securityerror',# Cryptographic failure
-    '5.7.6'  => 'securityerror',# Cryptographic algorithm not supported
-    '5.7.7'  => 'securityerror',# Message integrity failure
-    '5.7.8'  => 'securityerror',# Authentication credentials invalid
-    '5.7.9'  => 'securityerror',# Authentication mechanism is too weak
-    '5.7.10' => 'securityerror',# Encryption Needed
-    '5.7.11' => 'securityerror',# Encryption required for requested authentication mechanism
-    '5.7.13' => 'suspend',      # User Account Disabled
-    '5.7.14' => 'securityerror',# Trust relationship required
-    '5.7.15' => 'securityerror',# Priority Level is too low
-    '5.7.16' => 'mesgtoobig',   # Message is too big for the specified priority
-    '5.7.17' => 'hasmoved',     # Mailbox owner has changed
-    '5.7.18' => 'hasmoved',     # Domain owner has changed
-    '5.7.19' => 'securityerror',# RRVS test cannot be completed
-    '5.7.20' => 'authfailure',  # No passing DKIM signature found
-    '5.7.21' => 'authfailure',  # No acceptable DKIM signature found
-    '5.7.22' => 'authfailure',  # No valid author-matched DKIM signature found
-    '5.7.23' => 'authfailure',  # SPF validation failed
-    '5.7.24' => 'authfailure',  # SPF validation error
-    '5.7.25' => 'requireptr',   # Reverse DNS validation failed
-    '5.7.26' => 'authfailure',  # Multiple authentication checks failed
-    '5.7.27' => 'notaccept',    # MX resource record of a destination host is Null MX: RFC7505
-    '5.7.28' => 'spamdetected', # The message appears to be part of a mail flood of similar abusive messages.
-    '5.7.29' => 'authfailure',  # This status code may be returned when a message fails ARC validation.
-    '5.7.30' => 'securityerror',# REQUIRETLS support required
+    '5.1.0'  => $Sisimai::Eb::ReUSER, # Other address status
+    '5.1.1'  => $Sisimai::Eb::ReUSER, # Bad destination mailbox address
+    '5.1.2'  => $Sisimai::Eb::ReHOST, # Bad destination system address
+    '5.1.3'  => $Sisimai::Eb::ReUSER, # Bad destination mailbox address syntax
+    '5.1.4'  => $Sisimai::Eb::ReFILT, # Destination mailbox address ambiguous
+    '5.1.6'  => $Sisimai::Eb::ReMOVE, # Destination mailbox has moved, No forwarding address
+    '5.1.7'  => $Sisimai::Eb::ReFROM, # Bad sender's mailbox address syntax
+    '5.1.8'  => $Sisimai::Eb::ReFROM, # Bad sender's system address
+    '5.1.9'  => $Sisimai::Eb::RePROC, # Message relayed to non-compliant mailer
+    '5.1.10' => $Sisimai::Eb::Re00MX, # Recipient address has null MX
+    '5.2.0'  => $Sisimai::Eb::ReFILT, # Other or undefined mailbox status
+    '5.2.1'  => $Sisimai::Eb::ReFILT, # Mailbox disabled, not accepting messages
+    '5.2.2'  => $Sisimai::Eb::ReFULL, # Mailbox full
+    '5.2.3'  => $Sisimai::Eb::ReSIZE, # Message length exceeds administrative limit
+    '5.2.4'  => $Sisimai::Eb::RePROC, # Mailing list expansion problem
+    '5.3.0'  => $Sisimai::Eb::RePROC, # Other or undefined mail system status
+    '5.3.1'  => $Sisimai::Eb::ReDISK, # Mail system full
+    '5.3.2'  => $Sisimai::Eb::Re00MX, # System not accepting network messages
+    '5.3.3'  => $Sisimai::Eb::RePROC, # System not capable of selected features
+    '5.3.4'  => $Sisimai::Eb::ReSIZE, # Message too big for system
+    '5.3.5'  => $Sisimai::Eb::RePROC, # System incorrectly configured
+    '5.4.0'  => $Sisimai::Eb::ReINET, # Other or undefined network or routing status
+    '5.4.3'  => $Sisimai::Eb::RePROC, # Directory server failure
+    '5.4.4'  => $Sisimai::Eb::ReHOST, # Unable to route
+    '5.5.2'  => $Sisimai::Eb::RePROC, # If the server cannot BASE64 decode any client response (AUTH)
+    '5.5.3'  => $Sisimai::Eb::ReRATE, # Too many recipients
+    '5.5.4'  => $Sisimai::Eb::RePROC, # Invalid command arguments
+    '5.5.5'  => $Sisimai::Eb::RePROC, # Wrong protocol version
+    '5.5.6'  => $Sisimai::Eb::ReCOMM, # Authentication Exchange line is too long
+    '5.6.0'  => $Sisimai::Eb::ReBODY, # Other or undefined media error
+    '5.6.1'  => $Sisimai::Eb::ReBODY, # Media not supported
+    '5.6.2'  => $Sisimai::Eb::ReBODY, # Conversion required and prohibited
+    '5.6.3'  => $Sisimai::Eb::ReBODY, # Conversion required but not supported
+    '5.6.5'  => $Sisimai::Eb::ReBODY, # Conversion Failed
+    '5.6.6'  => $Sisimai::Eb::ReBODY, # Message content not available
+    '5.6.7'  => $Sisimai::Eb::ReFROM, # Non-ASCII addresses not permitted for that sender/recipient
+    '5.6.8'  => $Sisimai::Eb::ReBODY, # UTF-8 string reply is required, but not permitted by the SMTP client
+    '5.6.9'  => $Sisimai::Eb::ReBODY, # UTF-8 header message cannot be transferred to one or more recipients
+    '5.7.0'  => $Sisimai::Eb::ReSAFE, # Other or undefined security status
+    '5.7.1'  => $Sisimai::Eb::ReSAFE, # Delivery not authorized, message refused
+    '5.7.2'  => $Sisimai::Eb::ReSAFE, # Mailing list expansion prohibited
+    '5.7.3'  => $Sisimai::Eb::ReSAFE, # Security conversion required but not possible
+    '5.7.4'  => $Sisimai::Eb::ReSAFE, # Security features not supported
+    '5.7.5'  => $Sisimai::Eb::ReSAFE, # Cryptographic failure
+    '5.7.6'  => $Sisimai::Eb::ReSAFE, # Cryptographic algorithm not supported
+    '5.7.7'  => $Sisimai::Eb::ReSAFE, # Message integrity failure
+    '5.7.8'  => $Sisimai::Eb::ReSAFE, # Authentication credentials invalid
+    '5.7.9'  => $Sisimai::Eb::ReSAFE, # Authentication mechanism is too weak
+    '5.7.10' => $Sisimai::Eb::ReSAFE, # Encryption Needed
+    '5.7.11' => $Sisimai::Eb::ReSAFE, # Encryption required for requested authentication mechanism
+    '5.7.13' => $Sisimai::Eb::ReQUIT, # User Account Disabled
+    '5.7.14' => $Sisimai::Eb::ReSAFE, # Trust relationship required
+    '5.7.15' => $Sisimai::Eb::ReSAFE, # Priority Level is too low
+    '5.7.16' => $Sisimai::Eb::ReSIZE, # Message is too big for the specified priority
+    '5.7.17' => $Sisimai::Eb::ReMOVE, # Mailbox owner has changed
+    '5.7.18' => $Sisimai::Eb::ReMOVE, # Domain owner has changed
+    '5.7.19' => $Sisimai::Eb::RePROC, # RRVS test cannot be completed
+    '5.7.20' => $Sisimai::Eb::ReAUTH, # No passing DKIM signature found
+    '5.7.21' => $Sisimai::Eb::ReAUTH, # No acceptable DKIM signature found
+    '5.7.22' => $Sisimai::Eb::ReAUTH, # No valid author-matched DKIM signature found
+    '5.7.23' => $Sisimai::Eb::ReAUTH, # SPF validation failed
+    '5.7.24' => $Sisimai::Eb::ReAUTH, # SPF validation error
+    '5.7.25' => $Sisimai::Eb::ReQPTR, # Reverse DNS validation failed
+    '5.7.26' => $Sisimai::Eb::ReAUTH, # Multiple authentication checks failed
+    '5.7.27' => $Sisimai::Eb::Re00MX, # MX resource record of a destination host is Null MX: RFC7505
+    '5.7.28' => $Sisimai::Eb::ReSPAM, # The message appears to be part of a mail flood of similar abusive messages.
+    '5.7.29' => $Sisimai::Eb::ReAUTH, # This status code may be returned when a message fails ARC validation.
+    '5.7.30' => $Sisimai::Eb::ReTTLS, # REQUIRETLS support required
 };
 
 use constant InternalCode => {
-    'temporary' => {
-        'authfailure'    => '4.0.972',
-        'badreputation'  => '4.0.975',
-        'blocked'        => '4.0.971',
-        'contenterror'   => '4.0.960',
-        #'exceedlimit'   => '4.0.923',
-        'expired'        => '4.0.947',
-        'filtered'       => '4.0.924',
-        #'hasmoved'      => '4.0.916',
-        #'hostunknown'   => '4.0.912',
-        'mailboxfull'    => '4.0.922',
-        #'mailererror'   => '4.0.939',
-        #'mesgtoobig'    => '4.0.934',
-        'networkerror'   => '4.0.944',
-        #'norelaying'    => '4.0.909',
-        'notaccept'      => '4.0.932',
-        'notcompliantrfc'=> '4.0.974',
-        'onhold'         => '4.0.901',
-        'rejected'       => '4.0.918',
-        'requireptr'     => '4.0.973',
-        'securityerror'  => '4.0.970',
-        'spamdetected'   => '4.0.980',
-        'speeding'       => '4.0.946',
-        #'suspend'       => '4.0.921',
-        'systemerror'    => '4.0.930',
-        'systemfull'     => '4.0.931',
-        'toomanyconn'    => '4.0.945',
-        #'userunknown'   => '4.0.911',
-        'undefined'      => '4.0.900',
-    },
-    'permanent' => {
-        'authfailure'    => '5.0.972',
-        'badreputation'  => '5.0.975',
-        'blocked'        => '5.0.971',
-        'contenterror'   => '5.0.960',
-        'exceedlimit'    => '5.0.923',
-        'expired'        => '5.0.947',
-        'filtered'       => '5.0.910',
-        'hasmoved'       => '5.0.916',
-        'hostunknown'    => '5.0.912',
-        'mailboxfull'    => '5.0.922',
-        'mailererror'    => '5.0.939',
-        'mesgtoobig'     => '5.0.934',
-        'networkerror'   => '5.0.944',
-        'norelaying'     => '5.0.909',
-        'notaccept'      => '5.0.932',
-        'notcompliantrfc'=> '5.0.974',
-        'onhold'         => '5.0.901',
-        'policyviolation'=> '5.0.972',
-        'rejected'       => '5.0.918',
-        'requireptr'     => '5.0.973',
-        'securityerror'  => '5.0.970',
-        'spamdetected'   => '5.0.980',
-        'speeding'       => '5.0.946',
-        'suspend'        => '5.0.921',
-        'systemerror'    => '5.0.930',
-        'systemfull'     => '5.0.931',
-        'syntaxerror'    => '5.0.902',
-        'toomanyconn'    => '5.0.945',
-        'userunknown'    => '5.0.911',
-        'undefined'      => '5.0.900',
-        'virusdetected'  => '5.0.971',
-    },
+    $Sisimai::Eb::ReAUTH => ['5.9.130', '4.9.130'], # AuthFailure
+    $Sisimai::Eb::ReFAMA => ['5.9.132', '4.9.132'], # BadReputation
+    $Sisimai::Eb::ReBLOC => ['5.9.134', '4.9.134'], # Blocked
+    $Sisimai::Eb::ReBODY => ['5.9.160', '4.9.160'], # ContentError
+    $Sisimai::Eb::ReSIZE => ['5.9.161', '4.9.161'], # EmailTooLarge
+    $Sisimai::Eb::ReTIME => ['5.9.340', '4.9.340'], # Expired
+    $Sisimai::Eb::ReTTLS => ['5.9.350', '4.9.350'], # FailedSTARTTLS
+    $Sisimai::Eb::ReFILT => ['5.9.210', '4.9.210'], # Filtered
+    $Sisimai::Eb::ReMOVE => ['5.9.211', ''],        # HasMoved
+    $Sisimai::Eb::ReHOST => ['5.9.212', ''],        # HostUnknown
+    $Sisimai::Eb::ReFULL => ['5.9.220', '4.9.220'], # MailboxFull
+    $Sisimai::Eb::ReUNIX => ['5.9.230', '4.9.230'], # MailerError
+    $Sisimai::Eb::ReINET => ['5.9.341', '4.9.341'], # NetworkError
+    $Sisimai::Eb::RePASS => ['5.9.214', '4.9.214'], # NoRelaying
+    $Sisimai::Eb::Re00MX => ['5.9.215', '4.9.215'], # NotAccept
+    $Sisimai::Eb::ReNRFC => ['5.9.162', '4.9.162'], # NotCompliantRFC
+    $Sisimai::Eb::Re___1 => ['5.9.301', '4.9.301'], # OnHold
+    $Sisimai::Eb::ReWONT => ['5.9.371', '4.9.371'], # PolicyViolation
+    $Sisimai::Eb::ReRATE => ['5.9.131', '4.9.131'], # RateLimited
+    $Sisimai::Eb::ReFROM => ['5.9.110', '4.9.110'], # Rejected
+    $Sisimai::Eb::ReQPTR => ['5.9.133', '4.9.133'], # RequirePTR
+    $Sisimai::Eb::ReSAFE => ['5.9.370', '4.9.370'], # SecurityError
+    $Sisimai::Eb::ReSPAM => ['5.9.164', '4.9.164'], # SpamDetected
+    $Sisimai::Eb::ReSTOP => ['5.9.310', '4.9.310'], # Suppressed
+    $Sisimai::Eb::ReQUIT => ['5.9.221', '4.9.221'], # Suspend
+    $Sisimai::Eb::ReCOMM => ['5.9.351', '4.9.351'], # SyntaxError
+    $Sisimai::Eb::RePROC => ['5.9.231', '4.9.231'], # SystemError
+    $Sisimai::Eb::ReDISK => ['5.9.232', '4.9.232'], # SystemFull
+    $Sisimai::Eb::Re___0 => ['5.9.300', '4.9.300'], # Undefined
+    $Sisimai::Eb::ReUSER => ['5.9.213', ''],        # UserUnknown
+    $Sisimai::Eb::ReEXEC => ['5.9.165', '4.9.165'], # VirusDetected
 };
 
 sub code {
@@ -668,14 +643,10 @@ sub code {
     # @see      name
     # @since v4.14.0
     my $class = shift;
-    my $argv1 = shift || return undef;
+    my $argv1 = shift || return "";
     my $argv2 = shift // 0;
-    my $table = undef;
-    my $code0 = undef;
-
-    $table = $argv2 ? InternalCode->{'temporary'} : InternalCode->{'permanent'};
-    $code0 = $table->{ $argv1 } // InternalCode->{'permanent'}->{ $argv1 } // '';
-    return $code0;
+    my $pairs = InternalCode->{ $argv1 } || return "";
+    return $argv2 ? $pairs->[1] : $pairs->[0];
 }
 
 sub name {
@@ -686,9 +657,7 @@ sub name {
     # @see      code
     # @since v4.14.0
     my $class = shift;
-    my $argv1 = shift || return undef;
-
-    return '' unless __PACKAGE__->test($argv1);
+    my $argv1 = shift || return ""; return '' unless __PACKAGE__->test($argv1);
     return StandardCode->{ $argv1 } // '';
 }
 
@@ -699,9 +668,7 @@ sub test {
     # @see      code
     # @since v5.0.0
     my $class = shift;
-    my $argv1 = shift || return undef; 
-    return 0 if length $argv1 < 5;
-    return 0 if length $argv1 > 7;
+    my $argv1 = shift || return 0; return 0 if length $argv1 < 5 || length $argv1 > 7;
 
     my $token = []; push @$token, int $_ for split(/[.]/, $argv1);
     return 0 unless scalar @$token == 3;
@@ -721,15 +688,15 @@ sub find {
     # @return   [String]        An SMTP Status Code
     # @since v4.14.0
     my $class = shift;
-    my $argv1 = shift || return undef; return undef if length $argv1 < 7;
+    my $argv1 = shift || return ""; return "" if length $argv1 < 7;
     my $argv2 = shift || '';
 
     my $givenclass = substr($argv2, 0, 1);
     my $eestatuses = $givenclass eq '2' || $givenclass eq '4' || $givenclass eq '5' ? [$givenclass.'.'] : ['5.', '4.', '2.'];
-    my $esmtperror = ' '.$argv1.' ';
+    my $esmtperror = ' '.$argv1.'   ';
     my $lookingfor = {};
 
-    for my $e ( Sisimai::String->ipv4($esmtperror)->@* ) {
+    for my $e ( Sisimai::RFC791->find($esmtperror)->@* ) {
         # Rewrite an IPv4 address in the given string(argv1) with '***.***.***.***'
         my $p0 = index($esmtperror, $e); next if $p0 == -1;
         substr($esmtperror, $p0, length $e, '***.***.***.***');
@@ -777,7 +744,7 @@ sub find {
         next if $characters->[3] < 48 || $characters->[3] > 57; # The 1st digit of the detail is not a number
         $readbuffer .= chr $characters->[3];
 
-        if( index($readbuffer, '.0.0') == 1 || $readbuffer eq '4.4.7' ) {
+        if( Sisimai::SMTP::Status->is_ambiguous($readbuffer) || $readbuffer eq "4.4.7" ) {
             # Find another status code except *.0.0, 4.4.7
             $anotherone = $readbuffer;
             next;
@@ -801,9 +768,11 @@ sub find {
         push @$statuscode, $readbuffer;
     }
     push @$statuscode, $anotherone if length $anotherone;
-
     return '' if scalar @$statuscode == 0;
-    return shift @$statuscode;
+
+    # Select one from picked status codes
+    my $cv = shift @$statuscode; for my $e ( @$statuscode ) { $cv = __PACKAGE__->prefer($cv, $e, "") }
+    return $cv;
 }
 
 sub prefer {
@@ -820,6 +789,8 @@ sub prefer {
 
     my $statuscode = $argv0 || return $argv1; return $argv1 unless length $statuscode > 4;
     my $codeinmesg = $argv1 || return $argv0; return $argv0 unless length $codeinmesg > 4;
+    return $codeinmesg if index($statuscode, '.9.') == 1;
+
     my $esmtpreply = $argv2 || 0;
     my $the1stchar = {
         'field' => int substr($statuscode, 0, 1),
@@ -835,8 +806,8 @@ sub prefer {
     }
     return $statuscode if $statuscode eq $codeinmesg;
 
-    my $zeroindex1 = { 'field' => index($statuscode, '.0'),   'error' => index($codeinmesg, '.0')   };
-    my $zeroindex2 = { 'field' => index($statuscode, '.0.0'), 'error' => index($codeinmesg, '.0.0') };
+    my $zeroindex1 = {'field' => index($statuscode, '.0'),   'error' => index($codeinmesg, '.0')  };
+    my $zeroindex2 = {'field' => index($statuscode, '.0.0'), 'error' => index($codeinmesg, '.0.0')};
 
     if( $zeroindex2->{'field'} > 0 ) {
         # "Status:" field is "X.0.0"
@@ -851,11 +822,16 @@ sub prefer {
 
     return $statuscode if $zeroindex2->{'error'} > 0;       # An SMTP status code is "X.0.0"
     return $codeinmesg if $statuscode eq '4.4.7';           # "4.4.7" is an ambiguous code
+    return $codeinmesg if $statuscode eq '4.7.0';           # "4.7.0" indicates "too many errors"
     return $codeinmesg if index($statuscode, '5.3.') == 0;  # "5.3.Z" is an error of a system
+    return $codeinmesg if index($statuscode, '.5.1')  > 0;  # "X.5.1" indicates an invalid command
+    return $codeinmesg if index($statuscode, '.5.2')  > 0;  # "X.5.2" indicates a syntax error
+    return $codeinmesg if index($statuscode, '.5.4')  > 0;  # "X.5.4" indicates an invalid command arguments
+    return $codeinmesg if index($statuscode, '.5.5')  > 0;  # "X.5.5" indicates a wrong protocol version
 
     if( $statuscode eq '5.1.1' ) {
-        # "5.1.1" is a code of "userunknown"
-        return $statuscode if $zeroindex1->{'error'} > 0;
+        # "5.1.1" is a code of "UserUnknown"
+        return $statuscode if index($codeinmesg, '5.5.') == 0 || $zeroindex1->{'error'} > 0;
         return $codeinmesg;
 
     } elsif( $statuscode eq '5.1.3' ) {
@@ -863,6 +839,27 @@ sub prefer {
         return $codeinmesg if index($codeinmesg, '5.7.') == 0;
     }
     return $statuscode;
+}
+
+sub is_explicit {
+    # is_explicit() returns 0 when the argument is empty or is an internal status code
+    # @param    string argv1  Delivery status code
+    # @return   bool          0: The delivery status is not explicit
+    my $class = shift;
+    my $argv1 = shift || return 0;
+
+    return 0 if length($argv1) == 7 && index($argv1, ".9.") == 1;
+    return 1;
+}
+
+sub is_ambiguous {
+    # is_ambiguous() returns 1 when the argument is not empty and is ends with ".0.0".
+    # @param    string argv1  Delivery status code
+    # @return   bool          1: The delivery status is ambiguous
+    my $class = shift;
+    my $argv1 = shift || return 1;
+    return 1 if length($argv1) == 5 && substr($argv1, -4, 4) eq ".0.0";
+    return 0
 }
 
 1;
@@ -877,42 +874,42 @@ Sisimai::SMTP::Status - SMTP Enhanced Status Codes related utilities
 =head1 SYNOPSIS
 
     use Sisimai::SMTP::Status;
-    print Sisimai::SMTP::Status->code('userunknown');           # '5.0.911'
-    print Sisimai::SMTP::Status->name('5.1.2');                 # 'hostunknown'
+    print Sisimai::SMTP::Status->code('UserUnknown');           # '5.9.213'
+    print Sisimai::SMTP::Status->name('5.1.2');                 # 'HostUnknown'
     print Sisimai::SMTP::Status->find('550 5.1.1 Unknown user');# '5.1.1'
 
 =head1 DESCRIPTION
 
-Sisimai::SMTP::Status is utilities for getting DSN value from error reason text, getting the reason
-from DSN value, and getting DSN from the text including DSN.
+C<Sisimai::SMTP::Status> is a utility class for getting the DSN value from the error reason text,
+getting the reason from the DSN value, and getting the DSN from the text including a DSN.
 
 =head1 CLASS METHODS
 
 =head2 C<B<code(I<reason>,I<temp>)>>
 
-C<code()> returns pseudo DSN value from the specified reason string. The second argument is a flag
-for getting pseudo DSN value as a temporary error.
+C<code()> method returns pseudo DSN value from the specified reason string. The second argument is
+a flag for getting pseudo DSN value as a temporary error.
 
-    print Sisimai::SMTP::Status->code('mailboxfull');   # '5.0.922'
-    print Sisimai::SMTP::Status->code('mailboxfull',1); # '4.0.922'
+    print Sisimai::SMTP::Status->code('MailboxFull');   # '5.9.220'
+    print Sisimai::SMTP::Status->code('MailboxFull',1); # '4.9.220'
 
 =head2 C<B<name(I<D.S.N.>)>>
 
-C<name()> returns a reason string from the specified DSN value.
+C<name()> method returns the reason string from the specified DSN value.
 
-    print Sisimai::SMTP::Status->name('5.1.6');         # 'hasmoved'
-    print Sisimai::SMTP::Status->name('4.2.3');         # 'exceedlimit'
+    print Sisimai::SMTP::Status->name('5.1.6');         # 'HasMoved'
+    print Sisimai::SMTP::Status->name('4.2.3');         # 'EmailTooLarge'
 
 =head2 C<B<test(I<D.S.N.>)>>
 
-C<test()> checks whether a status code is a valid code or not.
+C<test()> method checks whether the status code is a valid code or not.
 
     print Sisimai::SMTP::Status->test('5.1.6'); # 1
     print Sisimai::SMTP::Status->test('3.14');  # 0
 
 =head2 C<B<find(I<String>, I<String>)>>
 
-C<find()> returns a DSN value only from the text including DSN
+C<find()> method returns the DSN value only from the text including a DSN
 
     print Sisimai::SMTP::Status->find('5.0.0');                  # '5.0.0'
     print Sisimai::SMTP::Status->find('550 5.1.1 User unknown'); # '5.1.1'
@@ -920,10 +917,25 @@ C<find()> returns a DSN value only from the text including DSN
 
 =head2 C<B<prefer(I<Code in Status: field>, I<Code in an error message>, [I<Reply code>])>>
 
-C<prefer()> returns the preferred value selected from the arguments.
+C<prefer()> method returns the preferred value selected from the arguments.
 
     print Sisimai::SMTP::Status->prefer("5.2.1", "5.0.0");      # "5.2.1"
     print Sisimai::SMTP::Status->prefer("4.4.7", "5.1.1", 421); # "4.4.7"
+
+=head2 C<B<is_explicit(I<delivery status code>)>>
+
+C<is_explicit()> method returns 0 if the delivery status code is empty or is an internal code
+
+    print Sisimai::SMTP::Status->is_explicit("5.9.301"); # 0
+    print Sisimai::SMTP::Status->is_explicit("5.7.625"); # 1
+
+=head2 C<B<is_ambiguous(I<delivery status code>)>>
+
+C<is_ambiguous()> method returns 1 if the delivery status code is not empty and ends with ".0.0".
+
+    print Sisimai::SMTP::Status->is_ambiguous("5.0.0"); # 1
+    print Sisimai::SMTP::Status->is_ambiguous("");      # 1
+    print Sisimai::SMTP::Status->is_ambiguous("4.7.7"); # 0
 
 =head1 AUTHOR
 
@@ -931,7 +943,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2018,2020-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2018,2020-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
