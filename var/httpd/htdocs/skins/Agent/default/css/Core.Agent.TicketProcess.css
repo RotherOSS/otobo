@@ -33,14 +33,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .WidgetSimple > .Content.ProcessInfo fieldset,
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
     display: grid;
-    grid-template-columns: repeat(4, 255px);
-    gap: 0 10px;
+    grid-template-columns: repeat(auto-fill, minmax(max(180px, calc((100% - 3 * 10px) / 4)), 1fr));
+    gap: 10px;
     align-items: start;
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer {
-    width: 255px;
-    margin: 0px 10px 10px 0px;
     background-color: #efefef;
     border: 1px solid #ddd;
     line-height: 150%;
