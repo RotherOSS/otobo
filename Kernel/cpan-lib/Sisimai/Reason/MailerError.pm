@@ -13,28 +13,28 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         \Aprocmail:[ ]    # procmail
-        |bin/(?:procmail|maildrop)
-        |command[ ](?:
-             failed:[ ]
-            |died[ ]with[ ]status[ ]\d+
-            |output:
-            )
-        |exit[ ]\d+
-        |mailer[ ]error
-        |pipe[ ]to[ ][|][/].+
-        |x[-]unix[;][ ]\d+  # X-UNIX; 127
-        )
-    }x;
 
+    state $index = [
+        'procmail: ',
+        'bin/procmail',
+        'bin/maidrop',
+        'command failed: ',
+        'command died with status ',
+        'command output:',
+        'mailer error',
+        'pipe to |/',
+        'x-unix; ',
+    ];
+    state $regex = qr/exit[ ]\d+/;
+
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 1 if $argv1 =~ $regex;
     return 0;
 }
 
 sub true {
     # The bounce reason is mailer error or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: is mailer error
     #                                   0: is not mailer error
     # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -57,11 +57,11 @@ Sisimai::Reason::MailerError - Bounce reason is C<mailererror> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::MailerError checks the bounce reason is C<mailererror> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::MailerError checks the bounce reason is C<mailererror> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that a mailer program has not exited successfully or exited
-unexpectedly on a destination mail server.
+This is the error that a mailer program has not exited successfully or exited unexpectedly on a
+destination mail server.
 
     X-Actual-Recipient: X-Unix; |/home/kijitora/mail/catch.php
     Diagnostic-Code: X-Unix; 255
@@ -80,10 +80,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::MailerError->match('X-Unix; 255');   # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<mailererror>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<mailererror>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -91,7 +91,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2017,2020,2021,2023 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

@@ -13,11 +13,13 @@ sub match {
     # @since v4.1.12
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = [
+
+    state $index = [
         'could not connect and send the mail to',
         'dns records for the destination computer could not be found',
         'hop count exceeded - possible mail loop',
         'host is unreachable',
+        'host name lookup failure',
         'host not found, try again',
         'mail forwarding loop for ',
         'malformed name server reply',
@@ -30,14 +32,13 @@ sub match {
         'unable to resolve route ',
         'unrouteable mail domain',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
     # The bounce reason is network error or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: is network error
     #                                   0: is not network error
     # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -60,12 +61,11 @@ Sisimai::Reason::NetworkError - Bounce reason is C<networkerror> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::NetworkError checks the bounce reason is C<networkerror> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::NetworkError checks the bounce reason is C<networkerror> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that SMTP connection failed due to DNS look up failure or 
-other network problems. This reason has added in Sisimai 4.1.12 and does not
-exist in any version of bounceHammer.
+This is the error that SMTP connection failed due to DNS look up failure or other network problems.
+This reason has added in Sisimai 4.1.12.
 
     A message is delayed for more than 10 minutes for the following
     list of recipients:
@@ -86,10 +86,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::NetworkError->match('5.3.5 System config error'); # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<networkerror>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<networkerror>. The argument must be Sisimai::Fact
+object and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -97,7 +97,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018,2020-2022 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

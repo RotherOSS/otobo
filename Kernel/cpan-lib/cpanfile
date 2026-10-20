@@ -137,7 +137,7 @@ requires 'REST::Client', '== 273';
 # needed by Kernel::System::CronEvent
 requires 'Schedule::Cron::Events', '== 1.95';
 
-requires 'Sisimai', '== v4.24.1';
+requires 'Sisimai', '== 5.0.2';
 
 # needed by OTOBO generic interface
 requires 'SOAP::Lite', '== 1.20';

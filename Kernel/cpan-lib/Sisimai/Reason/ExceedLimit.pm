@@ -13,15 +13,18 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = ['message too large'];
 
+    state $index = [
+        'message header size exceeds limit',
+        'message too large',
+    ];
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
     # Exceed limit or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: Exceeds the limit
     #                                   0: Did not exceed the limit
     # @since v4.0.0
@@ -29,16 +32,16 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless $argvs->deliverystatus;
-    return 1 if $argvs->reason eq 'exceedlimit';
+    return undef unless $argvs->{'deliverystatus'};
+    return 1 if $argvs->{'reason'} eq 'exceedlimit';
 
     # Delivery status code points "exceedlimit".
     # Status: 5.2.3
     # Diagnostic-Code: SMTP; 552 5.2.3 Message size exceeds fixed maximum message size
-    return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'exceedlimit';
+    return 1 if (Sisimai::SMTP::Status->name($argvs->{'deliverystatus'}) || '') eq 'exceedlimit';
 
     # Check the value of Diagnosic-Code: header with patterns
-    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
+    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
     return 0;
 }
 
@@ -58,12 +61,11 @@ Sisimai::Reason::ExceedLimit - Bounce reason is C<exceedlimit> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::ExceedLimit checks the bounce reason is C<exceedlimit> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::ExceedLimit checks the bounce reason is C<exceedlimit> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that a message was rejected due to an email exceeded the 
-limit. The value of D.S.N. is 5.2.3. This reason is almost the same as 
-C<MesgTooBig>, we think.
+This is the error that a message was rejected due to an email exceeded the limit. The value of D.S.N.
+is 5.2.3. This reason is almost the same as C<MesgTooBig>, we think.
 
     ... while talking to mx.example.org.:
     >>> MAIL From:<kijitora@example.co.jp> SIZE=16600348
@@ -84,10 +86,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::ExceedLimit->match; # 0;
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<exceedlimit>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<exceedlimit>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 SEE ALSO
 
@@ -103,7 +105,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018,2020,2021 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

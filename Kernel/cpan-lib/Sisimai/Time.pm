@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Time - Child class of Time::Piece for Sisimai::Data
+Sisimai::Time - Child class of Time::Piece for Sisimai::Fact
 
 =head1 SYNOPSIS
 
@@ -27,7 +27,7 @@ Sisimai::Time - Child class of Time::Piece for Sisimai::Data
 
 =head1 DESCRIPTION
 
-Sisimai::Time is a child class of Time::Piece for Sisimai::Data.
+Sisimai::Time is a child class of Time::Piece for Sisimai::Fact.
 
 =head1 AUTHOR
 
@@ -35,7 +35,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015 azumakuniyuki, All rights reserved.
+Copyright (C) 2015,2020 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
