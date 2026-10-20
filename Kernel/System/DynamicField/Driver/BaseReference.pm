@@ -1260,10 +1260,7 @@ sub GetFieldState {
     }
 
     # currently, all reference field values are array refs, but just to be safe, include value transformation
-    if ( !defined $Value ) {
-        $Value = [''];
-    }
-    elsif ( !ref $Value ) {
+    if ( !ref $Value ) {
         $Value = [$Value];
     }
 
@@ -1323,9 +1320,10 @@ sub GetFieldState {
 
         if ( $Param{Disappears} || $Param{Reappears} ) {
             if (
-                DataIsDifferent(
-                    Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-                    Data2 => \@CheckedValues,
+                $Self->ValueIsDifferent(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value1             => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    Value2             => \@CheckedValues,
                 )
                 )
             {
@@ -1342,9 +1340,7 @@ sub GetFieldState {
             );
         }
 
-        return (
-            PossibleValues => \%PossibleValues,
-        );
+        return ();
     }
 
     # fetch possible values for dynamic field
@@ -1365,14 +1361,15 @@ sub GetFieldState {
         @CheckedValues = $Value->@*;
     }
     else {
-        @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
+        @CheckedValues = map { $PossibleValues->{ $_ // '' } ? ( $_ // '' ) : '' } $Value->@*;
     }
 
     # check if value has changed
     if (
-        DataIsDifferent(
-            Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-            Data2 => \@CheckedValues
+        $Self->ValueIsDifferent(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value1             => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            Value2             => \@CheckedValues,
         )
         )
     {
