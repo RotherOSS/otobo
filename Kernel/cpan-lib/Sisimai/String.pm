@@ -1,9 +1,8 @@
 package Sisimai::String;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Encode;
-use Digest::SHA;
 
 my $EncodingsC = [qw/big5-eten gb2312/];
 my $EncodingsE = [qw/iso-8859-1/];
@@ -11,33 +10,13 @@ my $EncodingsJ = [qw/7bit-jis iso-2022-jp euc-jp shiftjis/];
 use Encode::Guess; Encode::Guess->add_suspects(@$EncodingsC, @$EncodingsE, @$EncodingsJ);
 sub encodenames { return [@$EncodingsC, @$EncodingsE, @$EncodingsJ] };
 
-sub token {
-    # Create the message token from an addresser and a recipient
-    # @param    [String] addr1  A sender's email address
-    # @param    [String] addr2  A recipient's email address
-    # @param    [Integer] epoch Machine time of the email bounce
-    # @return   [String]        Message token(MD5 hex digest) or empty string
-    #                           if the any argument is missing
-    # @see       http://en.wikipedia.org/wiki/ASCII
-    # @see       https://metacpan.org/pod/Digest::MD5
-    my $class = shift || return '';
-    my $addr1 = shift || return '';
-    my $addr2 = shift || return '';
-    my $epoch = shift // return '';
-
-    # Format: STX(0x02) Sender-Address RS(0x1e) Recipient-Address ETX(0x03)
-    return Digest::SHA::sha1_hex(sprintf("\x02%s\x1e%s\x1e%d\x03", lc $addr1, lc $addr2, $epoch));
-}
-
 sub is_8bit {
     # The argument is 8-bit text or not
     # @param    [String] argv1  Any string to be checked
     # @return   [Integer]       0: ASCII Characters only
     #                           1: Including 8-bit character
     my $class = shift;
-    my $argv1 = shift // return undef;
-
-    return undef unless ref $argv1 eq 'SCALAR';
+    my $argv1 = shift // return 0; return 0 if ref $argv1 ne 'SCALAR';
     return 1 unless $$argv1 =~ /\A[\x00-\x7f]+\z/;
     return 0;
 }
@@ -49,7 +28,7 @@ sub sweep {
     # @example  Clean up text
     #   sweep('  neko ') #=> 'neko'
     my $class = shift;
-    my $argv1 = shift // return undef;
+    my $argv1 = shift // return "";
 
     chomp $argv1;
     y/ //s, s/\A //g, s/ \z//g, s/ [-]{2,}[^ ].+\z// for $argv1;
@@ -63,8 +42,8 @@ sub aligned {
     # @return   [Bool]          0, 1
     # @since v5.0.0
     my $class = shift;
-    my $argv1 = shift || return undef; return undef unless length $$argv1;
-    my $argv2 = shift || return undef; return undef unless scalar @$argv2;
+    my $argv1 = shift || return 0; return 0 unless length $$argv1;
+    my $argv2 = shift || return 0; return 0 unless scalar @$argv2;
     my $align = -1;
     my $right =  0;
 
@@ -80,60 +59,16 @@ sub aligned {
     return 0;
 }
 
-sub ipv4 {
-    # Find an IPv4 address from the given string
-    # @param    [String] argv1  String including an IPv4 address
-    # @return   [Array]         List of IPv4 addresses
-    # @since v5.0.0
-    my $class = shift;
-    my $argv0 = shift || return undef; return [] if length $argv0 < 7;
-    my $ipv4a = [];
-
-    for my $e ( '(', ')', '[', ']' ) {
-        # Rewrite: "mx.example.jp[192.0.2.1]" => "mx.example.jp 192.0.2.1"
-        my $p0 = index($argv0, $e); next if $p0 < 0;
-        substr($argv0, $p0, 1, ' ');
-    }
-
-    IP4A: for my $e ( split(' ', $argv0) ) {
-        # Find string including an IPv4 address
-        next if index($e, '.') == -1;   # IPv4 address must include "." character
-
-        my $lx = length $e; next if $lx < 7 || $lx > 17; # 0.0.0.0 = 7, [255.255.255.255] = 17
-        my $cu = 0;     # Cursor for seeking each octet of an IPv4 address
-        my $as = '';    # ASCII Code of each character
-        my $eo = '';    # Buffer of each octet of IPv4 Address
-
-        while( $cu < $lx ) {
-            # Check whether each character is a number or "." or not
-            $as = ord substr($e, $cu++, 1);
-            if( $as < 48 || $as > 57 ) {
-                # The character is not a number(0-9)
-                next IP4A if     $as != 46; # The character is not "."
-                next      if     $eo eq ''; # The current buffer is empty
-                next IP4A if int $eo > 255; # The current buffer is greater than 255
-                $eo = '';
-                next;
-            }
-            $eo .= chr $as;
-            next IP4A if int $eo > 255;
-        }
-        push @$ipv4a, $e;
-    }
-    return $ipv4a;
-}
-
 sub to_plain {
     # Convert given HTML text to plain text
     # @param    [Scalar]  argv1 HTML text(reference to string)
     # @param    [Integer] loose Loose check flag
     # @return   [Scalar]        Plain text(reference to string)
     my $class = shift;
-    my $argv1 = shift // return \'';
+    my $argv1 = shift // return undef; return undef if ref $argv1 ne 'SCALAR';
     my $loose = shift // 0;
-    return \'' unless ref $argv1 eq 'SCALAR';
-
     my $plain = $$argv1;
+
     state $match = {
         'html' => qr|<html[ >].+?</html>|sim,
         'body' => qr|<head>.+</head>.*<body[ >].+</body>|sim,
@@ -145,9 +80,11 @@ sub to_plain {
         # 2. Remove <style>...</style>
         # 3. <a href = 'http://...'>...</a> to " http://... "
         # 4. <a href = 'mailto:...'>...</a> to " Value <mailto:...> "
-        s|<head>.+</head>||gsim,
-        s|<style.+?>.+</style>||gsim,
-        s|<a\s+href\s*=\s*['"](https?://.+?)['"].*?>(.*?)</a>| [$2]($1) |gsim,
+        my $cv =  lc $plain;
+        $plain =~ s|<head>.+?</head>||gsim      if index($cv, '</head>')  > -1;
+        $plain =~ s|<style.+?>.+?</style>||gsim if index($cv, '</style>') > -1;
+
+        s|<a\s+href\s*=\s*(['"])(https?://[^'"]+?)\1[^>]*?>(.*?)</a>| [$3]($2) |gsim,
         s|<a\s+href\s*=\s*["']mailto:([^\s]+?)["']>(.*?)</a>| [$2](mailto:$1) |gsim,
         s/<[^<@>]+?>\s*/ /g,    # Delete HTML tags except <neko@example.jp>
         s/&lt;/</g,             # Convert to left angle brackets
@@ -171,13 +108,13 @@ sub to_utf8 {
     # @param    [String] argv2  Encoding name before converting
     # @return   [String]        UTF-8 Encoded string
     my $class = shift;
-    my $argv1 = shift || return \'';
+    my $argv1 = shift || return "";
     my $argv2 = shift;
 
     state $dontencode = ['utf8', 'utf-8', 'us-ascii', 'ascii'];
     my $tobeutf8ed = $$argv1;
     my $encodefrom = lc $argv2 || '';
-    my $hasencoded = undef;
+    my $hasencoded = 0;
     my $hasguessed = Encode::Guess->guess($tobeutf8ed);
     my $encodingto = ref $hasguessed ? lc($hasguessed->name) : '';
 
@@ -223,7 +160,6 @@ Sisimai::String - String related class
     my $r = 'envelope-recipient@example.org';
     my $t = time();
 
-    print Sisimai::String->token($s, $r, $t);  # 2d635de42a44c54b291dda00a93ac27b
     print Sisimai::String->is_8bit(\'猫');     # 1
     print Sisimai::String->sweep(' neko cat ');# 'neko cat'
 
@@ -232,62 +168,44 @@ Sisimai::String - String related class
 
 =head1 DESCRIPTION
 
-Sisimai::String provide utilities for dealing string
+C<Sisimai::String> provide utilities for dealing various strings
 
 =head1 CLASS METHODS
 
-=head2 C<B<token(I<sender>, I<recipient>)>>
-
-C<token()> generates a token: Unique string generated by an envelope sender address and a envelope
-recipient address.
-
-    my $s = 'envelope-sender@example.jp';
-    my $r = 'envelope-recipient@example.org';
-
-    print Sisimai::String->token($s, $r);    # 2d635de42a44c54b291dda00a93ac27b
-
 =head2 C<B<is_8bit(I<Reference to String>)>>
 
-C<is_8bit()> checks the argument include any 8bit character or not.
+C<is_8bit()> method checks the argument include any 8bit character or not.
 
     print Sisimai::String->is_8bit(\'cat');  # 0;
     print Sisimai::String->is_8bit(\'ねこ'); # 1;
 
 =head2 C<B<sweep(I<String>)>>
 
-C<sweep()> clean the argument string up: remove trailing spaces, squeeze spaces.
+C<sweep()> method clean the argument string up: remove trailing spaces, squeeze spaces.
 
     print Sisimai::String->sweep(' cat neko ');  # 'cat neko';
     print Sisimai::String->sweep(' nyaa   !!');  # 'nyaa !!';
 
-C<aligned> checks if each element of the 2nd argument is aligned in the 1st argument or not.
+C<aligned> method checks if each element of the 2nd argument is aligned in the 1st argument or not.
 
     my $v = 'Final-Recipient: rfc822; <nekochan@example.jp>';
     print Sisimai::String->aligned(\$v, ['rfc822', '<', '@', '>']);  # 1
     print Sisimai::String->aligned(\$v, [' <', '@', 'rfc822']);      # 0
     print Sisimai::String->aligned(\$v, ['example', '@', 'neko']);   # 0
 
-=head2 C<B<ipv4(I<String>)>>
-
-C<ipv4> return all the IPv4 address found in the given string.
-
-    my $v = "connection refused from 192.0.2.1, DNSBL returned 127.0.0.2";
-    my $p = Sisimai::String->ipv4($v); # ["192.0.2.1", "127.0.0.2"]
-
 =head2 C<B<to_plain(I<Reference to String>, [I<Loose Check>])>>
 
-C<to_plain> converts given string as HTML to plain text.
+C<to_plain> method converts given string as an HTML to the plain text.
 
     my $v = '<html>neko</html>';
     print Sisimai::String->to_plain($v);    # neko
 
 =head2 C<B<to_utf8(I<Reference to String>, [I<Encoding>])>>
 
-C<to_utf8> converts given string to UTF-8.
+C<to_utf8> method converts given string to UTF-8.
 
     my $v = '^[$BG-^[(B';   # ISO-2022-JP
     print Sisimai::String->to_utf8($v, 'iso-2022-jp');  # 猫
-
 
 =head1 AUTHOR
 
@@ -295,10 +213,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018,2019,2021-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018,2019,2021-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

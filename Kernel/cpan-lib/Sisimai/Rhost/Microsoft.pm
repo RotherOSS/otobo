@@ -1,5 +1,5 @@
 package Sisimai::Rhost::Microsoft;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Sisimai::SMTP::Status;
@@ -7,68 +7,41 @@ use Sisimai::SMTP::Status;
 # https://technet.microsoft.com/en-us/library/bb232118
 # https://learn.microsoft.com/en-us/Exchange/mail-flow-best-practices/non-delivery-reports-in-exchange-online/non-delivery-reports-in-exchange-online
 # https://learn.microsoft.com/en-us/Exchange/mail-flow/non-delivery-reports-and-bounce-messages/non-delivery-reports-and-bounce-messages
-sub get {
+sub find {
     # Detect bounce reason from Exchange Server 2019 or older and Exchange Online
-    # @param    [Sisimai::Fact] argvs   Parsed email object
+    # @param    [Sisimai::Fact] argvs   Decoded email object
     # @return   [String]                The bounce reason for Exchange Online
     # @see      https://technet.microsoft.com/en-us/library/bb232118
+    # @since v4.17.2
     my $class = shift;
-    my $argvs = shift // return undef;
-
-    return $argvs->{'reason'} if $argvs->{'reason'};
-    return '' unless $argvs->{'diagnosticcode'};
+    my $argvs = shift // return "";
     return '' unless $argvs->{'deliverystatus'};
     return '' unless Sisimai::SMTP::Status->test($argvs->{'deliverystatus'});
 
+    require Sisimai::Eb;
     state $messagesof = {
-        'authfailure' => [
+        $Sisimai::Eb::ReAUTH => [
             # - Access denied, a message sent over IPv6 [2a01:111:f200:2004::240] must pass either
             #   SPF or DKIM validation, this message is not signed
             # - The sending message sent over IPv6 must pass either SPF or DKIM.
             ['4.7.26', 0, 0, 'must pass either spf or dkim validation, this message is not signed'],
 
-            # - Records are DNSSEC authentic, but one or multiple of these scenarios occurred:
-            #   - The destination mail server's certificate doesn't match with what is expected per
-            #     the authentic TLSA record.
-            #   - Authentic TLSA record is misconfigured.
-            #   - Destination domain is being attacked.
-            #   - Any other DANE failure.
-            # - This message usually indicates an issue on the destination email server. Check the
-            #   validity of recipient address and determine if the destination server is configured
-            #   correctly to receive messages. 
-            # - For more information about DANE, see: https://datatracker.ietf.org/doc/html/rfc7671
-            ['4.7.323', 0, 0, 'tlsa-invalid: The domain failed dane validation'],
-            ['5.7.323', 0, 0, 'tlsa-invalid: The domain failed dane validation'],
-
-            # - The destination domain indicated it was DNSSEC-authentic, but Exchange Online was 
-            #   not able to verify it as DNSSEC-authentic.
-            ['4.7.324', 0, 0, 'dnssec-invalid: destination domain returned invalid dnssec records'],
-            ['5.7.324', 0, 0, 'dnssec-invalid: destination domain returned invalid dnssec records'],
-
-            # - This happens when the presented certificate identities (CN and SAN) of a destina-
-            #   tion SMTP target host don't match any of the domains or MX host.
-            # - This message usually indicates an issue on the destination email server. Check the
-            #   validity of recipient address and determine if the destination server is configured
-            #   correctly to receive messages. For more information, see How SMTP DNS-based Authen-
-            #   tication of Named Entities (DANE) works to secure email communications.
-            ['4.7.325', 0, 0, 'certificate-host-mismatch: remote certificate must have a common name or subject alternative name matching the hostname (dane)'],
-            ['5.7.325', 0, 0, 'certificate-host-mismatch: remote certificate must have a common name or subject alternative name matching the hostname (dane)'],
-
             # - The destination email system uses SPF to validate inbound mail, and there's a prob-
             #   lem with your SPF configuration.
             ['5.7.23', 0, 0, 'the message was rejected because of sender policy framework violation'],
 
-            # - DNSSEC checks have passed, yet upon establishing the connection the destination
-            #   mail server provides a certificate that is expired.
-            # - A valid X.509 certificate that isn't expired must be presented. X.509 certificates
-            #   must be renewed after their expiration, commonly annually.
-            ['5.7.322', 0, 0, "certificate-expired: destination mail server's certificate is expired"],
-
             # - Access denied, sending domain [$SenderDomain] does not pass DMARC verification
             # - The sender's domain in the 5322.From address doesn't pass DMARC.
             ['5.7.509', 0, 0, 'does not pass dmarc verification'],
+
+            # - 550 5.7.515 Access denied, sending domain EXAMPLE.JP doesn't meet the required
+            #   authentication level. The sender's domain in the 5322.From address doesn't meet
+            #   the authentication requirements defined for the sender. To learn how to fix this
+            #   see: https://go.microsoft.com/fwlink/p/?linkid=2319303
+            #   Spf= Fail , Dkim= Pass , DMARC= Pass ...
+            ["5.7.515", 0, 0, "doesn't meet the required authentication level"],
         ],
-        'badreputation' => [
+        $Sisimai::Eb::ReFAMA => [
             # Undocumented error messages ---------------------------------------------------------
             # - status=deferred (host outlook-com.olc.protection.outlook.com[192.0.2.255] said:
             #   451 4.7.650 The mail server [192.0.2.5] has been temporarily rate limited due to IP
@@ -76,7 +49,7 @@ sub get {
             #   [***.prod.protection.outlook.com] (in reply to MAIL FROM command))
             ['4.7.650', 0, 0, 'has been temporarily rate limited due to ip reputation'],
         ],
-        'blocked' => [
+        $Sisimai::Eb::ReBLOC => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - Transient network issues or server problems that might eventually correct them-
             #   selves. The sending server will retry delivery of the message, and will generate
@@ -147,14 +120,13 @@ sub get {
 
             # Previous versions of Exchange Server ------------------------------------------------
             ['5.5.4',  0, 0, 'invalid domain name'],
-            ['5.7.51', 0, 0, 'restrictdomainstoipaddresses or restrictdomainstocertificate'],
 
             # Undocumented error messages ---------------------------------------------------------
             # - 550 5.7.1 Unfortunately, messages from [10.0.2.5] weren't sent. Please contact your
             #   Internet service provider since part of their network is on our block list (S3150). 
             ['5.7.1', 0, 0, 'part of their network is on our block list (s3150)'],
         ],
-        'contenterror' => [
+        $Sisimai::Eb::ReBODY => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - The message was determined to be malformed, and was moved to the poison message
             #   queue. For more information, see Types of queues.
@@ -169,14 +141,23 @@ sub get {
             ['5.4.11', 0, 0, 'agent generated message depth exceeded'],
             ['5.5.6',  0, 0, 'invalid message content'],
         ],
-        'exceedlimit' => [
+        $Sisimai::Eb::ReSIZE => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - The message is too large. Send the message again without any attachments, or confi-
             #   gure a larger message size limit for the recipient. For more information, see Re-
             #   cipient limits.
             ['5.2.3', 0, 0, 'resolver.rst.recipsizelimit; message too large for this recipient'],
+
+            # - The message is too large. This error can be generated by the source or destination
+            #   messaging system. Send the message again without any attachments, or configure a
+            #   larger message size limit. For more information, see Message size and recipient
+            #   limits in Exchange Server.
+            ['5.3.4', 0, 0, 'message size exceeds fixed maximum message size'],
+
+            # Previous versions of Exchange Server ------------------------------------------------
+            ['5.3.4', 0, 0, 'message too big for system'],
         ],
-        'expired' => [
+        $Sisimai::Eb::ReTIME => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - Transient network issues that might eventually correct themselves. The Exchange
             #   server periodically tries to connect to the destination server to deliver the mes-
@@ -227,25 +208,73 @@ sub get {
             #   couldn't be delivered to the original sender.
             ['5.4.300', 0, 0, 'message expired'],
         ],
-        'mailboxfull' => [
+        $Sisimai::Eb::ReTTLS => [
+            # Exchange Online ---------------------------------------------------------------------
+            # - MX hosts of <domain> failed MTA-STS validation The destination MX host is not the
+            #   expected host per the domain's STS policy
+            ["4.4.8", 0, 0, " failed mta-sts validation"],
+            ["5.4.8", 0, 0, " failed mta-sts validation"],
+
+            # - DNSSEC checks have passed, yet upon connection, destination mail server doesn't re-
+            #   spond to the STARTTLS command. The destination server responds to the STARTTLS com-
+            #   mand, but the TLS handshake fails.
+            # - This message usually indicates an issue on the destination email server. Check the
+            #   validity of the recipient address. Determine if the destination server is configur-
+            #   ed correctly to receive the messages.
+            ['4.4.317', 0, 0, 'starttls is required to send mail'],
+            ['5.4.317', 0, 0, 'starttls is required to send mail'],
+
+            # - Remote certificate failed MTA-STS validation. Reason: <validityStatus> The destina-
+            #   tion mail server's certificate must chain to a trusted root Certificate Authority
+            #   and the Common Name or Subject Alternative Name must contain an entry for the host
+            #   name in the STS policy.
+            ["4.7.5", 0, 0, "remote certificate failed mta-sts validation"],
+            ["5.7.5", 0, 0, "remote certificate failed mta-sts validation"],
+
+            # - DNSSEC checks have passed, yet upon establishing the connection the destination
+            #   mail server provides a certificate that is expired.
+            # - A valid X.509 certificate that isn't expired must be presented. X.509 certificates
+            #   must be renewed after their expiration, commonly annually.
+            ['5.7.51',  0, 0, 'restrictdomainstoipaddresses or restrictdomainstocertificate'],
+            ['4.7.321', 0, 0, 'starttls-not-supported:'],
+            ['5.7.321', 0, 0, 'starttls-not-supported:'],
+            ['5.7.322', 0, 0, "certificate-expired:"],
+
+            # - Records are DNSSEC authentic, but one or multiple of these scenarios occurred:
+            #   - The destination mail server's certificate doesn't match with what is expected per
+            #     the authentic TLSA record.
+            #   - Authentic TLSA record is misconfigured.
+            #   - Destination domain is being attacked.
+            #   - Any other DANE failure.
+            # - This message usually indicates an issue on the destination email server. Check the
+            #   validity of recipient address and determine if the destination server is configured
+            #   correctly to receive messages. 
+            # - For more information about DANE, see: https://datatracker.ietf.org/doc/html/rfc7671
+            ['4.7.323', 0, 0, 'tlsa-invalid:'],
+            ['5.7.323', 0, 0, 'tlsa-invalid:'],
+
+            # - The destination domain indicated it was DNSSEC-authentic, but Exchange Online was 
+            #   not able to verify it as DNSSEC-authentic.
+            ['4.7.324', 0, 0, 'dnssec-invalid:'],
+            ['5.7.324', 0, 0, 'dnssec-invalid:'],
+
+            # - This happens when the presented certificate identities (CN and SAN) of a destina-
+            #   tion SMTP target host don't match any of the domains or MX host.
+            # - This message usually indicates an issue on the destination email server. Check the
+            #   validity of recipient address and determine if the destination server is configured
+            #   correctly to receive messages. For more information, see How SMTP DNS-based Authen-
+            #   tication of Named Entities (DANE) works to secure email communications.
+            ['4.7.325', 0, 0, 'certificate-host-mismatch:'],
+            ['5.7.325', 0, 0, 'certificate-host-mismatch:'],
+        ],
+        $Sisimai::Eb::ReFULL => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - The recipient's mailbox has exceeded its storage quota and is no longer able to ac-
             #   cept new messages. For more information about configuring mailbox quotas, see Con-
             #   figure storage quotas for a mailbox.
             ['5.2.2', 0, 0, 'mailbox full'],
         ],
-        'mesgtoobig' => [
-            # Exchange Server 2019 ----------------------------------------------------------------
-            # - The message is too large. This error can be generated by the source or destination
-            #   messaging system. Send the message again without any attachments, or configure a
-            #   larger message size limit. For more information, see Message size and recipient
-            #   limits in Exchange Server.
-            ['5.3.4', 0, 0, 'message size exceeds fixed maximum message size'],
-
-            # Previous versions of Exchange Server ------------------------------------------------
-            ['5.3.4', 0, 0, 'message too big for system'],
-        ],
-        'networkerror' => [
+        $Sisimai::Eb::ReINET => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - There's a DNS or network adapter configuration issue on the Exchange server. Verify
             #   the internal and external DNS lookup settings for the Exchange by running this com-
@@ -272,7 +301,7 @@ sub get {
             ['5.4.6', 0, 0, 'hop count exceeded - possible mail loop'],
 
             # Exchange Online ---------------------------------------------------------------------
-	        # - Microsoft 365 or Office 365 is trying to send a message to an email server outside
+            # - Microsoft 365 or Office 365 is trying to send a message to an email server outside
             #   of Microsoft 365 or Office 365, but attempts to connect to it are failing due to a
             #   network connection issue at the external server's location.
             # - This error almost always indicates an issue with the receiving server or network
@@ -280,6 +309,7 @@ sub get {
             #   dress of the server or service that's generating the error, which you can use to
             #   identify the party responsible for fixing this.
             ['4.4.316', 0, 0, 'connection refused'], # [Message=Socket error code 10061]
+            ['5.4.316', 0, 0, 'connection refused'], # [Message=Socket error code 10061]
 
             # - A configuration error has caused an email loop. 5.4.6 is generated by on-premises
             #   Exchange server (you'll see this code in hybrid environments). 5.4.14 is generated
@@ -295,8 +325,12 @@ sub get {
             ['5.4.4',  0, 0, 'invalid arguments'],
             ['5.4.6',  0, 0, 'routing loop detected'],
             ['5.4.14', 0, 0, 'routing loop detected'],
+
+            # Imported from Sisimai::Lhost::Office365
+            ['4.4.312', 0, 0, 'dns query failed'],  # [Message=InfoNoRecords]
+            ['5.4.312', 0, 0, 'dns query failed'],  # [Message=InfoNoRecords]
         ],
-        'norelaying' => [
+        $Sisimai::Eb::RePASS => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - You have an application server or device that's trying to relay messages through
             #   Exchange. For more information, see Allow anonymous relay on Exchange servers. The
@@ -337,8 +371,9 @@ sub get {
             # Previous versions of Exchange Server ------------------------------------------------
             ['5.4.310', 0, 0, 'does not exist'], # DNS domain * does not exist
         ],
-        'notaccept' => [
+        $Sisimai::Eb::Re00MX => [
             ['4.3.2', 0, 0, 'system not accepting network messages'],
+            ['4.4.4', 0, 0, 'hosted tenant which has no mail-enabled subscriptions'],
 
             # Exchange Server 2019 ----------------------------------------------------------------
             # - You're using the ABP Routing agent, and the recipient isn't a member of the global
@@ -347,7 +382,7 @@ sub get {
             #   Book Policy Routing Agent and Address book policies in Exchange Server.
             ['5.3.2', 0, 0, 'storedrv.deliver: missing or bad storedriver mdb properties'],
         ],
-        'policyviolation' => [
+        $Sisimai::Eb::ReWONT => [
             # - 5.0.350 is a generic catch-all error code for a wide variety of non-specific errors
             #   lfrom the recipient's email organization. The specific x-dg-ref header is too long
             #   message is related to Rich Text formatted messages. The specific Requested action
@@ -362,7 +397,79 @@ sub get {
             #   Mail flow rule actions in Exchange Server.
             ['5.7.', 900, 999, 'delivery not authorized, message refused'],
         ],
-        'rejected' => [
+        $Sisimai::Eb::ReRATE => [
+            # Exchange Server 2019 ----------------------------------------------------------------
+            # - The combined total of recipients on the To, Cc, and Bcc lines of the message ex-
+            #   ceeds the total number of recipients allowed in a single message for the organiza-
+            #   tion, Receive connector, or sender. For more information, see Message size and re-
+            #   cipient limits in Exchange Server.
+            ['5.5.3', 0, 0, 'too many recipients'],
+            
+            # Exchange Online ---------------------------------------------------------------------
+            # - The recipient mailbox's ability to accept messages is being throttled because it's
+            #   receiving too many messages too quickly. This is done so a single recipient's mail
+            #   processing doesn't unfairly impact other recipients sharing the same mailbox data-
+            #   base.
+            ['4.3.2', 0, 0, 'storedrv.deliver; recipient thread limit exceeded'],
+
+            # - The message has more than 200 SMTP envelope recipients from the same domain.
+            # - An envelope recipient is the original, unexpanded recipient that's used in the RCPT
+            #   TO command to transmit the message between SMTP servers. When this error is return-
+            #   ed by Microsoft 365 or Office 365, the sending server must break up the number of
+            #   envelope recipients into smaller chunks (chunking) and resend the message.
+            ['4.5.3', 0, 0, 'too many recipients'],
+
+            # - The sender has exceeded the recipient rate limit as described in Sending limits.
+            # - This could indicate the account has been compromised and is being used to send
+            #   spam.
+            ['5.1.90', 0, 0, "reached your daily limit for message recipients"],
+
+            # - The sender has exceeded the recipient rate limit or the message rate limit as de-
+            #   scribed in Sending limits.
+            # - This could indicate the account has been compromised and is being used to send
+            #   spam.
+            ['5.2.2', 0, 0, 'submission quota exceeded'],
+
+            # - The sender has exceeded the maximum number of messages they're allowed to send per
+            #   hour to a specific recipient in Exchange Online.
+            # - The automated mailer or sender should try again later, and reduce the number of
+            #   messages they send per hour to a specific recipient. This limit helps protect
+            #   Microsoft 365 or Office 365 users from rapidly filling their inboxes with a large
+            #   number of messages from errant automated notification systems or other single-send-
+            #   er mail storms.
+            ['5.2.121', 0, 0, "recipient's per hour message receive limit"],
+
+            # - The Microsoft 365 or Office 365 recipient has exceeded the number of messages they
+            #   can receive per hour from all senders.
+            # - The automated mailer or sender should try again later, and reduce the number of
+            #   messages they send per hour to a specific recipient. This limit helps protect
+            #   Microsoft 365 and Office 365 users from rapidly filling their inboxes with a large
+            #   number of messages from errant automated notification systems or other mail storms.
+            ['5.2.122', 0, 0, "recipient's per hour message receive limit"],
+
+            # - Access denied, [$SenderIPAddress] has exceeded permitted limits within $range range
+            # - The sender's IPv6 range has attempted to send too many messages in too short a time
+            #   period.
+            ['5.7.508', 0, 0, 'has exceeded permitted limits within'],
+
+            # - The majority of traffic from this tenant has been detected as suspicious and has
+            #   resulted in a ban on sending ability for the tenant.
+            # - Ensure that any compromises or open relays have been resolved, and then contact
+            #   support through your regular channel. For more information, see Fix email delivery
+            #   issues for error codes 5.7.700 through 5.7.750 in Exchange Online.
+            ['5.7.', 700, 749, 'tenant has exceeded threshold'],
+            ['5.7.', 700, 749, 'traffic not accepted from this ip'],
+
+            # - 451 4.7.652 The mail server [192.0.2.251] has exceeded the maximum number of
+            #   connections. (S3115) [Name=Protocol Filter Agent][AGT=PFA][MxId=11BA9B3FA168ABBF]
+            #   [BN3PEPF0000B370.namprd21.prod.outlook.com 2025-02-20T14:30:32.425Z 08DD4D9FD5AFF45C]
+            #   (in reply to MAIL FROM command))
+            ["4.7.652", 0, 0, "has exceeded the maximum number of connections"],
+
+            # Previous versions of Exchange Server ------------------------------------------------
+            ['5.2.122', 0, 0, 'the recipient has exceeded their limit for'],
+        ],
+        $Sisimai::Eb::ReFROM => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - There's a problem with the sender's email address. Verify the sender's email ad-
             #   dress.
@@ -425,6 +532,10 @@ sub get {
             #   can change this.
             ['5.7.136', 0, 0, 'sender was not authenticated'],
 
+            # - 550 5.7.193 UnifiedGroupAgent; Delivery failed because the sender isn't a group
+            #   member or external senders aren't permitted to send to this group.
+            ["5.7.193", 0, 0, "sender isn't a group member or external senders aren't permitted"],
+
             # - The sending account has been banned due to detected spam activity.
             # - For details, see Fix email delivery issues for error code 451 5.7.500-699 (ASxxx)
             #   in Exchange Online.
@@ -450,7 +561,7 @@ sub get {
             # Previous versions of Exchange Server ------------------------------------------------
             ['5.7.', 501, 503, 'access denied, banned sender'],
         ],
-        'securityerror' => [
+        $Sisimai::Eb::ReSAFE => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - A firewall or other device is blocking the Extended SMTP command that's required
             #   for Exchange Server authentication (X-EXPS). Internal email traffic is flowing
@@ -458,16 +569,6 @@ sub get {
             #   method . Verify the remote IP address ranges on any custom Receive connectors.
             ['5.7.3', 0, 0, 'cannot achieve exchange server authentication'],
             ['5.7.3', 0, 0, 'not authorized'],
-
-            # Exchange Online ---------------------------------------------------------------------
-            # - DNSSEC checks have passed, yet upon connection, destination mail server doesn't re-
-            #   spond to the STARTTLS command. The destination server responds to the STARTTLS com-
-            #   mand, but the TLS handshake fails.
-            # - This message usually indicates an issue on the destination email server. Check the
-            #   validity of the recipient address. Determine if the destination server is configur-
-            #   ed correctly to receive the messages.
-            ['4.7.321', 0, 0, 'starttls-not-supported: destination mail server must support tls to receive mail'],
-            ['5.7.321', 0, 0, 'starttls-not-supported: destination mail server must support tls to receive mail'],
 
             # - The sending email system didn't authenticate with the receiving email system. The
             #   receiving email system requires authentication before message submission.
@@ -483,63 +584,14 @@ sub get {
             #   the configuration of the application or device.
             ['5.7.57', 0, 0, 'client was not authenticated to send anonymous mail during mail from'],
         ],
-        'spamdetected' => [
+        $Sisimai::Eb::ReSPAM => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - The message was quarantined by content filtering. To configure exceptions to con-
             #   tent filtering, see Use the Exchange Management Shell to configure recipient and
             #   sender exceptions for content filtering.
             ['5.2.1', 0, 0, 'content filter agent quarantined this message'],
         ],
-        'speeding' => [
-            # Exchange Online ---------------------------------------------------------------------
-	        # - The recipient mailbox's ability to accept messages is being throttled because it's
-            #   receiving too many messages too quickly. This is done so a single recipient's mail
-            #   processing doesn't unfairly impact other recipients sharing the same mailbox data-
-            #   base.
-            ['4.3.2', 0, 0, 'storedrv.deliver; recipient thread limit exceeded'],
-
-            # - The sender has exceeded the recipient rate limit as described in Sending limits.
-            # - This could indicate the account has been compromised and is being used to send
-            #   spam.
-            ['5.1.90', 0, 0, "your message can't be sent because you've reached your daily limit for message recipients"],
-
-            # - The sender has exceeded the recipient rate limit or the message rate limit as de-
-            #   scribed in Sending limits.
-            # - This could indicate the account has been compromised and is being used to send
-            #   spam.
-            ['5.2.2', 0, 0, 'submission quota exceeded'],
-
-            # - The sender has exceeded the maximum number of messages they're allowed to send per
-            #   hour to a specific recipient in Exchange Online.
-            # - The automated mailer or sender should try again later, and reduce the number of
-            #   messages they send per hour to a specific recipient. This limit helps protect
-            #   Microsoft 365 or Office 365 users from rapidly filling their inboxes with a large
-            #   number of messages from errant automated notification systems or other single-send-
-            #   er mail storms.
-            ['5.2.121', 0, 0, "recipient's per hour message receive limit from specific sender exceeded"],
-
-            # - The Microsoft 365 or Office 365 recipient has exceeded the number of messages they
-            #   can receive per hour from all senders.
-            # - The automated mailer or sender should try again later, and reduce the number of
-            #   messages they send per hour to a specific recipient. This limit helps protect
-            #   Microsoft 365 and Office 365 users from rapidly filling their inboxes with a large
-            #   number of messages from errant automated notification systems or other mail storms.
-            ['5.2.122', 0, 0, "recipient's per hour message receive limit exceeded"],
-
-            # - Access denied, [$SenderIPAddress] has exceeded permitted limits within $range range
-            # - The sender's IPv6 range has attempted to send too many messages in too short a time
-            #   period.
-            ['5.7.508', 0, 0, 'has exceeded permitted limits within'],
-
-            # - The majority of traffic from this tenant has been detected as suspicious and has
-            #   resulted in a ban on sending ability for the tenant.
-            # - Ensure that any compromises or open relays have been resolved, and then contact
-            #   support through your regular channel. For more information, see Fix email delivery
-            #   issues for error codes 5.7.700 through 5.7.750 in Exchange Online.
-            ['5.7.', 700, 749, 'access denied, tenant has exceeded threshold'],
-            ['5.7.', 700, 749, 'access denied, traffic not accepted from this ip'],
-        ],
-        'suspend' => [
+        $Sisimai::Eb::ReQUIT => [
             # Exchange Online ---------------------------------------------------------------------
             # - The recipient address that you're attempting to contact isn't valid.
             # - Verify the recipient's email address, and try again.
@@ -550,7 +602,7 @@ sub get {
             # Previous versions of Exchange Server ------------------------------------------------
             ['5.2.1', 0, 0, 'mailbox cannot be accessed'],
         ],
-        'syntaxerror' => [
+        $Sisimai::Eb::ReCOMM => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - Receive connectors that are used for internal mail flow are missing the required
             #   Exchange Server authentication mechanism. For more information about authentication
@@ -563,7 +615,7 @@ sub get {
             #   be EHLO or HELO.
             ['5.5.2', 0, 0, 'send hello first'],
         ],
-        'systemerror' => [
+        $Sisimai::Eb::RePROC => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - You've configured a custom Receive connector in the Transport (Hub) service on a
             #   Mailbox server that listens on port 25. Typically, custom Receive connectors that
@@ -595,7 +647,7 @@ sub get {
             #   is disabled. For this scenario to work, the organization's Office 365 administrator
             #   should either enable Journaling Archive or change the journaling rule to journal
             #   messages to a different location.
-            ['5.3.190', 0, 0, 'journaling on-premises messages to microsoft 365 or office 365 not supported when journaling archive is disabled'],
+            ['5.3.190', 0, 0, 'when journaling archive is disabled'],
 
             # Previous versions of Exchange Server ------------------------------------------------
             ['5.0.0',  0, 0, 'helo / ehlo requires domain address'],
@@ -604,11 +656,21 @@ sub get {
             ['5.2.14', 0, 0, 'misconfigured forwarding address'],
 
             # Undocumented error messages ---------------------------------------------------------
-            ['4.4.3',  0, 0, 'temporary server error. please try again later attr18'],
-            ['4.7.0',  0, 0, 'temporary server error. please try again later. prx4 nexthop:'],
-            ['4.4.24', 0, 0, 'message failed to be replicated: insufficient system resource:'],
-            ['4.4.25', 0, 0, 'message failed to be replicated: no healthy secondary server available to accept replica at this time.'],
-            ['4.4.28', 0, 0, 'message failed to be replicated: the operation was canceled'],
+            # - 451 4.4.22 Message failed to be replicated: no healthy peers found ... (in reply to end of DATA command)
+            # - 451 4.4.23 Message failed to be replicated: No healthy secondary server available
+            #   to accept replica at this time. ... (in reply to end of DATA command)
+            # - 451 4.4.28 Message failed to be replicated:
+            #   Microsoft.Exchange.Transport.Net.Http.TransportHttpException(session Id: -1) ...(in reply to end of DATA command)
+            # - 451 4.4.28 Message failed to be replicated:
+            #   System.Net.Http.HttpRequestException(session Id: ****) ... (in reply to end of DATA command)
+            ["4.4.",  22, 28, "message failed to be replicated:"],
+            ["4.4.3",  0,  0, "temporary server error. please try again later attr18"],
+            ["4.7.0",  0,  0, "temporary server error. please try again later. prx4 nexthop:"],
+
+            # 550 5.4.318 Message expired, connection reset (SuspiciousRemoteServerError)
+            # 450 4.4.318 Connection was closed abruptly (SuspiciousRemoteServerError)
+            ['4.4.318', 0, 0, '(suspiciousremoteservererror)'],
+            ['5.4.318', 0, 0, '(suspiciousremoteservererror)'],
 
             # - status=deferred (host hotmail-com.olc.protection.outlook.com[192.0.2.1] said:
             #   451 4.7.500 Server busy. Please try again later from [192.0.2.2]. (AS761) (in reply
@@ -620,7 +682,7 @@ sub get {
             #   (in reply to MAIL FROM command))
             ['4.7.700', 0, 0, 'pfa agent busy, please try again.'],
         ],
-        'systemfull' => [
+        $Sisimai::Eb::ReDISK => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - Free disk space is low (for example, the disk that holds the queue database doesn't
             #   have the required amount of free space). For more information, see Understanding
@@ -631,26 +693,7 @@ sub get {
             #   machines.
             ['4.3.1', 0, 0, 'insufficient system resources'],
         ],
-        'toomanyconn' => [
-            # Exchange Server 2019 ----------------------------------------------------------------
-            # - The combined total of recipients on the To, Cc, and Bcc lines of the message ex-
-            #   ceeds the total number of recipients allowed in a single message for the organiza-
-            #   tion, Receive connector, or sender. For more information, see Message size and re-
-            #   cipient limits in Exchange Server.
-            ['5.5.3', 0, 0, 'too many recipients'],
-            
-            # Exchange Online ---------------------------------------------------------------------
-            # - The message has more than 200 SMTP envelope recipients from the same domain.
-            # - An envelope recipient is the original, unexpanded recipient that's used in the RCPT
-            #   TO command to transmit the message between SMTP servers. When this error is return-
-            #   ed by Microsoft 365 or Office 365, the sending server must break up the number of
-            #   envelope recipients into smaller chunks (chunking) and resend the message.
-            ['4.5.3', 0, 0, 'too many recipients'],
-
-            # Previous versions of Exchange Server ------------------------------------------------
-            ['5.2.122', 0, 0, 'the recipient has exceeded their limit for'],
-        ],
-        'userunknown' => [
+        $Sisimai::Eb::ReUSER => [
             # Exchange Server 2019 ----------------------------------------------------------------
             # - The recipient's email address is incorrect (the recipient doesn't exist in the des-
             #   tination messaging system). Verify the recipient's email address. You recreated a
@@ -710,15 +753,66 @@ sub get {
 
             # Previous versions of Exchange Server ------------------------------------------------
             ['5.1.2', 0, 0, 'invalid x.400 address'],
+
+            # Imported from Sisimai::/Lhost::Office365
+            ['5.1.351', 0, 0, 'remote server returned unknown recipient or mailbox unavailable'],
         ],
+    };
+    state $errorcodes = {
+        #  The mail server IP connecting to Outlook.com server has exceeded the rate limit allowed.
+        #  Reason for rate limitation is related to IP/domain reputation.
+        "RP-001" => ["421", $Sisimai::Eb::ReFAMA],
+
+        #  The mail server IP connecting to Outlook.com server has exceeded the rate limit allowed
+        #  on this connection. Reason for rate limitation is related to IP/domain reputation.
+        "RP-002" => ["421", $Sisimai::Eb::ReFAMA],
+
+        #  The mail server IP connecting to Outlook.com server has exceeded the connection limit
+        #  allowed. Reason for limitation is related to IP/domain reputation.
+        "RP-003" => ["421", $Sisimai::Eb::ReFAMA],
+
+        #  Mail rejected by Outlook.com for policy reasons. Reasons for rejection may be related
+        #  to content with spam-like characteristics or IP/domain reputation. 
+        "SC-001" => ["550", $Sisimai::Eb::ReFAMA],
+
+        #  Mail rejected by Outlook.com for policy reasons. The mail server IP connecting to
+        #  Outlook.com has exhibited namespace mining behavior.
+        "SC-002" => ["550", $Sisimai::Eb::ReWONT],
+
+        #  Mail rejected by Outlook.com for policy reasons. Your IP address appears to be an
+        #  open proxy/relay.
+        "SC-003" => ["550", $Sisimai::Eb::ReBLOC],
+
+        #  Mail rejected by Outlook.com for policy reasons. A block has been placed against your
+        #  IP address because we have received complaints concerning mail coming from that IP
+        #  address. We recommend enrolling in our Junk Email Reporting Program (JMRP), a free
+        #  program intended to help senders remove unwanted recipients from their email list
+        "SC-004" => ["550", $Sisimai::Eb::ReBLOC],
+
+        #  Mail rejected by Outlook.com for policy reasons. We generally do not accept email
+        #  from dynamic IP's as they are not typically used to deliver unauthenticated SMTP email
+        #  to an Internet mail server. (Spamhaus)
+        "DY-001" => ["550", $Sisimai::Eb::ReBLOC],
+
+        #  Mail rejected by Outlook.com for policy reasons. The likely cause is a compromised or
+        #  virus infected server/personal computer.
+        "DY-002" => ["550", $Sisimai::Eb::ReEXEC],
+
+        #  Mail rejected by Outlook.com for policy reasons. If you are not an email/network admin
+        #  please contact your Email/Internet Service Provider for help. For more information
+        #  about this block and to request removal please go to: Spamhaus.
+        "OU-001" => ["550", $Sisimai::Eb::ReBLOC],
+
+        #  Mail rejected by Outlook.com for policy reasons. Reasons for rejection may be related
+        #  to content with spam-like characteristics or IP/domain reputation.
+        "OU-002" => ["550", $Sisimai::Eb::ReFAMA],
     };
 
     my $statuscode = $argvs->{'deliverystatus'};
     my $thirddigit = int [split /[.]/, $statuscode]->[-1];
     my $issuedcode = lc $argvs->{'diagnosticcode'};
-    my $reasontext = '';
 
-    REASON: for my $e ( keys %$messagesof ) {
+    for my $e ( keys %$messagesof ) {
         # Each key is a reason name
         for my $f ( $messagesof->{ $e }->@* ) {
             # ["status-code", min, max, "error message"]
@@ -732,13 +826,16 @@ sub get {
                 next if $thirddigit < $f->[1]; 
                 next if $thirddigit > $f->[2]; 
             }
-
-            next unless index($issuedcode, $f->[3]) > -1;
-            $reasontext = $e;
-            last REASON;
+            return $e if index($issuedcode, $f->[3]) > -1;
         }
     }
-    return $reasontext;
+    for my $e ( keys %$errorcodes ) {
+        # The key name is an error code described at Outlook.com Postmaster/Troubleshooting
+        # https://substrate.office.com/ip-domain-management-snds/postmaster/troubleshooting
+        next if index($argvs->{'diagnosticcode'}, $e) < 0;
+        return $errorcodes->{ $e }->[1] if $argvs->{'replycode'} eq $errorcodes->{ $e }->[0];
+    }
+    return "";
 }
 
 1;
@@ -753,19 +850,19 @@ older and Office 365.
 
 =head1 SYNOPSIS
 
-    use Sisimai::Rhost;
+    use Sisimai::Rhost::Microsoft;
 
 =head1 DESCRIPTION
 
-Sisimai::Rhost detects the bounce reason from the content of Sisimai::Fact object as an argument
-of get() method when the value of C<rhost> of the object is "*.protection.outlook.com". This class
-is called only Sisimai::Fact class.
+C<Sisimai::Rhost::Microsoft> detects the bounce reason from the content of C<Sisimai::Fact> object
+as an argument of C<find()> method when the value of C<rhost> of the object is C<*.protection.outlook.com>.
+This class is called only C<Sisimai::Fact> class.
 
 =head1 CLASS METHODS
 
-=head2 C<B<get(I<Sisimai::Fact Object>)>>
+=head2 C<B<find(I<Sisimai::Fact Object>)>>
 
-C<get()> detects the bounce reason.
+C<find()> method detects the bounce reason.
 
 =head1 AUTHOR
 
@@ -773,7 +870,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2016-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2016-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

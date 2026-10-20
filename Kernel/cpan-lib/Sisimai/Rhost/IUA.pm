@@ -1,28 +1,29 @@
 package Sisimai::Rhost::IUA;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub get {
+sub find {
     # Detect bounce reason from https://www.i.ua/
-    # @param    [Sisimai::Fact] argvs   Parsed email object
+    # @param    [Sisimai::Fact] argvs   Decoded email object
     # @return   [String]                The bounce reason at https://www.i.ua/
     # @since v4.25.0
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return ""; return "" unless $argvs->{'diagnosticcode'};
 
+    require Sisimai::Eb;
     state $errorcodes = {
-        # http://mail.i.ua/err/$(CODE)
-        '1'  => 'norelaying',  # The use of SMTP as mail gate is forbidden.
-        '2'  => 'userunknown', # User is not found.
-        '3'  => 'suspend',     # Mailbox was not used for more than 3 months
-        '4'  => 'mailboxfull', # Mailbox is full.
-        '5'  => 'toomanyconn', # Letter sending limit is exceeded.
-        '6'  => 'norelaying',  # Use SMTP of your provider to send mail.
-        '7'  => 'blocked',     # Wrong value if command HELO/EHLO parameter.
-        '8'  => 'rejected',    # Couldn't check sender address.
-        '9'  => 'blocked',     # IP-address of the sender is blacklisted.
-        '10' => 'filtered',    # Not in the list Mail address management.
+        # https://mail.i.ua/err/$(CODE)
+        '1'  => $Sisimai::Eb::RePASS, # The use of SMTP as mail gate is forbidden.
+        '2'  => $Sisimai::Eb::ReUSER, # User is not found.
+        '3'  => $Sisimai::Eb::ReQUIT, # Mailbox was not used for more than 3 months
+        '4'  => $Sisimai::Eb::ReFULL, # Mailbox is full.
+        '5'  => $Sisimai::Eb::ReRATE, # Letter sending limit is exceeded.
+        '6'  => $Sisimai::Eb::RePASS, # Use SMTP of your provider to send mail.
+        '7'  => $Sisimai::Eb::ReBLOC, # Wrong value if command HELO/EHLO parameter.
+        '8'  => $Sisimai::Eb::ReFROM, # Couldn't check sender address.
+        '9'  => $Sisimai::Eb::ReBLOC, # IP-address of the sender is blacklisted.
+        '10' => $Sisimai::Eb::ReFILT, # Not in the list Mail address management.
     };
     my $issuedcode = lc $argvs->{'diagnosticcode'};
     my $codenumber = index($issuedcode, '.i.ua/err/') > 0 ? substr($issuedcode, index($issuedcode, '/err/') + 5, 2) : 0;
@@ -41,19 +42,19 @@ Sisimai::Rhost::IUA - Detect the bounce reason returned from https://www.i.ua/.
 
 =head1 SYNOPSIS
 
-    use Sisimai::Rhost;
+    use Sisimai::Rhost::IUA;
 
 =head1 DESCRIPTION
 
-Sisimai::Rhost detects the bounce reason from the content of Sisimai::Fact object as an argument
-of get() method when the value of C<rhost> of the object is "*.email.ua".  This class is called
-only Sisimai::Fact class.
+C<Sisimai::Rhost::IUA> detects the bounce reason from the content of C<Sisimai::Fact> object as an
+argument of C<find()> method when the value of C<rhost> of the object is C<*.email.ua>.
+This class is called only C<Sisimai::Fact> class.
 
 =head1 CLASS METHODS
 
-=head2 C<B<get(I<Sisimai::Fact Object>)>>
+=head2 C<B<find(I<Sisimai::Fact Object>)>>
 
-C<get()> detects the bounce reason.
+C<find()> method detects the bounce reason.
 
 =head1 AUTHOR
 
@@ -61,7 +62,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2019-2021,2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2019-2021,2023-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

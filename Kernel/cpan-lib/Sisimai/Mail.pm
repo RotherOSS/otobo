@@ -1,5 +1,5 @@
 package Sisimai::Mail;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Class::Accessor::Lite (
@@ -22,7 +22,7 @@ sub new {
     my $argv1 = shift;
     my $klass = undef;
     my $loads = 'Sisimai/Mail/';
-    my $param = { 'kind' => '', 'data' => undef, 'path' => $argv1 };
+    my $param = {'kind' => '', 'data' => undef, 'path' => $argv1};
 
     # The argumenet is a mailbox or a Maildir/.
     if( -f $argv1 ) {
@@ -66,7 +66,7 @@ sub read {
     # Alias method of Sisimai::Mail::*->read()
     # @return   [String] Contents of mbox/Maildir
     my $self = shift;
-    return undef unless ref $self->{'data'};
+    return "" unless ref $self->{'data'};
     return $self->{'data'}->read;
 }
 
@@ -100,8 +100,8 @@ Sisimai::Mail - Handler of Mbox/Maildir for reading each mail.
 
 =head1 DESCRIPTION
 
-Sisimai::Mail is a handler for reading a UNIX mbox, a Maildir, or any email message input from STDIN,
-variable. It is a wrapper class of the following child classes:
+C<Sisimai::Mail> is a handler for reading a UNIX mbox, a Maildir, or any email message input from
+C<STDIN> variable. It is a wrapper class of the following child classes:
 
     * Sisimai::Mail::Mbox
     * Sisimai::Mail::Maildir
@@ -112,7 +112,7 @@ variable. It is a wrapper class of the following child classes:
 
 =head2 C<B<new(I<path to mbox|Maildir/>)>>
 
-C<new()> is a constructor of Sisimai::Mail
+C<new()> method is a constructor of C<Sisimai::Mail>
 
     my $mailbox = Sisimai::Mail->new('/var/mail/root');
     my $maildir = Sisimai::Mail->new('/home/nyaa/Maildir/cur');
@@ -123,27 +123,27 @@ C<new()> is a constructor of Sisimai::Mail
 
 =head2 C<B<path()>>
 
-C<path()> returns the path to mbox or Maildir.
+C<path()> method returns the path to the mbox or the Maildir.
 
     print $mailbox->path;   # /var/mail/root
 
-=head2 C<B<mbox()>>
+=head2 C<B<kind()>>
 
-C<kind()> Returns the name of data type
+C<kind()> method returns the name of the data type
 
     print $mailbox->kind;   # mailbox or maildir, stdin, or memory.
 
 =head2 C<B<mail()>>
 
-C<mail()> returns Sisimai::Mail::Mbox object or Sisimai::Mail::Maildir object.
+C<mail()> method returns the C<Sisimai::Mail::Mbox> object or the C<Sisimai::Mail::Maildir> object.
 
     my $o = $mailbox->mail;
     print ref $o;   # Sisimai::Mail::Mbox
 
 =head2 C<B<read()>>
 
-C<read()> works as a iterator for reading each email in mbox or Maildir. It calls Sisimai::Mail::Mbox->read
-or Sisimai::Mail::Maildir->read method.
+C<read()> method works as an iterator for reading each email in the mbox or the Maildir. It calls
+C<Sisimai::Mail::Mbox->read()> or C<Sisimai::Mail::Maildir->read> methods.
 
     my $mailbox = Sisimai::Mail->new('/var/mail/neko');
     while( my $r = $mailbox->read ) {
@@ -156,10 +156,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018-2021 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018-2021,2024,2025 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

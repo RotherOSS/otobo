@@ -1,6 +1,6 @@
 package Sisimai::Lhost::X3;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
@@ -10,7 +10,7 @@ sub inquire {
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.1.9
     my $class = shift;
     my $mhead = shift // return undef;
@@ -22,13 +22,12 @@ sub inquire {
     require Sisimai::SMTP::Command;
     state $indicators = __PACKAGE__->INDICATORS;
     state $boundaries = ['Content-Type: message/rfc822'];
-    state $startingof = { 'message' => ['      This is an automatically generated Delivery Status Notification.'] };
+    state $startingof = {'message' => ['      This is an automatically generated Delivery Status Notification.']};
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
-    my $v = undef;
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -38,8 +37,7 @@ sub inquire {
             $readcursor |= $indicators->{'deliverystatus'} if index($e, $startingof->{'message'}->[0]) == 0;
             next;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         # ============================================================================
         #      This is an automatically generated Delivery Status Notification.
@@ -86,12 +84,7 @@ sub inquire {
         }
     }
     return undef unless $recipients;
-
-    for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
-        $e->{'status'}    = Sisimai::SMTP::Status->find($e->{'diagnosis'}) || '';
-    }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -101,7 +94,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::X3 - bounce mail parser class for C<X3>.
+Sisimai::Lhost::X3 - bounce mail decoder class for X3.
 
 =head1 SYNOPSIS
 
@@ -109,8 +102,8 @@ Sisimai::Lhost::X3 - bounce mail parser class for C<X3>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::X3 parses a bounce email which created by Unknown MTA #3. Methods in the module are
-called from only Sisimai::Message.
+C<Sisimai::Lhost::X3> decodes a bounce email which created by Unknown MTA #3. Methods in the module
+are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -122,8 +115,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -131,10 +124,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2021,2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2021,2023-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

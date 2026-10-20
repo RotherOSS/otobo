@@ -1,9 +1,10 @@
 package Sisimai::Reason::BadReputation;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
 
-sub text  { 'badreputation' }
+sub text  { $Sisimai::Eb::ReFAMA }
 sub description { 'Email rejected due to an IP address reputation' }
 sub match {
     # Try to match that the given text and regular expressions
@@ -12,31 +13,33 @@ sub match {
     #                           1: Matched
     # @since v5.0.0
     my $class = shift;
-    my $argv1 = shift // return undef;
+    my $argv1 = shift // return 0;
 
     state $index = [
-        'a poor email reputation score',
-        'has been temporarily rate limited due to ip reputation',
-        'ip/domain reputation problems',
-        'likely suspicious due to the very low reputation',
-        "the sending mta's poor reputation",
+        "has been temporarily rate limited due to ip reputation",
+        "ip/domain reputation problems",
+        "likely suspicious due to the very low reputation",
+        "none/bad reputation", # t-online.de
+        "poor email reputation score",
+        "sending mta's poor reputation",
+        "temporarily deferred due to unexpected volume or user complaints", # Yahoo Inc.
     ];
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
-    # The bounce reason is "badreputation" or not
+    # The bounce reason is "BadReputation" or not
     # @param    [Sisimai::Fact] argvs   Object to be detected the reason
-    # @return   [Integer]               1: is badreputation
-    #                                   0: is not badreputation
+    # @return   [Integer]               1: is BadReputation
+    #                                   0: is not BadReputation
     # @see http://www.ietf.org/rfc/rfc2822.txt
     # @since v5.0.0
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return 0;
 
-    return 1 if $argvs->{'reason'} eq 'badreputation';
-    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
+    return 1 if $argvs->{'reason'} eq $Sisimai::Eb::ReFAMA;
+    return __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
 }
 
 1;
@@ -46,7 +49,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Reason::BadReputation - Bounce reason is C<badreputation> or not.
+Sisimai::Reason::BadReputation - Bounce reason is C<BadReputation> or not.
 
 =head1 SYNOPSIS
 
@@ -55,8 +58,8 @@ Sisimai::Reason::BadReputation - Bounce reason is C<badreputation> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::BadReputation checks the bounce reason is C<badreputation> or not. This class is
-called only Sisimai::Reason class.
+C<Sisimai::Reason::BadReputation> checks the bounce reason is C<BadReputation> or not. This class
+is called only C<Sisimai::Reason> class.
 
 This is the error that an email rejected due to a reputation score of the sender IP address.
 
@@ -73,20 +76,20 @@ This is the error that an email rejected due to a reputation score of the sender
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<badreputation>.
+C<text()> method returns the fixed string C<BadReputation>.
 
-    print Sisimai::Reason::BadReputation->text;  # badreputation
+    print Sisimai::Reason::BadReputation->text;  # BadReputation
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> returns 1 if the argument matched with patterns defined in this class.
+C<match()> method returns C<1> if the argument matched with patterns defined in this class.
 
     print Sisimai::Reason::BadReputation->match('low reputation of the sending IP');    # 1
 
 =head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<badreputation>. The argument must be Sisimai::Fact
-object and this method is called only from Sisimai::Reason class.
+C<true()> method returns C<1> if the bounce reason is C<BadReputation>. The argument must be C<Sisimai::Fact>
+object and this method is called only from C<Sisimai::Reason> class.
 
 =head1 AUTHOR
 
@@ -94,7 +97,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2022 azumakuniyuki, All rights reserved.
+Copyright (C) 2022,2024-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

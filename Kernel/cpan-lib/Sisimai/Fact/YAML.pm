@@ -1,19 +1,17 @@
 package Sisimai::Fact::YAML;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
 sub dump {
     # Data dumper(YAML)
     # @param    [Sisimai::Fact] argvs   Object
-    # @return   [String, undef]         Dumped data or undef if the argument is missing
+    # @return   [String]                Dumped data or an empty string if the argument is missing
     my $class = shift;
-    my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Fact';
+    my $argvs = shift // return ""; return "" if ref $argvs ne 'Sisimai::Fact';
     my $damneddata = undef;
-    my $yamlstring = undef;
     my $modulename = undef;
+    my $yamlstring = "";
 
     eval {
         require YAML;
@@ -58,7 +56,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Fact::YAML - Dumps parsed data object as a YAML format
+Sisimai::Fact::YAML - Dumps decoded data object as a YAML format
 
 =head1 SYNOPSIS
 
@@ -70,14 +68,14 @@ Sisimai::Fact::YAML - Dumps parsed data object as a YAML format
 
 =head1 DESCRIPTION
 
-Sisimai::Fact::YAML dumps parsed data object as a YAML format. This class and method should be called
-from the parent object "Sisimai::Fact".
+C<Sisimai::Fact::YAML> dumps decoded data object as a YAML format. This class and method should be
+called only from the parent object C<Sisimai::Fact>.
 
 =head1 CLASS METHODS
 
 =head2 C<B<dump(I<Sisimai::Fact>)>>
 
-C<dump> method returns Sisimai::Fact object as a YAML formatted string.
+C<dump()> method returns C<Sisimai::Fact> object as a YAML formatted string.
 
     my $mail = Sisimai::Mail->new('/var/mail/root');
     while( my $r = $mail->read ) {
@@ -93,7 +91,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018,2020,2021 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018,2020,2021,2024,2025 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

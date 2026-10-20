@@ -1,9 +1,10 @@
 package Sisimai::Reason::NotCompliantRFC;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
 
-sub text  { 'notcompliantrfc' }
+sub text  { $Sisimai::Eb::ReNRFC }
 sub description { "Email rejected due to non-compliance with RFC" }
 sub match {
     # Try to match that the given text and regular expressions
@@ -12,11 +13,15 @@ sub match {
     #                           1: Matched
     # @since v5.0.0
     my $class = shift;
-    my $argv1 = shift // return undef;
+    my $argv1 = shift // return 0;
 
     state $index = [
-        'this message is not rfc 5322 compliant',
-        'https://support.google.com/mail/?p=rfcmessagenoncompliant',
+        "duplicate header",
+        "duplicated message-id",
+        "message is not rfc 5322 compliant",
+        "multiple addresses in from: header are not accepted",
+        "rfc 1035 violation",
+        "https://support.google.com/mail/?p=rfcmessagenoncompliant",
     ];
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
@@ -30,11 +35,10 @@ sub true {
     # @since v5.0.0
     # @see http://www.ietf.org/rfc/rfc5322.txt
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return 0;
 
-    return 1 if $argvs->{'reason'} eq 'notcompliantrfc';
-    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
-    return 0;
+    return 1 if $argvs->{'reason'} eq $Sisimai::Eb::ReNRFC;
+    return __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
 }
 
 1;
@@ -44,7 +48,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Reason::NotCompliantRFC - Bounce reason is C<notcompliantrfc> or not.
+Sisimai::Reason::NotCompliantRFC - Bounce reason is C<NotCompliantRFC> or not.
 
 =head1 SYNOPSIS
 
@@ -53,10 +57,10 @@ Sisimai::Reason::NotCompliantRFC - Bounce reason is C<notcompliantrfc> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::NotCompliantRFC checks the bounce reason is C<notcompliantrfc> or not. This class
-is called only from Sisimai::Reason class.
+C<Sisimai::Reason::NotCompliantRFC> checks the bounce reason is C<NotCompliantRFC> or not.
+This class is called only from C<Sisimai::Reason class>.
 
-This is the error that an email is not compliant RFC 5322 or other email related RFCs. For example,
+This is the error that the email is not compliant RFC 5322 or other email related RFCs. For example,
 there are multiple C<Subject> headers in the email.
 
     host aspmx.l.google.com[142.251.170.26] said: This message is not RFC 5322 compliant. There are
@@ -68,20 +72,20 @@ there are multiple C<Subject> headers in the email.
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<notcompliantrfc>.
+C<text()> method returns the fixed string C<NotCompliantRFC>.
 
-    print Sisimai::Reason::NotCompliantRFC->text;  # notcompliantrfc
+    print Sisimai::Reason::NotCompliantRFC->text;  # NotCompliantRFC
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> returns 1 if the argument matched with patterns defined in this class.
+C<match()> method returns C<1> if the argument matched with patterns defined in this class.
 
     print Sisimai::Reason::NotCompliantRFC->match('This message is not RFC 5322 compliant');    # 1
 
 =head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<notcompliantrfc>. The argument must be Sisimai::Fact
-object and this method is called only from Sisimai::Reason class.
+C<true()> method returns C<1> if the bounce reason is C<NotCompliantRFC>. The argument must be
+C<Sisimai::Fact> object and this method is called only from C<Sisimai::Reason> class.
 
 =head1 AUTHOR
 
@@ -89,7 +93,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2024-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

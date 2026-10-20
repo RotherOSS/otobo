@@ -1,6 +1,6 @@
 package Sisimai::Time;
 use parent 'Time::Piece';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Time - Child class of Time::Piece for Sisimai::Fact
+Sisimai::Time - Child class of C<Time::Piece> for C<Sisimai::Fact>
 
 =head1 SYNOPSIS
 
@@ -27,7 +27,7 @@ Sisimai::Time - Child class of Time::Piece for Sisimai::Fact
 
 =head1 DESCRIPTION
 
-Sisimai::Time is a child class of Time::Piece for Sisimai::Fact.
+C<Sisimai::Time> is a child class of C<Time::Piece> for C<Sisimai::Fact>.
 
 =head1 AUTHOR
 

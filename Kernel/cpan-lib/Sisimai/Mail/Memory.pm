@@ -1,5 +1,5 @@
 package Sisimai::Mail::Memory;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 use Class::Accessor::Lite (
@@ -41,10 +41,9 @@ sub new {
 }
 
 sub read {
-    # Memory reader, works as a iterator.
+    # Memory reader, works as an iterator.
     # @return   [String] Contents of a bounce mail
-    my $self = shift;
-    return undef unless scalar $self->{'payload'}->@*;
+    my $self = shift; return "" unless scalar $self->{'payload'}->@*;
 
     $self->{'offset'} += 1;
     return shift $self->{'payload'}->@*;
@@ -69,13 +68,14 @@ Sisimai::Mail::Memory - Mailbox reader
 
 =head1 DESCRIPTION
 
-Sisimai::Mail::Memory is a class for reading a mailbox, files in Maildir/, or JSON string from variable.
+C<Sisimai::Mail::Memory> is a class for reading a mailbox, files in Maildir/ from the value of the
+specified variable.
 
 =head1 CLASS METHODS
 
 =head2 C<B<new(I<\$scalar>)>>
 
-C<new()> is a constructor of Sisimai::Mail::Memory
+C<new()> method is a constructor of C<Sisimai::Mail::Memory>
 
     my $mailtxt = 'From Mailer-Daemon ...';
     my $mailobj = Sisimai::Mail::Memory->new(\$mailtxt);
@@ -84,32 +84,32 @@ C<new()> is a constructor of Sisimai::Mail::Memory
 
 =head2 C<B<path()>>
 
-C<path()> returns "<MEMORY>"
+C<path()> method returns a fixed string C<"<MEMORY>">
 
     print $mailbox->path;   # "<MEMORY>"
 
 =head2 C<B<size()>>
 
-C<size()> returns a memory size of the mailbox or JSON string.
+C<size()> method returns a memory size of the mailbox
 
     print $mailobj->size;   # 94515
 
 =head2 C<B<payload()>>
 
-C<payload()> returns an array reference to each email message or JSON string
+C<payload()> method returns an array reference to each email message
 
     print scalar $mailobj->payload->@*; # 17
 
 =head2 C<B<offset()>>
 
-C<offset()> returns an offset position for seeking "payload" list. The value of "offset" is an index
-number which have already read.
+C<offset()> method returns the offset position for seeking C<"payload"> list. The value of C<"offset">
+is an index number which have already read.
 
     print $mailobj->offset;   # 0
 
 =head2 C<B<read()>>
 
-C<read()> works as a iterator for reading each email in the mailbox.
+C<read()> method works as an iterator for reading each email in the mailbox.
 
     my $mailtxt = 'From Mailer-Daemon ...';
     my $mailobj = Sisimai::Mail->new(\$mailtxt);
@@ -123,7 +123,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2018-2022 azumakuniyuki, All rights reserved.
+Copyright (C) 2018-2022,2024,2025 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

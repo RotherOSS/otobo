@@ -1,19 +1,10 @@
 package Sisimai;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
-use version; our $VERSION = version->declare('v5.0.2'); our $PATCHLV = 0;
+use version; our $VERSION = version->declare('v5.7.2'); our $PATCHLV = 0;
 sub version { return substr($VERSION->stringify, 1).($PATCHLV > 0 ? 'p'.$PATCHLV : '') }
 sub libname { 'Sisimai' }
-
-sub make {
-    # Emulate "rise" method for the backward compatible
-    warn ' ***warning: Sisimai->make will be removed at v5.1.0. Use Sisimai->rise instead';
-    my $class = shift;
-    my $argv0 = shift // return undef; die ' ***error: wrong number of arguments' if scalar @_ % 2;
-    my $argv1 = { @_ };
-    return __PACKAGE__->rise($argv0, %$argv1);
-}
 
 sub rise {
     # Wrapper method for decoding mailbox or Maildir/
@@ -43,14 +34,14 @@ sub rise {
         my $path = $mail->data->path;
         my $args = {
             'data' => $r, 'hook' => $c___->[0], 'origin' => $path,
-            'delivered' => $argv1->{'delivered'}, 'vaction' => $argv1->{'vacation'}
+            'delivered' => $argv1->{'delivered'}, 'vacation' => $argv1->{'vacation'}
         };
         my $fact = Sisimai::Fact->rise($args) || [];
 
         if( $c___->[1] ) {
             # Run the callback function specified with "c___" parameter of Sisimai->rise after reading
             # each email file in Maildir/ every time
-            $args = { 'kind' => $kind, 'mail' => \$r, 'path' => $path, 'fact' => $fact };
+            $args = {'kind' => $kind, 'mail' => \$r, 'path' => $path, 'fact' => $fact};
             eval { $c___->[1]->($args) if ref $c___->[1] eq 'CODE' };
             warn sprintf(" ***warning: Something is wrong in the second element of the 'c___': %s", $@) if $@;
         }
@@ -126,9 +117,9 @@ sub reason {
 
     # These reasons are not included in the results of Sisimai::Reason->index
     require Sisimai::Reason;
-    my @names = ( Sisimai::Reason->index->@*, qw|Delivered Feedback Undefined Vacation|);
+    my @names = ($Sisimai::Eb::ReSENT, $Sisimai::Eb::ReFEED, $Sisimai::Eb::Re___0, $Sisimai::Eb::ReAWAY);
 
-    for my $e ( @names ) {
+    for my $e ( Sisimai::Reason->index->@*, @names) {
         # Call ->description() method of Sisimai::Reason::*
         my $r = 'Sisimai::Reason::'.$e;
         (my $loads = $r) =~ s|::|/|g;
@@ -143,7 +134,7 @@ sub match {
     # @param    [String]    Error message text
     # @return   [String]    Reason text
     my $class = shift;
-    my $argvs = shift || return undef;
+    my $argvs = shift || return "";
 
     require Sisimai::Reason;
     return Sisimai::Reason->match(lc $argvs);
@@ -164,16 +155,16 @@ Sisimai - Mail Analyzing Interface for bounce mails.
 
 =head1 DESCRIPTION
 
-C<Sisimai> is a library that decodes complex and diverse bounce emails and outputs the results of
-the delivery failure, such as the reason for the bounce and the recipient email address, in
-structured data. It is also possible to output in JSON format.
+B<Sisimai> (pronounced /ɕi.ɕi.ma.i/) is a library that decodes complex and diverse bounce emails and
+outputs the results of the delivery failure, such as the reason for the bounce and the recipient email
+address, in structured data. It is also possible to output in JSON format.
 
 =head1 BASIC USAGE
 
 =head2 C<B<rise(I<'/path/to/mbox'>)>>
 
 C<rise()> method provides the feature for getting decoded data as Perl Hash reference from bounced
-email messages as the following. Beginning with v4.25.6, new accessor origin which keeps the path
+email messages as the following. Beginning with v4.25.6, new accessor C<origin> which keeps the path
 to email file as a data source is available.
 
     use Sisimai;
@@ -207,7 +198,7 @@ to email file as a data source is available.
             print $e->recipient->host;      # "example.jp"
             print $e->deliverystatus;       # "5.1.1"
             print $e->replycode;            # "550"
-            print $e->reason;               # "userunknown"
+            print $e->reason;               # "UserUnknown"
             print $e->origin;               # "/var/spool/bounce/new/1740074341.eml"
             print $e->hardbounce;           # 1
 
@@ -232,7 +223,7 @@ messages like the following code:
     # dump() method also accepts "delivered" and "vacation" option like the following code:
     my $j = Sisimai->dump('/path/to/mbox', 'delivered' => 1, 'vacation' => 1);
 
-=head1 OTHER WAYS TO PARSE
+=head1 OTHER WAYS TO DECODE
 
 =head2 Read email data from STDIN
 
@@ -243,8 +234,8 @@ C<rise()> method like following command:
 
 =head2 Callback Feature
 
-C<c___> (c and three _s, looks like a fishhook) argument of Sisimai->rise and C<Sisimai->dump()> is
-an array reference and is a parameter to receive code references for callback feature. The first
+C<c___> (C<c> and three C<_>s, looks like a fishhook) argument of Sisimai->rise and C<Sisimai->dump()>
+is an array reference and is a parameter to receive code references for callback feature. The first
 element of C<c___> argument is called at C<Sisimai::Message->sift()> for dealing email headers and
 entire message body. The second element of C<c___> argument is called at the end of each email file
 processing. The result generated by the callback method is accessible via C<Sisimai::Fact->catch>.
@@ -298,8 +289,8 @@ dealing each email file.
                 $e->{'catch'}->{'return-path'} = $1;
             }
 
-            # Save the original email with an additional "X-Sisimai-Parsed:" header to a different PATH.
-            my $a = sprintf("X-Sisimai-Parsed: %d\n", scalar @$fact);
+            # Save the original email with an additional "X-Sisimai-Decoded:" header to a different PATH.
+            my $a = sprintf("X-Sisimai-Decoded: %d\n", scalar @$fact);
             my $p = sprintf("/path/to/another/directory/sisimai-%s.eml", $e->token);
             my $f = IO::File->new($p, 'w');
             my $v = $$mail; $v =~ s/^(From:.+)$/$a$1/m;
@@ -351,7 +342,7 @@ C<match> method receives an error message as a string and returns a reason name 
     use Sisimai;
     my $v = '550 5.1.1 User unknown';
     my $r = Sisimai->match($v);
-    print $r;   # "userunknown"
+    print $r;   # "UserUnknown"
 
 =head2 C<B<version()>>
 
@@ -368,7 +359,7 @@ C<version> method returns the version number of Sisimai.
 
 =item L<Sisimai::Fact> - Decoded data object
 
-=item L<https://libsisimai.org/> - Sisimai — Mail Analyzing Interface Library
+=item L<https://libsisimai.org/> - Sisimai - Mail Analyzing Interface Library
 
 =item L<https://tools.ietf.org/html/rfc3463> - RFC3463: Enhanced Mail System Status Codes
 
@@ -396,7 +387,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

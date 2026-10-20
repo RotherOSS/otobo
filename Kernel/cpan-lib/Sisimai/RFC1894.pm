@@ -1,30 +1,28 @@
 package Sisimai::RFC1894;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
+use Sisimai::String;
 
-sub FIELDINDEX {
-    return [qw|
-        Action Arrival-Date Diagnostic-Code Final-Recipient Last-Attempt-Date Original-Recipient
-        Received-From-MTA Remote-MTA Reporting-MTA Status X-Actual-Recipienet X-Original-Message-ID
-    |];
-}
-sub FIELDTABLE {
+use constant FIELDINDEX => [qw|
+    Action Arrival-Date Diagnostic-Code Final-Recipient Last-Attempt-Date Original-Recipient
+    Received-From-MTA Remote-MTA Reporting-MTA Status X-Actual-Recipient X-Original-Message-ID
+|];
+use constant FIELDTABLE => {
     # Return pairs that a field name and key name defined in Sisimai::Lhost class
-    return {
-        'action'            => 'action',
-        'arrival-date'      => 'date',
-        'diagnostic-code'   => 'diagnosis',
-        'final-recipient'   => 'recipient',
-        'last-attempt-date' => 'date',
-        'original-recipient'=> 'alias',
-        'received-from-mta' => 'lhost',
-        'remote-mta'        => 'rhost',
-        'reporting-mta'     => 'rhost',
-        'status'            => 'status',
-        'x-actual-recipient'=> 'alias',
-    };
-}
+    'action'            => 'action',
+    'arrival-date'      => 'date',
+    'diagnostic-code'   => 'diagnosis',
+    'final-recipient'   => 'recipient',
+    'last-attempt-date' => 'date',
+    'original-recipient'=> 'alias',
+    'received-from-mta' => 'lhost',
+    'remote-mta'        => 'rhost',
+    'reporting-mta'     => 'lhost',
+    'status'            => 'status',
+    'x-actual-recipient'=> 'alias',
+};
 
 sub match {
     # Check the argument matches with a field defined in RFC3464
@@ -32,10 +30,11 @@ sub match {
     # @return   [Integer]      0: did not matched, 1,2: matched
     # @since v4.25.0
     my $class = shift;
-    my $argv0 = shift                      || return undef;
-    my $label = __PACKAGE__->label($argv0) || return undef;
+    my $argv0 = shift                      || return 0;
+    my $label = __PACKAGE__->label($argv0) || return 0;
+    my $match = 0;
 
-    state $fieldnames = {
+    state $fieldnames = [
         # https://tools.ietf.org/html/rfc3464#section-2.2
         #   Some fields of a DSN apply to all of the delivery attempts described by that DSN. At
         #   most, these fields may appear once in any DSN. These fields are used to correlate the
@@ -48,10 +47,12 @@ sub match {
         #   The following fields are not used in Sisimai:
         #     - Original-Envelope-Id
         #     - DSN-Gateway
-        'arrival-date'          => ':',
-        'received-from-mta'     => ';',
-        'reporting-mta'         => ';',
-        'x-original-message-id' => '@',
+        {
+            'arrival-date'          => ':',
+            'received-from-mta'     => ';',
+            'reporting-mta'         => ';',
+            'x-original-message-id' => '@',
+        },
 
         # https://tools.ietf.org/html/rfc3464#section-2.3
         #   A DSN contains information about attempts to deliver a message to one or more recipi-
@@ -65,29 +66,43 @@ sub match {
         #   The following fields are not used in Sisimai:
         #     - Will-Retry-Until
         #     - Final-Log-ID
-        'action'                => 'e',
-        'diagnostic-code'       => ';',
-        'final-recipient'       => ';',
-        'last-attempt-date'     => ':',
-        'original-recipient'    => ';',
-        'remote-mta'            => ';',
-        'status'                => '.',
-        'x-actual-recipient'    => ';',
-    };
+        {
+            'action'                => 'e',
+            'diagnostic-code'       => ';',
+            'final-recipient'       => ';',
+            'last-attempt-date'     => ':',
+            'original-recipient'    => ';',
+            'remote-mta'            => ';',
+            'status'                => '.',
+            'x-actual-recipient'    => ';',
+        },
+    ];
 
-    return 0 unless exists $fieldnames->{ $label };
-    return 0 unless index($argv0, $fieldnames->{ $label }) > 0;
-    return 1;
+    FIELDS0: for my $e ( keys $fieldnames->[0]->%* ) {
+        # Per-Message fields
+        next unless $label eq $e;
+        next unless index($argv0, $fieldnames->[0]->{ $label }) > 1;
+        $match = 1; last;
+    }
+    return $match if $match > 0;
+
+    FIELDS1: for my $e ( keys $fieldnames->[1]->%* ) {
+        # Per-Recipient fields
+        next unless $label eq $e;
+        next unless index($argv0, $fieldnames->[1]->{ $label }) > 1;
+        $match = 2; last;
+    }
+    return $match;
 }
 
 sub label {
-    # Returns a field name as a lqbel from the given string
+    # Returns a field name as a label from the given string
     # @param    [String] argv0 A line including field and value defined in RFC3464
     # @return   [String]       Field name as a label
     # @since v4.25.15
     my $class = shift;
-    my $argv0 = shift || return undef;
-    return lc((split(':', $argv0, 2))[0]) || undef;
+    my $argv0 = shift || return "";
+    return lc((split(':', $argv0, 2))[0]) || "";
 }
 
 sub field {
@@ -98,8 +113,13 @@ sub field {
     my $class = shift;
     my $argv0 = shift || return undef;
 
+    state $subtypeset = {"addr" => "RFC822", "cdoe" => "SMTP", "host" => "DNS"};
+    state $actionlist = [$Sisimai::Eb::AeFAIL, $Sisimai::Eb::AeSTAY, $Sisimai::Eb::AeSENT,
+                         $Sisimai::Eb::AePASS, $Sisimai::Eb::AeEXPN];
     state $correction = {
-        'action' => { 'deliverable' => 'delivered', 'expired' => 'delayed', 'failure' => 'failed' },
+        'deliverable' => $Sisimai::Eb::AeSENT,
+        'expired'     => $Sisimai::Eb::AeFAIL,
+        'failure'     => $Sisimai::Eb::AeFAIL,
     };
     state $fieldgroup = {
         'original-recipient'    => 'addr',
@@ -116,55 +136,70 @@ sub field {
         'x-original-message-id' => 'text',
     };
     state $captureson = {
-        'addr' => qr/\A((?:Original|Final|X-Actual)-Recipient):[ ](.+?);[ ](.+)/,
-        'code' => qr/\A(Diagnostic-Code):[ ](.+?);[ ](.*)/,
-        'date' => qr/\A((?:Arrival|Last-Attempt)-Date):[ ](.+)/,
-        'host' => qr/\A((?:Received-From|Remote|Reporting)-MTA):[ ](.+?);[ ](.+)/,
-        'list' => qr/\A(Action):[ ](delayed|deliverable|delivered|expanded|expired|failed|failure|relayed)/i,
-        'stat' => qr/\A(Status):[ ]([245][.]\d+[.]\d+)/,
-        'text' => qr/\A(X-Original-Message-ID):[ ](.+)/,
-       #'text' => qr/\A(Final-Log-ID|Original-Envelope-Id):[ ]*(.+)/,
+        "addr" => ["Final-Recipient", "Original-Recipient", "X-Actual-Recipient"],
+        "code" => ["Diagnostic-Code"],
+        "date" => ["Arrival-Date", "Last-Attempt-Date"],
+        "host" => ["Received-From-MTA", "Remote-MTA", "Reporting-MTA"],
+        "list" => ["Action"],
+        "stat" => ["Status"],
+       #"text" => ["X-Original-Message-ID", "Final-Log-ID", "Original-Envelope-ID"],
     };
 
+    my $parts = [split(":", $argv0, 2)]; # ["Final-Recipient", " rfc822; <neko@example.jp>"]
     my $label = __PACKAGE__->label($argv0) || return undef;
     my $group = $fieldgroup->{ $label }    || return undef;
     return undef unless exists $captureson->{ $group };
 
-    my $table = ['', '', '', ''];
-    my $match = 0;
-    while( $argv0 =~ $captureson->{ $group } ) {
-        # Try to match with each pattern of Per-Message field, Per-Recipient field
-        # - 0: Field-Name
-        # - 1: Sub Type: RFC822, DNS, X-Unix, and so on)
-        # - 2: Value
-        # - 3: Field Group(addr, code, date, host, stat, text)
-        $match = 1;
-        $table->[0] = lc $1;
-        $table->[3] = $group;
+    # Try to match with each pattern of Per-Message field, Per-Recipient field
+    # - 0: Field-Name
+    # - 1: Sub Type: RFC822, DNS, X-Unix, and so on)
+    # - 2: Value
+    # - 3: Field Group(addr, code, date, host, stat, text)
+    # - 4: Comment
+    my $table = [$label, "", "", $group, ""]; $parts->[1] = Sisimai::String->sweep($parts->[1]);
 
-        if( $group eq 'addr' || $group eq 'code' || $group eq 'host' ) {
-            # - Final-Recipient: RFC822; kijitora@nyaan.jp
-            # - Diagnostic-Code: SMTP; 550 5.1.1 <kijitora@example.jp>... User Unknown
-            # - Remote-MTA: DNS; mx.example.jp
-            $table->[1] = uc $2;
-            $table->[2] = $group eq 'host' ? lc $3 : $3;
-            $table->[2] = '' if $table->[2] =~ /\A\s+\z/;   # Remote-MTA: dns;
+    if( $group eq 'addr' || $group eq 'code' || $group eq 'host' ) {
+        # - Final-Recipient: RFC822; kijitora@nyaan.jp
+        # - Diagnostic-Code: SMTP; 550 5.1.1 <kijitora@example.jp>... User Unknown
+        # - Remote-MTA: DNS; mx.example.jp
+        if( index($parts->[1], ";" ) > 0 ) {
+            # There is a valid sub type (including ";")
+            my $v = [split(";", $parts->[1], 2)];
+            $table->[1] = uc Sisimai::String->sweep($v->[0]) if scalar @$v > 0;
+            $table->[2] = Sisimai::String->sweep($v->[1])    if scalar @$v > 1;
 
         } else {
-            # - Action: failed
-            # - Status: 5.2.2
-            $table->[1] = '';
-            $table->[2] = $group eq 'date' ? $2 : lc $2;
-
-            # Correct invalid value in Action field:
-            last unless $group eq 'list';
-            last unless exists $correction->{'action'}->{ $table->[2] };
-            $table->[2] = $correction->{'action'}->{ $table->[2] };
+            # There is no sub type like "Diagnostic-Code: 550 5.1.1 <kijitora@example.jp>..."
+            $table->[2] = $parts->[1];
+            $table->[1] = $subtypeset->{ $group } || "";
         }
-        last;
+        $table->[2] = lc $table->[2] if $group eq "host";
+        $table->[2] = '' if $table->[2] =~ /\A\s+\z/;
+
+    } elsif( $group eq "list" ) {
+        # Action: failed
+        # Check that the value is an available value defined in "actionlist" or not.
+        # When the value is invalid, convert to an available value defined in "correction"
+        my $v = lc $parts->[1];
+        $table->[2]   = $v if grep { $v eq $_ } @$actionlist;
+        $table->[2] ||= $correction->{ $v };
+
+    } else {
+        # Other groups such as Status:, Arrival-Date:, or X-Original-Message-ID:.
+        # There is no ";" character in the field.
+        # - Status: 5.2.2
+        # - Arrival-Date: Mon, 21 May 2018 16:09:59 +0900
+        $table->[2] = $group eq "date" ? $parts->[1] : lc $parts->[1];
     }
 
-    return undef unless $match;
+    if( Sisimai::String->aligned(\$table->[2], [" (", ")"]) ) {
+        # Extract text enclosed in parentheses as comments
+        # Reporting-MTA: dns; mr21p30im-asmtp004.me.example.com (tcp-daemon)
+        my $p1 = index($table->[2], " (");
+        my $p2 = index($table->[2], ")");
+        $table->[4] = substr($table->[2], $p1 + 2, $p2 - $p1 - 2);
+        $table->[2] = substr($table->[2], 0, $p1);
+    }
     return $table;
 }
 
@@ -186,19 +221,19 @@ Sisimai::RFC1894 - DSN field defined in RFC3464 (obsoletes RFC1894)
     print Sisimai::RFC1894->match('Final-Recipient: RFC822; cat@nyaan.jp'); # 2
 
     my $v = Sisimai::RFC1894->field('Reporting-MTA: DNS; mx.nyaan.jp');
-    my $r = Sisimai::RFC1894->field('Status: 5.1.1');
-    print Data::Dumper::Dumper $v;  # ['reporting-mta', 'dns', 'mx.nyaan.org', 'host'];
-    print Data::Dumper::Dumper $r;  # ['status', '', '5.1.1', 'stat'];
+    my $r = Sisimai::RFC1894->field('Status: 5.1.1 (user unknown)');
+    print Data::Dumper::Dumper $v;  # ['reporting-mta', 'dns', 'mx.nyaan.org', 'host', ''];
+    print Data::Dumper::Dumper $r;  # ['status', '', '5.1.1', 'stat', 'user unknown'];
 
 =head1 DESCRIPTION
 
-Sisimai::RFC1894 provide methods for checking or getting DSN fields
+C<Sisimai::RFC1894> provide methods for checking or getting DSN fields
 
 =head1 CLASS METHODS
 
 =head2 C<B<match(I<String>)>>
 
-C<match()> checks the argument includes a field defined in RFC3464 or not
+C<match()> method checks the argument includes the field defined in RFC3464 or not
 
     print Sisimai::RFC1894->match('From: Nyaan <kijitora@libsisimai.org>'); # 0
     print Sisimai::RFC1894->match('Reporting-MTA: DNS; mx.libsisimai.org'); # 1
@@ -206,8 +241,8 @@ C<match()> checks the argument includes a field defined in RFC3464 or not
 
 =head2 C<B<label(I<String>)>>
 
-C<label()> returns a lower cased field name such as "diagnostic-code" from given an email header or
-a delivery status field.
+C<label()> method returns a lower cased field name such as C<"diagnostic-code"> from the given email
+header or the delivery status field.
 
     print Sisimai::RFC1894->label('Remote-MTA: DNS; mx.nyaan.jp');  # remote-mta
     print Sisimai::RFC1894->field('Status: 5.1.1');                 # status
@@ -216,8 +251,8 @@ a delivery status field.
 
 =head2 C<B<field(I<String>)>>
 
-C<field()> returns splited values as an array reference from given a string including DSN fields
-defined in RFC3464.
+C<field()> method returns the splited values as an array reference from the given string including
+DSN fields defined in RFC3464.
 
     my $v = Sisimai::RFC1894->field('Remote-MTA: DNS; mx.nyaan.jp');
     my $r = Sisimai::RFC1894->field('Status: 5.1.1');
@@ -230,7 +265,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2018-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2018-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

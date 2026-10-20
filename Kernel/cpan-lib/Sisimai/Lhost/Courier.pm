@@ -1,6 +1,6 @@
 package Sisimai::Lhost::Courier;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
@@ -10,22 +10,22 @@ sub inquire {
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.0.0
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
-    my $match = 0;
-
-    $match ||= 1 if index($mhead->{'from'},    'Courier mail server at ')       > -1;
-    $match ||= 1 if index($mhead->{'subject'}, 'NOTICE: mail delivery status.') > -1;
-    $match ||= 1 if index($mhead->{'subject'}, 'WARNING: delayed mail.')        > -1;
+    my $match = 0; $match ||= 1 if index($mhead->{'from'},    'Courier mail server at ')       > -1;
+                   $match ||= 1 if index($mhead->{'subject'}, 'NOTICE: mail delivery status.') > -1;
+                   $match ||= 1 if index($mhead->{'subject'}, 'WARNING: delayed mail.')        > -1;
     if( defined $mhead->{'message-id'} ) {
         # Message-ID: <courier.4D025E3A.00001792@5jo.example.org>
         $match ||= 1 if index($mhead->{'message-id'}, '<courier.') == 0;
     }
     return undef unless $match;
 
+    require Sisimai::Eb;
+    require Sisimai::RFC1123;
     require Sisimai::SMTP::Command;
     state $indicators = __PACKAGE__->INDICATORS;
     state $boundaries = ['Content-Type: :message/rfc822', 'Content-Type: text/rfc822-headers'];
@@ -36,22 +36,21 @@ sub inquire {
     };
     state $messagesof = {
         # courier/module.esmtp/esmtpclient.c:526| hard_error(del, ctf, "No such domain.");
-        'hostunknown' => ['No such domain.'],
+        $Sisimai::Eb::ReHOST => ['No such domain.'],
         # courier/module.esmtp/esmtpclient.c:531| hard_error(del, ctf,
         # courier/module.esmtp/esmtpclient.c:532|  "This domain's DNS violates RFC 1035.");
-        'systemerror' => ["This domain's DNS violates RFC 1035."],
+        $Sisimai::Eb::RePROC => ["This domain's DNS violates RFC 1035."],
         # courier/module.esmtp/esmtpclient.c:535| soft_error(del, ctf, "DNS lookup failed.");
-        'networkerror'=> ['DNS lookup failed.'],
+        $Sisimai::Eb::ReINET => ['DNS lookup failed.'],
     };
 
     my $fieldtable = Sisimai::RFC1894->FIELDTABLE;
     my $permessage = {};    # (Hash) Store values of each Per-Message field
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
     my $thecommand = '';    # (String) SMTP Command name begin with the string '>>>'
-    my $v = undef;
     my $p = '';
 
     for my $e ( split("\n", $emailparts->[0]) ) {
@@ -59,21 +58,19 @@ sub inquire {
         # line of the beginning of the original message.
         unless( $readcursor ) {
             # Beginning of the bounce message or message/delivery-status part
-            if( rindex($e, $startingof->{'message'}->[0]) > -1 ||
-                rindex($e, $startingof->{'message'}->[1]) > -1 ) {
+            if( rindex($e, $startingof->{'message'}->[0]) > -1 || rindex($e, $startingof->{'message'}->[1]) > -1 ) {
                 $readcursor |= $indicators->{'deliverystatus'};
                 next;
             }
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         if( my $f = Sisimai::RFC1894->match($e) ) {
             # $e matched with any field defined in RFC3464
             next unless my $o = Sisimai::RFC1894->field($e);
             $v = $dscontents->[-1];
 
-            if( $o->[-1] eq 'addr' ) {
+            if( $o->[3] eq 'addr' ) {
                 # Final-Recipient: rfc822; kijitora@example.jp
                 # X-Actual-Recipient: rfc822; kijitora@example.co.jp
                 if( $o->[0] eq 'final-recipient' ) {
@@ -90,14 +87,15 @@ sub inquire {
                     # X-Actual-Recipient: rfc822; kijitora@example.co.jp
                     $v->{'alias'} = $o->[2];
                 }
-            } elsif( $o->[-1] eq 'code' ) {
+            } elsif( $o->[3] eq 'code' ) {
                 # Diagnostic-Code: SMTP; 550 5.1.1 <userunknown@example.jp>... User Unknown
-                $v->{'spec'} = $o->[1];
+                $v->{'spec'}      = $o->[1];
                 $v->{'diagnosis'} = $o->[2];
 
             } else {
                 # Other DSN fields defined in RFC3464
                 next unless exists $fieldtable->{ $o->[0] };
+                next if $o->[3] eq "host" && Sisimai::RFC1123->is_internethost($o->[2]) == 0;
                 $v->{ $fieldtable->{ $o->[0] } } = $o->[2];
 
                 next unless $f == 1;
@@ -132,7 +130,7 @@ sub inquire {
                 # Continued line of the value of Diagnostic-Code field
                 next unless index($p, 'Diagnostic-Code:') == 0;
                 next unless index($e, ' ') == 0;
-                $v->{'diagnosis'} .= ' '.Sisimai::String->sweep($e);
+                $v->{'diagnosis'} .= ' '.$e;
             }
         }
     } continue {
@@ -154,7 +152,7 @@ sub inquire {
         }
         $e->{'command'} ||= $thecommand || '';
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -164,7 +162,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::Courier - bounce mail parser class for C<Courier MTA>.
+Sisimai::Lhost::Courier - bounce mail decoder class for Courier MTA L<https://www.courier-mta.org/>.
 
 =head1 SYNOPSIS
 
@@ -172,8 +170,8 @@ Sisimai::Lhost::Courier - bounce mail parser class for C<Courier MTA>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::Courier parses a bounce email which created by C<Courier MTA>. Methods in the module
-are called from only Sisimai::Message.
+C<Sisimai::Lhost::Courier> decodes a bounce email which created by Courier MTA L<https://www.courier-mta.org/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -185,8 +183,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -194,10 +192,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

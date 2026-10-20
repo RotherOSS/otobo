@@ -1,16 +1,16 @@
 package Sisimai::Lhost::MailFoundry;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'MailFoundry' }
+sub description { 'MailFoundry: https://www.barracuda.com/' }
 sub inquire {
     # Detect an error from MailFoundry
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.1.1
     my $class = shift;
     my $mhead = shift // return undef;
@@ -26,11 +26,10 @@ sub inquire {
         'error'   => ['Delivery failed for the following reason:'],
     };
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
-    my $v = undef;
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -39,8 +38,7 @@ sub inquire {
             # Beginning of the bounce message or message/delivery-status part
             $readcursor |= $indicators->{'deliverystatus'} if index($e, $startingof->{'message'}->[0]) == 0;
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         # Unable to deliver message to: <kijitora@example.org>
         # Delivery failed for the following reason:
@@ -60,29 +58,16 @@ sub inquire {
             $recipients++;
 
         } else {
-            # Error message
-            if( $e eq $startingof->{'error'}->[0] ) {
-                # Delivery failed for the following reason:
-                $v->{'diagnosis'} = $e;
+            # Delivery failed for the following reason:
+            if( $e eq $startingof->{'error'}->[0] ) { $v->{'diagnosis'} = $e; next }
 
-            } else {
-                # Detect error message
-                next unless length $e;
-                next unless $v->{'diagnosis'};
-                next if index($e, '-') == 0;
-
-                # Server mx22.example.org[192.0.2.222] failed with: 550 <kijitora@example.org> No such user here
-                $v->{'diagnosis'} .= ' '.$e;
-            }
+            next unless $v->{'diagnosis'};
+            next if index($e, '-') == 0;
+            $v->{'diagnosis'} .= ' '.$e;
         }
     }
     return undef unless $recipients;
-
-    for my $e ( @$dscontents ) {
-        # Set default values if each value is empty.
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
-    }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -92,7 +77,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::MailFoundry - bounce mail parser class for C<MailFoundry>.
+Sisimai::Lhost::MailFoundry - bounce mail decoder class for MailFoundry L<https://www.barracuda.com/>.
 
 =head1 SYNOPSIS
 
@@ -100,8 +85,8 @@ Sisimai::Lhost::MailFoundry - bounce mail parser class for C<MailFoundry>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::MailFoundry parses a bounce email which created by C<MailFoundry>. Methods in the
-module are called from only Sisimai::Message.
+C<Sisimai::Lhost::MailFoundry> decodes a bounce email which created by MailFoundry L<https://www.barracuda.com/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -113,8 +98,8 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
-for more details.
+C<inquire()> method decodes a bounced email and return results as a array reference.
+See C<Sisimai::Message> for more details.
 
 =head1 AUTHOR
 
@@ -122,7 +107,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2023 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

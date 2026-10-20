@@ -1,25 +1,20 @@
 package Sisimai::Lhost::mFILTER;
 use parent 'Sisimai::Lhost';
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-sub description { 'Digital Arts m-FILTER' }
+sub description { 'Digital Arts m-FILTER: https://www.daj.jp/bs/mf/' }
 sub inquire {
-    # Detect an error from DigitalArts m-FILTER
+    # Detect an error from Digital Arts m-FILTER
     # @param    [Hash] mhead    Message headers of a bounce email
     # @param    [String] mbody  Message body of a bounce email
     # @return   [Hash]          Bounce data list and message/rfc822 part
-    # @return   [undef]         failed to parse or the arguments are missing
+    # @return   [undef]         failed to decode or the arguments are missing
     # @since v4.1.1
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
-
-    # X-Mailer: m-FILTER
-    return undef unless defined $mhead->{'x-mailer'};
-    return undef unless $mhead->{'x-mailer'} eq 'm-FILTER';
-    return undef unless $mhead->{'subject'}  eq 'failure notice';
 
     state $indicators = __PACKAGE__->INDICATORS;
     state $boundaries = ['-------original message', '-------original mail info'];
@@ -28,12 +23,19 @@ sub inquire {
         'error'    => ['-------server message'],
     };
 
-    my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
+    # X-Mailer: m-FILTER
+    my $proceedsto   = 0;
+       $proceedsto   = 1 if defined $mhead->{'x-mailer'} && $mhead->{'x-mailer'} eq 'm-FILTER';
+       $proceedsto ||= 1 if grep { index($$mbody, $_) > 1 } @$boundaries;
+       $proceedsto ||= 1 if grep { index($$mbody, $_) > 1 } $startingof->{'command'}->@*;
+       $proceedsto ||= 1 if grep { index($$mbody, $_) > 1 } $startingof->{'error'}->@*;
+    return undef unless $proceedsto;
+
+    my $dscontents = [__PACKAGE__->DELIVERYSTATUS]; my $v = undef;
     my $emailparts = Sisimai::RFC5322->part($mbody, $boundaries);
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
-    my $markingset = { 'diagnosis' => 0, 'command' => 0 };
-    my $v = undef;
+    my $markingset = {'diagnosis' => 0, 'command' => 0};
 
     for my $e ( split("\n", $emailparts->[0]) ) {
         # Read error messages and delivery status lines from the head of the email to the previous
@@ -44,8 +46,7 @@ sub inquire {
                 $readcursor |= $indicators->{'deliverystatus'};
             }
         }
-        next unless $readcursor & $indicators->{'deliverystatus'};
-        next unless length $e;
+        next if ($readcursor & $indicators->{'deliverystatus'}) == 0 || $e eq "";
 
         # このメールは「m-FILTER」が自動的に生成して送信しています。
         # メールサーバーとの通信中、下記の理由により
@@ -102,8 +103,6 @@ sub inquire {
     return undef unless $recipients;
 
     for my $e ( @$dscontents ) {
-        $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
-
         # Get localhost and remote host name from Received header.
         next unless scalar $mhead->{'received'}->@*;
         my $rheads = $mhead->{'received'};
@@ -116,7 +115,7 @@ sub inquire {
             $e->{'rhost'} = $ee;
         }
     }
-    return { 'ds' => $dscontents, 'rfc822' => $emailparts->[1] };
+    return {"ds" => $dscontents, "rfc822" => $emailparts->[1]};
 }
 
 1;
@@ -126,7 +125,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Lhost::mFILTER - bounce mail parser class for C<Digital Arts m-FILTER>.
+Sisimai::Lhost::mFILTER - bounce mail decoder class for Digital Arts m-FILTER L<https://www.daj.jp/bs/mf/>.
 
 =head1 SYNOPSIS
 
@@ -134,8 +133,8 @@ Sisimai::Lhost::mFILTER - bounce mail parser class for C<Digital Arts m-FILTER>.
 
 =head1 DESCRIPTION
 
-Sisimai::Lhost::mFILTER parses a bounce email which created by C<Digital Arts m-FILTER>. Methods in
-the module are called from only Sisimai::Message.
+C<Sisimai::Lhost::mFILTER> decodes a bounce email which created by Digital Arts m-FILTER L<https://www.daj.jp/bs/mf/>.
+Methods in the module are called from only C<Sisimai::Message>.
 
 =head1 CLASS METHODS
 
@@ -147,7 +146,7 @@ C<description()> returns description string of this module.
 
 =head2 C<B<inquire(I<header data>, I<reference to body string>)>>
 
-C<inquire()> method parses a bounced email and return results as a array reference. See Sisimai::Message
+C<inquire()> method decodes a bounced email and return results as a array reference. See Sisimai::Message
 for more details.
 
 =head1 AUTHOR
@@ -156,7 +155,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2024 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
