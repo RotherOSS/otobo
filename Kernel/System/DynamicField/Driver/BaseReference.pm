@@ -1323,7 +1323,7 @@ sub GetFieldState {
                 DataIsDifferent(
                     Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     Data2 => \@CheckedValues,
-                ) || defined $Param{SetIndex}
+                )
                 )
             {
                 $ValueChanged = 1;
@@ -1375,7 +1375,7 @@ sub GetFieldState {
         DataIsDifferent(
             Data1 => $ParamValue,
             Data2 => \@CheckedValues
-        ) || ( ( $Param{Reappears} || $Param{Disappears} ) && defined $Param{SetIndex} )
+        )
         )
     {
         $Return{NewValue} = \@CheckedValues;

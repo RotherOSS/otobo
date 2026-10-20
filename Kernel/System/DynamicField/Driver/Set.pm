@@ -1039,10 +1039,12 @@ sub GetFieldState {
         );
 
         # perform data structure rewriting
+        NAME:
         for my $Name ( keys $SetFieldStates{Fields}->%* ) {
-
             my $DFName       = "DynamicField_" . $Name;
             my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
+
+            next NAME unless exists $SetFieldStates{NewValues}{$DFName};
 
             # prepare the return used by the frontend modules for AJAX updates
             $Return{Sets}{$Name}{DynamicFieldConfig}                             = $DynamicField->{$Name};
