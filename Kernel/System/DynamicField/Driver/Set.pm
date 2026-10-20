@@ -999,7 +999,7 @@ sub GetFieldState {
         my %IndexDBValues = map { ( "DynamicField_$_" => $CorrespondingDBValues[$SetIndex]{$_} ) } keys %{ $CorrespondingDBValues[$SetIndex] // {} };
 
         # initialize value structures for GetFieldStates
-        %DFParam = %{ $SetValue[$SetIndex] // {} };
+        %DFParam = map { ( "DynamicField_$_" => $SetValue[$SetIndex]{$_} ) } keys %{ $SetValue[$SetIndex] // {} };
 
         # prepare necessary data
         if ( $Param{Reappears} || $Param{Disappears} ) {
@@ -1040,7 +1040,6 @@ sub GetFieldState {
 
         # perform data structure rewriting
         for my $Name ( keys $SetFieldStates{Fields}->%* ) {
-
             my $DFName       = "DynamicField_" . $Name;
             my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
 
