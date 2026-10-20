@@ -1260,10 +1260,7 @@ sub GetFieldState {
     }
 
     # currently, all reference field values are array refs, but just to be safe, include value transformation
-    if ( !defined $Value ) {
-        $Value = [''];
-    }
-    elsif ( !ref $Value ) {
+    if ( !ref $Value ) {
         $Value = [$Value];
     }
 
@@ -1326,7 +1323,7 @@ sub GetFieldState {
                 DataIsDifferent(
                     Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     Data2 => \@CheckedValues,
-                )
+                ) || defined $Param{SetIndex}
                 )
             {
                 $ValueChanged = 1;
@@ -1342,9 +1339,7 @@ sub GetFieldState {
             );
         }
 
-        return (
-            PossibleValues => \%PossibleValues,
-        );
+        return ();
     }
 
     # fetch possible values for dynamic field
@@ -1358,6 +1353,12 @@ sub GetFieldState {
         PossibleValues => $PossibleValues,
     );
 
+    # used for comparison later on - needs the same undef / empty string handling as $Value
+    my $ParamValue
+        = ref $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
+        ? $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
+        : [ $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} ];
+
     # filter values which are no longer allowed
     #   NOTE: in case of hiding field, we don't care for evaluation
     my @CheckedValues;
@@ -1365,15 +1366,16 @@ sub GetFieldState {
         @CheckedValues = $Value->@*;
     }
     else {
-        @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
+        @CheckedValues = map { $PossibleValues->{ $_ // '' } ? ( $_ // '' ) : '' } $Value->@*;
+        $ParamValue    = [ map { $PossibleValues->{ $_ // '' } ? ( $_ // '' ) : '' } $ParamValue->@* ];
     }
 
     # check if value has changed
     if (
         DataIsDifferent(
-            Data1 => $Param{GetParam}{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            Data1 => $ParamValue,
             Data2 => \@CheckedValues
-        )
+        ) || ( ( $Param{Reappears} || $Param{Disappears} ) && defined $Param{SetIndex} )
         )
     {
         $Return{NewValue} = \@CheckedValues;
