@@ -13,7 +13,9 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = [
+
+    state $index = [
+        'aliasing/forwarding loop broken',
         "can't create user output file",
         'could not load drd for domain',
         'internal error reading data',  # Microsoft
@@ -26,20 +28,23 @@ sub match {
         'loop was found in the mail exchanger',
         'loops back to myself',
         'mail system configuration error',
+        'queue file write error',
+        'recipient deferred because there is no mdb',
+        'remote server is misconfigured',
         'server configuration error',
         'service currently unavailable',
         'system config error',
         'temporary local problem',
         'timeout waiting for input',
+        'transaction failed ',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
     # The bounce reason is system error or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: is system error
     #                                   0: is not system error
     # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -62,13 +67,11 @@ Sisimai::Reason::SystemError - Bounce reason is C<systemerror> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::SystemError checks the bounce reason is C<systemerror> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::SystemError checks the bounce reason is C<systemerror> or not. This class is called
+only Sisimai::Reason class. This is the error that an email has bounced due to system error on the
+remote host such as LDAP connection failure or other internal system error.
 
-This is the error that an email has bounced due to system error on the remote
-host such as LDAP connection failure or other internal system error.
-
-    <kijitora@example.net>: 
+    <kijitora@example.net>:
     Unable to contact LDAP server. (#4.4.3)I'm not going to try again; this
     message has been in the queue too long.
 
@@ -86,10 +89,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::SystemError->match('5.3.5 System config error'); # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<systemerror>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<systemerror>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -97,7 +100,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2022 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

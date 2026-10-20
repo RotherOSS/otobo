@@ -302,6 +302,8 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.01',
         },
         {
+
+            # last updated 2025
             'Comment'         => 'needed by Sisimai',
             'Module'          => 'Class::Accessor::Lite',
             'Required'        => 1,
@@ -520,10 +522,12 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.95',
         },
         {
+
+            # 5.0.2 released in 2024-05-22, last version to not require Perl 5.26
             'Module'          => 'needed for detecting bounced mails',
             'Module'          => 'Sisimai',
             'Required'        => 1,
-            'VersionRequired' => '== v4.24.1'
+            'VersionRequired' => '== 5.0.2'
         },
         {
             'Comment'         => 'needed by OTOBO generic interface',

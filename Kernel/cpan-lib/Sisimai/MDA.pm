@@ -3,135 +3,123 @@ use feature ':5.10';
 use strict;
 use warnings;
 
-my $AgentNames = {
-    # dovecot/src/deliver/deliver.c
-    # 11: #define DEFAULT_MAIL_REJECTION_HUMAN_REASON \
-    # 12: "Your message to <%t> was automatically rejected:%n%r"
-    'dovecot'    => qr/\AYour message to .+ was automatically rejected:\z/,
-    'mail.local' => qr/\Amail[.]local: /,
-    'procmail'   => qr/\Aprocmail: /,
-    'maildrop'   => qr/\Amaildrop: /,
-    'vpopmail'   => qr/\Avdelivermail: /,
-    'vmailmgr'   => qr/\Avdeliver: /,
-};
-my $MarkingsOf = {
-    'message' => qr{\A(?>
-                     Your[ ]message[ ]to[ ].+[ ]was[ ]automatically[ ]rejected:\z
-                    |(?:mail[.]local|procmail|maildrop|vdelivermail|vdeliver):[ ]
-                    )
-                 }x,
-};
-
-# dovecot/src/deliver/mail-send.c:94
-my $MessagesOf = {
-    'dovecot' => {
-        'userunknown' => ["mailbox doesn't exist: "],
-        'mailboxfull' => [
-            'quota exceeded',   # Dovecot 1.2 dovecot/src/plugins/quota/quota.c
-            'quota exceeded (mailbox for user is full)',    # dovecot/src/plugins/quota/quota.c
-            'not enough disk space',
-        ],
-    },
-    'mail.local' => {
-        'userunknown' => [
-            ': unknown user:',
-            ': user unknown',
-            ': invalid mailbox path',
-            ': user missing home directory',
-        ],
-        'mailboxfull' => [
-            'disc quota exceeded',
-            'mailbox full or quota exceeded',
-        ],
-        'systemerror' => ['temporary file write error'],
-    },
-    'procmail' => {
-        'mailboxfull' => ['quota exceeded while writing'],
-        'systemfull'  => ['no space left to finish writing'],
-    },
-    'maildrop' => {
-        'userunknown' => [
-            'invalid user specified.',
-            'cannot find system user',
-        ],
-        'mailboxfull' => ['maildir over quota.'],
-    },
-    'vpopmail' => {
-        'userunknown' => ['sorry, no mailbox here by that name.'],
-        'filtered'    => [
-            'account is locked email bounced',
-            'user does not exist, but will deliver to '
-        ],
-        'mailboxfull' => [
-            'domain is over quota',
-            'user is over quota',
-        ],
-    },
-    'vmailmgr' => {
-        'userunknown' => [
-            'invalid or unknown base user or domain',
-            'invalid or unknown virtual user',
-            'user name does not refer to a virtual user'
-        ],
-        'mailboxfull' => ['delivery failed due to system quota violation'],
-    },
-};
-
-sub scan { 
+sub inquire {
     # Parse message body and return reason and text
-    # @param         [Hash] mhead       Message header of a bounce email
-    # @options mhead [String] from      From header
-    # @options mhead [String] date      Date header
-    # @options mhead [String] subject   Subject header
-    # @options mhead [Array]  received  Received headers
-    # @options mhead [String] others    Other required headers
-    # @param         [String] mbody     Message body of a bounce email
-    # @return        [Hash, Undef]      Bounce data list and message/rfc822 part
-    #                                   or Undef if it failed to parse or the
-    #                                   arguments are missing
+    # @param    [Hash] mhead    Message headers of a bounce email
+    # @param    [String] mbody  Message body of a bounce email
+    # @return   [Hash]          Bounce data list and message/rfc822 part
+    # @return   [undef]         failed to parse or the arguments are missing
     my $class = shift;
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
 
-    return undef unless ref($mhead) eq 'HASH';
-    return undef unless lc($mhead->{'from'}) =~ /\A(?:mail delivery subsystem|mailer-daemon|postmaster)/;
-    return undef unless ref($mbody) eq 'SCALAR';
-    return undef unless $$mbody;
+    return undef unless defined $mhead;
+    return undef unless length $$mbody;
 
-    my $agentname0 = '';    # [String] MDA name
+    my $mfrom = lc $mhead->{'from'};
+    my $match = 0;
+
+    while(1) {
+        $match ||= 1 if index($mfrom, 'mail delivery subsystem') == 0;
+        $match ||= 1 if index($mfrom, 'mailer-daemon') == 0;
+        $match ||= 1 if index($mfrom, 'postmaster') == 0;
+        last;
+    }
+    return undef unless $match > 0;
+
+    state $agentnames = {
+        # dovecot/src/deliver/deliver.c
+        # 11: #define DEFAULT_MAIL_REJECTION_HUMAN_REASON \
+        # 12: "Your message to <%t> was automatically rejected:%n%r"
+        'dovecot'    => ['Your message to ', ' was automatically rejected:'],
+        'mail.local' => ['mail.local: '],
+        'procmail'   => ['procmail: '],
+        'maildrop'   => ['maildrop: '],
+        'vpopmail'   => ['vdelivermail: '],
+        'vmailmgr'   => ['vdeliver: '],
+    };
+
+    # dovecot/src/deliver/mail-send.c:94
+    state $messagesof = {
+        'dovecot' => {
+            'userunknown' => ["mailbox doesn't exist: "],
+            'mailboxfull' => [
+                'quota exceeded',   # Dovecot 1.2 dovecot/src/plugins/quota/quota.c
+                'quota exceeded (mailbox for user is full)',    # dovecot/src/plugins/quota/quota.c
+                'not enough disk space',
+            ],
+        },
+        'mail.local' => {
+            'userunknown' => [
+                ': unknown user:',
+                ': user unknown',
+                ': invalid mailbox path',
+                ': user missing home directory',
+            ],
+            'mailboxfull' => [
+                'disc quota exceeded',
+                'mailbox full or quota exceeded',
+            ],
+            'systemerror' => ['temporary file write error'],
+        },
+        'procmail' => {
+            'mailboxfull' => ['quota exceeded while writing'],
+            'systemfull'  => ['no space left to finish writing'],
+        },
+        'maildrop' => {
+            'userunknown' => [
+                'invalid user specified.',
+                'cannot find system user',
+            ],
+            'mailboxfull' => ['maildir over quota.'],
+        },
+        'vpopmail' => {
+            'userunknown' => ['sorry, no mailbox here by that name.'],
+            'filtered'    => [
+                'account is locked email bounced',
+                'user does not exist, but will deliver to '
+            ],
+            'mailboxfull' => [
+                'domain is over quota',
+                'user is over quota',
+            ],
+        },
+        'vmailmgr' => {
+            'userunknown' => [
+                'invalid or unknown base user or domain',
+                'invalid or unknown virtual user',
+                'user name does not refer to a virtual user'
+            ],
+            'mailboxfull' => ['delivery failed due to system quota violation'],
+        },
+    };
+
+    my $deliversby = '';    # [String] Mail Delivery Agent name
     my $reasonname = '';    # [String] Error reason
     my $bouncemesg = '';    # [String] Error message
-    my @hasdivided = split("\n", $$mbody);
-    my @linebuffer = ();
+    my @linebuffer = split(/\n/, $$mbody);
 
-    for my $e ( @hasdivided ) {
-        # Check each line with each MDA's symbol regular expression.
-        if( $agentname0 eq '' ) {
-            # Try to match with each regular expression
-            next unless $e;
-            next unless $e =~ $MarkingsOf->{'message'};
+    for my $e ( keys %$agentnames ) {
+        # Find a mail delivery agent name from the entire message body
+        my $p = index($$mbody, $agentnames->{ $e }->[0]); next if $p == -1;
 
-            for my $f ( keys %$AgentNames ) {
-                # Detect the agent name from the line
-                next unless $e =~ $AgentNames->{ $f };
-                $agentname0 = $f;
-                last;
-            }
+        if( scalar $agentnames->{ $e }->@* > 1 ) {
+            # Try to find the 2nd element
+            my $q = index($$mbody, $agentnames->{ $e }->[1]);
+            next if $q == -1;
+            next if $p > $q;
         }
 
-        # Append error message lines to @linebuffer
-        push @linebuffer, $e;
-        last unless length $e;
+        $deliversby = $e;
+        last;
     }
-    return undef unless $agentname0;
-    return undef unless scalar @linebuffer;
+    return undef unless $deliversby;
 
-    for my $e ( keys %{ $MessagesOf->{ $agentname0 } } ) {
+    for my $e ( keys $messagesof->{ $deliversby }->%* ) {
         # Detect an error reason from message patterns of the MDA.
         for my $f ( @linebuffer ) {
-            # Whether the error message include each message defined in $MessagesOf
-            my $g = lc $f;
-            next unless grep { index($g, $_) > -1 } @{ $MessagesOf->{ $agentname0 }->{ $e } };
+            # Whether the error message include each message defined in $messagesof
+            next unless grep { index(lc($f), $_) > -1 } $messagesof->{ $deliversby }->{ $e }->@*;
             $reasonname = $e;
             $bouncemesg = $f;
             last;
@@ -139,9 +127,9 @@ sub scan {
         last if $bouncemesg && $reasonname;
     }
 
-    return { 
-        'mda'     => $agentname0, 
-        'reason'  => $reasonname // '', 
+    return {
+        'mda'     => $deliversby,
+        'reason'  => $reasonname // '',
         'message' => $bouncemesg // '',
     };
 }
@@ -160,23 +148,22 @@ Sisimai::MDA - Error message parser for MDA
     use Sisimai::MDA;
     my $header = { 'from' => 'mailer-daemon@example.jp' };
     my $string = 'mail.local: Disc quota exceeded';
-    my $return = Sisimai::MDA->scan($header, \$string);
+    my $return = Sisimai::MDA->inquire($header, \$string);
 
 =head1 DESCRIPTION
 
-Sisimai::MDA parse bounced email which created by some MDA, such as C<dovecot>,
-C<mail.local>, C<procmail>, and so on. 
-This class is called from Sisimai::Message only.
+Sisimai::MDA parse bounced email which created by some MDA, such as C<dovecot>, C<mail.local>,
+C<procmail>, and so on. This class is called from Sisimai::Message only.
 
 =head1 CLASS METHODS
 
-=head2 C<B<scan(I<Header>, I<Reference to message body>)>>
+=head2 C<B<inquire(I<Header>, I<Reference to message body>)>>
 
-C<scan()> is a parser for detecting an error from mail delivery agent.
+C<inquire()> is a parser for detecting an error from mail delivery agent.
 
     my $header = { 'from' => 'mailer-daemon@example.jp' };
     my $string = 'mail.local: Disc quota exceeded';
-    my $return = Sisimai::MDA->scan($header, \$string);
+    my $return = Sisimai::MDA->inquire($header, \$string);
     warn Dumper $return;
     $VAR1 = {
         'mda' => 'mail.local',
@@ -190,7 +177,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018-2023 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

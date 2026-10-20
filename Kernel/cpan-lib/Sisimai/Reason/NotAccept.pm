@@ -15,32 +15,36 @@ sub match {
     my $argv1 = shift // return undef;
 
     # Destination mail server does not accept any message
-    my $index = [
+    state $index = [
+        'does not accept mail (nullmx)',
         'host/domain does not accept mail', # iCloud
+        'host does not accept mail',        # Sendmail
+        'mail receiving disabled',
         'name server: .: host not found',   # Sendmail
         'no mx record found for domain=',   # Oath(Yahoo!)
+        'no route for current request',
         'smtp protocol returned a permanent error',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
     # Remote host does not accept any message
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: Not accept
     #                                   0: Accept
     # @since v4.0.0
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
-    return 1 if $argvs->reason eq 'notaccept';
+    my $reply = int $argvs->{'replycode'} || 0;
+    return 1 if $argvs->{'reason'} eq 'notaccept';
 
     # SMTP Reply Code is 521, 554 or 556
-    return 1 if $argvs->replycode =~ /\A(?:521|554|556)\z/;
-    return 0 unless $argvs->smtpcommand eq 'MAIL';
-    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
+    return 1 if $reply == 521 || $reply == 554 || $reply == 556;
+    return 0 if $argvs->{'smtpcommand'} ne 'MAIL';
+    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
     return 0;
 }
 
@@ -60,13 +64,13 @@ Sisimai::Reason::NotAccept - Bounce reason is C<notaccept> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::NotAccept checks the bounce reason is C<notaccept> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::NotAccept checks the bounce reason is C<notaccept> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that a destination mail server does ( or can ) not accept any
-email. In many case, the server is high load or under the maintenance.  Sisimai
-will set C<notaccept> to the reason of email bounce if the value of Status:
-field in a bounce email is C<5.3.2> or the value of SMTP reply code is 556.
+This is the error that a destination mail server does ( or can ) not accept any email. In many case,
+the server is high load or under the maintenance. Sisimai will set C<notaccept> to the reason of
+email bounce if the value of Status: field in a bounce email is C<5.3.2> or the value of SMTP reply
+code is 556.
 
 =head1 CLASS METHODS
 
@@ -82,10 +86,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::NotAccept->match('domain does not exist:');   # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<notaccept>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<notaccept>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 AUTHOR
 
@@ -93,7 +97,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018,2020-2023 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

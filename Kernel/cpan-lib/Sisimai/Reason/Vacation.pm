@@ -13,13 +13,13 @@ sub match {
     # @since v4.22.3
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = [
+
+    state $index = [
         'i am away on vacation',
         'i am away until',
         'i am out of the office',
         'i will be traveling for work on',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
@@ -41,8 +41,8 @@ Sisimai::Reason::Vacation - A recipient is out of office
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::Vacation is for only returning text and description.
-This class is called only from Sisimai->reason method.
+Sisimai::Reason::Vacation is for only returning text and description. This class is called only from
+Sisimai->reason method.
 
 =head1 CLASS METHODS
 
@@ -56,7 +56,7 @@ C<text()> returns string: C<vacation>.
 
 C<match()> always return undef
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
 C<true()> always return undef
 
@@ -66,7 +66,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2016-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2016-2018,2020,2021 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

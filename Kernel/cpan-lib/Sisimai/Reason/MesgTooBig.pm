@@ -13,7 +13,8 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $index = [
+
+    state $index = [
         'exceeded maximum inbound message size',
         'line limit exceeded',
         'max message size exceeded',
@@ -27,24 +28,23 @@ sub match {
         'size limit',
         'taille limite du message atteinte',
     ];
-
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
 sub true {
     # The message size is too big for the remote host
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: is too big message size
     #                                   0: is not big
     # @since v4.0.0
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
-    return 1 if $argvs->reason eq 'mesgtoobig';
+    return 1 if $argvs->{'reason'} eq 'mesgtoobig';
 
-    my $statuscode = $argvs->deliverystatus // '';
-    my $tempreason = Sisimai::SMTP::Status->name($statuscode);
+    my $statuscode = $argvs->{'deliverystatus'} // '';
+    my $tempreason = Sisimai::SMTP::Status->name($statuscode) || '';
 
     # Delivery status code points "mesgtoobig".
     # Status: 5.3.4
@@ -53,7 +53,7 @@ sub true {
 
     #  5.2.3   Message length exceeds administrative limit
     return 0 if( $tempreason eq 'exceedlimit' || $statuscode eq '5.2.3' );
-    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
+    return 1 if __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
     return 0;
 }
 
@@ -73,15 +73,14 @@ Sisimai::Reason::MesgTooBig - Bounce reason is C<mesgtoobig> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::MesgTooBig checks the bounce reason is C<mesgtoobig> or not.
-This class is called only Sisimai::Reason class.
+Sisimai::Reason::MesgTooBig checks the bounce reason is C<mesgtoobig> or not. This class is called
+only Sisimai::Reason class.
 
-This is the error that a sent email size is too big for a destination mail
-server. In many case, There are many attachment files with email, or the file
-size is too large. Sisimai will set C<mesgtoobig> to the reason of email bounce
-if the value of Status: field in a bounce email is C<5.3.4>.
+This is the error that a sent email size is too big for a destination mail server. In many case,
+There are many attachment files with email, or the file size is too large. Sisimai will set C<mesgtoobig>
+to the reason of email bounce if the value of Status: field in a bounce email is C<5.3.4>.
 
-    Action: failure
+    Action: failed
     Status: 553 Exceeded maximum inbound message size
 
 =head1 CLASS METHODS
@@ -98,10 +97,10 @@ C<match()> returns 1 if the argument matched with patterns defined in this class
 
     print Sisimai::Reason::MesgTooBig->match('400 Message too big');   # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<mesgtoobig>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> returns 1 if the bounce reason is C<mesgtoobig>. The argument must be Sisimai::Fact object
+and this method is called only from Sisimai::Reason class.
 
 =head1 SEE ALSO
 
@@ -117,7 +116,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018,2020,2021 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
