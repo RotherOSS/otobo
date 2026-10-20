@@ -16,6 +16,7 @@
 
 package Kernel::System::PostMaster::Filter::DetectBounceEmail;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -32,9 +33,7 @@ our @ObjectDependencies = ();
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
 
@@ -57,20 +56,26 @@ sub Run {
         Value         => 'Checking if is a Bounce e-mail.',
     );
 
-    my $BounceMessage = Sisimai::Message->new( data => $Self->{ParserObject}->GetPlainEmail() );
+    # inspect the message
+    my $BounceMessage = Sisimai::Message->new(
+        data => $Self->{ParserObject}->GetPlainEmail
+    );
 
-    return 1 if !$BounceMessage;
+    # undef is returned when the mail is not a bounce email
+    return 1 unless $BounceMessage;
 
     my $BounceData = Sisimai::Data->make( data => $BounceMessage );
 
-    return 1 if !$BounceData || !@{$BounceData};
+    return 1 unless $BounceData;
+    return 1 unless @{$BounceData};    # at least one message
 
     my $MessageID = $BounceData->[0]->messageid();
 
-    return 1 if !$MessageID;
+    return 1 unless $MessageID;
 
     $MessageID = sprintf '<%s>', $MessageID;
 
+    # Add headers to report the result of the analysis
     $Param{GetParam}->{'X-OTOBO-Bounce'}                   = 1;
     $Param{GetParam}->{'X-OTOBO-Bounce-OriginalMessageID'} = $MessageID;
     $Param{GetParam}->{'X-OTOBO-Bounce-ErrorMessage'}      = $Param{GetParam}->{Body};
