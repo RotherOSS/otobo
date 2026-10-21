@@ -104,6 +104,7 @@ sub Run {
         Comments      => "UpgradeTo11.1 - Adapt AgentTicketZoom dynamic field screen settings.",
         UserID        => 1,
         Force         => 1,
+        NoValidation  => 1,
         DirtySettings => ['Ticket::Frontend::AgentTicketZoom###DynamicField'],
     );
 
@@ -169,6 +170,7 @@ sub Run {
         Comments      => "UpgradeTo11.1 - Adapt CustomerTicketZoom dynamic field screen settings.",
         UserID        => 1,
         Force         => 1,
+        NoValidation  => 1,
         DirtySettings => ['Ticket::Frontend::CustomerTicketZoom###DynamicField'],
     );
 

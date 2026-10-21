@@ -124,6 +124,7 @@ sub Run {
         Comments      => "UpgradeTo11.1 - Copy package setting 'TimeShowCreatedAt' to core setting 'CustomerFrontend::TimeShowCreatedAt'.",
         UserID        => 1,
         Force         => 1,
+        NoValidation  => 1,
         DirtySettings => ['CustomerFrontend::TimeShowCreatedAt'],
     );
 

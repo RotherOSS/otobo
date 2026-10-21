@@ -118,6 +118,7 @@ sub Run {
                 UserID        => 1,
                 Force         => 1,
                 DirtySettings => [$Key],
+                NoValidation  => 1,
             );
 
             if ( !$DeploymentResult{Success} ) {

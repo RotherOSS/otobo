@@ -398,6 +398,7 @@ sub Run {
             Comments      => "UpgradeTo11.1 - Migrated $ConfigName to $SettingName setting.",
             UserID        => 1,
             Force         => 1,
+            NoValidation  => 1,
             DirtySettings => [$SettingName],
         );
 
