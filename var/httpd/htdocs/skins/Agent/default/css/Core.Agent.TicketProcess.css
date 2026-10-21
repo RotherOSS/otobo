@@ -88,6 +88,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
     grid-column: 1 / -1;
     border: 1px solid #ddd;
+    border-radius: 5px;
     padding: 10px;
 }
 
