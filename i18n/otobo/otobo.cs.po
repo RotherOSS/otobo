@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 13:01+0000\n"
+"POT-Creation-Date: 2026-10-21 14:05+0000\n"
 "PO-Revision-Date: 2025-11-01 12:59+0000\n"
 "Last-Translator: Lukas Majer <lmajer@christ-ag.com>\n"
 "Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-11/cs/"
@@ -7344,7 +7344,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13816,6 +13816,24 @@ msgid "Allocate Services to Customer User"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Deletion was not confirmed!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Could not find dynamic field to be deleted!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Could not delete dynamic field '%s' because it is an internal field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid ""
+"Values for the dynamic field '%s' could not be deleted. Please review the "
+"logs for more details."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
 msgstr ""
 
@@ -13827,6 +13845,12 @@ msgstr ""
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for "
 "more details."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid ""
+"Dynamic field deletion could not be completed. Please contact the "
+"administrator or review the logs for more information"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
@@ -13921,6 +13945,10 @@ msgid ""
 "include it."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+msgid "Something went wrong during dynamic field import."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
 msgstr ""
@@ -13967,6 +13995,16 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+#, fuzzy
+#| msgid "Dynamic Fields"
+msgid "Dynamic Fields for this Screen"
+msgstr "Dynamická pole"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+msgid "Screens for this Dynamic Field"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
@@ -14834,6 +14872,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The selected date is not valid."
+msgid "The file is not valid!"
+msgstr "Vybrané datum není platné."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -17796,10 +17840,6 @@ msgid "Cancel editing and unlock this setting"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Reset this setting to its default value."
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
 msgstr ""
 
@@ -20383,6 +20423,16 @@ msgstr ""
 msgid "Deleting the field and its data. This may take a while..."
 msgstr ""
 
+#. JS File: Core.Agent.Admin.DynamicField
+msgid ""
+"The deletion could not be completed. Please review the logs for detailed "
+"information."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.DynamicField
+msgid "Dynamic Field Delete: An Error occurred"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
 msgstr ""
@@ -22821,6 +22871,10 @@ msgid ""
 "Controls shown in the enhanced mode CKEditor toolbar. Each array defines a "
 "button group that will be visibly separated in the editor. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
+msgstr ""
+
+#. SysConfig
+msgid "Controls the search limit in the AdminCustomerUser interface."
 msgstr ""
 
 #. SysConfig
@@ -25363,6 +25417,10 @@ msgid "Defines the path to the Google Chrome or Chromium binary."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the path to the gnuplot binary."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
@@ -26997,15 +27055,31 @@ msgid "Google Authenticator"
 msgstr ""
 
 #. SysConfig
-msgid "Graph: Bar Chart"
+msgid "Graph: Bar Chart (D3)"
 msgstr ""
 
 #. SysConfig
-msgid "Graph: Line Chart"
+msgid "Graph: Clustered Bar Chart (Gnuplot)"
 msgstr ""
 
 #. SysConfig
-msgid "Graph: Stacked Area Chart"
+msgid "Graph: Line Chart (D3)"
+msgstr ""
+
+#. SysConfig
+msgid "Graph: Line Chart (Gnuplot)"
+msgstr ""
+
+#. SysConfig
+msgid "Graph: Stacked Area Chart (D3)"
+msgstr ""
+
+#. SysConfig
+msgid "Graph: Stacked Area Chart (Gnuplot)"
+msgstr ""
+
+#. SysConfig
+msgid "Graph: Stacked Bar Chart (Gnuplot)"
 msgstr ""
 
 #. SysConfig

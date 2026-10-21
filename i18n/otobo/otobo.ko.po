@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 13:01+0000\n"
+"POT-Creation-Date: 2026-10-21 14:05+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -7557,7 +7557,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14108,6 +14108,34 @@ msgid "Allocate Services to Customer User"
 msgstr "고객 사용자에게 서비스 할당"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid "Action \"%s\" not found!"
+msgid "Deletion was not confirmed!"
+msgstr "Action \"%s\"을 찾을 수 없습니다!"
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid "Could not get data for dynamic field %s"
+msgid "Could not find dynamic field to be deleted!"
+msgstr "동적 필드 %s에 대한 데이터를 가져올 수 없습니다."
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Could not delete dynamic field '%s' because it is an internal field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid ""
+#| "Could not reset Dynamic Field order properly, please check the error log "
+#| "for more details."
+msgid ""
+"Values for the dynamic field '%s' could not be deleted. Please review the "
+"logs for more details."
+msgstr ""
+"동적 필드 순서를 제대로 재설정 할 수 없습니다. 자세한 내용은 오류 로그를 확인"
+"하십시오."
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
 msgstr "필드 설정이 바르지 않습니다."
 
@@ -14122,6 +14150,18 @@ msgid ""
 msgstr ""
 "동적 필드 순서를 제대로 재설정 할 수 없습니다. 자세한 내용은 오류 로그를 확인"
 "하십시오."
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid ""
+#| "Notifications could not be Imported due to a unknown error, please check "
+#| "OTOBO logs for more information"
+msgid ""
+"Dynamic field deletion could not be completed. Please contact the "
+"administrator or review the logs for more information"
+msgstr ""
+"알 수없는 오류로 인해 알림을 가져올 수 없습니다. 자세한 내용은 OTOBO 로그를 "
+"확인하십시오."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
@@ -14215,6 +14255,10 @@ msgid ""
 "include it."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+msgid "Something went wrong during dynamic field import."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
 msgstr ""
@@ -14262,6 +14306,18 @@ msgstr "시스템에서 설정을 재설정 할 수 없었습니다!"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+#, fuzzy
+#| msgid "Dynamic Fields"
+msgid "Dynamic Fields for this Screen"
+msgstr "동적 필드"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+#, fuzzy
+#| msgid "Filter for Dynamic Fields"
+msgid "Screens for this Dynamic Field"
+msgstr "동적 필드 필터링"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Need valid field driver."
@@ -15142,6 +15198,12 @@ msgstr "다운로드하려면 param이 필요합니다!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "그런 패키지는 없습니다!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "Setting value is not valid!"
+msgid "The file is not valid!"
+msgstr "설정 값이 유효하지 않습니다!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -18217,10 +18279,6 @@ msgid "Cancel editing and unlock this setting"
 msgstr "이 설정 편집 및 잠금 해제를 취소하십시오."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Reset this setting to its default value."
-msgstr "이 설정을 기본값으로 다시 설정하십시오."
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
 msgstr "%s를 로드 할 수 없습니다!"
 
@@ -20851,6 +20909,24 @@ msgstr "입력란 삭제"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "필드 및 해당 데이터 삭제. 이 작업은 다소 시간이 걸릴 수 있습니다..."
+
+#. JS File: Core.Agent.Admin.DynamicField
+#, fuzzy
+#| msgid ""
+#| "There was an error deleting the attachment. Please check the logs for "
+#| "more information."
+msgid ""
+"The deletion could not be completed. Please review the logs for detailed "
+"information."
+msgstr ""
+"첨부 파일을 삭제하는 중 오류가 발생했습니다. 자세한 내용은 로그를 확인하십시"
+"오."
+
+#. JS File: Core.Agent.Admin.DynamicField
+#, fuzzy
+#| msgid "Dynamic field %s not found!"
+msgid "Dynamic Field Delete: An Error occurred"
+msgstr "동적 필드 %s을 찾을 수 없습니다!"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
@@ -23511,6 +23587,16 @@ msgid ""
 "button group that will be visibly separated in the editor. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"자동 완성 필드가 AdminCustomerUser 인터페이스의 고객 ID 선택에 사용되는지 여"
+"부를 제어합니다."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -26598,6 +26684,12 @@ msgid "Defines the path to the Google Chrome or Chromium binary."
 msgstr "PGP 바이너리 경로를 정의합니다."
 
 #. SysConfig
+#, fuzzy
+#| msgid "Defines the path to PGP binary."
+msgid "Defines the path to the gnuplot binary."
+msgstr "PGP 바이너리 경로를 정의합니다."
+
+#. SysConfig
 msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
@@ -28431,15 +28523,45 @@ msgid "Google Authenticator"
 msgstr "Google OTP"
 
 #. SysConfig
-msgid "Graph: Bar Chart"
+#, fuzzy
+#| msgid "Graph: Bar Chart"
+msgid "Graph: Bar Chart (D3)"
 msgstr "그래프 : 막대 차트"
 
 #. SysConfig
-msgid "Graph: Line Chart"
+#, fuzzy
+#| msgid "Graph: Bar Chart"
+msgid "Graph: Clustered Bar Chart (Gnuplot)"
+msgstr "그래프 : 막대 차트"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Line Chart"
+msgid "Graph: Line Chart (D3)"
 msgstr "그래프 : 선 차트"
 
 #. SysConfig
-msgid "Graph: Stacked Area Chart"
+#, fuzzy
+#| msgid "Graph: Line Chart"
+msgid "Graph: Line Chart (Gnuplot)"
+msgstr "그래프 : 선 차트"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Stacked Area Chart"
+msgid "Graph: Stacked Area Chart (D3)"
+msgstr "그래프 : 누적 영역 차트"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Stacked Area Chart"
+msgid "Graph: Stacked Area Chart (Gnuplot)"
+msgstr "그래프 : 누적 영역 차트"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Stacked Area Chart"
+msgid "Graph: Stacked Bar Chart (Gnuplot)"
 msgstr "그래프 : 누적 영역 차트"
 
 #. SysConfig
@@ -34790,6 +34912,9 @@ msgstr "거꾸로"
 #. SysConfig
 msgid "stats"
 msgstr "통계"
+
+#~ msgid "Reset this setting to its default value."
+#~ msgstr "이 설정을 기본값으로 다시 설정하십시오."
 
 #~ msgid "Required"
 #~ msgstr "필수"

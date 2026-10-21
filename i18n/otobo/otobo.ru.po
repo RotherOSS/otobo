@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 13:01+0000\n"
+"POT-Creation-Date: 2026-10-21 14:05+0000\n"
 "PO-Revision-Date: 2023-08-11 20:42+0000\n"
 "Last-Translator: Иван Юрьевич Пигасов <itd@avsst.ru>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -7835,7 +7835,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14525,6 +14525,34 @@ msgid "Allocate Services to Customer User"
 msgstr "Связать Сервисы с Клиентом"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid "Action \"%s\" not found!"
+msgid "Deletion was not confirmed!"
+msgstr "Действие  \"%s\" не найдено!"
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid "Could not get data for dynamic field %s"
+msgid "Could not find dynamic field to be deleted!"
+msgstr "Невозможно получить данные для динамического поля  %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Could not delete dynamic field '%s' because it is an internal field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid ""
+#| "Could not reset Dynamic Field order properly, please check the error log "
+#| "for more details."
+msgid ""
+"Values for the dynamic field '%s' could not be deleted. Please review the "
+"logs for more details."
+msgstr ""
+"Невозможно правильно сбросить очередность Dynamic Field, подробности в логе "
+"ошибок."
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
 msgstr "Настройка полей неверна"
 
@@ -14539,6 +14567,18 @@ msgid ""
 msgstr ""
 "Невозможно правильно сбросить очередность Dynamic Field, подробности в логе "
 "ошибок."
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+#, fuzzy
+#| msgid ""
+#| "Notifications could not be Imported due to a unknown error, please check "
+#| "OTOBO logs for more information"
+msgid ""
+"Dynamic field deletion could not be completed. Please contact the "
+"administrator or review the logs for more information"
+msgstr ""
+"Уведомления не могут быть импортированы из-за неизвестной ошибки, проверьте, "
+"пожалуйста, логи OTOBO для получения более детальной информации"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
@@ -14632,6 +14672,10 @@ msgid ""
 "include it."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+msgid "Something went wrong during dynamic field import."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
 msgstr ""
@@ -14679,6 +14723,18 @@ msgstr "Система не может сбросить эту настройк�
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+#, fuzzy
+#| msgid "Dynamic Fields Screens"
+msgid "Dynamic Fields for this Screen"
+msgstr "Экраны динамичных полей"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+#, fuzzy
+#| msgid "Filter for Dynamic Fields"
+msgid "Screens for this Dynamic Field"
+msgstr "Фильтр для динамических полей"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Need valid field driver."
@@ -15561,6 +15617,12 @@ msgstr "Требуются параметры Ключа для скачиван
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Такой пакет не существует!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "Setting value is not valid!"
+msgid "The file is not valid!"
+msgstr "Значение параметра недействительно!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -18664,10 +18726,6 @@ msgid "Cancel editing and unlock this setting"
 msgstr "Отменить правку и разблокировать эту настройку"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Reset this setting to its default value."
-msgstr "Сбросить эту настройку на значение по умолчанию"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
 msgstr "Не удалось загрузить %s!"
 
@@ -21343,6 +21401,24 @@ msgstr "Удалить поле"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "Удаление поля и связанных данных. Это может занять некоторое время..."
+
+#. JS File: Core.Agent.Admin.DynamicField
+#, fuzzy
+#| msgid ""
+#| "There was an error deleting the template. Please check the logs for more "
+#| "information."
+msgid ""
+"The deletion could not be completed. Please review the logs for detailed "
+"information."
+msgstr ""
+"Произошла ошибка при удалении шаблона. Пожалуйста, проверьте логи для "
+"получения дополнительной информации."
+
+#. JS File: Core.Agent.Admin.DynamicField
+#, fuzzy
+#| msgid "Dynamic field %s not found!"
+msgid "Dynamic Field Delete: An Error occurred"
+msgstr "Динамическое поле %s не найдено!"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
@@ -24084,6 +24160,16 @@ msgid ""
 "button group that will be visibly separated in the editor. (Only used if "
 "`Frontend::RichText::EnhancedMode` is enabled)."
 msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Включает автозавершение при выборе customer ID в окне управления клиентами "
+"AdminCustomerUser интерфейса агента."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -27223,6 +27309,12 @@ msgid "Defines the path to the Google Chrome or Chromium binary."
 msgstr "Задает путь к PGP binary."
 
 #. SysConfig
+#, fuzzy
+#| msgid "Defines the path to PGP binary."
+msgid "Defines the path to the gnuplot binary."
+msgstr "Задает путь к PGP binary."
+
+#. SysConfig
 msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
@@ -29033,15 +29125,45 @@ msgid "Google Authenticator"
 msgstr "Аутентификатор Google "
 
 #. SysConfig
-msgid "Graph: Bar Chart"
+#, fuzzy
+#| msgid "Graph: Bar Chart"
+msgid "Graph: Bar Chart (D3)"
 msgstr "Диаграммы: линейчатая"
 
 #. SysConfig
-msgid "Graph: Line Chart"
+#, fuzzy
+#| msgid "Graph: Bar Chart"
+msgid "Graph: Clustered Bar Chart (Gnuplot)"
+msgstr "Диаграммы: линейчатая"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Line Chart"
+msgid "Graph: Line Chart (D3)"
 msgstr "Диаграммы: Линейный график"
 
 #. SysConfig
-msgid "Graph: Stacked Area Chart"
+#, fuzzy
+#| msgid "Graph: Line Chart"
+msgid "Graph: Line Chart (Gnuplot)"
+msgstr "Диаграммы: Линейный график"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Stacked Area Chart"
+msgid "Graph: Stacked Area Chart (D3)"
+msgstr "Диаграммы: области с накоплениями"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Stacked Area Chart"
+msgid "Graph: Stacked Area Chart (Gnuplot)"
+msgstr "Диаграммы: области с накоплениями"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Graph: Stacked Area Chart"
+msgid "Graph: Stacked Bar Chart (Gnuplot)"
 msgstr "Диаграммы: области с накоплениями"
 
 #. SysConfig
@@ -35373,6 +35495,9 @@ msgstr "обратный"
 #. SysConfig
 msgid "stats"
 msgstr "отчеты"
+
+#~ msgid "Reset this setting to its default value."
+#~ msgstr "Сбросить эту настройку на значение по умолчанию"
 
 #~ msgid "Required"
 #~ msgstr "Требуется"
