@@ -48,6 +48,12 @@ sub Configure {
         Required    => 0,
         HasValue    => 0,
     );
+    $Self->AddOption(
+        Name        => 'no-validation',
+        Description => 'Skip SysConfig validation.',
+        Required    => 0,
+        HasValue    => 0,
+    );
 
     return;
 }
@@ -106,7 +112,8 @@ sub Run {
         open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
 
         %Result = $PackageObject->PackageUpgradeAll(
-            Force => $Self->GetOption('force'),
+            Force        => $Self->GetOption('force'),
+            NoValidation => $Self->GetOption('no-validation'),
         );
     };
 

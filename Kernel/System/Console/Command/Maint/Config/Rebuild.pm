@@ -81,6 +81,13 @@ sub Configure {
         HasValue    => 0,
     );
 
+    $Self->AddOption(
+        Name        => 'no-validation',
+        Description => "Do not apply custom validation rules, if any.",
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
@@ -185,10 +192,11 @@ sub Run {
         )
     {
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-            Comments    => "Configuration Rebuild",
-            AllSettings => 1,
-            UserID      => 1,
-            Force       => 1,
+            Comments     => "Configuration Rebuild",
+            AllSettings  => 1,
+            UserID       => 1,
+            Force        => 1,
+            NoValidation => $Self->GetOption('no-validation'),
         );
 
         if ( !$DeploymentResult{Success} ) {

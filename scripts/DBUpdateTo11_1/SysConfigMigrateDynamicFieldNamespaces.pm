@@ -127,6 +127,7 @@ sub Run {
         Comments      => "UpgradeTo11.1 - Copy dynamic field namespaces from 'DynamicField::Namespaces' to 'Namespaces###Global'.",
         UserID        => 1,
         Force         => 1,
+        NoValidation  => 1,
         DirtySettings => ['Namespaces###Global'],
     );
 

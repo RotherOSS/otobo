@@ -187,7 +187,7 @@ function do_update_tasks() {
         echo "[$FUNCNAME] Admin::Package::ReinstallAll"
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll --hide-deployment-info 2>&1)
         echo "[$FUNCNAME] Admin::Package::UpgradeAll"
-        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll --no-validation 2>&1)
         echo "[$FUNCNAME] Maint::Config::Rebuild --deploy-acls --deploy-processes"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild --deploy-acls --deploy-processes 2>&1)
         echo "[$FUNCNAME] Maint::Cache::Delete"
@@ -196,6 +196,8 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         echo "[$FUNCNAME] Maint::Translations::Deploy"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Translations::Deploy --hide-skipped-info 2>&1)
+        echo "[$FUNCNAME] Admin::Config::ListInvalid"
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Config::ListInvalid 2>&1)
         echo -n "[$FUNCNAME] finished "
         date
         echo

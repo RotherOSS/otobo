@@ -139,10 +139,11 @@ sub Run {
     }
 
     my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-        AllSettings => 1,
-        Comments    => sprintf( 'UpgradeTo11.1 - %s', __FILE__ ),
-        Force       => 1,
-        UserID      => 1,
+        AllSettings  => 1,
+        Comments     => sprintf( 'UpgradeTo11.1 - %s', __FILE__ ),
+        Force        => 1,
+        UserID       => 1,
+        NoValidation => 1,
     );
 
     if ( !$DeploymentResult{Success} ) {

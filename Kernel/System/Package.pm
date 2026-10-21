@@ -778,8 +778,9 @@ sub PackageReinstall {
 upgrades a package. Installs the package when it is not installed yet.
 
     $PackageObject->PackageUpgrade(
-        String => $FileString,
-        Force  => 1,             # optional 1 or 0, for to install package even if validation fails
+        String       => $FileString,
+        Force        => 1,             # optional 1 or 0, for to install package even if validation fails
+        NoValidation => 1,             # optional, default undef. If active passes NoValidation flag to _ConfigurationDeploy()
     );
 
 =cut
@@ -1059,9 +1060,10 @@ sub PackageUpgrade {
 
     # install config
     $Self->_ConfigurationDeploy(
-        Comments => "Package Upgrade $Structure{Name}->{Content} $Structure{Version}->{Content}",
-        Package  => $Structure{Name}->{Content},
-        Action   => 'PackageUpgrade',
+        Comments     => "Package Upgrade $Structure{Name}->{Content} $Structure{Version}->{Content}",
+        Package      => $Structure{Name}->{Content},
+        Action       => 'PackageUpgrade',
+        NoValidation => $Param{NoValidation},
     );
 
     # upgrade database (post)
@@ -3075,6 +3077,7 @@ sub AnalyzePackageFrameworkRequirements {
         Force           => 1,     # optional 1 or 0, Upgrades packages even if validation fails.
         SkipDeployCheck => 1,     # optional 1 or 0, If active it does not check file deployment status
                                   #     for already updated packages.
+        NoValidation    => 1,     # optional, default undef. If active passes NoValidation flag to PackageUpgrade
     );
 
     %Result = (
@@ -3276,8 +3279,9 @@ sub PackageUpgradeAll {
         }
 
         my $UpdateSuccess = $Self->PackageUpgrade(
-            String => $Package,
-            Force  => $Param{Force} || 0,
+            String       => $Package,
+            Force        => $Param{Force} || 0,
+            NoValidation => $Param{NoValidation},
         );
         if ( !$UpdateSuccess ) {
             $Success = 0;
@@ -5039,10 +5043,11 @@ sub _ConfigurationDeploy {
 
     {
         my $Success = $SysConfigObject->ConfigurationDeploy(
-            Comments => $Param{Comments},
-            NotDirty => 1,
-            UserID   => 1,
-            Force    => 1,
+            Comments     => $Param{Comments},
+            NotDirty     => 1,
+            UserID       => 1,
+            Force        => 1,
+            NoValidation => $Param{NoValidation},
         );
 
         if ( !$Success ) {
@@ -5328,6 +5333,10 @@ sub _ConfiguredRepositoryDefinitionGet {
     if ( $ConfigObject->Get('Package::RepositoryRoot') ) {
         %RepositoryList = ( %RepositoryList, $Self->PackageOnlineRepositories() );
     }
+
+    my $CurrentITSMRepository = 'https://ftp.otobo.org/pub/otobo/packages-itsm/';
+
+    $RepositoryList{$CurrentITSMRepository} = 'OTOBO::ITSM Addons';
 
     return %RepositoryList;
 }
