@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.988696523107741;
+    $Self->{Completeness}        = 0.985724482512491;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2179,8 +2179,8 @@ sub Data {
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             'Der Arbeitszeitkalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl bedeutet, der Standardkalender wird verwendet.',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            'Ist definiert unter Admin > Systemkonfiguration > Core > Time (Standardkalender) oder in den Kalendern 1 bis 9.',
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Diese Queue wird in folgenden Konfigurationseinstellungen verwendet:',
 
         # Template: AdminQueueAutoResponse
@@ -4351,10 +4351,18 @@ sub Data {
         'Allocate Services to Customer User' => 'Services zu Kundenbenutzern zuordnen',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
+        'Deletion was not confirmed!' => '',
+        'Could not find dynamic field to be deleted!' => '',
+        'Could not delete dynamic field \'%s\' because it is an internal field.' =>
+            '',
+        'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
+            '',
         'Fields configuration is not valid' => 'Felderkonfiguration ist nicht gültig',
         'Objects configuration is not valid' => 'Die Objektkonfiguration ist ungültig',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Konnte die Reihenfolge der Dynamischen Felder nicht zurücksetzen. Weitere Informationen im Fehlerprotokoll.',
+        'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Unbestimmte Unteraktion.',
@@ -4390,6 +4398,9 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             'Ein Element wird als Elternelement verwendet, ist aber selbst nicht enthalten. Bitte nehmen Sie es auf.',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+        'Something went wrong during dynamic field import.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => 'Das dynamische Feld auf das verwiesen wird',
         'Select the dynamic field that references an object' => 'Wählen Sie das dynamische Feld aus, das auf ein Objekt verweist',
@@ -4407,6 +4418,8 @@ sub Data {
         'Setting is locked by another user!' => 'Einstellung bereits durch einen anderen Nutzer in Bearbeitung!',
         'System was not able to reset the setting!' => 'Einstellung konnte nicht zurückgesetzt werden!',
         'Settings were reset.' => 'Einstellungen wurden zurückgesetzt.',
+        'Dynamic Fields for this Screen' => '',
+        'Screens for this Dynamic Field' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => 'Gültiger Feld-Treiber benötigt.',
@@ -4683,6 +4696,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Kein solches Paket!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Keine solche Datei %s im Paket!',
         'No such file %s in local file system!' => 'Datei %s existiert nicht im Dateisystem!',
         'Can\'t read %s!' => 'Kann %s nicht lesen!',
@@ -5776,7 +5790,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => 'Bearbeitung abbrechen und diese Einstellung freigeben',
-        'Reset this setting to its default value.' => 'Einstellung auf Standardwert zurücksetzen.',
         'Unable to load %s!' => 'Kann %s nicht laden!',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -6775,6 +6788,9 @@ sub Data {
             'Wollen Sie dieses Dynamische Feld wirklich löschen? Alle darin enthaltenen Daten werden GELÖSCHT!',
         'Delete field' => 'Feld löschen',
         'Deleting the field and its data. This may take a while...' => 'Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern...',
+        'The deletion could not be completed. Please review the logs for detailed information.' =>
+            '',
+        'Dynamic Field Delete: An Error occurred' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => 'Dieses dynamische Feld entfernen',
@@ -7633,6 +7649,8 @@ Ihr Helpdesk-Team
             '',
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Erstellt Vorlagen für AdminDynamicFieldTitle.',
@@ -8400,6 +8418,7 @@ Ihr Helpdesk-Team
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Legt den Pfad zum OpenSSL-Binary fest. Es benötigt möglicherweise ein HOME-Env ($ENV{HOME} = \'/var/lib/wwwrun\';).',
         'Defines the path to the Google Chrome or Chromium binary.' => 'Bestimmt den Pfad zur Google Chrome- oder Chromium-Binärdatei.',
+        'Defines the path to the gnuplot binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'Legt den Zeitraum in Minuten fest, bevor ein Agent aufgrund von Inaktivität als "abwesend" markiert wird (z. B. im "Angemeldete Nutzer"-Dashlet oder im Chat).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8901,9 +8920,13 @@ Ihr Helpdesk-Team
         'Go to dashboard!' => 'Zur Übersicht gehen!',
         'Good PGP signature.' => 'Gültige PGP-Signatur.',
         'Google Authenticator' => 'Google Authenticator',
-        'Graph: Bar Chart' => 'Diagramm: Balken',
-        'Graph: Line Chart' => 'Diagramm: Linien',
-        'Graph: Stacked Area Chart' => 'Diagramm: Gestapelte Ebenen',
+        'Graph: Bar Chart (D3)' => '',
+        'Graph: Clustered Bar Chart (Gnuplot)' => '',
+        'Graph: Line Chart (D3)' => '',
+        'Graph: Line Chart (Gnuplot)' => '',
+        'Graph: Stacked Area Chart (D3)' => '',
+        'Graph: Stacked Area Chart (Gnuplot)' => '',
+        'Graph: Stacked Bar Chart (Gnuplot)' => '',
         'Greek' => 'Griechisch',
         'Hebrew' => 'Hebräisch',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -10611,6 +10634,7 @@ Ihr Helpdesk-Team
         'Draft title',
         'Duplicate event.',
         'Duplicated entry',
+        'Dynamic Field Delete: An Error occurred',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
@@ -10801,6 +10825,7 @@ Ihr Helpdesk-Team
         'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
+        'The deletion could not be completed. Please review the logs for detailed information.',
         'The deployment is already running.',
         'The following files are not allowed to be uploaded: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
