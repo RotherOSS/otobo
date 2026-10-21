@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.999552906110283;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1997,8 +1997,8 @@ sub Data {
         'The signature for email answers.' => 'Az aláírás a válasz e-mailekhez.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             'Az üzleti naptár a feloldási időhöz és az eszkalációs időkhöz. Ha nincs semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva.',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            'Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time ágában van meghatározva (alapértelmezett naptár) vagy az 1-9. naptárakban.',
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Ez a várólista a következő konfigurációs beállításokban van használva:',
 
         # Template: AdminQueueAutoResponse
@@ -4385,6 +4385,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Nincs ilyen csomag!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Nincs ilyen %s fájl a csomagban!',
         'No such file %s in local file system!' => 'Nincs ilyen %s fájl a helyi fájlrendszeren!',
         'Can\'t read %s!' => 'Nem olvasható: %s!',
@@ -7256,6 +7257,8 @@ Az Ön ügyfélszolgálati csapata
             'Azt szabályozza, hogy az automatikus kiegészítés mező legyen-e használva az ügyfél-azonosító kijelöléséhez az adminisztrátori ügyfél-felhasználó felületen.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Azt szabályozza, hogy a jegy és a bejegyzés olvasottság jelzői el legyenek-e távolítva a jegy archiválásakor.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket.' => 'Új folyamatjegy létrehozása.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Sablonok létrehozása az adminisztrátori dinamikus mezők címéhez.',
@@ -8724,7 +8727,7 @@ Az Ön ügyfélszolgálati csapata
         'Links 2 tickets with a "ParentChild" type link.' => 'Összekapcsol 2 jegyet egy „Szülő-gyermek” típusú hivatkozással.',
         'Links appointments and tickets with a "Normal" type link.' => 'Összekapcsolja az időpontokat és jegyeket egy „Normál” típusú hivatkozással.',
         'List of CSS files to always be loaded for the agent interface.' =>
-            'CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of CSS files to always be loaded for the customer interface.' =>
             'CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of JS files to always be loaded for the agent interface.' =>

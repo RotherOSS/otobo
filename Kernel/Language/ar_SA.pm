@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.839892665474061;
+    $Self->{Completeness}        = 0.839642324888227;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1994,7 +1994,7 @@ sub Data {
         'The signature for email answers.' => 'التوقيع لردود البريد الإلكتروني.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'يتم استخدام قائمة الانتظار هذه في إعدادات التكوين التالية:',
 
@@ -4382,6 +4382,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'لا يوجد مثل هذه الحزمة!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'لا يوجد مثل هذا الملف ٪s في الحزمة!',
         'No such file %s in local file system!' => 'لا يوجد مثل هذا الملف ٪s في نظام الملفات المحلي!',
         'Can\'t read %s!' => 'لا يمكن قراءة ٪s!',
@@ -7253,6 +7254,8 @@ Thanks for your help!
             'التحكم في ما إذا كان سيتم إستخدام حقل الإكمال التلقائي لتحديد معرف العميل في واجهة AdminCustomerUser.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'التحكم في حالة إزالة علامات التذاكر والمقالة التي تم عرضها عند أرشفة التذكرة.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'تحويل رسائل بريد HTML إلى رسائل نصية.',
         'Create New process ticket.' => 'إنشاء تذكرة عملية جديدة.',
         'Create Templates for AdminDynamicFieldTitle.' => 'إنشاء قوالب ل AdminDynamicFieldTitle.',

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.6768038163387;
+    $Self->{Completeness}        = 0.676602086438152;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1996,7 +1996,7 @@ sub Data {
         'The signature for email answers.' => 'Podpis dla odpowiedzi e-mailowych.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -4384,6 +4384,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Nie ma takiego pakietu!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Nie ma takiego pliku %s w pakiecie!',
         'No such file %s in local file system!' => 'Nie ma takiegi pliku %s na lokalnym systemie plików!',
         'Can\'t read %s!' => 'Nie można odczytać %s!',
@@ -7244,6 +7245,8 @@ Thanks for your help!
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontroluje czy flagi zgłoszenia i artykułu są usunięte kiedy zgłoszenie jest zarchiwizowane.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konwertuję e-maile HTML do tekstowych.',
         'Create New process ticket.' => '',
         'Create Templates for AdminDynamicFieldTitle.' => '',

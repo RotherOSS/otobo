@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.426952892069171;
+    $Self->{Completeness}        = 0.42682563338301;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1992,7 +1992,7 @@ sub Data {
         'The signature for email answers.' => 'Підпис для листів',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -4380,6 +4380,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Немає такого пакунка!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Немає файлу %s в пакунку!',
         'No such file %s in local file system!' => 'Немає файлу %s в локальній файловій системі!',
         'Can\'t read %s!' => 'Неможливо прочитати %s!',
@@ -7239,6 +7240,8 @@ Thanks for your help!
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
+            '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
             '',
         'Converts HTML mails into text messages.' => '',
         'Create New process ticket.' => '',

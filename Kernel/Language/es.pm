@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.593023255813954;
+    $Self->{Completeness}        = 0.592846497764531;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1997,7 +1997,7 @@ sub Data {
         'The signature for email answers.' => 'Firma para respuestas por correo.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -4385,6 +4385,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => '¡No existe el paquete!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => '¡No hay tal archivo %s en el paquete!',
         'No such file %s in local file system!' => '¡No hay tal archivo %s en la sistema de los archivos locales!',
         'Can\'t read %s!' => '¡No se puede leer %s!',
@@ -7263,6 +7264,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Controla si se quitan las banderas de las entradas y el artículo visto cuando un ticket se archiva.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Convierte correos HTML en mensajes de texto.',
         'Create New process ticket.' => 'Crear nuevo ticket de proceso.',
         'Create Templates for AdminDynamicFieldTitle.' => '',

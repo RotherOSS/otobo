@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5979,7 +5979,7 @@ msgid "The business calendar for unlock time and the escalation times. No select
 msgstr ""
 
 #. Template: AdminQueue
-msgid "Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9."
+msgid "Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9."
 msgstr ""
 
 #. Template: AdminQueue
@@ -12608,6 +12608,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The file is not valid!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -19731,6 +19735,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if the ticket and article seen flags are removed when a ticket is archived."
+msgstr ""
+
+#. SysConfig
+msgid "Controls the search limit in the AdminCustomerUser interface."
 msgstr ""
 
 #. SysConfig

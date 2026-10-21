@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.934704830053667;
+    $Self->{Completeness}        = 0.934426229508197;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2000,7 +2000,7 @@ sub Data {
         'The signature for email answers.' => 'Signatur for e-postsvar.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Denne køen brukes i følgende konfigurasjonsinnstillinger:',
 
@@ -4388,6 +4388,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Ingen slik pakke!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Ingen slik fil %s i pakken!',
         'No such file %s in local file system!' => 'Ingen slik fil %s i lokalt filsystem!',
         'Can\'t read %s!' => 'Kan ikke lese %s!',
@@ -7259,6 +7260,8 @@ Ditt Helpdesk-team
             'Kontrollerer om autofullføringsfeltet skal brukes for valg av kunde-ID i AdminCustomerUser-grensesnittet.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrollerer om flaggene for saken og artikkelen skal fjernes når en sak arkiveres.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konverter HTML e-poster til tekstmeldinger.',
         'Create New process ticket.' => 'Opprett ny prosesssak.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Lag maler for AdminDynamicFieldTitle.',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.576475849731664;
+    $Self->{Completeness}        = 0.576304023845007;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1993,7 +1993,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'The signature for email answers.' => 'Tandatangan untuk penjawab email',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -4382,6 +4382,7 @@ bin/otobo.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Tidak ada paket!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Tidak ada file seperti %s dalam paket',
         'No such file %s in local file system!' => 'Tidak ada jenis file %s di dalam file sistem lokal!',
         'Can\'t read %s!' => 'Tidak bisa dibaca %s!',
@@ -7253,6 +7254,8 @@ Helpdesk Team Anda
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrol jika bendera tiket dan artikel dilihat dikeluarkan ketika tiket diarsipkan.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Mengkonversi mail HTML dalam pesan teks.',
         'Create New process ticket.' => 'Membuat tiket proses Baru.',
         'Create Templates for AdminDynamicFieldTitle.' => '',

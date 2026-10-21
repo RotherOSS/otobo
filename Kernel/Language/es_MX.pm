@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.915623136553369;
+    $Self->{Completeness}        = 0.915350223546945;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1992,7 +1992,7 @@ sub Data {
         'The signature for email answers.' => 'Firma para respuestas por correo.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Esta cola se utiliza en los siguientes ajustes de configuración:',
 
@@ -4380,6 +4380,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => '¡No existe el paquete!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => '¡No existe el archivo %s en el paquete!',
         'No such file %s in local file system!' => '¡No existe el archivo %s en el sistema de archivos local!',
         'Can\'t read %s!' => '¡No se puede leer %s!',
@@ -7251,6 +7252,8 @@ Su equipo de asistencia técnica
             'Controla si el campo de autocompletar se utilizará para la selección del ID del cliente en la interfaz AdminCustomerUser.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Controla si los indicadores de ticket y artículo visto se eliminan cuando se archiva un ticket.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Convierte correos HTML en mensajes de texto.',
         'Create New process ticket.' => 'Crear un nuevo proceso de ticket.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Crear plantillas para AdminDynamicFieldTitle.',

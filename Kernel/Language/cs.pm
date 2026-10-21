@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.243887895050686;
+    $Self->{Completeness}        = 0.24381520119225;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1999,7 +1999,7 @@ sub Data {
         'The signature for email answers.' => 'Podpis pro emailové odpovědi.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -4387,6 +4387,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => '',
+        'The file is not valid!' => '',
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
@@ -7246,6 +7247,8 @@ Thanks for your help!
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
+            '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
             '',
         'Converts HTML mails into text messages.' => '',
         'Create New process ticket.' => '',

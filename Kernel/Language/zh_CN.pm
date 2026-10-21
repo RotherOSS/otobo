@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.908318425760286;
+    $Self->{Completeness}        = 0.908047690014903;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1998,7 +1998,7 @@ sub Data {
         'The signature for email answers.' => '回复邮件中的签名。',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '这个队列已用于以下的系统配置设置：',
 
@@ -4386,6 +4386,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => '没有这个软件包！',
+        'The file is not valid!' => '',
         'No such file %s in package!' => '软件包中没有%s 文件！',
         'No such file %s in local file system!' => '本地文件系统中没有%s 文件！',
         'Can\'t read %s!' => '不能读取%s！',
@@ -7255,6 +7256,8 @@ Thanks for your help!
             '控制自动填充字段是否用于管理客户用户界面中的客户ID选择。',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '控制工单和信件归档后的可见标志是否被移除。',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '将HTML邮件转换为文本信息。',
         'Create New process ticket.' => '创建新的流程工单。',
         'Create Templates for AdminDynamicFieldTitle.' => '为 AdminDynamicFieldTitle 创建模板。',

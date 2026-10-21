@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.819618366129994;
+    $Self->{Completeness}        = 0.819374068554396;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1992,7 +1992,7 @@ sub Data {
         'The signature for email answers.' => '이메일 답변을 위한 서명.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '이 대기열은 다음 구성 설정에서 사용됩니다.',
 
@@ -4380,6 +4380,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => '그런 패키지는 없습니다!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => '패키지에 %s 파일이 없습니다!',
         'No such file %s in local file system!' => '로컬 파일 시스템에 %s 파일이 없습니다!',
         'Can\'t read %s!' => '%s를 읽을 수 없습니다!',
@@ -7251,6 +7252,8 @@ Thanks for your help!
             '자동 완성 필드가 AdminCustomerUser 인터페이스의 고객 ID 선택에 사용되는지 여부를 제어합니다.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '티켓을 보관할 때 티켓 및 집필 플래그가 제거되는지 여부를 제어합니다.',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'HTML 메일을 텍스트 메시지로 변환합니다.',
         'Create New process ticket.' => '새 프로세스 티켓을 만듭니다.',
         'Create Templates for AdminDynamicFieldTitle.' => '',
