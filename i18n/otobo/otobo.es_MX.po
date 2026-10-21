@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2024-05-18 01:16+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <http://weblate.otobo.org/projects/otobo/"
@@ -7106,7 +7106,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14464,6 +14464,12 @@ msgstr "¡Necesita la clave del parámetro para descargar!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "¡No existe el paquete!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "El evento %s no es válido."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22881,6 +22887,16 @@ msgid ""
 msgstr ""
 "Controla si los indicadores de ticket y artículo visto se eliminan cuando se "
 "archiva un ticket."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Controla si el campo de autocompletar se utilizará para la selección del ID "
+"del cliente en la interfaz AdminCustomerUser."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

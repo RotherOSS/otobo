@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
 "Language-Team: Indonesian (https://translate.otobo.org/projects/otobo10/"
@@ -6745,7 +6745,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13851,6 +13851,12 @@ msgstr "Membutuhkan kunci param untuk memuat turun!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Tidak ada paket!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The selected date is not valid."
+msgid "The file is not valid!"
+msgstr "Tanggal yang dipilih tidak valid."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21828,6 +21834,12 @@ msgid ""
 msgstr ""
 "Kontrol jika bendera tiket dan artikel dilihat dikeluarkan ketika tiket "
 "diarsipkan."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Comment for new history entries in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "Komentar untuk entri sejarah baru di antarmuka pelanggan."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

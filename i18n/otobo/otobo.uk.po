@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2024-05-09 15:15+0000\n"
 "Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
 "Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-10/"
@@ -6800,7 +6800,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13918,6 +13918,12 @@ msgstr "Потрібний Ключ щоб завантажити!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Немає такого пакунка!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The selected date is not valid."
+msgid "The file is not valid!"
+msgstr "Вибрана дата нечинна."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21720,6 +21726,10 @@ msgstr ""
 msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
+msgstr ""
+
+#. SysConfig
+msgid "Controls the search limit in the AdminCustomerUser interface."
 msgstr ""
 
 #. SysConfig

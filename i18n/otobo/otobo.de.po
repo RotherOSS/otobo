@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2026-07-21 16:45+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
@@ -7172,8 +7172,12 @@ msgstr ""
 "bedeutet, dass der Standardkalender verwendet wird."
 
 #. Template: AdminQueue
+#, fuzzy
+#| msgid ""
+#| "Is defined in Admin > SystemConfiguration > Core > Time (default "
+#| "calendar) or in calendars 1 through 9."
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 "Ist definiert unter Admin > Systemkonfiguration > Core > Time "
@@ -14593,6 +14597,12 @@ msgstr "Benötige Parameter \"Key\" zum herunterladen!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Kein solches Paket!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "Das Ereignis %s ist nicht gültig."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -23059,6 +23069,16 @@ msgid ""
 msgstr ""
 "Kontrolliert ob die Ticket- und Artikel \"Gesehen\"-Fähnchen entfernt "
 "werden, wenn ein Ticket archiviert wird."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Legt fest, ob das Autovervollständigen-Feld in der Kundennummerauswahl des "
+"AdminCustomerUser-Bereichs genutzt werden soll."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

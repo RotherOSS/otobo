@@ -57,7 +57,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2023-02-15 14:31+0000\n"
 "Last-Translator: Daniel Ferreira Pinto Bezerra da Silva "
 "<xtecnico2@gmail.com>\n"
@@ -7103,7 +7103,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14424,6 +14424,12 @@ msgstr "Necessário parâmetro Chave para o download!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Não existe este pacote!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "O Evento %s não é válido. "
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22749,6 +22755,16 @@ msgid ""
 msgstr ""
 "Controla se o marcador de visualização de chamados e artigos são removidos "
 "quando um chamado é arquivado."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Controla se o preenchimento automático de campo será utilizado durante a "
+"seleção de ID de cliente na interface AdminCustomerUser."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

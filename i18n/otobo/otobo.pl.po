@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2023-07-08 21:28+0000\n"
 "Last-Translator: Miroslaw Lach <m.weblate@lach.waw.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
@@ -6889,7 +6889,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14028,6 +14028,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Nie ma takiego pakietu!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "Zdarzenie %s jest niepoprawne."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21933,6 +21939,12 @@ msgid ""
 msgstr ""
 "Kontroluje czy flagi zgłoszenia i artykułu są usunięte kiedy zgłoszenie jest "
 "zarchiwizowane."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Comment for new history entries in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "Komenntarz dla nowych wspisów historii w interfejsie klienta."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

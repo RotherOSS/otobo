@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2026-03-10 19:00+0000\n"
 "Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
@@ -6848,7 +6848,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14018,6 +14018,12 @@ msgstr "تحتاج إلى مفتاح Param للتنزيل!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "لا يوجد مثل هذه الحزمة!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "الحدث ٪s غير صالح."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22085,6 +22091,16 @@ msgid ""
 "archived."
 msgstr ""
 "التحكم في حالة إزالة علامات التذاكر والمقالة التي تم عرضها عند أرشفة التذكرة."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"التحكم في ما إذا كان سيتم إستخدام حقل الإكمال التلقائي لتحديد معرف العميل في "
+"واجهة AdminCustomerUser."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

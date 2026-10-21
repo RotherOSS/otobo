@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2023-06-08 05:52+0000\n"
 "Last-Translator: Miguel Sanchez Quintero <miguel@ayte.co>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -7010,7 +7010,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14161,6 +14161,12 @@ msgstr "¡Se requiere el Clave de parámetros para descargar!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "¡No existe el paquete!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The selected date is not valid."
+msgid "The file is not valid!"
+msgstr "La fecha seleccionada no es válida."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22286,6 +22292,12 @@ msgid ""
 msgstr ""
 "Controla si se quitan las banderas de las entradas y el artículo visto "
 "cuando un ticket se archiva."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Comment for new history entries in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "Comentario para nueva entrada de historico en la interfaz de usuario."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2025-02-01 20:53+0000\n"
 "Last-Translator: Renato Sequeira <rds.516@gmail.com>\n"
 "Language-Team: Portuguese <http://translate.otobo.org/projects/otobo/"
@@ -6608,7 +6608,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13611,6 +13611,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "Note: Type is invalid!"
+msgid "The file is not valid!"
+msgstr "Nota: Tipo inválido!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21319,6 +21325,13 @@ msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
 msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Allows customers to set the ticket priority in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "Permite aos clientes definir a Prioridade do ticket no interface web"
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Edvard Jelusic <edvard.jelusic@mai.hr>, 2019\n"
 "Language-Team: Croatian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6552,7 +6552,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13566,6 +13566,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The field content is too long!"
+msgid "The file is not valid!"
+msgstr "Sadržaj polja je predugačak!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21255,6 +21261,12 @@ msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
 msgstr ""
+
+#. SysConfig
+#, fuzzy
+#| msgid "Comment for new history entries in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "Komentar za nove povjesne unose u korisničkom sučelju."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

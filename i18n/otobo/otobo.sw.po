@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
 "Language-Team: Swahili (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6694,7 +6694,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13735,6 +13735,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The selected process is invalid!"
+msgid "The file is not valid!"
+msgstr "Mchakato uliochaguliwa ipo batili."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21552,6 +21558,13 @@ msgid ""
 msgstr ""
 "Inadhibiti kama alama zilizoonekana za tiketi na makala zimeondolewa wakati "
 "tiketi zimwekwa kwenye nyaraka."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Comment for new history entries in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Toa maoni kwa ajili ya maingizo ya historia mapya katika kiolesura cha mteja."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

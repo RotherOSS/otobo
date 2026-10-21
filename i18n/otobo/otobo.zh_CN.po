@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
@@ -6646,7 +6646,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13682,6 +13682,12 @@ msgstr "需要参数“密钥”才能下载！"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "没有这个软件包！"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "事件 %s 无效。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21539,6 +21545,14 @@ msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
 msgstr "控制工单和信件归档后的可见标志是否被移除。"
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "控制自动填充字段是否用于管理客户用户界面中的客户ID选择。"
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

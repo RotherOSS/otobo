@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2023-08-11 20:42+0000\n"
 "Last-Translator: Иван Юрьевич Пигасов <itd@avsst.ru>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -7027,7 +7027,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14231,6 +14231,12 @@ msgstr "Требуются параметры Ключа для скачиван
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Такой пакет не существует!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "Setting value is not valid!"
+msgid "The file is not valid!"
+msgstr "Значение параметра недействительно!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22385,6 +22391,16 @@ msgid ""
 msgstr ""
 "Управляет удалением флагов просмотра заявок и сообщений при архивирвании "
 "заявки."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Включает автозавершение при выборе customer ID в окне управления клиентами "
+"AdminCustomerUser интерфейса агента."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

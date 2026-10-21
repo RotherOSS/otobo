@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Isabell Long <isabell@issyl0.co.uk>, 2019\n"
 "Language-Team: English (United Kingdom) (https://translate.otobo.org/"
@@ -6720,7 +6720,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13804,6 +13804,12 @@ msgstr "Need param Key to download!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "No such package!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The selected date is not valid."
+msgid "The file is not valid!"
+msgstr "The selected date is not valid."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21703,6 +21709,12 @@ msgid ""
 msgstr ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Comment for new history entries in the customer interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr "Comment for new history entries in the customer interface."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

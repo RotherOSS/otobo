@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2020-01-25 16:27+0000\n"
 "Last-Translator: Dusan Vuckovic <dusan.vuckovic@otrs.com>\n"
 "Language-Team: Serbian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6894,7 +6894,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -14074,6 +14074,12 @@ msgstr "Неопходан параметар Key за преузимање!"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr "Нема таквог пакета!"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "The event %s is not valid."
+msgid "The file is not valid!"
+msgstr "Догађај %s није важећи."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22213,6 +22219,16 @@ msgid ""
 msgstr ""
 "Контролише да ли су заставицом обележени тикет и чланак уклоњени када је "
 "тикет архивиран."
+
+#. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Controls if the autocomplete field will be used for the customer ID "
+#| "selection in the AdminCustomerUser interface."
+msgid "Controls the search limit in the AdminCustomerUser interface."
+msgstr ""
+"Контролише да ли ће бити приказано поље за аутоматско допуњавање ID клијента "
+"у интерфејсу AdminCustomerUser."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."

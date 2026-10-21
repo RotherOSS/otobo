@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-08-31 12:13+0000\n"
+"POT-Creation-Date: 2026-10-21 13:49+0000\n"
 "PO-Revision-Date: 2022-12-31 11:47+0000\n"
 "Last-Translator: Markus Hynnä <markus.hynna@mynamaki.fi>\n"
 "Language-Team: Finnish <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -6508,7 +6508,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid ""
-"Is defined in Admin > SystemConfiguration > Core > Time (default calendar) "
+"Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
 msgstr ""
 
@@ -13475,6 +13475,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
+#| msgid "Fields configuration is not valid"
+msgid "The file is not valid!"
+msgstr "Kenttien konfiguraatio on virheellinen"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21136,6 +21142,10 @@ msgstr ""
 msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
+msgstr ""
+
+#. SysConfig
+msgid "Controls the search limit in the AdminCustomerUser interface."
 msgstr ""
 
 #. SysConfig
