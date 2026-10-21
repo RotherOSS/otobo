@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-10-21 13:49+0000\n"
-"PO-Revision-Date: 2026-10-14 19:41+0000\n"
+"PO-Revision-Date: 2026-10-22 17:41+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-0/"
 "otobo/hu/>\n"
@@ -7098,10 +7098,6 @@ msgstr ""
 "semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "Is defined in Admin > SystemConfiguration > Core > Time (default "
-#| "calendar) or in calendars 1 through 9."
 msgid ""
 "Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
@@ -14501,10 +14497,8 @@ msgid "No such package!"
 msgstr "Nincs ilyen csomag!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-#, fuzzy
-#| msgid "The event %s is not valid."
 msgid "The file is not valid!"
-msgstr "A(z) %s esemény nem érvényes."
+msgstr "A fájl nem érvényes!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -22928,15 +22922,10 @@ msgstr ""
 "távolítva a jegy archiválásakor."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Controls if the autocomplete field will be used for the customer ID "
-#| "selection in the AdminCustomerUser interface."
 msgid "Controls the search limit in the AdminCustomerUser interface."
 msgstr ""
-"Azt szabályozza, hogy az automatikus kiegészítés mező legyen-e használva az "
-"ügyfél-azonosító kijelöléséhez az adminisztrátori ügyfél-felhasználó "
-"felületen."
+"Az adminisztrátori ügyfél-felhasználói felületen lévő keresési korlátot "
+"szabályozza."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -23398,7 +23387,7 @@ msgid ""
 msgstr ""
 "Műveletek meghatározása, ahol egy beállítások gomb érhető el a kapcsolt "
 "objektumok felületi elemen (LinkObject::ViewMode = „összetett”). Ne feledje, "
-"hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS fájlok "
+"hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS-fájlok "
 "regisztrálásával: Core.AllocationList.css, Core.UI.AllocationList.js, "
 "Core.UI.Table.Sort.js, Core.Agent.TableFilters.js."
 
@@ -28817,7 +28806,7 @@ msgstr ""
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all CSS files in minified form."
 msgstr ""
-"Ha engedélyezve van, akkor az OTOBO minden CSS fájlt minimalizált formában "
+"Ha engedélyezve van, akkor az OTOBO minden CSS-fájlt minimalizált formában "
 "fog szállítani."
 
 #. SysConfig
@@ -29299,7 +29288,7 @@ msgstr ""
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
-msgstr "CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél."
+msgstr "CSS-fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
@@ -29390,14 +29379,14 @@ msgstr ""
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
 msgstr ""
-"Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői "
+"Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői "
 "felületnél."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
 msgstr ""
-"Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az "
+"Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az "
 "ügyfélfelületnél."
 
 #. SysConfig
