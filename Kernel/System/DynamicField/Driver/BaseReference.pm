@@ -1211,8 +1211,9 @@ sub PossibleValuesGet {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # fill the object with all possible canonical attributes
+    # make a shallow copy of the object and fill in every possible canonical attribute
     if ( IsHashRefWithData( $Param{Object} ) ) {
+        $Param{Object} = { $Param{Object}->%* };
         $Self->_EditMaskObjectComplete(
             Object => $Param{Object},
         );
@@ -1299,7 +1300,7 @@ sub GetFieldState {
         CustomerUserID => $Param{CustomerUser} || $Param{GetParam}{CustomerUserID},
     );
 
-    # fill the object with all possible canonical attributes
+    # fill in every possible canonical attribute
     $Self->_EditMaskObjectComplete(
         Object => \%Object,
     );
