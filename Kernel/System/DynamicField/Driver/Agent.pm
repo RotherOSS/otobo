@@ -395,6 +395,10 @@ sub SearchObjects {
     return @Result;
 }
 
+=head1 internal methods
+
+Methods that are used only internally.
+
 =head2 _GetHTTPLink()
 
 Returns a HTTP link to the agent edit mask, if permission is given.
