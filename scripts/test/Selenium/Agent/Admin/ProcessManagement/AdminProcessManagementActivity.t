@@ -54,10 +54,13 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        my $ProcessRandom         = 'Process' . $Helper->GetRandomID();
-        my $ActivityRandom        = 'Activity' . $Helper->GetRandomID();
-        my $ActivityDialogRandom  = 'ActivityDialog' . $Helper->GetRandomID();
-        my $ActivityDialogRandom2 = $ActivityDialogRandom . '2';
+        # create unique names in order to avoid conflicts with previous runs
+        my $RandomID = $Helper->GetRandomID;
+        note "RandomID: $RandomID";
+        my $ProcessRandom         = 'Process' . $RandomID;
+        my $ActivityRandom        = 'Activity' . $RandomID;
+        my $ActivityDialogRandom  = 'ActivityDialog' . $RandomID;
+        my $ActivityDialogRandom2 = $ActivityDialogRandom . '_2';
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
