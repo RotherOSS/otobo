@@ -104,7 +104,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-size: 12px;
 }
 
-.FieldContainer + .FieldSetSeparator {
+.FieldContainer + .FieldSetSeparator,
+.SetDynamicField + .FieldSetSeparator {
     padding-top: 10px;
 }
 
