@@ -391,12 +391,10 @@ sub _AddAction {
         );
     }
 
-    if ( $GetParam{UpdateEvents}->@* ) {
-        $Param{DriverObject}->SetUpdateEvents(
-            FieldID => $FieldID,
-            Events  => $GetParam{UpdateEvents},
-        );
-    }
+    $Param{DriverObject}->SetUpdateEvents(
+        FieldID => $FieldID,
+        Events  => $GetParam{UpdateEvents},
+    );
 
     my $RedirectString = "Action=AdminDynamicField";
 
@@ -728,12 +726,10 @@ sub _ChangeAction {
         );
     }
 
-    if ( $GetParam{UpdateEvents}->@* ) {
-        $Param{DriverObject}->SetUpdateEvents(
-            FieldID => $FieldID,
-            Events  => $GetParam{UpdateEvents},
-        );
-    }
+    $Param{DriverObject}->SetUpdateEvents(
+        FieldID => $FieldID,
+        Events  => $GetParam{UpdateEvents},
+    );
 
     if (
         @IsDynamicFieldInSysConfig

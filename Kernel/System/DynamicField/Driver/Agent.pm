@@ -395,6 +395,71 @@ sub SearchObjects {
     return @Result;
 }
 
+=head2 ImportExportPrepareConfig()
+
+This sub performs translation between Name and ID for attributes which are stored with ID in the field config. For export, the Name is needed because IDs of objects may differ between systems. During import, the Name needs to be translated back into the ID for the field to work properly.
+
+    my @ObjectIDs = $BackendObject->ImportExportPrepareConfig(
+        DynamicFieldConfig => $DynamicFieldConfig,  # required
+        Direction          => 'Import',             # required; Import or Export
+    );
+
+=cut
+
+sub ImportExportPrepareConfig {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig Direction)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    my %Return;
+    my %AttributeLookup = (
+        Group => {
+            Import => sub { return $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => pop @_ ) },
+            Export => sub { return $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group   => pop @_ ) },
+        },
+    );
+
+    ATTRIBUTENAME:
+    for my $AttributeName ( keys %AttributeLookup ) {
+        next ATTRIBUTENAME unless $Param{DynamicFieldConfig}{Config}{$AttributeName};
+
+        my @TransformedConfigValue;
+        for my $ConfigSettingValue ( $Param{DynamicFieldConfig}{Config}{$AttributeName}->@* ) {
+            my $TransformedValue = $AttributeLookup{$AttributeName}{ $Param{Direction} }->($ConfigSettingValue);
+
+            if ($TransformedValue) {
+                push @TransformedConfigValue, $TransformedValue;
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'notice',
+                    Message  =>
+                        "Dynamic field $Param{DynamicFieldConfig}{Name} $Param{Direction}: No matching $AttributeName for $ConfigSettingValue could be found on the system.",
+                );
+
+                push @TransformedConfigValue, $ConfigSettingValue;
+            }
+        }
+        $Return{$AttributeName} = \@TransformedConfigValue;
+    }
+
+    return %Return;
+}
+
+=head1 internal methods
+
+Methods that are used only internally.
+
 =head2 _GetHTTPLink()
 
 Returns a HTTP link to the agent edit mask, if permission is given.

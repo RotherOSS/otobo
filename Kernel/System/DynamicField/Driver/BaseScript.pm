@@ -1020,9 +1020,9 @@ sub SetUpdateEvents {
         Bind => [ \$Param{FieldID} ],
     );
 
-    return 1 if !$Param{Events};
+    return unless $Param{Events} && IsArrayRefWithData( $Param{Events} );
 
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL  => 'INSERT INTO dynamic_field_script_event( field_id, event ) VALUES ' . join( ', ', map {'( ?, ? )'} $Param{Events}->@* ),
         Bind => [ map { \$Param{FieldID} => \$_ } $Param{Events}->@* ],    # use '=>' in map action, because Perl::Critic was confused
     );
