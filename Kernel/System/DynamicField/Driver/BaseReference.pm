@@ -526,12 +526,6 @@ sub EditFieldValueValidate {
             Key          => 'PossibleValues_DynamicField_' . $DFName,
         );
 
-        # if no LastSearchResult is present, use rendered value
-        $LastSearchResults //= $Kernel::OM->Get('Kernel::System::Web::FormCache')->GetFormData(
-            LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-            Key          => 'PossibleValues_DynamicField_' . $DFName,
-        );
-
         if ( $DynamicFieldConfig->{Config}{PossibleNone} ) {
             push $LastSearchResults->@*, '';
         }
