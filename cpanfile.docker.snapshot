@@ -652,13 +652,13 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Hash 0
       perl 5.006
-  DBI-1.655
-    pathname: H/HM/HMBRAND/DBI-1.655.tgz
+  DBI-1.656
+    pathname: H/HM/HMBRAND/DBI-1.656.tgz
     provides:
       Bundle::DBI 12.008696
-      DBD::DBM 0.08
+      DBD::DBM 1.656
       DBD::ExampleP 12.014311
-      DBD::File 0.45
+      DBD::File 1.656
       DBD::Gofer 0.015327
       DBD::Gofer::Policy::Base 0.010088
       DBD::Gofer::Policy::classic 0.010088
@@ -673,14 +673,14 @@ DISTRIBUTIONS
       DBD::NullP 12.014715
       DBD::Proxy 0.2004
       DBD::Sponge 12.010003
-      DBI 1.655
+      DBI 1.656
       DBI::Const::GetInfo::ANSI 2.008697
       DBI::Const::GetInfo::ODBC 2.011374
       DBI::Const::GetInfoReturn 2.008697
       DBI::Const::GetInfoType 2.008697
       DBI::DBD 12.015129
       DBI::DBD::Metadata 2.014214
-      DBI::DBD::SqlEngine 0.06
+      DBI::DBD::SqlEngine 1.656
       DBI::Gofer::Execute 0.014283
       DBI::Gofer::Request 0.012537
       DBI::Gofer::Response 0.011566
@@ -2408,7 +2408,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2572,8 +2571,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.49
-    pathname: S/SR/SRI/Mojolicious-9.49.tar.gz
+  Mojolicious-9.51
+    pathname: S/SR/SRI/Mojolicious-9.51.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2643,7 +2642,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.49
+      Mojolicious 9.51
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -3889,10 +3888,10 @@ DISTRIBUTIONS
       Test::Harness 0
       Test::More 0.92
       perl 5.006001
-  Text-CSV_XS-1.64
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.64.tgz
+  Text-CSV_XS-1.65
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.65.tgz
     provides:
-      Text::CSV_XS 1.64
+      Text::CSV_XS 1.65
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
@@ -4047,66 +4046,66 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  URI-5.37
-    pathname: O/OA/OALDERS/URI-5.37.tar.gz
+  URI-5.40
+    pathname: O/OA/OALDERS/URI-5.40.tar.gz
     provides:
-      URI 5.37
-      URI::Escape 5.37
-      URI::Heuristic 5.37
-      URI::IRI 5.37
-      URI::QueryParam 5.37
-      URI::Split 5.37
-      URI::URL 5.37
-      URI::WithBase 5.37
-      URI::data 5.37
-      URI::file 5.37
-      URI::file::Base 5.37
-      URI::file::FAT 5.37
-      URI::file::Mac 5.37
-      URI::file::OS2 5.37
-      URI::file::QNX 5.37
-      URI::file::Unix 5.37
-      URI::file::Win32 5.37
-      URI::ftp 5.37
-      URI::ftpes 5.37
-      URI::ftps 5.37
-      URI::geo 5.37
-      URI::gopher 5.37
-      URI::http 5.37
-      URI::https 5.37
-      URI::icap 5.37
-      URI::icaps 5.37
-      URI::irc 5.37
-      URI::ircs 5.37
-      URI::ldap 5.37
-      URI::ldapi 5.37
-      URI::ldaps 5.37
-      URI::mailto 5.37
-      URI::mms 5.37
-      URI::news 5.37
-      URI::nntp 5.37
-      URI::nntps 5.37
-      URI::otpauth 5.37
-      URI::pop 5.37
-      URI::rlogin 5.37
-      URI::rsync 5.37
-      URI::rtsp 5.37
-      URI::rtspu 5.37
-      URI::scp 5.37
-      URI::sftp 5.37
-      URI::sip 5.37
-      URI::sips 5.37
-      URI::smb 5.37
-      URI::smtp 5.37
-      URI::snews 5.37
-      URI::ssh 5.37
-      URI::telnet 5.37
-      URI::tn3270 5.37
-      URI::urn 5.37
-      URI::urn::isbn 5.37
-      URI::urn::oid 5.37
-      URI::ws 5.37
-      URI::wss 5.37
+      URI 5.40
+      URI::Escape 5.40
+      URI::Heuristic 5.40
+      URI::IRI 5.40
+      URI::QueryParam 5.40
+      URI::Split 5.40
+      URI::URL 5.40
+      URI::WithBase 5.40
+      URI::data 5.40
+      URI::file 5.40
+      URI::file::Base 5.40
+      URI::file::FAT 5.40
+      URI::file::Mac 5.40
+      URI::file::OS2 5.40
+      URI::file::QNX 5.40
+      URI::file::Unix 5.40
+      URI::file::Win32 5.40
+      URI::ftp 5.40
+      URI::ftpes 5.40
+      URI::ftps 5.40
+      URI::geo 5.40
+      URI::gopher 5.40
+      URI::http 5.40
+      URI::https 5.40
+      URI::icap 5.40
+      URI::icaps 5.40
+      URI::irc 5.40
+      URI::ircs 5.40
+      URI::ldap 5.40
+      URI::ldapi 5.40
+      URI::ldaps 5.40
+      URI::mailto 5.40
+      URI::mms 5.40
+      URI::news 5.40
+      URI::nntp 5.40
+      URI::nntps 5.40
+      URI::otpauth 5.40
+      URI::pop 5.40
+      URI::rlogin 5.40
+      URI::rsync 5.40
+      URI::rtsp 5.40
+      URI::rtspu 5.40
+      URI::scp 5.40
+      URI::sftp 5.40
+      URI::sip 5.40
+      URI::sips 5.40
+      URI::smb 5.40
+      URI::smtp 5.40
+      URI::snews 5.40
+      URI::ssh 5.40
+      URI::telnet 5.40
+      URI::tn3270 5.40
+      URI::urn 5.40
+      URI::urn::isbn 5.40
+      URI::urn::oid 5.40
+      URI::ws 5.40
+      URI::wss 5.40
     requirements:
       Carp 0
       Cwd 0
@@ -4530,7 +4529,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
