@@ -217,24 +217,48 @@ $Selenium->RunTest(
             "ProcessEntityID2 stored in db column",
         );
 
+# Example HTML:
+# <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
+#     <li data-id="3" data-name="ActivityDialogtest2830007259100000" data-namespace="" data-dialogprocess="" title="Name: ActivityDialogtest2830007259100000, EntityID: ActivityDialog-3cbce3415b0c8d9495ecfa93b7ebc3f8" class="">
+#         ActivityDialogtest2830007259100000
+#         <span class="Functions">
+#             <span title="Global"><i class="Global fa fa-globe"></i></span>
+#             <span class="AvailableIn">A</span>
+#             <a href="#" data-entity="ActivityDialog-3cbce3415b0c8d9495ecfa93b7ebc3f8" data-id="3" data-process="Process-49a6df9a1c02e7b88ffba5393c76bc6b" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="Edit">
+#                 <i class="fa fa-edit"></i>
+#             </a>
+#         </span>
+#     </li>
+
         # Check for created test ActivityDialogs in AvailableActivityDialogs list.
+        # Check for the attribute data-name as this is more exact. Note that
+        # $ActivityDialogRandom is a substring of $ActivityDialogRandom2.
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('ul#AvailableActivityDialogs li:contains($ActivityDialogRandom)').length"
+                qq{return typeof(\$) === 'function' && \$('ul#AvailableActivityDialogs li[data-name="$ActivityDialogRandom"]').length},
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('ul#AvailableActivityDialogs li:contains($ActivityDialogRandom2)').length"
+                qq{return typeof(\$) === 'function' && \$('ul#AvailableActivityDialogs li[data-name="$ActivityDialogRandom2"]').length}
         );
 
-        # Only the global ActivityDialog should be displayed
-        $Self->True(
-            $Selenium->find_element("//li[contains(., '$ActivityDialogRandom (global)')]")->is_displayed(),
-            "$ActivityDialogRandom ActivityDialog found on page",
+        # Only the global ActivityDialog should be displayed, even though both are present in the DOM
+        ok(
+            $Selenium->find_element( qq{ul#AvailableActivityDialogs li[data-name="$ActivityDialogRandom"]}, 'css' ),
+            "$ActivityDialogRandom ActivityDialog exists in DOM",
         );
-        $Self->False(
-            $Selenium->find_element("//li[contains(., '$ActivityDialogRandom2')]")->is_displayed(),
-            "$ActivityDialogRandom2 ActivityDialog not found on page",
+        ok(
+            $Selenium->find_element( qq{ul#AvailableActivityDialogs li[data-name="$ActivityDialogRandom"]}, 'css' )->is_displayed(),
+            "$ActivityDialogRandom ActivityDialog displayed on page",
+        );
+
+        ok(
+            $Selenium->find_element( qq{ul#AvailableActivityDialogs li[data-name="$ActivityDialogRandom2"]}, 'css' ),
+            "$ActivityDialogRandom2 ActivityDialog exists in DOM",
+        );
+        ok(
+            !$Selenium->find_element( qq{ul#AvailableActivityDialogs li[data-name="$ActivityDialogRandom2"]}, 'css' )->is_displayed(),
+            "$ActivityDialogRandom2 ActivityDialog not displayed on page",
         );
 
         # Toggling global selection displays non-global ActivityDialog
