@@ -1867,9 +1867,17 @@ Core.UI.InputFields = (function (TargetNS) {
                             ListContainerMargin
                         )
                     );
-                    $TreeContainerObj.css('min-width', ( $SearchObj.width()
-                        + Config.InputFieldPadding * 2 ) / 3
-                    );
+                    let TreeContainerMinWidth;
+                    if (Config.CustomerInterface === true) {
+                        TreeContainerMinWidth = Math.min( 
+                            250, 
+                            $SearchObj.width()- Config.InputFieldPadding * 2
+                        );
+                    } else {
+                        TreeContainerMinWidth = ( $SearchObj.width()
+                        + Config.InputFieldPadding * 2 ) / 3;
+                    }
+                    $TreeContainerObj.css('min-width', TreeContainerMinWidth);
 
                     // Deduce ID of original field
                     TreeID = $SelectObj.attr('id');
