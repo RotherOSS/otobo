@@ -366,29 +366,7 @@ sub SearchObjects {
     }
 
     # prepare mapping of edit mask attribute names
-    my %AttributeNameMapping = (
-        CustomerUserID => [
-            'SelectedCustomerUser',
-        ],
-        ResponsibleID => [
-            'NewResponsibleID',
-        ],
-        OwnerID => [
-            'NewOwnerID',
-            'NewUserID',
-        ],
-        QueueID => [
-            'Dest',
-            'NewQueueID',
-        ],
-        StateID => [
-            'NewStateID',
-            'NextStateID',
-        ],
-        PriorityID => [
-            'NewPriorityID',
-        ],
-    );
+    my %AttributeNameMapping = $Self->_EditMaskAttributeMapping();
 
     # incorporate referencefilterlist into search params
     if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
