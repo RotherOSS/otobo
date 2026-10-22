@@ -14,12 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.26;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -202,10 +208,10 @@ $Selenium->RunTest(
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $ActivityDialogProcessEntityID2 = $Row[0];
         }
-        $Self->Is(
+        is(
             $ActivityDialogProcessEntityID2,
             $ProcessEntityID,
-            "ProcessEntityID stored in db column",
+            "ProcessEntityID2 stored in db column",
         );
 
         # Check for created test ActivityDialogs in AvailableActivityDialogs list.
@@ -415,4 +421,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
