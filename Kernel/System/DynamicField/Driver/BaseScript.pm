@@ -1097,7 +1097,8 @@ sub GetFieldState {
     for my $Required ( @{ $DynamicFieldConfig->{Config}{RequiredArgs} // [] } ) {
         my $Value = $GetParam{DynamicField}{$Required} // $GetParam{$Required};
 
-        return () if !$Value || ( ref $Value && !IsArrayRefWithData($Value) );
+        return () if ( !ref $Value && ( !defined $Value || !length $Value ) );
+        return () if ( ref $Value  && !IsArrayRefWithData($Value) );
     }
 
     my %ChangedElements = map { $Self->{Uniformity}{$_} // $_ => 1 } keys $Param{ChangedElements}->%*;
