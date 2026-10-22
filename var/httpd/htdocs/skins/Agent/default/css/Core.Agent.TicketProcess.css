@@ -99,8 +99,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .FieldSetSeparator {
-    float: none;
-    clear: both;
     border-bottom: 1px solid #ccc;
     padding-bottom: 7px;
     font-size: 12px;
