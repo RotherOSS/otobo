@@ -344,6 +344,7 @@
                 <Item Key="BGDark">#bfbfce</Item>
                 <Item Key="TextDark">#00023c</Item>
                 <Item Key="TextLight">#7f809d</Item>
+                <Item Key="TextLink">#001bff</Item>
                 <Item Key="Highlight">#fef235</Item>
                 <Item Key="NotifyOK">#c4cdfa</Item>
                 <Item Key="NotifyWarn">#fffccc</Item>
