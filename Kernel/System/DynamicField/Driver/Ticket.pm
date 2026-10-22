@@ -694,6 +694,12 @@ sub ImportExportPrepareConfig {
                 push @TransformedConfigValue, $TransformedValue;
             }
             else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'notice',
+                    Message  =>
+                        "Dynamic field $Param{DynamicFieldConfig}{Name} $Param{Direction}: No matching $AttributeName for $ConfigSettingValue could be found on the system.",
+                );
+
                 push @TransformedConfigValue, $ConfigSettingValue;
             }
         }
