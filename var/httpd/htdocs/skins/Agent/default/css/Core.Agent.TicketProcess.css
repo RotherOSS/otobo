@@ -92,12 +92,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding: 10px;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldSetSeparator {
-    grid-column: 1 / -1;
-}
-
 .WidgetSimple > .Content.ProcessInfo fieldset > .FieldSetSeparator,
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div > .FieldSetSeparator {
+    grid-column: 1 / -1;
     margin-bottom: 0px;
 }
 
