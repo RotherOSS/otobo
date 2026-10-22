@@ -26,7 +26,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseEntity);
 
 # core modules
-use List::Util qw(none);
+use List::Util qw(any none);
 
 # CPAN modules
 
@@ -1244,7 +1244,33 @@ sub GetFieldState {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
-    return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+
+    # ticket masks flag changed elements by their mask-specific field name (e.g. Dest, NewQueueID),
+    # resolve them to their canonical names to match the filter configs; see Issue #4729 and #6271
+    my %AttributeMapping = $Self->_EditMaskAttributeMapping();
+    my %AttributeLookups = $Self->_EditMaskAttributeLookups();
+
+    my %ChangedElements = ( $Param{ChangedElements} // {} )->%*;
+
+    # respect field names that are directly equivalent to canonical names
+    for my $Attribute ( keys %AttributeMapping ) {
+        if ( any { $ChangedElements{$_} } $AttributeMapping{$Attribute}->@* ) {
+
+            # flag the attribute to prevent early exits
+            $ChangedElements{$Attribute} = 1;
+        }
+    }
+
+    # respect field names that can be used to lookup a different canonical name
+    for my $SourceAttribute ( keys %AttributeLookups ) {
+        if ( $ChangedElements{$SourceAttribute} ) {
+
+            # flag the attribute to prevent early exits
+            $ChangedElements{ $AttributeLookups{$SourceAttribute} } = 1;
+        }
+    }
+
+    return () if none { $ChangedElements{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
@@ -1518,6 +1544,46 @@ sub _GetEntityIDForLinking {
 
     # otherwise ID stays as is
     return $ID;
+}
+
+sub _EditMaskAttributeMapping {
+    my ( $Self, %Param ) = @_;
+
+    return (
+        CustomerUserID => [
+            'SelectedCustomerUser',
+        ],
+        ResponsibleID => [
+            'NewResponsibleID',
+        ],
+        OwnerID => [
+            'NewOwnerID',
+            'NewUserID',
+        ],
+        QueueID => [
+            'Dest',
+            'NewQueueID',
+        ],
+        StateID => [
+            'NewStateID',
+            'NextStateID',
+        ],
+        PriorityID => [
+            'NewPriorityID',
+        ],
+    );
+}
+
+sub _EditMaskAttributeLookups {
+    my ( $Self, %Param ) = @_;
+
+    return (
+        QueueID        => 'Queue',
+        OwnerID        => 'Owner',
+        StateID        => 'State',
+        PriorityID     => 'Priority',
+        CustomerUserID => 'CustomerID',
+    );
 }
 
 1;
