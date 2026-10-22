@@ -1,9 +1,10 @@
 package Sisimai::Reason::MailboxFull;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
 
-sub text  { 'mailboxfull' }
+sub text  { $Sisimai::Eb::ReFULL }
 sub description { "Email rejected due to a recipient's mailbox is full" }
 sub match {
     # Try to match that the given text and regular expressions
@@ -12,79 +13,58 @@ sub match {
     #                           1: Matched
     # @since v4.0.0
     my $class = shift;
-    my $argv1 = shift // return undef;
-    my $index = [
-        'account disabled temporarly for exceeding receiving limits',
-        'account is exceeding their quota',
-        'account is over quota',
-        'account is temporarily over quota',
-        'boite du destinataire pleine',
-        'delivery failed: over quota',
-        'disc quota exceeded',
-        'does not have enough space',
-        'exceeded storage allocation',
-        'exceeding its mailbox quota',
-        'full mailbox',
-        'is over disk quota',
-        'is over quota temporarily',
-        'mail file size exceeds the maximum size allowed for mail delivery',
-        'mail quota exceeded',
-        'mailbox exceeded the local limit',
-        'mailbox full',
-        'mailbox has exceeded its disk space limit',
-        'mailbox is full',
-        'mailbox over quota',
-        'mailbox quota usage exceeded',
-        'mailbox size limit exceeded',
-        'maildir over quota',
-        'maildir delivery failed: userdisk quota ',
-        'maildir delivery failed: domaindisk quota ',
-        'mailfolder is full',
-        'not enough storage space in',
-        'over the allowed quota',
-        'quota exceeded',
-        'quota violation for',
-        'recipient reached disk quota',
-        'recipient rejected: mailbox would exceed maximum allowed storage',
-        'the recipient mailbox has exceeded its disk space limit',
-        "the user's space has been used up",
-        'the user you are trying to reach is over quota',
-        'too much mail data',   # @docomo.ne.jp
-        'user has exceeded quota, bouncing mail',
-        'user has too many messages on the server',
-        'user is over quota',
-        'user is over the quota',
-        'user over quota',
-        'user over quota. (#5.1.1)',    # qmail-toaster
-        'was automatically rejected: quota exceeded',
-        'would be over the allowed quota',
-    ];
+    my $argv1 = shift // return 0;
 
+    state $index = [
+        "452 insufficient disk space",
+        "account disabled temporarly for exceeding receiving limits",
+        "boite du destinataire pleine",
+        "exceeded storage allocation",
+        "full mailbox",
+        "mailbox exceeds allowed size",
+        "mailbox size limit exceeded",
+        "mailbox would exceed maximum allowed storage",
+        "mailfolder is full",
+        "no space left on device",
+        "not sufficient disk space",
+        "quota violation for",
+        "too much mail data", # @docomo.ne.jp
+        "user has exceeded quota, bouncing mail",
+        "user has too many messages on the server",
+        "user's space has been used up",
+    ];
+    state $pairs = [
+        ["account is ", " quota"],
+        ["disk", "quota"],
+        ["enough ", " space"],
+        ["mailbox ", "exceeded", " limit"],
+        ["mailbox ", "full"],   # Exim/transports/appendfile.c:2567
+        ["mailbox ", "quota"],
+        ["maildir ", "quota"],
+        ["over ", "quota"],
+        ["quota ", "exceeded"], # Exim/transports/appendfile.c:3050
+    ];
     return 1 if grep { rindex($argv1, $_) > -1 } @$index;
+    return 1 if grep { Sisimai::String->aligned(\$argv1, $_) } @$pairs;
     return 0;
 }
 
 sub true {
     # The envelope recipient's mailbox is full or not
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: is mailbox full
     #                                   0: is not mailbox full
     # @since v4.0.0
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return 0; return 0 unless $argvs->{'deliverystatus'};
 
-    return undef unless $argvs->deliverystatus;
-    return 1 if $argvs->reason eq 'mailboxfull';
-
-    # Delivery status code points "mailboxfull".
+    # Delivery status code points "MailboxFull".
     # Status: 4.2.2
     # Diagnostic-Code: SMTP; 450 4.2.2 <***@example.jp>... Mailbox Full
-    return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'mailboxfull';
-
-    # Check the value of Diagnosic-Code: header with patterns
-    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
-    return 0;
+    return 1 if $argvs->{'reason'} eq $Sisimai::Eb::ReFULL;
+    return 1 if (Sisimai::SMTP::Status->name($argvs->{'deliverystatus'}) || '') eq $Sisimai::Eb::ReFULL;
+    return __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
 }
 
 1;
@@ -94,7 +74,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Reason::MailboxFull - Bounce reason is C<mailboxfull> or not.
+Sisimai::Reason::MailboxFull - Bounce reason is C<MailboxFull> or not.
 
 =head1 SYNOPSIS
 
@@ -103,12 +83,11 @@ Sisimai::Reason::MailboxFull - Bounce reason is C<mailboxfull> or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::MailboxFull checks the bounce reason is C<mailboxfull> or not.
-This class is called only Sisimai::Reason class.
+C<Sisimai::Reason::MailboxFull> checks the bounce reason is C<MailboxFull> or not. This class is
+called only C<Sisimai::Reason> class.
 
-This is the error that a recipient's mailbox is full. Sisimai will set 
-C<mailboxfull> to the reason of email bounce if the value of Status: field in a
-bounce email is C<4.2.2> or C<5.2.2>.
+This is the error that the recipient's mailbox is full. Sisimai will set C<MailboxFull> to the reason
+of the email bounce if the value of C<Status:> field in a bounce email is C<4.2.2> or C<5.2.2>.
 
     Action: failed
     Status: 5.2.2
@@ -118,20 +97,20 @@ bounce email is C<4.2.2> or C<5.2.2>.
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<mailboxfull>.
+C<text()> method returns the fixed string C<MailboxFull>.
 
-    print Sisimai::Reason::MailboxFull->text;  # mailboxfull
+    print Sisimai::Reason::MailboxFull->text;  # MailboxFull
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> returns 1 if the argument matched with patterns defined in this class.
+C<match()> method returns C<1> if the argument matched with patterns defined in this class.
 
     print Sisimai::Reason::MailboxFull->match('400 4.2.3 Mailbox full');   # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<mailboxfull>. The argument must be
-Sisimai::Data object and this method is called only from Sisimai::Reason class.
+C<true()> method returns C<1> if the bounce reason is C<MailboxFull>. The argument must be C<Sisimai::Fact>
+object and this method is called only from C<Sisimai::Reason> class.
 
 =head1 AUTHOR
 
@@ -139,7 +118,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018,2020,2021,2024-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

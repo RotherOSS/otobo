@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.86707683502647;
+    $Self->{Completeness}        = 0.86452533904354;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2185,7 +2185,7 @@ sub Data {
         'The signature for email answers.' => '回复邮件中的签名。',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '这个队列已用于以下的系统配置设置：',
 
@@ -4357,10 +4357,18 @@ sub Data {
         'Allocate Services to Customer User' => '分配服务到客户用户',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
+        'Deletion was not confirmed!' => '',
+        'Could not find dynamic field to be deleted!' => '',
+        'Could not delete dynamic field \'%s\' because it is an internal field.' =>
+            '',
+        'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
+            '',
         'Fields configuration is not valid' => '不是有效的字段配置',
         'Objects configuration is not valid' => '不是有效的对象配置',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '不能正确地重置动态字段顺序，请检查错误日志以获得更多详细信息。',
+        'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '没有定义的子动作。',
@@ -4396,6 +4404,9 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+        'Something went wrong during dynamic field import.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => '',
         'Select the dynamic field that references an object' => '',
@@ -4413,6 +4424,8 @@ sub Data {
         'Setting is locked by another user!' => '设置被其它用户锁定！',
         'System was not able to reset the setting!' => '系统无法重置该设置！',
         'Settings were reset.' => '设置被重置。',
+        'Dynamic Fields for this Screen' => '',
+        'Screens for this Dynamic Field' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
@@ -4689,6 +4702,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => '没有这个软件包！',
+        'The file is not valid!' => '',
         'No such file %s in package!' => '软件包中没有%s 文件！',
         'No such file %s in local file system!' => '本地文件系统中没有%s 文件！',
         'Can\'t read %s!' => '不能读取%s！',
@@ -5782,7 +5796,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => '取消编辑并解锁此设置',
-        'Reset this setting to its default value.' => '将这个设置重置为默认值。',
         'Unable to load %s!' => '无法加载%s！',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -6781,6 +6794,9 @@ sub Data {
             '您真的想要删除这个动态字段吗? 所有关联的数据将丢失!',
         'Delete field' => '删除字段',
         'Deleting the field and its data. This may take a while...' => '正在删除这个动态字段及其相关数据，可能还要等一会儿...',
+        'The deletion could not be completed. Please review the logs for detailed information.' =>
+            '',
+        'Dynamic Field Delete: An Error occurred' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => '删除此动态字段',
@@ -7637,6 +7653,8 @@ Thanks for your help!
             '',
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '将HTML邮件转换为文本信息。',
         'Create New process ticket.' => '创建新的流程工单。',
         'Create Templates for AdminDynamicFieldTitle.' => '为 AdminDynamicFieldTitle 创建模板。',
@@ -8404,6 +8422,7 @@ Thanks for your help!
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             '定义SSL程序文件的路径，可能需要HOME环境变量($ENV{HOME} = \'/var/lib/wwwrun\';)。',
         'Defines the path to the Google Chrome or Chromium binary.' => '',
+        'Defines the path to the gnuplot binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             '定义由于不活动而将服务人员标记为“离开”的时间（单位：分钟）（例如：在“已登录的用户”小部件或聊天中）。',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8905,9 +8924,13 @@ Thanks for your help!
         'Go to dashboard!' => '进入仪表板！',
         'Good PGP signature.' => '良好的PGP签名。',
         'Google Authenticator' => '谷歌身份验证器',
-        'Graph: Bar Chart' => '图形：条形图',
-        'Graph: Line Chart' => '图形：折线图',
-        'Graph: Stacked Area Chart' => '图形：堆叠面积图',
+        'Graph: Bar Chart (D3)' => '',
+        'Graph: Clustered Bar Chart (Gnuplot)' => '',
+        'Graph: Line Chart (D3)' => '',
+        'Graph: Line Chart (Gnuplot)' => '',
+        'Graph: Stacked Area Chart (D3)' => '',
+        'Graph: Stacked Area Chart (Gnuplot)' => '',
+        'Graph: Stacked Bar Chart (Gnuplot)' => '',
         'Greek' => '希腊语',
         'Hebrew' => '希伯来语',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -10615,6 +10638,7 @@ Thanks for your help!
         'Draft title',
         'Duplicate event.',
         'Duplicated entry',
+        'Dynamic Field Delete: An Error occurred',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
@@ -10805,6 +10829,7 @@ Thanks for your help!
         'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
+        'The deletion could not be completed. Please review the logs for detailed information.',
         'The deployment is already running.',
         'The following files are not allowed to be uploaded: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',

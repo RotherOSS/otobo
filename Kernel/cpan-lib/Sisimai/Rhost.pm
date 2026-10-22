@@ -1,67 +1,82 @@
 package Sisimai::Rhost;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
 
-my $RhostClass = {
-    qr/\Aaspmx[.]l[.]google[.]com\z/                 => 'GoogleApps',
-    qr/[.](?:prod|protection)[.]outlook[.]com\z/     => 'ExchangeOnline',
-    qr/\A(?:smtp|mailstore1)[.]secureserver[.]net\z/ => 'GoDaddy',
-    qr/\b(?:laposte[.]net|orange[.]fr)\z/            => 'FrancePTT',
-    qr/[.](?:ezweb[.]ne[.]jp|au[.]com)\z/            => 'KDDI',
+state $RhostClass = {
+    "Aol"         => [".mail.aol.com", ".mx.aol.com"],
+    "Apple"       => [".mail.icloud.com", ".apple.com", ".me.com", "privaterelay.appleid.com"],
+    "Cloudflare"  => [".mx.cloudflare.net"],
+    "Cox"         => ["cox.net"],
+    "Facebook"    => [".facebook.com"],
+    "FrancePTT"   => [".laposte.net", ".orange.fr", ".wanadoo.fr"],
+    "GoDaddy"     => ["smtp.secureserver.net", "mailstore1.secureserver.net"],
+    "Google"      => ["aspmx.l.google.com", "gmail-smtp-in.l.google.com"],
+    "GSuite"      => ["googlemail.com"],
+    "IUA"         => [".email.ua"],
+    "KDDI"        => [".ezweb.ne.jp", "msmx.au.com"],
+    "MessageLabs" => [".messagelabs.com"],
+    "Microsoft"   => [".prod.outlook.com", ".protection.outlook.com", ".onmicrosoft.com", ".exchangelabs.com",],
+    "Mimecast"    => [".mimecast.com"],
+    "NTTDOCOMO"   => ["mfsmax.docomo.ne.jp"],
+    "Outlook"     => [".hotmail.com"],
+    "Spectrum"    => ["charter.net"],
+    "Tencent"     => [".qq.com"],
+    "YahooInc"    => [".yahoodns.net"],
+    "Zoho"        => [".zoho.com", ".zoho.eu", ".zoho.jp", ".zoho.com.au", ".zoho.com.cn", ".zoho.in"],
 };
 
-sub list {
-    # Retrun the list of remote hosts Sisimai support
-    # @return   [Array] Remote host list
-    return [keys %$RhostClass];
-}
-
-sub match {
-    # The value of "rhost" is listed in $RhostClass or not
-    # @param    [String] argv1  Remote host name
-    # @return   [Integer]       0: did not match
-    #                           1: match
+sub name {
+    # Detect the rhost class name
+    # @param    [Sisimai::Fact] argvs   Decoded email object
+    # @return   [String]                rhost class name
     my $class = shift;
-    my $rhost = shift // return undef;
-    my $host0 = lc $rhost;
-    my $match = 0;
-    return $match unless $rhost;
+    my $argvs = shift || return "";
 
-    for my $e ( keys %$RhostClass ) {
-        # Try to match with each key of $RhostClass
-        next unless $host0 =~ $e;
-        $match = 1;
+    my $rhostclass = "";
+    my $clienthost = lc $argvs->{"lhost"}       || "";
+    my $remotehost = lc $argvs->{"rhost"}       || "";
+    my $domainpart = lc $argvs->{"destination"} || "";
+
+    FINDRHOST: while( $rhostclass eq "" ) {
+        # Try to match the hostname patterns with the following order:
+        # 1. destination: The domain part of the recipient address
+        # 2. rhost: remote hostname
+        # 3. lhost: local MTA hostname
+        for my $e ( keys %$RhostClass ) {
+            # Try to match the domain part with each value of RhostClass
+            next unless grep { index($_, $domainpart) > -1 } $RhostClass->{ $e }->@*;
+            $rhostclass = $e; last FINDRHOST;
+        }
+
+        for my $e ( keys %$RhostClass ) {
+            # Try to match the remote host with each value of RhostClass
+            next unless grep { index($remotehost, $_) > -1 } $RhostClass->{ $e }->@*;
+            $rhostclass = $e; last FINDRHOST;
+        }
+
+        # Neither the remote host nor the destination did not matched with any value of RhostClass
+        for my $e ( keys %$RhostClass ) {
+            # Try to match the client host with each value of RhostClass
+            next unless grep { index($clienthost, $_) > -1 } $RhostClass->{ $e }->@*;
+            $rhostclass = $e; last FINDRHOST;
+        }
         last;
     }
-    return $match; 
+    return $rhostclass;
 }
 
-sub get {
+sub find {
     # Detect the bounce reason from certain remote hosts
-    # @param    [Sisimai::Data] argvs   Parsed email object
+    # @param    [Sisimai::Fact] argvs   Decoded email object
     # @return   [String]                The value of bounce reason
     my $class = shift;
-    my $argvs = shift // return undef;
-    return undef unless ref $argvs eq 'Sisimai::Data';
+    my $argvs = shift || return "";
+    my $rhost = __PACKAGE__->name($argvs) || return "";
 
-    my $reasontext = '';
-    my $remotehost = lc $argvs->rhost;
-    my $rhostclass = '';
-
-    for my $e ( keys %$RhostClass ) {
-        # Try to match with each key of $RhostClass
-        next unless $remotehost =~ $e;
-        $rhostclass = __PACKAGE__.'::'.$RhostClass->{ $e };
-        last;
-    }
-    return undef unless $rhostclass;
-
-    (my $modulepath = $rhostclass) =~ s|::|/|g; 
+    $rhost = __PACKAGE__."::".$rhost; (my $modulepath = $rhost) =~ s|::|/|g;
     require $modulepath.'.pm';
-    $reasontext = $rhostclass->get($argvs);
-
-    return $reasontext;
+    return $rhost->find($argvs);
 }
 
 1;
@@ -79,26 +94,19 @@ Sisimai::Rhost - Detect the bounce reason returned from certain remote hosts.
 
 =head1 DESCRIPTION
 
-Sisimai::Rhost detects the bounce reason from the content of Sisimai::Data
-object as an argument of get() method when the value of C<rhost> of the object
-is listed in the results of Sisimai::Rhost->list() method.
-This class is called only Sisimai::Data class.
+C<Sisimai::Rhost> detects the bounce reason from the content of C<Sisimai::Fact> object as an argument
+of C<find()> method when the value of C<rhost> of the object is listed in C<$RhostClass> variable.
+This class is called only C<Sisimai::Fact> class.
 
 =head1 CLASS METHODS
 
-=head2 C<B<list()>>
+=head2 C<B<name(I<Sisimai::Fact Object>)>>
 
-Return the list of remote hosts which is supported by Sisimai for detecting the
-reason of bounce from major email services.
+C<name()> method returns the rhost class name.
 
-=head2 C<B<match(I<remote host>)>>
+=head2 C<B<find(I<Sisimai::Fact Object>)>>
 
-Returns 1 if the remote host is listed in the results of Sisimai::Rhost->list()
-method.
-
-=head2 C<B<get(I<Sisimai::Data Object>)>>
-
-C<get()> detects the bounce reason.
+C<find()> method detects the bounce reason.
 
 =head1 AUTHOR
 
@@ -106,10 +114,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2020,2022-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

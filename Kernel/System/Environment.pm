@@ -302,6 +302,8 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.01',
         },
         {
+
+            # last updated 2025
             'Comment'         => 'needed by Sisimai',
             'Module'          => 'Class::Accessor::Lite',
             'Required'        => 1,
@@ -403,7 +405,7 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'JSON',
             'Comment'         => 'needed by Sisimai and other CPAN distributions',
             'Required'        => 1,
-            'VersionRequired' => '== 4.10',                                          # current version as of 2024-11-17
+            'VersionRequired' => '== 4.11',                                          # released 2026-03-22
         },
         {
             'Comment'         => 'needed by the console command Dev::Tools::TranslationsUpdate',
@@ -523,7 +525,7 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'needed for detecting bounced mails',
             'Module'          => 'Sisimai',
             'Required'        => 1,
-            'VersionRequired' => '== v4.24.1'
+            'VersionRequired' => '== 5.7.2'                              # released 2026-08-31
         },
         {
             'Comment'         => 'needed by OTOBO generic interface',

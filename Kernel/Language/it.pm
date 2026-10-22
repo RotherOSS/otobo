@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.5850622406639;
+    $Self->{Completeness}        = 0.58372591006424;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2187,7 +2187,7 @@ sub Data {
         'The signature for email answers.' => 'Firma (parte finale) per le email generate automaticamente dal sistema.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Questa coda viene utilizzata nelle seguenti impostazioni di configurazione:',
 
@@ -4359,10 +4359,18 @@ sub Data {
         'Allocate Services to Customer User' => 'Allocare servizi all\'utenza cliente',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
+        'Deletion was not confirmed!' => '',
+        'Could not find dynamic field to be deleted!' => '',
+        'Could not delete dynamic field \'%s\' because it is an internal field.' =>
+            '',
+        'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
+            '',
         'Fields configuration is not valid' => 'La configurazione dei campi non è valida',
         'Objects configuration is not valid' => 'La configurazione degli oggetti non è valida',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Impossibile ripristinare correttamente l\'ordine del Campo dinamico, controllare il registro errori per ulteriori dettagli.',
+        'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Sottrazione indefinita.',
@@ -4398,6 +4406,9 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+        'Something went wrong during dynamic field import.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => 'Il campo dinamico di riferimento',
         'Select the dynamic field that references an object' => 'Seleziona il campo dinamico che fa riferimento a un oggetto',
@@ -4415,6 +4426,8 @@ sub Data {
         'Setting is locked by another user!' => '',
         'System was not able to reset the setting!' => '',
         'Settings were reset.' => '',
+        'Dynamic Fields for this Screen' => '',
+        'Screens for this Dynamic Field' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => 'È necessario un driver di campo valido.',
@@ -4691,6 +4704,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Nessun pacchetto del genere!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Nessun file del genere %s nel pacchetto!',
         'No such file %s in local file system!' => 'Nessun file %s nel file system locale!',
         'Can\'t read %s!' => 'Impossibile leggere %s!',
@@ -5784,7 +5798,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => '',
-        'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -6783,6 +6796,9 @@ sub Data {
             'Vuoi davvero eliminare questo campo dinamico? TUTTI i dati associati saranno PERSI!',
         'Delete field' => 'Elimina campo',
         'Deleting the field and its data. This may take a while...' => 'Eliminazione del campo e dei suoi dati. Ciò potrebbe richiedere del tempo...',
+        'The deletion could not be completed. Please review the logs for detailed information.' =>
+            '',
+        'Dynamic Field Delete: An Error occurred' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => '',
@@ -7630,6 +7646,8 @@ Thanks for your help!
             '',
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Converte la posta in HTML in Interazioni di testo.',
         'Create New process ticket.' => '',
         'Create Templates for AdminDynamicFieldTitle.' => '',
@@ -8397,6 +8415,7 @@ Thanks for your help!
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             '',
         'Defines the path to the Google Chrome or Chromium binary.' => '',
+        'Defines the path to the gnuplot binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             '',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8898,9 +8917,13 @@ Thanks for your help!
         'Go to dashboard!' => 'Vai al cruscotto!',
         'Good PGP signature.' => '',
         'Google Authenticator' => 'Autenticatore Google',
-        'Graph: Bar Chart' => '',
-        'Graph: Line Chart' => '',
-        'Graph: Stacked Area Chart' => '',
+        'Graph: Bar Chart (D3)' => '',
+        'Graph: Clustered Bar Chart (Gnuplot)' => '',
+        'Graph: Line Chart (D3)' => '',
+        'Graph: Line Chart (Gnuplot)' => '',
+        'Graph: Stacked Area Chart (D3)' => '',
+        'Graph: Stacked Area Chart (Gnuplot)' => '',
+        'Graph: Stacked Bar Chart (Gnuplot)' => '',
         'Greek' => 'Greco',
         'Hebrew' => 'Ebraico',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -10612,6 +10635,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Draft title',
         'Duplicate event.',
         'Duplicated entry',
+        'Dynamic Field Delete: An Error occurred',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
@@ -10802,6 +10826,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
+        'The deletion could not be completed. Please review the logs for detailed information.',
         'The deployment is already running.',
         'The following files are not allowed to be uploaded: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',

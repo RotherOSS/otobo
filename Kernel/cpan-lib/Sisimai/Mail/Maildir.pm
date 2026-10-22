@@ -1,82 +1,85 @@
 package Sisimai::Mail::Maildir;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
-use Class::Accessor::Lite;
 use IO::Dir;
 use IO::File;
-
-my $roaccessors = [
-    'dir',      # [String] Path to Maildir/
-];
-my $rwaccessors = [
-    'path',     # [String] Path to each file 
-    'file',     # [String] Each file name of a mail in the Maildir/
-    'inodes',   # [Array]  i-node List of files in the Maildir/
-    'handle',   # [IO::Dir] Directory handle
-];
-Class::Accessor::Lite->mk_accessors(@$rwaccessors);
-Class::Accessor::Lite->mk_ro_accessors(@$roaccessors);
+use Class::Accessor::Lite (
+    'new' => 0,
+    'ro'  => [
+        'dir',      # [String] Path to Maildir/
+    ],
+    'rw'  => [
+        'path',     # [String] Path to each file
+        'file',     # [String] Each file name of a mail in the Maildir/
+        'size',     # [Integer] The number of email files in the Maildir/
+        'offset',   # [Integer] The number of email files which have been read
+        'handle',   # [IO::Dir] Directory handle
+    ]
+);
 
 sub new {
     # Constructor of Sisimai::Mail::Maildir
-    # @param    [String] argv1                 Path to Maildir/
-    # @return   [Sisimai::Mail::Maildir,Undef] Object or Undef if the argument is
-    #                                          not a directory or does not exist
+    # @param    [String] argv1              Path to Maildir/
+    # @return   [Sisimai::Mail::Maildir]    Object
+    #           [Undef]                     is not a directory or does not exist
     my $class = shift;
-    my $argv1 = shift // return undef;
-    return undef unless -d $argv1;
+    my $argv1 = shift // return undef; return undef unless -d $argv1;
+    my $files = 0;
+
+    eval {
+        # Count the number of files in the Maildir/
+        opendir MAILDIR, $argv1;
+        while( my $e = readdir MAILDIR ) {
+            next unless -f sprintf("%s/%s", $argv1, $e);
+            $files += 1;
+        }
+        closedir MAILDIR;
+    };
 
     my $param = {
         'dir'    => $argv1,
         'file'   => undef,
         'path'   => undef,
-        'inodes' => {},
+        'size'   => $files,
+        'offset' => 0,
         'handle' => IO::Dir->new($argv1),
     };
     return bless($param, __PACKAGE__);
 }
 
 sub read {
-    # Maildir reader, works as a iterator.
+    # Maildir reader, works as an iterator.
     # @return       [String] Contents of file in Maildir/
     my $self = shift;
-    return undef unless defined $self->{'dir'};
-    return undef unless -d $self->{'dir'};
+    return "" unless defined $self->{'dir'};
+    return "" unless -d $self->{'dir'};
+    return "" unless $self->{'offset'} < $self->{'size'};
 
     my $seekhandle = $self->{'handle'};
-    my $filehandle = undef;
     my $readbuffer = '';
-    my $emailindir = '';
-    my $emailinode = undef;
 
     eval {
         $seekhandle = IO::Dir->new($self->{'dir'}) unless $seekhandle;
-
         while( my $r = $seekhandle->read ) {
             # Read each file in the directory
             next if( $r eq '.' || $r eq '..' );
 
-            $emailindir =  $self->{'dir'}.'/'.$r;
-            $emailindir =~ y{/}{}s;
+            my $emailindir =  $self->{'dir'}.'/'.$r;
+               $emailindir =~ y{/}{}s;
+            $self->{'offset'} += 1;
             next unless -f $emailindir;
             next unless -s $emailindir;
             next unless -r $emailindir;
 
-            # Get inode number of the file
             $self->{'path'} = $emailindir;
-            $emailinode = $^O eq 'MSWin32' ?  $emailindir : [stat $emailindir]->[1];
-            next if exists $self->{'inodes'}->{ $emailinode };
-
-            $filehandle = IO::File->new($emailindir, 'r');
-            $readbuffer = do { local $/; <$filehandle> };
-            $filehandle->close;
-
-            $self->{'inodes'}->{ $emailinode } = 1;
             $self->{'file'} = $r;
-
+            my $filehandle = IO::File->new($emailindir, 'r');
+               $readbuffer = do { local $/; <$filehandle> };
+               $filehandle->close;
             last;
         }
+        $seekhandle->close unless $self->{'offset'} < $self->{'size'};
     };
     return $readbuffer;
 }
@@ -99,14 +102,13 @@ Sisimai::Mail::Maildir - Mailbox reader
 
 =head1 DESCRIPTION
 
-Sisimai::Mail::Maildir is a reader for getting contents of each email in the
-Maildir/ directory.
+C<Sisimai::Mail::Maildir> is a reader for getting contents of each email in the Maildir/ directory.
 
 =head1 CLASS METHODS
 
 =head2 C<B<new(I<path to Maildir/>)>>
 
-C<new()> is a constructor of Sisimai::Mail::Maildir
+C<new()> method is a constructor of C<Sisimai::Mail::Maildir>
 
     my $maildir = Sisimai::Mail::Maildir->new('/home/neko/Maildir/new');
 
@@ -114,37 +116,43 @@ C<new()> is a constructor of Sisimai::Mail::Maildir
 
 =head2 C<B<dir()>>
 
-C<dir()> returns the path to Maildir/
+C<dir()> method returns the path to Maildir/
 
     print $maildir->dir;   # /home/neko/Maildir/new/
 
 =head2 C<B<path()>>
 
-C<path()> returns the path to each email in Maildir/
+C<path()> method returns the path to each email in Maildir/
 
     print $maildir->path;   # /home/neko/Maildir/new/1.eml
 
 =head2 C<B<file()>>
 
-C<file()> returns current file name of the Maildir.
+C<file()> method returns the current file name of the Maildir.
 
     print $maildir->file;
 
-=head2 C<B<inodes()>>
+=head2 C<B<size()>>
 
-C<inodes()> returns i-node list of each email in Maildir.
+C<size()> method returns the amount of email size which has been read
 
-    print for @{ $maildir->inodes };
+    print $maildir->size;
+
+=head2 C<B<offset()>>
+
+C<offset()> method returns the number of emails which have been read in the Maildir/
+
+    $maildir->offset;   # 2
 
 =head2 C<B<handle()>>
 
-C<handle()> returns file handle object (IO::Dir) of the Maildir.
+C<handle()> meethod returns file handle object C<IO::Dir> of the Maildir.
 
     $maildir->handle->close;
 
 =head2 C<B<read()>>
 
-C<read()> works as a iterator for reading each email in the Maildir.
+C<read()> method works as an iterator for reading each email in the Maildir.
 
     my $maildir = Sisimai::Mail->new('/home/neko/Maildir/new');
     while( my $r = $mailbox->read ) {
@@ -157,10 +165,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018-2021,2024,2025 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

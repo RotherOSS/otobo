@@ -1,9 +1,12 @@
 package Sisimai::Reason::SpamDetected;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
+use Sisimai::Eb;
+use Sisimai::String;
+use Sisimai::SMTP::Command;
 
-sub text  { 'spamdetected' }
+sub text  { $Sisimai::Eb::ReSPAM }
 sub description { 'Email rejected by spam filter running on the remote host' }
 sub match {
     # Try to match that the given text and regular expressions
@@ -12,151 +15,85 @@ sub match {
     #                           1: Matched
     # @since v4.1.19
     my $class = shift;
-    my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         ["]the[ ]mail[ ]server[ ]detected[ ]your[ ]message[ ]as[ ]spam[ ]and[ ]
-            has[ ]prevented[ ]delivery[.]["]    # CPanel/Exim with SA rejections on
-        |(?:\d[.]\d[.]\d|\d{3})[ ]spam\z
-        |appears[ ]to[ ]be[ ]unsolicited
-        |blacklisted[ ]url[ ]in[ ]message
-        |block[ ]for[ ]spam
-        |blocked[ ]by[ ](?:
-             policy:[ ]no[ ]spam[ ]please
-            |spamassassin                   # rejected by SpamAssassin
-            )
-        |blocked[ ]for[ ]abuse[.][ ]see[ ]http://att[.]net/blocks   # AT&T
-        |bulk[ ]email
-        |content[ ]filter[ ]rejection
-        |cyberoam[ ]anti[ ]spam[ ]engine[ ]has[ ]identified[ ]this[ ]email[ ]as[ ]a[ ]bulk[ ]email
-        |denied[ ]due[ ]to[ ]spam[ ]list
-        |dt:spm[ ]mx.+[ ]http://mail[.]163[.]com/help/help_spam_16[.]htm
-        |greylisted.?.[ ]please[ ]try[ ]again[ ]in
-        |http://(?:www[.]spamhaus[.]org|dsbl[.]org)
-        |listed[ ]in[ ]work[.]drbl[.]imedia[.]ru
-        |mail[ ](?:
-             appears[ ]to[ ]be[ ]unsolicited    # rejected due to spam
-            |content[ ]denied   # http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=20022&&no=1000726
-            |rejete.+[a-z]{3}.+506
-            )
-        |may[ ]consider[ ]spam
-        |message[ ](?:
-             considered[ ]as[ ]spam[ ]or[ ]virus
-            |content[ ]rejected
-            |filtered
-            |filtered[.][ ](?:
-                 please[ ]see[ ]the[ ]faqs[ ]section[ ]on[ ]spam
-                |refer[ ]to[ ]the[ ]troubleshooting[ ]page[ ]at[ ]
-                )
-            |looks[ ]like[ ]spam
-            |not[ ]accepted[ ]for[ ]policy[ ]reasons[.][ ]see[ ]http:   # Yahoo!
-            |refused[ ]by[ ]mailmarshal[ ]spamprofiler
-            |rejected[ ](?:
-                 as[ ]spam
-                |because[ ]of[ ]unacceptable[ ]content
-                |due[ ]to[ ]suspected[ ]spam[ ]content
-                |for[ ]policy[ ]reasons
-                )
-            )
-        |our[ ](?:
-             email[ ]server[ ]thinks[ ]this[ ]email[ ]is[ ]spam
-            |filters[ ]rate[ ]at[ ]and[ ]above[ ].+[ ]percent[ ]probability[ ]of[ ]being[ ]spam
-            |system[ ]has[ ]detected[ ]that[ ]this[ ]message[ ]is
-            )
-        |permanent[ ]failure[ ]for[ ]one[ ]or[ ]more[ ]recipients[ ][(].+:blocked[)]
-        |probable[ ]spam
-        |reject[ ]bulk[.]advertising
-        |reject,.+[ ][-][ ]spam[.][ ]
-        |rejected(?:
-             :[ ]spamassassin[ ]score[ ]
-            |[ ]by[ ].+[ ][(]spam[)]
-            |[ ]due[ ]to[ ]spam[ ](?:classification|content)
-            )
-        |rejecting[ ]banned[ ]content 
-        |related[ ]to[ ]content[ ]with[ ]spam[-]like[ ]characteristics
-        |rule[ ]imposed[ ]as[ ].+is[ ]blacklisted[ ]on              # Mailmarshal RBLs
-        |sender[ ]domain[ ]listed[ ]at[ ].+
-        |sending[ ]address[ ]not[ ]accepted[ ]due[ ]to[ ]spam[ ]filter
-        |spam[ ](?:
-             .+[ ]exceeded
-            |blocked
-            |check
-            |content[ ]matched
-            |detected
-            |email
-            |email[ ]not[ ]accepted
-            |message[ ]rejected[.]       # mail.ru
-            |not[ ]accepted
-            |refused
-            |rejection
-            |reporting[ ]address    # SendGrid|a message to an address has previously been marked as Spam by the recipient.
-            |score[ ]
-            )
-        |spambouncer[ ]identified[ ]spam    # SpamBouncer identified SPAM
-        |spamming[ ]not[ ]allowed
-        |too[ ]much[ ]spam[.]               # Earthlink
-        |the[ ]message[ ](?:
-             has[ ]been[ ]rejected[ ]by[ ]spam[ ]filtering[ ]engine
-            |was[ ]rejected[ ]due[ ]to[ ]classification[ ]as[ ]bulk[ ]mail
-            )
-        |the[ ]content[ ]of[ ]this[ ]message[ ]looked[ ]like[ ]spam # SendGrid
-        |this[ ](?:e-mail|mail)[ ](?:
-             cannot[ ]be[ ]forwarded[ ]because[ ]it[ ]was[ ]detected[ ]as[ ]spam
-            |is[ ]classified[ ]as[ ]spam[ ]and[ ]is[ ]rejected
-            )
-        |this[ ]message[ ](?:
-             appears[ ]to[ ]be[ ]spam
-            |has[ ]been[ ](?:
-                 identified[ ]as[ ]spam
-                |scored[ ]as[ ]spam[ ]with[ ]a[ ]probability
-                )
-            |scored[ ].+[ ]spam[ ]points
-            |was[ ]classified[ ]as[ ]spam
-            |was[ ]rejected[ ]by[ ]recurrent[ ]pattern[ ]detection[ ]system
-            )
-        |transaction[ ]failed[ ]spam[ ]message[ ]not[ ]queued       # SendGrid
-        |we[ ]dont[ ]accept[ ]spam
-        |you're[ ]using[ ]a[ ]mass[ ]mailer
-        |your[ ](?:
-             email[ ](?:
-                 appears[ ]similar[ ]to[ ]spam[ ]we[ ]have[ ]received[ ]before
-                |breaches[ ]local[ ]uribl[ ]policy
-                |had[ ]spam[-]like[ ]
-                |is[ ](?:considered|probably)[ ]spam
-                |was[ ]detected[ ]as[ ]spam
-                )
-            |message[ ](?:
-                 as[ ]spam[ ]and[ ]has[ ]prevented[ ]delivery
-                |has[ ]been[ ](?:
-                     temporarily[ ]blocked[ ]by[ ]our[ ]filter
-                    |rejected[ ]because[ ]it[ ]appears[ ]to[ ]be[ ]spam
-                    )
-                |has[ ]triggered[ ]a[ ]spam[ ]block
-                |may[ ]contain[ ]the[ ]spam[ ]contents
-                |failed[ ]several[ ]antispam[ ]checks
-                )
-            )
-        )
-    }x;
+    my $argv1 = shift // return 0;
 
-    return 1 if $argv1 =~ $regex;
+    state $index = [
+        "blacklisted url in message",
+        "block for spam",
+        "blocked by policy: no spam please",
+        "blocked by spamassassin", # rejected by SpamAssassin
+        "classified as spam and is rejected",
+        "content filter rejection",
+        "denied due to spam list",
+        "identified spam", # 554 SpamBouncer identified SPAM, message permanently rejected (#5.3.0)
+        "may consider spam",
+        "message content rejected",
+        "message has been temporarily blocked by our filter",
+        "message is being rejected as it seems to be a spam",
+        "message was rejected by recurrent pattern detection system",
+        "our email server thinks this email is spam",
+        "reject bulk.advertising",
+        "spam check",
+        "spam content ",
+        "spam detected",
+        "spam email",
+        "spam-like header",
+        "spam message",
+        "spam not accepted",
+        "spam refused",
+        "spamming not allowed",
+        "unsolicited ",
+        "your email breaches local uribl policy",
+    ];
+    state $pairs = [
+        ["accept", " spam"],
+        ["appears", " to ", "spam"],
+        ["bulk", "mail"],
+        ["considered", " spam"],
+        ["contain", " spam"],
+        ["detected", " spam"],
+        ["greylisted", " please try again in"],
+        ["mail score (", " over "],
+        ["mail rejete. mail rejected. ", "506"],
+        ["message ", "as spam"],
+        ["message ", "like spam"],
+        ["message ", "spamprofiler"],
+        ["probab", " spam"],
+        ["refused by", " spamprofiler"],
+        ["reject", " content"],
+        ["reject, id=", "spam"],
+        ["rejected by ", " (spam)"],
+        ["rejected due to spam ", "classification"],
+        ["rule imposed as ", " is blacklisted on"],
+        ["score", "spam"],
+        ["spam ", "block"],
+        ["spam ", "filter"],
+        ["spam ", " exceeded"],
+        ["spam ", "score"],
+    ];
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
+    return 1 if grep { Sisimai::String->aligned(\$argv1, $_) } @$pairs;
     return 0;
 }
 
 sub true {
     # Rejected due to spam content in the message
-    # @param    [Sisimai::Data] argvs   Object to be detected the reason
+    # @param    [Sisimai::Fact] argvs   Object to be detected the reason
     # @return   [Integer]               1: rejected due to spam
     #                                   0: is not rejected due to spam
     # @since v4.1.19
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
-    my $argvs = shift // return undef;
+    my $argvs = shift // return 0; return 0 unless $argvs->{'deliverystatus'};
 
-    return undef unless $argvs->deliverystatus;
-    return 1 if $argvs->reason eq 'spamdetected';
-    return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'spamdetected';
-    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
-    return 0;
+    return 1 if $argvs->{'reason'} eq $Sisimai::Eb::ReSPAM;
+    return 1 if (Sisimai::SMTP::Status->name($argvs->{'deliverystatus'}) || '') eq $Sisimai::Eb::ReSPAM;
+
+    # The value of "reason" isn't "SpamDetected" when the value of "command" is an SMTP command to
+    # be sent before the SMTP DATA command because all the MTAs read the headers and the entire
+    # message body after the DATA command.
+    return 0 if grep { $argvs->{'command'} eq $_ } Sisimai::SMTP::Command->ExceptDATA->@*;
+    return __PACKAGE__->match(lc $argvs->{'diagnosticcode'});
 }
 
 1;
@@ -166,8 +103,8 @@ __END__
 
 =head1 NAME
 
-Sisimai::Reason::SpamDetected - Bounce reason is C<spamdetected> due to Spam 
-content in the message or not.
+Sisimai::Reason::SpamDetected - Bounce reason is C<SpamDetected> due to Spam content in the message
+or not.
 
 =head1 SYNOPSIS
 
@@ -176,13 +113,11 @@ content in the message or not.
 
 =head1 DESCRIPTION
 
-Sisimai::Reason::SpamDetected checks the bounce reason is C<spamdetected> due to 
-Spam content in the message or not. This class is called only Sisimai::Reason 
-class.
+C<Sisimai::Reason::SpamDetected> checks the bounce reason is C<SpamDetected> due to the spam content
+in the message or not. This class is called only C<Sisimai::Reason> class.
 
-This is the error that the message you sent was rejected by C<spam> filter which
-is running on the remote host. This reason has added in Sisimai 4.1.25 and does
-not exist in any version of bounceHammer.
+This is the error that the message you sent was rejected by the spam filter which is running on the
+remote host. This reason has added in Sisimai 4.1.25.
 
     Action: failed
     Status: 5.7.1
@@ -193,21 +128,20 @@ not exist in any version of bounceHammer.
 
 =head2 C<B<text()>>
 
-C<text()> returns string: C<spamdetected>.
+C<text()> method returns the fixed string C<SpamDetected>.
 
-    print Sisimai::Reason::SpamDetected->text;  # spamdetected
+    print Sisimai::Reason::SpamDetected->text;  # SpamDetected
 
 =head2 C<B<match(I<string>)>>
 
-C<match()> returns 1 if the argument matched with patterns defined in this class.
+C<match()> method returns C<1> if the argument matched with patterns defined in this class.
 
     print Sisimai::Reason::SpamDetected->match('550 Spam detected');   # 1
 
-=head2 C<B<true(I<Sisimai::Data>)>>
+=head2 C<B<true(I<Sisimai::Fact>)>>
 
-C<true()> returns 1 if the bounce reason is C<rejected> due to Spam content in 
-the message. The argument must be Sisimai::Data object and this method is called
-only from Sisimai::Reason class.
+C<true()> method returns C<1> if the bounce reason is C<rejected> due to the spam content in the message.
+The argument must be C<Sisimai::Fact> object and this method is called only from C<Sisimai::Reason> class.
 
 =head1 AUTHOR
 
@@ -215,7 +149,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2018,2020-2026 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

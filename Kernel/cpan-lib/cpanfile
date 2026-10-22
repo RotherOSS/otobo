@@ -63,7 +63,7 @@ requires 'IO::Interactive', '== 1.022';
 requires 'IO::String', '== 1.08';
 
 # needed by Sisimai and other CPAN distributions
-requires 'JSON', '== 4.10';
+requires 'JSON', '== 4.11';
 
 # needed by the console command Dev::Tools::TranslationsUpdate
 requires 'Lingua::Translit', '== 0.27';
@@ -122,7 +122,7 @@ requires 'REST::Client', '== 273';
 # needed by Kernel::System::CronEvent
 requires 'Schedule::Cron::Events', '== 1.95';
 
-requires 'Sisimai', '== v4.24.1';
+requires 'Sisimai', '== 5.7.2';
 
 # needed by OTOBO generic interface
 requires 'SOAP::Lite', '== 1.20';

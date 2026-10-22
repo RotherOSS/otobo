@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.560309057089712;
+    $Self->{Completeness}        = 0.558600999286224;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2184,7 +2184,7 @@ sub Data {
         'The signature for email answers.' => 'یامضاء برای پاسخ‌های ایمیل ',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -4356,10 +4356,18 @@ sub Data {
         'Allocate Services to Customer User' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
+        'Deletion was not confirmed!' => '',
+        'Could not find dynamic field to be deleted!' => '',
+        'Could not delete dynamic field \'%s\' because it is an internal field.' =>
+            '',
+        'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
+            '',
         'Fields configuration is not valid' => 'پیکربندی زمینه معتبر نیست',
         'Objects configuration is not valid' => 'پیکربندی اشیاء معتبر نیست',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'می تواند پویا درست سفارش تنظیم مجدد نمی کند، لطفا ورود به سیستم خطا برای جزئیات بیشتر.',
+        'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'subaction تعریف نشده است.',
@@ -4395,6 +4403,9 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+        'Something went wrong during dynamic field import.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => '',
         'Select the dynamic field that references an object' => '',
@@ -4412,6 +4423,8 @@ sub Data {
         'Setting is locked by another user!' => '',
         'System was not able to reset the setting!' => '',
         'Settings were reset.' => '',
+        'Dynamic Fields for this Screen' => '',
+        'Screens for this Dynamic Field' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
@@ -4688,6 +4701,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'بدون چنین بسته!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'بدون چنین فایل %s در بسته!',
         'No such file %s in local file system!' => 'بدون چنین فایلی  %s در فایل سیستم محلی!',
         'Can\'t read %s!' => 'نمی تواند بخواند %s !',
@@ -5781,7 +5795,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => '',
-        'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -6780,6 +6793,9 @@ sub Data {
             'آیا شما واقعا می خواهید  این زمینه پویارا حذف کنید؟ تمام داده های مرتبط از دست خواهد رفت.',
         'Delete field' => 'حذف زمینه',
         'Deleting the field and its data. This may take a while...' => 'حذف رشته و داده های آن. این ممکن است یک مدت طول بکشد.....',
+        'The deletion could not be completed. Please review the logs for detailed information.' =>
+            '',
+        'Dynamic Field Delete: An Error occurred' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => '',
@@ -7638,6 +7654,8 @@ Thanks for your help!
             '',
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'تبدیل ایمیل های HTML و به پیام های متنی.',
         'Create New process ticket.' => 'ساختن درخواست روند جدید.',
         'Create Templates for AdminDynamicFieldTitle.' => '',
@@ -8405,6 +8423,7 @@ Thanks for your help!
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'تعریف می کند که مسیر برای باز کردن باینری SSL. این ممکن است یک پاکت HOME نیاز ($ ENV {HOME} = \'/ var / معاونت / wwwrun\'؛).',
         'Defines the path to the Google Chrome or Chromium binary.' => '',
+        'Defines the path to the gnuplot binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             '',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8906,9 +8925,13 @@ Thanks for your help!
         'Go to dashboard!' => 'برو به داشبورد!',
         'Good PGP signature.' => '',
         'Google Authenticator' => 'Google Authenticator را',
-        'Graph: Bar Chart' => 'نمودار: نمودار نوار',
-        'Graph: Line Chart' => 'نمودار: نمودار خط',
-        'Graph: Stacked Area Chart' => 'نمودار: نمودار محیطی پشتهای',
+        'Graph: Bar Chart (D3)' => '',
+        'Graph: Clustered Bar Chart (Gnuplot)' => '',
+        'Graph: Line Chart (D3)' => '',
+        'Graph: Line Chart (Gnuplot)' => '',
+        'Graph: Stacked Area Chart (D3)' => '',
+        'Graph: Stacked Area Chart (Gnuplot)' => '',
+        'Graph: Stacked Bar Chart (Gnuplot)' => '',
         'Greek' => 'یونانی',
         'Hebrew' => 'عبری',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -10616,6 +10639,7 @@ Thanks for your help!
         'Draft title',
         'Duplicate event.',
         'Duplicated entry',
+        'Dynamic Field Delete: An Error occurred',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
@@ -10806,6 +10830,7 @@ Thanks for your help!
         'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
+        'The deletion could not be completed. Please review the logs for detailed information.',
         'The deployment is already running.',
         'The following files are not allowed to be uploaded: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',

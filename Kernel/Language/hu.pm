@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.997002141327623;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2184,8 +2184,8 @@ sub Data {
         'The signature for email answers.' => 'Az aláírás a válasz e-mailekhez.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             'Az üzleti naptár a feloldási időhöz és az eszkalációs időkhöz. Ha nincs semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva.',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            'Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time ágában van meghatározva (alapértelmezett naptár) vagy az 1-9. naptárakban.',
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Ez a várólista a következő konfigurációs beállításokban van használva:',
 
         # Template: AdminQueueAutoResponse
@@ -4356,10 +4356,18 @@ sub Data {
         'Allocate Services to Customer User' => 'Szolgáltatások kiosztása az ügyfél-felhasználóhoz',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
+        'Deletion was not confirmed!' => '',
+        'Could not find dynamic field to be deleted!' => '',
+        'Could not delete dynamic field \'%s\' because it is an internal field.' =>
+            '',
+        'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
+            '',
         'Fields configuration is not valid' => 'A mezők beállítása nem érvényes',
         'Objects configuration is not valid' => 'Az objektumok beállítása nem érvényes',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Nem sikerült megfelelően visszaállítani a dinamikus mező sorrendjét. További részletekért nézze meg a hibanaplót.',
+        'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Meghatározatlan alművelet.',
@@ -4395,6 +4403,9 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             'Egy elem szülőelemként van használva, de nem tartalmazza önmagát. Vegye fel.',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+        'Something went wrong during dynamic field import.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => 'A hivatkozott dinamikus mező',
         'Select the dynamic field that references an object' => 'Egy objektumra hivatkozó dinamikus mező kiválasztása',
@@ -4412,6 +4423,8 @@ sub Data {
         'Setting is locked by another user!' => 'A beállítást egy másik felhasználó zárolta!',
         'System was not able to reset the setting!' => 'A rendszer nem volt képes visszaállítani a beállítást!',
         'Settings were reset.' => 'Beállítások visszaállítva.',
+        'Dynamic Fields for this Screen' => '',
+        'Screens for this Dynamic Field' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => 'Érvényes mező-illesztőprogram szükséges.',
@@ -4688,6 +4701,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Nincs ilyen csomag!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Nincs ilyen %s fájl a csomagban!',
         'No such file %s in local file system!' => 'Nincs ilyen %s fájl a helyi fájlrendszeren!',
         'Can\'t read %s!' => 'Nem olvasható: %s!',
@@ -5781,7 +5795,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => 'Szerkesztés megszakítása és a beállítás feloldása',
-        'Reset this setting to its default value.' => 'A beállítás visszaállítása az alapértelmezett értékére.',
         'Unable to load %s!' => 'Nem lehet betölteni: %s!',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -6780,6 +6793,9 @@ sub Data {
             'Valóban törölni szeretné ezt a dinamikus mezőt? MINDEN hozzárendelt adat EL FOG VESZNI!',
         'Delete field' => 'Mező törlése',
         'Deleting the field and its data. This may take a while...' => 'A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…',
+        'The deletion could not be completed. Please review the logs for detailed information.' =>
+            '',
+        'Dynamic Field Delete: An Error occurred' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => 'Dinamikus mező eltávolítása',
@@ -7638,6 +7654,8 @@ Az Ön ügyfélszolgálati csapata
             'A bővített módú CKEditor-eszköztáron megjelenített vezérlők. Minden egyes tömb egy olyan gombcsoportot határoz meg, amely elválasztva lesz megjelenítve a szerkesztőben. (Csak akkor van használva, ha a „CustomerFrontend::RichText::EnhancedMode” beállítás engedélyezve van).',
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             'A bővített módú CKEditor-eszköztáron megjelenített vezérlők. Minden egyes tömb egy olyan gombcsoportot határoz meg, amely elválasztva lesz megjelenítve a szerkesztőben. (Csak akkor van használva, ha a „Frontend::RichText::EnhancedMode” beállítás engedélyezve van).',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket.' => 'Új folyamatjegy létrehozása.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Sablonok létrehozása az adminisztrátori dinamikus mezők címéhez.',
@@ -8405,6 +8423,7 @@ Az Ön ügyfélszolgálati csapata
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Meghatározza az open ssl bináris útvonalát. Szükséges lehet a HOME környezeti változó ($ENV{HOME} = \'/var/lib/wwwrun\';).',
         'Defines the path to the Google Chrome or Chromium binary.' => 'Meghatározza a Google Chrome vagy a Chromium bináris útvonalát.',
+        'Defines the path to the gnuplot binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'Meghatározza azt az időtartamot (percben), mielőtt az ügyintéző „távol” lesz inaktivitás miatt (például a „Bejelentkezett felhasználók” felületi elemben vagy a csevegésnél).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8906,9 +8925,13 @@ Az Ön ügyfélszolgálati csapata
         'Go to dashboard!' => 'Ugrás a vezérlőpultra!',
         'Good PGP signature.' => 'Jó PGP-aláírás.',
         'Google Authenticator' => 'Google hitelesítő',
-        'Graph: Bar Chart' => 'Grafikon: oszlopdiagram',
-        'Graph: Line Chart' => 'Grafikon: vonaldiagram',
-        'Graph: Stacked Area Chart' => 'Grafikon: halmozott területdiagram',
+        'Graph: Bar Chart (D3)' => '',
+        'Graph: Clustered Bar Chart (Gnuplot)' => '',
+        'Graph: Line Chart (D3)' => '',
+        'Graph: Line Chart (Gnuplot)' => '',
+        'Graph: Stacked Area Chart (D3)' => '',
+        'Graph: Stacked Area Chart (Gnuplot)' => '',
+        'Graph: Stacked Bar Chart (Gnuplot)' => '',
         'Greek' => 'Görög',
         'Hebrew' => 'Héber',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -10616,6 +10639,7 @@ Az Ön ügyfélszolgálati csapata
         'Draft title',
         'Duplicate event.',
         'Duplicated entry',
+        'Dynamic Field Delete: An Error occurred',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
@@ -10806,6 +10830,7 @@ Az Ön ügyfélszolgálati csapata
         'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
+        'The deletion could not be completed. Please review the logs for detailed information.',
         'The deployment is already running.',
         'The following files are not allowed to be uploaded: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',

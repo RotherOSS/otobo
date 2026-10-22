@@ -1,30 +1,27 @@
 package Sisimai::Mail::STDIN;
-use feature ':5.10';
+use v5.26;
 use strict;
 use warnings;
-use Class::Accessor::Lite;
 use IO::Handle;
-
-my $roaccessors = [
-    'path',     # [String]  Path to mbox
-    'name',     # [String]  File name of the mbox
-    'size',     # [Integer] File size of the mbox
-];
-my $rwaccessors = [
-    'offset',   # [Integer]  Offset position for seeking
-    'handle',   # [IO::File] File handle
-];
-Class::Accessor::Lite->mk_accessors(@$rwaccessors);
-Class::Accessor::Lite->mk_ro_accessors(@$roaccessors);
+use Class::Accessor::Lite (
+    'new' => 0,
+    'ro'  => [
+        'path',     # [String]  Fixed string "<STDIN>"
+        'size',     # [Integer] Data size which has been read
+    ],
+    'rw'  => [
+        'offset',   # [Integer]  The number of emails which have been read
+        'handle',   # [IO::File] File handle
+    ]
+);
 
 sub new {
     # Constructor of Sisimai::Mail::STDIN
     # @return   [Sisimai::Mail::STDIN] Object
     my $class = shift;
-    my $param = { 
+    my $param = {
         'path'   => '<STDIN>',
-        'name'   => '<STDIN>',
-        'size'   => undef,
+        'size'   => 0,
         'offset' => 0,
         'handle' => IO::Handle->new->fdopen(fileno(STDIN), 'r'),
     };
@@ -32,11 +29,9 @@ sub new {
 }
 
 sub read {
-    # Mbox reader, works as a iterator.
+    # Mbox reader, works as an iterator.
     # @return   [String] Contents of mbox
-    my $self = shift;
-    return undef unless -T $self->{'handle'};
-
+    my $self       = shift; return "" unless -T $self->{'handle'};
     my $readhandle = $self->{'handle'};
     my $readbuffer = '';
     eval {
@@ -48,6 +43,8 @@ sub read {
             $readbuffer .= $r;
         }
     };
+    $self->{'size'}   += length $readbuffer;
+    $self->{'offset'} += 1;
     return $readbuffer;
 }
 
@@ -66,17 +63,16 @@ Sisimai::Mail::STDIN - Mailbox reader
     while( my $r = $mailbox->read ) {
         print $r;   # print data read from STDIN
     }
-    $mailbox->close;
 
 =head1 DESCRIPTION
 
-Sisimai::Mail::STDIN read email data from STDIN.
+C<Sisimai::Mail::STDIN> read email data from Standard-In
 
 =head1 CLASS METHODS
 
 =head2 C<B<new()>>
 
-C<new()> is a constructor of Sisimai::Mail::STDIN
+C<new()> method is a constructor of C<Sisimai::Mail::STDIN>
 
     my $mailbox = Sisimai::Mail::STDIN->new();
 
@@ -84,38 +80,32 @@ C<new()> is a constructor of Sisimai::Mail::STDIN
 
 =head2 C<B<path()>>
 
-C<path()> returns "<STDIN>"
+C<path()> metehod returns a fixed string C<"<STDIN>">
 
     print $mailbox->path;   # "<STDIN>"
 
-=head2 C<B<name()>>
-
-C<name()> returns "<STDIN>"
-
-    print $mailbox->name;   # "<STDIN>"
-
 =head2 C<B<size()>>
 
-C<size()> returns "undef"
+C<size()> method returns the data size which has been read
 
-    print $mailbox->size;   # undef
+    print $mailbox->size;   # 2202
 
 =head2 C<B<offset()>>
 
-C<offset()> returns offset position for seeking the mbox. The value of "offset"
-is bytes which have already read.
+C<offset()> method returns the offset position for seeking the mbox. The value of C<"offset"> is a
+bytes which have already read.
 
     print $mailbox->offset;   # 0
 
 =head2 C<B<handle()>>
 
-C<handle()> returns file handle object (IO::Handle) of the mbox.
+C<handle()> method returns file handle object C<IO::Handle> of the mbox.
 
-    $mailbox->handle->close;
+    $mailbox->handle;
 
 =head2 C<B<read()>>
 
-C<read()> works as a iterator for reading each email in the mbox.
+C<read()> method works as an iterator for reading each email in the mbox.
 
     my $mailbox = Sisimai::Mail->new();
     while( my $r = $mailbox->read ) {
@@ -128,7 +118,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018-2021,2024,2025 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

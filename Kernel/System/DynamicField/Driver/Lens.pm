@@ -819,6 +819,61 @@ sub GetFieldState {
     return %FieldStates;
 }
 
+=head2 ImportExportPrepareConfig()
+
+This sub performs translation between Name and ID for attributes which are stored with ID in the field config. For export, the Name is needed because IDs of objects may differ between systems. During import, the Name needs to be translated back into the ID for the field to work properly.
+
+    my @ObjectIDs = $BackendObject->ImportExportPrepareConfig(
+        DynamicFieldConfig => $DynamicFieldConfig,  # required
+        Direction          => 'Import',             # required; Import or Export
+    );
+
+=cut
+
+sub ImportExportPrepareConfig {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig Direction)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
+            return;
+        }
+    }
+
+    my %Return;
+    if ( $Param{Direction} eq 'Import' ) {
+
+        # needed transformation: Name -> ID
+        my $AttributeDF = $Self->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Return{AttributeDF} = $AttributeDF->{ID};
+        my $ReferenceDF = $Self->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Return{ReferenceDF} = $ReferenceDF->{ID};
+    }
+    elsif ( $Param{Direction} eq 'Export' ) {
+
+        # needed transformation: ID -> Name
+        my $AttributeDF = $Self->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Return{AttributeDF} = $AttributeDF->{Name};
+        my $ReferenceDF = $Self->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Return{ReferenceDF} = $ReferenceDF->{Name};
+    }
+
+    return %Return;
+}
+
 =head1 internal methods
 
 Methods that are used only internally.

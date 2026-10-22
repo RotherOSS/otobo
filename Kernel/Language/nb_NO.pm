@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.891973100586636;
+    $Self->{Completeness}        = 0.889364739471806;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2187,7 +2187,7 @@ sub Data {
         'The signature for email answers.' => 'Signatur for e-postsvar.',
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
+        'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Denne køen brukes i følgende konfigurasjonsinnstillinger:',
 
@@ -4359,10 +4359,18 @@ sub Data {
         'Allocate Services to Customer User' => 'Tildel tjenester til kundebruker',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
+        'Deletion was not confirmed!' => '',
+        'Could not find dynamic field to be deleted!' => '',
+        'Could not delete dynamic field \'%s\' because it is an internal field.' =>
+            '',
+        'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
+            '',
         'Fields configuration is not valid' => 'Feltkonfigurasjonen er ikke gyldig',
         'Objects configuration is not valid' => 'Objektkonfigurasjonen er ikke gyldig',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Kunne ikke tilbakestille Dynamic Field-rekkefølgen riktig, sjekk feilloggen for mer informasjon.',
+        'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Udefinert delhandling.',
@@ -4398,6 +4406,9 @@ sub Data {
         'An element is used as parent element, but not included itself. Please include it.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
+        'Something went wrong during dynamic field import.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => '',
         'Select the dynamic field that references an object' => '',
@@ -4415,6 +4426,8 @@ sub Data {
         'Setting is locked by another user!' => 'Innstillingen er låst av en annen bruker!',
         'System was not able to reset the setting!' => 'Systemet kunne ikke tilbakestille innstillingen!',
         'Settings were reset.' => 'Innstillingene ble tilbakestilt.',
+        'Dynamic Fields for this Screen' => '',
+        'Screens for this Dynamic Field' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
@@ -4691,6 +4704,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Ingen slik pakke!',
+        'The file is not valid!' => '',
         'No such file %s in package!' => 'Ingen slik fil %s i pakken!',
         'No such file %s in local file system!' => 'Ingen slik fil %s i lokalt filsystem!',
         'Can\'t read %s!' => 'Kan ikke lese %s!',
@@ -5784,7 +5798,6 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => 'Avbryt redigering og lås opp denne innstillingen',
-        'Reset this setting to its default value.' => 'Tilbakestill denne innstillingen til standardverdien.',
         'Unable to load %s!' => 'Kan ikke laste %s!',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -6783,6 +6796,9 @@ sub Data {
             'Vil du virkelig fjerne dette dynamiske feltet? ALLE tilknyttede data vil bli BORTE!',
         'Delete field' => 'Fjern felt',
         'Deleting the field and its data. This may take a while...' => 'Sletting av feltet og dets data. Dette kan ta en stund...',
+        'The deletion could not be completed. Please review the logs for detailed information.' =>
+            '',
+        'Dynamic Field Delete: An Error occurred' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => 'Fjern dette dynamiske feltet',
@@ -7641,6 +7657,8 @@ Ditt Helpdesk-team
             '',
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             '',
+        'Controls the search limit in the AdminCustomerUser interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konverter HTML e-poster til tekstmeldinger.',
         'Create New process ticket.' => 'Opprett ny prosesssak.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Lag maler for AdminDynamicFieldTitle.',
@@ -8408,6 +8426,7 @@ Ditt Helpdesk-team
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Definerer banen til openssl-binærfil. Det kan trenge en HOME-env ($ENV{HOME} = \'/var/lib/wwwrun\';).',
         'Defines the path to the Google Chrome or Chromium binary.' => '',
+        'Defines the path to the gnuplot binary.' => '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'Definerer tidsperioden (i minutter) før agenten merkes som "borte" på grunn av inaktivitet (f.eks. i "påloggede brukere"-widgeten eller for chatten).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8909,9 +8928,13 @@ Ditt Helpdesk-team
         'Go to dashboard!' => 'Gå til kontrollpanel!',
         'Good PGP signature.' => 'God PGP-signatur.',
         'Google Authenticator' => 'Google Authenticator',
-        'Graph: Bar Chart' => 'Graf: Søylediagram',
-        'Graph: Line Chart' => 'Graf: Linjediagram',
-        'Graph: Stacked Area Chart' => 'Graf: Stablet områdediagram',
+        'Graph: Bar Chart (D3)' => '',
+        'Graph: Clustered Bar Chart (Gnuplot)' => '',
+        'Graph: Line Chart (D3)' => '',
+        'Graph: Line Chart (Gnuplot)' => '',
+        'Graph: Stacked Area Chart (D3)' => '',
+        'Graph: Stacked Area Chart (Gnuplot)' => '',
+        'Graph: Stacked Bar Chart (Gnuplot)' => '',
         'Greek' => 'Gresk',
         'Hebrew' => 'Hebraisk',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -10619,6 +10642,7 @@ Ditt Helpdesk-team
         'Draft title',
         'Duplicate event.',
         'Duplicated entry',
+        'Dynamic Field Delete: An Error occurred',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
@@ -10809,6 +10833,7 @@ Ditt Helpdesk-team
         'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
+        'The deletion could not be completed. Please review the logs for detailed information.',
         'The deployment is already running.',
         'The following files are not allowed to be uploaded: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',

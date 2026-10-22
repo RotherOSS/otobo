@@ -1058,12 +1058,8 @@ sub ValueGet {
             ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
         );
         if ( !IsHashRefWithData($ObjectIDs) || !$ObjectIDs->{ $Param{ObjectName} } ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'debug',
-                Message  =>
-                    "Dynamic field $Param{DynamicFieldConfig}{Name} (ID $Param{DynamicFieldConfig}{ID}): Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}{ObjectType}!"
-            );
 
+            # this case happens when no dynamic field value for the object has been stored so far
             return;
         }
 
@@ -3190,6 +3186,8 @@ Get the new value and possible values for use in FieldRestrictions(). Note that 
         %Param,
         Visibility         => \%Visibility,
         CachedVisibility   => $CachedVisibility // {},
+        Disappears         => (0|1),                        # optional; flag if the field was visible and is hidden now
+        Reappears          => (0|1),                        # optional; flag if the field was hidden and is visible now
         DynamicFieldConfig => $DynamicFieldConfig,
         DynamicFieldDataDB => \%DynamicFieldDataDB,         # optional; used for setting values of reappearing dynamic fields to stored values
     );
@@ -3275,16 +3273,16 @@ sub BuildAJAXReturn {
 
         my $DynamicFieldConfig = $DynamicFieldConfigs->{$Name};
 
-        if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
-            for my $i ( 0 .. $#{ $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
+        if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $GetParam->{DynamicField}{"DynamicField_$Name"} eq 'ARRAY' ) {
+            for my $i ( 0 .. $#{ $GetParam->{DynamicField}{"DynamicField_$Name"} } ) {
                 my $DataValues = $DynFieldStates->{Fields}{$Name}{NotACLReducible}
-                    ? ( $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] // '' )
+                    ? ( $GetParam->{DynamicField}{"DynamicField_$Name"}[$i] // '' )
                     :
                     (
                         $Self->BuildSelectionDataGet(
                             DynamicFieldConfig => $DynamicFieldConfig,
                             PossibleValues     => $DynFieldStates->{Fields}{$Name}{PossibleValues},
-                            Value              => [ $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
+                            Value              => [ $GetParam->{DynamicField}{"DynamicField_$Name"}[$i] ],
                         )
                         || $DynFieldStates->{Fields}{$Name}{PossibleValues}
                     );
@@ -3293,7 +3291,7 @@ sub BuildAJAXReturn {
                 push @DynamicFieldAJAX, {
                     Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i",
                     Data        => $DataValues,
-                    SelectedID  => $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
+                    SelectedID  => $GetParam->{DynamicField}{"DynamicField_$Name"}[$i],
                     Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                     Max         => 100,
                 };
@@ -3324,13 +3322,13 @@ sub BuildAJAXReturn {
         }
 
         my $DataValues = $DynFieldStates->{Fields}{$Name}{NotACLReducible}
-            ? ( $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} // '' )
+            ? ( $GetParam->{DynamicField}{"DynamicField_$Name"} // '' )
             :
             (
                 $Self->BuildSelectionDataGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     PossibleValues     => $DynFieldStates->{Fields}{$Name}{PossibleValues},
-                    Value              => $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    Value              => $GetParam->{DynamicField}{"DynamicField_$Name"},
                 )
                 || $DynFieldStates->{Fields}{$Name}{PossibleValues}
             );
@@ -3339,7 +3337,7 @@ sub BuildAJAXReturn {
         push @DynamicFieldAJAX, {
             Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
             Data        => $DataValues,
-            SelectedID  => $GetParam->{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            SelectedID  => $GetParam->{DynamicField}{"DynamicField_$Name"},
             Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
             Max         => 100,
         };
