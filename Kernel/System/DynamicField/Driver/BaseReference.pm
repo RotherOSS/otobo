@@ -38,11 +38,16 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::CustomerUser',
     'Kernel::System::DB',
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::LinkObject',
+    'Kernel::System::Priority',
+    'Kernel::System::Queue',
+    'Kernel::System::State',
+    'Kernel::System::User',
     'Kernel::System::Web::FormCache',
 );
 
@@ -1286,6 +1291,64 @@ sub GetFieldState {
         # ticket specific
         CustomerUserID => $Param{CustomerUser} || $Param{GetParam}{CustomerUserID},
     );
+
+    # fill in canonical attributes if the mask provides an equivalent field name
+    ATTRIBUTE:
+    for my $Attribute ( keys %AttributeMapping ) {
+        next ATTRIBUTE if $Object{$Attribute};
+
+        FIELDNAME:
+        for my $FieldName ( $AttributeMapping{$Attribute}->@* ) {
+            next FIELDNAME unless $Object{$FieldName};
+
+            $Object{$Attribute} = $Object{$FieldName};
+
+            # Dest is either "QueueID" or "QueueID||QueueName", only extract the ID
+            if ( $FieldName eq 'Dest' ) {
+                ( $Object{$Attribute} ) = split /\|\|/, $Object{$FieldName};
+            }
+
+            last FIELDNAME;
+        }
+    }
+
+    # fill in canonical attributes which can be looked up from a provided field name
+    LOOKUP:
+    for my $SourceAttribute ( sort keys %AttributeLookups ) {
+        my $Attribute = $AttributeLookups{$SourceAttribute};
+        next LOOKUP if $Object{$Attribute};
+
+        my $SourceValue = $Object{$SourceAttribute};
+        next LOOKUP unless $SourceValue;
+
+        if ( $Attribute eq 'Queue' ) {
+            $Object{Queue} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+                QueueID => $SourceValue,
+            );
+        }
+        elsif ( $Attribute eq 'Owner' ) {
+            $Object{Owner} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+                UserID => $SourceValue,
+                Silent => 1,
+            );
+        }
+        elsif ( $Attribute eq 'State' ) {
+            $Object{State} = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
+                StateID => $SourceValue,
+            );
+        }
+        elsif ( $Attribute eq 'Priority' ) {
+            $Object{Priority} = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
+                PriorityID => $SourceValue,
+            );
+        }
+        elsif ( $Attribute eq 'CustomerID' ) {
+            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                User => $SourceValue,
+            );
+            $Object{CustomerID} = $CustomerUser{UserCustomerID};
+        }
+    }
 
     if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
         return if !$Value->[0];
