@@ -1927,8 +1927,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.50
-    pathname: S/SR/SRI/Mojolicious-9.50.tar.gz
+  Mojolicious-9.51
+    pathname: S/SR/SRI/Mojolicious-9.51.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1998,7 +1998,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.50
+      Mojolicious 9.51
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -3264,66 +3264,66 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  URI-5.38
-    pathname: O/OA/OALDERS/URI-5.38.tar.gz
+  URI-5.40
+    pathname: O/OA/OALDERS/URI-5.40.tar.gz
     provides:
-      URI 5.38
-      URI::Escape 5.38
-      URI::Heuristic 5.38
-      URI::IRI 5.38
-      URI::QueryParam 5.38
-      URI::Split 5.38
-      URI::URL 5.38
-      URI::WithBase 5.38
-      URI::data 5.38
-      URI::file 5.38
-      URI::file::Base 5.38
-      URI::file::FAT 5.38
-      URI::file::Mac 5.38
-      URI::file::OS2 5.38
-      URI::file::QNX 5.38
-      URI::file::Unix 5.38
-      URI::file::Win32 5.38
-      URI::ftp 5.38
-      URI::ftpes 5.38
-      URI::ftps 5.38
-      URI::geo 5.38
-      URI::gopher 5.38
-      URI::http 5.38
-      URI::https 5.38
-      URI::icap 5.38
-      URI::icaps 5.38
-      URI::irc 5.38
-      URI::ircs 5.38
-      URI::ldap 5.38
-      URI::ldapi 5.38
-      URI::ldaps 5.38
-      URI::mailto 5.38
-      URI::mms 5.38
-      URI::news 5.38
-      URI::nntp 5.38
-      URI::nntps 5.38
-      URI::otpauth 5.38
-      URI::pop 5.38
-      URI::rlogin 5.38
-      URI::rsync 5.38
-      URI::rtsp 5.38
-      URI::rtspu 5.38
-      URI::scp 5.38
-      URI::sftp 5.38
-      URI::sip 5.38
-      URI::sips 5.38
-      URI::smb 5.38
-      URI::smtp 5.38
-      URI::snews 5.38
-      URI::ssh 5.38
-      URI::telnet 5.38
-      URI::tn3270 5.38
-      URI::urn 5.38
-      URI::urn::isbn 5.38
-      URI::urn::oid 5.38
-      URI::ws 5.38
-      URI::wss 5.38
+      URI 5.40
+      URI::Escape 5.40
+      URI::Heuristic 5.40
+      URI::IRI 5.40
+      URI::QueryParam 5.40
+      URI::Split 5.40
+      URI::URL 5.40
+      URI::WithBase 5.40
+      URI::data 5.40
+      URI::file 5.40
+      URI::file::Base 5.40
+      URI::file::FAT 5.40
+      URI::file::Mac 5.40
+      URI::file::OS2 5.40
+      URI::file::QNX 5.40
+      URI::file::Unix 5.40
+      URI::file::Win32 5.40
+      URI::ftp 5.40
+      URI::ftpes 5.40
+      URI::ftps 5.40
+      URI::geo 5.40
+      URI::gopher 5.40
+      URI::http 5.40
+      URI::https 5.40
+      URI::icap 5.40
+      URI::icaps 5.40
+      URI::irc 5.40
+      URI::ircs 5.40
+      URI::ldap 5.40
+      URI::ldapi 5.40
+      URI::ldaps 5.40
+      URI::mailto 5.40
+      URI::mms 5.40
+      URI::news 5.40
+      URI::nntp 5.40
+      URI::nntps 5.40
+      URI::otpauth 5.40
+      URI::pop 5.40
+      URI::rlogin 5.40
+      URI::rsync 5.40
+      URI::rtsp 5.40
+      URI::rtspu 5.40
+      URI::scp 5.40
+      URI::sftp 5.40
+      URI::sip 5.40
+      URI::sips 5.40
+      URI::smb 5.40
+      URI::smtp 5.40
+      URI::snews 5.40
+      URI::ssh 5.40
+      URI::telnet 5.40
+      URI::tn3270 5.40
+      URI::urn 5.40
+      URI::urn::isbn 5.40
+      URI::urn::oid 5.40
+      URI::ws 5.40
+      URI::wss 5.40
     requirements:
       Carp 0
       Cwd 0
