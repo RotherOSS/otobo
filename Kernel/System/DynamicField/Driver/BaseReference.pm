@@ -32,7 +32,7 @@ use List::Util qw(any none);
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -1211,6 +1211,13 @@ sub PossibleValuesGet {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # fill the object with all possible canonical attributes
+    if ( IsHashRefWithData( $Param{Object} ) ) {
+        $Self->_EditMaskObjectComplete(
+            Object => $Param{Object},
+        );
+    }
+
     # passing $Param{ParamObject} or $Param{Object} to SearchObjects()
     my @SearchResult = $Self->SearchObjects(
         %Param,
@@ -1292,63 +1299,10 @@ sub GetFieldState {
         CustomerUserID => $Param{CustomerUser} || $Param{GetParam}{CustomerUserID},
     );
 
-    # fill in canonical attributes if the mask provides an equivalent field name
-    ATTRIBUTE:
-    for my $Attribute ( keys %AttributeMapping ) {
-        next ATTRIBUTE if $Object{$Attribute};
-
-        FIELDNAME:
-        for my $FieldName ( $AttributeMapping{$Attribute}->@* ) {
-            next FIELDNAME unless $Object{$FieldName};
-
-            $Object{$Attribute} = $Object{$FieldName};
-
-            # Dest is either "QueueID" or "QueueID||QueueName", only extract the ID
-            if ( $FieldName eq 'Dest' ) {
-                ( $Object{$Attribute} ) = split /\|\|/, $Object{$FieldName};
-            }
-
-            last FIELDNAME;
-        }
-    }
-
-    # fill in canonical attributes which can be looked up from a provided field name
-    LOOKUP:
-    for my $SourceAttribute ( sort keys %AttributeLookups ) {
-        my $Attribute = $AttributeLookups{$SourceAttribute};
-        next LOOKUP if $Object{$Attribute};
-
-        my $SourceValue = $Object{$SourceAttribute};
-        next LOOKUP unless $SourceValue;
-
-        if ( $Attribute eq 'Queue' ) {
-            $Object{Queue} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
-                QueueID => $SourceValue,
-            );
-        }
-        elsif ( $Attribute eq 'Owner' ) {
-            $Object{Owner} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-                UserID => $SourceValue,
-                Silent => 1,
-            );
-        }
-        elsif ( $Attribute eq 'State' ) {
-            $Object{State} = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
-                StateID => $SourceValue,
-            );
-        }
-        elsif ( $Attribute eq 'Priority' ) {
-            $Object{Priority} = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
-                PriorityID => $SourceValue,
-            );
-        }
-        elsif ( $Attribute eq 'CustomerID' ) {
-            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                User => $SourceValue,
-            );
-            $Object{CustomerID} = $CustomerUser{UserCustomerID};
-        }
-    }
+    # fill the object with all possible canonical attributes
+    $Self->_EditMaskObjectComplete(
+        Object => \%Object,
+    );
 
     if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
         return if !$Value->[0];
@@ -1607,6 +1561,76 @@ sub _GetEntityIDForLinking {
 
     # otherwise ID stays as is
     return $ID;
+}
+
+# fill in canonical attributes which the edit masks only provide under a different name or can be looked up
+sub _EditMaskObjectComplete {
+    my ( $Self, %Param ) = @_;
+
+    my $Object = $Param{Object};
+
+    my %AttributeMapping = $Self->_EditMaskAttributeMapping();
+    my %AttributeLookups = $Self->_EditMaskAttributeLookups();
+
+    # fill in canonical attributes if the mask provides an equivalent field name
+    ATTRIBUTE:
+    for my $Attribute ( keys %AttributeMapping ) {
+        next ATTRIBUTE if $Object->{$Attribute};
+
+        FIELDNAME:
+        for my $FieldName ( $AttributeMapping{$Attribute}->@* ) {
+            next FIELDNAME unless $Object->{$FieldName};
+
+            $Object->{$Attribute} = $Object->{$FieldName};
+
+            # Dest is either "QueueID" or "QueueID||QueueName", only extract the ID
+            if ( $FieldName eq 'Dest' ) {
+                ( $Object->{$Attribute} ) = split /\|\|/, $Object->{$FieldName};
+            }
+
+            last FIELDNAME;
+        }
+    }
+
+    # fill in canonical attributes which can be looked up from a provided field name
+    LOOKUP:
+    for my $SourceAttribute ( sort keys %AttributeLookups ) {
+        my $Attribute = $AttributeLookups{$SourceAttribute};
+        next LOOKUP if $Object->{$Attribute};
+
+        my $SourceValue = $Object->{$SourceAttribute};
+        next LOOKUP unless $SourceValue;
+
+        if ( $Attribute eq 'Queue' ) {
+            $Object->{Queue} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+                QueueID => $SourceValue,
+            );
+        }
+        elsif ( $Attribute eq 'Owner' ) {
+            $Object->{Owner} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+                UserID => $SourceValue,
+                Silent => 1,
+            );
+        }
+        elsif ( $Attribute eq 'State' ) {
+            $Object->{State} = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
+                StateID => $SourceValue,
+            );
+        }
+        elsif ( $Attribute eq 'Priority' ) {
+            $Object->{Priority} = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
+                PriorityID => $SourceValue,
+            );
+        }
+        elsif ( $Attribute eq 'CustomerID' ) {
+            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                User => $SourceValue,
+            );
+            $Object->{CustomerID} = $CustomerUser{UserCustomerID};
+        }
+    }
+
+    return 1;
 }
 
 sub _EditMaskAttributeMapping {
