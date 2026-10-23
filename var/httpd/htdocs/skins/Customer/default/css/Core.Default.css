@@ -190,6 +190,21 @@ button.oooXS {
 }
 
 /**
+ * @subsection  Links
+ */
+
+a {
+    text-decoration: none;
+    color: #001bff;
+    color: var(--colTextLink);
+}
+
+a:hover,
+a:focus {
+    color: var(--colTextDark);
+}
+
+/**
  * @subsection jQuery autocomplete
  */
 ul.ui-autocomplete {
