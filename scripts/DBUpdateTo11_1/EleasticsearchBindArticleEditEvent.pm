@@ -28,7 +28,10 @@ use utf8;
 
 # OTOBO modules
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Package',
     'Kernel::System::GenericInterface::Webservice',
@@ -50,7 +53,7 @@ sub Run {
         Name => 'Elasticsearch',
     );
 
-    if ( !$Webservice ) {
+    if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'info',
             Message  => "Did not find the Elasticsearch webservice!",
