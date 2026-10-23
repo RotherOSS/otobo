@@ -77,8 +77,6 @@ RUN apt-get update\
  "telnet"\
  "tree"\
  "vim"\
- "chromium"\
- "chromium-sandbox"\
  "fonts-indic"\
  "fonts-noto"\
  "fonts-noto-cjk"\
