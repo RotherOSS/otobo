@@ -26,6 +26,7 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 # core modules
 
 # CPAN modules
+use Capture::Tiny qw(capture_stderr);
 
 # OTOBO modules
 
@@ -55,7 +56,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # The autoload settings are not deactivated yet. So we expect some errors.
-    # The user should not be bothered with these errors.
+    # The user should not be bothered with these errors. Therefore we capture
+    # the standard error and do nothing with it.
     my $SysConfigObject;
     capture_stderr {
         $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
