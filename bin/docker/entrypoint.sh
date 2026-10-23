@@ -188,8 +188,8 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll --hide-deployment-info 2>&1)
         echo "[$FUNCNAME] Admin::Package::UpgradeAll"
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll --no-validation 2>&1)
-        echo "[$FUNCNAME] Maint::Config::Rebuild --deploy-acls --deploy-processes"
-        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild --deploy-acls --deploy-processes 2>&1)
+        echo "[$FUNCNAME] Maint::Config::Rebuild"
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild --deploy-acls --deploy-processes --no-validation 2>&1)
         echo "[$FUNCNAME] Maint::Cache::Delete"
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
         echo "[$FUNCNAME] Maint::Loader::CacheCleanup"
