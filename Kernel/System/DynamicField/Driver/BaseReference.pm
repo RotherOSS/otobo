@@ -32,7 +32,7 @@ use List::Util qw(none);
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -591,6 +591,8 @@ sub DisplayValueRender {
     # activate HTMLOutput when it wasn't specified
     my $HTMLOutput = $Param{HTMLOutput} // 1;
 
+    my $MultiLink = $Param{MultiLink} // 0;
+
     # get raw Title and Value strings from field value
     my $ValueMaxChars = $Param{ValueMaxChars} || '';
     my $TitleMaxChars = $Param{TitleMaxChars} || '';
@@ -606,7 +608,7 @@ sub DisplayValueRender {
 
     # get descriptive names for the values, e.g. TicketNumber for TicketID
     my @LongObjectDescriptions;
-    my $Link;
+    my @Links;
     {
         for my $ObjectID (@ObjectIDs) {
             if ($ObjectID) {
@@ -617,10 +619,11 @@ sub DisplayValueRender {
                     LayoutObject       => $Param{LayoutObject},
                 );
                 push @LongObjectDescriptions, $Description{Long};
-                $Link = $Description{Link};
+                push @Links, ( $Description{Link} // '' );
             }
             else {
                 push @LongObjectDescriptions, '';
+                push @Links,                  '';
             }
         }
     }
@@ -645,9 +648,11 @@ sub DisplayValueRender {
             $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
 
             # decrease the max parameter
-            $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-            if ( $ValueMaxChars < 0 ) {
-                $ValueMaxChars = 0;
+            if ( !$MultiLink ) {
+                $ValueMaxChars = $ValueMaxChars - $ReadableLength;
+                if ( $ValueMaxChars < 0 ) {
+                    $ValueMaxChars = 0;
+                }
             }
         }
 
@@ -659,9 +664,11 @@ sub DisplayValueRender {
             $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
 
             # decrease the max parameter
-            $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-            if ( $TitleMaxChars < 0 ) {
-                $TitleMaxChars = 0;
+            if ( !$MultiLink ) {
+                $TitleMaxChars = $TitleMaxChars - $ReadableLength;
+                if ( $TitleMaxChars < 0 ) {
+                    $TitleMaxChars = 0;
+                }
             }
         }
 
@@ -688,19 +695,27 @@ sub DisplayValueRender {
 
     if ($ShowValueEllipsis) {
         $Value .= '...';
+        @ReadableValues = map { $_ ? $_ . '...' : $_ } @ReadableValues;
     }
     if ($ShowTitleEllipsis) {
         $Title .= '...';
+        @ReadableTitles = map { $_ ? $_ . '...' : $_ } @ReadableTitles;
     }
 
-    # set field link TODO: (Prio 5) think about multi value
-    $Link = @ObjectIDs == 1 ? $Link : undef;
+    if ($MultiLink) {
+        return {
+            Value       => \@ReadableValues,
+            Title       => \@ReadableTitles,
+            Link        => \@Links,
+            LinkPreview => [ map {''} @ReadableValues ],
+        };
+    }
 
     # return a data structure
     return {
         Value       => $Value,
         Title       => $Title,
-        Link        => $Link,
+        Link        => @ObjectIDs ? $Links[0] : undef,
         LinkPreview => '',
     };
 }
