@@ -245,10 +245,37 @@ sub Run {
         );
 
         if ( !$Permission ) {
-            $LayoutObject->FatalError(
-                Message => 'Invalid QueueID!',
+            my $QueueName = $QueueObject->QueueLookup( QueueID => $Self->{QueueID} );
+
+            if ( !$QueueName ) {
+                return $LayoutObject->FatalError(
+                    Message => 'Invalid QueueID!',
+                );
+            }
+
+            my %AllowedQueues = $QueueObject->GetAllQueues(
+                UserID => $Self->{UserID},
+                Type   => 'rw',
             );
+
+            my $HasValidChild;
+
+            QUEUE:
+            for my $ChildName ( values %AllowedQueues ) {
+                next QUEUE if $ChildName !~ /^\Q$QueueName\E::/;
+
+                $HasValidChild = 1;
+
+                last QUEUE;
+            }
+
+            unless ( $HasValidChild ) {
+                return $LayoutObject->FatalError(
+                    Message => 'Invalid QueueID!',
+                );
+            }
         }
+
         @ViewableQueueIDs = ( $Self->{QueueID} );
     }
 
