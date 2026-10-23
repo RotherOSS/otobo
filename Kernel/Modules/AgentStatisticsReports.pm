@@ -409,8 +409,9 @@ sub EditScreen {
 
                 # special case, if D3::BarChart is allowed then alos allow Gnuplut::StackedBarChart
                 if ( $D3FormatName eq 'D3::BarChart' ) {
-                    if ( $FormatIsAllowed{$GnuplotFormatName} && !$NameExists{$GnuplotFormatName} ) {
-                        push @NewFormatNames, 'Gnuplot::StackedBarChart';
+                    my $SpecialName = 'Gnuplot::StackedBarChart';
+                    if ( $FormatIsAllowed{$SpecialName} && !$NameExists{$SpecialName} ) {
+                        push @NewFormatNames, $SpecialName;
                     }
                 }
             }
@@ -849,6 +850,31 @@ sub StatsAddWidgetAJAX {
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # for the widget we allow e.g. Gnuplot::BarChart even if the statistic only allows D3::BarChart
+    {
+        # $Stat->{Format} is something like ['Print', 'D3::BarChart]
+        my %NameExists      = map { $_ => 1 } $Stat->{Format}->@*;
+        my @NewFormatNames  = $Stat->{Format}->@*;                                 # keep the existing formats of the stat
+        my %FormatIsAllowed = ( $ConfigObject->Get('Stats::Format') || {} )->%*;
+        for my $D3FormatName ( grep {m/^D3::/} $Stat->{Format}->@* ) {
+            my ( undef, $Sub ) = split /::/, $D3FormatName;
+            my $GnuplotFormatName = join '::', 'Gnuplot', $Sub;
+            if ( $FormatIsAllowed{$GnuplotFormatName} && !$NameExists{$GnuplotFormatName} ) {
+                push @NewFormatNames, $GnuplotFormatName;
+            }
+
+            # special case, if D3::BarChart is allowed then alos allow Gnuplut::StackedBarChart
+            if ( $D3FormatName eq 'D3::BarChart' ) {
+                my $SpecialName = 'Gnuplot::StackedBarChart';
+                if ( $FormatIsAllowed{$SpecialName} && !$NameExists{$SpecialName} ) {
+                    push @NewFormatNames, $SpecialName;
+                }
+            }
+        }
+
+        $Stat->{Format} = \@NewFormatNames;
+    }
 
     # Get supported formats.
     my %FilteredFormats;
