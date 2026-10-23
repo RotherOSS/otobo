@@ -54,10 +54,6 @@ sub Run {
 
     my @Tasks = (
         {
-            Name   => 'Create process management dynamic fields if not present.',
-            Module => 'CreateProcessManagementDynamicFields',
-        },
-        {
             # Rebuilding the config affects the subsequent tasks.
             # It is essential for at least SysConfigMigrateArticleActions.
             Name   => 'Rebuild the configuration as files in Kernel/Config/Files/XML have changed.',
@@ -68,6 +64,10 @@ sub Run {
             # This is fine as the new cache backend should be available.
             Name   => 'Use the caching backend from the SysConfig, FileStorable per default. In 11.0 Redis was enforced.',
             Module => 'RemoveRedisOverride',
+        },
+        {
+            Name   => 'Create process management dynamic fields if not present.',
+            Module => 'CreateProcessManagementDynamicFields',
         },
         {
             Name   => 'Deactivate autoload modules in the SysConfig.',
