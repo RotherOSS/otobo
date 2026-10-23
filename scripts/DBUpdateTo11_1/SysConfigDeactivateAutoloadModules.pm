@@ -26,7 +26,6 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 # core modules
 
 # CPAN modules
-use Capture::Tiny qw(capture_stderr);
 
 # OTOBO modules
 
@@ -58,13 +57,6 @@ sub Run {
     # The autoload settings are not deactivated yet. So we expect some errors.
     # The user should not be bothered with these errors.
     my $SysConfigObject;
-    my $CapturedStderr = capture_stderr {
-        $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    };
-    my $FilteredStderr = join "\n",
-        grep { $_ !~ m!Subroutine \w+ redefined! }         # in case the autoload module file exists
-        grep { $_ !~ m!Can't locate Kernel/Autoload/! }    # in case the autoload module file does not exist
-        split /\n/, $CapturedStderr;
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # nobody else should meddle with the SysConfig
