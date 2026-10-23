@@ -28,7 +28,6 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',

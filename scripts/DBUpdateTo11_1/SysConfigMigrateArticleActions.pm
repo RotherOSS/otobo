@@ -29,7 +29,7 @@ use List::Util qw(none uniq);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',

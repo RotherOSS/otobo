@@ -62,7 +62,7 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
 
-    # check availablilty of gnuplot
+    # check availability of gnuplot
     my $Key        = 'Gnuplot::Bin';
     my $GnuplotBin = $ConfigObject->Get($Key);
 

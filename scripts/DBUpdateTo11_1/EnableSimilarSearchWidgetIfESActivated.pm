@@ -59,7 +59,7 @@ sub Run {
         return 1;
     }
 
-    # Elastissearch is active, do some work
+    # Elasticsearch is active, do some work
     {
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
