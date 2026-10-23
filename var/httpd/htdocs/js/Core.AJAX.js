@@ -635,6 +635,16 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
                 }
 
+                // auto complete references
+                else if ( Field.attr('type') && Field.attr('type') == 'hidden' ) {
+                    let Inputbox = Field.prev('input');
+
+                    if ( Inputbox.length && Inputbox.hasClass("Validate_Required") ) {
+                        Inputbox.removeClass("Validate_Required");
+                        Inputbox.addClass("Validate_Required_IfVisible");
+                    }
+                }
+
                 // handle set-inner fields
                 if (InnerFields.length) {
                     let VisibilityStructure = [];
@@ -684,6 +694,16 @@ Core.AJAX = (function (TargetNS) {
                 else if ( Field.hasClass("Validate_DependingRequired_IfVisibleOR") ) {
                     Field.removeClass("Validate_DependingRequired_IfVisibleOR");
                     Field.addClass("Validate_DependingRequiredOR");
+                }
+
+                // auto complete references
+                else if ( Field.attr('type') && Field.attr('type') == 'hidden' ) {
+                    let Inputbox = Field.prev('input');
+
+                    if ( Inputbox.length && Inputbox.hasClass("Validate_Required_IfVisible") ) {
+                        Inputbox.removeClass("Validate_Required_IfVisible");
+                        Inputbox.addClass("Validate_Required");
+                    }
                 }
 
                 // init modernization on select fields hidden initially
