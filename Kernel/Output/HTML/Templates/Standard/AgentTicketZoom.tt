@@ -279,7 +279,12 @@
                                 <p class="Value CutValue DynamicField_[% Data.Name %]">
 <!-- OutputFilterHook_WidgetDynamicFieldBegin -->
 [% RenderBlockStart("OverviewWidgetDynamicFieldLink") %]
+[% RenderBlockStart("ValueItemLink") %]
                                     <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
+[% RenderBlockStart("MultivalueSeparatorLink") %]
+                                    </br>
+[% RenderBlockEnd("MultivalueSeparatorLink") %]
+[% RenderBlockEnd("ValueItemLink") %]
 [% RenderBlockEnd("OverviewWidgetDynamicFieldLink") %]
 [% RenderBlockStart("OverviewWidgetDynamicFieldPlain") %]
                                     [% Data.Value %]
