@@ -57,6 +57,9 @@ sub Run {
     # The autoload settings are not deactivated yet. So we expect some errors.
     # The user should not be bothered with these errors.
     my $SysConfigObject;
+    capture_stderr {
+        $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    };
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # nobody else should meddle with the SysConfig
