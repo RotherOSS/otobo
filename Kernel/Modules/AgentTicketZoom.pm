@@ -1862,6 +1862,7 @@ sub MaskAgentZoom {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                     LayoutObject       => $LayoutObject,
+                    MultiLink          => 1,
 
                     # no ValueMaxChars here, enough space available
                 );
@@ -2053,22 +2054,58 @@ sub MaskAgentZoom {
                     if ( $Field->{Link} ) {
                         $LayoutObject->Block(
                             Name => 'OverviewWidgetDynamicFieldLink',
-                            Data => {
-                                $Field->{Name} => $Field->{Title},
-                                %Ticket,
-
-                                # alias for ticket title, Title will be overwritten
-                                TicketTitle => $Ticket{Title},
-                                Value       => $Field->{Value},
-                                Title       => $Field->{Title},
-                                Link        => $Field->{Link},
-                                LinkPreview => $Field->{LinkPreview},
-
-                                # Include unique parameter with dynamic field name in case of collision with others.
-                                #   Please see bug#13362 for more information.
-                                "DynamicField_$Field->{Name}" => $Field->{Title},
-                            },
                         );
+                        if ( IsArrayRefWithData( $Field->{Link} ) ) {
+                            for my $Index ( 0 .. $#{ $Field->{Link} } ) {
+                                $LayoutObject->Block(
+                                    Name => 'ValueItemLink',
+                                    Data => {
+                                        $Field->{Name} => $Field->{Title}[$Index],
+                                        %Ticket,
+
+                                        # alias for ticket title, Title will be overwritten
+                                        TicketTitle => $Ticket{Title},
+                                        Value       => $Field->{Value}[$Index],
+                                        Title       => $Field->{Title}[$Index],
+                                        Link        => $Field->{Link}[$Index],
+                                        LinkPreview => $Field->{LinkPreview}[$Index],
+
+                                        # Include unique parameter with dynamic field name in case of collision with others.
+                                        #   Please see bug#13362 for more information.
+                                        "DynamicField_$Field->{Name}" => $Field->{Title}[$Index],
+                                    },
+                                );
+
+                                if ( $Index != $#{ $Field->{Link} } ) {
+                                    $LayoutObject->Block(
+                                        Name => 'MultivalueSeparatorLink',
+                                    );
+                                }
+                            }
+                        }
+                        else {
+                            $LayoutObject->Block(
+                                Name => 'OverviewWidgetDynamicFieldLink',
+                            );
+                            $LayoutObject->Block(
+                                Name => 'ValueItemLink',
+                                Data => {
+                                    $Field->{Name} => $Field->{Title},
+                                    %Ticket,
+
+                                    # alias for ticket title, Title will be overwritten
+                                    TicketTitle => $Ticket{Title},
+                                    Value       => $Field->{Value},
+                                    Title       => $Field->{Title},
+                                    Link        => $Field->{Link},
+                                    LinkPreview => $Field->{LinkPreview},
+
+                                    # Include unique parameter with dynamic field name in case of collision with others.
+                                    #   Please see bug#13362 for more information.
+                                    "DynamicField_$Field->{Name}" => $Field->{Title},
+                                },
+                            );
+                        }
                     }
                     else {
                         $LayoutObject->Block(
