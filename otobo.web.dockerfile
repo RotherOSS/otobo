@@ -327,7 +327,9 @@ LABEL org.opencontainers.image.title='OTOBO Kerberos'
 # These labels change with every build
 ARG BUILD_DATE=unspecified
 LABEL org.opencontainers.image.created=$BUILD_DATE
+ARG GIT_COMMIT=unspecified
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
+ARG GIT_REPO=unspecified
 LABEL org.opencontainers.image.source=$GIT_REPO
 ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
