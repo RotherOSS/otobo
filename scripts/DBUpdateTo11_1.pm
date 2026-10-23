@@ -153,6 +153,10 @@ sub Run {
             Name   => 'Add source_article_id based index to the article_version table.',
             Module => 'DBAddSourceArticleIdIndex',
         },
+        {
+            Name   => 'Update Customer color definitions.',
+            Module => 'SysConfigUpdateCustomerColors',
+        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
