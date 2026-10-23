@@ -54,6 +54,10 @@ sub Run {
 
     my @Tasks = (
         {
+            Name   => 'Create process management dynamic fields if not present.',
+            Module => 'CreateProcessManagementDynamicFields',
+        },
+        {
             # Rebuilding the config affects the subsequent tasks.
             # It is essential for at least SysConfigMigrateArticleActions.
             Name   => 'Rebuild the configuration as files in Kernel/Config/Files/XML have changed.',
