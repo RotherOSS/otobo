@@ -364,6 +364,10 @@ and will transform dates to the current user's timezone.
         ValueMaxChars      => 20,                       # Optional (for HTMLOutput only)
         TitleMaxChars      => 20,                       # Optional (for HTMLOutput only)
         LayoutObject       => $LayoutObject,
+
+        # WARNING only temporary fix DO NOT TOUCH OR USE
+        MultiLink          => (0|1),                    # Optional - enable MultiValue output for links for reference fields
+                                                        #   CAUTION: Alters return structure
     );
 
 Returns:
@@ -373,6 +377,16 @@ Returns:
         Value       => $Value,
         Link        => $Link,
         LinkPreview => $LinkPreview,
+    }
+
+# WARNING only temporary fix DO NOT TOUCH OR USE
+Or, if reference field and with MultiLink enabled:
+
+    $ValueStrg = {
+        Title       => ['Title1', 'Title2'],
+        Value       => ['Value1', 'Value2'],
+        Link        => ['Link1', 'Link2'],
+        LinkPreview => ['LinkPreview1', 'LinkPreview2'],
     }
 
 =cut
