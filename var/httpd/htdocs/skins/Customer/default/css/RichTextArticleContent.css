@@ -55,9 +55,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     /* OTOBO Variables */
     --block-margin-bottom: calc(0.7 * var(--ck-content-line-height) * var(--ck-content-font-size));
-    --list-item-margin-bottom: calc(0.15 * var(--ck-content-line-height) * var(--ck-content-font-size)); 
-    
+    --list-item-margin-bottom: calc(0.15 * var(--ck-content-line-height) * var(--ck-content-font-size));
 
+    word-break: break-word;
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: var(--ck-content-font-size);

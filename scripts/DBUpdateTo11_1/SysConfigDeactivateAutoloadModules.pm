@@ -56,15 +56,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # The autoload settings are not deactivated yet. So we expect some errors.
-    # The user should not be bothered with these errors.
+    # The user should not be bothered with these errors. Therefore we capture
+    # the standard error and do nothing with it.
     my $SysConfigObject;
-    my $CapturedStderr = capture_stderr {
+    capture_stderr {
         $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     };
-    my $FilteredStderr = join "\n",
-        grep { $_ !~ m!Subroutine \w+ redefined! }         # in case the autoload module file exists
-        grep { $_ !~ m!Can't locate Kernel/Autoload/! }    # in case the autoload module file does not exist
-        split /\n/, $CapturedStderr;
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # nobody else should meddle with the SysConfig
@@ -139,10 +136,11 @@ sub Run {
     }
 
     my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-        AllSettings => 1,
-        Comments    => sprintf( 'UpgradeTo11.1 - %s', __FILE__ ),
-        Force       => 1,
-        UserID      => 1,
+        AllSettings  => 1,
+        Comments     => sprintf( 'UpgradeTo11.1 - %s', __FILE__ ),
+        Force        => 1,
+        UserID       => 1,
+        NoValidation => 1,
     );
 
     if ( !$DeploymentResult{Success} ) {

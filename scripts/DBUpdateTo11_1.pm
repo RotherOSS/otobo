@@ -66,6 +66,10 @@ sub Run {
             Module => 'RemoveRedisOverride',
         },
         {
+            Name   => 'Create process management dynamic fields if not present.',
+            Module => 'CreateProcessManagementDynamicFields',
+        },
+        {
             Name   => 'Deactivate autoload modules in the SysConfig.',
             Module => 'SysConfigDeactivateAutoloadModules',
         },
@@ -148,6 +152,10 @@ sub Run {
         {
             Name   => 'Add source_article_id based index to the article_version table.',
             Module => 'DBAddSourceArticleIdIndex',
+        },
+        {
+            Name   => 'Update Customer color definitions.',
+            Module => 'SysConfigUpdateCustomerColors',
         },
     );
     my $NumTasks = @Tasks;

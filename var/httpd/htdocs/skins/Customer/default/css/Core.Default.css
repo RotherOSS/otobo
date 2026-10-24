@@ -25,6 +25,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     --colBGDark: #bfbfce;
     --colTextLight: #7f809d;
     --colTextDark: #00023c;
+    --colTextLink: #001bff;
     --colHighlight: #fef235;
     --colNotifyOK: #c4cdfa;
     --colNotifyWarn: #fffccc;
@@ -186,6 +187,21 @@ button.oooXS {
 
 .Hidden {
     display: none;
+}
+
+/**
+ * @subsection  Links
+ */
+
+a {
+    text-decoration: none;
+    color: #001bff;
+    color: var(--colTextLink);
+}
+
+a:hover,
+a:focus {
+    color: var(--colTextDark);
 }
 
 /**

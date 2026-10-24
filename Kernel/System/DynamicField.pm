@@ -1794,7 +1794,13 @@ sub DynamicFieldConfigName2ID {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # attribute transformation for reference and lens dynamic fields
-    my $FieldTypeObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$DynamicFieldConfig->{FieldType}");
+    # get driver module from registration, module name may differ from field type (e.g. ProcessID)
+    my $DriverConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver') // {};
+    my $DriverModule = $DriverConfig->{ $DynamicFieldConfig->{FieldType} }->{Module};
+
+    return $DynamicFieldConfig if !$DriverModule;
+
+    my $FieldTypeObject = $Kernel::OM->Get($DriverModule);
     if ( $FieldTypeObject->can('ImportExportPrepareConfig') ) {
         my %PreparedConfigAttributes = $FieldTypeObject->ImportExportPrepareConfig(
             Direction          => 'Export',
@@ -1834,7 +1840,13 @@ sub DynamicFieldConfigID2Name {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     # attribute transformation for reference and lens dynamic fields
-    my $FieldTypeObject = $Kernel::OM->Get("Kernel::System::DynamicField::Driver::$DynamicFieldConfig->{FieldType}");
+    # get driver module from registration, module name may differ from field type (e.g. ProcessID)
+    my $DriverConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver') // {};
+    my $DriverModule = $DriverConfig->{ $DynamicFieldConfig->{FieldType} }->{Module};
+
+    return $DynamicFieldConfig if !$DriverModule;
+
+    my $FieldTypeObject = $Kernel::OM->Get($DriverModule);
     if ( $FieldTypeObject->can('ImportExportPrepareConfig') ) {
         my %PreparedConfigAttributes = $FieldTypeObject->ImportExportPrepareConfig(
             Direction          => 'Import',
@@ -2050,3 +2062,4 @@ sub _DynamicFieldReorder {
 =cut
 
 1;
+

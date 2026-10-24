@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-10-21 14:05+0000\n"
-"PO-Revision-Date: 2026-09-16 06:25+0000\n"
+"PO-Revision-Date: 2026-10-22 17:41+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
 "otobo/hu/>\n"
@@ -7832,10 +7832,6 @@ msgstr ""
 "semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva."
 
 #. Template: AdminQueue
-#, fuzzy
-#| msgid ""
-#| "Is defined in Admin > SystemConfiguration > Core > Time (default "
-#| "calendar) or in calendars 1 through 9."
 msgid ""
 "Is defined in Admin > System Configuration > Core > Time (default calendar) "
 "or in calendars 1 through 9."
@@ -14560,32 +14556,24 @@ msgid "Allocate Services to Customer User"
 msgstr "Szolgáltatások kiosztása az ügyfél-felhasználóhoz"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-#, fuzzy
-#| msgid "Action \"%s\" not found!"
 msgid "Deletion was not confirmed!"
-msgstr "A(z) „%s” művelet nem található!"
+msgstr "A törlés nem lett megerősítve!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-#, fuzzy
-#| msgid "Could not get data for dynamic field %s"
 msgid "Could not find dynamic field to be deleted!"
-msgstr "Nem sikerült lekérni az adatokat a dinamikus mezőhöz: %s"
+msgstr "Nem sikerült megtalálni a törlendő dinamikus mezőt!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Could not delete dynamic field '%s' because it is an internal field."
-msgstr ""
+msgstr "Nem sikerült törölni a(z) „%s” dinamikus mezőt, mert az egy belső mező."
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-#, fuzzy
-#| msgid ""
-#| "Could not reset Dynamic Field order properly, please check the error log "
-#| "for more details."
 msgid ""
 "Values for the dynamic field '%s' could not be deleted. Please review the "
 "logs for more details."
 msgstr ""
-"Nem sikerült megfelelően visszaállítani a dinamikus mező sorrendjét. További "
-"részletekért nézze meg a hibanaplót."
+"A(z) „%s” dinamikus mező értékeit nem sikerült törölni. További részletekért "
+"nézze át a naplókat."
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
@@ -14604,16 +14592,12 @@ msgstr ""
 "részletekért nézze meg a hibanaplót."
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-#, fuzzy
-#| msgid ""
-#| "Notifications could not be Imported due to a unknown error, please check "
-#| "OTOBO logs for more information"
 msgid ""
 "Dynamic field deletion could not be completed. Please contact the "
 "administrator or review the logs for more information"
 msgstr ""
-"Az értesítéseket nem sikerült importálni egy ismeretlen hiba miatt, további "
-"információkért nézze meg az OTOBO naplókat"
+"A dinamikus mező törlését nem sikerült befejezni. Vegye fel a kapcsolatot a "
+"rendszergazdával, vagy nézze át a naplókat a további információkért."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
@@ -14711,7 +14695,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
 msgid "Something went wrong during dynamic field import."
-msgstr ""
+msgstr "Valami probléma történt a dinamikus mező importálása során."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
@@ -14762,16 +14746,12 @@ msgid "Settings were reset."
 msgstr "Beállítások visszaállítva."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
-#, fuzzy
-#| msgid "Dynamic Fields Screens"
 msgid "Dynamic Fields for this Screen"
-msgstr "Dinamikus mezők képernyői"
+msgstr "Dinamikus mezők ehhez a képernyőhöz"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
-#, fuzzy
-#| msgid "Filter for Dynamic Fields"
 msgid "Screens for this Dynamic Field"
-msgstr "Szűrő a dinamikus mezőkhöz"
+msgstr "Képernyők ehhez a dinamikus mezőhöz"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Need valid field driver."
@@ -15656,10 +15636,8 @@ msgid "No such package!"
 msgstr "Nincs ilyen csomag!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-#, fuzzy
-#| msgid "The event %s is not valid."
 msgid "The file is not valid!"
-msgstr "A(z) %s esemény nem érvényes."
+msgstr "A fájl nem érvényes!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
@@ -21506,22 +21484,16 @@ msgstr ""
 "A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…"
 
 #. JS File: Core.Agent.Admin.DynamicField
-#, fuzzy
-#| msgid ""
-#| "There was an error deleting the template. Please check the logs for more "
-#| "information."
 msgid ""
 "The deletion could not be completed. Please review the logs for detailed "
 "information."
 msgstr ""
-"Hiba történt a sablon törlésekor. További információkért nézze meg a "
-"naplókat."
+"A törlést nem sikerült befejezni. Nézze át a naplókat a részletes "
+"információkért."
 
 #. JS File: Core.Agent.Admin.DynamicField
-#, fuzzy
-#| msgid "Dynamic field %s not found!"
 msgid "Dynamic Field Delete: An Error occurred"
-msgstr "A(z) %s dinamikus mező nem található!"
+msgstr "Dinamikus mező törlése: hiba történt"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
@@ -24384,15 +24356,10 @@ msgstr ""
 "„Frontend::RichText::EnhancedMode” beállítás engedélyezve van)."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Controls if the autocomplete field will be used for the customer ID "
-#| "selection in the AdminCustomerUser interface."
 msgid "Controls the search limit in the AdminCustomerUser interface."
 msgstr ""
-"Azt szabályozza, hogy az automatikus kiegészítés mező legyen-e használva az "
-"ügyfél-azonosító kijelöléséhez az adminisztrátori ügyfél-felhasználó "
-"felületen."
+"Az adminisztrátori ügyfél-felhasználói felületen lévő keresési korlátot "
+"szabályozza."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -24854,7 +24821,7 @@ msgid ""
 msgstr ""
 "Műveletek meghatározása, ahol egy beállítások gomb érhető el a kapcsolt "
 "objektumok felületi elemen (LinkObject::ViewMode = „összetett”). Ne feledje, "
-"hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS fájlok "
+"hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS-fájlok "
 "regisztrálásával: Core.AllocationList.css, Core.UI.AllocationList.js, "
 "Core.UI.Table.Sort.js, Core.Agent.TableFilters.js."
 
@@ -27769,10 +27736,8 @@ msgid "Defines the path to the Google Chrome or Chromium binary."
 msgstr "Meghatározza a Google Chrome vagy a Chromium bináris útvonalát."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Defines the path to PGP binary."
 msgid "Defines the path to the gnuplot binary."
-msgstr "Meghatározza a PGP bináris útvonalát."
+msgstr "Meghatározza a gnuplot bináris útvonalát."
 
 #. SysConfig
 msgid ""
@@ -29843,46 +29808,32 @@ msgid "Google Authenticator"
 msgstr "Google hitelesítő"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Bar Chart"
 msgid "Graph: Bar Chart (D3)"
-msgstr "Grafikon: oszlopdiagram"
+msgstr "Grafikon: oszlopdiagram (D3)"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Bar Chart"
 msgid "Graph: Clustered Bar Chart (Gnuplot)"
-msgstr "Grafikon: oszlopdiagram"
+msgstr "Grafikon: fürtözött oszlopdiagram (Gnuplot)"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Line Chart"
 msgid "Graph: Line Chart (D3)"
-msgstr "Grafikon: vonaldiagram"
+msgstr "Grafikon: vonaldiagram (D3)"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Line Chart"
 msgid "Graph: Line Chart (Gnuplot)"
-msgstr "Grafikon: vonaldiagram"
+msgstr "Grafikon: vonaldiagram (Gnuplot)"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Stacked Area Chart"
 msgid "Graph: Stacked Area Chart (D3)"
-msgstr "Grafikon: halmozott területdiagram"
+msgstr "Grafikon: halmozott területdiagram (D3)"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Stacked Area Chart"
 msgid "Graph: Stacked Area Chart (Gnuplot)"
-msgstr "Grafikon: halmozott területdiagram"
+msgstr "Grafikon: halmozott területdiagram (Gnuplot)"
 
 #. SysConfig
-#, fuzzy
-#| msgid "Graph: Stacked Area Chart"
 msgid "Graph: Stacked Bar Chart (Gnuplot)"
-msgstr "Grafikon: halmozott területdiagram"
+msgstr "Grafikon: halmozott oszlopdiagram (Gnuplot)"
 
 #. SysConfig
 msgid "Greek"
@@ -30377,7 +30328,7 @@ msgstr ""
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all CSS files in minified form."
 msgstr ""
-"Ha engedélyezve van, akkor az OTOBO minden CSS fájlt minimalizált formában "
+"Ha engedélyezve van, akkor az OTOBO minden CSS-fájlt minimalizált formában "
 "fog szállítani."
 
 #. SysConfig
@@ -30892,11 +30843,11 @@ msgstr ""
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
-"CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
+"CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
-msgstr "CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél."
+msgstr "CSS-fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
@@ -30987,14 +30938,14 @@ msgstr ""
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
 msgstr ""
-"Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői "
+"Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői "
 "felületnél."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
 msgstr ""
-"Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az "
+"Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az "
 "ügyfélfelületnél."
 
 #. SysConfig

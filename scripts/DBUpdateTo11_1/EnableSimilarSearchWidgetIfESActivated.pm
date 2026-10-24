@@ -59,7 +59,7 @@ sub Run {
         return 1;
     }
 
-    # Elastissearch is active, do some work
+    # Elasticsearch is active, do some work
     {
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -100,6 +100,7 @@ sub Run {
             Comments      => "UpgradeTo11.1 - Activate the Similar Search Widget if ES is activated.",
             UserID        => 1,
             Force         => 1,
+            NoValidation  => 1,
             DirtySettings => ['Ticket::Frontend::AgentTicketZoom###Widgets###0400-SimilarTickets'],
         );
 

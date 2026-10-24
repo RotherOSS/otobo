@@ -1943,6 +1943,7 @@ sub _Mask {
             Value              => $Value,
             ValueMaxChars      => 25,
             LayoutObject       => $LayoutObject,
+            MultiLink          => 1,
         );
 
         my $Label = $DynamicFieldConfig->{Label};
@@ -1954,17 +1955,46 @@ sub _Mask {
             },
         );
 
-        if ( $DynamicFieldConfig->{Config}->{Link} ) {
-            $LayoutObject->Block(
-                Name => 'TicketDynamicFieldLink',
-                Data => {
-                    Value                       => $ValueStrg->{Value},
-                    Title                       => $ValueStrg->{Title},
-                    Link                        => $DynamicFieldConfig->{Config}->{Link},
-                    LinkPreview                 => $DynamicFieldConfig->{Config}->{LinkPreview},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
-                },
-            );
+        if ( $ValueStrg->{Link} ) {
+            if ( IsArrayRefWithData( $ValueStrg->{Link} ) ) {
+                $LayoutObject->Block(
+                    Name => 'TicketDynamicFieldLink',
+                );
+                for my $Index ( 0 .. $#{ $ValueStrg->{Link} } ) {
+                    $LayoutObject->Block(
+                        Name => 'ValueItemLink',
+                        Data => {
+                            Value                       => $ValueStrg->{Value}[$Index],
+                            Title                       => $ValueStrg->{Title}[$Index],
+                            Link                        => $ValueStrg->{Link}[$Index],
+                            LinkPreview                 => $ValueStrg->{LinkPreview}[$Index],
+                            $DynamicFieldConfig->{Name} => $ValueStrg->{Value}[$Index],
+                        },
+                    );
+
+                    if ( $Index != $#{ $ValueStrg->{Link} } ) {
+                        $LayoutObject->Block(
+                            Name => 'MultivalueSeparatorLink',
+                        );
+                    }
+                }
+            }
+            else {
+                $LayoutObject->Block(
+                    Name => 'TicketDynamicFieldLink',
+                );
+                $LayoutObject->Block(
+                    Name => 'ValueItemLink',
+                    Data => {
+                        Value                       => $ValueStrg->{Value},
+                        Title                       => $ValueStrg->{Title},
+                        Link                        => $ValueStrg->{Link},
+                        LinkPreview                 => $ValueStrg->{LinkPreview},
+                        $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                    },
+                );
+            }
+
         }
         else {
             $LayoutObject->Block(

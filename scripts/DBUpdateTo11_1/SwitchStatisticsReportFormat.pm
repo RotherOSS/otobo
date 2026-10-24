@@ -62,15 +62,87 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
 
+    # check availablilty of chromium
+    my $ChromiumKey = 'GoogleChrome::Bin';
+    my $ChromiumBin = $ConfigObject->Get($ChromiumKey);
+
+    # If GoogleChrome::Bin is configured then deactivate it when it isn't available.
+    eval {
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => $ChromiumKey,
+        );
+
+        # Nothing to do when GoogleChrome::Bin is already inactive.
+        #
+        # It is not obvious whether the setting GoogleChrome::Bin can be valid at all.
+        # A configuration rebuild happened before which might already have invalidated the setting
+        # when the executable is missing.
+        return unless $Setting{IsValid};
+
+        # no searching in the PATH
+        my $Bin = $Setting{EffectiveValue};
+
+        # Do not deactivate when there is an executable chromium binary.
+        # There is no check whether $Bin is a file, as it might be a symlink
+        return if -x $Bin;
+
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            UserID    => 1,
+            Force     => 1,
+            DefaultID => $Setting{DefaultID},
+        );
+
+        return unless $ExclusiveLockGUID;
+
+        my %SettingUpdateResult = $SysConfigObject->SettingUpdate(
+            Name              => $ChromiumKey,
+            IsValid           => 0,                    # deactivate
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            EffectiveValue    => $Bin,
+        );
+
+        if ( !$SettingUpdateResult{Success} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Could not deactivate $ChromiumKey.",
+            );
+
+            return;
+        }
+
+        $SysConfigObject->SettingUnlock(
+            UserID    => 1,
+            DefaultID => $Setting{DefaultID},
+        );
+
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+            Comments      => "UpgradeTo11.1 - Deactivate $ChromiumKey.",
+            UserID        => 1,
+            Force         => 1,
+            DirtySettings => [$ChromiumKey],
+            NoValidation  => 1,
+        );
+
+        if ( !$DeploymentResult{Success} ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Deployment failed.",
+            );
+
+            return;
+        }
+    };
+
     # check availablilty of gnuplot
-    my $Key        = 'Gnuplot::Bin';
-    my $GnuplotBin = $ConfigObject->Get($Key);
+    my $GnuplotKey = 'Gnuplot::Bin';
+    my $GnuplotBin = $ConfigObject->Get($GnuplotKey);
 
     # If Gnuplot::Bin is not yet configured then activate it when available
     if ( !$GnuplotBin ) {
         eval {
             my %Setting = $SysConfigObject->SettingGet(
-                Name => $Key,
+                Name => $GnuplotKey,
             );
 
             # nothing to do when Gnuplot::Bin is already active
@@ -92,8 +164,8 @@ sub Run {
             return unless $ExclusiveLockGUID;
 
             my %SettingUpdateResult = $SysConfigObject->SettingUpdate(
-                Name              => $Key,
-                IsValid           => 1,
+                Name              => $GnuplotKey,
+                IsValid           => 1,                    # activate
                 UserID            => 1,
                 ExclusiveLockGUID => $ExclusiveLockGUID,
                 EffectiveValue    => $Bin,
@@ -102,7 +174,7 @@ sub Run {
             if ( !$SettingUpdateResult{Success} ) {
                 $LogObject->Log(
                     Priority => 'error',
-                    Message  => 'Could not activate Gnuplot::Bin.',
+                    Message  => "Could not activate $GnuplotKey.",
                 );
 
                 return;
@@ -114,10 +186,11 @@ sub Run {
             );
 
             my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-                Comments      => "UpgradeTo11.1 - Activate Gnuplot::Bin.",
+                Comments      => "UpgradeTo11.1 - Activate $GnuplotKey.",
                 UserID        => 1,
                 Force         => 1,
-                DirtySettings => [$Key],
+                DirtySettings => [$GnuplotKey],
+                NoValidation  => 1,
             );
 
             if ( !$DeploymentResult{Success} ) {
@@ -138,7 +211,7 @@ sub Run {
     }
 
     # Gnuplot::Bin might have been activated since the above check
-    $GnuplotBin = $ConfigObject->Get($Key);
+    $GnuplotBin = $ConfigObject->Get($GnuplotKey);
     if ( !$GnuplotBin ) {
         $LogObject->Log(
             Priority => 'info',

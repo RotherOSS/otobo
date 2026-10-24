@@ -344,6 +344,7 @@
                 <Item Key="BGDark">#bfbfce</Item>
                 <Item Key="TextDark">#00023c</Item>
                 <Item Key="TextLight">#7f809d</Item>
+                <Item Key="TextLink">#001bff</Item>
                 <Item Key="Highlight">#fef235</Item>
                 <Item Key="NotifyOK">#c4cdfa</Item>
                 <Item Key="NotifyWarn">#fffccc</Item>
@@ -504,7 +505,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-47.6.1/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-48.5.2/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextHeight" Required="1" Valid="1">
@@ -525,14 +526,14 @@
         <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.6.1-content.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-48.5.2-content.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.6.1-editor.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-48.5.2-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
@@ -546,14 +547,14 @@
         <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.6.1-content.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-48.5.2-content.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.6.1-editor.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-48.5.2-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
@@ -8568,14 +8569,14 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Stats::CustomerIDAsMultiSelect" Required="1" Valid="1">
-        <Description Translatable="1">Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).</Description>
+        <Description Translatable="1">Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).</Description>
         <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
-            <Item ValueType="Checkbox">1</Item>
+            <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::CustomerUserLoginsAsMultiSelect" Required="1" Valid="1">
-        <Description Translatable="1">Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).</Description>
+        <Description Translatable="1">Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).</Description>
         <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>

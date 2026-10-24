@@ -53,7 +53,12 @@
 [% RenderBlockStart("TicketDynamicField") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate(Data.Label) | html %]:</span>
 [% RenderBlockStart("TicketDynamicFieldLink") %]
+[% RenderBlockStart("ValueItemLink") %]
                         <a href="[% Data.Link | Interpolate %]" class="DynamicFieldLink" [% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank">[% Data.Value %]</a>
+[% RenderBlockStart("MultivalueSeparatorLink") %]
+                        <br/>
+[% RenderBlockEnd("MultivalueSeparatorLink") %]
+[% RenderBlockEnd("ValueItemLink") %]
 [% RenderBlockEnd("TicketDynamicFieldLink") %]
 [% RenderBlockStart("TicketDynamicFieldPlain") %]
                         [% Data.Value %]

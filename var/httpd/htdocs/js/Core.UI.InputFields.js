@@ -528,7 +528,6 @@ Core.UI.InputFields = (function (TargetNS) {
         var Selection,
             SelectionLength,
             $SelectionFilterObj,
-            i = 0,
             OffsetLeft = 0,
             OffsetRight = Config.SelectionBoxOffsetRight,
             MoreBox = false,
@@ -570,7 +569,7 @@ Core.UI.InputFields = (function (TargetNS) {
         if ($SelectObj.val()) {
 
             // Maximum available width for boxes
-            MaxWidth = $SearchObj.width() - Config.SelectionBoxOffsetRight - Config.InputFieldPadding;
+            MaxWidth = $SearchObj.innerWidth() - (Config.SelectionBoxOffsetRight + Config.InputFieldPadding);
 
             // Check which kind of selection we are dealing with
             if ($.isArray($SelectObj.val())) {
@@ -596,7 +595,7 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             // Iterate through all selected values
-            $.each(Selection, function (_Index, Value) {
+            $.each(Selection, function (Index, Value) {
                 var $SelectionObj,
                     Text,
                     $TextObj,
@@ -607,7 +606,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     return true;
                 }
 
-                if ( i === 0 && Config.CustomerInterface === true ) {
+                if ( Index === 0 && Config.CustomerInterface === true ) {
                     $InputContainerObj.parent().addClass('oooSelected');
                     // for DynamicFields
                     $InputContainerObj.parent().parent('.Field').addClass('oooSelected');
@@ -692,7 +691,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 } else {
 
                     // If first selection, we must shorten it in order to display it
-                    if (i === 0) {
+                    if (Index === 0) {
                         while (MaxWidth > 0 && OffsetLeft + $SelectionObj.outerWidth() >= MaxWidth) {
                             if ( $TextObj.text() === '...' ) {
                                 break;
@@ -726,7 +725,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                         OffsetLeft + 'px'
                                     )
                                     .html(
-                                        '<div class="Text">' + Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i) + '</div>'
+                                        '<div class="Text">' + Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - Index) + '</div>'
                                     )
                                     .on('click.InputField', function () {
                                         $SearchObj.trigger('focus');
@@ -741,7 +740,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                         OffsetLeft + 'px'
                                     )
                                     .text(
-                                        Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i)
+                                        Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - Index)
                                     )
                                     .on('click.InputField', function () {
                                         $SearchObj.trigger('focus');
@@ -762,7 +761,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Increment the offset with the width of box and right margin
                 OffsetLeft += $SelectionObj.outerWidth() + OffsetRight;
 
-                i++;
+                Index++;
             });
 
             if (Multiple && MoreBox) {
@@ -793,8 +792,10 @@ Core.UI.InputFields = (function (TargetNS) {
 
                                     // Refresh the field and get focus
                                     $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized')));
-                                    $SearchObj.width($SelectObj.outerWidth())
-                                        .trigger('blur');
+                                    if (Config.CustomerInterface !== true) {
+                                        SearchObj.width($SelectObj.outerWidth());
+                                    }
+                                    $SearchObj.trigger('blur');
                                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
                                     setTimeout(function () {
                                         $SearchObj.focus();
@@ -1613,6 +1614,8 @@ Core.UI.InputFields = (function (TargetNS) {
                         $ConfirmObj,
                         ErrorTooltipPosition = 'TongueTop';
 
+                    let ListContainerMargin = 16;
+
                     function CalculateListPosition() {
 
                         // calculate available height to bottom of page
@@ -1629,25 +1632,37 @@ Core.UI.InputFields = (function (TargetNS) {
                         // calculate available height to top of page
                         AvailableHeightTop = parseInt($InputContainerObj.offset().top - $(window).scrollTop() - Config.SafeMargin, 10);
 
+                        let MaxListWidth;
+
                         if ($SelectObj.hasClass('AlignDropdownRight')) {
+
+                            let RightListPosition = window.innerWidth-($InputContainerObj.offset().left + $InputContainerObj.outerWidth());
+                            MaxListWidth = RightListPosition - 2*ListContainerMargin;
+
                             // set right position
                             $ListContainerObj
                                 .css({
-                                    right: window.innerWidth-($InputContainerObj.offset().left + $InputContainerObj.outerWidth())
+                                    right: RightListPosition,
+                                    maxWidth: MaxListWidth
                                 });
                             if ( Config.CustomerInterface === true ) {
                                 $ListContainerObj
-                                    .css('margin-right', '16px');
+                                    .css('margin-right', ListContainerMargin);
                             }
                         } else {
+
+                            let LeftListPosition = $InputContainerObj.offset().left;
+                            MaxListWidth = window.innerWidth - (LeftListPosition + 2*ListContainerMargin);
+
                             // set left position
                             $ListContainerObj
                                 .css({
-                                    left: $InputContainerObj.offset().left
+                                    left: LeftListPosition,
+                                    maxWidth: MaxListWidth
                                 });
                             if ( Config.CustomerInterface === true ) {
                                 $ListContainerObj
-                                    .css('margin-left', '16px');
+                                    .css('margin-left', ListContainerMargin);
                             }
                         }
 
@@ -1844,12 +1859,25 @@ Core.UI.InputFields = (function (TargetNS) {
                         + Config.InputFieldPadding * 2
                     );
                     // Calculate width for tree container - Customer overrides width
-                    $TreeContainerObj.css('max-width', $SearchObj.width()
-                        + Config.InputFieldPadding * 2
+                    $TreeContainerObj.css(
+                        'max-width', 
+                        window.innerWidth - (
+                            $SearchObj.offset().left + 
+                            Config.InputFieldPadding*2 + 
+                            ListContainerMargin
+                        )
                     );
-                    $TreeContainerObj.css('min-width', ( $SearchObj.width()
-                        + Config.InputFieldPadding * 2 ) / 3
-                    );
+                    let TreeContainerMinWidth;
+                    if (Config.CustomerInterface === true) {
+                        TreeContainerMinWidth = Math.min( 
+                            250, 
+                            $SearchObj.width()- Config.InputFieldPadding * 2
+                        );
+                    } else {
+                        TreeContainerMinWidth = ( $SearchObj.width()
+                        + Config.InputFieldPadding * 2 ) / 3;
+                    }
+                    $TreeContainerObj.css('min-width', TreeContainerMinWidth);
 
                     // Deduce ID of original field
                     TreeID = $SelectObj.attr('id');

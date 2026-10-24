@@ -30,7 +30,7 @@ use parent 'Kernel::Output::HTML::Base';
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -399,6 +399,7 @@ sub Run {
             Value              => $Ticket{"DynamicField_$DynamicFieldConfig->{Name}"},
             LayoutObject       => $LayoutObject,
             ValueMaxChars      => $ConfigObject->Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar') || 18,    # limit for sidebar display
+            MultiLink          => 1,
         );
 
         if ( $Self->{DisplaySettings}->{DynamicField}->{ $DynamicFieldConfig->{Name} } ) {
@@ -496,24 +497,59 @@ sub Run {
         );
 
         if ( $Field->{Link} ) {
-            $LayoutObject->Block(
-                Name => 'TicketDynamicFieldLink',
-                Data => {
-                    $Field->{Name} => $Field->{Title},
-                    %Ticket,
+            if ( IsArrayRefWithData( $Field->{Link} ) ) {
+                $LayoutObject->Block(
+                    Name => 'TicketDynamicFieldLink',
+                );
+                for my $Index ( 0 .. $#{ $Field->{Link} } ) {
+                    $LayoutObject->Block(
+                        Name => 'ValueItemLink',
+                        Data => {
+                            $Field->{Name} => $Field->{Title}[$Index],
+                            %Ticket,
 
-                    # alias for ticket title, Title will be overwritten
-                    TicketTitle => $Ticket{Title},
-                    Value       => $Field->{Value},
-                    Title       => $Field->{Title},
-                    Link        => $Field->{Link},
-                    LinkPreview => $Field->{LinkPreview},
+                            # alias for ticket title, Title will be overwritten
+                            TicketTitle => $Ticket{Title},
+                            Value       => $Field->{Value}[$Index],
+                            Title       => $Field->{Title}[$Index],
+                            Link        => $Field->{Link}[$Index],
+                            LinkPreview => $Field->{LinkPreview}[$Index],
 
-                    # Include unique parameter with dynamic field name in case of collision with others.
-                    #   Please see bug#13362 for more information.
-                    "DynamicField_$Field->{Name}" => $Field->{Title},
-                },
-            );
+                            # Include unique parameter with dynamic field name in case of collision with others.
+                            #   Please see bug#13362 for more information.
+                            "DynamicField_$Field->{Name}" => $Field->{Title}[$Index],
+                        },
+                    );
+                    if ( $Index != $#{ $Field->{Link} } ) {
+                        $LayoutObject->Block(
+                            Name => 'MultivalueSeparatorLink',
+                        );
+                    }
+                }
+            }
+            else {
+                $LayoutObject->Block(
+                    Name => 'TicketDynamicFieldLink',
+                );
+                $LayoutObject->Block(
+                    Name => 'ValueItemLink',
+                    Data => {
+                        $Field->{Name} => $Field->{Title},
+                        %Ticket,
+
+                        # alias for ticket title, Title will be overwritten
+                        TicketTitle => $Ticket{Title},
+                        Value       => $Field->{Value},
+                        Title       => $Field->{Title},
+                        Link        => $Field->{Link},
+                        LinkPreview => $Field->{LinkPreview},
+
+                        # Include unique parameter with dynamic field name in case of collision with others.
+                        #   Please see bug#13362 for more information.
+                        "DynamicField_$Field->{Name}" => $Field->{Title},
+                    },
+                );
+            }
         }
         else {
             $LayoutObject->Block(

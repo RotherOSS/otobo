@@ -55,6 +55,7 @@ my @Tests = (
             'https://ftp.otobo.org/pub/otobo/packages/'               => 'OTOBO Addons',
             'https://otopar.perl-services.de/std/'                    => 'OTOpar Addons',
             'https://ftp.otobo.org/pub/otobo/packages-itsm/bundle10/' => 'ITSM Bundle',
+            'https://ftp.otobo.org/pub/otobo/packages-itsm/'          => 'OTOBO::ITSM Addons',
         },
     },
 );

@@ -29,7 +29,7 @@ use List::Util qw(none uniq);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -398,6 +398,7 @@ sub Run {
             Comments      => "UpgradeTo11.1 - Migrated $ConfigName to $SettingName setting.",
             UserID        => 1,
             Force         => 1,
+            NoValidation  => 1,
             DirtySettings => [$SettingName],
         );
 

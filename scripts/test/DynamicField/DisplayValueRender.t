@@ -120,9 +120,6 @@ my $FirstCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
 );
 $Self->True( $FirstCustomerUserLogin, 'Creation of first customer user' );
 
-my $FirstCustomerUserName = $CustomerUserObject->CustomerName(
-    UserLogin => $FirstCustomerUserLogin,
-);
 my %FirstCustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
     User => $FirstCustomerUserLogin,
 );
@@ -140,9 +137,6 @@ my $SecondCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
 );
 $Self->True( $SecondCustomerUserLogin, 'Creation of second customer user' );
 
-my $SecondCustomerUserName = $CustomerUserObject->CustomerName(
-    UserLogin => $SecondCustomerUserLogin,
-);
 my %SecondCustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
     User => $SecondCustomerUserLogin,
 );
@@ -652,7 +646,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -667,7 +661,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -682,7 +676,7 @@ my @Tests = (
             Value              => $FirstUserID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstUserNameStrg,
             Title       => $FirstUserNameStrg,
@@ -697,7 +691,7 @@ my @Tests = (
             Value              => [$FirstUserID],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstUserNameStrg,
             Title       => $FirstUserNameStrg,
@@ -714,7 +708,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -729,7 +723,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -744,7 +738,7 @@ my @Tests = (
             Value              => $FirstUserID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstUserNameStrg,
             Title       => $FirstUserNameStrg,
@@ -759,7 +753,7 @@ my @Tests = (
             Value              => [$FirstUserID],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstUserNameStrg,
             Title       => $FirstUserNameStrg,
@@ -774,7 +768,7 @@ my @Tests = (
             Value              => [ $FirstUserID, $SecondUserID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstUserNameStrg<br/>$SecondUserNameStrg",
             Title       => "$FirstUserNameStrg, $SecondUserNameStrg",
@@ -791,7 +785,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -806,7 +800,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -821,7 +815,7 @@ my @Tests = (
             Value              => $FirstUserID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstUserNameStrg,
             Title       => $FirstUserNameStrg,
@@ -836,7 +830,7 @@ my @Tests = (
             Value              => [$FirstUserID],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstUserNameStrg,
             Title       => $FirstUserNameStrg,
@@ -851,7 +845,7 @@ my @Tests = (
             Value              => [ $FirstUserID, $SecondUserID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstUserNameStrg<br/>$SecondUserNameStrg",
             Title       => "$FirstUserNameStrg, $SecondUserNameStrg",
@@ -866,7 +860,7 @@ my @Tests = (
             Value              => [undef],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -881,7 +875,7 @@ my @Tests = (
             Value              => [ $FirstUserID, undef, $SecondUserID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstUserNameStrg<br/><br/>$SecondUserNameStrg",
             Title       => "$FirstUserNameStrg, , $SecondUserNameStrg",
@@ -899,7 +893,7 @@ my @Tests = (
             Value              => $FirstCustomerCompanyID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstCustomerCompanyID,
             Title       => $FirstCustomerCompanyID,
@@ -916,7 +910,7 @@ my @Tests = (
             Value              => [ $FirstCustomerCompanyID, $SecondCustomerCompanyID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstCustomerCompanyID<br/>$SecondCustomerCompanyID",
             Title       => "$FirstCustomerCompanyID, $SecondCustomerCompanyID",
@@ -933,7 +927,7 @@ my @Tests = (
             Value              => [ $FirstCustomerCompanyID, undef, $SecondCustomerCompanyID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstCustomerCompanyID<br/><br/>$SecondCustomerCompanyID",
             Title       => "$FirstCustomerCompanyID, , $SecondCustomerCompanyID",
@@ -951,7 +945,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -966,7 +960,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -981,7 +975,7 @@ my @Tests = (
             Value              => $FirstCustomerUserLogin,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstCustomerUserStrg,
             Title       => $FirstCustomerUserStrg,
@@ -996,7 +990,7 @@ my @Tests = (
             Value              => [$FirstCustomerUserLogin],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstCustomerUserStrg,
             Title       => $FirstCustomerUserStrg,
@@ -1013,7 +1007,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1028,7 +1022,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1043,7 +1037,7 @@ my @Tests = (
             Value              => $FirstCustomerUserLogin,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstCustomerUserStrg,
             Title       => $FirstCustomerUserStrg,
@@ -1058,7 +1052,7 @@ my @Tests = (
             Value              => [$FirstCustomerUserLogin],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstCustomerUserStrg,
             Title       => $FirstCustomerUserStrg,
@@ -1073,7 +1067,7 @@ my @Tests = (
             Value              => [ $FirstCustomerUserLogin, $SecondCustomerUserLogin ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstCustomerUserStrg<br/>$SecondCustomerUserStrg",
             Title       => "$FirstCustomerUserStrg, $SecondCustomerUserStrg",
@@ -1088,7 +1082,7 @@ my @Tests = (
             Value              => [undef],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1103,7 +1097,7 @@ my @Tests = (
             Value              => [ $FirstCustomerUserLogin, undef, $SecondCustomerUserLogin ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstCustomerUserStrg<br/><br/>$SecondCustomerUserStrg",
             Title       => "$FirstCustomerUserStrg, , $SecondCustomerUserStrg",
@@ -1121,7 +1115,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1136,7 +1130,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1151,7 +1145,7 @@ my @Tests = (
             Value              => $FirstReferenceTicketID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstReferenceTicketDisplayValue,
             Title       => $FirstReferenceTicketDisplayValue,
@@ -1166,7 +1160,7 @@ my @Tests = (
             Value              => [$FirstReferenceTicketID],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstReferenceTicketDisplayValue,
             Title       => $FirstReferenceTicketDisplayValue,
@@ -1183,7 +1177,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1198,7 +1192,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1213,7 +1207,7 @@ my @Tests = (
             Value              => $FirstReferenceTicketID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstReferenceTicketDisplayValue,
             Title       => $FirstReferenceTicketDisplayValue,
@@ -1228,7 +1222,7 @@ my @Tests = (
             Value              => [$FirstReferenceTicketID],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstReferenceTicketDisplayValue,
             Title       => $FirstReferenceTicketDisplayValue,
@@ -1243,7 +1237,7 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstReferenceTicketDisplayValue<br/>$SecondReferenceTicketDisplayValue",
             Title       => "$FirstReferenceTicketDisplayValue, $SecondReferenceTicketDisplayValue",
@@ -1260,7 +1254,7 @@ my @Tests = (
             Value              => undef,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1275,7 +1269,7 @@ my @Tests = (
             Value              => '',
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1290,7 +1284,7 @@ my @Tests = (
             Value              => $FirstReferenceTicketID,
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstReferenceTicketDisplayValue,
             Title       => $FirstReferenceTicketDisplayValue,
@@ -1305,7 +1299,7 @@ my @Tests = (
             Value              => [$FirstReferenceTicketID],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => $FirstReferenceTicketDisplayValue,
             Title       => $FirstReferenceTicketDisplayValue,
@@ -1320,7 +1314,7 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstReferenceTicketDisplayValue<br/>$SecondReferenceTicketDisplayValue",
             Title       => "$FirstReferenceTicketDisplayValue, $SecondReferenceTicketDisplayValue",
@@ -1335,7 +1329,7 @@ my @Tests = (
             Value              => [undef],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => '',
             Title       => '',
@@ -1350,7 +1344,7 @@ my @Tests = (
             Value              => [ $FirstReferenceTicketID, undef, $SecondReferenceTicketID ],
         },
         ExpectedResults => {
-            Link        => undef,
+            Link        => '',
             LinkPreview => '',
             Value       => "$FirstReferenceTicketDisplayValue<br/><br/>$SecondReferenceTicketDisplayValue",
             Title       => "$FirstReferenceTicketDisplayValue, , $SecondReferenceTicketDisplayValue",
