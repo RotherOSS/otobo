@@ -552,10 +552,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.17',
         },
         {
-            'Comment'         => 'needed by LWP::Protocol::https, provide a fallback for certificates',
+            'Comment'         => 'used as a fallback when no system CA certificates were found by LWP::Protocol::https',
             'Module'          => 'Mozilla::CA',
             'Required'        => 1,
-            'VersionRequired' => '== 20260813',
+            'VersionRequired' => '== 20261020',
         },
         {
             'Comment'         => 'needed by LWP::Protocol::https',
