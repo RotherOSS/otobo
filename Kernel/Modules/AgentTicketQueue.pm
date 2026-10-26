@@ -278,7 +278,7 @@ sub Run {
                 last QUEUE;
             }
 
-            unless ( $HasValidChild ) {
+            if ( !$HasValidChild ) {
                 return $LayoutObject->FatalError(
                     Message => 'Invalid QueueID!',
                 );
