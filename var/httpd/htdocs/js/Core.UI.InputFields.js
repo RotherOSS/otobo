@@ -760,8 +760,6 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 // Increment the offset with the width of box and right margin
                 OffsetLeft += $SelectionObj.outerWidth() + OffsetRight;
-
-                Index++;
             });
 
             if (Multiple && MoreBox) {
@@ -793,7 +791,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                     // Refresh the field and get focus
                                     $SearchObj = $('#' + Core.App.EscapeSelector($SelectObj.data('modernized')));
                                     if (Config.CustomerInterface !== true) {
-                                        SearchObj.width($SelectObj.outerWidth());
+                                        $SearchObj.width($SelectObj.outerWidth());
                                     }
                                     $SearchObj.trigger('blur');
                                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
@@ -1860,17 +1858,17 @@ Core.UI.InputFields = (function (TargetNS) {
                     );
                     // Calculate width for tree container - Customer overrides width
                     $TreeContainerObj.css(
-                        'max-width', 
+                        'max-width',
                         window.innerWidth - (
-                            $SearchObj.offset().left + 
-                            Config.InputFieldPadding*2 + 
+                            $SearchObj.offset().left +
+                            Config.InputFieldPadding*2 +
                             ListContainerMargin
                         )
                     );
                     let TreeContainerMinWidth;
                     if (Config.CustomerInterface === true) {
-                        TreeContainerMinWidth = Math.min( 
-                            250, 
+                        TreeContainerMinWidth = Math.min(
+                            250,
                             $SearchObj.width()- Config.InputFieldPadding * 2
                         );
                     } else {
