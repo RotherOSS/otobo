@@ -27,7 +27,7 @@ use MIME::Base64 qw(encode_base64);
 use URI::Escape qw(uri_unescape);
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck                                      qw(:all);
 use Kernel::GenericInterface::Invoker::Elasticsearch::ManagementCommon qw(RemoveESWeightedSearchBoostSuffix);
 
 our $ObjectManagerDisabled = 1;

@@ -25,7 +25,6 @@ use utf8;
 use List::Util qw(any);
 use Test2::V0;
 
-
 use Kernel::GenericInterface::Invoker::Elasticsearch::ManagementCommon qw(RemoveESWeightedSearchBoostSuffix);
 
 my @Tests = (
@@ -42,16 +41,22 @@ my @Tests = (
     {
         Name     => 'ArrayWithSuffix',
         Data     => [ 'Title^3', 'Body' ],
-        Expected => [ 'Title', 'Body' ],
+        Expected => [ 'Title',   'Body' ],
     },
     {
-        Name     => 'HashWithSuffix',
-        Data     => { Key1 => 'Title^3', Key2 => 'Body' },
-        Expected => { Key1 => 'Title', Key2 => 'Body' },
+        Name => 'HashWithSuffix',
+        Data => {
+            Key1 => 'Title^3',
+            Key2 => 'Body'
+        },
+        Expected => {
+            Key1 => 'Title',
+            Key2 => 'Body'
+        },
     },
     {
-        Name     => 'NestedStructureWithSuffixes',
-        Data     => {
+        Name => 'NestedStructureWithSuffixes',
+        Data => {
             'Article' => [
                 'From^2',
                 'To',
@@ -63,7 +68,7 @@ my @Tests = (
                 'Filename'
             ],
             'DynamicField' => [],
-            'Ticket' => [
+            'Ticket'       => [
                 'Title^3',
                 'TicketNumber'
             ]
@@ -80,7 +85,7 @@ my @Tests = (
                 'Filename'
             ],
             'DynamicField' => [],
-            'Ticket' => [
+            'Ticket'       => [
                 'Title',
                 'TicketNumber'
             ]
@@ -88,7 +93,7 @@ my @Tests = (
     },
 );
 
-for my $Test ( @Tests ) {
+for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
 

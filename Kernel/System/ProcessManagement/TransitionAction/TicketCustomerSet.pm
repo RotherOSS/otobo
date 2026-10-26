@@ -168,9 +168,9 @@ sub Run {
     }
 
     # handle reference fields
-    for my $Attribute ( qw/CustomerID CustomerUserID/ ) {
-        if ( ref $Param{Config}{ $Attribute } eq 'ARRAY' ) {
-            $Param{Config}{ $Attribute } = $Param{Config}{ $Attribute }[0];
+    for my $Attribute (qw/CustomerID CustomerUserID/) {
+        if ( ref $Param{Config}{$Attribute} eq 'ARRAY' ) {
+            $Param{Config}{$Attribute} = $Param{Config}{$Attribute}[0];
         }
     }
 
