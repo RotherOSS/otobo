@@ -849,15 +849,17 @@ sub ImportExportPrepareConfig {
         }
     }
 
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
     my %Return;
     if ( $Param{Direction} eq 'Import' ) {
 
         # needed transformation: Name -> ID
-        my $AttributeDF = $Self->DynamicFieldGet(
+        my $AttributeDF = $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
         );
         $Return{AttributeDF} = $AttributeDF->{ID};
-        my $ReferenceDF = $Self->DynamicFieldGet(
+        my $ReferenceDF = $DynamicFieldObject->DynamicFieldGet(
             Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
         );
         $Return{ReferenceDF} = $ReferenceDF->{ID};
@@ -865,11 +867,11 @@ sub ImportExportPrepareConfig {
     elsif ( $Param{Direction} eq 'Export' ) {
 
         # needed transformation: ID -> Name
-        my $AttributeDF = $Self->DynamicFieldGet(
+        my $AttributeDF = $DynamicFieldObject->DynamicFieldGet(
             ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
         );
         $Return{AttributeDF} = $AttributeDF->{Name};
-        my $ReferenceDF = $Self->DynamicFieldGet(
+        my $ReferenceDF = $DynamicFieldObject->DynamicFieldGet(
             ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
         );
         $Return{ReferenceDF} = $ReferenceDF->{Name};
