@@ -1,4 +1,84 @@
 
+# OTOBO 11.1.1 2026-10-26
+- 2026-10-26 14:03:36 +0100 [Bugfix]   DynamicField ImportExport: Attribute missing from transformation and errors not being logged (https://github.com/RotherOSS/otobo/issues/6227)
+- 2026-10-26 11:47:37 +0100 Update CKEditor (https://github.com/RotherOSS/otobo/issues/6285) - in progress
+- 2026-10-26 11:22:54 +0100 Stats/Result test still expects old CustomerIDAsMultiSelect SysConig (https://github.com/RotherOSS/otobo/issues/6317)
+- 2026-10-26 10:01:12 +0100 [Bugfix]   Re-appearing lens set with a reference field (Service, Agent, ConfigItem, Ticket, ...) breaks the AJAX form update (https://github.com/RotherOSS/otobo/issues/6184)
+- 2026-10-26 10:19:30 +0100 [Changed]  Docker: replace Chromium for drawing charts in reports with Gnuplot (https://github.com/RotherOSS/otobo/issues/3550)
+- 2026-10-24 12:10:41 +0200 Update Mozilla::CA to 20261020 (https://github.com/RotherOSS/otobo/issues/6314)
+- 2026-10-23 16:14:22 +0200 [Bugfix]   Fix validation of mandatory autocomplete reference fields. (https://github.com/RotherOSS/otobo/issues/5596)
+- 2026-10-23 14:26:22 +0200 [Enhanced] Add css colour variable for links on customer interface (https://github.com/RotherOSS/otobo/issues/6287)
+- 2026-10-23 15:18:43 +0200 [Enhanced] Show multiple links for multi-value reference fields on at least a select number of screens. (https://github.com/RotherOSS/otobo/issues/6030)
+- 2026-10-23 15:02:19 +0200 Increase MaxChar default lengths for dynamic field value rendering (https://github.com/RotherOSS/otobo/issues/3776) - in progress
+- 2026-10-23 14:15:05 +0200 [Enhanced] fix unittest scripts/test/Package/ConfiguredRepositoryDefinitionGet.t (https://github.com/RotherOSS/otobo/issues/6305)
+- 2026-10-23 11:26:50 +0200 [Enhanced] properly detected non existing ES webservice during migration (https://github.com/RotherOSS/otobo/issues/6300)
+- 2026-10-23 11:52:31 +0200 [Bugfix]   Fix too eager permission check in AgentTicketQueue for nested queues introduced in 6092. (https://github.com/RotherOSS/otobo/issues/6299)
+- 2026-10-22 10:05:30 +0200 DynamicFieldWidget's new grid-layout doesn't handle Sets (https://github.com/RotherOSS/otobo/issues/6263)
+- 2026-10-23 09:27:11 +0200 Change Default Setting for Stats::CustomerUserLoginsAsMultiSelect  (https://github.com/RotherOSS/otobo/issues/6296)
+- 2026-10-23 07:49:19 +0200 [Bugfix]   DBUpdate-to-11.1.pl Task 1 (RebuildConfig) fails on long-lived installations missing ProcessManagement dynamic fields (https://github.com/RotherOSS/otobo/issues/5969)
+- 2026-10-21 18:58:16 +0200 Translated using Weblate (Hungarian)
+- 2026-10-22 16:25:37 +0200 Add visual globe icon to signify global ActivityDialogs within ActivityEdit. (https://github.com/RotherOSS/otobo/issues/6168)
+- 2026-10-21 10:52:32 +0200 [Bugfix]   Otobo with ITSM installed fails Migration to 11.1 (https://github.com/RotherOSS/otobo/issues/6249)
+- 2026-10-22 15:43:52 +0200 [Bugfix]   DynamicFieldScript: Be more precise with requirement check (https://github.com/RotherOSS/otobo/issues/6279) - in progress
+- 2026-10-22 13:30:30 +0100 styling of multiselect fields breaks on customer interface when fields are narrow (https://github.com/RotherOSS/otobo/issues/6155) - in progress
+- 2026-10-01 08:14:11 +0100 Dropdown selection lists are too narrow in customer interface (https://github.com/RotherOSS/otobo/issues/6267)
+- 2026-10-21 10:27:24 +0200 [Bugfix]   DynamicFieldScript: Setting update events empty is not reflected in the database table (https://github.com/RotherOSS/otobo/issues/6275)
+- 2026-10-20 16:47:20 +0200 Update Sisimai in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/3935)
+- 2026-10-16 14:17:47 +0200 [Bugfix]   DynamicField Backend ValueGet: Remove spammy debug log for a certain (ok) situation regarding ObjectName to ID conversion (https://github.com/RotherOSS/otobo/issues/6100)
+- 2026-10-20 11:21:52 +0200 Let scripts/DBUpdate-to-11.1.pl return a sensible exit code (https://github.com/RotherOSS/otobo/issues/6265)
+- 2026-10-19 10:22:35 +0200 Update CPAN::Audit to 20261013.002 (https://github.com/RotherOSS/otobo/issues/6255)
+- 2026-10-16 16:55:49 +0200 Fix ICal serialisation of midnight in Appointment Export (https://github.com/RotherOSS/otobo/issues/6253)
+- 2026-10-16 14:29:30 +0200 [Enhanced] Backup should follow symlinks (https://github.com/RotherOSS/otobo/issues/1236)
+- 2026-04-07 14:21:48 +0200 Incorrect ARIA role (search) used for selection input (selectbox) (https://github.com/RotherOSS/otobo/issues/5347)
+- 2026-04-08 13:26:49 +0200 Accessibility optimization for main navigation section in customer portal (https://github.com/RotherOSS/otobo/issues/5356)
+- 2026-10-14 16:20:53 +0200 [Bugfix]   Heading of AgentTicketHistory is no heading (https://github.com/RotherOSS/otobo/issues/6238)
+- 2026-09-15 16:33:04 +0200 Layout in DynamicFieldWidget in AgentTicketZoom looks a bit odd (https://github.com/RotherOSS/otobo/issues/5228)
+- 2026-10-07 15:03:53 +0200 Copying a Process with private elements doesn't correctly substitute Layout and Path. (https://github.com/RotherOSS/otobo/issues/6213)
+- 2026-10-06 22:49:30 +0100 Missing index on `article_version.source_article_id` (https://github.com/RotherOSS/otobo/issues/6193)
+- 2026-08-25 13:57:30 +0200 [Bugfix]   Daemon-forked Console::Command tasks (e.g. Maint::Ticket::EscalationCheck) crash in DBD::MariaDB disconnect_all() during global destruction (OTOBO 11.1.0 Beta1, DBD::MariaDB 1.24) (https://github.com/RotherOSS/otobo/issues/5972)
+- 2026-09-24 16:30:46 +0100 [Bugfix]   Zero values are not displayed in customer information in AgentTicketZoom (https://github.com/RotherOSS/otobo/issues/4903)
+- 2026-10-13 08:55:13 +0200 [Bugfix]   Core dump during Maint::PostMaster::MailAccountFetch on current rel-11_1 (https://github.com/RotherOSS/otobo/issues/6223)
+- 2026-10-12 17:14:35 +0200 Lens field input is reset after the HiddenFields cache has expired (https://github.com/RotherOSS/otobo/issues/6226) - in progress
+- 2026-10-12 11:40:36 +0200 [Security] Check permission regardless of subaction for EmailOutbound and Forward. (https://github.com/RotherOSS/otobo/issues/6220)
+- 2026-10-12 13:22:32 +0100 Rework font sizes and line height in RichText contexts. (https://github.com/RotherOSS/otobo/issues/5691)
+- 2026-10-10 12:43:39 +0200 [Bugfix]   ImportGenericAgents() stores the exported names in addition to the IDs (https://github.com/RotherOSS/otobo/issues/6225)
+- 2026-10-10 09:56:41 +0200 [Enhanced] Replace the Redis Cache for Docker based installations (https://github.com/RotherOSS/otobo/issues/5728)
+- 2026-10-09 07:11:30 +0200 Improve error message wording in `Kernel/System/DynamicField/Backend.pm` (https://github.com/RotherOSS/otobo/issues/4639)
+- 2026-10-07 15:42:32 +0200 Fix Javascript CodePolicy warnings (https://github.com/RotherOSS/otobo/issues/4824) - in progress
+- 2026-10-08 07:11:42 +0200 [Bugfix]   TicketACL::Autoselect apparently doesn't work in Process (https://github.com/RotherOSS/otobo/issues/5495)
+- 2026-10-07 17:21:57 +0200 [Bugfix]   DBUpdates returns an error when ElasticSearch isn't configured (https://github.com/RotherOSS/otobo/issues/5717)
+- 2026-09-30 14:12:31 +0200 [Enhanced] Handle ArticleEdit  properly for Elasticsearch (https://github.com/RotherOSS/otobo/issues/6182)
+- 2026-10-06 23:26:06 +0100 [Bugfix]   Unintuitive restrictions in dynamic field search  (https://github.com/RotherOSS/otobo/issues/2344)
+- 2026-10-06 09:08:15 +0200 [Bugfix]   Lens on Set: Set Driver Sub ValueSet tries to fetch OriginSetIndex with Set Name instead with Lens Name (https://github.com/RotherOSS/otobo/issues/6202)
+- 2026-10-05 07:17:13 +0200 Translated using Weblate (Japanese)
+- 2026-10-05 11:04:35 +0200 [Enhanced] CustomerCompany Import: Include dynamic field values in import (https://github.com/RotherOSS/otobo/issues/6196)
+- 2026-10-02 13:23:59 +0200 [Enhanced] Fully support ES search weight boost suffix notation for searchfield attributes (https://github.com/RotherOSS/otobo/issues/6190)
+- 2026-10-02 14:41:26 +0100 Elasticsearch toolbar input can overflow. (https://github.com/RotherOSS/otobo/issues/6078)
+- 2026-10-01 14:26:59 +0200 [Bugfix]   DynamicField Import: Lenses on Sets cause error and corrupt data (https://github.com/RotherOSS/otobo/issues/6123)
+- 2026-09-21 09:19:24 +0100 Placeholder avatar initials not displayed properly in CustomerInterface (https://github.com/RotherOSS/otobo/issues/6137)
+- 2026-09-23 11:28:27 +0100 [Bugfix]   Rework height calculation and resizing of CKEditor (https://github.com/RotherOSS/otobo/issues/6122)
+- 2026-09-29 10:19:47 +0200 [Bugfix]   DynamicField Reference: Parameter name collision causes reference filters to not work anymore (https://github.com/RotherOSS/otobo/issues/6178)
+- 2026-09-28 16:46:57 +0200 [Bugfix]   ProcessManagement Transition: 'or' doesn't work properly (https://github.com/RotherOSS/otobo/issues/6126)
+- 2026-09-28 14:40:48 +0200 [Bugfix]   HideShow for the article on CustomerTicketMessage broken for dynamic FormUpdates. (https://github.com/RotherOSS/otobo/issues/6173)
+- 2026-09-24 13:31:48 +0200 Add new ticket event to system configuration (https://github.com/RotherOSS/otobo/issues/6166)
+- 2026-09-25 10:39:49 +0200 [Bugfix]   Make lens fields compatible for nested lenses with the CMDB. (https://github.com/RotherOSS/otobo/issues/6171)
+- 2026-09-24 09:44:34 +0200 [Enhanced] AdminDynamicField: Implement field type filtering (https://github.com/RotherOSS/otobo/issues/5584)
+- 2026-09-24 07:57:49 +0200 [Enhanced] AdminDynamicField: Tell the user if something went wrong during dynamic field delete (https://github.com/RotherOSS/otobo/issues/6162)
+- 2026-09-23 16:08:30 +0200 Avoid methods that are deprecated in  PDF::API2 (https://github.com/RotherOSS/otobo/issues/6156)
+- 2026-09-23 15:08:57 +0200 [Bugfix]   Initial page load: Allow ACL calculations based on dynamic field lens (https://github.com/RotherOSS/otobo/issues/6094)
+- 2026-09-23 15:04:58 +0200 AdminDynamicField: Dialog displayed during Waiting should be an actual Waiting Dialog (https://github.com/RotherOSS/otobo/issues/6157)
+- 2026-09-15 11:50:15 +0100 [Bugfix]   Editor selections are cut by "overflow: hidden" of .FieldCell and .RichTextField. (https://github.com/RotherOSS/otobo/issues/6067)
+- 2026-09-22 17:57:01 +0200 [Bugfix]   Foreign key checks are not disabled  in Kernel::System::DB::new() (https://github.com/RotherOSS/otobo/issues/6151)
+- 2026-09-18 14:48:59 +0100 [Bugfix]   No error message when trying to install an invalid packet (https://github.com/RotherOSS/otobo/issues/2216)
+- 2026-09-22 12:51:00 +0200 [Bugfix]   remove duplicate entries from kerberos nginx template (https://github.com/RotherOSS/otobo/issues/6148)
+- 2026-09-18 12:13:39 +0100 [Bugfix]   Wrong hint on Queue Management screen for setup screens (https://github.com/RotherOSS/otobo/issues/5124)
+- 2026-09-21 15:26:53 +0200 Invalid Param parsing at entrypoint.sh (https://github.com/RotherOSS/otobo/issues/6114)
+- 2026-09-21 13:55:09 +0200 [Enhanced] Consider the namespaces of ProcessManagement elements when sorting (https://github.com/RotherOSS/otobo/issues/6125)
+- 2026-09-18 11:21:42 +0100 [Bugfix]   Elasticsearch Abbrevation on the Resultpage too aggressive (https://github.com/RotherOSS/otobo/issues/6010)
+- 2026-09-18 09:09:33 +0200 Update `AUTHORS.md` (https://github.com/RotherOSS/otobo/issues/5903)
+- 2026-09-15 16:02:31 +0200 [Bugfix]   can't "cancel and close" AgentTicketMove (https://github.com/RotherOSS/otobo/issues/5510)
+
+
 # OTOBO 11.1.0 beta3 2026-09-16
 - 2026-09-16 10:12:45 +0200 [Bugfix]   ProcessManagement Transition: 'or' doesn't work properly (https://github.com/RotherOSS/otobo/issues/6126) - in progress
 - 2026-09-15 11:57:55 +0200 Translated using Weblate (Hungarian)
@@ -3570,5 +3650,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
