@@ -10,7 +10,7 @@ name: 'DockerImageUpdateAll'
 # For each supported releas branch only the last three patch level releases are checked.
 # Note that the list of release tags must be updated when there are new patch level releases.
 
-# As of 2026-09-16 the current patch releases are: rel-10_1_19, rel-11_0_18, and rel-11_1_0-beta3
+# As of 2026-10-26 the current patch releases are: rel-10_1_19, rel-11_0_18, and rel-11_1_1
 
 on:
 
@@ -44,7 +44,7 @@ jobs:
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
       otobo_web_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_web_devel_rel_11_0 }}
 
-      otobo_web_rel_11_1_0_beta3: ${{ steps.collect_summary.outputs.otobo_web_rel_11_1_0_beta3 }}
+      otobo_web_rel_11_1_1: ${{ steps.collect_summary.outputs.otobo_web_rel_11_1_1 }}
       otobo_web_latest_11_1: ${{ steps.collect_summary.outputs.otobo_web_latest_11_1 }}
       otobo_web_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_web_devel_rel_11_1 }}
 
@@ -61,7 +61,7 @@ jobs:
       otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
       otobo_elasticsearch_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_rel_11_0 }}
 
-      otobo_elasticsearch_rel_11_1_0_beta3: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_1_0_beta3 }}
+      otobo_elasticsearch_rel_11_1_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_1_1 }}
       otobo_elasticsearch_latest_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_1 }}
       otobo_elasticsearch_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_devel_rel_11_1 }}
 
@@ -78,7 +78,7 @@ jobs:
       otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
       otobo_nginx_webproxy_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_rel_11_0 }}
 
-      otobo_nginx_webproxy_rel_11_1_0_beta3: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_1_0_beta3 }}
+      otobo_nginx_webproxy_rel_11_1_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_1_1 }}
       otobo_nginx_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_1 }}
       otobo_nginx_webproxy_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_devel_rel_11_1 }}
 
@@ -95,7 +95,7 @@ jobs:
       otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
       otobo_nginx_kerberos_webproxy_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_rel_11_0 }}
 
-      otobo_nginx_kerberos_webproxy_rel_11_1_0_beta3: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_1_0_beta3 }}
+      otobo_nginx_kerberos_webproxy_rel_11_1_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_1_1 }}
       otobo_nginx_kerberos_webproxy_latest_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_1 }}
       otobo_nginx_kerberos_webproxy_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_devel_rel_11_1 }}
 
@@ -112,7 +112,7 @@ jobs:
       otobo_selenium_chrome_latest_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0 }}
       otobo_selenium_chrome_devel_rel_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_rel_11_0 }}
 
-      otobo_selenium_chrome_rel_11_1_0_beta3: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_1_0_beta3 }}
+      otobo_selenium_chrome_rel_11_1_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_1_1 }}
       otobo_selenium_chrome_latest_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_1 }}
       otobo_selenium_chrome_devel_rel_11_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_devel_rel_11_1 }}
 
@@ -125,7 +125,7 @@ jobs:
         docker_tag: [
           'rel-10_1_17',      'rel-10_1_18','rel-10_1_19', 'latest-10_1', 'devel-rel-10_1',
           'rel-11_0_16',      'rel-11_0_17','rel-11_0_18', 'latest-11_0', 'devel-rel-11_0',
-          'rel-11_1_0-beta3',                              'latest-11_1', 'devel-rel-11_1'
+          'rel-11_1_1',                                    'latest-11_1', 'devel-rel-11_1'
         ]
 
         # As of 2026-09-16 no elements of the matrix have to be excluded.
@@ -141,7 +141,7 @@ jobs:
             patch:      'rel-11_0_18'
           -
             docker_tag: 'latest-11_1'
-            patch:      'rel-11_1_0-beta3'
+            patch:      'rel-11_1_1'
 
           # the devel images are based on the HEAD of the branches
           -
@@ -210,7 +210,7 @@ jobs:
             docker_tag: 'devel-rel-11_0'
             base_image: 'perl:5.44-bookworm'
 
-          # The base image nginx:mainline-trixie is used since 10.1.17, 11.0.12, and 11.1.0-beta1. This is the default.
+          # The base image nginx:mainline-trixie is used since 10.1.17, 11.0.12, and 11.1.1. This is the default.
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
