@@ -742,7 +742,11 @@ sub GetFieldState {
 
     # prevent autovivification
     if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} } && exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues} ) {
-        $FieldStates{PossibleValues}->%* = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues}->%*;
+        $FieldStates{PossibleValues} = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues};
+
+        if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{NotACLReducible} ) {
+            $FieldStates{NotACLReducible} = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{NotACLReducible};
+        }
     }
 
     # necessary clean-up to avoid interference with GetFieldState mechanism in FieldRestrictions modules
