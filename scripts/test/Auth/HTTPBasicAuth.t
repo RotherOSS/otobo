@@ -16,6 +16,7 @@
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -23,7 +24,7 @@ use utf8;
 # CPAN modules
 use Test2::V0;
 use HTTP::Request::Common qw(POST);
-use HTTP::Message::PSGI qw(req_to_psgi);
+use HTTP::Message::PSGI   qw(req_to_psgi);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -33,7 +34,6 @@ use Kernel::System::CustomerAuth::HTTPBasicAuth ();
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # make sure that no environment of the test runner leaks into the tests
-local $ENV{OTOBO_PROXY_SECRET};
 delete $ENV{OTOBO_PROXY_SECRET};
 
 my $Secret = 'correct horse battery staple';
