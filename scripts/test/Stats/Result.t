@@ -37,6 +37,10 @@ $ConfigObject->Set(
     Value => 'UTC',
 );
 $ConfigObject->Set(
+    Key   => 'Stats::CustomerIDAsMultiSelect',
+    Value => 1,
+);
+$ConfigObject->Set(
     Key   => 'Stats::CustomerUserLoginsAsMultiSelect',
     Value => 1,
 );
