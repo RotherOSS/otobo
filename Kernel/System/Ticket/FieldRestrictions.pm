@@ -335,6 +335,10 @@ sub GetFieldStates {
                 $Fields{$DFName} = {
                     PossibleValues => $Content{PossibleValues},
                 };
+
+                if ( exists $Content{NotACLReducible} ) {
+                    $Fields{$DFName}{NotACLReducible} = $Content{NotACLReducible};
+                }
             }
             elsif ( exists $Content{Sets} ) {
                 %Sets = (
