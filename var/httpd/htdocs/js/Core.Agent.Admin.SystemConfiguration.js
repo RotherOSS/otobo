@@ -241,9 +241,6 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     TargetNS.InitDialogReset = function($Object) {
         var DialogTemplate,
             $DialogObj,
-            URL,
-            Data,
-            Name,
             ModificationAllowed = $Object.attr("data-user-modification"),
 
         Name = $Object.closest(".WidgetSimple").find(".Header h2").text();
