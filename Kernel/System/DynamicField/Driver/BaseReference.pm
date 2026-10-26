@@ -1342,14 +1342,15 @@ sub GetFieldState {
 
         # PossibleValues are needed for display value in frontend
         #   e.g. '"Tina Tester" <tina@example.com>' (CustomerUser MailString) vs. 'tina' (CustomerUserID)
+        my %Return = (
+            PossibleValues => \%PossibleValues,
+        );
+
         if ($ValueChanged) {
-            return (
-                NewValue       => \@CheckedValues,
-                PossibleValues => \%PossibleValues,
-            );
+            $Return{NewValue} = \@CheckedValues;
         }
 
-        return ();
+        return %Return;
     }
 
     # fetch possible values for dynamic field
