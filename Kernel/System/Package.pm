@@ -3391,12 +3391,14 @@ sub _GetIntegratedPackages {
 =head2 PackageInstallOrderListGet()
 
 Gets a list of packages and its corresponding install order including is package dependencies. Higher
-    install order means to install first.
+install order means to install first.
 
     my %Result = $PackageObject->PackageInstallOrderListGet(
         InstalledPackages => \@PackageList,      # as returned from RepositoryList(Result => 'short')
         OnlinePackages    => \@PackageList,      # as returned from PackageOnlineList()
     );
+
+Returns:
 
     %Result = (
         InstallOrder => {
