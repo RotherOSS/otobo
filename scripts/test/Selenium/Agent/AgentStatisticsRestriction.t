@@ -127,6 +127,11 @@ $Selenium->RunTest(
                 Key   => 'Ticket::IncludeUnknownTicketCustomers',
                 Value => $Test->{ConfigValue},
             );
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'Stats::CustomerIDAsMultiSelect',
+                Value => 1,
+            );
 
             # Navigate to AgentStatics screen of imported test statistic.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Edit;StatID=$StatID");
