@@ -305,9 +305,12 @@ ok(
 # click to sort by article number
 $Selenium->find_element(q{//div[@class='tablesorter-header-inner']/a})->click;
 
+# wait until the rows are reordered or fail through timeout
+$Selenium->WaitFor(
+    JavaScript => q{return typeof($) === 'function' && $($('table tbody tr')[0]).attr('id') === 'Row1';}
+);
+
 # verify change in article order on column header click, test Core.UI.Table.Sort.js
-# Note that at least once there was a test failure because seemingly the DOM was checked
-# before the sorting had completed.
 is(
     $Selenium->execute_script(
         q{ return $($('table tbody tr')[0]).attr('id') }
