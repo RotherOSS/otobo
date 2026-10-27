@@ -19,8 +19,7 @@ package Kernel::Output::HTML::ArticleAction::AgentTicketMessageLog;
 use strict;
 use warnings;
 
-use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

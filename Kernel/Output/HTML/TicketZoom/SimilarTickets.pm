@@ -29,8 +29,7 @@ use parent 'Kernel::Output::HTML::Base';
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
