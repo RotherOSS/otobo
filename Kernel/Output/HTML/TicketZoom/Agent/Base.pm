@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 use Digest::MD5 qw(md5_hex);
@@ -309,7 +310,7 @@ sub _ArticleModuleMeta {
 
                     my $WholeMatchString = $MatchData[$Counter];
                     $WholeMatchString =~ s/^\s+|\s+$//g;
-                    if ( grep { $_->{Name} eq $WholeMatchString } @Matches ) {
+                    if ( none { $_->{Name} eq $WholeMatchString } @Matches ) {
                         $Counter += $Elements + 1;
                         next MATCH;
                     }

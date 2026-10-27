@@ -21,6 +21,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -975,7 +976,7 @@ sub TicketListShow {
                 @ColumnsEnabled = @ColumnsEnabledAux;
 
                 for my $ColumnName ( sort { $a cmp $b } @{ $Object->{ColumnsAvailable} } ) {
-                    if ( !grep { $_ eq $ColumnName } @ColumnsEnabled ) {
+                    if ( none { $_ eq $ColumnName } @ColumnsEnabled ) {
                         push @ColumnsAvailable, $ColumnName;
                     }
                 }
