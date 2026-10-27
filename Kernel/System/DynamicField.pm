@@ -1803,7 +1803,7 @@ sub DynamicFieldConfigName2ID {
     my $FieldTypeObject = $Kernel::OM->Get($DriverModule);
     if ( $FieldTypeObject->can('ImportExportPrepareConfig') ) {
         my %PreparedConfigAttributes = $FieldTypeObject->ImportExportPrepareConfig(
-            Direction          => 'Export',
+            Direction          => 'Import',
             DynamicFieldConfig => $DynamicFieldConfig,
         );
         $DynamicFieldConfig->{Config} = {
@@ -1812,7 +1812,7 @@ sub DynamicFieldConfigName2ID {
         };
     }
 
-    return $Param{DynamicFieldConfig};
+    return $DynamicFieldConfig;
 }
 
 =head2 DynamicFieldConfigID2Name()
@@ -1849,7 +1849,7 @@ sub DynamicFieldConfigID2Name {
     my $FieldTypeObject = $Kernel::OM->Get($DriverModule);
     if ( $FieldTypeObject->can('ImportExportPrepareConfig') ) {
         my %PreparedConfigAttributes = $FieldTypeObject->ImportExportPrepareConfig(
-            Direction          => 'Import',
+            Direction          => 'Export',
             DynamicFieldConfig => $DynamicFieldConfig,
         );
         $DynamicFieldConfig->{Config} = {
@@ -1858,7 +1858,7 @@ sub DynamicFieldConfigID2Name {
         };
     }
 
-    return $Param{DynamicFieldConfig};
+    return $DynamicFieldConfig;
 }
 
 =begin Internal:

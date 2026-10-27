@@ -673,12 +673,12 @@ sub ImportExportPrepareConfig {
     my %Return;
     my %AttributeLookup = (
         Queue => {
-            Import => sub { return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => pop @_ ) },
-            Export => sub { return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue   => pop @_ ) },
+            Import => sub { return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue   => pop @_ ) },
+            Export => sub { return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => pop @_ ) },
         },
         TicketType => {
-            Import => sub { return $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => pop @_ ) },
-            Export => sub { return $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type   => pop @_ ) },
+            Import => sub { return $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type   => pop @_ ) },
+            Export => sub { return $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => pop @_ ) },
         },
     );
 
