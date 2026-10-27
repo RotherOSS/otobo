@@ -76,21 +76,6 @@ sub GetConfig {
         }
     }
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
-        TicketID  => $Param{Ticket}->{TicketID},
-        ArticleID => $Param{Article}->{ArticleID},
-    );
-
-    my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID  => $Param{Ticket}->{TicketID},
-        ArticleID => $Param{Article}->{ArticleID},
-    );
-
-    # Get communication channel data.
-    my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
-        ChannelID => $Article{CommunicationChannelID},
-    );
-
     my %MenuItem = (
         ItemType    => 'Link',
         Description => Translatable('Re-install Package'),

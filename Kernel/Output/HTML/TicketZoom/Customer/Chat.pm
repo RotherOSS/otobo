@@ -66,7 +66,6 @@ sub ArticleRender {
 
     my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
 
     my %Article = $ArticleBackendObject->ArticleGet(
@@ -86,10 +85,6 @@ sub ArticleRender {
 
     # Get dynamic fields and accounted time
     my %ArticleMetaFields = $Self->ArticleMetaFields(%Param);
-
-    my $RichTextEnabled = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')
-        || $LayoutObject->{BrowserRichText}
-        || 0;
 
     # Check if HTML should be displayed.
     my $ShowHTML = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')

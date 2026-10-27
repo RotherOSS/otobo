@@ -297,7 +297,6 @@ sub AgentCustomerViewTable {
                     }
 
                     my $CustomerEnableChat = 0;
-                    my $ChatAccess         = 0;
                     my $VideoChatAvailable = 0;
                     my $VideoChatSupport   = 0;
 

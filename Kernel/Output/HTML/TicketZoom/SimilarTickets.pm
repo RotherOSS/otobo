@@ -39,8 +39,6 @@ sub Run {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
     my %Ticket    = $Param{Ticket}->%*;
     my %AclAction = $Param{AclAction}->%*;
