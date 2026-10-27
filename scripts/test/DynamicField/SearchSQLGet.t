@@ -14,15 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
@@ -165,6 +168,21 @@ my %DynamicFieldConfigs = (
         ValidID    => 1,
         CreateTime => '2011-02-08 15:08:00',
         ChangeTime => '2011-06-11 17:22:00',
+    },
+    CustomerCompany => {
+        ID            => 123,
+        InternalField => 0,
+        Name          => 'CustomerCompanyField',
+        Label         => 'CustomerCompanyField',
+        FieldOrder    => 123,
+        FieldType     => 'CustomerCompany',
+        ObjectType    => 'Ticket',
+        Config        => {
+            DefaultValue => '',
+        },
+        ValidID    => 1,
+        CreateTime => '2026-10-27 15:08:00',
+        ChangeTime => '2026-10-27 17:22:00',
     },
 );
 
@@ -473,7 +491,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Date',
+        Name   => 'Date with invalid date',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             TableAlias         => 'dfv',
@@ -498,7 +516,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Date',
+        Name   => 'Date with valid date',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             TableAlias         => 'dfv',
@@ -521,7 +539,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Date',
+        Name   => 'Date Empty',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             TableAlias         => 'dfv',
@@ -533,26 +551,55 @@ my @Tests = (
             Empty => " dfv.value_date IS NOT NULL ",
         },
     },
-
+    {
+        Name   => 'CustomerCompany',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{CustomerCompany},
+            TableAlias         => 'dfv789',
+            TestOperators      => {
+                Equals            => 'Bar',
+                GreaterThan       => 'Bar',
+                Like              => 'Bar*',
+                GreaterThanEquals => 'Bar',
+                SmallerThan       => 'Bar',
+                SmallerThanEquals => 'Bar',
+            },
+        },
+        ExpectedResult => {
+            Equals            => " (dfv789.value_text) = ('Bar') ",
+            GreaterThan       => " (dfv789.value_text) > ('Bar') ",
+            GreaterThanEquals => " (dfv789.value_text) >= ('Bar') ",
+            Like              => {
+                ColumnKey => 'dfv789.value_text',
+            },
+            SmallerThan       => " (dfv789.value_text) < ('Bar') ",
+            SmallerThanEquals => " (dfv789.value_text) <= ('Bar') ",
+        },
+    },
 );
 
 # execute tests
+TEST:
 for my $Test (@Tests) {
 
     if (
         !IsHashRefWithData( $Test->{Config} )
-        || !IsHashRefWithData( $Test->{Config}->{TestOperators} )
+        ||
+        !IsHashRefWithData( $Test->{Config}->{TestOperators} )
         )
     {
         my $Result = $DFBackendObject->SearchSQLGet( %{ $Test->{Config} } );
 
-        $Self->Is(
+        is(
             $Result,
             undef,
             "$Test->{Name} | SearchSQLGet() (should be undef)",
         );
+
+        next TEST;
     }
-    else {
+
+    subtest $Test->{Name} => sub {
         for my $Operator ( sort keys %{ $Test->{Config}->{TestOperators} } ) {
 
             # define the complete config
@@ -566,10 +613,10 @@ for my $Test (@Tests) {
             my $Result = $DFBackendObject->SearchSQLGet(%Config);
 
             if ( $Operator ne 'Like' || !defined $Test->{ExpectedResult}->{'Like'} ) {
-                $Self->Is(
+                is(
                     $Result,
                     $Test->{ExpectedResult}->{$Operator},
-                    "$Test->{Name} | $Operator SearchSQLGet()",
+                    "$Operator SearchSQLGet()",
                 );
             }
             else {
@@ -579,16 +626,14 @@ for my $Test (@Tests) {
                     Key   => $Test->{ExpectedResult}->{$Operator}->{ColumnKey},
                     Value => $Config{SearchTerm},
                 );
-                $Self->Is(
+                is(
                     $Result,
                     $SQL,
-                    "$Test->{Name} | $Operator SearchSQLGet()",
+                    "$Operator SearchSQLGet()",
                 );
             }
         }
-    }
+    };
 }
 
-# we don't need any cleanup
-
-$Self->DoneTesting();
+done_testing;
