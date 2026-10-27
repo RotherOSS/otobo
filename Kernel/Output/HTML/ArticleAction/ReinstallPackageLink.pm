@@ -20,14 +20,11 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
-    'Kernel::System::CommunicationChannel',
     'Kernel::System::Group',
     'Kernel::System::Log',
-    'Kernel::System::Ticket::Article',
 );
 
 sub new {

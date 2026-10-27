@@ -21,8 +21,6 @@ use parent 'Kernel::Output::HTML::TicketZoom::Agent::Base';
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsPositiveInteger);
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Article::MIMEBase',

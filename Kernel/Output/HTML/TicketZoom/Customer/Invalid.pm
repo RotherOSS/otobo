@@ -21,16 +21,12 @@ use parent 'Kernel::Output::HTML::TicketZoom::Customer::Base';
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsPositiveInteger);
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::CommunicationChannel',
-    'Kernel::System::Main',
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
-    'Kernel::Output::HTML::Article::MIMEBase',
 );
 
 =head2 ArticleRender()
