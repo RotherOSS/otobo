@@ -443,7 +443,7 @@ $Selenium->RunTest(
             "Valid field explanation correct"
         );
 
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Set auto response to default otobo address.
         $Success = $AutoResponseObject->AutoResponseUpdate(
