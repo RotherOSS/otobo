@@ -120,7 +120,7 @@ sub Run {
     # Make sure dynamic fields exists.
     my @DynamicFieldNames;
     DYNAMICFIELD:
-    for my $DynamicFieldConfig (@$DynamicFields) {
+    for my $DynamicFieldConfig ( $DynamicFields->@* ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         push @DynamicFieldNames, 'DynamicField_' . $DynamicFieldConfig->{Name};
