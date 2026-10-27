@@ -1492,27 +1492,30 @@ sub TicketSearch {
     my %DynamicFieldJoinTables;
     my $DynamicFieldJoinCounter = 1;
 
-    # get dynamic field backend object
+    # Handle searches in dynamic fields.
+    # When a value does not validate or when an operator is not defined for a field
+    # then the whole search is aborted buy returning an empty list.
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
     DYNAMIC_FIELD:
     for my $DynamicField ( @{$TicketDynamicFields}, @{$ArticleDynamicFields} ) {
-        my $SearchParam = delete $Param{ "DynamicField_" . $DynamicField->{Name} };
+        my $SearchParam = delete $Param{ 'DynamicField_' . $DynamicField->{Name} };
 
-        next DYNAMIC_FIELD if ( !$SearchParam );
-        next DYNAMIC_FIELD if ( ref $SearchParam ne 'HASH' );
+        # nothing to do when the dynamic field is not searched
+        next DYNAMIC_FIELD unless $SearchParam;
+        next DYNAMIC_FIELD unless ref $SearchParam eq 'HASH';
 
         my $NeedJoin;
         my $QueryForEmptyValues = 0;
 
-        for my $Operator ( sort keys %{$SearchParam} ) {
+        for my $Operator ( sort keys $SearchParam->%* ) {
 
-            my @SearchParams = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
-                ? @{ $SearchParam->{$Operator} }
-                : ( $SearchParam->{$Operator} );
+            my @SearchParams = ref $SearchParam->{$Operator} eq 'ARRAY'
+                ?
+                @{ $SearchParam->{$Operator} }
+                :
+                ( $SearchParam->{$Operator} );
 
-            my $SQLExtSub = ' AND (';
-            my $Counter   = 0;
+            my @Conditions;
             TEXT:
             for my $Text (@SearchParams) {
                 next TEXT unless defined $Text;
@@ -1548,11 +1551,8 @@ sub TicketSearch {
                     }
                 }
 
-                if ($Counter) {
-                    $SQLExtSub .= ' OR ';
-                }
-
                 # Empty => 1 requires a LEFT JOIN.
+                my $SQLExtSub;
                 if ( $Operator eq 'Empty' && $Text ) {
                     $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
                         DynamicFieldConfig => $DynamicField,
@@ -1571,11 +1571,14 @@ sub TicketSearch {
                     );
                 }
 
-                $Counter++;
+
+                push @Conditions, $SQLExtSub;
             }
-            $SQLExtSub .= ')';
-            if ($Counter) {
-                $SQLExt .= $SQLExtSub;
+
+            # add the conditition for a single dynamic field
+            if (@Conditions) {
+                my $OrConnected = join ' OR ', @Conditions;
+                $SQLExt .= qq{ AND ( $OrConnected )};
                 $NeedJoin = 1;
             }
         }
