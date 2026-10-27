@@ -1554,7 +1554,7 @@ sub TicketSearch {
                 # Empty => 1 requires a LEFT JOIN.
                 my $SQLExtSub;
                 if ( $Operator eq 'Empty' && $Text ) {
-                    $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
+                    $SQLExtSub = $DynamicFieldBackendObject->SearchSQLGet(
                         DynamicFieldConfig => $DynamicField,
                         TableAlias         => "dfvEmpty$DynamicFieldJoinCounter",
                         Operator           => $Operator,
@@ -1563,7 +1563,7 @@ sub TicketSearch {
                     $QueryForEmptyValues = 1;
                 }
                 else {
-                    $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
+                    $SQLExtSub = $DynamicFieldBackendObject->SearchSQLGet(
                         DynamicFieldConfig => $DynamicField,
                         TableAlias         => "dfv$DynamicFieldJoinCounter",
                         Operator           => $Operator,
@@ -2826,7 +2826,7 @@ sub TicketSearch {
     my @TicketIDs;
     my $Count;
 
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL   => $SQLSelect . $SQLFrom . $SQLExt,
         Limit => $Limit
     );
