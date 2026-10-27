@@ -65,7 +65,6 @@ sub ArticleRender {
 
     my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
 
     my %Article = $ArticleBackendObject->ArticleGet(

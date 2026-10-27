@@ -39,9 +39,6 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
-    my $Name           = $ParamObject->GetParam( Param => 'Name' ) || '';
-    my $PreferencesKey = 'UserDashboardCustomerIDListFilter' . $Self->{Name};
-
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
