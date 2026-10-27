@@ -294,7 +294,7 @@ sub _ArticleModuleMeta {
         next FILTER if !$Filter->{Meta}->{Name};
         next FILTER if !$Filter->{Meta}->{URL};
 
-        # iterage through regular expressions and create a hash with found matches
+        # iterate through regular expressions and create a hash with found matches
         my @Matches;
         for my $RegExp ( @{ $Filter->{RegExp} } ) {
 

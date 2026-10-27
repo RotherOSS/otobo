@@ -133,12 +133,12 @@ sub Run {
     );
 
     # show change customer relations button if the agent has permission
-    my $ChangeCustomerReleationsAccess = $LayoutObject->Permission(
+    my $ChangeCustomerRelationsAccess = $LayoutObject->Permission(
         Action => 'AdminCustomerUserCustomer',
         Type   => 'rw',                          # ro|rw possible
     );
 
-    if ($ChangeCustomerReleationsAccess) {
+    if ($ChangeCustomerRelationsAccess) {
         $LayoutObject->Block(
             Name => 'ContentLargeCustomerIDAdd',
             Data => {
