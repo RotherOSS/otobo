@@ -1571,6 +1571,15 @@ sub TicketSearch {
                     );
                 }
 
+                # not defined SQL clause abort the search, e.g. when searching with 'Like' in a Checkbox dynamic field
+                if ( !defined $SQLExtSub ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'Error',
+                        Message  => qq[Could not determine SQL query for the operator "$Operator" on the dynamic field "$DynamicField->{Name}".],
+                    );
+
+                    return;
+                }
 
                 push @Conditions, $SQLExtSub;
             }
