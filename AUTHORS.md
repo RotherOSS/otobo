@@ -9,6 +9,7 @@ The following persons contributed to OTOBO:
 * Bernhard Schmalhofer <bernhard.schmalhofer@gmx.de>
 * Khalil Hamada <khh@rother-oss.com>
 * Stefan Härter <sha@rother-oss.com>
+* Stefan Eisenmann <stefane2741@gmail.com>
 * OTOBO Team <https://rother-oss.com>
 * San Miguel Team
 * Yuri Myasoedov <ymyasoedov@yandex.ru> (Thanks for add RedisCache implementation)
