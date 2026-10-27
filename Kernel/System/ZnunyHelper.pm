@@ -1793,7 +1793,7 @@ sub _DynamicFieldsCreate {
             Success      => 0,
             ErrorMessage =>
                 'The dependencies for the following dynamic fields could not be resolved: %s. Please make sure all field dependencies are present in the import or on the system and that they do not contain circular references to each other.',
-            PlaceholderData => [ join( ', ', @LeftoverFields ) ],
+            PlaceholderData => [ join( ', ', map { $_->{Name} } @LeftoverFields ) ],
         };
     }
 
