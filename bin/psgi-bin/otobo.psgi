@@ -591,6 +591,36 @@ my $OTOBOApp = builder {
         Interface => 'Kernel::System::Web::InterfaceAgent',
     )->to_app;
 
+    mount '/oauth/agent' => builder {
+        enable sub {
+            my $App = shift;
+            sub {
+                my $Env = shift;
+                $Env->{QUERY_STRING} = 'Action=Login&'.$Env->{QUERY_STRING};
+                my $Res = $App->($Env);
+                return $Res;
+            };
+        };
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceAgent',
+        )->to_app();
+    };
+
+    mount '/oauth/customer' => builder {
+        enable sub {
+            my $App = shift;
+            sub {
+                my $Env = shift;
+                $Env->{QUERY_STRING} = 'Action=Login&'.$Env->{QUERY_STRING};
+                my $Res = $App->($Env);
+                return $Res;
+            };
+        };
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceCustomer',
+        )->to_app();
+    };
+
     mount '/installer.pl' => builder {
 
         # check the SecureMode
