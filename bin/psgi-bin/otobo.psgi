@@ -705,6 +705,74 @@ my $OTOBOApp = builder {
         )->to_app;
     };
 
+    mount '/oauth/agent' => builder {
+        enable sub {
+            my $App = shift;
+            sub {
+                my $Env = shift;
+                $Env->{QUERY_STRING} = 'Action=Login&'.$Env->{QUERY_STRING};
+                my $Res = $App->($Env);
+                return $Res;
+            };
+        };
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Agent';
+
+        Kernel::System::Web::InterfaceAgent->new(
+            Debug => 0,
+        )->to_app;
+    };
+
+    mount '/oauth/customer' => builder {
+        enable sub {
+            my $App = shift;
+            sub {
+                my $Env = shift;
+                $Env->{QUERY_STRING} = 'Action=Login&'.$Env->{QUERY_STRING};
+                my $Res = $App->($Env);
+                return $Res;
+            };
+        };
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Customer';
+
+        enable $CheckCustomerInterfaceMiddleware;
+
+        Kernel::System::Web::InterfaceCustomer->new(
+            Debug => 0,
+        )->to_app;
+    };
+
+    mount '/oauth/tokenstore' => builder {
+        enable sub {
+            my $App = shift;
+            sub {
+                my $Env = shift;
+                $Env->{QUERY_STRING} = 'Action=AdminOAuthTokenStore&Subaction=OAuth&'.$Env->{QUERY_STRING};
+                my $Res = $App->($Env);
+                return $Res;
+            };
+        };
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Agent';
+
+        Kernel::System::Web::InterfaceAgent->new(
+            Debug => 0,
+        )->to_app;
+    };
+
     # redirect to Frontend::DefaultInterface when in doubt
     mount '/' => $RedirectOtoboApp;
 };
