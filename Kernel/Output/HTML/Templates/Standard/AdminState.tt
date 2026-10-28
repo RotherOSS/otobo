@@ -88,7 +88,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Attention") | html %]: [% Translate("Please also update the states in SysConfig where needed.") | html %]
+                    [% Translate("Attention") | html %]: [% Translate("Please also update the states in SysConfig where needed, e.g. in setting 'Ticket::StateAfterPending' for state of type 'pending auto'.") | html %]
                 </p>
                 <p class="FieldExplanation">
                     [% Translate("See also") | html %]: <a href="https://doc.otobo.org/" target="_blank">https://doc.otobo.org/</a>
