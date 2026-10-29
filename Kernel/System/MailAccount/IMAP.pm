@@ -88,6 +88,7 @@ sub Connect {
 
     my $Auth        = $Param{Auth};
     my $AccountName = $Param{AccountName};
+    my $Type        = $Self->_Type();
 
     if ( $Auth ne 'Basic' ) {
 
@@ -107,7 +108,7 @@ sub Connect {
         if ( !$Token->{Success} ) {
             return (
                 Successful => 0,
-                Message    => "ImapTLS: $Auth Auth for account $AccountName failed invalid Token!",
+                Message    => "$Type: $Auth Auth for account $AccountName failed invalid Token!",
             );
         }
 
@@ -127,7 +128,7 @@ sub Connect {
 
             return {
                 Successful => 0,
-                Message    => "ImapTLS: Can't connect to $Param{Host}: $@\n"
+                Message    => "$Type: Can't connect to $Param{Host}: $@\n"
             };
         }
 
@@ -147,7 +148,7 @@ sub Connect {
         }
         return (
             Successful => 0,
-            Message    => "ImapTLS: Can't connect to $Param{Host}: $@\n"
+            Message    => "$Type: Can't connect to $Param{Host}: $@\n"
         );
     }
 
@@ -171,8 +172,6 @@ sub Connect {
         # see bug#8791: needed for some Microsoft Exchange backends
         Ignoresizeerrors => 1,
     );
-
-    my $Type = $Self->_Type();
 
     # report failure
     return (
