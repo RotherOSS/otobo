@@ -49,6 +49,19 @@ sub new {
     # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
     $Self->{DynamicField}->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} ne 'Set' } $DynamicField->@*;
 
+    # TODO Adjust GenericAgent module to handle reference fields
+    my %ReferenceFields = (
+        Agent             => 1,
+        ConfigItem        => 1,
+        ConfigItemVersion => 1,
+        CustomerCompany   => 1,
+        CustomerUser      => 1,
+        FAQ               => 1,
+        Service           => 1,
+        Ticket            => 1
+    );
+    $Self->{DynamicField}->@* = grep { !$ReferenceFields{ $_->{FieldType} } } $Self->{DynamicField}->@*;
+
     return $Self;
 }
 
