@@ -1341,6 +1341,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         border-top: 1px solid var(--colBGDark);
     }
 
+    /* the sidebar is moved out of the content, so the process selection uses the full width */
+    #NewProcessTicket > fieldset.ModularForm {
+        width: 100%;
+        padding: 0px;
+    }
+
     /* Cluster */
 
     .Cluster .ClusterLink {

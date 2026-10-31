@@ -144,6 +144,30 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+/*
+ * Width and padding of the process selection match the content column
+ * of the activity dialog (width and margin of
+ * .LayoutFixedSidebar.SidebarLast > .SidebarColumn, padding of
+ * .LayoutPopup > .Content), so that labels and fields of both forms are aligned.
+ * The process selection decides which dialog is shown below,
+ * so it gets some extra space to the dialog.
+ */
+#NewProcessTicket > fieldset.ModularForm {
+    width: calc( 100% - 340px - 16px );
+    padding: 0px 20px;
+    margin-bottom: 16px;
+}
+
+/*
+ * A fieldset has min-width: min-content by default. Without resetting it,
+ * the dialog form grows wider than its column on smaller screens
+ * and runs underneath the sidebar.
+ */
+#NewProcessTicket > fieldset.ModularForm,
+#ActivityDialogContent fieldset.ModularForm {
+    min-width: 0;
+}
+
 .SubmitInfo {
     padding: 5px;
     background: #eee;
@@ -155,8 +179,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+/* start the explanation at the field column of the grid in div.FieldCell (see Core.Form.css) */
 [class*="Row_DynamicField"] .FieldExplanation {
-    margin-left: calc( 30% + 10px );
+    margin-left: calc( 30% - var(--field-column-gap) );
+    width: auto;
+    max-width: var(--max-field-width);
 }
 
 .FieldHelp {
