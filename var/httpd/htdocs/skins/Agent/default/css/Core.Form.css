@@ -136,6 +136,7 @@ textarea:focus {
  */
 textarea {
     font-family: monospace,fixed;
+    border-radius: 4px;
 }
 
 .DynamicFieldSet textarea,
