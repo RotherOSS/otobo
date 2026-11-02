@@ -194,7 +194,8 @@ sub _IsTrustedProxy {
     my $ProxySecret = exists $Param{ProxySecret} ? $Param{ProxySecret} : $Self->_ProxySecret();
 
     # nothing configured means nothing is trusted
-    return 0 unless defined $ProxySecret && length $ProxySecret;
+    return 0 unless defined $ProxySecret;
+    return 0 unless length $ProxySecret;
 
     my $Secret = exists $Param{Secret}
         ? $Param{Secret}

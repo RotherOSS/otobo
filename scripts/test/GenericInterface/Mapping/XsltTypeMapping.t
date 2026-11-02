@@ -75,6 +75,24 @@ my $InputWithTypeHints = {
             'content'      => '1',
             'otoboXslType' => 'array'
         },
+        'Complex' => {
+            'otoboXslType' => 'array',
+            'Name'         => 'Priority',
+            'ID'           => {
+                'content'      => '5',
+                'otoboXslType' => 'int'
+            }
+        },
+        'Multi' => [
+            {
+                'otoboXslType' => 'array',
+                'Name'         => 'A'
+            },
+            {
+                'otoboXslType' => 'array',
+                'Name'         => 'B'
+            }
+        ],
         'Thing' => [
             {
                 'content'      => '1',
@@ -119,6 +137,20 @@ my $Expected = {
         'Sub' => [
             '1'
         ],
+        'Complex' => [
+            {
+                'Name' => 'Priority',
+                'ID'   => 5
+            }
+        ],
+        'Multi' => [
+            {
+                'Name' => 'A'
+            },
+            {
+                'Name' => 'B'
+            }
+        ],
         'Thing' => [
             1,
             2,
@@ -152,6 +184,9 @@ my $MappingConfig = {
         <Thing otoboXslType="array int">1</Thing>
         <Thing otoboXslType="array int">2</Thing>
         <Thing otoboXslType="array int">3</Thing>
+        <Complex otoboXslType="array"><Name>Priority</Name><ID otoboXslType="int">5</ID></Complex>
+        <Multi otoboXslType="array"><Name>A</Name></Multi>
+        <Multi otoboXslType="array"><Name>B</Name></Multi>
         <Array><Item otoboXslType="bool">0</Item></Array>
         <Array><Item otoboXslType="bool">1</Item></Array>
         <Array><Item otoboXslType="bool">false</Item></Array>

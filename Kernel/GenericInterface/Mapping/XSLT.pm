@@ -361,7 +361,7 @@ sub Map {
             SuppressEmpty => '',
         );
     };
-    if ( !$ReturnData ) {
+    if ( !defined $ReturnData ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Could not convert data from XML to Perl after mapping',
             Data    => {
@@ -369,6 +369,11 @@ sub Map {
                 XMLIn   => $XMLPost,
             },
         );
+    }
+
+    # fall back to an empty hash if the complete mapping result is empty
+    elsif ( !$ReturnData && $ReturnData eq '' ) {
+        $ReturnData = {};
     }
 
     # typify tree structure if 'otoboType' attrs have been used in XSLT
@@ -441,7 +446,9 @@ sub _ReduceTypedTreeData {
         if ( exists $Data->{otoboXslType} ) {
 
             my $OtoboType = $Data->{otoboXslType};
-            my $Content   = $Data->{content};
+            my $Content   = $Self->_TypedElementContent(
+                Element => $Data,
+            );
 
             if ( $OtoboType =~ 'array' && ref $Content ne 'ARRAY' ) {
 
@@ -486,7 +493,9 @@ sub _ReduceTypedTreeData {
             if ( ref $Item eq 'HASH' && exists $Item->{otoboXslType} ) {
 
                 push @Array, $Self->_ReduceTypedTreeData(
-                    Data     => $Item->{content},
+                    Data => $Self->_TypedElementContent(
+                        Element => $Item,
+                    ),
                     TypeHint => $Item->{otoboXslType}
                 );
             }
@@ -545,6 +554,27 @@ sub _ReduceTypedTreeData {
     }
 
     return $Result;
+}
+
+# Returns the content of an element with a type discriminator ('otoboXslType').
+# The text of a simple element is stored in 'content', e.g. for
+#   <Count otoboXslType="int">3</Count>
+# A complex element has child elements instead, they are returned as hash, e.g. for
+#   <Item otoboXslType="array"><Name>Priority</Name></Item>
+sub _TypedElementContent {
+    my ( $Self, %Param ) = @_;
+
+    my %Element = $Param{Element}->%*;
+    delete $Element{otoboXslType};
+
+    # simple element
+    return $Element{content} if exists $Element{content};
+
+    # empty element
+    return if !%Element;
+
+    # complex element
+    return \%Element;
 }
 
 sub _RegExRecursion {

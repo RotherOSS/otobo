@@ -27,7 +27,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -714,12 +714,28 @@ Autoselects a value if the current selection is empty and only one valid option 
 sub Autoselect {
     my ( $Self, %Param ) = @_;
 
+    # for evaluation purpose:
+    my $Current;
+    if ( ref $Param{Current} eq 'ARRAY' ) {
+
+        #   if we are dealing with an array which has exactly one element, use this for evaluation
+        if ( $#{ $Param{Current} } == 0 ) {
+            $Current = $Param{Current}[0];
+        }
+
+        #   array with more than one element: abort
+        elsif ( $#{ $Param{Current} } > 0 ) {
+            return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
+        }
+    }
+
+    #   if we are dealing with a scalar, use this for evaluation directly
+    elsif ( !ref $Param{Current} ) {
+        $Current = $Param{Current};
+    }
+
     # return, if already filled ( '0' is valid! )
-    if (
-        defined $Param{Current}
-        && ( ( !ref( $Param{Current} ) && $Param{Current} !~ /^-?$/ ) || IsArrayRefWithData( $Param{Current} ) )
-        )
-    {
+    if ( defined $Current && $Current !~ /^-?$/ ) {
         return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
 

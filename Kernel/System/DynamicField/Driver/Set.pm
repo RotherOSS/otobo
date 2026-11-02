@@ -699,6 +699,7 @@ sub DisplayValueRender {
 
             my $Element = $BackendObject->DisplayValueRender(
                 %Param,
+                MultiLink          => 0,
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Param{Value}[$SetIndex]{$Name},
             );
