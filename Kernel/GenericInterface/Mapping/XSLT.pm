@@ -361,7 +361,7 @@ sub Map {
             SuppressEmpty => '',
         );
     };
-    if ( !$ReturnData ) {
+    if ( !defined $ReturnData ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Could not convert data from XML to Perl after mapping',
             Data    => {
@@ -369,6 +369,11 @@ sub Map {
                 XMLIn   => $XMLPost,
             },
         );
+    }
+
+    # fall back to an empty hash if the complete mapping result is empty
+    elsif ( !$ReturnData && $ReturnData eq '' ) {
+        $ReturnData = {};
     }
 
     # typify tree structure if 'otoboType' attrs have been used in XSLT
