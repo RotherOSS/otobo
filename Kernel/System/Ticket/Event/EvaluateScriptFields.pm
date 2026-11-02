@@ -72,6 +72,7 @@ sub Run {
         UserID        => 1,
     );
 
+    FIELDID:
     for my $FieldID ( $Events->{ $Param{Event} }->@* ) {
 
         my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
@@ -86,8 +87,28 @@ sub Run {
                 ID => $DynamicField->{Config}{PartOfSet},
             );
 
+            my $ValueEvaluated = 0;
+
+            SETVALUE:
             for my $SetValue ( $Ticket{"DynamicField_$SetConfig->{Name}"}->@* ) {
                 my %SetValuesMapped = map { ( "DynamicField_$_" => $SetValue->{$_} ) } keys $SetValue->%*;
+
+                # the required args have to be present
+                for my $Required ( @{ $DynamicField->{Config}{RequiredArgs} // [] } ) {
+                    my $RequirementValue = exists $SetValuesMapped{$Required} ? $SetValuesMapped{$Required} : $Ticket{$Required};
+
+                    if (
+                        ( !ref $RequirementValue && ( !defined $RequirementValue || !length $RequirementValue ) )
+                        || ( ref $RequirementValue && !IsArrayRefWithData($RequirementValue) )
+                        )
+                    {
+                        # keep old value in case that requirements are not fulfilled
+                        push @Values, $SetValuesMapped{"DynamicField_$DynamicField->{Name}"};
+
+                        next SETVALUE;
+                    }
+                }
+
                 push @Values, $DynamicFieldBackendObject->Evaluate(
                     DynamicFieldConfig => $DynamicField,
                     Object             => {
@@ -95,10 +116,23 @@ sub Run {
                         %SetValuesMapped,
                     },
                 );
+                $ValueEvaluated = 1;
             }
+
+            next FIELDID unless $ValueEvaluated;
+
             $Value = \@Values;
         }
         else {
+
+            # the required args have to be present
+            for my $Required ( @{ $DynamicField->{Config}{RequiredArgs} // [] } ) {
+                my $RequirementValue = $Ticket{$Required};
+
+                next FIELDID if ( !ref $RequirementValue && ( !defined $RequirementValue || !length $RequirementValue ) );
+                next FIELDID if ( ref $RequirementValue  && !IsArrayRefWithData($RequirementValue) );
+            }
+
             $Value = $DynamicFieldBackendObject->Evaluate(
                 DynamicFieldConfig => $DynamicField,
                 Object             => \%Ticket,
