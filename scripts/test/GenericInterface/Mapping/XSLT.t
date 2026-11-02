@@ -499,6 +499,36 @@ END_STYLESHEET
             },
             ResultSuccess => 1,
             ConfigSuccess => 1,
+            NoWarnings    => 1,
+        },
+        {
+            Name   => 'Roundtrip nested undef (null in a JSON response), turned into empty strings',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Issue => {
+                    Assignee => undef,
+                    Title    => 'Title',
+                },
+                Labels => [
+                    {
+                        Description => undef,
+                    },
+                ],
+            },
+            ResultData => {
+                Issue => {
+                    Assignee => '',
+                    Title    => 'Title',
+                },
+                Labels => {
+                    Description => '',
+                },
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+            NoWarnings    => 1,
         },
         {
             Name   => 'Roundtrip number 100',
@@ -527,6 +557,149 @@ END_STYLESHEET
             },
             ResultSuccess => 1,
             ConfigSuccess => 1,
+        };
+}
+
+# Check the XML that is passed to the stylesheet, not only the result of the roundtrip.
+# The stylesheet lists every element with its path, the number of attributes and child elements
+# and its text. This makes sure that undefined values are passed as empty elements, never as
+# attributes or left out, and that defined values are not affected.
+{
+    my $StructureTransform = <<'END_STYLESHEET';
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/">
+    <RootElement>
+      <xsl:for-each select="//*">
+        <Element>
+          <xsl:for-each select="ancestor-or-self::*">
+            <xsl:value-of select="concat('/', name())"/>
+          </xsl:for-each>
+          <xsl:value-of select="concat(' attributes=', count(@*), ' children=', count(*), ' text=[', normalize-space(text()), ']')"/>
+        </Element>
+      </xsl:for-each>
+    </RootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_STYLESHEET
+
+    push @Tests,
+        {
+            Name   => 'XML for the stylesheet: undef',
+            Config => {
+                Template => $StructureTransform,
+            },
+            Data => {
+                Key => undef,
+            },
+            ResultData => {
+                Element => [
+                    '/RootElement attributes=0 children=1 text=[]',
+                    '/RootElement/Key attributes=0 children=0 text=[]',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+            NoWarnings    => 1,
+        },
+        {
+            Name   => 'XML for the stylesheet: undef in a hash',
+            Config => {
+                Template => $StructureTransform,
+            },
+            Data => {
+                Issue => {
+                    Assignee => undef,
+                    Title    => 'Title',
+                },
+            },
+            ResultData => {
+                Element => [
+                    '/RootElement attributes=0 children=1 text=[]',
+                    '/RootElement/Issue attributes=0 children=2 text=[]',
+                    '/RootElement/Issue/Assignee attributes=0 children=0 text=[]',
+                    '/RootElement/Issue/Title attributes=0 children=0 text=[Title]',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+            NoWarnings    => 1,
+        },
+        {
+            Name   => 'XML for the stylesheet: undef in an array',
+            Config => {
+                Template => $StructureTransform,
+            },
+            Data => {
+                Labels => [ undef, 'bug', undef ],
+            },
+            ResultData => {
+                Element => [
+                    '/RootElement attributes=0 children=3 text=[]',
+                    '/RootElement/Labels attributes=0 children=0 text=[]',
+                    '/RootElement/Labels attributes=0 children=0 text=[bug]',
+                    '/RootElement/Labels attributes=0 children=0 text=[]',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+            NoWarnings    => 1,
+        },
+        {
+            Name   => 'XML for the stylesheet: undef in an array of hashes',
+            Config => {
+                Template => $StructureTransform,
+            },
+            Data => {
+                Labels => [
+                    {
+                        Description => undef,
+                        Name        => 'bug',
+                    },
+                    {
+                        Description => 'Something',
+                        Name        => 'feature',
+                    },
+                ],
+            },
+            ResultData => {
+                Element => [
+                    '/RootElement attributes=0 children=2 text=[]',
+                    '/RootElement/Labels attributes=0 children=2 text=[]',
+                    '/RootElement/Labels/Description attributes=0 children=0 text=[]',
+                    '/RootElement/Labels/Name attributes=0 children=0 text=[bug]',
+                    '/RootElement/Labels attributes=0 children=2 text=[]',
+                    '/RootElement/Labels/Description attributes=0 children=0 text=[Something]',
+                    '/RootElement/Labels/Name attributes=0 children=0 text=[feature]',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+            NoWarnings    => 1,
+        },
+        {
+            Name   => 'XML for the stylesheet: empty values without undef',
+            Config => {
+                Template => $StructureTransform,
+            },
+            Data => {
+                EmptyArray  => [],
+                EmptyHash   => {},
+                EmptyString => q{},
+                Zero        => 0,
+            },
+            ResultData => {
+                Element => [
+                    '/RootElement attributes=0 children=3 text=[]',
+                    '/RootElement/EmptyHash attributes=0 children=0 text=[]',
+                    '/RootElement/EmptyString attributes=0 children=0 text=[]',
+                    '/RootElement/Zero attributes=0 children=0 text=[0]',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+            NoWarnings    => 1,
         };
 }
 
@@ -725,10 +898,22 @@ for my $Test (@Tests) {
             return;
         }
 
-        my $MappingResult = $MappingObject->Map(
-            Data        => $Test->{Data},
-            DataInclude => $Test->{DataInclude},
-        );
+        my $MappingResult;
+        my $WarningCount = warns {
+            $MappingResult = $MappingObject->Map(
+                Data        => $Test->{Data},
+                DataInclude => $Test->{DataInclude},
+            );
+        };
+
+        # undefined values must not cause warnings
+        if ( $Test->{NoWarnings} ) {
+            is(
+                $WarningCount,
+                0,
+                'Map() emitted no warnings',
+            );
+        }
 
         # check if function return correct status
         is(
@@ -770,3 +955,4 @@ for my $Test (@Tests) {
 }
 
 done_testing;
+
