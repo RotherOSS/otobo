@@ -27,7 +27,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
