@@ -105,6 +105,11 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                 }
             });
 
+            $Element.on('keypress', function() {
+                let $ValueField = $(this).siblings('input[type=hidden]');
+                $ValueField.val('');
+            });
+
             $Element.autocomplete({
                 minLength: AutoCompleteActive ? AutoCompleteConfig.MinQueryLength : 500,
                 delay: AutoCompleteConfig.QueryDelay,

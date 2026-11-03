@@ -62,7 +62,7 @@ for my $Key (qw( args command cpan_audit total_advisories )) {
 # check the version of CPANSA::DB and CPAN::Audit
 {
     my %ExpectedVersion = (
-        db      => '20261025.002',
+        db      => '20261101.010',
         version => '20261013.002',
     );
     is(
