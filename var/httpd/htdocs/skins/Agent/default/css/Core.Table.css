@@ -236,11 +236,6 @@ table tr.MasterAction {
     color: var(--colTextDark);
 }
 
-.DataTable td:first-child input {
-    margin: 0;
-}
-
-
 /**
  * @subsection  QueueOverviewTotals DataTable
  */
