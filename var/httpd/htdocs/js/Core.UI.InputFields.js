@@ -2599,7 +2599,10 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Keydown handler provides keyboard shortcuts for navigating the tree
                 .keydown(function (Event) {
 
-                    var $TreeObj = $TreeContainerObj.find('.jstree');
+                    let $TreeObj;
+                    if ( !$SearchObj.attr('readonly') ) {
+                        $TreeObj = $TreeContainerObj.find('.jstree');
+                    }
 
                     switch (Event.which) {
 
@@ -2620,25 +2623,31 @@ Core.UI.InputFields = (function (TargetNS) {
                         // Escape
                         case $.ui.keyCode.ESCAPE:
                             Event.preventDefault();
-                            $TreeObj.blur();
+                            if ( typeof $TreeObj == 'object' ) {
+                                $TreeObj.blur();
+                            }
                             $SearchObj.blur();
                             break;
 
                         // ArrowUp
                         case $.ui.keyCode.UP:
                             Event.preventDefault();
-                            $($TreeObj.find('a.jstree-anchor:visible')
-                                .not('.jstree-disabled')
-                                .last()
-                                .get(0)).trigger('focus.jstree');
+                            if ( typeof $TreeObj == 'object' ) {
+                                $($TreeObj.find('a.jstree-anchor:visible')
+                                    .not('.jstree-disabled')
+                                    .last()
+                                    .get(0)).trigger('focus.jstree');
+                            }
                             break;
 
                         // ArrowDown
                         case $.ui.keyCode.DOWN:
                             Event.preventDefault();
-                            $($TreeObj.find('a.jstree-anchor:visible')
-                                .not('.jstree-disabled')
-                                .get(0)).trigger('focus.jstree');
+                            if ( typeof $TreeObj == 'object' ) {
+                                $($TreeObj.find('a.jstree-anchor:visible')
+                                    .not('.jstree-disabled')
+                                    .get(0)).trigger('focus.jstree');
+                            }
                             break;
 
                         // Ctrl (Cmd) + A
