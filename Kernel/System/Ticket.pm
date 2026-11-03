@@ -1346,6 +1346,7 @@ sub TicketGet {
             next DYNAMICFIELD if !$DynamicFieldConfig;
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if $DynamicFieldConfig->{Config}{PartOfSet};
 
             # get the current value for each dynamic field
             my $Value = $DynamicFieldBackendObject->ValueGet(
