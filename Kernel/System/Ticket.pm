@@ -6342,10 +6342,10 @@ sub TicketAccountTime {
 
     # fetch the data
     if ( my @Row = $DBObject->FetchrowArray() ) {
-        my $ID = $Row[0];
+        my $ID          = $Row[0];
         my $NewTimeUnit = $Row[1] + $Param{TimeUnit};
         return if !$DBObject->Do(
-            SQL => 'UPDATE time_accounting SET time_unit = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
+            SQL  => 'UPDATE time_accounting SET time_unit = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
             Bind => [ \$NewTimeUnit, \$Param{UserID}, \$ID ],
         );
     }
@@ -6359,7 +6359,6 @@ sub TicketAccountTime {
             ],
         );
     }
-
 
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
