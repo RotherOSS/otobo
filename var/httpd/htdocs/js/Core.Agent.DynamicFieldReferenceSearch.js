@@ -105,6 +105,11 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                 }
             });
 
+            $Element.on('keypress', function() {
+                let $ValueField = $(this).siblings('input[type=hidden]');
+                $ValueField.val('');
+            });
+
             $Element.autocomplete({
                 minLength: AutoCompleteActive ? AutoCompleteConfig.MinQueryLength : 500,
                 delay: AutoCompleteConfig.QueryDelay,
@@ -168,7 +173,7 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
             $Element.blur(function() {
                 var Visible = false;
                 let $ValueField = $(this).siblings('input[type=hidden]');
-                
+
                 // If the field is empty, remove the hidden field value and the contact info.
                 if (!$(this).val()) {
                     $ValueField.val('');
