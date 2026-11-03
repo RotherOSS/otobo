@@ -969,6 +969,10 @@ sub GetPossibleExecutionConditions {
         ObjectType => $ObjectType,
         ResultType => 'HASH',
     );
+
+    # clear update event for current field from update events array
+    @PossibleUpdateEvents = grep { $_ !~ /_$List->{$Param{FieldID}}$/ } @PossibleUpdateEvents;
+
     delete $List->{ $Param{FieldID} } if $Param{FieldID};
 
     return {
