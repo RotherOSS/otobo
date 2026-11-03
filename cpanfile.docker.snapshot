@@ -453,6 +453,17 @@ DISTRIBUTIONS
       Scalar::Util 0
       Test::More 0.88
       perl 5.006
+  Crypt-OpenSSL-Guess-0.15
+    pathname: A/AK/AKIYM/Crypt-OpenSSL-Guess-0.15.tar.gz
+    provides:
+      Crypt::OpenSSL::Guess 0.15
+    requirements:
+      Config 0
+      Exporter 5.57
+      ExtUtils::MakeMaker 6.64
+      File::Spec 0
+      Symbol 0
+      perl 5.008001
   Crypt-URandom-0.55
     pathname: D/DD/DDICK/Crypt-URandom-0.55.tar.gz
     provides:
@@ -779,22 +790,22 @@ DISTRIBUTIONS
       Data::Section::Simple 0.07
     requirements:
       ExtUtils::MakeMaker 6.30
-  DateTime-1.67
-    pathname: D/DR/DROLSKY/DateTime-1.67.tar.gz
+  DateTime-1.68
+    pathname: D/DR/DROLSKY/DateTime-1.68.tar.gz
     provides:
-      DateTime 1.67
-      DateTime::Duration 1.67
-      DateTime::Helpers 1.67
-      DateTime::Infinite 1.67
-      DateTime::Infinite::Future 1.67
-      DateTime::Infinite::Past 1.67
-      DateTime::LeapSecond 1.67
-      DateTime::PP 1.67
-      DateTime::PPExtra 1.67
-      DateTime::Types 1.67
+      DateTime 1.68
+      DateTime::Duration 1.68
+      DateTime::Helpers 1.68
+      DateTime::Infinite 1.68
+      DateTime::Infinite::Future 1.68
+      DateTime::Infinite::Past 1.68
+      DateTime::LeapSecond 1.68
+      DateTime::PP 1.68
+      DateTime::PPExtra 1.68
+      DateTime::Types 1.68
     requirements:
       Carp 0
-      DateTime::Locale 1.06
+      DateTime::Locale 1.47
       DateTime::TimeZone 2.44
       Dist::CheckConflicts 0.02
       ExtUtils::MakeMaker 0
@@ -818,15 +829,15 @@ DISTRIBUTIONS
       strict 0
       warnings 0
       warnings::register 0
-  DateTime-Locale-1.46
-    pathname: D/DR/DROLSKY/DateTime-Locale-1.46.tar.gz
+  DateTime-Locale-1.47
+    pathname: D/DR/DROLSKY/DateTime-Locale-1.47.tar.gz
     provides:
-      DateTime::Locale 1.46
-      DateTime::Locale::Base 1.46
-      DateTime::Locale::Catalog 1.46
-      DateTime::Locale::Data 1.46
-      DateTime::Locale::FromData 1.46
-      DateTime::Locale::Util 1.46
+      DateTime::Locale 1.47
+      DateTime::Locale::Base 1.47
+      DateTime::Locale::Catalog 1.47
+      DateTime::Locale::Data 1.47
+      DateTime::Locale::FromData 1.47
+      DateTime::Locale::Util 1.47
     requirements:
       Carp 0
       Dist::CheckConflicts 0.02
@@ -844,339 +855,339 @@ DISTRIBUTIONS
       perl 5.008004
       strict 0
       warnings 0
-  DateTime-TimeZone-2.71
-    pathname: D/DR/DROLSKY/DateTime-TimeZone-2.71.tar.gz
+  DateTime-TimeZone-2.72
+    pathname: D/DR/DROLSKY/DateTime-TimeZone-2.72.tar.gz
     provides:
-      DateTime::TimeZone 2.71
-      DateTime::TimeZone::Africa::Abidjan 2.71
-      DateTime::TimeZone::Africa::Algiers 2.71
-      DateTime::TimeZone::Africa::Bissau 2.71
-      DateTime::TimeZone::Africa::Cairo 2.71
-      DateTime::TimeZone::Africa::Casablanca 2.71
-      DateTime::TimeZone::Africa::Ceuta 2.71
-      DateTime::TimeZone::Africa::El_Aaiun 2.71
-      DateTime::TimeZone::Africa::Johannesburg 2.71
-      DateTime::TimeZone::Africa::Juba 2.71
-      DateTime::TimeZone::Africa::Khartoum 2.71
-      DateTime::TimeZone::Africa::Lagos 2.71
-      DateTime::TimeZone::Africa::Maputo 2.71
-      DateTime::TimeZone::Africa::Monrovia 2.71
-      DateTime::TimeZone::Africa::Nairobi 2.71
-      DateTime::TimeZone::Africa::Ndjamena 2.71
-      DateTime::TimeZone::Africa::Sao_Tome 2.71
-      DateTime::TimeZone::Africa::Tripoli 2.71
-      DateTime::TimeZone::Africa::Tunis 2.71
-      DateTime::TimeZone::Africa::Windhoek 2.71
-      DateTime::TimeZone::America::Adak 2.71
-      DateTime::TimeZone::America::Anchorage 2.71
-      DateTime::TimeZone::America::Araguaina 2.71
-      DateTime::TimeZone::America::Argentina::Buenos_Aires 2.71
-      DateTime::TimeZone::America::Argentina::Catamarca 2.71
-      DateTime::TimeZone::America::Argentina::Cordoba 2.71
-      DateTime::TimeZone::America::Argentina::Jujuy 2.71
-      DateTime::TimeZone::America::Argentina::La_Rioja 2.71
-      DateTime::TimeZone::America::Argentina::Mendoza 2.71
-      DateTime::TimeZone::America::Argentina::Rio_Gallegos 2.71
-      DateTime::TimeZone::America::Argentina::Salta 2.71
-      DateTime::TimeZone::America::Argentina::San_Juan 2.71
-      DateTime::TimeZone::America::Argentina::San_Luis 2.71
-      DateTime::TimeZone::America::Argentina::Tucuman 2.71
-      DateTime::TimeZone::America::Argentina::Ushuaia 2.71
-      DateTime::TimeZone::America::Asuncion 2.71
-      DateTime::TimeZone::America::Bahia 2.71
-      DateTime::TimeZone::America::Bahia_Banderas 2.71
-      DateTime::TimeZone::America::Barbados 2.71
-      DateTime::TimeZone::America::Belem 2.71
-      DateTime::TimeZone::America::Belize 2.71
-      DateTime::TimeZone::America::Boa_Vista 2.71
-      DateTime::TimeZone::America::Bogota 2.71
-      DateTime::TimeZone::America::Boise 2.71
-      DateTime::TimeZone::America::Cambridge_Bay 2.71
-      DateTime::TimeZone::America::Campo_Grande 2.71
-      DateTime::TimeZone::America::Cancun 2.71
-      DateTime::TimeZone::America::Caracas 2.71
-      DateTime::TimeZone::America::Cayenne 2.71
-      DateTime::TimeZone::America::Chicago 2.71
-      DateTime::TimeZone::America::Chihuahua 2.71
-      DateTime::TimeZone::America::Ciudad_Juarez 2.71
-      DateTime::TimeZone::America::Costa_Rica 2.71
-      DateTime::TimeZone::America::Coyhaique 2.71
-      DateTime::TimeZone::America::Cuiaba 2.71
-      DateTime::TimeZone::America::Danmarkshavn 2.71
-      DateTime::TimeZone::America::Dawson 2.71
-      DateTime::TimeZone::America::Dawson_Creek 2.71
-      DateTime::TimeZone::America::Denver 2.71
-      DateTime::TimeZone::America::Detroit 2.71
-      DateTime::TimeZone::America::Edmonton 2.71
-      DateTime::TimeZone::America::Eirunepe 2.71
-      DateTime::TimeZone::America::El_Salvador 2.71
-      DateTime::TimeZone::America::Fort_Nelson 2.71
-      DateTime::TimeZone::America::Fortaleza 2.71
-      DateTime::TimeZone::America::Glace_Bay 2.71
-      DateTime::TimeZone::America::Goose_Bay 2.71
-      DateTime::TimeZone::America::Grand_Turk 2.71
-      DateTime::TimeZone::America::Guatemala 2.71
-      DateTime::TimeZone::America::Guayaquil 2.71
-      DateTime::TimeZone::America::Guyana 2.71
-      DateTime::TimeZone::America::Halifax 2.71
-      DateTime::TimeZone::America::Havana 2.71
-      DateTime::TimeZone::America::Hermosillo 2.71
-      DateTime::TimeZone::America::Indiana::Indianapolis 2.71
-      DateTime::TimeZone::America::Indiana::Knox 2.71
-      DateTime::TimeZone::America::Indiana::Marengo 2.71
-      DateTime::TimeZone::America::Indiana::Petersburg 2.71
-      DateTime::TimeZone::America::Indiana::Tell_City 2.71
-      DateTime::TimeZone::America::Indiana::Vevay 2.71
-      DateTime::TimeZone::America::Indiana::Vincennes 2.71
-      DateTime::TimeZone::America::Indiana::Winamac 2.71
-      DateTime::TimeZone::America::Inuvik 2.71
-      DateTime::TimeZone::America::Iqaluit 2.71
-      DateTime::TimeZone::America::Jamaica 2.71
-      DateTime::TimeZone::America::Juneau 2.71
-      DateTime::TimeZone::America::Kentucky::Louisville 2.71
-      DateTime::TimeZone::America::Kentucky::Monticello 2.71
-      DateTime::TimeZone::America::La_Paz 2.71
-      DateTime::TimeZone::America::Lima 2.71
-      DateTime::TimeZone::America::Los_Angeles 2.71
-      DateTime::TimeZone::America::Maceio 2.71
-      DateTime::TimeZone::America::Managua 2.71
-      DateTime::TimeZone::America::Manaus 2.71
-      DateTime::TimeZone::America::Martinique 2.71
-      DateTime::TimeZone::America::Matamoros 2.71
-      DateTime::TimeZone::America::Mazatlan 2.71
-      DateTime::TimeZone::America::Menominee 2.71
-      DateTime::TimeZone::America::Merida 2.71
-      DateTime::TimeZone::America::Metlakatla 2.71
-      DateTime::TimeZone::America::Mexico_City 2.71
-      DateTime::TimeZone::America::Miquelon 2.71
-      DateTime::TimeZone::America::Moncton 2.71
-      DateTime::TimeZone::America::Monterrey 2.71
-      DateTime::TimeZone::America::Montevideo 2.71
-      DateTime::TimeZone::America::New_York 2.71
-      DateTime::TimeZone::America::Nome 2.71
-      DateTime::TimeZone::America::Noronha 2.71
-      DateTime::TimeZone::America::North_Dakota::Beulah 2.71
-      DateTime::TimeZone::America::North_Dakota::Center 2.71
-      DateTime::TimeZone::America::North_Dakota::New_Salem 2.71
-      DateTime::TimeZone::America::Nuuk 2.71
-      DateTime::TimeZone::America::Ojinaga 2.71
-      DateTime::TimeZone::America::Panama 2.71
-      DateTime::TimeZone::America::Paramaribo 2.71
-      DateTime::TimeZone::America::Phoenix 2.71
-      DateTime::TimeZone::America::Port_au_Prince 2.71
-      DateTime::TimeZone::America::Porto_Velho 2.71
-      DateTime::TimeZone::America::Puerto_Rico 2.71
-      DateTime::TimeZone::America::Punta_Arenas 2.71
-      DateTime::TimeZone::America::Rankin_Inlet 2.71
-      DateTime::TimeZone::America::Recife 2.71
-      DateTime::TimeZone::America::Regina 2.71
-      DateTime::TimeZone::America::Resolute 2.71
-      DateTime::TimeZone::America::Rio_Branco 2.71
-      DateTime::TimeZone::America::Santarem 2.71
-      DateTime::TimeZone::America::Santiago 2.71
-      DateTime::TimeZone::America::Santo_Domingo 2.71
-      DateTime::TimeZone::America::Sao_Paulo 2.71
-      DateTime::TimeZone::America::Scoresbysund 2.71
-      DateTime::TimeZone::America::Sitka 2.71
-      DateTime::TimeZone::America::St_Johns 2.71
-      DateTime::TimeZone::America::Swift_Current 2.71
-      DateTime::TimeZone::America::Tegucigalpa 2.71
-      DateTime::TimeZone::America::Thule 2.71
-      DateTime::TimeZone::America::Tijuana 2.71
-      DateTime::TimeZone::America::Toronto 2.71
-      DateTime::TimeZone::America::Vancouver 2.71
-      DateTime::TimeZone::America::Whitehorse 2.71
-      DateTime::TimeZone::America::Winnipeg 2.71
-      DateTime::TimeZone::America::Yakutat 2.71
-      DateTime::TimeZone::Antarctica::Casey 2.71
-      DateTime::TimeZone::Antarctica::Davis 2.71
-      DateTime::TimeZone::Antarctica::Macquarie 2.71
-      DateTime::TimeZone::Antarctica::Mawson 2.71
-      DateTime::TimeZone::Antarctica::Palmer 2.71
-      DateTime::TimeZone::Antarctica::Rothera 2.71
-      DateTime::TimeZone::Antarctica::Troll 2.71
-      DateTime::TimeZone::Antarctica::Vostok 2.71
-      DateTime::TimeZone::Asia::Almaty 2.71
-      DateTime::TimeZone::Asia::Amman 2.71
-      DateTime::TimeZone::Asia::Anadyr 2.71
-      DateTime::TimeZone::Asia::Aqtau 2.71
-      DateTime::TimeZone::Asia::Aqtobe 2.71
-      DateTime::TimeZone::Asia::Ashgabat 2.71
-      DateTime::TimeZone::Asia::Atyrau 2.71
-      DateTime::TimeZone::Asia::Baghdad 2.71
-      DateTime::TimeZone::Asia::Baku 2.71
-      DateTime::TimeZone::Asia::Bangkok 2.71
-      DateTime::TimeZone::Asia::Barnaul 2.71
-      DateTime::TimeZone::Asia::Beirut 2.71
-      DateTime::TimeZone::Asia::Bishkek 2.71
-      DateTime::TimeZone::Asia::Chita 2.71
-      DateTime::TimeZone::Asia::Colombo 2.71
-      DateTime::TimeZone::Asia::Damascus 2.71
-      DateTime::TimeZone::Asia::Dhaka 2.71
-      DateTime::TimeZone::Asia::Dili 2.71
-      DateTime::TimeZone::Asia::Dubai 2.71
-      DateTime::TimeZone::Asia::Dushanbe 2.71
-      DateTime::TimeZone::Asia::Famagusta 2.71
-      DateTime::TimeZone::Asia::Gaza 2.71
-      DateTime::TimeZone::Asia::Hebron 2.71
-      DateTime::TimeZone::Asia::Ho_Chi_Minh 2.71
-      DateTime::TimeZone::Asia::Hong_Kong 2.71
-      DateTime::TimeZone::Asia::Hovd 2.71
-      DateTime::TimeZone::Asia::Irkutsk 2.71
-      DateTime::TimeZone::Asia::Jakarta 2.71
-      DateTime::TimeZone::Asia::Jayapura 2.71
-      DateTime::TimeZone::Asia::Jerusalem 2.71
-      DateTime::TimeZone::Asia::Kabul 2.71
-      DateTime::TimeZone::Asia::Kamchatka 2.71
-      DateTime::TimeZone::Asia::Karachi 2.71
-      DateTime::TimeZone::Asia::Kathmandu 2.71
-      DateTime::TimeZone::Asia::Khandyga 2.71
-      DateTime::TimeZone::Asia::Kolkata 2.71
-      DateTime::TimeZone::Asia::Krasnoyarsk 2.71
-      DateTime::TimeZone::Asia::Kuching 2.71
-      DateTime::TimeZone::Asia::Macau 2.71
-      DateTime::TimeZone::Asia::Magadan 2.71
-      DateTime::TimeZone::Asia::Makassar 2.71
-      DateTime::TimeZone::Asia::Manila 2.71
-      DateTime::TimeZone::Asia::Nicosia 2.71
-      DateTime::TimeZone::Asia::Novokuznetsk 2.71
-      DateTime::TimeZone::Asia::Novosibirsk 2.71
-      DateTime::TimeZone::Asia::Omsk 2.71
-      DateTime::TimeZone::Asia::Oral 2.71
-      DateTime::TimeZone::Asia::Pontianak 2.71
-      DateTime::TimeZone::Asia::Pyongyang 2.71
-      DateTime::TimeZone::Asia::Qatar 2.71
-      DateTime::TimeZone::Asia::Qostanay 2.71
-      DateTime::TimeZone::Asia::Qyzylorda 2.71
-      DateTime::TimeZone::Asia::Riyadh 2.71
-      DateTime::TimeZone::Asia::Sakhalin 2.71
-      DateTime::TimeZone::Asia::Samarkand 2.71
-      DateTime::TimeZone::Asia::Seoul 2.71
-      DateTime::TimeZone::Asia::Shanghai 2.71
-      DateTime::TimeZone::Asia::Singapore 2.71
-      DateTime::TimeZone::Asia::Srednekolymsk 2.71
-      DateTime::TimeZone::Asia::Taipei 2.71
-      DateTime::TimeZone::Asia::Tashkent 2.71
-      DateTime::TimeZone::Asia::Tbilisi 2.71
-      DateTime::TimeZone::Asia::Tehran 2.71
-      DateTime::TimeZone::Asia::Thimphu 2.71
-      DateTime::TimeZone::Asia::Tokyo 2.71
-      DateTime::TimeZone::Asia::Tomsk 2.71
-      DateTime::TimeZone::Asia::Ulaanbaatar 2.71
-      DateTime::TimeZone::Asia::Urumqi 2.71
-      DateTime::TimeZone::Asia::Ust_Nera 2.71
-      DateTime::TimeZone::Asia::Vladivostok 2.71
-      DateTime::TimeZone::Asia::Yakutsk 2.71
-      DateTime::TimeZone::Asia::Yangon 2.71
-      DateTime::TimeZone::Asia::Yekaterinburg 2.71
-      DateTime::TimeZone::Asia::Yerevan 2.71
-      DateTime::TimeZone::Atlantic::Azores 2.71
-      DateTime::TimeZone::Atlantic::Bermuda 2.71
-      DateTime::TimeZone::Atlantic::Canary 2.71
-      DateTime::TimeZone::Atlantic::Cape_Verde 2.71
-      DateTime::TimeZone::Atlantic::Faroe 2.71
-      DateTime::TimeZone::Atlantic::Madeira 2.71
-      DateTime::TimeZone::Atlantic::South_Georgia 2.71
-      DateTime::TimeZone::Atlantic::Stanley 2.71
-      DateTime::TimeZone::Australia::Adelaide 2.71
-      DateTime::TimeZone::Australia::Brisbane 2.71
-      DateTime::TimeZone::Australia::Broken_Hill 2.71
-      DateTime::TimeZone::Australia::Darwin 2.71
-      DateTime::TimeZone::Australia::Eucla 2.71
-      DateTime::TimeZone::Australia::Hobart 2.71
-      DateTime::TimeZone::Australia::Lindeman 2.71
-      DateTime::TimeZone::Australia::Lord_Howe 2.71
-      DateTime::TimeZone::Australia::Melbourne 2.71
-      DateTime::TimeZone::Australia::Perth 2.71
-      DateTime::TimeZone::Australia::Sydney 2.71
-      DateTime::TimeZone::CST6CDT 2.71
-      DateTime::TimeZone::Catalog 2.71
-      DateTime::TimeZone::EST5EDT 2.71
-      DateTime::TimeZone::Europe::Andorra 2.71
-      DateTime::TimeZone::Europe::Astrakhan 2.71
-      DateTime::TimeZone::Europe::Athens 2.71
-      DateTime::TimeZone::Europe::Belgrade 2.71
-      DateTime::TimeZone::Europe::Berlin 2.71
-      DateTime::TimeZone::Europe::Brussels 2.71
-      DateTime::TimeZone::Europe::Bucharest 2.71
-      DateTime::TimeZone::Europe::Budapest 2.71
-      DateTime::TimeZone::Europe::Chisinau 2.71
-      DateTime::TimeZone::Europe::Dublin 2.71
-      DateTime::TimeZone::Europe::Gibraltar 2.71
-      DateTime::TimeZone::Europe::Helsinki 2.71
-      DateTime::TimeZone::Europe::Istanbul 2.71
-      DateTime::TimeZone::Europe::Kaliningrad 2.71
-      DateTime::TimeZone::Europe::Kirov 2.71
-      DateTime::TimeZone::Europe::Kyiv 2.71
-      DateTime::TimeZone::Europe::Lisbon 2.71
-      DateTime::TimeZone::Europe::London 2.71
-      DateTime::TimeZone::Europe::Madrid 2.71
-      DateTime::TimeZone::Europe::Malta 2.71
-      DateTime::TimeZone::Europe::Minsk 2.71
-      DateTime::TimeZone::Europe::Moscow 2.71
-      DateTime::TimeZone::Europe::Paris 2.71
-      DateTime::TimeZone::Europe::Prague 2.71
-      DateTime::TimeZone::Europe::Riga 2.71
-      DateTime::TimeZone::Europe::Rome 2.71
-      DateTime::TimeZone::Europe::Samara 2.71
-      DateTime::TimeZone::Europe::Saratov 2.71
-      DateTime::TimeZone::Europe::Simferopol 2.71
-      DateTime::TimeZone::Europe::Sofia 2.71
-      DateTime::TimeZone::Europe::Tallinn 2.71
-      DateTime::TimeZone::Europe::Tirane 2.71
-      DateTime::TimeZone::Europe::Ulyanovsk 2.71
-      DateTime::TimeZone::Europe::Vienna 2.71
-      DateTime::TimeZone::Europe::Vilnius 2.71
-      DateTime::TimeZone::Europe::Volgograd 2.71
-      DateTime::TimeZone::Europe::Warsaw 2.71
-      DateTime::TimeZone::Europe::Zurich 2.71
-      DateTime::TimeZone::Floating 2.71
-      DateTime::TimeZone::Indian::Chagos 2.71
-      DateTime::TimeZone::Indian::Maldives 2.71
-      DateTime::TimeZone::Indian::Mauritius 2.71
-      DateTime::TimeZone::Local 2.71
-      DateTime::TimeZone::Local::Android 2.71
-      DateTime::TimeZone::Local::Unix 2.71
-      DateTime::TimeZone::Local::VMS 2.71
-      DateTime::TimeZone::MST7MDT 2.71
-      DateTime::TimeZone::OffsetOnly 2.71
-      DateTime::TimeZone::OlsonDB 2.71
-      DateTime::TimeZone::OlsonDB::Change 2.71
-      DateTime::TimeZone::OlsonDB::Observance 2.71
-      DateTime::TimeZone::OlsonDB::Rule 2.71
-      DateTime::TimeZone::OlsonDB::Zone 2.71
-      DateTime::TimeZone::PST8PDT 2.71
-      DateTime::TimeZone::Pacific::Apia 2.71
-      DateTime::TimeZone::Pacific::Auckland 2.71
-      DateTime::TimeZone::Pacific::Bougainville 2.71
-      DateTime::TimeZone::Pacific::Chatham 2.71
-      DateTime::TimeZone::Pacific::Easter 2.71
-      DateTime::TimeZone::Pacific::Efate 2.71
-      DateTime::TimeZone::Pacific::Fakaofo 2.71
-      DateTime::TimeZone::Pacific::Fiji 2.71
-      DateTime::TimeZone::Pacific::Galapagos 2.71
-      DateTime::TimeZone::Pacific::Gambier 2.71
-      DateTime::TimeZone::Pacific::Guadalcanal 2.71
-      DateTime::TimeZone::Pacific::Guam 2.71
-      DateTime::TimeZone::Pacific::Honolulu 2.71
-      DateTime::TimeZone::Pacific::Kanton 2.71
-      DateTime::TimeZone::Pacific::Kiritimati 2.71
-      DateTime::TimeZone::Pacific::Kosrae 2.71
-      DateTime::TimeZone::Pacific::Kwajalein 2.71
-      DateTime::TimeZone::Pacific::Marquesas 2.71
-      DateTime::TimeZone::Pacific::Nauru 2.71
-      DateTime::TimeZone::Pacific::Niue 2.71
-      DateTime::TimeZone::Pacific::Norfolk 2.71
-      DateTime::TimeZone::Pacific::Noumea 2.71
-      DateTime::TimeZone::Pacific::Pago_Pago 2.71
-      DateTime::TimeZone::Pacific::Palau 2.71
-      DateTime::TimeZone::Pacific::Pitcairn 2.71
-      DateTime::TimeZone::Pacific::Port_Moresby 2.71
-      DateTime::TimeZone::Pacific::Rarotonga 2.71
-      DateTime::TimeZone::Pacific::Tahiti 2.71
-      DateTime::TimeZone::Pacific::Tarawa 2.71
-      DateTime::TimeZone::Pacific::Tongatapu 2.71
-      DateTime::TimeZone::UTC 2.71
+      DateTime::TimeZone 2.72
+      DateTime::TimeZone::Africa::Abidjan 2.72
+      DateTime::TimeZone::Africa::Algiers 2.72
+      DateTime::TimeZone::Africa::Bissau 2.72
+      DateTime::TimeZone::Africa::Cairo 2.72
+      DateTime::TimeZone::Africa::Casablanca 2.72
+      DateTime::TimeZone::Africa::Ceuta 2.72
+      DateTime::TimeZone::Africa::El_Aaiun 2.72
+      DateTime::TimeZone::Africa::Johannesburg 2.72
+      DateTime::TimeZone::Africa::Juba 2.72
+      DateTime::TimeZone::Africa::Khartoum 2.72
+      DateTime::TimeZone::Africa::Lagos 2.72
+      DateTime::TimeZone::Africa::Maputo 2.72
+      DateTime::TimeZone::Africa::Monrovia 2.72
+      DateTime::TimeZone::Africa::Nairobi 2.72
+      DateTime::TimeZone::Africa::Ndjamena 2.72
+      DateTime::TimeZone::Africa::Sao_Tome 2.72
+      DateTime::TimeZone::Africa::Tripoli 2.72
+      DateTime::TimeZone::Africa::Tunis 2.72
+      DateTime::TimeZone::Africa::Windhoek 2.72
+      DateTime::TimeZone::America::Adak 2.72
+      DateTime::TimeZone::America::Anchorage 2.72
+      DateTime::TimeZone::America::Araguaina 2.72
+      DateTime::TimeZone::America::Argentina::Buenos_Aires 2.72
+      DateTime::TimeZone::America::Argentina::Catamarca 2.72
+      DateTime::TimeZone::America::Argentina::Cordoba 2.72
+      DateTime::TimeZone::America::Argentina::Jujuy 2.72
+      DateTime::TimeZone::America::Argentina::La_Rioja 2.72
+      DateTime::TimeZone::America::Argentina::Mendoza 2.72
+      DateTime::TimeZone::America::Argentina::Rio_Gallegos 2.72
+      DateTime::TimeZone::America::Argentina::Salta 2.72
+      DateTime::TimeZone::America::Argentina::San_Juan 2.72
+      DateTime::TimeZone::America::Argentina::San_Luis 2.72
+      DateTime::TimeZone::America::Argentina::Tucuman 2.72
+      DateTime::TimeZone::America::Argentina::Ushuaia 2.72
+      DateTime::TimeZone::America::Asuncion 2.72
+      DateTime::TimeZone::America::Bahia 2.72
+      DateTime::TimeZone::America::Bahia_Banderas 2.72
+      DateTime::TimeZone::America::Barbados 2.72
+      DateTime::TimeZone::America::Belem 2.72
+      DateTime::TimeZone::America::Belize 2.72
+      DateTime::TimeZone::America::Boa_Vista 2.72
+      DateTime::TimeZone::America::Bogota 2.72
+      DateTime::TimeZone::America::Boise 2.72
+      DateTime::TimeZone::America::Cambridge_Bay 2.72
+      DateTime::TimeZone::America::Campo_Grande 2.72
+      DateTime::TimeZone::America::Cancun 2.72
+      DateTime::TimeZone::America::Caracas 2.72
+      DateTime::TimeZone::America::Cayenne 2.72
+      DateTime::TimeZone::America::Chicago 2.72
+      DateTime::TimeZone::America::Chihuahua 2.72
+      DateTime::TimeZone::America::Ciudad_Juarez 2.72
+      DateTime::TimeZone::America::Costa_Rica 2.72
+      DateTime::TimeZone::America::Coyhaique 2.72
+      DateTime::TimeZone::America::Cuiaba 2.72
+      DateTime::TimeZone::America::Danmarkshavn 2.72
+      DateTime::TimeZone::America::Dawson 2.72
+      DateTime::TimeZone::America::Dawson_Creek 2.72
+      DateTime::TimeZone::America::Denver 2.72
+      DateTime::TimeZone::America::Detroit 2.72
+      DateTime::TimeZone::America::Edmonton 2.72
+      DateTime::TimeZone::America::Eirunepe 2.72
+      DateTime::TimeZone::America::El_Salvador 2.72
+      DateTime::TimeZone::America::Fort_Nelson 2.72
+      DateTime::TimeZone::America::Fortaleza 2.72
+      DateTime::TimeZone::America::Glace_Bay 2.72
+      DateTime::TimeZone::America::Goose_Bay 2.72
+      DateTime::TimeZone::America::Grand_Turk 2.72
+      DateTime::TimeZone::America::Guatemala 2.72
+      DateTime::TimeZone::America::Guayaquil 2.72
+      DateTime::TimeZone::America::Guyana 2.72
+      DateTime::TimeZone::America::Halifax 2.72
+      DateTime::TimeZone::America::Havana 2.72
+      DateTime::TimeZone::America::Hermosillo 2.72
+      DateTime::TimeZone::America::Indiana::Indianapolis 2.72
+      DateTime::TimeZone::America::Indiana::Knox 2.72
+      DateTime::TimeZone::America::Indiana::Marengo 2.72
+      DateTime::TimeZone::America::Indiana::Petersburg 2.72
+      DateTime::TimeZone::America::Indiana::Tell_City 2.72
+      DateTime::TimeZone::America::Indiana::Vevay 2.72
+      DateTime::TimeZone::America::Indiana::Vincennes 2.72
+      DateTime::TimeZone::America::Indiana::Winamac 2.72
+      DateTime::TimeZone::America::Inuvik 2.72
+      DateTime::TimeZone::America::Iqaluit 2.72
+      DateTime::TimeZone::America::Jamaica 2.72
+      DateTime::TimeZone::America::Juneau 2.72
+      DateTime::TimeZone::America::Kentucky::Louisville 2.72
+      DateTime::TimeZone::America::Kentucky::Monticello 2.72
+      DateTime::TimeZone::America::La_Paz 2.72
+      DateTime::TimeZone::America::Lima 2.72
+      DateTime::TimeZone::America::Los_Angeles 2.72
+      DateTime::TimeZone::America::Maceio 2.72
+      DateTime::TimeZone::America::Managua 2.72
+      DateTime::TimeZone::America::Manaus 2.72
+      DateTime::TimeZone::America::Martinique 2.72
+      DateTime::TimeZone::America::Matamoros 2.72
+      DateTime::TimeZone::America::Mazatlan 2.72
+      DateTime::TimeZone::America::Menominee 2.72
+      DateTime::TimeZone::America::Merida 2.72
+      DateTime::TimeZone::America::Metlakatla 2.72
+      DateTime::TimeZone::America::Mexico_City 2.72
+      DateTime::TimeZone::America::Miquelon 2.72
+      DateTime::TimeZone::America::Moncton 2.72
+      DateTime::TimeZone::America::Monterrey 2.72
+      DateTime::TimeZone::America::Montevideo 2.72
+      DateTime::TimeZone::America::New_York 2.72
+      DateTime::TimeZone::America::Nome 2.72
+      DateTime::TimeZone::America::Noronha 2.72
+      DateTime::TimeZone::America::North_Dakota::Beulah 2.72
+      DateTime::TimeZone::America::North_Dakota::Center 2.72
+      DateTime::TimeZone::America::North_Dakota::New_Salem 2.72
+      DateTime::TimeZone::America::Nuuk 2.72
+      DateTime::TimeZone::America::Ojinaga 2.72
+      DateTime::TimeZone::America::Panama 2.72
+      DateTime::TimeZone::America::Paramaribo 2.72
+      DateTime::TimeZone::America::Phoenix 2.72
+      DateTime::TimeZone::America::Port_au_Prince 2.72
+      DateTime::TimeZone::America::Porto_Velho 2.72
+      DateTime::TimeZone::America::Puerto_Rico 2.72
+      DateTime::TimeZone::America::Punta_Arenas 2.72
+      DateTime::TimeZone::America::Rankin_Inlet 2.72
+      DateTime::TimeZone::America::Recife 2.72
+      DateTime::TimeZone::America::Regina 2.72
+      DateTime::TimeZone::America::Resolute 2.72
+      DateTime::TimeZone::America::Rio_Branco 2.72
+      DateTime::TimeZone::America::Santarem 2.72
+      DateTime::TimeZone::America::Santiago 2.72
+      DateTime::TimeZone::America::Santo_Domingo 2.72
+      DateTime::TimeZone::America::Sao_Paulo 2.72
+      DateTime::TimeZone::America::Scoresbysund 2.72
+      DateTime::TimeZone::America::Sitka 2.72
+      DateTime::TimeZone::America::St_Johns 2.72
+      DateTime::TimeZone::America::Swift_Current 2.72
+      DateTime::TimeZone::America::Tegucigalpa 2.72
+      DateTime::TimeZone::America::Thule 2.72
+      DateTime::TimeZone::America::Tijuana 2.72
+      DateTime::TimeZone::America::Toronto 2.72
+      DateTime::TimeZone::America::Vancouver 2.72
+      DateTime::TimeZone::America::Whitehorse 2.72
+      DateTime::TimeZone::America::Winnipeg 2.72
+      DateTime::TimeZone::America::Yakutat 2.72
+      DateTime::TimeZone::Antarctica::Casey 2.72
+      DateTime::TimeZone::Antarctica::Davis 2.72
+      DateTime::TimeZone::Antarctica::Macquarie 2.72
+      DateTime::TimeZone::Antarctica::Mawson 2.72
+      DateTime::TimeZone::Antarctica::Palmer 2.72
+      DateTime::TimeZone::Antarctica::Rothera 2.72
+      DateTime::TimeZone::Antarctica::Troll 2.72
+      DateTime::TimeZone::Antarctica::Vostok 2.72
+      DateTime::TimeZone::Asia::Almaty 2.72
+      DateTime::TimeZone::Asia::Amman 2.72
+      DateTime::TimeZone::Asia::Anadyr 2.72
+      DateTime::TimeZone::Asia::Aqtau 2.72
+      DateTime::TimeZone::Asia::Aqtobe 2.72
+      DateTime::TimeZone::Asia::Ashgabat 2.72
+      DateTime::TimeZone::Asia::Atyrau 2.72
+      DateTime::TimeZone::Asia::Baghdad 2.72
+      DateTime::TimeZone::Asia::Baku 2.72
+      DateTime::TimeZone::Asia::Bangkok 2.72
+      DateTime::TimeZone::Asia::Barnaul 2.72
+      DateTime::TimeZone::Asia::Beirut 2.72
+      DateTime::TimeZone::Asia::Bishkek 2.72
+      DateTime::TimeZone::Asia::Chita 2.72
+      DateTime::TimeZone::Asia::Colombo 2.72
+      DateTime::TimeZone::Asia::Damascus 2.72
+      DateTime::TimeZone::Asia::Dhaka 2.72
+      DateTime::TimeZone::Asia::Dili 2.72
+      DateTime::TimeZone::Asia::Dubai 2.72
+      DateTime::TimeZone::Asia::Dushanbe 2.72
+      DateTime::TimeZone::Asia::Famagusta 2.72
+      DateTime::TimeZone::Asia::Gaza 2.72
+      DateTime::TimeZone::Asia::Hebron 2.72
+      DateTime::TimeZone::Asia::Ho_Chi_Minh 2.72
+      DateTime::TimeZone::Asia::Hong_Kong 2.72
+      DateTime::TimeZone::Asia::Hovd 2.72
+      DateTime::TimeZone::Asia::Irkutsk 2.72
+      DateTime::TimeZone::Asia::Jakarta 2.72
+      DateTime::TimeZone::Asia::Jayapura 2.72
+      DateTime::TimeZone::Asia::Jerusalem 2.72
+      DateTime::TimeZone::Asia::Kabul 2.72
+      DateTime::TimeZone::Asia::Kamchatka 2.72
+      DateTime::TimeZone::Asia::Karachi 2.72
+      DateTime::TimeZone::Asia::Kathmandu 2.72
+      DateTime::TimeZone::Asia::Khandyga 2.72
+      DateTime::TimeZone::Asia::Kolkata 2.72
+      DateTime::TimeZone::Asia::Krasnoyarsk 2.72
+      DateTime::TimeZone::Asia::Kuching 2.72
+      DateTime::TimeZone::Asia::Macau 2.72
+      DateTime::TimeZone::Asia::Magadan 2.72
+      DateTime::TimeZone::Asia::Makassar 2.72
+      DateTime::TimeZone::Asia::Manila 2.72
+      DateTime::TimeZone::Asia::Nicosia 2.72
+      DateTime::TimeZone::Asia::Novokuznetsk 2.72
+      DateTime::TimeZone::Asia::Novosibirsk 2.72
+      DateTime::TimeZone::Asia::Omsk 2.72
+      DateTime::TimeZone::Asia::Oral 2.72
+      DateTime::TimeZone::Asia::Pontianak 2.72
+      DateTime::TimeZone::Asia::Pyongyang 2.72
+      DateTime::TimeZone::Asia::Qatar 2.72
+      DateTime::TimeZone::Asia::Qostanay 2.72
+      DateTime::TimeZone::Asia::Qyzylorda 2.72
+      DateTime::TimeZone::Asia::Riyadh 2.72
+      DateTime::TimeZone::Asia::Sakhalin 2.72
+      DateTime::TimeZone::Asia::Samarkand 2.72
+      DateTime::TimeZone::Asia::Seoul 2.72
+      DateTime::TimeZone::Asia::Shanghai 2.72
+      DateTime::TimeZone::Asia::Singapore 2.72
+      DateTime::TimeZone::Asia::Srednekolymsk 2.72
+      DateTime::TimeZone::Asia::Taipei 2.72
+      DateTime::TimeZone::Asia::Tashkent 2.72
+      DateTime::TimeZone::Asia::Tbilisi 2.72
+      DateTime::TimeZone::Asia::Tehran 2.72
+      DateTime::TimeZone::Asia::Thimphu 2.72
+      DateTime::TimeZone::Asia::Tokyo 2.72
+      DateTime::TimeZone::Asia::Tomsk 2.72
+      DateTime::TimeZone::Asia::Ulaanbaatar 2.72
+      DateTime::TimeZone::Asia::Urumqi 2.72
+      DateTime::TimeZone::Asia::Ust_Nera 2.72
+      DateTime::TimeZone::Asia::Vladivostok 2.72
+      DateTime::TimeZone::Asia::Yakutsk 2.72
+      DateTime::TimeZone::Asia::Yangon 2.72
+      DateTime::TimeZone::Asia::Yekaterinburg 2.72
+      DateTime::TimeZone::Asia::Yerevan 2.72
+      DateTime::TimeZone::Atlantic::Azores 2.72
+      DateTime::TimeZone::Atlantic::Bermuda 2.72
+      DateTime::TimeZone::Atlantic::Canary 2.72
+      DateTime::TimeZone::Atlantic::Cape_Verde 2.72
+      DateTime::TimeZone::Atlantic::Faroe 2.72
+      DateTime::TimeZone::Atlantic::Madeira 2.72
+      DateTime::TimeZone::Atlantic::South_Georgia 2.72
+      DateTime::TimeZone::Atlantic::Stanley 2.72
+      DateTime::TimeZone::Australia::Adelaide 2.72
+      DateTime::TimeZone::Australia::Brisbane 2.72
+      DateTime::TimeZone::Australia::Broken_Hill 2.72
+      DateTime::TimeZone::Australia::Darwin 2.72
+      DateTime::TimeZone::Australia::Eucla 2.72
+      DateTime::TimeZone::Australia::Hobart 2.72
+      DateTime::TimeZone::Australia::Lindeman 2.72
+      DateTime::TimeZone::Australia::Lord_Howe 2.72
+      DateTime::TimeZone::Australia::Melbourne 2.72
+      DateTime::TimeZone::Australia::Perth 2.72
+      DateTime::TimeZone::Australia::Sydney 2.72
+      DateTime::TimeZone::CST6CDT 2.72
+      DateTime::TimeZone::Catalog 2.72
+      DateTime::TimeZone::EST5EDT 2.72
+      DateTime::TimeZone::Europe::Andorra 2.72
+      DateTime::TimeZone::Europe::Astrakhan 2.72
+      DateTime::TimeZone::Europe::Athens 2.72
+      DateTime::TimeZone::Europe::Belgrade 2.72
+      DateTime::TimeZone::Europe::Berlin 2.72
+      DateTime::TimeZone::Europe::Brussels 2.72
+      DateTime::TimeZone::Europe::Bucharest 2.72
+      DateTime::TimeZone::Europe::Budapest 2.72
+      DateTime::TimeZone::Europe::Chisinau 2.72
+      DateTime::TimeZone::Europe::Dublin 2.72
+      DateTime::TimeZone::Europe::Gibraltar 2.72
+      DateTime::TimeZone::Europe::Helsinki 2.72
+      DateTime::TimeZone::Europe::Istanbul 2.72
+      DateTime::TimeZone::Europe::Kaliningrad 2.72
+      DateTime::TimeZone::Europe::Kirov 2.72
+      DateTime::TimeZone::Europe::Kyiv 2.72
+      DateTime::TimeZone::Europe::Lisbon 2.72
+      DateTime::TimeZone::Europe::London 2.72
+      DateTime::TimeZone::Europe::Madrid 2.72
+      DateTime::TimeZone::Europe::Malta 2.72
+      DateTime::TimeZone::Europe::Minsk 2.72
+      DateTime::TimeZone::Europe::Moscow 2.72
+      DateTime::TimeZone::Europe::Paris 2.72
+      DateTime::TimeZone::Europe::Prague 2.72
+      DateTime::TimeZone::Europe::Riga 2.72
+      DateTime::TimeZone::Europe::Rome 2.72
+      DateTime::TimeZone::Europe::Samara 2.72
+      DateTime::TimeZone::Europe::Saratov 2.72
+      DateTime::TimeZone::Europe::Simferopol 2.72
+      DateTime::TimeZone::Europe::Sofia 2.72
+      DateTime::TimeZone::Europe::Tallinn 2.72
+      DateTime::TimeZone::Europe::Tirane 2.72
+      DateTime::TimeZone::Europe::Ulyanovsk 2.72
+      DateTime::TimeZone::Europe::Vienna 2.72
+      DateTime::TimeZone::Europe::Vilnius 2.72
+      DateTime::TimeZone::Europe::Volgograd 2.72
+      DateTime::TimeZone::Europe::Warsaw 2.72
+      DateTime::TimeZone::Europe::Zurich 2.72
+      DateTime::TimeZone::Floating 2.72
+      DateTime::TimeZone::Indian::Chagos 2.72
+      DateTime::TimeZone::Indian::Maldives 2.72
+      DateTime::TimeZone::Indian::Mauritius 2.72
+      DateTime::TimeZone::Local 2.72
+      DateTime::TimeZone::Local::Android 2.72
+      DateTime::TimeZone::Local::Unix 2.72
+      DateTime::TimeZone::Local::VMS 2.72
+      DateTime::TimeZone::MST7MDT 2.72
+      DateTime::TimeZone::OffsetOnly 2.72
+      DateTime::TimeZone::OlsonDB 2.72
+      DateTime::TimeZone::OlsonDB::Change 2.72
+      DateTime::TimeZone::OlsonDB::Observance 2.72
+      DateTime::TimeZone::OlsonDB::Rule 2.72
+      DateTime::TimeZone::OlsonDB::Zone 2.72
+      DateTime::TimeZone::PST8PDT 2.72
+      DateTime::TimeZone::Pacific::Apia 2.72
+      DateTime::TimeZone::Pacific::Auckland 2.72
+      DateTime::TimeZone::Pacific::Bougainville 2.72
+      DateTime::TimeZone::Pacific::Chatham 2.72
+      DateTime::TimeZone::Pacific::Easter 2.72
+      DateTime::TimeZone::Pacific::Efate 2.72
+      DateTime::TimeZone::Pacific::Fakaofo 2.72
+      DateTime::TimeZone::Pacific::Fiji 2.72
+      DateTime::TimeZone::Pacific::Galapagos 2.72
+      DateTime::TimeZone::Pacific::Gambier 2.72
+      DateTime::TimeZone::Pacific::Guadalcanal 2.72
+      DateTime::TimeZone::Pacific::Guam 2.72
+      DateTime::TimeZone::Pacific::Honolulu 2.72
+      DateTime::TimeZone::Pacific::Kanton 2.72
+      DateTime::TimeZone::Pacific::Kiritimati 2.72
+      DateTime::TimeZone::Pacific::Kosrae 2.72
+      DateTime::TimeZone::Pacific::Kwajalein 2.72
+      DateTime::TimeZone::Pacific::Marquesas 2.72
+      DateTime::TimeZone::Pacific::Nauru 2.72
+      DateTime::TimeZone::Pacific::Niue 2.72
+      DateTime::TimeZone::Pacific::Norfolk 2.72
+      DateTime::TimeZone::Pacific::Noumea 2.72
+      DateTime::TimeZone::Pacific::Pago_Pago 2.72
+      DateTime::TimeZone::Pacific::Palau 2.72
+      DateTime::TimeZone::Pacific::Pitcairn 2.72
+      DateTime::TimeZone::Pacific::Port_Moresby 2.72
+      DateTime::TimeZone::Pacific::Rarotonga 2.72
+      DateTime::TimeZone::Pacific::Tahiti 2.72
+      DateTime::TimeZone::Pacific::Tarawa 2.72
+      DateTime::TimeZone::Pacific::Tongatapu 2.72
+      DateTime::TimeZone::UTC 2.72
     requirements:
       Class::Singleton 1.03
       Cwd 3
@@ -2521,8 +2532,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.51
-    pathname: S/SR/SRI/Mojolicious-9.51.tar.gz
+  Mojolicious-9.53
+    pathname: S/SR/SRI/Mojolicious-9.53.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2592,7 +2603,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.51
+      Mojolicious 9.53
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -3087,12 +3098,12 @@ DISTRIBUTIONS
       Test::More 0
       Test::TCP 0
       Time::HiRes 0
-  Plack-1.0055
-    pathname: M/MI/MIYAGAWA/Plack-1.0055.tar.gz
+  Plack-1.0057
+    pathname: M/MI/MIYAGAWA/Plack-1.0057.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0055
+      Plack 1.0057
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -3151,9 +3162,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0055
+      Plack::Request 1.0057
       Plack::Request::Upload undef
-      Plack::Response 1.0055
+      Plack::Response 1.0057
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -3228,10 +3239,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.034
       Try::Tiny 0
       perl 5.010
-  Redis-Fast-0.39
-    pathname: S/SH/SHOGO/Redis-Fast-0.39.tar.gz
+  Redis-Fast-0.40
+    pathname: S/SH/SHOGO/Redis-Fast-0.40.tar.gz
     provides:
-      Redis::Fast 0.39
+      Redis::Fast 0.40
       Redis::Fast::Hash undef
       Redis::Fast::List undef
       Redis::Fast::Sentinel undef
@@ -3241,7 +3252,7 @@ DISTRIBUTIONS
       Module::Build::XSUtil 0.19
       Time::HiRes 1.77
       Try::Tiny 0
-      perl 5.014000
+      perl 5.024000
   Role-Tiny-2.002005
     pathname: H/HA/HAARG/Role-Tiny-2.002005.tar.gz
     provides:
@@ -4483,7 +4494,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
