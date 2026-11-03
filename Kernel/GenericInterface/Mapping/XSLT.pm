@@ -291,15 +291,16 @@ sub Map {
     my $XMLSimple = XML::Simple->new;
     my $XMLPre    = eval {
 
-        # Note that the default behavior for SuppressEmpty applies.
-        # This means that attributes with undefined values will be added as empty elements.
+        # SuppressEmpty undef means attributes with undefined values will be added as empty elements
+        #   no warnings will be emitted this way
         $XMLSimple->XMLout(
             $Param{Data},
-            AttrIndent => 1,
-            ContentKey => '-content',
-            NoAttr     => 1,
-            KeyAttr    => [],
-            RootName   => 'RootElement',
+            AttrIndent    => 1,
+            ContentKey    => '-content',
+            NoAttr        => 1,
+            KeyAttr       => [],
+            RootName      => 'RootElement',
+            SuppressEmpty => undef,
         );
     };
     if ( !$XMLPre ) {
