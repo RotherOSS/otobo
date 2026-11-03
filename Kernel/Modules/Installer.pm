@@ -1306,24 +1306,31 @@ sub CheckDBRequirements {
     );
 
     # Both MariaDB and MySQL have $Param{DBType} set to 'mysql'
-    if ( $RequiredVersion{ $Param{DBType} } ) {
+    if ( $RequiredVersion{ $Param{DBType} } && $Result{Successful} ) {
+
+        # check whether we are on MariaDB
+        my $SqlDbmsVer = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_VER} );
+        my $DBType     = $SqlDbmsVer =~ m/MariaDB/ ? 'mariadb' : $Param{DBType};
+
+        # Use 'SELECT VERSION on MySQL and MariaDB
+        my $CleanedReportedVersion;
+        if ( $Param{DBType} eq 'mysql' ) {
+
+            # Get the version like '8.4.11'
+            my ($Version) = $Result{DBH}->selectrow_array('SELECT VERSION()');
+
+            # this cleaning should not be necessary, let't keep it to stay on the safe side
+            ($CleanedReportedVersion) = $Version =~ m/([\d.]+)/;
+        }
+        else {
+
+            # actually this never happens as required version are only defined for MariaDB and MySQL
+            ($CleanedReportedVersion) = $SqlDbmsVer =~ m/([\d.]+)/;
+        }
 
         # Compare versions with version.pm as this module is always available. It is a core module.
-        # MariaDB reports version like 10.5.20-MariaDB-1:10.5.20+maria~ubu2004. That string needs to be normalized.
-        my $ReportedVersion = $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_VER} );
-        my $DBType          = $Param{DBType};
-        if ( $ReportedVersion =~ m/MariaDB/ ) {
-            $DBType = 'mariadb';
-
-            # In some environments the reported version is prefixed with the string '5.5.5-' so that we get
-            # something like "5.5.5-10.6.12-MariaDB-0ubuntu0.22.04.1".
-            # This prefix is meant for allowing replication between MariaDB and MySQL, see https://jira.mariadb.org/browse/MDEV-4088.
-            # Remove it for the sake of this sanity check.
-            $ReportedVersion =~ s/^\Q5.5.5-\E//;
-        }
-        my ($CleanedReportedVersion) = $ReportedVersion =~ m/([\d.]+)/;               # extract e.g. 10.5.20
-        my $Have                     = version->parse($CleanedReportedVersion);
-        my $Want                     = version->parse( $RequiredVersion{$DBType} );
+        my $Have = version->parse($CleanedReportedVersion);
+        my $Want = version->parse( $RequiredVersion{$DBType} );
         if ( $Have < $Want ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
