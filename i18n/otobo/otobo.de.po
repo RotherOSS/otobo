@@ -55,7 +55,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-10-21 14:05+0000\n"
 "PO-Revision-Date: 2026-11-03 16:59+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Last-Translator: Jasmin Hammes <jasmin.hammes@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
 "Language: de\n"
@@ -814,10 +814,10 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
-"Das ist der Standardwert für zugewiesene Empfänger-Agenten, die für diese "
-"Benachrichtigung in ihren Einstellungen noch keine Auswahl getroffen haben. "
-"Wenn das Feld ausgewählt ist, wird die Benachrichtigung solchen Agenten "
-"zugestellt."
+"Dies ist der Standardwert für zugewiesene Agenten, die noch keine Auswahl "
+"für diese Benachrichtigung in ihren Einstellungen getroffen haben. Wenn das "
+"Kontrollkästchen aktiviert ist, wird die Benachrichtigung an diese Agenten "
+"gesendet."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -5654,7 +5654,7 @@ msgstr "Name der Vorlage"
 
 #. Template: AdminImportExport
 msgid "Restrict export per search"
-msgstr "Export per Suche einschränken"
+msgstr "Export mittels Suche einschränken"
 
 #. Template: AdminImportExport
 msgid "Finish"
@@ -19412,7 +19412,7 @@ msgstr "Wählen Sie die Anzeigeart aus."
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column Separator"
-msgstr "Spaltentrenner"
+msgstr "Spaltentrennzeichen"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Tabulator (TAB)"
