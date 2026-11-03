@@ -342,7 +342,7 @@ my $ModuleRefreshMiddleware = sub {
         # make sure that there is a refresh in the first iteration
         state $LastRefreshTime = 0;
 
-        # don't do work for every request, just every $RefreshCooldown secondes
+        # don't do work for every request, just every $RefreshCooldown seconds
         my $Now                     = time;
         my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
         my $RefreshCooldown         = 10;
@@ -364,6 +364,14 @@ my $ModuleRefreshMiddleware = sub {
                 next MODULE unless $Module =~ m[^(?:Kernel|var/packagesetup)/];
                 next MODULE if $Module eq 'Kernel/Config.pm';
                 next MODULE if $Module =~ m[^Kernel/Config/Files/];
+
+                # When a module couldn't be loaded, usually because of a syntax error in the Perl code,
+                # then 'require' enters the module in %INC with an undefined value.
+                # 'refresh_module_if_modified()' then skips this module.
+                # In our case we want to retry 'require'.
+                if ( !defined $INC{$Module} ) {
+                    delete $INC{$Module};
+                }
 
                 Kernel::System::ModuleRefresh->refresh_module_if_modified($Module);
             }

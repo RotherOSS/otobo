@@ -120,6 +120,9 @@ function exec_web() {
             exec plackup --server Gazelle --env deployment --port 5000 -I $OTOBO_HOME -I $OTOBO_HOME/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
         else
             exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+
+            # For development it is sometimes useful to use only a single worker process.
+            #exec plackup --server Gazelle --workers 1 --env deployment --port 5000 bin/psgi-bin/otobo.psgi
         fi
 
     # For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
