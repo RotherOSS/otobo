@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Path::Class qw(file);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -272,49 +273,47 @@ END_HTML
 );
 
 for my $Test (@Tests) {
-    my @EmailLines;
-    {
-        open my $MailFH, '<', $Test->{RawEmail};    ## no critic qw(OTOBO::ProhibitOpen)
-        @EmailLines = <$MailFH>;
-        close $MailFH;
-    }
 
-    # create local object
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@EmailLines,
-    );
+    subtest "$Test->{Name} (line $Test->{Line})" => sub {
 
-    my $Body = $EmailParserObject->GetMessageBody;
-    TextEqOrDiff(
-        $Body,
-        $Test->{Body},
-        "$Test->{Name} - body (line $Test->{Line})",
-    );
-
-    my @Attachments = $EmailParserObject->GetAttachments;
-
-    # Turn on utf-8 flag for parts that were not converted but are still utf-8 for correct comparison.
-    for my $Attachment (@Attachments) {
-        if ( $Attachment->{Charset} eq 'utf-8' ) {
-            Encode::_utf8_on( $Attachment->{Content} );
-        }
-    }
-
-    # Explicitily compare the content of the attachments with TextEqOrDiff(),
-    # just so potential diffs can be more easily inspected
-    for my $i ( 0 .. $Test->{Attachments}->$#* ) {
-
-        TextEqOrDiff(
-            $Attachments[$i]->{Content},
-            $Test->{Attachments}->[$i]->{Content},
-            "$Test->{Name} - attachment $i (line $Test->{Line})"
+        # create local object with test email
+        my @EmailLines        = file( $Test->{RawEmail} )->slurp;
+        my $EmailParserObject = Kernel::System::EmailParser->new(
+            Email => \@EmailLines,
         );
-    }
-    is(
-        \@Attachments,
-        $Test->{Attachments},
-        "$Test->{Name} - attachments (line $Test->{Line})"
-    );
+
+        my $Body = $EmailParserObject->GetMessageBody;
+        TextEqOrDiff(
+            $Body,
+            $Test->{Body},
+            'GetMessageBody()',
+        );
+
+        my @Attachments = $EmailParserObject->GetAttachments;
+
+        # Turn on utf-8 flag for parts that were not converted but are still utf-8 for correct comparison.
+        for my $Attachment (@Attachments) {
+            if ( $Attachment->{Charset} eq 'utf-8' ) {
+                Encode::_utf8_on( $Attachment->{Content} );
+            }
+        }
+
+        # Explicitily compare the content of the attachments with TextEqOrDiff(),
+        # just so potential diffs can be more easily inspected
+        for my $i ( 0 .. $Test->{Attachments}->$#* ) {
+
+            TextEqOrDiff(
+                $Attachments[$i]->{Content},
+                $Test->{Attachments}->[$i]->{Content},
+                "content of attachment $i"
+            );
+        }
+        is(
+            \@Attachments,
+            $Test->{Attachments},
+            "attachments"
+        );
+    };
 }
 
 done_testing;

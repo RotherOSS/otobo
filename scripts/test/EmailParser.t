@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use MIME::Parser ();
+use Path::Class  qw(file);
 use Test2::V0;
 
 # OTOBO modules
@@ -34,14 +35,13 @@ my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-subtest 'test PostMaster-Test1.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
+subtest 'text/plain email: PostMaster-Test1.box' => sub {
+    my @Array = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
 
-    # create local object
+    # create local object with test email
+    my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@EmailLines,
     );
 
     is(
@@ -63,16 +63,16 @@ subtest 'test PostMaster-Test1.box' => sub {
     );
 
     my @Attachments = $EmailParserObject->GetAttachments();
-    is(\@Attachments, [], 'GetAttachments() - no attachments' );
+    is( \@Attachments, [], 'GetAttachments() - no attachments' );
 };
 
 subtest 'PostMaster-Test3.box' => sub {
-    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-    my @Array = <$IN>;
-    close $IN;
+    my @Array = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
 
+    # create local object with test email
+    my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => \@EmailLines,
     );
     is(
         $EmailParserObject->GetCharset(),
@@ -124,20 +124,18 @@ subtest 'PostMaster-Test4.box' => sub {
 
     # match values
     my %Match = (
-        "Test1:" . chr(8211)              => 0,
+        "Test1:" . chr(8211)              => 0,    # – - U+02013 - EN DASH
         "Test2:&"                         => 0,
-        "Test3:" . chr(8715)              => 0,
+        "Test3:" . chr(8715)              => 0,    # ∋ - U+0220B - CONTAINS AS MEMBER
         "Test4:&"                         => 0,
-        "Test5:" . chr( hex("3d") )       => 0,
+        "Test5:" . chr( hex("3d") )       => 0,    # = - U+0003D - EQUALS SIGN
         "Compare Cable, DSL or Satellite" => 0,
     );
     for my $Key ( sort keys %Match ) {
-        if ( $EmailParserObject->GetMessageBody() =~ /$Key/ ) {
-            $Match{$Key} = 1;
-        }
-        ok(
-            $Match{$Key},
-            "html2ascii - Body match - $Key",
+        like(
+            $EmailParserObject->GetMessageBody(),
+            qr/$Key/,
+            "GetMessageBody() - Body match - $Key",
         );
     }
 
@@ -150,12 +148,10 @@ subtest 'PostMaster-Test4.box' => sub {
         "html"       => 0,
     );
     for my $Key ( sort keys %MatchNot ) {
-        if ( $EmailParserObject->GetMessageBody() !~ /$Key/ ) {
-            $MatchNot{$Key} = 1;
-        }
-        ok(
-            $MatchNot{$Key},
-            "html2ascii - Body match not - $Key",
+        unlike(
+            $EmailParserObject->GetMessageBody(),
+            qr/$Key/,
+            "GetMessageBody() - Body match not - $Key",
         );
     }
 };
