@@ -2038,6 +2038,8 @@ sub _CheckDFDependencies {
         }
     }
     elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+
+        # at this point, AttributeDF and ReferenceDF should be field names as data stems from import
         if (
             !$Param{AvailableDFs}{ $Param{DynamicFieldConfig}{Config}{AttributeDF} }
             || !$Param{AvailableDFs}{ $Param{DynamicFieldConfig}{Config}{ReferenceDF} }
