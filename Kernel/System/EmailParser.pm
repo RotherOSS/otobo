@@ -834,12 +834,9 @@ sub PartsAttachments {
     $PartData{MimeType} = $Part->head()->mime_type();
 
     # get charset
-    my %Data = $Self->GetContentTypeParams( ContentType => $PartData{ContentType} );
-    if ( $Data{Charset} ) {
-        $PartData{Charset} = $Data{Charset};
-    }
-    else {
-        $PartData{Charset} = '';
+    {
+        my %Data = $Self->GetContentTypeParams( ContentType => $PartData{ContentType} );
+        $PartData{Charset} = $Data{Charset} || '';
     }
 
     # get content (if possible)
