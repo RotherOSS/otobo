@@ -1872,7 +1872,7 @@ sub MaskAgentZoom {
                 push @{ $WidgetFieldContent[$Index]{Fields} }, {
                     $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
                     Name                        => $DynamicFieldConfig->{Name},
-                    FieldType                   => $DynamicFieldConfig->{FieldType},
+                    FieldType                   => $Self->_GetWidgetFieldType( DynamicFieldConfig => $DynamicFieldConfig ),
                     Title                       => $ValueStrg->{Title},
                     Value                       => $ValueStrg->{Value},
                     ValueKey                    => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
@@ -1993,7 +1993,7 @@ sub MaskAgentZoom {
                                 Data => {
                                     Name      => $IncludeField{Name},
                                     Label     => $IncludeField{Label},
-                                    FieldType => $IncludeDFConfig->{FieldType},
+                                    FieldType => $Self->_GetWidgetFieldType( DynamicFieldConfig => $IncludeDFConfig ),
                                 }
                             );
                             $LayoutObject->Block(
@@ -3437,6 +3437,21 @@ sub _GetIncludedFieldOrdered {
     }
 
     return @Return;
+}
+
+sub _GetWidgetFieldType {
+    my ( $Self, %Param ) = @_;
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    return $DynamicFieldConfig->{FieldType} if $DynamicFieldConfig->{FieldType} ne 'Lens';
+    return $DynamicFieldConfig->{FieldType} if !$DynamicFieldConfig->{Config}{AttributeDF};
+
+    my $AttributeDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        ID => $DynamicFieldConfig->{Config}{AttributeDF},
+    );
+
+    return $AttributeDFConfig->{FieldType} || $DynamicFieldConfig->{FieldType};
 }
 
 1;
