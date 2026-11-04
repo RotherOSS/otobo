@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Path::Class qw(file);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -269,20 +270,77 @@ END_HTML
             },
         ],
     },
+    {
+        Line        => __LINE__,
+        Name        => 'mixed email with images before the body',
+        RawEmail    => "$Home/scripts/test/sample/EmailParser/MultipartMixedImagesBeforeBody.eml",
+        Body        => '- no text message => see attachment -',
+        Attachments => [
+            {
+                Charset         => "",
+                Content         => pack( "H*", "ffd8ffe000104a46494600010100000100010000ffd9" ),
+                ContentID       => "<inlineimg_0\@test>",
+                ContentLocation => undef,
+                ContentType     => "image/jpeg",
+                Disposition     => "inline",
+                Filename        => "file-1",
+                Filesize        => 22,
+                MimeType        => "image/jpeg",
+            },
+            {
+                Charset         => "",
+                Content         => pack( "H*", "ffd8ffe000104a46494600010100000100010000ffd9" ),
+                ContentID       => "<inlineimg_1\@test>",
+                ContentLocation => undef,
+                ContentType     => "image/jpeg",
+                Disposition     => "inline",
+                Filename        => "file-2",
+                Filesize        => 22,
+                MimeType        => "image/jpeg",
+            },
+            {
+                Charset            => "utf-8",
+                Content            => "Hallo, \nthis is the body.",
+                ContentAlternative => 1,
+                ContentID          => undef,
+                ContentLocation    => undef,
+                ContentType        => "text/plain; charset=utf-8",
+                Disposition        => undef,
+                Filename           => "file-3",
+                Filesize           => 25,
+                MimeType           => "text/plain",
+            },
+            {
+                Charset            => "utf-8",
+                Content            => "<html><body><p>Hallo, this is the body.</p><img src=\"cid:inlineimg_0\@test\"><img src=\"cid:inlineimg_1\@test\"></body></html>",
+                ContentAlternative => 1,
+                ContentID          => undef,
+                ContentLocation    => undef,
+                ContentType        => "text/html; charset=utf-8",
+                Disposition        => undef,
+                Filename           => "file-4",
+                Filesize           => 121,
+                MimeType           => "text/html",
+            },
+            {
+                Charset            => "",
+                Content            => "\x89PNG\r\n\32\n\0\0\0\rIHDR\0\0\0\1\0\0\0\1\b\6\0\0\0\37\25\xC4\x89\0\0\0\rIDATx\x9Cc`\0\0\2\0\1T\xA2O]\0\0\0\0IEND\xAEB`\x82",
+                ContentDisposition => "attachment; filename=\"logo.png\"\n",
+                ContentID          => "<logo>",
+                ContentLocation    => undef,
+                ContentType        => "image/png; name=\"logo.png\"",
+                Disposition        => "attachment; filename=\"logo.png\"",
+                Filename           => "logo.png",
+                Filesize           => 66,
+                MimeType           => "image/png",
+            },
+        ],
+    },
 );
 
 for my $Test (@Tests) {
-    my @EmailLines;
-    {
-        open my $MailFH, '<', $Test->{RawEmail};    ## no critic qw(OTOBO::ProhibitOpen)
-        @EmailLines = <$MailFH>;
-        close $MailFH;
-    }
 
-    # create local object
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Email => \@EmailLines,
-    );
+    subtest "$Test->{Name} (line $Test->{Line})" => sub {
 
     my $Body = $EmailParserObject->GetMessageBody;
     TextEqOrDiff(
@@ -309,12 +367,39 @@ for my $Test (@Tests) {
             $Test->{Attachments}->[$i]->{Content},
             "$Test->{Name} - attachment $i (line $Test->{Line})"
         );
-    }
-    is(
-        \@Attachments,
-        $Test->{Attachments},
-        "$Test->{Name} - attachments (line $Test->{Line})"
-    );
+
+        my $Body = $EmailParserObject->GetMessageBody;
+        TextEqOrDiff(
+            $Body,
+            $Test->{Body},
+            'GetMessageBody()',
+        );
+
+        my @Attachments = $EmailParserObject->GetAttachments;
+
+        # Turn on utf-8 flag for parts that were not converted but are still utf-8 for correct comparison.
+        for my $Attachment (@Attachments) {
+            if ( $Attachment->{Charset} eq 'utf-8' ) {
+                Encode::_utf8_on( $Attachment->{Content} );
+            }
+        }
+
+        # Explicitily compare the content of the attachments with TextEqOrDiff(),
+        # just so potential diffs can be more easily inspected
+        for my $i ( 0 .. $Test->{Attachments}->$#* ) {
+
+            TextEqOrDiff(
+                $Attachments[$i]->{Content},
+                $Test->{Attachments}->[$i]->{Content},
+                "content of attachment $i"
+            );
+        }
+        is(
+            \@Attachments,
+            $Test->{Attachments},
+            "attachments"
+        );
+    };
 }
 
 done_testing;

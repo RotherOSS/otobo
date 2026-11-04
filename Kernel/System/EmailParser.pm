@@ -444,13 +444,14 @@ Returns the message body (or from the first attachment) from the email.
 
 There are also several side effects.
 
-In the case of a not multipart HTML-only mail extract the plain text and return it.
-Add the HTML as the first attachment.
+In the case of a non-multipart HTML-only mail extract the plain text and return it.
+Add the HTML as the first attachment. Subsequent calls to F<GetMessageBody()>
+will return the plain text.
 
 In case the first attachment is a text/html part add the suffix '.html' to the
 file name of the first attachment.
 
-In the case multipart Emails get the properties Charset and ContentType from the first attachment
+In the case of multipart emails get the properties Charset and ContentType from the first attachment
 and cache them. The cached values will be used in C<GetCharset()> and in C<GetContentType()>.
 
 =cut
@@ -458,7 +459,7 @@ and cache them. The cached values will be used in C<GetCharset()> and in C<GetCo
 sub GetMessageBody {
     my ( $Self, %Param ) = @_;
 
-    # check if message body is already there
+    # check if the message body is already cached
     return $Self->{MessageBody} if defined $Self->{MessageBody};
 
     # get encode object
@@ -488,7 +489,8 @@ sub GetMessageBody {
             $Self->{MessageBody} = $BodyStrg;
         }
 
-        # check if the mail contains only HTML (store it as attachment and add text/plain)
+        # Check whether the non-MIME mail contains only HTML.
+        # If so, store the HTML as an attachment and store the plain text in $Self->{MessageBody}.
         $Self->CheckMessageBody();
 
         # return message body
@@ -507,10 +509,10 @@ sub GetMessageBody {
         #   the first attachment (normally text/plain) as message body.
         # For multipart/mixed emails, PartsAttachments() will concatenate subsequent
         #   body MIME parts into just one attachment.
-        my @Attachments = $Self->GetAttachments();
-        if ( @Attachments > 0 ) {
-            $Self->{Charset}     = $Attachments[0]->{Charset};
-            $Self->{ContentType} = $Attachments[0]->{ContentType};
+        my ($FirstAttachment) = $Self->GetAttachments();
+        if ($FirstAttachment) {
+            $Self->{Charset}     = $FirstAttachment->{Charset};
+            $Self->{ContentType} = $FirstAttachment->{ContentType};
             if ( $Self->{Debug} > 0 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
@@ -526,7 +528,7 @@ sub GetMessageBody {
             # check if charset exists
             if ( $Self->GetCharset() ) {
                 $Self->{MessageBody} = $EncodeObject->Convert2CharsetInternal(
-                    Text  => $Attachments[0]->{Content},
+                    Text  => $FirstAttachment->{Content},
                     From  => $Self->GetCharset(),
                     Check => 1,
                 );
@@ -564,10 +566,11 @@ sub GetMessageBody {
 
 =head2 GetAttachments()
 
-Note that in the case of MIME mails this message is already called when constructing the object instance.
-Successive calls of the method return the cached array.
-
 Returns an array of the email attachments.
+
+F<GetAttachments()> is called by F<GetMessageBody()>.
+Note that in the case of MIME mails F<GetMessageBody()> is already implicitly called when constructing the object instance.
+Successive calls of the method return the cached array.
 
     my @Attachments = $ParserObject->GetAttachments();
     for my $Attachment (@Attachments) {
@@ -591,7 +594,7 @@ That logic is implemented in the method C<PartsAttachments()>.
 sub GetAttachments {
     my ( $Self, %Param ) = @_;
 
-    # return if it's no mime email
+    # return if it isn't a MIME email
     return unless $Self->{MimeEmail};
 
     # return if it is already parsed
@@ -717,12 +720,9 @@ sub PartsAttachments {
     $PartData{MimeType} = $Part->head()->mime_type();
 
     # get charset
-    my %Data = $Self->GetContentTypeParams( ContentType => $PartData{ContentType} );
-    if ( $Data{Charset} ) {
-        $PartData{Charset} = $Data{Charset};
-    }
-    else {
-        $PartData{Charset} = '';
+    {
+        my %Data = $Self->GetContentTypeParams( ContentType => $PartData{ContentType} );
+        $PartData{Charset} = $Data{Charset} || '';
     }
 
     # get content (if possible)
@@ -883,7 +883,7 @@ sub PartsAttachments {
         );
         $PartData{ContentType} = "$MimeType; charset=utf-8";
         my $OldCharset = $PartData{Charset};
-        $PartData{Charset} = "utf-8";
+        $PartData{Charset} = 'utf-8';
 
         # Also replace charset in meta tags of HTML emails.
         if ( $MimeType eq 'text/html' ) {
@@ -970,7 +970,8 @@ sub GetReferences {
     return @References;
 }
 
-# just for internal
+# just for internal usage
+# extract Charset and MimeType from the ContentType
 sub GetContentTypeParams {
     my ( $Self, %Param ) = @_;
 
@@ -982,6 +983,7 @@ sub GetContentTypeParams {
         $Param{Charset} =~ s/"|'//g;
         $Param{Charset} =~ s/(.+?)(;|\s).*/$1/g;
     }
+
     if ( !$Param{Charset} ) {
         if (
             $Param{ContentType}
@@ -1001,6 +1003,7 @@ sub GetContentTypeParams {
             $Param{Charset} = $1;
         }
     }
+
     if ( $Param{ContentType} =~ /Content-Type:\s{0,1}(.+?\/.+?)(;|'|"|\s)/i ) {
         $Param{MimeType} = $1;
         $Param{MimeType} =~ s/"|'//g;
@@ -1009,7 +1012,7 @@ sub GetContentTypeParams {
     return %Param;
 }
 
-# just for internal, details document in GetMessageBody()
+# just for internal usage, details are documented in GetMessageBody()
 sub CheckMessageBody {
     my ( $Self, %Param ) = @_;
 
@@ -1028,15 +1031,15 @@ sub CheckMessageBody {
 
         # add html email as attachment (if needed)
         if ( !$Self->{MimeEmail} ) {
-            push(
-                @{ $Self->{Attachments} },
+
+            # subsequent calls to GetAttachments() will return this HTML attachment
+            push $Self->{Attachments}->@*,
                 {
                     Charset     => $Self->GetCharset(),
                     ContentType => $Self->GetReturnContentType(),
                     Content     => $Self->{MessageBody},
                     Filename    => 'file-1',                        # not sure why this isn't file-1.html
-                }
-            );
+                };
         }
 
         # add .html suffix to filename if not already there

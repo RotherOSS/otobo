@@ -1,0 +1,48 @@
+From: Sender <sender@example.com>
+To: support@example.com
+Subject: Test body detection
+Date: Wed, 28 Oct 2026 10:00:00 +0100
+Message-ID: <test-1@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_Part_1"
+
+------=_Part_1
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-ID: <inlineimg_0@test>
+Content-Disposition: inline
+
+/9j/4AAQSkZJRgABAQAAAQABAAD/2Q==
+------=_Part_1
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-ID: <inlineimg_1@test>
+Content-Disposition: inline
+
+/9j/4AAQSkZJRgABAQAAAQABAAD/2Q==
+------=_Part_1
+Content-Type: multipart/alternative; boundary="----=_Part_2"
+
+------=_Part_2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hallo,=20
+this is the body.
+------=_Part_2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><p>Hallo, this is the body.</p><img src=3D"cid:inlineimg_0@test"=
+><img src=3D"cid:inlineimg_1@test"></body></html>
+------=_Part_2--
+
+------=_Part_1
+Content-Type: image/png; name="logo.png"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="logo.png"
+Content-ID: <logo>
+
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgAAACAAFUok9dAAAAAElFTkSuQmCC
+
+------=_Part_1--
