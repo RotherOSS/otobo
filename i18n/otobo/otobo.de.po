@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-10-21 14:05+0000\n"
-"PO-Revision-Date: 2026-11-03 16:59+0000\n"
+"PO-Revision-Date: 2026-11-05 08:59+0000\n"
 "Last-Translator: Jasmin Hammes <jasmin.hammes@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -7773,8 +7773,8 @@ msgid ""
 "Value must always contain a string or a regular expression used for "
 "comparison."
 msgstr ""
-"Wert muss immer eine Zeichenkette oder einen regulären Ausdruck für den "
-"Vergleich beinhalten."
+"Value muss stets eine Zeichenfolge oder einen regulären Ausdruck zum "
+"Vergleich enthalten."
 
 #. Template: AdminProcessManagementTransition
 msgid "Examples"
@@ -7818,7 +7818,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
-msgstr "Übergangs-Aktion"
+msgstr "Übergangsaktion"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Name"
