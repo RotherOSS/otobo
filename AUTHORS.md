@@ -33,7 +33,6 @@ The following persons contributed to OTOBO:
 * splayfery <splayfery@gmail.com>
 * Philipp Kesler <philipp.kesler@hein.de>
 * Przemysław Wilkosz <office@wilkosz.net>
-* Stefan Eisenmann <stefane2741@gmail.com>
 * Intalio <intalio@intalio.pl>
 * Kozo Sakurai <sakurai@io-architect.com>
 * Rui Alves <rua@rother-oss.com>
@@ -83,7 +82,6 @@ The following persons contributed to OTOBO:
 * Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>
 * Massimo Composta <m.composta@e-time.it>
 * Matthias Bethke <mb@znuny.com>
-* MichaelThumes <MichaelThumes@users.noreply.github.com>
 * Miguel Sanchez Quintero <miguel@ayte.co>
 * Miroslaw Lach <m.weblate@lach.waw.pl>
 * Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>
