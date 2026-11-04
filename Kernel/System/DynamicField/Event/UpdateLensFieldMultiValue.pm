@@ -129,7 +129,12 @@ sub Run {
             DFCONFIG:
             for my $DFConfig ( $DynamicFields->@* ) {
                 next DFCONFIG unless $DFConfig->{FieldType} eq 'Lens';
-                next DFCONFIG unless $DFConfig->{Config}{AttributeDF} ne $UpdatedFieldConfig->{Name};
+
+                # the attribute field is stored by its ID in the lens config,
+                #   only lenses on the updated field have to be adapted
+                my $AttributeDFID = $DFConfig->{Config}{AttributeDF} // 0;
+
+                next DFCONFIG unless $AttributeDFID == $UpdatedFieldConfig->{ID};
 
                 $DynamicFieldObject->DynamicFieldUpdate(
                     $DFConfig->%*,
