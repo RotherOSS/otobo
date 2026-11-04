@@ -623,10 +623,10 @@ sub GetMessageBody {
         #   the first attachment (normally text/plain) as message body.
         # For multipart/mixed emails, PartsAttachments() will concatenate subsequent
         #   body MIME parts into just one attachment.
-        my @Attachments = $Self->GetAttachments();
-        if ( @Attachments > 0 ) {
-            $Self->{Charset}     = $Attachments[0]->{Charset};
-            $Self->{ContentType} = $Attachments[0]->{ContentType};
+        my ($FirstAttachment) = $Self->GetAttachments();
+        if ($FirstAttachment) {
+            $Self->{Charset}     = $FirstAttachment->{Charset};
+            $Self->{ContentType} = $FirstAttachment->{ContentType};
             if ( $Self->{Debug} > 0 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
@@ -642,7 +642,7 @@ sub GetMessageBody {
             # check if charset exists
             if ( $Self->GetCharset() ) {
                 $Self->{MessageBody} = $EncodeObject->Convert2CharsetInternal(
-                    Text  => $Attachments[0]->{Content},
+                    Text  => $FirstAttachment->{Content},
                     From  => $Self->GetCharset(),
                     Check => 1,
                 );
@@ -1000,7 +1000,7 @@ sub PartsAttachments {
         );
         $PartData{ContentType} = "$MimeType; charset=utf-8";
         my $OldCharset = $PartData{Charset};
-        $PartData{Charset} = "utf-8";
+        $PartData{Charset} = 'utf-8';
 
         # Also replace charset in meta tags of HTML emails.
         if ( $MimeType eq 'text/html' ) {
