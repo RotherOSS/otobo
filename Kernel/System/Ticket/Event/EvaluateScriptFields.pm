@@ -60,12 +60,12 @@ sub Run {
         }
     }
 
-    return if !$Param{Data}{TicketID};
+    return unless $Param{Data}{TicketID};
 
     my $Events = $Kernel::OM->Get('Kernel::System::DynamicField::Driver::BaseScript')->GetUpdateEvents();
 
-    return 1 if !IsHashRefWithData($Events);
-    return 1 if !$Events->{ $Param{Event} };
+    return 1 unless IsHashRefWithData($Events);
+    return 1 unless $Events->{ $Param{Event} };
 
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
