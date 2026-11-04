@@ -45,17 +45,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     overflow-wrap: break-word;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer.TextArea {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer.FieldType_TextArea {
     grid-column: span 2;
     grid-row: span 2;
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer.TextArea p.CutValue {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer.FieldType_TextArea p.CutValue {
     max-height: 180px;
 }
 
 @media only screen and (max-width: 460px) {
-    .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer.TextArea {
+    .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer.FieldType_TextArea {
         grid-column: auto;
     }
 }

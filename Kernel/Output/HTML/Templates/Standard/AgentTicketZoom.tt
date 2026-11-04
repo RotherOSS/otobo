@@ -269,7 +269,7 @@
 [% RenderBlockEnd("OverviewWidgetDynamicFieldGroupSeparator") %]
 [% RenderBlockStart("OverviewWidgetDynamicField") %]
 [% RenderBlockStart("StandardField") %]
-                            <div class="FieldContainer DynamicFieldAutoResize [% Data.FieldType | html %]">
+                            <div class="FieldContainer DynamicFieldAutoResize FieldType_[% Data.FieldType | html %]">
                                 <label title="[% Data.Label | html %]">
                                     [% Data.Label | html %]
 [% RenderBlockStart("OverviewWidgetDynamicFieldValueOverlayTrigger") %]
@@ -306,7 +306,7 @@
 [% RenderBlockEnd("DynamicFieldSetSeparator") %]
                                 <div>
 [% RenderBlockStart("SetDynamicField") %]
-                                    <div class="FieldContainer DynamicFieldAutoResize [% Data.FieldType | html %]">
+                                    <div class="FieldContainer DynamicFieldAutoResize FieldType_[% Data.FieldType | html %]">
                                         <label title="[% Data.Label | html %]">
                                             [% Data.Label | html %]
 [% RenderBlockStart("SetDynamicFieldValueOverlayTrigger") %]
