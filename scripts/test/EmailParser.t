@@ -27,8 +27,9 @@ use Path::Class  qw(file);
 use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::EmailParser    ();
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::EmailParser ();
 
 # get main object
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -36,12 +37,31 @@ my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 subtest 'text/plain email: PostMaster-Test1.box' => sub {
-    my @Array = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
 
     # create local object with test email
     my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
         Email => \@EmailLines,
+    );
+
+    # Need to trick CodePolicy to accept a trailing space,   - U+00020 - SPACE
+    my $ExpectedBody = <<"END_BODY";
+This is the first test.
+
+Adios ...\x{20}
+
+  Little "Skywalker"
+
+--
+System Tester I - <skywalker\@otobo.org>
+--
+Old programmers never die. They just branch to a new address.
+
+END_BODY
+    TextEqOrDiff(
+        $EmailParserObject->GetMessageBody(),
+        $ExpectedBody,
+        'GetMessageBody()'
     );
 
     is(
@@ -66,14 +86,65 @@ subtest 'text/plain email: PostMaster-Test1.box' => sub {
     is( \@Attachments, [], 'GetAttachments() - no attachments' );
 };
 
-subtest 'PostMaster-Test3.box' => sub {
-    my @Array = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
+subtest 'a second text/plain email: PostMaster-Test2.box' => sub {
 
     # create local object with test email
-    my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
+    my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test2.box")->slurp;
     my $EmailParserObject = Kernel::System::EmailParser->new(
         Email => \@EmailLines,
     );
+
+    # Need to trick CodePolicy to accept a trailing space,   - U+00020 - SPACE
+    my $ExpectedBody = <<"END_BODY";
+This is the second test.
+
+Cordially
+
+  Darthvader\x{20}
+
+--
+System Tester II - <darthvader\@otobo.org>
+--
+"The number of Unix installations has grown to 10, with more expected."
+                      The Unix Programmer's Manual, 2nd Edition, June 1972
+
+END_BODY
+    TextEqOrDiff(
+        $EmailParserObject->GetMessageBody(),
+        $ExpectedBody,
+        'GetMessageBody()'
+    );
+
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'skywalker@otobo.org',
+        "GetParam(WHAT => 'To')",
+    );
+
+    is(
+        $EmailParserObject->GetParam( WHAT => 'From' ),
+        'System Tester II <darthvader@otobo.org>',
+        "GetParam(WHAT => 'From')",
+    );
+
+    is(
+        $EmailParserObject->GetCharset(),
+        'us-ascii',
+        "GetCharset()",
+    );
+
+    my @Attachments = $EmailParserObject->GetAttachments();
+    is( \@Attachments, [], 'GetAttachments() - no attachments' );
+};
+
+subtest 'PostMaster-Test3.box' => sub {
+
+    # create local object with test email
+    my @Array             = file("$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box")->slurp;
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+
     is(
         $EmailParserObject->GetCharset(),
         'utf-8',    # automatically converted
