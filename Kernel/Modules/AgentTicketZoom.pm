@@ -1872,6 +1872,7 @@ sub MaskAgentZoom {
                 push @{ $WidgetFieldContent[$Index]{Fields} }, {
                     $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
                     Name                        => $DynamicFieldConfig->{Name},
+                    FieldType                   => $DynamicFieldConfig->{FieldType},
                     Title                       => $ValueStrg->{Title},
                     Value                       => $ValueStrg->{Value},
                     ValueKey                    => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
@@ -1990,8 +1991,9 @@ sub MaskAgentZoom {
                             $LayoutObject->Block(
                                 Name => 'SetDynamicField',
                                 Data => {
-                                    Name  => $IncludeField{Name},
-                                    Label => $IncludeField{Label},
+                                    Name      => $IncludeField{Name},
+                                    Label     => $IncludeField{Label},
+                                    FieldType => $IncludeDFConfig->{FieldType},
                                 }
                             );
                             $LayoutObject->Block(
@@ -2042,8 +2044,9 @@ sub MaskAgentZoom {
                     $LayoutObject->Block(
                         Name => 'StandardField',
                         Data => {
-                            Name  => $Field->{Name},
-                            Label => $Field->{Label},
+                            Name      => $Field->{Name},
+                            Label     => $Field->{Label},
+                            FieldType => $Field->{FieldType},
                         },
                     );
 
