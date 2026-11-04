@@ -971,7 +971,9 @@ sub GetPossibleExecutionConditions {
     );
 
     # clear update event for current field from update events array
-    @PossibleUpdateEvents = grep { $_ !~ /_$List->{$Param{FieldID}}$/ } @PossibleUpdateEvents;
+    if ( $Param{FieldID} ) {
+        @PossibleUpdateEvents = grep { $_ !~ /_$List->{$Param{FieldID}}$/ } @PossibleUpdateEvents;
+    }
 
     delete $List->{ $Param{FieldID} } if $Param{FieldID};
 
