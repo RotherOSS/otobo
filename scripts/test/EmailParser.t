@@ -123,7 +123,7 @@ END_BODY
 
     is(
         $EmailParserObject->GetParam( WHAT => 'From' ),
-        'System Tester II <darthvader@otobo.org>',
+        '"System Tester II" <darthvader@otobo.org>',
         "GetParam(WHAT => 'From')",
     );
 

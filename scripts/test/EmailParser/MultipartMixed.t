@@ -342,30 +342,10 @@ for my $Test (@Tests) {
 
     subtest "$Test->{Name} (line $Test->{Line})" => sub {
 
-    my $Body = $EmailParserObject->GetMessageBody;
-    TextEqOrDiff(
-        $Body,
-        $Test->{Body},
-        "$Test->{Name} - body (line $Test->{Line})",
-    );
-
-    my @Attachments = $EmailParserObject->GetAttachments;
-
-    # Turn on utf-8 flag for parts that were not converted but are still utf-8 for correct comparison.
-    for my $Attachment (@Attachments) {
-        if ( $Attachment->{Charset} eq 'utf-8' ) {
-            Encode::_utf8_on( $Attachment->{Content} );
-        }
-    }
-
-    # Explicitly compare the content of the attachments with TextEqOrDiff(),
-    # just so potential diffs can be more easily inspected
-    for my $i ( 0 .. $Test->{Attachments}->$#* ) {
-
-        TextEqOrDiff(
-            $Attachments[$i]->{Content},
-            $Test->{Attachments}->[$i]->{Content},
-            "$Test->{Name} - attachment $i (line $Test->{Line})"
+        # create local object with test email
+        my @EmailLines        = file( $Test->{RawEmail} )->slurp;
+        my $EmailParserObject = Kernel::System::EmailParser->new(
+            Email => \@EmailLines,
         );
 
         my $Body = $EmailParserObject->GetMessageBody;
