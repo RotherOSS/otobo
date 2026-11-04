@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999552906110283;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1998,7 +1998,7 @@ sub Data {
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             'Az üzleti naptár a feloldási időhöz és az eszkalációs időkhöz. Ha nincs semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva.',
         'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            '',
+            'Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time ágában van meghatározva (alapértelmezett naptár) vagy az 1-9. naptárakban.',
         'This queue is used in the following config settings:' => 'Ez a várólista a következő konfigurációs beállításokban van használva:',
 
         # Template: AdminQueueAutoResponse
@@ -4385,7 +4385,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Nincs ilyen csomag!',
-        'The file is not valid!' => '',
+        'The file is not valid!' => 'A fájl nem érvényes!',
         'No such file %s in package!' => 'Nincs ilyen %s fájl a csomagban!',
         'No such file %s in local file system!' => 'Nincs ilyen %s fájl a helyi fájlrendszeren!',
         'Can\'t read %s!' => 'Nem olvasható: %s!',
@@ -7258,7 +7258,7 @@ Az Ön ügyfélszolgálati csapata
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Azt szabályozza, hogy a jegy és a bejegyzés olvasottság jelzői el legyenek-e távolítva a jegy archiválásakor.',
         'Controls the search limit in the AdminCustomerUser interface.' =>
-            '',
+            'Az adminisztrátori ügyfél-felhasználói felületen lévő keresési korlátot szabályozza.',
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket.' => 'Új folyamatjegy létrehozása.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Sablonok létrehozása az adminisztrátori dinamikus mezők címéhez.',
@@ -7372,7 +7372,7 @@ Az Ön ügyfélszolgálati csapata
             'A rendszer által alapértelmezetten használt jegyazonosító az ügyfélfelületen.',
         'Default value for NameX' => 'A NévX alapértelmezett értéke',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
-            'Műveletek meghatározása, ahol egy beállítások gomb érhető el a kapcsolt objektumok felületi elemen (LinkObject::ViewMode = „összetett”). Ne feledje, hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS fájlok regisztrálásával: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
+            'Műveletek meghatározása, ahol egy beállítások gomb érhető el a kapcsolt objektumok felületi elemen (LinkObject::ViewMode = „összetett”). Ne feledje, hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS-fájlok regisztrálásával: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTOBO képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
@@ -8624,7 +8624,7 @@ Az Ön ügyfélszolgálati csapata
         'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTOBOHome>/var/run/ can not be used.' =>
             'Ha engedélyezve van, akkor a démon ezt a könyvtárat fogja használni a PID-fájljai létrehozásához. Megjegyzés: állítsa le a démont, mielőtt bármit megváltoztatna, és csak akkor használja ezt a beállítást, ha az <$OTOBOHome>/var/run/ nem használható.',
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
-            'Ha engedélyezve van, akkor az OTOBO minden CSS fájlt minimalizált formában fog szállítani.',
+            'Ha engedélyezve van, akkor az OTOBO minden CSS-fájlt minimalizált formában fog szállítani.',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
             'Ha engedélyezve van, akkor az OTOBO minden JavaScript fájlt minimalizált formában fog szállítani.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
@@ -8729,7 +8729,7 @@ Az Ön ügyfélszolgálati csapata
         'List of CSS files to always be loaded for the agent interface.' =>
             'CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of CSS files to always be loaded for the customer interface.' =>
-            'CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
+            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of JS files to always be loaded for the agent interface.' =>
             'JavaScript-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of JS files to always be loaded for the customer interface.' =>
@@ -8750,9 +8750,9 @@ Az Ön ügyfélszolgálati csapata
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Az alapértelmezett szabványos sablonok listája, amelyek automatikusan hozzá vannak rendelve az új várólistákhoz a létrehozáskor.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
-            'Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
-            'Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
+            'Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of states for which escalations should be suspended.' => 'Állapotok listája, amelyeknél az eszkalációt fel kell függeszteni.',
         'List of ticket masks which can be altered using AdminTicketMask.' =>
             'Az adminisztrátori jegymaszk használatával módosítható jegymaszkok listája.',
