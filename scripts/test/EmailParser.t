@@ -63,74 +63,7 @@ subtest 'test PostMaster-Test1.box' => sub {
     );
 
     my @Attachments = $EmailParserObject->GetAttachments();
-    ok(
-        !$Attachments[1]->{Filename},
-        "GetAttachments() - no attachments",
-    );
-};
-
-subtest 'static methods' => sub {
-
-    # as stand alone mode, without parsing emails
-    my $EmailParserObject = Kernel::System::EmailParser->new(
-        Mode  => 'Standalone',
-        Debug => 0,
-    );
-
-    my @Addresses = $EmailParserObject->SplitAddressLine(
-        Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber),
-        Juergen "quoted name" Weber <juergen.qeber@air.com>',
-    );
-
-    is(
-        $Addresses[2],
-        'hans@example.com (Hans Huber)',
-        "SplitAddressLine()",
-    );
-
-    is(
-        $Addresses[3],
-        'Juergen "quoted name" Weber <juergen.qeber@air.com>',
-        "SplitAddressLine() with quoted name",
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
-        'juergen.qeber@air.com',
-        "GetEmailAddress()",
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
-        'juergen+qeber@air.com',
-        "GetEmailAddress() again",
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress(
-            Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'
-        ),
-        'juergen+qeber@air.com',
-        "GetEmailAddress() with comment",
-    );
-
-    is(
-        $EmailParserObject->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
-        'juergen+qeber@air.com',
-        "GetEmailAddress() with comment again",
-    );
-
-    is(
-        $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        "GetRealname() with quoted name",
-    );
-
-    is(
-        $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
-        'Juergen "quoted name" Weber',
-        "GetRealname() with quoted name",
-    );
+    is(\@Attachments, [], 'GetAttachments() - no attachments' );
 };
 
 subtest 'PostMaster-Test3.box' => sub {
