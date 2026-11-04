@@ -27,11 +27,10 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
-    'Kernel::System::Cache',
-    'Kernel::System::Log',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::DynamicField::Driver::BaseScript',
+    'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
 
