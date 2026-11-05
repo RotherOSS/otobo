@@ -33,7 +33,6 @@ The following persons contributed to OTOBO:
 * splayfery <splayfery@gmail.com>
 * Philipp Kesler <philipp.kesler@hein.de>
 * Przemysław Wilkosz <office@wilkosz.net>
-* Stefan Eisenmann <stefane2741@gmail.com>
 * Intalio <intalio@intalio.pl>
 * Kozo Sakurai <sakurai@io-architect.com>
 * Rui Alves <rua@rother-oss.com>
