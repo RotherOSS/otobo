@@ -49,6 +49,10 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $SourceBackend,
     );
+    $ConfigObject->Set(
+        Key   => 'Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends',
+        Value => 1,
+    );
 
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
@@ -147,6 +151,8 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
 
+                my $Found;
+
                 ATTACHMENTINDEXID:
                 for my $ID ( sort keys %Index ) {
                     if (
@@ -156,6 +162,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                     {
                         next ATTACHMENTINDEXID;
                     }
+                    $Found = 1;
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},
@@ -164,6 +171,10 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                         );
                     }
                 }
+                $Self->True(
+                    $Found,
+                    "$NamePrefix - Verify before - attachment found (ArticleID:$ArticleID)"
+                );
             }
         }
 
@@ -190,6 +201,8 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
 
+                my $Found;
+
                 ATTACHMENTINDEXID:
                 for my $ID ( sort keys %Index ) {
                     if (
@@ -199,6 +212,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                     {
                         next ATTACHMENTINDEXID;
                     }
+                    $Found = 1;
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},
@@ -207,6 +221,10 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                         );
                     }
                 }
+                $Self->True(
+                    $Found,
+                    "$NamePrefix - Verify after - attachment found (ArticleID:$ArticleID)"
+                );
             }
         }
     }
