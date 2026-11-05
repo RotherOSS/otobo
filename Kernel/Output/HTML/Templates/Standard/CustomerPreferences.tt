@@ -18,12 +18,13 @@
     <div id='oooHeader'>
         <h1>[% Translate("Preferences") | html %]</h1>
         <div id="oooSearchBox">
-            <form action="[% Env("CGIHandle") %]" method="post" name="compose">
+            <form action="[% Env("CGIHandle") %]" method="post" name="compose" role="search" aria-label="[% Translate('Ticket Search') | html %]">
                 <input type="hidden" name="Action" value="CustomerTicketOverview"/>
                 <input type="hidden" name="Subaction" value="Search"/>
 
                 <h3 class='ooog'>
-                    <i class="ooofo ooofo-search"></i><input type="text" name="Fulltext" id="oooSearch" title="[% Translate('Ticket Search') | html %]"/>
+                    <i class="ooofo ooofo-search"></i>
+                    <input type="search" name="Fulltext" id="oooSearch" title="[% Translate('Ticket Search') | html %]" accesskey="f"/>
                     <span id='oooSearchLabel'>[% Translate('Ticket Search') | html %]</span>
                 </h3>
             </form>
