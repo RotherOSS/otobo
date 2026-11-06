@@ -365,33 +365,33 @@ sub SearchObjects {
         $SearchParams{$SearchAttribute} = "*$Param{Term}*";
     }
 
-    # prepare mapping of edit mask attribute names
-    my %AttributeNameMapping = (
-        CustomerUserID => [
-            'SelectedCustomerUser',
-        ],
-        ResponsibleID => [
-            'NewResponsibleID',
-        ],
-        OwnerID => [
-            'NewOwnerID',
-            'NewUserID',
-        ],
-        QueueID => [
-            'Dest',
-            'NewQueueID',
-        ],
-        StateID => [
-            'NewStateID',
-            'NextStateID',
-        ],
-        PriorityID => [
-            'NewPriorityID',
-        ],
-    );
-
     # incorporate referencefilterlist into search params
     if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
+
+        # prepare mapping of edit mask attribute names
+        my %AttributeNameMapping = (
+            CustomerUserID => [
+                'SelectedCustomerUser',
+            ],
+            ResponsibleID => [
+                'NewResponsibleID',
+            ],
+            OwnerID => [
+                'NewOwnerID',
+                'NewUserID',
+            ],
+            QueueID => [
+                'Dest',
+                'NewQueueID',
+            ],
+            StateID => [
+                'NewStateID',
+                'NextStateID',
+            ],
+            PriorityID => [
+                'NewPriorityID',
+            ],
+        );
 
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
