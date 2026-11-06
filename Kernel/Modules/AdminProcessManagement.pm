@@ -1006,7 +1006,7 @@ sub Run {
         # set entity sync state
         $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
-            EntityID   => $ProcessData->{EntityID},
+            EntityID   => $ProcessEntityID,
             SyncState  => 'not_sync',
             UserID     => $Self->{UserID},
         );
@@ -1016,7 +1016,7 @@ sub Run {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate(
                     'There was an error setting the entity sync status for Process entity: %s',
-                    $ProcessData->{EntityID}
+                    $ProcessEntityID
                 ),
             );
         }
