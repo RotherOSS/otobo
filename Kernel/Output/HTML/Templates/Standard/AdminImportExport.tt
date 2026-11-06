@@ -16,7 +16,18 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Import/Export Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Import/Export Management") | html %] - [% Translate(Data.Action) | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Import/Export Management'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
 
     <div class="SidebarColumn">
 
