@@ -911,10 +911,7 @@ sub ExportDataGet {
         }
     }
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    my @ExportData;
-    my %TicketData;
+    my @ExportData;    # will be returned
 
     my @TicketMapping;
     my @ArticleMapping;
@@ -957,11 +954,13 @@ sub ExportDataGet {
         }
     }
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # export tickets ...
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     for my $TicketID (@TicketIDs) {
 
-        %TicketData = $TicketObject->TicketGet(
+        my %TicketData = $TicketObject->TicketGet(
             TicketID      => $TicketID,
             UserID        => 1,
             DynamicFields => 1,
