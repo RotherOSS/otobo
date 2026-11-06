@@ -58,6 +58,22 @@ sub Run {
         ObjectType => ['Ticket'],
     );
 
+    # TODO Adjust NotificationEvent module to handle multivalue and set fields correctly
+    #$DynamicField->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} ne 'Set' } $DynamicField->@*;
+
+    # TODO Adjust NotificationEvent module to handle reference fields
+    my %ReferenceFields = (
+        Agent             => 1,
+        ConfigItem        => 1,
+        ConfigItemVersion => 1,
+        CustomerCompany   => 1,
+        CustomerUser      => 1,
+        FAQ               => 1,
+        Service           => 1,
+        Ticket            => 1
+    );
+    $DynamicField->@* = grep { !$ReferenceFields{ $_->{FieldType} } } $DynamicField->@*;
+
     if ( $RichText && !$ConfigObject->Get("Frontend::Admin::$Self->{Action}")->{RichText} ) {
         $RichText = 0;
     }
