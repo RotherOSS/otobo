@@ -2089,7 +2089,10 @@ sub _ImportTicket {
 
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-    my %StandardMultiSelect       = map { $_ => 1 } qw( Multiselect Database WebService );
+
+    # %StandardMultiSelect lists the dynamic field typed that yield arrayrefs.
+    # Note that reference fields are missing in this lookup table.
+    my %StandardMultiSelect = map { $_ => 1 } qw( Multiselect Database WebService );
 
     # dynamic fields
     DYNAMICFIELD:
@@ -2109,9 +2112,24 @@ sub _ImportTicket {
             UserID             => 1,
         );
 
-        # multi select fields need special treatment
+        # multi value fields need special treatment
+        #
+        # Some dynamic fields return per default undef or a reference to an array. The referenced array
+        # may hold one or more values. The CSV export of ImportExport encoded these array as list of Base64 encoded strings.
+        # The elements of the liset are separated by '###'. Here is an example for two DFs with the values [3] and [3, 5].
+        # Note that the Base64 encoding introduces newlines.
+        #
+        #    "202611058096000011":"Example ticket with two Ticket DFs":"Mw==
+        #    ":"Mw==
+        #    ###NQ==
+        #    ":"2026-11-05 11:01:08"
+        #
         if ( $StandardMultiSelect{ $DynamicFieldConfig->{FieldType} } || ref $DBValue eq 'ARRAY' ) {
-            $Ticket{$Attr} = $Ticket{$Attr} ? [ map { decode( 'UTF-8', decode_base64($_) ) } split( /###/, $Ticket{$Attr} ) ] : [];
+            $Ticket{$Attr} = $Ticket{$Attr}
+                ?
+                [ map { decode( 'UTF-8', decode_base64($_) ) } split /###/, $Ticket{$Attr} ]
+                :
+                [];
         }
 
         next DYNAMICFIELD unless $DynamicFieldBackendObject->ValueIsDifferent(
