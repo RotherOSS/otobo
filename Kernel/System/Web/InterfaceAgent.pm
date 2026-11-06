@@ -520,10 +520,19 @@ sub _Content {
         # redirect with new session id
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-        $LayoutObject->Redirect(
-            OP    => $Param{RequestedURL},
-            Login => 1,
-        );    # throws a Kernel::System::Web::Exception
+        if ($Param{RequestedURL} =~ /^http/ ) {
+
+            $LayoutObject->Redirect(
+                ExtURL    => $Param{RequestedURL},
+            );    # throws a Kernel::System::Web::Exception
+        }
+        else {
+
+            $LayoutObject->Redirect(
+                OP    => $Param{RequestedURL},
+                Login => 1,
+            );    # throws a Kernel::System::Web::Exception
+        }
     }
 
     # logout
