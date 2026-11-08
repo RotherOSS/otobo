@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use CPAN::Audit::Version;
 
-our $VERSION = "1.002";
+our $VERSION = "1.003";
 
 =encoding utf8
 
@@ -50,11 +50,11 @@ sub new {
 
 Returns a list of advisories for DISTNAME in VERSION_RANGE.
 
-	my @advisories = $query->advisories_for( 'Business::ISBN', '1.23' );
+	my @advisories = $query->advisories_for( 'Business-ISBN', '1.23' );
 
-	my @advisories = $query->advisories_for( 'Business::ISBN', '>1.23,<2.45' );
+	my @advisories = $query->advisories_for( 'Business-ISBN', '>1.23,<2.45' );
 
-	my @advisories = $query->advisories_for( 'Business::ISBN', '<1.23' );
+	my @advisories = $query->advisories_for( 'Business-ISBN', '<1.23' );
 
 =cut
 
