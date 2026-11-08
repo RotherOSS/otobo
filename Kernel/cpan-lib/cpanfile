@@ -28,7 +28,7 @@ requires 'Class::Inspector', '== 1.31';
 # needed by Data::ICal
 requires 'Class::ReturnValue', '== 0.55';
 
-requires 'CPAN::Audit', '== 20261013.002';
+requires 'CPAN::Audit', '== 20261105.001';
 
 # database of adbisories used by CPAN::Audit
 requires 'CPANSA::DB', '== 20261101.010';
