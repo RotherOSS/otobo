@@ -906,6 +906,12 @@ sub ColumnFilterValuesGet {
 sub _TransformExternalSource {
     my ( $Self, %Param ) = @_;
 
+    return if !defined $Param{ValueArray};
+
+    if ( !ref $Param{ValueArray} ) {
+        $Param{ValueArray} = [ $Param{ValueArray} ];
+    }
+
     my @Values;
     VALUE:
     for my $ValueItem ( $Param{ValueArray}->@* ) {

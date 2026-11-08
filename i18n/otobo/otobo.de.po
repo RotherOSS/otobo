@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-10-21 14:05+0000\n"
-"PO-Revision-Date: 2026-06-30 18:28+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2026-11-06 12:59+0000\n"
+"Last-Translator: Jasmin Hammes <jasmin.hammes@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
 "Language: de\n"
@@ -63,7 +63,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16\n"
+"X-Generator: Weblate 2026.9\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -806,7 +806,7 @@ msgstr "Mindestens eine Methode ist für jede Benachrichtigung erforderlich."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr "Standardmäßig aktiv in den Agenten-Einstellungen"
+msgstr "In Agenteinstellungen standardmäßig aktivieren"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -814,10 +814,10 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
-"Das ist der Standardwert für zugewiesene Empfänger-Agenten, die für diese "
-"Benachrichtigung in ihren Einstellungen noch keine Auswahl getroffen haben. "
-"Wenn das Feld ausgewählt ist, wird die Benachrichtigung solchen Agenten "
-"zugestellt."
+"Dies ist der Standardwert für zugewiesene Agenten, die noch keine Auswahl "
+"für diese Benachrichtigung in ihren Einstellungen getroffen haben. Wenn das "
+"Kontrollkästchen aktiviert ist, wird die Benachrichtigung an diese Agenten "
+"gesendet."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -5574,7 +5574,7 @@ msgstr "Nummer"
 
 #. Template: AdminImportExport
 msgid "Format"
-msgstr "Format"
+msgstr "Formatierung"
 
 #. Template: AdminImportExport
 msgid "Start Import"
@@ -5654,7 +5654,7 @@ msgstr "Name der Vorlage"
 
 #. Template: AdminImportExport
 msgid "Restrict export per search"
-msgstr "Export per Suche einschränken"
+msgstr "Export mittels Suche einschränken"
 
 #. Template: AdminImportExport
 msgid "Finish"
@@ -6059,16 +6059,13 @@ msgstr ""
 "Konten und deren entsprechenden Token-Status an."
 
 #. Template: AdminOAuthTokenStore
-#, fuzzy
-#| msgid ""
-#| "You can test your Configuration with a click on the 'Renew' Button, which "
-#| "will try to fetch or refresh a new Token."
 msgid ""
 "You can test your configuration with a click on the 'Renew' button, which "
 "will try to fetch or refresh a new token."
 msgstr ""
-"Die Konfiguration kann getestet werden mit einem Klick auf den 'Erneuern'-"
-"Knopf, der versucht ein neues Token abzuholen oder zu aktualisieren."
+"Die Konfiguration kann mit einem Klick auf die 'Aktualisieren'-Schaltfläche "
+"getestet werden, was einen Versuch zum Abholen oder Aktualisieren eines "
+"neuen Tokens auslöst."
 
 #. Template: AdminOAuthTokenStore
 #, fuzzy
@@ -7640,8 +7637,7 @@ msgstr ""
 msgid ""
 "There are several possibilities to validate whether this transition is valid."
 msgstr ""
-"Es gibt mehrere Möglichkeiten um zu überprüfen, ob dieser Übergang gültig "
-"ist."
+"Es gibt mehrere Möglichkeit um zu validieren, ob dieser Übergang gültig ist."
 
 #. Template: AdminProcessManagementTransition
 msgid "Exact match"
@@ -7777,8 +7773,8 @@ msgid ""
 "Value must always contain a string or a regular expression used for "
 "comparison."
 msgstr ""
-"Wert muss immer eine Zeichenkette oder einen regulären Ausdruck für den "
-"Vergleich beinhalten."
+"Value muss stets eine Zeichenfolge oder einen regulären Ausdruck zum "
+"Vergleich enthalten."
 
 #. Template: AdminProcessManagementTransition
 msgid "Examples"
@@ -7822,7 +7818,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
-msgstr "Übergangs-Aktion"
+msgstr "Übergangsaktion"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Name"
@@ -9980,7 +9976,7 @@ msgstr "Übersetzungen hinzufügen"
 
 #. Template: AdminTranslations
 msgid "Edit Translations"
-msgstr "Übersetzungen anpassen"
+msgstr "Übersetzungen bearbeiten"
 
 #. Template: AdminTranslations
 msgid "Language"
@@ -9988,7 +9984,7 @@ msgstr "Sprache"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr "Änderungen übernehmen"
+msgstr "Übersetzungen in Betrieb nehmen"
 
 #. Template: AdminTranslations
 msgid "Translation States"
@@ -16309,7 +16305,7 @@ msgstr "Agenten-Interface"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr "Kunden-Oberfläche"
+msgstr "Kundenoberfläche"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
@@ -19416,7 +19412,7 @@ msgstr "Wählen Sie die Anzeigeart aus."
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column Separator"
-msgstr "Spaltentrenner"
+msgstr "Spaltentrennzeichen"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Tabulator (TAB)"
@@ -19440,11 +19436,11 @@ msgstr "Komma (,)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Charset"
-msgstr "Zeichensatz"
+msgstr "Schriftsatz (Charset)"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Include Column Headers"
-msgstr "Mit Spaltenüberschriften"
+msgstr "Spaltenüberschriften berücksichtigen"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
 msgid "Column"
@@ -25148,11 +25144,12 @@ msgid ""
 "Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, "
 "Core.Agent.TableFilters.js."
 msgstr ""
-"Definieren Sie Actions, in denen im Verknüpfte-Objekte-Widget ein "
-"Einstellungen-Knopf verfügbar sein soll (LinkObject::ViewMode = "
-"\"complex\"). Bitte beachten Sie, dass für diese Actions die folgenden JS- "
-"und CSS-Dateien registriert sein müssen: Core.AllocationList.css, "
-"Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js."
+"Definieren Sie Aktionen, in denen im Verknüpfte-Objekte-Widget "
+"(LinkObject::ViewMode = \"complex\") eine Einstellungen-Schaltfläche "
+"verfügbar sein soll. Bitte beachten Sie, dass für diese Aktionen die "
+"folgenden JS- und CSS-Dateien registriert sein müssen: "
+"Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, "
+"Core.Agent.TableFilters.js."
 
 #. SysConfig
 msgid ""
@@ -28584,8 +28581,8 @@ msgid ""
 "Determines if a button to delete a link should be displayed next to each "
 "link in each zoom mask."
 msgstr ""
-"Legt fest, ob ein Knopf zum Löschen neben jedem Link im TicketZoom-"
-"Bildschirm angezeigt werden soll."
+"Legt fest, ob eine Schaltfläche zum Löschen neben jedem Link in der Ticket-"
+"Ansicht (TicketZoom) angezeigt werden soll."
 
 #. SysConfig
 msgid ""
@@ -28849,7 +28846,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Field Contents"
-msgstr "Dynamische Feld-Inhalte"
+msgstr "Inhalte Dynamischer Felder"
 
 #. SysConfig
 msgid "Dynamic Field Information"
@@ -28857,7 +28854,7 @@ msgstr "Dynamisches Feld Informationen"
 
 #. SysConfig
 msgid "Dynamic Field Labels"
-msgstr "Dynamische Feld-Label"
+msgstr "Beschriftung Dynamischer Felder"
 
 #. SysConfig
 msgid "Dynamic Field Screen"
@@ -29925,7 +29922,7 @@ msgstr "Galizisch"
 
 #. SysConfig
 msgid "General Label"
-msgstr "Allgemeine Übersetzungen"
+msgstr "Allgemeine Beschriftungen"
 
 #. SysConfig
 msgid ""
@@ -32834,7 +32831,8 @@ msgstr "Bild-Hochladen"
 #. SysConfig
 msgid "Please click the button below to create your first ticket."
 msgstr ""
-"Bitte verwenden Sie den Knopf unten zur Erstellung Ihres ersten Tickets."
+"Bitte verwenden Sie die Schaltfläche unten zur Erstellung Ihres ersten "
+"Tickets."
 
 #. SysConfig
 msgid "Plugin search"

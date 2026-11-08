@@ -1346,6 +1346,7 @@ sub TicketGet {
             next DYNAMICFIELD if !$DynamicFieldConfig;
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if $DynamicFieldConfig->{Config}{PartOfSet};
 
             # get the current value for each dynamic field
             my $Value = $DynamicFieldBackendObject->ValueGet(
@@ -2977,7 +2978,7 @@ sub TicketEscalationSuspendCalculate {
             )->{AbsoluteSeconds};
             if ( $WorkingTime < $UpdateDiffTime ) {
 
-                # move destination time, substract diff time
+                # move destination time, subtract diff time
                 $DestinationTime = $Row->{CreatedUnix};
                 $UpdateDiffTime -= $WorkingTime;
             }
@@ -2996,9 +2997,9 @@ sub TicketEscalationSuspendCalculate {
                     )->{AbsoluteSeconds};
 
                     # if we got no working time we are come to an non-working our
-                    # so we might want to move in bigger stepts of one hour (3600)
+                    # so we might want to move in bigger steps of one hour (3600)
                     # if the steps a currently lower that that.
-                    # if so we need to store the current time so we can substract
+                    # if so we need to store the current time so we can subtract
                     # the difference between it and an full hour later so we come
                     # to the right number as if we would have moved with the smaller
                     # steps.
@@ -3007,9 +3008,9 @@ sub TicketEscalationSuspendCalculate {
                     # endless loops... oops :)
                     if ( !$WorkingTime && $UpdateDiffTime < 3600 ) {
 
-                        # check if we already have stored a substract
+                        # check if we already have stored a subtract
                         # value and if not store the difference to
-                        # the bigger steps so we can substract them
+                        # the bigger steps so we can subtract them
                         # later from the calculated destination time
                         if ( !$Substract ) {
                             $Substract = 3600 - $UpdateDiffTime;
@@ -3035,7 +3036,7 @@ sub TicketEscalationSuspendCalculate {
                     last UPDATETIME;
                 }
 
-                # check if we have stored a substract
+                # check if we have stored a subtract
                 # value to get to the real destination time
                 # other than the one hour step
                 last ROW if !$Substract;
