@@ -107,8 +107,6 @@
 
 [% InsertTemplate("InstallerDBmysql.tt") %]
 
-[% InsertTemplate("InstallerDBmssql.tt") %]
-
 [% InsertTemplate("InstallerDBoracle.tt") %]
 
 [% InsertTemplate("InstallerDBpostgresql.tt") %]
