@@ -70,7 +70,8 @@ sub Run {
         Value         => 'Read email from STDIN.',
     );
 
-    # get email from SDTIN
+    # slurp complete email from standard input,
+    # assuming that STDIN won't use up all of the RAM
     my @Email = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
 
     if ( !@Email ) {
