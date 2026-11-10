@@ -163,22 +163,23 @@ sub ArticleAttachmentIndex {
         for my $AttachmentID ( sort keys %Attachments ) {
             my %File = %{ $Attachments{$AttachmentID} };
 
-            #Discard directories
+            # Discard directories
             if ( !$File{ContentType} && !$File{Disposition} ) {
                 delete $Attachments{$AttachmentID};
+
                 next ATTACHMENT_ID;
             }
 
             # Identify plain text attachment.
             if (
                 !$AttachmentIDPlain
-                &&
-                $File{Filename} eq 'file-1'
+                && $File{Filename} eq 'file-1'
                 && $File{ContentType} =~ /text\/plain/i
                 && $File{Disposition} eq 'inline'
                 )
             {
                 $AttachmentIDPlain = $AttachmentID;
+
                 next ATTACHMENT_ID;
             }
 
@@ -187,13 +188,13 @@ sub ArticleAttachmentIndex {
             #   - file-1.html is html attachment only
             if (
                 !$AttachmentIDHTML
-                &&
-                ( $File{Filename} =~ /^file-[12]$/ || $File{Filename} eq 'file-1.html' )
+                && ( $File{Filename} =~ /^file-[12]$/ || $File{Filename} eq 'file-1.html' )
                 && $File{ContentType} =~ /text\/html/i
                 && $File{Disposition} eq 'inline'
                 )
             {
                 $AttachmentIDHTML = $AttachmentID;
+
                 next ATTACHMENT_ID;
             }
         }
@@ -212,6 +213,7 @@ sub ArticleAttachmentIndex {
                     )
                 {
                     $AttachmentIDPlain = $AttachmentID;
+
                     last ATTACHMENT_ID;
                 }
             }
