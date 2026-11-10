@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-10-21 14:05+0000\n"
+"POT-Creation-Date: 2026-11-10 12:13+0000\n"
 "PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
@@ -32233,15 +32233,25 @@ msgid ""
 msgstr "在客户的工单详情视图中展开显示这个工单所有的信件。"
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer identifiers in a multi-select field (not useful if "
+#| "you have a lot of customer identifiers)."
 msgid ""
-"Shows all the customer identifiers in a multi-select field (not useful if "
-"you have a lot of customer identifiers)."
+"Shows all the customer identifiers in a multi-select field (Warning: This "
+"significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr "在多选框字段中显示所有的客户ID（如果客户ID过多则不可用）。"
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer user identifiers in a multi-select field (not "
+#| "useful if you have a lot of customer user identifiers)."
 msgid ""
-"Shows all the customer user identifiers in a multi-select field (not useful "
-"if you have a lot of customer user identifiers)."
+"Shows all the customer user identifiers in a multi-select field (Warning: "
+"This significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr "在一个多选框字段中显示所有的客户用户（如果客户用户过多则不好用）。"
 
 #. SysConfig

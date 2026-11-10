@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.286795146324054;
+    $Self->{Completeness}        = 0.286652391149179;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -10036,9 +10036,9 @@ Thanks for your help!
             '',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             '',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'Affiche les identifiants clients dans un champ de sélections multiples (n\'est pas utile si vous avez de nombreux identifiants clients).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Affiche la sélection de propriétaires de demandes par courriel ou par téléphone de l\'interface agent.',

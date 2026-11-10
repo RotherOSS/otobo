@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.889364739471806;
+    $Self->{Completeness}        = 0.889079229122056;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -10048,10 +10048,10 @@ Ditt Helpdesk-team
             'Viser alle artiklene i saken (utvidet) i agentzoomvisningen.',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             'Viser alle artiklene til saken (utvidet) i kundezoomvisningen.',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'Viser alle kunde-identifikatorer i et multivalg-felt (ikke brukbart hvis du har mange identifikatorer).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            'Viser alle kundebrukeridentifikatorer i et flervalgsfelt (ikke nyttig hvis du har mange kundebrukeridentifikatorer).',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Viser et eier-valg i telefon- og e-post-saker i agentdelen.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

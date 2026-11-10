@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.87152034261242;
+    $Self->{Completeness}        = 0.87123483226267;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -10040,10 +10040,10 @@ Su equipo de asistencia técnica
             'Muestra todos los artículos del ticket (expandido) en la vista de zoom del agente.',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             'Muestra todos los artículos del ticket (expandido) en la vista de zoom del cliente.',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'Muestra todos los identificadores de clientes en un campo de selección múltiple (no es útil si existen muchos identificadores).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            'Muestra todos los identificadores de usuario cliente en un campo de selección múltiple (no es útil si tiene muchos identificadores de usuario cliente).',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Muestra una selección de propietario en los tickets telefónico y de correo electrónico de la interfaz del agente.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.997002141327623;
+    $Self->{Completeness}        = 0.99971448965025;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2185,7 +2185,7 @@ sub Data {
         'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             'Az üzleti naptár a feloldási időhöz és az eszkalációs időkhöz. Ha nincs semmi sem kiválasztva, akkor az alapértelmezett naptár lesz használva.',
         'Is defined in Admin > System Configuration > Core > Time (default calendar) or in calendars 1 through 9.' =>
-            '',
+            'Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time ágában van meghatározva (alapértelmezett naptár) vagy az 1-9. naptárakban.',
         'This queue is used in the following config settings:' => 'Ez a várólista a következő konfigurációs beállításokban van használva:',
 
         # Template: AdminQueueAutoResponse
@@ -4356,18 +4356,18 @@ sub Data {
         'Allocate Services to Customer User' => 'Szolgáltatások kiosztása az ügyfél-felhasználóhoz',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
-        'Deletion was not confirmed!' => '',
-        'Could not find dynamic field to be deleted!' => '',
+        'Deletion was not confirmed!' => 'A törlés nem lett megerősítve!',
+        'Could not find dynamic field to be deleted!' => 'Nem sikerült megtalálni a törlendő dinamikus mezőt!',
         'Could not delete dynamic field \'%s\' because it is an internal field.' =>
-            '',
+            'Nem sikerült törölni a(z) „%s” dinamikus mezőt, mert az egy belső mező.',
         'Values for the dynamic field \'%s\' could not be deleted. Please review the logs for more details.' =>
-            '',
+            'A(z) „%s” dinamikus mező értékeit nem sikerült törölni. További részletekért nézze át a naplókat.',
         'Fields configuration is not valid' => 'A mezők beállítása nem érvényes',
         'Objects configuration is not valid' => 'Az objektumok beállítása nem érvényes',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Nem sikerült megfelelően visszaállítani a dinamikus mező sorrendjét. További részletekért nézze meg a hibanaplót.',
         'Dynamic field deletion could not be completed. Please contact the administrator or review the logs for more information' =>
-            '',
+            'A dinamikus mező törlését nem sikerült befejezni. Vegye fel a kapcsolatot a rendszergazdával, vagy nézze át a naplókat a további információkért.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Meghatározatlan alművelet.',
@@ -4404,7 +4404,7 @@ sub Data {
             'Egy elem szülőelemként van használva, de nem tartalmazza önmagát. Vegye fel.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldImportExport.pm
-        'Something went wrong during dynamic field import.' => '',
+        'Something went wrong during dynamic field import.' => 'Valami probléma történt a dinamikus mező importálása során.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
         'The referenced dynamic field' => 'A hivatkozott dinamikus mező',
@@ -4423,8 +4423,8 @@ sub Data {
         'Setting is locked by another user!' => 'A beállítást egy másik felhasználó zárolta!',
         'System was not able to reset the setting!' => 'A rendszer nem volt képes visszaállítani a beállítást!',
         'Settings were reset.' => 'Beállítások visszaállítva.',
-        'Dynamic Fields for this Screen' => '',
-        'Screens for this Dynamic Field' => '',
+        'Dynamic Fields for this Screen' => 'Dinamikus mezők ehhez a képernyőhöz',
+        'Screens for this Dynamic Field' => 'Képernyők ehhez a dinamikus mezőhöz',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => 'Érvényes mező-illesztőprogram szükséges.',
@@ -4701,7 +4701,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'No such package!' => 'Nincs ilyen csomag!',
-        'The file is not valid!' => '',
+        'The file is not valid!' => 'A fájl nem érvényes!',
         'No such file %s in package!' => 'Nincs ilyen %s fájl a csomagban!',
         'No such file %s in local file system!' => 'Nincs ilyen %s fájl a helyi fájlrendszeren!',
         'Can\'t read %s!' => 'Nem olvasható: %s!',
@@ -6794,8 +6794,8 @@ sub Data {
         'Delete field' => 'Mező törlése',
         'Deleting the field and its data. This may take a while...' => 'A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…',
         'The deletion could not be completed. Please review the logs for detailed information.' =>
-            '',
-        'Dynamic Field Delete: An Error occurred' => '',
+            'A törlést nem sikerült befejezni. Nézze át a naplókat a részletes információkért.',
+        'Dynamic Field Delete: An Error occurred' => 'Dinamikus mező törlése: hiba történt',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => 'Dinamikus mező eltávolítása',
@@ -7655,7 +7655,7 @@ Az Ön ügyfélszolgálati csapata
         'Controls shown in the enhanced mode CKEditor toolbar. Each array defines a button group that will be visibly separated in the editor. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             'A bővített módú CKEditor-eszköztáron megjelenített vezérlők. Minden egyes tömb egy olyan gombcsoportot határoz meg, amely elválasztva lesz megjelenítve a szerkesztőben. (Csak akkor van használva, ha a „Frontend::RichText::EnhancedMode” beállítás engedélyezve van).',
         'Controls the search limit in the AdminCustomerUser interface.' =>
-            '',
+            'Az adminisztrátori ügyfél-felhasználói felületen lévő keresési korlátot szabályozza.',
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket.' => 'Új folyamatjegy létrehozása.',
         'Create Templates for AdminDynamicFieldTitle.' => 'Sablonok létrehozása az adminisztrátori dinamikus mezők címéhez.',
@@ -7769,7 +7769,7 @@ Az Ön ügyfélszolgálati csapata
             'A rendszer által alapértelmezetten használt jegyazonosító az ügyfélfelületen.',
         'Default value for NameX' => 'A NévX alapértelmezett értéke',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
-            'Műveletek meghatározása, ahol egy beállítások gomb érhető el a kapcsolt objektumok felületi elemen (LinkObject::ViewMode = „összetett”). Ne feledje, hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS fájlok regisztrálásával: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
+            'Műveletek meghatározása, ahol egy beállítások gomb érhető el a kapcsolt objektumok felületi elemen (LinkObject::ViewMode = „összetett”). Ne feledje, hogy ezeknek a műveleteknek rendelkezniük kell a következő JS és CSS-fájlok regisztrálásával: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTOBO képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
@@ -8423,7 +8423,7 @@ Az Ön ügyfélszolgálati csapata
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Meghatározza az open ssl bináris útvonalát. Szükséges lehet a HOME környezeti változó ($ENV{HOME} = \'/var/lib/wwwrun\';).',
         'Defines the path to the Google Chrome or Chromium binary.' => 'Meghatározza a Google Chrome vagy a Chromium bináris útvonalát.',
-        'Defines the path to the gnuplot binary.' => '',
+        'Defines the path to the gnuplot binary.' => 'Meghatározza a gnuplot bináris útvonalát.',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'Meghatározza azt az időtartamot (percben), mielőtt az ügyintéző „távol” lesz inaktivitás miatt (például a „Bejelentkezett felhasználók” felületi elemben vagy a csevegésnél).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -8925,13 +8925,13 @@ Az Ön ügyfélszolgálati csapata
         'Go to dashboard!' => 'Ugrás a vezérlőpultra!',
         'Good PGP signature.' => 'Jó PGP-aláírás.',
         'Google Authenticator' => 'Google hitelesítő',
-        'Graph: Bar Chart (D3)' => '',
-        'Graph: Clustered Bar Chart (Gnuplot)' => '',
-        'Graph: Line Chart (D3)' => '',
-        'Graph: Line Chart (Gnuplot)' => '',
-        'Graph: Stacked Area Chart (D3)' => '',
-        'Graph: Stacked Area Chart (Gnuplot)' => '',
-        'Graph: Stacked Bar Chart (Gnuplot)' => '',
+        'Graph: Bar Chart (D3)' => 'Grafikon: oszlopdiagram (D3)',
+        'Graph: Clustered Bar Chart (Gnuplot)' => 'Grafikon: fürtözött oszlopdiagram (Gnuplot)',
+        'Graph: Line Chart (D3)' => 'Grafikon: vonaldiagram (D3)',
+        'Graph: Line Chart (Gnuplot)' => 'Grafikon: vonaldiagram (Gnuplot)',
+        'Graph: Stacked Area Chart (D3)' => 'Grafikon: halmozott területdiagram (D3)',
+        'Graph: Stacked Area Chart (Gnuplot)' => 'Grafikon: halmozott területdiagram (Gnuplot)',
+        'Graph: Stacked Bar Chart (Gnuplot)' => 'Grafikon: halmozott oszlopdiagram (Gnuplot)',
         'Greek' => 'Görög',
         'Hebrew' => 'Héber',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
@@ -9038,7 +9038,7 @@ Az Ön ügyfélszolgálati csapata
         'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTOBOHome>/var/run/ can not be used.' =>
             'Ha engedélyezve van, akkor a démon ezt a könyvtárat fogja használni a PID-fájljai létrehozásához. Megjegyzés: állítsa le a démont, mielőtt bármit megváltoztatna, és csak akkor használja ezt a beállítást, ha az <$OTOBOHome>/var/run/ nem használható.',
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
-            'Ha engedélyezve van, akkor az OTOBO minden CSS fájlt minimalizált formában fog szállítani.',
+            'Ha engedélyezve van, akkor az OTOBO minden CSS-fájlt minimalizált formában fog szállítani.',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
             'Ha engedélyezve van, akkor az OTOBO minden JavaScript fájlt minimalizált formában fog szállítani.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
@@ -9150,9 +9150,9 @@ Az Ön ügyfélszolgálati csapata
         'List of Active CKEditor Plugins. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             'Az aktív CKEditor-bővítmények listája. Csak akkor van használva, ha a „Frontend::RichText::EnhancedMode” beállítás engedélyezve van.',
         'List of CSS files to always be loaded for the agent interface.' =>
-            'CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of CSS files to always be loaded for the customer interface.' =>
-            'CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
+            'CSS-fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of JS files to always be loaded for the agent interface.' =>
             'JavaScript-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of JS files to always be loaded for the customer interface.' =>
@@ -9173,9 +9173,9 @@ Az Ön ügyfélszolgálati csapata
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Az alapértelmezett szabványos sablonok listája, amelyek automatikusan hozzá vannak rendelve az új várólistákhoz a létrehozáskor.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
-            'Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
+            'Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az ügyintézői felületnél.',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
-            'Alkalmazkodó CSS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
+            'Alkalmazkodó CSS-fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of states for which escalations should be suspended.' => 'Állapotok listája, amelyeknél az eszkalációt fel kell függeszteni.',
         'List of ticket masks which can be altered using AdminTicketMask.' =>
             'Az adminisztrátori jegymaszk használatával módosítható jegymaszkok listája.',
@@ -10045,10 +10045,10 @@ Az Ön ügyfélszolgálati csapata
             'Megjeleníti a jegy összes bejegyzését (kinyitva) az ügyintézői nagyítás nézetben.',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             'Megjeleníti a jegy összes bejegyzését (kinyitva) az ügyfél nagyítás nézetben.',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'Megjeleníti az összes ügyfél-azonosítót egy többválasztós mezőben (nem hasznos, ha nagyon sok ügyfél-azonosítója van).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            'Megjeleníti az összes ügyfél-felhasználó azonosítót egy többválasztós mezőben (nem hasznos, ha nagyon sok ügyfél-felhasználó azonosítója van).',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Megjelenít egy tulajdonos kijelölést a telefon és e-mail jegyekben az ügyintézői felületen.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

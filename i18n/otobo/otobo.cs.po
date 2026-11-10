@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-10-21 14:05+0000\n"
+"POT-Creation-Date: 2026-11-10 12:13+0000\n"
 "PO-Revision-Date: 2025-11-01 12:59+0000\n"
 "Last-Translator: Lukas Majer <lmajer@christ-ag.com>\n"
 "Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-11/cs/"
@@ -30987,14 +30987,16 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows all the customer identifiers in a multi-select field (not useful if "
-"you have a lot of customer identifiers)."
+"Shows all the customer identifiers in a multi-select field (Warning: This "
+"significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows all the customer user identifiers in a multi-select field (not useful "
-"if you have a lot of customer user identifiers)."
+"Shows all the customer user identifiers in a multi-select field (Warning: "
+"This significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
 
 #. SysConfig

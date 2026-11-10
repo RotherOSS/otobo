@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.985724482512491;
+    $Self->{Completeness}        = 0.985581727337616;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -236,9 +236,9 @@ sub Data {
         'Enable this notification method' => 'Diese Benachrichtigungsmethode aktivieren',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Mindestens eine Methode ist für jede Benachrichtigung erforderlich.',
-        'Active by default in agent preferences' => 'Standardmäßig aktiv in den Agenten-Einstellungen',
+        'Active by default in agent preferences' => 'In Agenteinstellungen standardmäßig aktivieren',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            'Das ist der Standardwert für zugewiesene Empfänger-Agenten, die für diese Benachrichtigung in ihren Einstellungen noch keine Auswahl getroffen haben. Wenn das Feld ausgewählt ist, wird die Benachrichtigung solchen Agenten zugestellt.',
+            'Dies ist der Standardwert für zugewiesene Agenten, die noch keine Auswahl für diese Benachrichtigung in ihren Einstellungen getroffen haben. Wenn das Kontrollkästchen aktiviert ist, wird die Benachrichtigung an diese Agenten gesendet.',
         'This feature is currently not available.' => 'Diese Funktion ist derzeit nicht verfügbar.',
         'Upgrade to %s' => 'Auf %s upgraden',
         'Please activate this transport in order to use it.' => 'Um diesen Transport zu nutzen, müssen Sie ihn zunächst aktivieren.',
@@ -1542,7 +1542,7 @@ sub Data {
         'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.' =>
             'Damit Sie dieses Modul nutzen können, müssen Sie das Paket ITSM Configuration Management oder jedes andere Paket installieren, das ein Backend für zu exportierende und importierende Objekte bereitstellt.',
         'Number' => 'Nummer',
-        'Format' => 'Format',
+        'Format' => 'Formatierung',
         'Start Import' => 'Import starten',
         'Start Export' => 'Export starten',
         'Delete this template' => 'Diese Vorlage löschen',
@@ -1562,7 +1562,7 @@ sub Data {
         'Add Mapping Element' => 'Mapping-Element hinzufügen',
         'Step 5 of 5 - Edit search information' => 'Schritt 5 von 5 - Suchinformationen bearbeiten',
         'Template Name' => 'Name der Vorlage',
-        'Restrict export per search' => 'Export per Suche einschränken',
+        'Restrict export per search' => 'Export mittels Suche einschränken',
         'Finish' => 'Abschließen',
         'Import information' => 'Import-Informationen',
         'Source File' => 'Quell-Datei',
@@ -1678,7 +1678,7 @@ sub Data {
         'This page displays an overview of configured functional OAuth accounts and their corresponding token status.' =>
             '',
         'You can test your configuration with a click on the \'Renew\' button, which will try to fetch or refresh a new token.' =>
-            '',
+            'Die Konfiguration kann mit einem Klick auf die \'Aktualisieren\'-Schaltfläche getestet werden, was einen Versuch zum Abholen oder Aktualisieren eines neuen Tokens auslöst.',
         'OIDC profiles to link your OIDC functional account to can be created here:' =>
             '',
         'OAuth2 OIDC profiles' => '',
@@ -2092,7 +2092,7 @@ sub Data {
         'Name of the ticket attribute that should be used for validation. In general, all attributes returned by the TicketGet function can be used.' =>
             'Name der Ticket-Attribute, die für die Überprüfung verwendet werden sollen. Allgemein können alle Attribute verwendet werden, die von der TicketGet-Funktion zurückgegeben werden.',
         'There are several possibilities to validate whether this transition is valid.' =>
-            'Es gibt mehrere Möglichkeiten um zu überprüfen, ob dieser Übergang gültig ist.',
+            'Es gibt mehrere Möglichkeit um zu validieren, ob dieser Übergang gültig ist.',
         'Exact match' => 'Genauer Treffer',
         'Value must exactly match the string. In an array (for example: multi-value dynamic field or dynamic field of type "Set"), at least one value must exactly match the string specified in "Value".' =>
             '',
@@ -2115,7 +2115,7 @@ sub Data {
         '"Name" is currently irrelevant, "Value" must contain the path to the module, usually Kernel::System::Process::Transition::<TA_Name>.' =>
             '"Name" ist momentan irrelevant. "Wert" muss den Pfad zum Modul beinhalten, üblicherweise Kernel::System::Process::Transition::<TA_Name>.',
         'Value must always contain a string or a regular expression used for comparison.' =>
-            'Wert muss immer eine Zeichenkette oder einen regulären Ausdruck für den Vergleich beinhalten.',
+            'Value muss stets eine Zeichenfolge oder einen regulären Ausdruck zum Vergleich enthalten.',
         'Examples' => 'Beispiele',
         'The process ticket should move to the next process step as soon as a status containing "closed" in its name is set. Therefore, configure Name="State", Type="Regular Expression" and Value="closed" (or the long form "^.*closed.*$").' =>
             'Das Prozessticket soll in den nächsten Prozessschritt übergehen, sobald ein Status mit "closed" (geschlossen) in seinem Namen gesetzt wird. Konfigurieren Sie daher Name="State", Type="Regular Expression" und Value="closed" (oder in der langen Variante "^.*closed.*$").',
@@ -2125,7 +2125,7 @@ sub Data {
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
             'Achtung: Änderungen an dieser Übergangs-Aktion wirken sich auf folgende Prozesse aus',
-        'Transition Action' => 'Übergangs-Aktion',
+        'Transition Action' => 'Übergangsaktion',
         'Transition Action Name' => 'Name der Übergangs-Aktion',
         'Transition Action Module' => 'Übergangs-Aktionsmodul',
         'Config Parameters' => 'Konfigurations-Parameter',
@@ -2749,9 +2749,9 @@ sub Data {
         # Template: AdminTranslations
         'Translation Management' => 'Übersetzungsverwaltung',
         'Add Translations' => 'Übersetzungen hinzufügen',
-        'Edit Translations' => 'Übersetzungen anpassen',
+        'Edit Translations' => 'Übersetzungen bearbeiten',
         'Language' => 'Sprache',
-        'Deploy Translations' => 'Änderungen übernehmen',
+        'Deploy Translations' => 'Übersetzungen in Betrieb nehmen',
         'Translation States' => 'Übersetzungsstatus',
         'New Translation' => 'Neue Übersetzung',
         'Editing Translation' => 'Übersetzung editieren',
@@ -4809,7 +4809,7 @@ sub Data {
         'There was an error updating the ActivityDialog' => 'Beim Aktualisieren des Aktivitätsdialogs ist ein Fehler aufgetreten',
         'Edit Activity Dialog "%s"' => 'AktivitätsDialog "%s" bearbeiten',
         'Agent Interface' => 'Agenten-Interface',
-        'Customer Interface' => 'Kunden-Oberfläche',
+        'Customer Interface' => 'Kundenoberfläche',
         'Agent and Customer Interface' => 'Agenten- und Kunden-Interface',
         'Do not show Field' => 'Feld nicht anzeigen',
         'Show Field' => 'Feld anzeigen',
@@ -5938,14 +5938,14 @@ sub Data {
         'Select the type of display.' => 'Wählen Sie die Anzeigeart aus.',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
-        'Column Separator' => 'Spaltentrenner',
+        'Column Separator' => 'Spaltentrennzeichen',
         'Tabulator (TAB)' => 'Tabulatortaste (TAB)',
         'Semicolon (;)' => 'Semikolon (;)',
         'Colon (:)' => 'Doppelpunkt (:)',
         'Dot (.)' => 'Punkt (.)',
         'Comma (,)' => 'Komma (,)',
-        'Charset' => 'Zeichensatz',
-        'Include Column Headers' => 'Mit Spaltenüberschriften',
+        'Charset' => 'Schriftsatz (Charset)',
+        'Include Column Headers' => 'Spaltenüberschriften berücksichtigen',
         'Column' => 'Spalte',
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
@@ -7764,7 +7764,7 @@ Ihr Helpdesk-Team
             'Standard-Ticket-ID welche von OTOBO in der Kundenoberfläche verwendet wird.',
         'Default value for NameX' => 'Standardwert für NameX',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
-            'Definieren Sie Actions, in denen im Verknüpfte-Objekte-Widget ein Einstellungen-Knopf verfügbar sein soll (LinkObject::ViewMode = "complex"). Bitte beachten Sie, dass für diese Actions die folgenden JS- und CSS-Dateien registriert sein müssen: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
+            'Definieren Sie Aktionen, in denen im Verknüpfte-Objekte-Widget (LinkObject::ViewMode = "complex") eine Einstellungen-Schaltfläche verfügbar sein soll. Bitte beachten Sie, dass für diese Aktionen die folgenden JS- und CSS-Dateien registriert sein müssen: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definiert einen Filter für die HTML-Ausgabe um Links hinter einer bestimmten Zeichenfolge hinzufügen. Dieses Element erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTOBO-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
@@ -8544,7 +8544,7 @@ Ihr Helpdesk-Team
         'DeploymentHistory' => 'DeploymentHistory',
         'Detached' => 'Losgelöst',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
-            'Legt fest, ob ein Knopf zum Löschen neben jedem Link im TicketZoom-Bildschirm angezeigt werden soll.',
+            'Legt fest, ob eine Schaltfläche zum Löschen neben jedem Link in der Ticket-Ansicht (TicketZoom) angezeigt werden soll.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Bestimmt ob die Liste möglicher Queues in die ein Ticket verschoben werden kann als eine DropDown-Liste angezeigt wird oder in einem neuen Fenster. Wenn "Neues Fenster" eingestellt ist, können Sie ein Verschiebe-Notiz zum Ticket hinzufügen.',
         'Determines if the statistics module may generate article lists.' =>
@@ -8608,9 +8608,9 @@ Ihr Helpdesk-Team
         'Dutch' => 'Niederländisch',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Niederländische Stoppwörter für den Volltext-Index. Diese Wörter werden vom Suchindex entfernt.',
-        'Dynamic Field Contents' => 'Dynamische Feld-Inhalte',
+        'Dynamic Field Contents' => 'Inhalte Dynamischer Felder',
         'Dynamic Field Information' => 'Dynamisches Feld Informationen',
-        'Dynamic Field Labels' => 'Dynamische Feld-Label',
+        'Dynamic Field Labels' => 'Beschriftung Dynamischer Felder',
         'Dynamic Field Screen' => 'Dynamische Felder Oberfläche',
         'Dynamic Field Set' => 'Dynamic Field Set',
         'Dynamic Field Set Backend GUI' => 'Backend-Oberfläche für Dynamic Field Set',
@@ -8877,7 +8877,7 @@ Ihr Helpdesk-Team
         'Fulltext search using Elasticsearch.' => 'Volltextsuche mit Elasticsearch.',
         'Functional Account and Token Management.' => 'Verwaltung von Funktionskonten und Token',
         'Galician' => 'Galizisch',
-        'General Label' => 'Allgemeine Übersetzungen',
+        'General Label' => 'Allgemeine Beschriftungen',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             'Anzeige von allgemeinen Ticket-Daten in Ticket-Übersichten (Fallback). Beachten Sie, dass die Ticket-Nummer nicht abgeschaltet werden kann.',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -9495,7 +9495,7 @@ Ihr Helpdesk-Team
         'Picture Upload' => 'Bild-Upload',
         'Picture upload module.' => 'Bild-Upload-Modul.',
         'Picture-Upload' => 'Bild-Hochladen',
-        'Please click the button below to create your first ticket.' => 'Bitte verwenden Sie den Knopf unten zur Erstellung Ihres ersten Tickets.',
+        'Please click the button below to create your first ticket.' => 'Bitte verwenden Sie die Schaltfläche unten zur Erstellung Ihres ersten Tickets.',
         'Plugin search' => 'Pluginsuche',
         'Plugin search module for autocomplete.' => 'Module zur Pluginsuche für die Autovervollständigung.',
         'Polish' => 'Polnisch',
@@ -10040,10 +10040,10 @@ Ihr Helpdesk-Team
             'Zeigt alle Artikel in der Ticket-Zoom-Ansicht (ausgeklappte Ansicht).',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             'Zeigt alle Artikel in der Ticket-Detailansicht (ausgeklappte Ansicht).',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'Zeigt alle Kunden-Identifikatoren in einem Mehrfachauswahlfeld (nicht sinnvoll, wenn Sie sehr viele Identifikatoren haben).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            'Zeigt alle Kundenbenutzer-Identifikatoren in einem Mehrfachauswahlfeld (nicht sinnvoll, wenn Sie sehr viele Identifikatoren haben).',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Zeigt eine Besitzerauswahl in Telefon- und E-Mail-Tickets im Agentenbereich an.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

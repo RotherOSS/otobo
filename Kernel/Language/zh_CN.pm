@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.86452533904354;
+    $Self->{Completeness}        = 0.86423982869379;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -10044,10 +10044,10 @@ Thanks for your help!
             '在服务人员工单详情视图中展开显示这个工单所有的信件。',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             '在客户的工单详情视图中展开显示这个工单所有的信件。',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            '在多选框字段中显示所有的客户ID（如果客户ID过多则不可用）。',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            '在一个多选框字段中显示所有的客户用户（如果客户用户过多则不好用）。',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '在服务人员界面电话和邮件工单屏幕显示所有者选择器。',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

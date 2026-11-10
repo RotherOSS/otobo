@@ -74,8 +74,8 @@ sub new {
     $Self->{FieldCSSClass} = 'DynamicFieldLens';
 
     # set field behaviors
-    #   NOTE behaviors IsACLReducible, IsCustomerInterfaceCapable, IsReferenceField and
-    #   IsSetField get overridden with the attribute fields behaviors in sub HasBehavior
+    #   NOTE behaviors IsACLReducible, IsCustomerInterfaceCapable, IsReferenceField, IsSetField, and IsNotificationEventCondition
+    #   get overridden with the attribute fields behaviors in the sub HasBehavior()
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
         'IsNotificationEventCondition' => 1,
@@ -551,7 +551,7 @@ sub HasBehavior {
 
     # TODO: Think about additional behaviors we can just adopt from the attribute field
     # for certain behaviors instead use the attribute field behaviors
-    if ( any { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable IsSetField IsReferenceField/ ) {
+    if ( any { $Param{Behavior} eq $_ } qw/IsACLReducible IsCustomerInterfaceCapable IsSetField IsReferenceField IsNotificationEventCondition/ ) {
         my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
             LensDynamicFieldConfig => $Param{DynamicFieldConfig},
         );
