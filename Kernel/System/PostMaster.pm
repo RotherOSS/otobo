@@ -63,8 +63,9 @@ Don't use the constructor directly, use the ObjectManager instead:
     my $PostMasterObject = $Kernel::OM->Create(
         'Kernel::System::PostMaster',
         ObjectParams => {
-            Email        => \@ArrayOfEmailContent,
-            Trusted      => 1, # 1|0 ignore X-OTOBO header if false
+            CommunicationLogObject => $CommunicationLogObject,
+            Email                  => \@EmailLines,
+            Trusted                => 1, # 1|0 ignore X-OTOBO header if false
         },
     );
 
