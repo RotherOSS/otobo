@@ -22,6 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
+use URI::Escape qw(uri_escape_utf8);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -237,17 +238,13 @@ sub Run {
         if ( $GetParam{GrantType} eq 'authorization_code' ) {
 
             # for authorization_code redirect the browser
+
             my $AuthURL = $TokenProvider->GetAuthURL(
                 %GetParam,
                 AccountName => $GetParam{AccountName},
                 Prompt      => 1,
-                Subaction   => $Self->{Subaction},
-                RedirectURI => $ConfigObject->Get('HttpType')
-                    . '://'
-                    . $ConfigObject->Get('FQDN')
-                    . '/'
-                    . $ConfigObject->Get('ScriptAlias')
-                    . 'index.pl?Action=AdminOAuthTokenStore&Subaction=OAuth'
+                Subaction   => 'Refresh',
+                RedirectURI => $Self->_RedirectURL(),
             );
 
             if ($AuthURL) {
@@ -329,6 +326,13 @@ sub Run {
 
                 return $Output;
             }
+            else {
+
+                $Output .= $LayoutObject->Notify(
+                    Info     => $LanguageObject->Translate( "Token %s updated!", $GetParam{AccountName} ),
+                    Priority => 'Success'
+                );
+            }
         }
     }
 
@@ -396,12 +400,7 @@ sub Run {
                     AccountName => $AccountName,
                     Prompt      => 1,
                     Subaction   => 'Refresh',
-                    RedirectURI => $ConfigObject->Get('HttpType')
-                        . '://'
-                        . $ConfigObject->Get('FQDN')
-                        . '/'
-                        . $ConfigObject->Get('ScriptAlias')
-                        . 'index.pl?Action=AdminOAuthTokenStore&Subaction=OAuth'
+                    RedirectURI => $Self->_RedirectURL(),
                 );
 
                 return $LayoutObject->Redirect(
@@ -451,6 +450,13 @@ sub Run {
         my $Code   = $ParamObject->GetParam( Param => 'code' );
         my $Issuer = $ParamObject->GetParam( Param => 'iss' );
 
+        my $TokenStoreRedirectURL = $ConfigObject->Get('HttpType')
+            . '://'
+            . $ConfigObject->Get('FQDN')
+            . '/'
+            . $ConfigObject->Get('ScriptAlias')
+            . 'index.pl?Action=AdminOAuthTokenStore';
+
         my $CachedState = $CacheObject->Get(
             Type => 'TokenProvider',
             Key  => "TokenProvider::OAuth2State::$State",
@@ -463,12 +469,11 @@ sub Run {
                 Message  => "Invalid OAuth State $State from $Issuer",
             );
 
-            return join '',
-                $LayoutObject->Header( Title => 'Error' ),
-                $LayoutObject->Warning(
-                    Message => $LanguageObject->Translate('Invalid OAuth State!')
-                ),
-                $LayoutObject->Footer();
+            return $LayoutObject->Redirect(
+                ExtURL => $TokenStoreRedirectURL
+                    . '&Success=False&Message='
+                    . uri_escape_utf8( $LanguageObject->Translate('Invalid OAuth State!') ),
+            );
         }
 
         my $AccountName = $CachedState->{AccountName};
@@ -484,12 +489,11 @@ sub Run {
                 Message  => "Invalid Account for Token: " . $AccountName,
             );
 
-            return join '',
-                $LayoutObject->Header( Title => 'Error' ),
-                $LayoutObject->Warning(
-                    Message => $LanguageObject->Translate( "Invalid Account %s for Token!", $AccountName )
-                ),
-                $LayoutObject->Footer();
+            return $LayoutObject->Redirect(
+                ExtURL => $TokenStoreRedirectURL
+                    . '&Success=False&Message='
+                    . uri_escape_utf8( $LanguageObject->Translate( "Invalid Account %s for Token!", $AccountName ) ),
+            );
         }
 
         # validate the issuer
@@ -505,12 +509,11 @@ sub Run {
                     Message  => "Invalid Issuer $Issuer for Account $AccountName",
                 );
 
-                return join '',
-                    $LayoutObject->Header( Title => 'Error' ),
-                    $LayoutObject->Warning(
-                        Message => $LanguageObject->Translate( "Invalid Issuer %s for Token %s!", $Issuer, $AccountName )
-                    ),
-                    $LayoutObject->Footer();
+                return $LayoutObject->Redirect(
+                    ExtURL => $TokenStoreRedirectURL
+                        . '&Success=False&Message='
+                        . uri_escape_utf8( $LanguageObject->Translate( "Invalid Issuer %s for Token %s!", $Issuer, $AccountName ) ),
+                );
             }
         }
 
@@ -520,13 +523,13 @@ sub Run {
             RedirectURL => $RedirectURL,
         );
 
+        my $Success = $TokenResult->{Success} ? 1 : 0;
+
         if ( $TokenResult->{Success} ) {
 
-            $Output .= $LayoutObject->Notify(
-                Info     => $LanguageObject->Translate( "Token %s updated!", $AccountName ),
-                Priority => 'Success'
+            return $LayoutObject->Redirect(
+                ExtURL => $TokenStoreRedirectURL . '&Success=True&AccountName='. uri_escape_utf8($AccountName),
             );
-
         }
         else {
 
@@ -535,29 +538,11 @@ sub Run {
                 Message  => "Error fetching initial Token for $AccountName!"
             );
 
-            $Output .= $LayoutObject->Notify(
-                Info     => $LanguageObject->Translate("Error fetching initial Token for $AccountName!"),
-                Priority => 'Error'
+            return $LayoutObject->Redirect(
+                ExtURL => $TokenStoreRedirectURL 
+                    . '&Success=False&Message=' 
+                    . uri_escape_utf8(  "Error fetching initial Token for $AccountName!" ),
             );
-
-            $LayoutObject->Block(
-                Name => 'ActionDelete',
-                Data => \%$CachedState,
-            );
-
-            $Self->_EditInvoker(
-                %$CachedState,
-                TokenError => $TokenResult->{Error},
-                Action     => 'EditInvoker',
-            );
-
-            $Output .= $LayoutObject->Output(
-                TemplateFile => 'AdminOAuthTokenStore',
-                Data         => \%$CachedState,
-            );
-            $Output .= $LayoutObject->Footer();
-
-            return $Output;
         }
     }
 
@@ -572,6 +557,26 @@ sub Run {
             %Param,
         }
     );
+
+    my $Success = $ParamObject->GetParam( Param => 'Success' ) // '';
+    if( $Success eq 'True' ) {
+
+        my $AccountName = $ParamObject->GetParam( Param => 'AccountName' ) // '';
+
+        $Output .= $LayoutObject->Notify(
+            Info     => $LanguageObject->Translate( "Token %s updated!", $AccountName ),
+            Priority => 'Success'
+        );
+    }
+    elsif( $Success eq 'False' ) {
+
+        my $Message = $ParamObject->GetParam( Param => 'Message' ) // $LanguageObject->Translate( 'Token fetch failed!');
+
+        $Output .= $LayoutObject->Notify(
+            Info     => $Message,
+            Priority => 'Error'
+        );
+    }
 
     if ($HasProfiles) {
 
@@ -732,6 +737,23 @@ sub _EditInvoker {
     );
 
     return 1;
+}
+
+sub _RedirectURL {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $DefaultRedirectURL = $ConfigObject->Get('HttpType')
+        . '://'
+        . $ConfigObject->Get('FQDN')
+        . '/'
+        . $ConfigObject->Get('ScriptAlias')
+        . 'index.pl?Action=AdminOAuthTokenStore&Subaction=OAuth';
+
+    my $RedirectURL = $ConfigObject->Get('OAuthTokenStoreRedirectURL') // $DefaultRedirectURL;
+
+    return $RedirectURL;
 }
 
 1;
