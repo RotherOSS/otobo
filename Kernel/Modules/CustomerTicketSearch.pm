@@ -1069,8 +1069,8 @@ sub Run {
         $OverviewDynamicField = \@OverviewCustomerDynamicFields;
 
         # if there are results to show
-        my $PageShown = $Self->{UserShowTickets} || 1;
-        my $TicketListHTML;
+        my $PageShown      = $Self->{UserShowTickets} || 1;
+        my $TicketListHTML = '';
         my %PageNav;
         if (@ViewableTicketIDs) {
 
@@ -1341,19 +1341,6 @@ sub Run {
                 %DynamicFieldSearchParameters,
                 Result => 'ARRAY',
             );
-
-            # show tickets
-            #       $Counter = 0;
-            #       for my $TicketID (@ViewableTickets) {
-            #           $Counter++;
-            #           if (
-            #               $Counter >= $StartHit
-            #               && $Counter < ( $PageShown + $StartHit )
-            #               )
-            #           {
-            #               $Self->ShowTicketStatus( TicketID => $TicketID );
-            #           }
-            #       }
 
             my $TicketListObject = $Kernel::OM->Get('Kernel::Output::HTML::TicketOverview::CustomerList');
             $TicketListHTML = $TicketListObject->Run(
