@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-10-21 14:05+0000\n"
+"POT-Creation-Date: 2026-11-10 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2019\n"
 "Language-Team: Persian (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -32761,18 +32761,30 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer identifiers in a multi-select field (not useful if "
+#| "you have a lot of customer identifiers)."
 msgid ""
-"Shows all the customer identifiers in a multi-select field (not useful if "
-"you have a lot of customer identifiers)."
+"Shows all the customer identifiers in a multi-select field (Warning: This "
+"significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
 "همه شناسه های مشتری در یک میدان چند را انتخاب کنید (مفید می کنید اگر شما یک "
 "مقدار زیادی از شناسه مشتری)."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer identifiers in a multi-select field (not useful if "
+#| "you have a lot of customer identifiers)."
 msgid ""
-"Shows all the customer user identifiers in a multi-select field (not useful "
-"if you have a lot of customer user identifiers)."
+"Shows all the customer user identifiers in a multi-select field (Warning: "
+"This significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
+"همه شناسه های مشتری در یک میدان چند را انتخاب کنید (مفید می کنید اگر شما یک "
+"مقدار زیادی از شناسه مشتری)."
 
 #. SysConfig
 msgid ""

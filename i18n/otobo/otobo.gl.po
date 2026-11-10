@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-10-21 14:05+0000\n"
+"POT-Creation-Date: 2026-11-10 12:13+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Xosé, 2019\n"
 "Language-Team: Galician (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -32506,18 +32506,30 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer identifiers in a multi-select field (not useful if "
+#| "you have a lot of customer identifiers)."
 msgid ""
-"Shows all the customer identifiers in a multi-select field (not useful if "
-"you have a lot of customer identifiers)."
+"Shows all the customer identifiers in a multi-select field (Warning: This "
+"significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
 "Mostra tódolos identificadores de cliente nun campo de selección múltiple "
 "(non útil se ten moitos identificadores de cliente)."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer identifiers in a multi-select field (not useful if "
+#| "you have a lot of customer identifiers)."
 msgid ""
-"Shows all the customer user identifiers in a multi-select field (not useful "
-"if you have a lot of customer user identifiers)."
+"Shows all the customer user identifiers in a multi-select field (Warning: "
+"This significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
+"Mostra tódolos identificadores de cliente nun campo de selección múltiple "
+"(non útil se ten moitos identificadores de cliente)."
 
 #. SysConfig
 msgid ""

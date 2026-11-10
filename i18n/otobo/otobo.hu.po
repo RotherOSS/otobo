@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-10-21 14:05+0000\n"
+"POT-Creation-Date: 2026-11-10 12:13+0000\n"
 "PO-Revision-Date: 2026-10-22 17:41+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
@@ -14565,7 +14565,8 @@ msgstr "Nem sikerült megtalálni a törlendő dinamikus mezőt!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Could not delete dynamic field '%s' because it is an internal field."
-msgstr "Nem sikerült törölni a(z) „%s” dinamikus mezőt, mert az egy belső mező."
+msgstr ""
+"Nem sikerült törölni a(z) „%s” dinamikus mezőt, mert az egy belső mező."
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
@@ -35036,17 +35037,27 @@ msgstr ""
 "Megjeleníti a jegy összes bejegyzését (kinyitva) az ügyfél nagyítás nézetben."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer identifiers in a multi-select field (not useful if "
+#| "you have a lot of customer identifiers)."
 msgid ""
-"Shows all the customer identifiers in a multi-select field (not useful if "
-"you have a lot of customer identifiers)."
+"Shows all the customer identifiers in a multi-select field (Warning: This "
+"significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
 "Megjeleníti az összes ügyfél-azonosítót egy többválasztós mezőben (nem "
 "hasznos, ha nagyon sok ügyfél-azonosítója van)."
 
 #. SysConfig
+#, fuzzy
+#| msgid ""
+#| "Shows all the customer user identifiers in a multi-select field (not "
+#| "useful if you have a lot of customer user identifiers)."
 msgid ""
-"Shows all the customer user identifiers in a multi-select field (not useful "
-"if you have a lot of customer user identifiers)."
+"Shows all the customer user identifiers in a multi-select field (Warning: "
+"This significantly lowers performance in large environments with many "
+"CustomerIDs)."
 msgstr ""
 "Megjeleníti az összes ügyfél-felhasználó azonosítót egy többválasztós "
 "mezőben (nem hasznos, ha nagyon sok ügyfél-felhasználó azonosítója van)."
