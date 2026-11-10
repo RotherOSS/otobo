@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-11-10 12:13+0000\n"
-"PO-Revision-Date: 2026-10-22 17:41+0000\n"
+"PO-Revision-Date: 2026-11-11 13:00+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-1/"
 "otobo/hu/>\n"
@@ -16195,7 +16195,7 @@ msgstr "Teszt"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
-msgstr "Oktatás"
+msgstr "Képzés"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
