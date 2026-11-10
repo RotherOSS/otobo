@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.808993576017131;
+    $Self->{Completeness}        = 0.80870806566738;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -10046,10 +10046,10 @@ Vaša tehnička podrška
             'Prikazuje sve članke tiketa (detaljno) na detaljnom pregledu.',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             'Prikazuje sve članke tiketa (detaljno) na detaljnom pregledu u interfejsu korisnika.',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'Prikazuje sve klijentske identifikatore u polju višestrukog izbora (nije korisno ako imate mnogo klijentskih identifikatora).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            'Prikazuje sve klijentske identifikatore u polju višestrukog izbora (nije korisno ako imate mnogo klijentskih identifikatora).',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Prikazuje izbor vlasnika za tikete poziva i imejl tikete u interfejsu operatera.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

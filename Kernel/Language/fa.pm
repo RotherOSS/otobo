@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.558600999286224;
+    $Self->{Completeness}        = 0.558458244111349;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -10045,9 +10045,9 @@ Thanks for your help!
             '',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             '',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            'همه شناسه های مشتری در یک میدان چند را انتخاب کنید (مفید می کنید اگر شما یک مقدار زیادی از شناسه مشتری).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'انتخاب صاحب در تلفن و ایمیل بلیط در رابط عامل نشان می دهد.',

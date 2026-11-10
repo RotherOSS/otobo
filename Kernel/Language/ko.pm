@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.780157030692363;
+    $Self->{Completeness}        = 0.779871520342612;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -10040,10 +10040,10 @@ Thanks for your help!
             '에이전트 확대 / 축소보기에서 티켓의 모든 항목을 표시합니다(확장된).',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             '고객 확대보기에서 티켓의 모든 기사를 표시합니다(확장 된).',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            '다중 선택 필드에 모든 고객 식별자를 표시합니다(많은 고객 식별자가 있는 경우 유용하지 않음).',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            '다중 선택 필드에 모든 고객 사용자 식별자를 표시합니다 (많은 고객 사용자 식별자가 있는 경우 유용하지 않음).',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '상담원 인터페이스의 전화 및 전자 메일 티켓에서 소유자 선택을 표시합니다.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

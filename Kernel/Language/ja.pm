@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.997002141327623;
+    $Self->{Completeness}        = 0.996716630977873;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -10043,10 +10043,10 @@ Thanks for your help!
             '担当者のズームビューで、チケットのすべての記事を（展開して）表示します。',
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             '顧客のズームビューで、チケットのすべての記事を（展開して）表示します。',
-        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            '全ての顧客識別子をマルチ・セレクトのフィールドに表示します（顧客識別子を多く抱えている場合は利便性が低いです）。',
-        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            'すべての顧客ユーザー識別子を複数選択欄に表示します（顧客ユーザー識別子が多い場合には不向きです）。',
+        'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
+            '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '担当者インタフェースにおいて、電話およびEメールのチケットにおける所有者のセレクションを表示します。',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>
