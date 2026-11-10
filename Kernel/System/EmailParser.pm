@@ -94,7 +94,7 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # get debug level from parent
+    # get debug level from caller
     $Self->{Debug} = $Param{Debug} || 0;
 
     # Check the parameters when the method is not called for standalone mode. The email must be passed
@@ -140,8 +140,10 @@ sub new {
         # treat them just as if they were a test/plain part (see bug#1970).
         $Parser->extract_nested_messages(0);
 
-        # finally parse the email
+        # finally parse the email and get an instance of MIME::Entity
         $Self->{ParserParts} = $Parser->parse_data($StringRef);
+
+        # TODO: preprocess the instance of MIME::Entity to match the expectations of PartsAttachments
     }
     else {
 
@@ -261,7 +263,7 @@ Returns the message body content type.
     my $ContentType = $ParserObject->GetContentType();
 
 For example I<text/plain; charset="iso-8859-1">.
-The information is taken from the message header or from the
+The information is taken from the message header or from the first attachment.
 
 =cut
 
@@ -597,7 +599,7 @@ sub GetAttachments {
     # return if it isn't a MIME email
     return unless $Self->{MimeEmail};
 
-    # return if it is already parsed
+    # return the cached array if the email already has been parsed parsed
     return $Self->{Attachments}->@* if $Self->{Attachments};
 
     # mangle the nested MIME parts of the email
@@ -661,8 +663,8 @@ sub PartsAttachments {
     my ( $Self, %Param ) = @_;
 
     my $Part               = $Param{Part}               || $Self->{ParserParts};
-    my $PartCounter        = $Param{PartCounter}        || 0;
-    my $SubPartCounter     = $Param{SubPartCounter}     || 0;
+    my $PartCounter        = $Param{PartCounter}        || 0;                      # only for logging
+    my $SubPartCounter     = $Param{SubPartCounter}     || 0;                      # only for logging
     my $ContentAlternative = $Param{ContentAlternative} || '';
     my $ContentMixed       = $Param{ContentMixed}       || '';
 
@@ -740,8 +742,7 @@ sub PartsAttachments {
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  =>
-                "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
+            Message  => "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
         );
 
         return;
@@ -834,8 +835,7 @@ sub PartsAttachments {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
-        print STDERR
-            "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}' ($PartData{Filesize})\n";
+        print STDERR "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}' ($PartData{Filesize})\n";
     }
 
     # For multipart/mixed emails, we check for all text/plain or text/html MIME parts which are
@@ -862,14 +862,20 @@ sub PartsAttachments {
 
         if ( !$Self->{FirstBodyAttachmentKey} ) {
 
-            # Remember the first found attachment.
+            # Remember which body part was encountered first. Either text/plain or text/html
             $Self->{FirstBodyAttachmentKey}      = $BodyAttachmentKey;
             $Self->{FirstBodyAttachmentMimeType} = $MimeType;
         }
-        elsif ( !$ContentAlternative ) {
+        elsif ($ContentAlternative) {
 
-            # For multipart/alternative, we allow both text/plain and text/html. Otherwise, concatenate
-            #   all subsequent elements to the first found body element.
+            # For multipart/alternative, we allow both text/plain and text/html.
+            # $BodyAttachmentKey keeps the MIME type.
+        }
+        else {
+
+            # When we are not in an multipart/alternative we don't keep separate text/plain and text/html parts.
+            # We concatenate all subsequent elements to the first found body element.
+            # This means that we need to convert from plain text to HTML or visa versa.
             $BodyAttachmentKey = $Self->{FirstBodyAttachmentKey};
             $TargetMimeType    = $Self->{FirstBodyAttachmentMimeType};
         }
@@ -924,6 +930,8 @@ sub PartsAttachments {
         $Self->{$BodyAttachmentKey} = \%PartData;
     }
 
+    # The part hadn't been concatenated to an existing part, so it is kept
+    # in the attachment list.
     push $Self->{Attachments}->@*, \%PartData;
 
     return 1;

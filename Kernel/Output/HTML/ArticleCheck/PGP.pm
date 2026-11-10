@@ -67,8 +67,8 @@ sub Check {
     # get config object
     my $ConfigObject = $Param{ConfigObject} || $Kernel::OM->Get('Kernel::Config');
 
-    # check if pgp is enabled
-    return if !$ConfigObject->Get('PGP');
+    # check if PGP is enabled
+    return unless $ConfigObject->Get('PGP');
 
     my $ArticleObject = $Param{ArticleObject} || $Kernel::OM->Get('Kernel::System::Ticket::Article');
 

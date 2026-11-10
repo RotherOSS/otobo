@@ -85,12 +85,14 @@ sub Run {
                 $Message          = $Content->{Content};
                 $ContentType      = $Content->{ContentType} || '';
                 $EncryptionMethod = 'PGP';
+
                 last CONTENT;
             }
             elsif ( $Content->{Content} =~ /^-----BEGIN PKCS7-----/ ) {
                 $Message          = $Content->{Content};
                 $ContentType      = $Param{GetParam}->{'Content-Type'} || '';
                 $EncryptionMethod = 'SMIME';
+
                 last CONTENT;
             }
         }
@@ -113,13 +115,15 @@ sub Run {
         # Try to decrypt body with SMIME.
         # Actually pass the complete mail as a string as
         # the crypted body will be detected in _DecryptSMIME().
+        # As a side effect the attributes of $Param{GetParam} are set the values
+        # from the decrypted email.
         $Param{GetParam}->{'X-OTOBO-BodyDecrypted'} = $Self->_DecryptSMIME(
             Body        => $Self->{ParserObject}->GetPlainEmail,
             ContentType => $ContentType,
             %Param
         ) || '';
 
-        # Return SMIME decrypted content if encryption is SMIME
+        # Return SMIME decrypted content if encryption is SMIME.
         return $Param{GetParam}->{'X-OTOBO-BodyDecrypted'} if $Param{GetParam}->{'X-OTOBO-BodyDecrypted'};
     }
     else {
@@ -173,16 +177,22 @@ sub _DecryptPGP {
     # Try to decrypt.
     my %Decrypt = $CryptObject->Decrypt( Message => $DecryptBody );
 
-    return if !$Decrypt{Successful};
+    return unless $Decrypt{Successful};
 
-    my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => $Decrypt{Data} );
-    $DecryptBody = $ParserObject->GetMessageBody();
+    # Only $Param{GetParam}->{Body} is replaced with the decrypted body,
+    # when StoreDecryptedBody is on.
+    # Note that StoreDecryptedBody is off per default.
+    my $ParserObject = Kernel::System::EmailParser->new(
+        %{$Self},
+        Email => $Decrypt{Data},
+    );
+    $DecryptBody = $ParserObject->GetMessageBody();    # get the cached value created in the constructor
 
     if ( $Param{JobConfig}->{StoreDecryptedBody} ) {
         $Param{GetParam}->{Body} = $DecryptBody;
     }
 
-    # Return content if successful
+    # Return the decrypted content if successful
     return $DecryptBody;
 }
 
@@ -267,6 +277,7 @@ sub _DecryptSMIME {
         # search private cert to decrypt email
         if ( !%PrivateKeys ) {
             $Param{GetParam}{Crypted} = 'Impossible to decrypt: private key not found!';
+
             return;
         }
 
@@ -342,6 +353,7 @@ sub _DecryptSMIME {
         # unsuccessful decrypt
         else {
             $Param{GetParam}{Crypted} = 'Error while decrypting message!';
+
             return;
         }
     }
