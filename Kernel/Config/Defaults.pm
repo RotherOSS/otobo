@@ -25,7 +25,6 @@ use v5.24;
 use strict;
 use warnings;
 use utf8;
-use experimental 'bitwise'; # can be removed when "use v5.28" is active
 use feature 'bitwise';      # can be removed when "use v5.28" is active
 
 # core modules

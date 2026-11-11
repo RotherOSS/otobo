@@ -16,10 +16,10 @@
 
 package Kernel::System::PDF;
 
+use v5.26;
 use strict;
 use warnings;
-use experimental 'bitwise';    # can be removed when "use v5.28" is active
-use feature 'bitwise';         # can be removed when "use v5.28" is active
+use feature 'bitwise';    # can be removed when "use v5.28" is active
 use namespace::autoclean;
 use utf8;
 

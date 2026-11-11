@@ -16,13 +16,18 @@
 
 package Kernel::System::Auth::TwoFactor::GoogleAuthenticator;
 
+use v5.26;
 use strict;
 use warnings;
-use experimental 'bitwise';    # can be removed when "use v5.28" is active
-use feature 'bitwise';         # can be removed when "use v5.28" is active
+use feature 'bitwise';    # can be removed when "use v5.28" is active
 
-use Digest::SHA  qw(sha1);
+# core modules
+use Digest::SHA qw(sha1);
+
+# CPAN modules
 use Digest::HMAC qw(hmac_hex);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
