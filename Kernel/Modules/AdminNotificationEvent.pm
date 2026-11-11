@@ -58,6 +58,18 @@ sub Run {
         ObjectType => ['Ticket'],
     );
 
+    # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
+    $DynamicField->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} !~ /^Set|Lens$/ } $DynamicField->@*;
+
+    # TODO Adjust GenericAgent module to handle reference fields correctly
+    $DynamicField->@* = grep {
+        my $IsReferenceField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+            DynamicFieldConfig => $_,
+            Behavior           => 'IsReferenceField',
+        );
+        !$IsReferenceField
+    } $DynamicField->@*;
+
     if ( $RichText && !$ConfigObject->Get("Frontend::Admin::$Self->{Action}")->{RichText} ) {
         $RichText = 0;
     }
