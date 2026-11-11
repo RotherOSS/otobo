@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-11-10 12:13+0000\n"
-"PO-Revision-Date: 2026-11-06 12:59+0000\n"
+"PO-Revision-Date: 2026-11-11 13:00+0000\n"
 "Last-Translator: Jasmin Hammes <jasmin.hammes@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-1/otobo/"
 "de/>\n"
@@ -371,7 +371,7 @@ msgstr "Kalender bearbeiten"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Include invalid calendars"
-msgstr "Ungültige Kalender anzeigen"
+msgstr "Ungültige Kalender einschließen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
@@ -632,7 +632,7 @@ msgstr "Benachrichtigung bearbeiten"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appointment notifications"
-msgstr "Ungültige Terminbenachrichtigungen anzeigen"
+msgstr "Ungültige Terminbenachrichtigungen einschließen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -28919,8 +28919,8 @@ msgstr "Dynamic Fields-Oberfläche für Webservice-Felder"
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
 msgstr ""
-"Dynamic Fields welche beim Export des Suchergebnisses im CSV-Format "
-"auszugeben sind."
+"Dynamische Felder, die zum Exportieren des Suchergebnisses im CSV-Format "
+"verwendet werden."
 
 #. SysConfig
 msgid ""
@@ -29196,7 +29196,7 @@ msgstr "DynamicField"
 
 #. SysConfig
 msgid "DynamicField backend registration."
-msgstr "Backend-Registrierung für Dynamische Felder."
+msgstr "Backend-Registrierung der dynamischen Felder."
 
 #. SysConfig
 msgid "DynamicField object registration."
@@ -29838,7 +29838,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend"
-msgstr "Oberfläche"
+msgstr "Frontend"
 
 #. SysConfig
 msgid "Frontend module for dashboard info tile in customer interface."
@@ -29878,15 +29878,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr "Frontend-Modulregistrierung im Agentenbereich."
+msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
-msgstr "Frontend-Modulregistrierung im Agent-Interface."
+msgstr "Registrierung des Frontend-Moduls für die Agentenoberfläche."
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr "Frontend-Modulregistrierung für den Kundenbereich."
+msgstr "Registrierung des Frontend-Moduls für die Kundenoberfläche."
 
 #. SysConfig
 msgid "Frontend module registration for the public interface."
@@ -31131,7 +31131,8 @@ msgstr ""
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
-"Liste der CSS-Dateien, die immer im Agenten-Interface geladen werden sollen."
+"Liste der CSS-Dateien, die für die Agentenoberfläche immer geladen werden "
+"sollen."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
@@ -31141,13 +31142,13 @@ msgstr ""
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
 msgstr ""
-"Liste der JavaScript-Dateien, die immer im Agenten-Interface geladen werden "
+"Liste der JS-Dateien, die für die Agentenoberfläche immer geladen werden "
 "sollen."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the customer interface."
 msgstr ""
-"Liste der JavaScript-Dateien, die immer im Kunden-Interface geladen werden "
+"Liste der JS-Dateien, die für die Kundenoberfläche immer geladen werden "
 "sollen."
 
 #. SysConfig
@@ -31265,7 +31266,7 @@ msgstr "Lademodul für die Dashboard Infokachel im Kundenbereich."
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr "Loader-Modulregistrierung für die Agentenoberfläche."
+msgstr "Registrierung des Loader-Moduls für die Agentenoberfläche."
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
@@ -32773,8 +32774,8 @@ msgid ""
 "Performs the configured action for each event (as an Invoker) for each "
 "configured web service."
 msgstr ""
-"Führt die konfigurierte Aktion für jedes Ereignis für jeden konfigurierten "
-"Webservice aus (als Invoker)."
+"Führt die konfigurierte Aktion für jedes Ereignis (als Invoker) für jeden "
+"konfigurierten Webservice aus."
 
 #. SysConfig
 msgid "Permanent"
@@ -33663,7 +33664,7 @@ msgstr "Ticket auf \"warten\" setzen"
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
-msgstr "Gibt an, ob ein SLA durch einen Agenten ausgewählt sein muss."
+msgstr "Legt fest, ob die SLA vom Agenten ausgewählt werden muss."
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the customer."
@@ -33683,7 +33684,7 @@ msgstr "Legt fest, ob Agenten eine Queue wählen müssen."
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."
-msgstr "Gibt an, ob ein Service durch einen Agenten ausgewählt sein muss."
+msgstr "Legt fest, ob der Service vom Agenten ausgewählt werden muss."
 
 #. SysConfig
 msgid "Sets if service must be selected by the customer."
@@ -36236,8 +36237,8 @@ msgid ""
 "This configuration defines all possible screens to enable or disable dynamic "
 "fields."
 msgstr ""
-"Diese Konfiguration definiert alle möglichen Oberflächen, auf denen "
-"dynamische Felder aktiviert oder deaktiviert werden."
+"Diese Konfiguration definiert alle möglichen Bildschirme, in denen "
+"dynamische Felder aktiviert oder deaktiviert werden können."
 
 #. SysConfig
 msgid ""
