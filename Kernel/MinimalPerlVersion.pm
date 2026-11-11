@@ -15,7 +15,7 @@
 
 package Kernel::MinimalPerlVersion;
 
-use v5.26;    # requiring Perl 5.26 is the intent of this module
+use v5.28;    # requiring the declared version of Perl is the intent of this module
 use warnings;
 
 # core modules
@@ -29,6 +29,11 @@ our $ObjectManagerDisabled = 1;
 =head1 NAME
 
 Kernel::MinimalPerlVersion - declare the minimal version of Perl for OTOBO
+
+=head1 SYNOPSIS
+
+    # use this module in OTOBO specific scripts like bin/psgi-bin/otobo.psgi
+    use Kernel::MinimalPerlVersion ();
 
 =head1 DESCRIPTION
 
