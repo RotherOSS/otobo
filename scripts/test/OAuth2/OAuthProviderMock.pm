@@ -17,6 +17,8 @@
 package OAuthProviderMock;
 use strict;
 use warnings;
+use Digest::SHA  qw(sha256);
+use MIME::Base64 qw(encode_base64url);
 use Test2::V0;
 use Crypt::JWT qw(encode_jwt decode_jwt);
 use Crypt::PK::RSA;
@@ -308,6 +310,10 @@ if ( !$OAuthProviderMock::ChildPID ) {
                 if ( exists $Codes{$Code} ) {
 
                     $Scope = $Codes{$Code}->{Scope};
+                    if ( $Codes{$Code}->{CodeChallenge} ) {
+                        my $Verifier = $Params->{code_verifier} // '';
+                        return [ 400, [], [] ] if encode_base64url( sha256($Verifier) ) ne $Codes{$Code}->{CodeChallenge};
+                    }
                 }
                 elsif ( $Code eq 'COFFFEEBABECOFFEE' || $Code eq '' ) {
 
@@ -359,6 +365,8 @@ if ( !$OAuthProviderMock::ChildPID ) {
                 my $IDTokenPayload = Payload();
                 $IDTokenPayload->{typ}   = 'ID';
                 $IDTokenPayload->{scope} = $Scope;
+                $IDTokenPayload->{nonce} = $Codes{$Code}->{Nonce}      if exists $Codes{$Code} && $Codes{$Code}->{Nonce};
+                $IDTokenPayload->{sid}   = 'provider-session-' . $Code if exists $Codes{$Code};
 
                 my $IDToken = encode_jwt(
                     payload       => $IDTokenPayload,
@@ -392,12 +400,17 @@ if ( !$OAuthProviderMock::ChildPID ) {
                 my $State     = $Params->{state};
                 my $Redirect  = $Params->{redirect_uri};
 
+                return [ 400, [], [] ] if $Params->{code_challenge}
+                    && ( $Params->{code_challenge_method} // '' ) ne 'S256';
+
                 my $Code = `cat /proc/sys/kernel/random/uuid`;
                 $Code =~ s/^\s+|\s+$//g;
 
                 $Codes{$Code} = {
-                    Scope     => $Scope,
-                    Resources => $Resources,
+                    Scope         => $Scope,
+                    Resources     => $Resources,
+                    CodeChallenge => $Params->{code_challenge},
+                    Nonce         => $Params->{nonce},
                 };
 
                 $Redirect .= "&state=$State&code=$Code";

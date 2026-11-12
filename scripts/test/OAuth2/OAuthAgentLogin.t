@@ -33,9 +33,11 @@ use JSON;
 use URI::Escape qw(uri_escape_utf8);
 use LWP::UserAgent;
 use HTTP::Request::Common qw(POST);
+use Plack::Test           qw(test_psgi);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
+use Kernel::System::Web::InterfaceOIDCLogout;
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 $MainObject->Require("$Bin/OAuthProviderMock");
@@ -78,6 +80,14 @@ $UserObject->UserAdd(
 my $BaseURL = 'http://localhost:2007/realms/master/protocol/openid-connect/auth';
 
 my $TestCases = [
+    {
+        Config => {
+            UsePKCE           => 1,
+            UseNonce          => 1,
+            BackchannelLogout => 1,
+        },
+        Expectation => '1f60c6d9-aaa4-4db1-aa8d-94091c8acc43',
+    },
     {
         Config => {
             Scope => [
@@ -190,6 +200,60 @@ eval {
         if ( defined $TestCase->{Expectation} ) {
 
             ok( $AuthResult && $AuthResult eq $TestCase->{Expectation}, "user authenticated ($AuthResult)" );
+            if ( $TestCase->{Config}->{BackchannelLogout} ) {
+                my $PostAuth = $BackendObject->PostAuth();
+                is( $PostAuth->{OIDCSession}{Subject},   $TestCase->{Expectation},    'OIDC subject retained after PKCE and nonce validation' );
+                is( $PostAuth->{OIDCSession}{SessionID}, 'provider-session-' . $Code, 'provider session ID retained' );
+
+                my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+                my %User          = $UserObject->GetUserData( User => $AuthResult );
+                my %Session       = (
+                    %User,
+                    UserType      => 'User',
+                    SessionSource => 'AgentInterface'
+                );
+                my $PasswordSession = $SessionObject->CreateSessionID(%Session);
+                my $OIDCSession     = $SessionObject->CreateSessionID(
+                    %Session,
+                    OIDCSession => $PostAuth->{OIDCSession},
+                );
+                ok( $PasswordSession && $OIDCSession, 'password and OIDC sessions created for the same agent' );
+
+                my $Now         = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+                my $LogoutToken = encode_jwt(
+                    payload => {
+                        iss    => $PostAuth->{OIDCSession}{Issuer},
+                        aud    => 'otobo',
+                        sub    => $PostAuth->{OIDCSession}{Subject},
+                        sid    => $PostAuth->{OIDCSession}{SessionID},
+                        iat    => $Now,
+                        exp    => $Now + 120,
+                        jti    => 'logout-' . $Code,
+                        events => { 'http://schemas.openid.net/event/backchannel-logout' => {} },
+                    },
+                    alg           => 'RS256',
+                    key           => $OAuthProviderMock::PrivateKey,
+                    extra_headers => {
+                        kid => $OAuthProviderMock::KidID,
+                        typ => 'logout+jwt'
+                    },
+                );
+                test_psgi(
+                    app    => Kernel::System::Web::InterfaceOIDCLogout->new()->to_app,
+                    client => sub {
+                        my $CB = shift;
+                        for ( 1 .. 2 ) {
+                            my $Response = $CB->( POST( 'http://localhost/', [ logout_token => $LogoutToken ] ) );
+                            is( $Response->code, 200, 'signed back-channel logout succeeds, including repeated delivery' );
+                        }
+                    },
+                );
+                my %LoggedOut    = $SessionObject->GetSessionIDData( SessionID => $OIDCSession );
+                my %PasswordData = $SessionObject->GetSessionIDData( SessionID => $PasswordSession );
+                ok( !%LoggedOut, 'back-channel request removes the OIDC session' );
+                is( $PasswordData{UserLogin}, $AuthResult, 'ordinary password session survives' );
+                $SessionObject->RemoveSessionID( SessionID => $PasswordSession );
+            }
         }
         else {
 
@@ -241,6 +305,9 @@ sub PrepareTestSysConfig {
     );
 
     my $OpenIDConfig = OAuthProviderMock::GetTestOpenIDConfig();
+    $OpenIDConfig->{Misc} = {
+        map { $_ => $Param{$_} // 0 } qw(UsePKCE UseNonce BackchannelLogout)
+    };
     if ($ClientSecret) {
         $OpenIDConfig->{ClientSettings}->{ClientSecret} = $ClientSecret;
     }

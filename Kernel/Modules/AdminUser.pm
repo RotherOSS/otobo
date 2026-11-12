@@ -98,8 +98,16 @@ sub Run {
             NoOutOfOffice => 1,
         );
 
-        my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-        my $NewSessionID  = $SessionObject->CreateSessionID(
+        my $SessionObject  = $Kernel::OM->Get('Kernel::System::AuthSession');
+        my %CurrentSession = $SessionObject->GetSessionIDData( SessionID => $Self->{SessionID} );
+
+        # A switched session still belongs to the administrator's original OIDC login.
+        delete $UserData{OIDCSession};
+        if ( $CurrentSession{OIDCSession} ) {
+            $UserData{OIDCSession} = $CurrentSession{OIDCSession};
+        }
+
+        my $NewSessionID = $SessionObject->CreateSessionID(
             %UserData,
             UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             UserType        => 'User',

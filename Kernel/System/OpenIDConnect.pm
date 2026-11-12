@@ -135,6 +135,8 @@ sub BuildRedirectURL {
         RandTTL               => $Param{AuthRequest}->{$RandTTL} // $RandTTL,
         RedirectURL           => $Param{ClientSettings}{RedirectURI},
         State                 => $Param{AuthRequest}->{State},
+        CodeChallenge         => $Param{CodeChallenge},
+        CodeChallengeMethod   => 'S256',
     );
 
     return $AuthURL;
@@ -184,6 +186,7 @@ sub RequestIDToken {
         ClientSecret  => $Param{ClientSettings}->{ClientSecret},
         GrantType     => 'authorization_code',
         Code          => $Param{AuthorizationCode},
+        CodeVerifier  => $Param{CodeVerifier},
         RedirectURL   => $Param{ClientSettings}{RedirectURI},
         SSLOptions    => $Param{ProviderSettings}{SSLOptions},
     );
@@ -233,6 +236,8 @@ sub ValidateIDToken {
         },
         ExpectedAudience => $Param{ClientSettings}{ClientID},
         AuthorizedParty  => $Param{ClientSettings}{ClientID},
+        UseNonce         => $Param{UseNonce},
+        Leeway           => $Param{Leeway},
     );
 
     if ( !$Result->{Success} ) {

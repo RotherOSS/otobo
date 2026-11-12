@@ -22,7 +22,9 @@ use strict;
 use warnings;
 
 # core modules
-use List::Util qw(none);
+use Digest::SHA  qw(sha256);
+use List::Util   qw(none);
+use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
 use URI::Escape qw(uri_unescape);
@@ -99,6 +101,8 @@ sub GetOption {
 sub Auth {
     my ( $Self, %Param ) = @_;
 
+    delete $Self->{OIDCSession};
+
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
     my $OpenIDConnectObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect');
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
@@ -107,6 +111,7 @@ sub Auth {
     my $RequestConfig = $ConfigObject->Get('AuthModule::OpenIDConnect::AuthRequest');
     my $OpenIDConfig  = $ConfigObject->Get('AuthModule::OpenIDConnect::Config');
     my $Misc          = $OpenIDConfig->{Misc} // {};
+    my $UsePKCE       = $Misc->{UsePKCE} ? 1 : 0;
 
     if ( !$RequestConfig || !$RequestConfig->{ResponseType} || !$OpenIDConfig ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -163,7 +168,8 @@ sub Auth {
     );
 
     # the random string in the state has to be present in the browser cookie, as well as the cache
-    if ( $StateCSRF eq $CookieCSRF && $CacheObject->Get(%StateCache) ) {
+    my $StateData = $CacheObject->Get(%StateCache);
+    if ( $StateCSRF eq $CookieCSRF && $StateData ) {
         $CacheObject->Delete(%StateCache);
     }
     else {
@@ -178,19 +184,69 @@ sub Auth {
         return;
     }
 
+    my $StartedAt = ref $StateData eq 'HASH' ? $StateData->{StartedAt} : undef;
+    if (
+        ( $Misc->{BackchannelLogout} || defined $StartedAt )
+        && ( !defined $StartedAt || ref $StartedAt || $StartedAt !~ m{\A [0-9]+ \z}xms )
+        )
+    {
+        $Self->{AuthError} = Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
+        return;
+    }
+
+    my $StatePKCE = ref $StateData eq 'HASH'
+        && ( exists $StateData->{UsePKCE} || exists $StateData->{CodeVerifier} );
+    my $CodeVerifier;
+    if ($StatePKCE) {
+        $CodeVerifier = $StateData->{CodeVerifier};
+        if ( !$StateData->{UsePKCE} || !_CodeVerifierIsValid($CodeVerifier) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'OpenID Connect authentication error: PKCE verifier is missing or invalid in state cache.',
+            );
+            $Self->{AuthError} = Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
+
+            return;
+        }
+    }
+    elsif ( $UsePKCE || ( !defined $StartedAt && ( ref $StateData || $StateData ne '1' ) ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'OpenID Connect authentication error: PKCE verifier is missing from state cache.',
+        );
+        $Self->{AuthError} = Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
+
+        return;
+    }
+
+    if ( ( $UsePKCE || $StatePKCE ) && !grep { $_ eq 'code' } @{ $RequestConfig->{ResponseType} // [] } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'PKCE requires an authorization code response type.',
+        );
+        $Self->{AuthError} = Translatable('Authentication error. PKCE requires an authorization code response type.');
+
+        return;
+    }
+
     # if a code was requested it has to be present and we will use it
     if ( grep { $_ eq 'code' } @{ $RequestConfig->{ResponseType} // [] } ) {
         if ( !$GetParam{Code} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'No authorization code was transfered but it was expected!',
+                Message  => $UsePKCE || $StatePKCE
+                ? 'No authorization code was returned for the PKCE response.'
+                : 'No authorization code was transfered but it was expected!',
             );
+            $Self->{AuthError} = Translatable('Authentication error. The authentication server did not return the authorization code required for PKCE.')
+                if $UsePKCE || $StatePKCE;
 
             return;
         }
 
         $GetParam{IDToken} = $OpenIDConnectObject->RequestIDToken(
             AuthorizationCode => $GetParam{Code},
+            CodeVerifier      => $CodeVerifier,
             ProviderSettings  => $OpenIDConfig->{ProviderSettings},
             ClientSettings    => $OpenIDConfig->{ClientSettings},
         );
@@ -215,6 +271,30 @@ sub Auth {
     return if !$Return->{Success};
 
     my $TokenData = $Return->{TokenData};
+
+    my $OIDCSession;
+    if ( $Misc->{BackchannelLogout} ) {
+        for my $Claim (qw(iss sub)) {
+            return if !IsStringWithData( $TokenData->{$Claim} );
+        }
+        return if !defined $TokenData->{iat} || ref $TokenData->{iat}
+            || $TokenData->{iat} !~ m{\A [0-9]+ (?: \.[0-9]+ )? \z}xms;
+        return if exists $TokenData->{sid} && !IsStringWithData( $TokenData->{sid} );
+
+        my $ClientID = $OpenIDConfig->{ClientSettings}{ClientID};
+        return if !IsStringWithData($ClientID);
+        my @Audience = ref $TokenData->{aud} eq 'ARRAY' ? @{ $TokenData->{aud} } : ( $TokenData->{aud} );
+        return if !grep { IsStringWithData($_) && $_ eq $ClientID } @Audience;
+
+        $OIDCSession = {
+            Issuer    => $TokenData->{iss},
+            ClientID  => $ClientID,
+            Subject   => $TokenData->{sub},
+            IssuedAt  => $TokenData->{iat},
+            StartedAt => $StartedAt,
+            ( exists $TokenData->{sid} ? ( SessionID => $TokenData->{sid} ) : () ),
+        };
+    }
 
     my $Debug = $ConfigObject->Get('AuthModule::OpenIDConnect::Debug');
     if ( $Debug && $Debug->{LogIDToken} ) {
@@ -373,6 +453,8 @@ sub Auth {
         return;
     }
 
+    $Self->{OIDCSession} = $OIDCSession if $OIDCSession;
+
     # successful return if no authorization has to be done
     return $UserLogin if !$RoleMap;
 
@@ -409,6 +491,17 @@ sub PreAuth {
     my $RequestConfig = $ConfigObject->Get('AuthModule::OpenIDConnect::AuthRequest');
     my $OpenIDConfig  = $ConfigObject->Get('AuthModule::OpenIDConnect::Config');
     my $Misc          = $OpenIDConfig->{Misc} // {};
+    my $UsePKCE       = $Misc->{UsePKCE} ? 1 : 0;
+
+    if ( $UsePKCE && !grep { $_ eq 'code' } @{ $RequestConfig->{ResponseType} // [] } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'PKCE requires an authorization code response type.',
+        );
+        $Self->{AuthError} = Translatable('Authentication error. PKCE requires an authorization code response type.');
+
+        return;
+    }
 
     my $TTL = $Misc->{RandTTL} // 300;    # 60 * 5
 
@@ -416,10 +509,41 @@ sub PreAuth {
     my $RandomString = $MainObject->GenerateRandomString(
         Length => $Misc->{RandLength} // $Self->{DefaultRandLength},
     );
+    my $StateValue = 1;
+    my $CodeChallenge;
+    if ($UsePKCE) {
+        my $CodeVerifier = $MainObject->GenerateRandomString(
+            Length => 64,
+        );
+        if ( !_CodeVerifierIsValid($CodeVerifier) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Could not generate a valid PKCE verifier.',
+            );
+            $Self->{AuthError} = Translatable('Authentication error. Please contact the administrator.');
+
+            return;
+        }
+
+        my $Digest = encode_base64( sha256($CodeVerifier), '' );
+        $Digest =~ tr!+/!-_!;
+        $Digest =~ s/=+\z//;
+        $CodeChallenge = $Digest;
+        $StateValue    = {
+            UsePKCE      => 1,
+            CodeVerifier => $CodeVerifier,
+        };
+    }
+
+    if ( $Misc->{BackchannelLogout} ) {
+        $StateValue = {} if ref $StateValue ne 'HASH';
+        $StateValue->{StartedAt} = time;
+    }
+
     $CacheObject->Set(
         Type          => 'OpenIDConnect_State',
         Key           => $RandomString,
-        Value         => 1,
+        Value         => $StateValue,
         TTL           => $TTL,
         CacheInMemory => 0,                       # important for distributed systems
     );
@@ -450,7 +574,7 @@ sub PreAuth {
         $Data{Nonce} = $RandomString;
     }
 
-    my $RedirectURL = $OpenIDConnectObject->BuildRedirectURL(
+    my %RedirectParam = (
         AuthRequest => {
             %Data,
             %{$RequestConfig},
@@ -458,19 +582,32 @@ sub PreAuth {
         ClientSettings   => $OpenIDConfig->{ClientSettings},
         ProviderSettings => $OpenIDConfig->{ProviderSettings},
     );
+    $RedirectParam{CodeChallenge} = $CodeChallenge if defined $CodeChallenge;
+
+    my $RedirectURL = $OpenIDConnectObject->BuildRedirectURL(%RedirectParam);
 
     return {
         RedirectURL => $RedirectURL,
     };
 }
 
+sub _CodeVerifierIsValid {
+    my ($CodeVerifier) = @_;
+
+    return if !IsStringWithData($CodeVerifier);
+    return if $CodeVerifier !~ /\A[A-Za-z0-9\-._~]{43,128}\z/;
+
+    return 1;
+}
+
 sub PostAuth {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{RequestedURL};
+    return if !$Self->{RequestedURL} && !$Self->{OIDCSession};
 
     return {
         RequestedURL => $Self->{RequestedURL},
+        ( $Self->{OIDCSession} ? ( OIDCSession => $Self->{OIDCSession} ) : () ),
     };
 }
 
