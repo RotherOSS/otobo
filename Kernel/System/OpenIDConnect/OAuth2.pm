@@ -102,6 +102,7 @@ Request a Token from token endpoint
         Password          => '',                                  # for password grant
         RefreshToken      => $RefreshToken,                       # the refresh_token to use for 'refresh_token' grant
         Code              => '<code from authorization callback>, # for authorization_code  grant',
+        CodeVerifier      => '<PKCE verifier from the authorization request>',
         RedirectURL       => '<the redirect used',                # -.-
         SSLOptions        => {                                    #optional
             SSLCertificate    => 'SSL_cert_file',
@@ -163,6 +164,9 @@ sub RequestToken {
             code         => $Param{Code},
             redirect_uri => $Param{RedirectURL},
         ];
+
+        push @$PostData, code_verifier => $Param{CodeVerifier}
+            if defined $Param{CodeVerifier};
     }
     elsif (
         $Param{GrantType} eq 'password'
@@ -248,6 +252,8 @@ Example:
         Login             => '<login_hint>',                      # optional
         Prompt            => '<prompt=login>',                    # optional, forces login
         Nonce             => '<nonce>',                           # optional
+        CodeChallenge     => '<base64url SHA-256 challenge>',     # optional, for PKCE
+        CodeChallengeMethod => 'S256',                             # optional, for PKCE
         RandLength        => <length for random state and nonces> # optional
         RandTTL           => <timeout for login purposes>         # optional
 
@@ -321,6 +327,11 @@ sub GetAuthURL {
 
     $RedirectURL .= '&state=' . uri_escape_utf8($State);
     $RedirectURL .= '&redirect_uri=' . uri_escape_utf8( $Param{RedirectURL} );
+
+    if ( defined $Param{CodeChallenge} ) {
+        $RedirectURL .= '&code_challenge=' . uri_escape_utf8( $Param{CodeChallenge} );
+        $RedirectURL .= '&code_challenge_method=' . uri_escape_utf8( $Param{CodeChallengeMethod} || 'S256' );
+    }
 
     # Save all parameters to use after successful authorization.
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
