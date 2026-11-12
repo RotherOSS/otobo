@@ -604,7 +604,9 @@ sub _Content {
         }
 
         # try auth module specific logout
-        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout();
+        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout(
+            OIDCSession => $UserData{OIDCSession},
+        );
         if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
             $LayoutObject->Redirect(
                 ExtURL => $LogoutInfo->{LogoutURL},

@@ -600,6 +600,7 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::OpenIDConnect::Config'}{ClientSettings} = {
 #        ClientID    => 'abc123',
 #        RedirectURI => 'https://my.otobo.server/otobo/index.pl?Action=Login',
+#        PostLogoutRedirectURI => 'https://my.otobo.server/logged-out', # optional: must be registered with the provider
 #    };
     # For the authorization code flow the client secret has to be provided
 #    $Self->{'AuthModule::OpenIDConnect::Config'}{ClientSettings}{ClientSecret} = 's3cr3t';
@@ -627,12 +628,15 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::OpenIDConnect::Config'}{Misc} = {
 #        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
 #        UsePKCE    => 1,      # use PKCE S256 for the authorization code flow - default: disabled
+#        UseIDTokenHint => 1, # send the retained, validated ID token as a logout hint - default: disabled
 #        BackchannelLogout => 1, # accept signed provider logout requests - default: disabled
 #        BackchannelLogoutSigningAlgorithm => 'RS256', # match the client's registered ID token signing algorithm
 #        RandLength => 22,     # length for state and nonce random strings - default: 22
 #        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
 #        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provider - default: 2 s
 #    };
+    # UseIDTokenHint applies to new OIDC sessions; older sessions or oversized tokens can still require confirmation.
+    # Leave LogoutURL unset to use the OIDC backend's logout. Password sessions remain local with UseIDTokenHint enabled.
     # Register https://my.otobo.server/otobo/oidc/backchannel-logout as the provider's back-channel logout URI.
     # Only new OIDC agent sessions are covered; password sessions are preserved.
     # Logout tokens must be signed JWS (not encrypted JWE), with exp and sid or sub.

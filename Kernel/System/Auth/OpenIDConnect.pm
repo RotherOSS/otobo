@@ -42,6 +42,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::OpenIDConnect',
+    'Kernel::System::Storable',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
@@ -186,7 +187,7 @@ sub Auth {
 
     my $StartedAt = ref $StateData eq 'HASH' ? $StateData->{StartedAt} : undef;
     if (
-        ( $Misc->{BackchannelLogout} || defined $StartedAt )
+        ( $Misc->{BackchannelLogout} || $Misc->{UseIDTokenHint} || defined $StartedAt )
         && ( !defined $StartedAt || ref $StartedAt || $StartedAt !~ m{\A [0-9]+ \z}xms )
         )
     {
@@ -273,7 +274,7 @@ sub Auth {
     my $TokenData = $Return->{TokenData};
 
     my $OIDCSession;
-    if ( $Misc->{BackchannelLogout} ) {
+    if ( $Misc->{BackchannelLogout} || $Misc->{UseIDTokenHint} ) {
         for my $Claim (qw(iss sub)) {
             return if !IsStringWithData( $TokenData->{$Claim} );
         }
@@ -292,8 +293,22 @@ sub Auth {
             Subject   => $TokenData->{sub},
             IssuedAt  => $TokenData->{iat},
             StartedAt => $StartedAt,
-            ( exists $TokenData->{sid} ? ( SessionID => $TokenData->{sid} ) : () ),
+            ( exists $TokenData->{sid} ? ( SessionID => $TokenData->{sid} )  : () ),
+            ( $Misc->{UseIDTokenHint}  ? ( IDToken   => $GetParam{IDToken} ) : () ),
         };
+
+        # DB sessions store each serialized value in a VARCHAR(10000).
+        if (
+            $Misc->{UseIDTokenHint}
+            && length( encode_base64( $Kernel::OM->Get('Kernel::System::Storable')->Serialize( Data => $OIDCSession ) ) ) > 10_000
+            )
+        {
+            delete $OIDCSession->{IDToken};
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => 'OpenID Connect ID token exceeds session storage capacity. Logout will require provider confirmation.',
+            );
+        }
     }
 
     my $Debug = $ConfigObject->Get('AuthModule::OpenIDConnect::Debug');
@@ -535,7 +550,7 @@ sub PreAuth {
         };
     }
 
-    if ( $Misc->{BackchannelLogout} ) {
+    if ( $Misc->{BackchannelLogout} || $Misc->{UseIDTokenHint} ) {
         $StateValue = {} if ref $StateValue ne 'HASH';
         $StateValue->{StartedAt} = time;
     }
@@ -617,9 +632,25 @@ sub Logout {
     my $OpenIDConfig        = $Kernel::OM->Get('Kernel::Config')->Get('AuthModule::OpenIDConnect::Config');
     my $OpenIDConnectObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect');
 
-    my $LogoutURL = $OpenIDConnectObject->GetLogoutURL(
+    my %LogoutParam = (
         ProviderSettings => $OpenIDConfig->{ProviderSettings},
+        ClientSettings   => $OpenIDConfig->{ClientSettings},
     );
+    if ( $OpenIDConfig->{Misc}{UseIDTokenHint} ) {
+        my $OIDCSession = $Param{OIDCSession};
+
+        # Password sessions must not log out an unrelated provider session.
+        return if !IsHashRefWithData($OIDCSession);
+        return if ( $OIDCSession->{ClientID} // '' ) ne ( $OpenIDConfig->{ClientSettings}{ClientID} // '' );
+
+        # Sessions created before this option was enabled still require provider confirmation.
+        if ( IsStringWithData( $OIDCSession->{IDToken} ) ) {
+            $LogoutParam{IDTokenHint}   = $OIDCSession->{IDToken};
+            $LogoutParam{IDTokenIssuer} = $OIDCSession->{Issuer};
+        }
+    }
+
+    my $LogoutURL = $OpenIDConnectObject->GetLogoutURL(%LogoutParam);
 
     return if !$LogoutURL;
 

@@ -51,6 +51,13 @@ $ConfigObject->Set(
     Value => 0
 );
 
+my $OriginalSessionModule = $ConfigObject->Get('SessionModule') || 'Kernel::System::AuthSession::DB';
+$ConfigObject->Set(
+    Key   => 'SessionModule',
+    Value => 'Kernel::System::AuthSession::DB',
+);
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::AuthSession'] );
+
 my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
 $DBObject->BeginWork();
@@ -85,6 +92,7 @@ my $TestCases = [
             UsePKCE           => 1,
             UseNonce          => 1,
             BackchannelLogout => 1,
+            UseIDTokenHint    => 1,
         },
         Expectation => '1f60c6d9-aaa4-4db1-aa8d-94091c8acc43',
     },
@@ -204,6 +212,7 @@ eval {
                 my $PostAuth = $BackendObject->PostAuth();
                 is( $PostAuth->{OIDCSession}{Subject},   $TestCase->{Expectation},    'OIDC subject retained after PKCE and nonce validation' );
                 is( $PostAuth->{OIDCSession}{SessionID}, 'provider-session-' . $Code, 'provider session ID retained' );
+                ok( $PostAuth->{OIDCSession}{IDToken}, 'validated ID token is available for RP-initiated logout' );
 
                 my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
                 my %User          = $UserObject->GetUserData( User => $AuthResult );
@@ -218,6 +227,35 @@ eval {
                     OIDCSession => $PostAuth->{OIDCSession},
                 );
                 ok( $PasswordSession && $OIDCSession, 'password and OIDC sessions created for the same agent' );
+
+                my %StoredOIDCSession = $SessionObject->GetSessionIDData(
+                    SessionID => $OIDCSession,
+                    NoCache   => 1,
+                );
+                is(
+                    $StoredOIDCSession{OIDCSession}{IDToken},
+                    $PostAuth->{OIDCSession}{IDToken},
+                    'validated ID token survives a real DB session round trip',
+                );
+
+                my $LargeStoredToken = 'x' x 6_000;
+                my $LargeOIDCSession = $SessionObject->CreateSessionID(
+                    %Session,
+                    OIDCSession => {
+                        %{ $PostAuth->{OIDCSession} },
+                        IDToken => $LargeStoredToken,
+                    },
+                );
+                my %LargeStoredData = $SessionObject->GetSessionIDData(
+                    SessionID => $LargeOIDCSession,
+                    NoCache   => 1,
+                );
+                is(
+                    $LargeStoredData{OIDCSession}{IDToken},
+                    $LargeStoredToken,
+                    'long ID token within the DB field limit survives a real DB session round trip',
+                );
+                $SessionObject->RemoveSessionID( SessionID => $LargeOIDCSession );
 
                 my $Now         = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
                 my $LogoutToken = encode_jwt(
@@ -270,6 +308,11 @@ ok( 1, "finished without exception" );
 
 $DBObject->Rollback();
 $CacheObject->CleanUp();
+$ConfigObject->Set(
+    Key   => 'SessionModule',
+    Value => $OriginalSessionModule,
+);
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::AuthSession'] );
 
 done_testing;
 
@@ -306,7 +349,7 @@ sub PrepareTestSysConfig {
 
     my $OpenIDConfig = OAuthProviderMock::GetTestOpenIDConfig();
     $OpenIDConfig->{Misc} = {
-        map { $_ => $Param{$_} // 0 } qw(UsePKCE UseNonce BackchannelLogout)
+        map { $_ => $Param{$_} // 0 } qw(UsePKCE UseNonce BackchannelLogout UseIDTokenHint)
     };
     if ($ClientSecret) {
         $OpenIDConfig->{ClientSettings}->{ClientSecret} = $ClientSecret;

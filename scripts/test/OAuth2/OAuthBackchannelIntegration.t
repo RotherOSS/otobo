@@ -21,9 +21,11 @@ use FindBin qw($Bin);
 use lib "$Bin/../../..";
 
 use Test2::V0;
+use MIME::Base64                        qw(encode_base64);
 use Kernel::System::Auth                ();
 use Kernel::System::AuthSession         ();
 use Kernel::System::Auth::OpenIDConnect ();
+use Kernel::System::Storable            ();
 use Kernel::Modules::AdminUser;
 
 sub AuthCase {
@@ -202,6 +204,7 @@ sub OIDCPreAuthCase {
     my $Config = Local::OIDCAuth::Config->new(
         BackchannelLogout => $Param{BackchannelLogout} // 1,
         UsePKCE           => $Param{UsePKCE}           // 0,
+        UseIDTokenHint    => $Param{UseIDTokenHint}    // 0,
     );
     my $Cache    = Local::OIDCAuth::Cache->new();
     my $Provider = Local::OIDCAuth::Provider->new();
@@ -229,6 +232,14 @@ my ($BackchannelStateKey) = keys %{ $BackchannelState->{Cache}->{Values} };
 my $BackchannelStateData  = $BackchannelState->{Cache}->{Values}->{$BackchannelStateKey};
 like( $BackchannelStateData->{StartedAt}, qr/\A[0-9]+\z/, 'back-channel state stores server start time without PKCE' );
 ok( !exists $BackchannelStateData->{CodeVerifier}, 'PKCE-off state has no verifier' );
+
+my $LogoutHintState = OIDCPreAuthCase(
+    BackchannelLogout => 0,
+    UseIDTokenHint    => 1
+);
+my ($LogoutHintStateKey) = keys %{ $LogoutHintState->{Cache}->{Values} };
+my $LogoutHintStateData = $LogoutHintState->{Cache}->{Values}->{$LogoutHintStateKey};
+like( $LogoutHintStateData->{StartedAt}, qr/\A[0-9]+\z/, 'ID-token-hint mode records session start time without back-channel logout' );
 
 my $PKCEState      = OIDCPreAuthCase( UsePKCE => 1 );
 my ($PKCEStateKey) = keys %{ $PKCEState->{Cache}->{Values} };
@@ -313,6 +324,79 @@ my $DisabledMetadata = OIDCAuthCallbackCase(
 is( $DisabledMetadata->{Result},                  'agent', 'OIDC login works with back-channel logout disabled' );
 is( $DisabledMetadata->{PostAuth}->{OIDCSession}, undef,   'disabled back-channel logout adds no session metadata' );
 
+my $LogoutHintMetadata = OIDCAuthCallbackCase(
+    BackchannelLogout => 0,
+    UseIDTokenHint    => 1,
+    IDToken           => 'signed-id-token',
+    TokenData         => {
+        iss                => 'https://issuer.example',
+        sub                => 'subject-1',
+        aud                => 'otobo',
+        iat                => 1_700_000_001,
+        preferred_username => 'agent',
+    },
+);
+is( $LogoutHintMetadata->{Result}, 'agent', 'ID-token-hint mode authenticates without back-channel logout' );
+is(
+    $LogoutHintMetadata->{PostAuth}->{OIDCSession},
+    {
+        Issuer    => 'https://issuer.example',
+        ClientID  => 'otobo',
+        Subject   => 'subject-1',
+        IssuedAt  => 1_700_000_001,
+        StartedAt => 1_700_000_000,
+        IDToken   => 'signed-id-token',
+    },
+    'validated ID token is retained in trusted session metadata for logout',
+);
+
+my $RejectedLogoutHintMetadata = OIDCAuthCallbackCase(
+    BackchannelLogout => 0,
+    UseIDTokenHint    => 1,
+    IDToken           => 'unvalidated-id-token',
+    Backend           => $LogoutHintMetadata->{Backend},
+    Success           => 0,
+    TokenData         => {
+        iss                => 'https://issuer.example',
+        sub                => 'subject-1',
+        aud                => 'otobo',
+        iat                => 1_700_000_001,
+        preferred_username => 'agent',
+    },
+);
+is( $RejectedLogoutHintMetadata->{Result}, undef, 'invalid ID token does not authenticate in logout-hint mode' );
+ok(
+    !exists $RejectedLogoutHintMetadata->{PostAuth}->{OIDCSession},
+    'failed login does not reuse an earlier ID token for logout',
+);
+
+my $LargeLogoutHintMetadata = OIDCAuthCallbackCase(
+    BackchannelLogout => 0,
+    UseIDTokenHint    => 1,
+    IDToken           => 'x' x 10_000,
+    TokenData         => {
+        iss                => 'https://issuer.example',
+        sub                => 'subject-1',
+        aud                => 'otobo',
+        iat                => 1_700_000_001,
+        preferred_username => 'agent',
+    },
+);
+is( $LargeLogoutHintMetadata->{Result}, 'agent', 'oversized ID token does not block login' );
+ok( !exists $LargeLogoutHintMetadata->{PostAuth}->{OIDCSession}->{IDToken}, 'oversized ID token falls back to provider confirmation' );
+cmp_ok(
+    length(
+        encode_base64(
+            Kernel::System::Storable->new()->Serialize(
+                Data => $LargeLogoutHintMetadata->{PostAuth}->{OIDCSession},
+            ),
+        ),
+    ),
+    '<=',
+    10_000,
+    'session metadata fits the database value limit after dropping an oversized token',
+);
+
 done_testing;
 
 sub OIDCAuthCallbackCase {
@@ -329,6 +413,7 @@ sub OIDCAuthCallbackCase {
     my $Config = Local::OIDCAuth::Config->new(
         BackchannelLogout => $Param{BackchannelLogout} // 1,
         UsePKCE           => $Param{UsePKCE}           // 0,
+        UseIDTokenHint    => $Param{UseIDTokenHint}    // 0,
     );
     my $Cache    = Local::OIDCAuth::Cache->new( Values => { $State => $StateData } );
     my $Provider = Local::OIDCAuth::Provider->new(
@@ -339,6 +424,7 @@ sub OIDCAuthCallbackCase {
             iat                => 1_700_000_001,
             preferred_username => 'agent',
         },
+        IDToken => $Param{IDToken} // 'id-token',
         Success => exists $Param{Success} ? $Param{Success} : 1,
     );
     my $Request = Local::OIDCAuth::Request->new(
@@ -352,6 +438,7 @@ sub OIDCAuthCallbackCase {
         Request  => $Request,
         User     => Local::OIDCAuth::User->new(),
         Log      => Local::OIDCAuth::Log->new(),
+        Storable => Kernel::System::Storable->new(),
     );
 
     my $Backend  = $Param{Backend} // Kernel::System::Auth::OpenIDConnect->new();
@@ -404,7 +491,9 @@ sub new {
 
 sub Get {
     my ( $Self, $Name ) = @_;
-    return $Self->{Objects}->{$Name};
+    return $Self->{Objects}->{$Name}       if $Self->{Objects}->{$Name};
+    return Kernel::System::Storable->new() if $Name eq 'Kernel::System::Storable';
+    return;
 }
 
 sub Create {
@@ -592,6 +681,7 @@ sub new {
         'Kernel::Output::HTML::Layout'  => $Param{Layout},
         'Kernel::System::User'          => $Param{User},
         'Kernel::System::Log'           => $Param{Log},
+        'Kernel::System::Storable'      => $Param{Storable},
     );
     return bless { Objects => \%Objects }, $Class;
 }
@@ -613,6 +703,7 @@ sub new {
             Misc             => {
                 BackchannelLogout => $Param{BackchannelLogout} // 0,
                 UsePKCE           => $Param{UsePKCE}           // 0,
+                UseIDTokenHint    => $Param{UseIDTokenHint}    // 0,
                 RandLength        => 22,
                 RandTTL           => 300,
             },
@@ -708,6 +799,7 @@ sub new {
     my ( $Class, %Param ) = @_;
     return bless {
         TokenData       => $Param{TokenData} // {},
+        IDToken         => $Param{IDToken}   // 'id-token',
         Success         => exists $Param{Success} ? $Param{Success} : 1,
         CodeRequests    => 0,
         ValidationCalls => 0,
@@ -724,7 +816,7 @@ sub RequestIDToken {
     my ( $Self, %Param ) = @_;
     $Self->{CodeRequests}++;
     $Self->{CodeVerifier} = $Param{CodeVerifier};
-    return 'id-token';
+    return $Self->{IDToken};
 }
 
 sub ValidateIDToken {
