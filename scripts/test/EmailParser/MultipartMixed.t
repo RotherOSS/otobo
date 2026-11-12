@@ -36,7 +36,7 @@ my @Tests = (
     {
         Line     => __LINE__,
         Name     => "plain email with ascii and utf-8 part",
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlain.eml",
+        RawEmail => "MultipartMixedPlain.eml",
         Body     => 'first part
 
 
@@ -79,7 +79,7 @@ second part äöø',
     {
         Line     => __LINE__,
         Name     => "HTML email with ascii and utf-8 part",
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTML.eml",
+        RawEmail => "MultipartMixedHTML.eml",
         Body     => 'first part
 
 
@@ -139,7 +139,7 @@ second part äöø',
     {
         Line     => __LINE__,
         Name     => "mixed email with plain and HTML part",
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlainHTML.eml",
+        RawEmail => "MultipartMixedPlainHTML.eml",
         Body     => 'Hello,
 
 This is the forwarded message...
@@ -189,7 +189,7 @@ Erik
         # That HTML will concatenated to the HTML part.
         Line     => __LINE__,
         Name     => 'mixed email with HTML and plain part',
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTMLPlain.eml",
+        RawEmail => "MultipartMixedHTMLPlain.eml",
         Body     => '    Hi,
  
 This mail is composed in html format.
@@ -273,7 +273,7 @@ END_HTML
     {
         Line        => __LINE__,
         Name        => 'mixed email with images before the body',
-        RawEmail    => "$Home/scripts/test/sample/EmailParser/MultipartMixedImagesBeforeBody.eml",
+        RawEmail    => "MultipartMixedImagesBeforeBody.eml",
         Body        => "Hallo, \nthis is the body.",
         Attachments => [
             {
@@ -340,10 +340,10 @@ END_HTML
 
 for my $Test (@Tests) {
 
-    subtest "$Test->{Name} (line $Test->{Line})" => sub {
+    subtest "$Test->{Name} ($Test->{RawEmail}) (line $Test->{Line})" => sub {
 
         # create local object with test email
-        my @EmailLines        = file( $Test->{RawEmail} )->slurp;
+        my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/$Test->{RawEmail}")->slurp;
         my $EmailParserObject = Kernel::System::EmailParser->new(
             Email => \@EmailLines,
         );
