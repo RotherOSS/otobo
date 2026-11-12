@@ -238,7 +238,7 @@ sub _ArticleSenderImage {
             if ( $Param{UserID} ) {
                 my %CurrentUserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Param{UserID} );
                 if ( $Email eq $CurrentUserData{UserEmail} ) {
-                    $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::DefaultImage') | 'mp';
+                    $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::DefaultImage') || 'mp';
                 }
             }
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Email );
@@ -292,7 +292,7 @@ sub _ArticleModuleMeta {
         next FILTER if !$Filter->{Meta}->{Name};
         next FILTER if !$Filter->{Meta}->{URL};
 
-        # iterage through regular expressions and create a hash with found matches
+        # iterate through regular expressions and create a hash with found matches
         my @Matches;
         for my $RegExp ( @{ $Filter->{RegExp} } ) {
 
