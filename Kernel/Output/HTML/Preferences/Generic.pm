@@ -65,6 +65,16 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    if (
+        defined $Self->{ConfigItem}->{Active}
+        && !$Self->{ConfigItem}->{Active}
+        && !$Self->{EditingAnotherAgent}
+        )
+    {
+        $Self->{Error} = Translatable('You are not allowed to change this setting.');
+        return;
+    }
+
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
         for (@Array) {
