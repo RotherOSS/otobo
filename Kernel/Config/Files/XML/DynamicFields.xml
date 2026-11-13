@@ -347,7 +347,6 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.DynamicFieldDBDetailedSearch.js</Item>
-                        <Item>Core.Agent.DynamicFieldDBSearch.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -372,19 +371,6 @@
                     <Item Key="NavBarName">Ticket</Item>
                 </Hash>
             </Item>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDBDetails###002-DynamicField" Required="1" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Agent.DynamicFieldDBSearch.js</Item>
-                    </Array>
-                </Item>
-            </Hash>
         </Value>
     </Setting>
     <Setting Name="DynamicFields::Driver###Database" Required="1" Valid="1">
@@ -454,11 +440,6 @@
                         <Item>DynamicFieldDB.css</Item>
                     </Array>
                 </Item>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Agent.DynamicFieldDBSearch.js</Item>
-                    </Array>
-                </Item>
             </Hash>
         </Value>
     </Setting>
@@ -497,7 +478,6 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.DynamicFieldDBDetailedSearch.js</Item>
-                        <Item>Core.Agent.DynamicFieldDBSearch.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -533,11 +513,6 @@
                     <Array>
                         <Item>DynamicFieldDB.css</Item>
                         <Item>Core.DynamicFieldDBDetail.css</Item>
-                    </Array>
-                </Item>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Agent.DynamicFieldDBSearch.js</Item>
                     </Array>
                 </Item>
             </Hash>
