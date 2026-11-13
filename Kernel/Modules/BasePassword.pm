@@ -202,7 +202,7 @@ sub _Screen {
         );
     }
 
-    # set the TwoFactorModue setting name depending on the interface
+    # set the TwoFactorModule setting name depending on the interface
     my $AuthTwoFactorModule = $Self->_FrontendTypeGet() eq 'Agent'
         ? 'AuthTwoFactorModule'
         : 'Customer::AuthTwoFactorModule';
