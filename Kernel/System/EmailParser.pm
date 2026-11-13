@@ -25,10 +25,11 @@ use MIME::Base64      qw(decode_base64);
 use MIME::QuotedPrint ();
 
 # CPAN modules
+use List::AllUtils qw(first_index);
+use Mail::Address  ();
 use Mail::Internet ();
 use MIME::Parser   ();
 use MIME::Words    qw(decode_mimewords);
-use Mail::Address  ();
 
 # OTOBO modules
 
@@ -160,9 +161,15 @@ sub new {
         $Parser->extract_nested_messages(0);
 
         # finally parse the email and get an instance of MIME::Entity
-        $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
+        my $ParsedEmail = $Parser->parse_data( $Self->{Email}->as_string() );
 
-        # TODO: preprocess the instance of MIME::Entity to match the expectations of PartsAttachments
+        # The passed MIME::Entity object may be modified by the method
+        $Self->_PreprocessParsedEmail(
+            ParsedEmail => $ParsedEmail,
+        );
+
+        # preprocess the instance of MIME::Entity to match the expectations of PartsAttachments()
+        $Self->{ParserParts} = $ParsedEmail;
     }
     else {
 
@@ -1273,6 +1280,50 @@ sub _MailAddressParse {
     $Cache->{$Email} = \@Chunks;
 
     return @Chunks;
+}
+
+=head2 _PreprocessParsedEmail
+
+Adapts the structure of th parsed email before applying the OTOBO business logic in F<PartsAttachments()>.
+
+    $Self->_PreprocessParsedEmail(
+        ParsedEmail => $ParsedEmail,
+    );
+
+The rule is that when the top level entity is a I<multipart/mixed> entity then the first body part
+will be moved to the head of the parts of the MIME entity.
+Body parts are either I<multipart/alternative>, I<text/plain>, or I<text/html> entities.
+This achieves that the moved part will be labelled as B<file-1> and B<file-2> respectively.
+
+In future other cases may be considered too.
+
+=cut
+
+sub _PreprocessParsedEmail {
+    my ( $Self, %Param ) = @_;
+
+    my $ParsedEmail = $Param{ParsedEmail};       # may be modified in this method
+    my $TopMimeType = $ParsedEmail->mime_type;
+
+    # only regard multipart/mixed entities
+    return unless $TopMimeType;
+    return unless $TopMimeType eq 'multipart/mixed';
+
+    my @MixedParts = $ParsedEmail->parts;
+    my $IndexOfFirstBodyPart =
+        first_index { $_ eq 'multipart/alternative' || $_ eq 'text/plain' || $_ eq 'text/html' }
+    map { $_->mime_type }
+        @MixedParts;
+
+    return if $IndexOfFirstBodyPart == -1;    # not found
+    return if $IndexOfFirstBodyPart == 0;     # already first part
+
+    # move to the head
+    my $FirstBodyPart = splice @MixedParts, $IndexOfFirstBodyPart, 1;
+    $ParsedEmail->parts( [ $FirstBodyPart, @MixedParts ] );
+
+    # work has been done
+    return;
 }
 
 =end Internal:
