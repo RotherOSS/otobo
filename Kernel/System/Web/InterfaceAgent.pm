@@ -185,10 +185,85 @@ sub _Content {
             %Param,
         );
     }
+    elsif ( $Param{Action} eq 'LoginOIDC' ) {
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        if ( $ConfigObject->Get('AuthModule') ne 'Kernel::System::Auth::OpenIDConnect' ) {
+            return $LayoutObject->Login(
+                Title       => 'Login',
+                Message     => Translatable('Authentication error. Please contact the administrator.'),
+                MessageType => 'Error',
+                %Param,
+            );
+        }
+
+        my $AuthObject   = $Kernel::OM->Get('Kernel::System::Auth');
+        my $RequestedURL = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
+        my $PreAuth = $AuthObject->PreAuth(
+            RequestedURL => $RequestedURL,
+        );
+
+        if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+
+            # set a cookie tentatively for checking cookie support
+            my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+                ? '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+                : '';
+            $LayoutObject->SetCookie(
+                Key     => 'OTOBOBrowserHasCookie',
+                Name    => 'OTOBOBrowserHasCookie',
+                Value   => 1,
+                Expires => $Expires,
+            );
+
+            $LayoutObject->Redirect(
+                ExtURL => $PreAuth->{RedirectURL},
+            );    # throws a Kernel::System::Web::Exception
+        }
+
+        return $LayoutObject->Login(
+            Title       => 'Login',
+            Message     => Translatable('Authentication error. Please contact the administrator.'),
+            MessageType => 'Error',
+            %Param,
+        );
+    }
     elsif ( $Param{Action} eq 'Login' ) {
 
         # get params
         my $PostUser = $ParamObject->GetParam( Param => 'User' ) || '';
+        my $PostPw   = $ParamObject->GetParam(
+            Param => 'Password',
+            Raw   => 1
+        ) || '';
+        my $PostTwoFactorToken = $ParamObject->GetParam(
+            Param => 'TwoFactorToken',
+            Raw   => 1
+        ) || '';
+        my $PrimaryAuthModule = $ConfigObject->Get('AuthModule') || '';
+
+        my $HasOIDCCallbackParam = grep {
+            defined $ParamObject->GetParam( Param => $_ )
+        } qw(code id_token state error error_description error_uri);
+
+        if (
+            $ParamObject->RequestMethod() eq 'GET'
+            && (
+                $PrimaryAuthModule eq 'Kernel::System::Auth::DB'
+                || $PrimaryAuthModule eq 'Kernel::System::Auth::OpenIDConnect'
+            )
+            && !$PostUser
+            && !$PostPw
+            && !$PostTwoFactorToken
+            && !$HasOIDCCallbackParam
+            )
+        {
+            return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Login(
+                Title => 'Login',
+                %Param,
+            );
+        }
 
         my $PreventBruteForceConfig = $ConfigObject->Get('SimpleBruteForceProtection::GeneralSettings');
 
@@ -228,15 +303,6 @@ sub _Content {
                 }
             }
         }
-
-        my $PostPw = $ParamObject->GetParam(
-            Param => 'Password',
-            Raw   => 1
-        ) || '';
-        my $PostTwoFactorToken = $ParamObject->GetParam(
-            Param => 'TwoFactorToken',
-            Raw   => 1
-        ) || '';
 
         # create AuthObject
         my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');

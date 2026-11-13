@@ -92,7 +92,7 @@ sub GetOption {
 
     # module options
     my %Option = (
-        PreAuth => 1,
+        PreAuth => $Kernel::OM->Get('Kernel::Config')->Get('AuthModule::OpenIDConnect::AutoRedirect') // 1,
     );
 
     # return option

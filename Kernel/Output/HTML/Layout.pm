@@ -893,6 +893,11 @@ sub Login {
     );
 
     $Param{DisableStandardLogin} = $Self->_HasOnlyOIDCAuthModules();
+    if ( $ConfigObject->Get('AuthModule') eq 'Kernel::System::Auth::OpenIDConnect' ) {
+        $Param{OIDCLoginAvailable}  = 1;
+        $Param{OIDCLoginButtonText} = $ConfigObject->Get('AuthModule::OpenIDConnect::LoginButtonText')
+            || 'Log in with OpenID Connect';
+    }
 
     # create & return output
     return $Self->Output(

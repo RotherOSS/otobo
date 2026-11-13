@@ -1262,6 +1262,20 @@
             <Item ValueType="String" ValueRegex="">http://host.example.com/login.html</Item>
         </Value>
     </Setting>
+    <Setting Name="AuthModule::OpenIDConnect::AutoRedirect" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Automatically redirect agents to the OpenID Connect provider when they open the login page.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="AuthModule::OpenIDConnect::LoginButtonText" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Text for the OpenID Connect login button.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="" Translatable="1">Log in with OpenID Connect</Item>
+        </Value>
+    </Setting>
     <Setting Name="LogoutURL" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines an alternate URL, where the logout link refers to.</Description>
         <Navigation>Frontend::Agent</Navigation>
