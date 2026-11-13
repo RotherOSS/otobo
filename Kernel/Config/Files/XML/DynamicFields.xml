@@ -1846,7 +1846,6 @@
                     <Item Key="JavaScript">
                         <Array>
                             <Item>Core.UI.AllocationList.js</Item>
-                            <Item>Core.UI.Table.js</Item>
                             <Item>Core.Agent.Admin.Znuny4OTOBODynamicFieldScreen.js</Item>
                         </Array>
                     </Item>
