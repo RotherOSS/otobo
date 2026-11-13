@@ -91,7 +91,7 @@ sub Param {
         },
     );
 
-    # set the TwoFactorModue setting name depending on the interface
+    # set the TwoFactorModule setting name depending on the interface
     my $AuthTwoFactorModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'AuthTwoFactorModule'
         : 'Customer::AuthTwoFactorModule';
