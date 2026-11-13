@@ -48,10 +48,9 @@ sub new {
         )
     };
 
-    # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
+    # TODO Adjust GenericAgent module to handle multivalue, set and reference fields correctly
     @DynamicField = grep { !$_->{Config}{MultiValue} && $_->{FieldType} !~ /^(Set|Lens)$/ } @DynamicField;
 
-    # TODO Adjust GenericAgent module to handle reference fields correctly
     @DynamicField = grep {
         my $IsReferenceField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
             DynamicFieldConfig => $_,
