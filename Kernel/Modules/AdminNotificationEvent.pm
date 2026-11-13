@@ -58,6 +58,17 @@ sub Run {
         ObjectType => ['Ticket'],
     );
 
+    # TODO Adjust NotificationEvent module to handle multivalue, set and reference fields correctly
+    $DynamicField->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} !~ /^(Set|Lens)$/ } $DynamicField->@*;
+
+    $DynamicField->@* = grep {
+        my $IsReferenceField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+            DynamicFieldConfig => $_,
+            Behavior           => 'IsReferenceField',
+        );
+        !$IsReferenceField
+    } $DynamicField->@*;
+
     if ( $RichText && !$ConfigObject->Get("Frontend::Admin::$Self->{Action}")->{RichText} ) {
         $RichText = 0;
     }

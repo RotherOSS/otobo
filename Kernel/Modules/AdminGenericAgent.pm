@@ -41,13 +41,25 @@ sub new {
     $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     # get the dynamic fields for ticket object
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => ['Ticket'],
-    );
+    my @DynamicField = @{
+        $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+            Valid      => 1,
+            ObjectType => ['Ticket'],
+        )
+    };
 
-    # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
-    $Self->{DynamicField}->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} ne 'Set' } $DynamicField->@*;
+    # TODO Adjust GenericAgent module to handle multivalue, set and reference fields correctly
+    @DynamicField = grep { !$_->{Config}{MultiValue} && $_->{FieldType} !~ /^(Set|Lens)$/ } @DynamicField;
+
+    @DynamicField = grep {
+        my $IsReferenceField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+            DynamicFieldConfig => $_,
+            Behavior           => 'IsReferenceField',
+        );
+        !$IsReferenceField
+    } @DynamicField;
+
+    $Self->{DynamicField} = \@DynamicField;
 
     return $Self;
 }
@@ -435,7 +447,12 @@ sub Run {
                 Behavior           => 'IsACLReducible',
             );
 
-            if ($IsACLReducible) {
+            my $IsScriptField = $DynamicFieldBackendObject->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsScriptField',
+            );
+
+            if ( $IsACLReducible && !$IsScriptField ) {
 
                 # Get PossibleValues.
                 my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
@@ -1264,6 +1281,14 @@ sub _MaskUpdate {
             Behavior           => 'IsAttachment',
         );
         next DYNAMICFIELD if $IsAttachment;
+
+        # Check if field is Script type
+        #   this field is not updatable by Generic Agent
+        my $IsScriptField = $DynamicFieldBackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsScriptField',
+        );
+        next DYNAMICFIELD if $IsScriptField;
 
         my $PossibleValuesFilter;
 
