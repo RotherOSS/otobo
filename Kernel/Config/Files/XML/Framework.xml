@@ -9678,7 +9678,6 @@ via the Preferences button after logging in.
                         <Item>Core.SystemConfiguration.VacationDays.js</Item>
                         <Item>Core.SystemConfiguration.VacationDaysOneTime.js</Item>
                         <Item>Core.SystemConfiguration.WorkingHours.js</Item>
-                        <Item>Core.Form.js</Item>
                         <Item>Core.Agent.Admin.SystemConfiguration.js</Item>
                     </Array>
                 </Item>
@@ -9761,7 +9760,6 @@ via the Preferences button after logging in.
                         <Item>Core.SystemConfiguration.VacationDays.js</Item>
                         <Item>Core.SystemConfiguration.VacationDaysOneTime.js</Item>
                         <Item>Core.SystemConfiguration.WorkingHours.js</Item>
-                        <Item>Core.Form.js</Item>
                         <Item>Core.Agent.Admin.SystemConfiguration.js</Item>
                     </Array>
                 </Item>
@@ -10443,7 +10441,6 @@ via the Preferences button after logging in.
                     <Array>
                         <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
-                        <Item>Core.Form.js</Item>
                         <Item>Core.Agent.Admin.SystemConfiguration.js</Item>
                     </Array>
                 </Item>
@@ -10500,7 +10497,6 @@ via the Preferences button after logging in.
                     <Array>
                         <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
-                        <Item>Core.Form.js</Item>
                         <Item>Core.Agent.Admin.SystemConfiguration.js</Item>
                         <Item>Core.Agent.Admin.SystemConfigurationUser.js</Item>
                     </Array>
