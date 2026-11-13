@@ -142,9 +142,10 @@ sub Run {
         # run password change
         my $Success = $Object->Run(
             GetParam => {
-                CurPw  => [ $ParamObject->GetParam( Param => 'CurPw' ) ],
-                NewPw  => [ $ParamObject->GetParam( Param => 'NewPw' ) ],
-                NewPw1 => [ $ParamObject->GetParam( Param => 'NewPw1' ) ],
+                CurPw          => [ $ParamObject->GetParam( Param => 'CurPw' ) ],
+                NewPw          => [ $ParamObject->GetParam( Param => 'NewPw' ) ],
+                NewPw1         => [ $ParamObject->GetParam( Param => 'NewPw1' ) ],
+                TwoFactorToken => [ $ParamObject->GetParam( Param => 'TwoFactorToken' ) ],
             },
             UserData => \%UserData,
         );
@@ -198,6 +199,15 @@ sub _Screen {
         $LayoutObject->Block(
             Name => $Block,
             Data => { %Param, %{ $Config->{Password} } },
+        );
+    }
+
+    # The current password is verified via the auth backends, including the
+    # two factor auth backends. So the token field is needed when at least
+    # one two factor backend is configured for the current interface.
+    if ( $Self->_TwoFactorAuthEnabled() ) {
+        $LayoutObject->Block(
+            Name => 'TwoFactorToken',
         );
     }
 
@@ -275,6 +285,38 @@ sub _AuthModuleGet {
 
     $Module = $ConfigObject->Get( 'Customer::AuthModule' . $User{UserAuthBackend} ) || $Module;
     return $Module;
+}
+
+=head2 _TwoFactorAuthEnabled()
+
+Checks whether at least one two factor auth backend is configured for the current interface.
+
+    my $Enabled = $Self->_TwoFactorAuthEnabled();
+
+Returns:
+
+    my $Enabled = 1;    # or 0
+
+=cut
+
+sub _TwoFactorAuthEnabled {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $SettingName = 'Customer::AuthTwoFactorModule';
+    if ( $Self->_FrontendTypeGet() eq 'Agent' ) {
+        $SettingName = 'AuthTwoFactorModule';
+    }
+
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+        next COUNT if !$ConfigObject->Get( $SettingName . $Count );
+
+        return 1;
+    }
+
+    return 0;
 }
 
 =head2 _RedirectPasswordDialog()
