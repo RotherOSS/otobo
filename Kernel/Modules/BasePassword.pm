@@ -202,13 +202,21 @@ sub _Screen {
         );
     }
 
-    # The current password is verified via the auth backends, including the
-    # two factor auth backends. So the token field is needed when at least
-    # one two factor backend is configured for the current interface.
-    if ( $Self->_TwoFactorAuthEnabled() ) {
+    # set the TwoFactorModue setting name depending on the interface
+    my $AuthTwoFactorModule = $Self->_FrontendTypeGet() eq 'Agent'
+        ? 'AuthTwoFactorModule'
+        : 'Customer::AuthTwoFactorModule';
+
+    # show 2 factor password input if we have at least one backend enabled
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+        next COUNT if !$ConfigObject->Get( $AuthTwoFactorModule . $Count );
+
         $LayoutObject->Block(
             Name => 'TwoFactorToken',
         );
+
+        last COUNT;
     }
 
     # show sysconfig settings link if admin
@@ -285,38 +293,6 @@ sub _AuthModuleGet {
 
     $Module = $ConfigObject->Get( 'Customer::AuthModule' . $User{UserAuthBackend} ) || $Module;
     return $Module;
-}
-
-=head2 _TwoFactorAuthEnabled()
-
-Checks whether at least one two factor auth backend is configured for the current interface.
-
-    my $Enabled = $Self->_TwoFactorAuthEnabled();
-
-Returns:
-
-    my $Enabled = 1;    # or 0
-
-=cut
-
-sub _TwoFactorAuthEnabled {
-    my ( $Self, %Param ) = @_;
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $SettingName = 'Customer::AuthTwoFactorModule';
-    if ( $Self->_FrontendTypeGet() eq 'Agent' ) {
-        $SettingName = 'AuthTwoFactorModule';
-    }
-
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
-        next COUNT if !$ConfigObject->Get( $SettingName . $Count );
-
-        return 1;
-    }
-
-    return 0;
 }
 
 =head2 _RedirectPasswordDialog()
