@@ -154,6 +154,8 @@ The authentication function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
+    delete $Self->{SuccessfulAuthBackend};
+
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -266,6 +268,8 @@ sub Auth {
             Value  => $Count,
             UserID => $UserID,
         );
+
+        $Self->{SuccessfulAuthBackend} = $Self->{"AuthBackend$Count"};
 
         last COUNT;
     }
@@ -412,9 +416,10 @@ Call the PostAuth method of the AuthBackend
 sub PostAuth {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{AuthBackend}->can('PostAuth');
+    my $Backend = $Self->{SuccessfulAuthBackend} || $Self->{AuthBackend};
+    return if !$Backend->can('PostAuth');
 
-    return $Self->{AuthBackend}->PostAuth(%Param);
+    return $Backend->PostAuth(%Param);
 }
 
 =head2 Logout()

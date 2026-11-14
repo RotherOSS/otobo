@@ -21,6 +21,8 @@ use warnings;
 # core modules
 
 # CPAN modules
+use URI;
+use URI::QueryParam;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -135,6 +137,8 @@ sub BuildRedirectURL {
         RandTTL               => $Param{AuthRequest}->{$RandTTL} // $RandTTL,
         RedirectURL           => $Param{ClientSettings}{RedirectURI},
         State                 => $Param{AuthRequest}->{State},
+        CodeChallenge         => $Param{CodeChallenge},
+        CodeChallengeMethod   => 'S256',
     );
 
     return $AuthURL;
@@ -184,6 +188,7 @@ sub RequestIDToken {
         ClientSecret  => $Param{ClientSettings}->{ClientSecret},
         GrantType     => 'authorization_code',
         Code          => $Param{AuthorizationCode},
+        CodeVerifier  => $Param{CodeVerifier},
         RedirectURL   => $Param{ClientSettings}{RedirectURI},
         SSLOptions    => $Param{ProviderSettings}{SSLOptions},
     );
@@ -233,6 +238,8 @@ sub ValidateIDToken {
         },
         ExpectedAudience => $Param{ClientSettings}{ClientID},
         AuthorizedParty  => $Param{ClientSettings}{ClientID},
+        UseNonce         => $Param{UseNonce},
+        Leeway           => $Param{Leeway},
     );
 
     if ( !$Result->{Success} ) {
@@ -252,6 +259,9 @@ Return the logout url of the OpenID provider
 
     my $RedirectURL = $OpenIDConnectObject->GetLogoutURL(
         ProviderSettings => $OpenIDConfig->{ProviderSettings},
+        ClientSettings   => $OpenIDConfig->{ClientSettings}, # optional: ClientID and PostLogoutRedirectURI
+        IDTokenHint      => $SessionData{OIDCSession}{IDToken}, # optional: previously validated ID token
+        IDTokenIssuer    => $SessionData{OIDCSession}{Issuer}, # required with IDTokenHint
     );
 
 =cut
@@ -277,7 +287,33 @@ sub GetLogoutURL {
         },
     );
 
-    return $OpenIDProviderData->{OpenIDConfiguration}{end_session_endpoint};
+    my $LogoutURL = $OpenIDProviderData->{OpenIDConfiguration}{end_session_endpoint};
+    return if !IsStringWithData($LogoutURL);
+
+    my %Query;
+    if ( IsStringWithData( $Param{IDTokenHint} ) ) {
+
+        # Never send a retained token to a different provider after a configuration change.
+        return if !IsStringWithData( $Param{IDTokenIssuer} )
+            || $Param{IDTokenIssuer} ne ( $OpenIDProviderData->{OpenIDConfiguration}{issuer} // '' );
+        $Query{id_token_hint} = $Param{IDTokenHint};
+    }
+
+    my $ClientSettings = $Param{ClientSettings} // {};
+    if ( IsStringWithData( $ClientSettings->{PostLogoutRedirectURI} ) ) {
+        return if !IsStringWithData( $ClientSettings->{ClientID} );
+        $Query{client_id}                = $ClientSettings->{ClientID};
+        $Query{post_logout_redirect_uri} = $ClientSettings->{PostLogoutRedirectURI};
+    }
+
+    return $LogoutURL if !%Query;
+
+    my $URL = URI->new($LogoutURL);
+    for my $Key ( sort keys %Query ) {
+        $URL->query_param( $Key => $Query{$Key} );
+    }
+
+    return $URL->as_string;
 }
 
 1;
