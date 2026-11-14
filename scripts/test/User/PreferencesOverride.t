@@ -61,6 +61,7 @@ for my $Key ( sort keys %UserData ) {
     next KEY if $Key =~ m/RefreshTime$/smx;
     next KEY if $Key =~ m/MarkTicketSeenRedirectURL$/smx;
     next KEY if $Key =~ m/MarkTicketUnseenRedirectURL$/smx;
+    next KEY if $Key eq 'UserAllowLocalPasswordLogin';
 
     # These are actually user preferences.
     next KEY if $Key =~ m/UserEmail$/smx;

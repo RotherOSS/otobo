@@ -618,6 +618,11 @@ sub LoadDefaults {
 #    };
     # Set the token claim to be used as identifier
 #    $Self->{'AuthModule::OpenIDConnect::UID'} = 'sub';
+    # Optionally match an existing active user by an exact, unique preference value.
+    # Keep this preference admin-managed and populated from a trusted identifier.
+    # UserMap cannot create an account or change its UserLogin in this mode.
+    # When unset, the UID claim continues to identify UserLogin.
+#    $Self->{'AuthModule::OpenIDConnect::UserLookupPreference'} = 'UserLDAPUUID';
     # Some optional additional settings
 #    $Self->{'AuthModule::OpenIDConnect::Config'}{Misc} = {
 #        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)

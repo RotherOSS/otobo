@@ -3702,6 +3702,31 @@ You can log in via the following URL:
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="PreferencesGroups###LocalPasswordLogin" Required="0" Valid="1">
+        <Description Translatable="1">Allows administrators to control authentication with an agent's local OTOBO password. Existing accounts allow local password login by default. External authentication and existing sessions are not affected.</Description>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
+                <Item Key="Label" Translatable="1">Local password login</Item>
+                <Item Key="Desc" Translatable="1">Allow this agent to log in with the password stored in OTOBO. Make sure an alternative authentication method works before disabling local password login.</Item>
+                <Item Key="Key" Translatable="1">Allow local password login</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0" Translatable="1">No</Item>
+                        <Item Key="1" Translatable="1">Yes</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">1</Item>
+                <Item Key="PrefKey">UserAllowLocalPasswordLogin</Item>
+                <Item Key="ValidateRegex">\A[01]\z</Item>
+                <Item Key="ValidateRegexMessage" Translatable="1">Select whether local password login is allowed.</Item>
+                <Item Key="Prio">0550</Item>
+                <Item Key="Active">0</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="PreferencesGroups###GoogleAuthenticatorSecretKey" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
