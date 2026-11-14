@@ -36,6 +36,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::User',
     'Kernel::System::Valid',
 );
 our @SoftObjectDependencies = (
@@ -288,6 +289,21 @@ sub Auth {
 
     # login note
     elsif ( $GetPw && $User && $UserID && $CryptedPw eq $GetPw ) {
+        my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
+        my $LocalUserID = $UserObject->UserLookup(
+            UserLogin => $User,
+            Silent    => 1,
+        );
+
+        # Auth sync may create the local user only after this backend succeeds.
+        if ($LocalUserID) {
+            my %Preferences = $UserObject->GetPreferences(
+                UserID => $LocalUserID,
+            );
+            return if defined $Preferences{UserAllowLocalPasswordLogin}
+                && $Preferences{UserAllowLocalPasswordLogin} eq '0';
+        }
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
