@@ -162,16 +162,14 @@ sub MinifyFiles {
         $Filename = $TargetFilenamePrefix . $Param{Checksum};
     }
     else {
-        my $FileString;
+        my $FileString = '';
 
         if ( $Param{List} ) {
             LOCATION:
-            for my $Location ( @{$List} ) {
+            for my $Location ( $List->@* ) {
                 next LOCATION unless -e $Location;
 
-                my $FileMTime = $MainObject->FileGetMTime(
-                    Location => $Location
-                );
+                my $FileMTime = ( stat _ )[9];    # modified time of the last stat
 
                 # For the caching, use both filename and mtime to make sure that
                 #   caches are correctly regenerated on changes.
@@ -328,6 +326,7 @@ sub GetMinifiedFile {
             Priority => 'error',
             Message  => 'Need Location!',
         );
+
         return;
     }
 
@@ -341,14 +340,11 @@ sub GetMinifiedFile {
             Priority => 'error',
             Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
+
         return;
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    my $FileMTime = $MainObject->FileGetMTime(
-        Location => $Location,
-    );
+    my $FileMTime = ( stat $Location )[9];    # modified time
 
     # For the caching, use both filename and mtime to make sure that
     #   caches are correctly regenerated on changes.
@@ -363,6 +359,7 @@ sub GetMinifiedFile {
     return $CacheContent->$* if ref $CacheContent eq 'SCALAR';
 
     # no cache available, read and minify file
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $FileContents = $MainObject->FileRead(
         Location => $Location,
 

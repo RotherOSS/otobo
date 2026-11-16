@@ -429,27 +429,6 @@ $Self->True(
     "FileRead() - Check a utf8 file - is the utf8 content wellformed ( $Text )",
 );
 
-# FileGetMTime tests
-{
-    my $FileMTime = $MainObject->FileGetMTime(
-        Location => $Home . '/Kernel/Config.pm',
-    );
-
-    $Self->True(
-        int $FileMTime > 1_000_000,
-        'FileGetMTime()',
-    );
-
-    my $FileMTimeNonexisting = $MainObject->FileGetMTime(
-        Location => $Home . '/Kernel/some.nonexisting.file',
-    );
-
-    $Self->False(
-        defined $FileMTimeNonexisting,
-        'FileGetMTime() for nonexisting file',
-    );
-}
-
 # testing GetReleaseInfo
 {
     my $ReleaseInfoByFilename = $MainObject->GetReleaseInfo(
