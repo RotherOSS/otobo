@@ -23,6 +23,7 @@ use warnings;
 # core modules
 
 # CPAN modules
+use List::AllUtils qw(any);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -37,10 +38,9 @@ Kernel::System::Ticket::TicketACL - ticket ACL lib
 
 All ticket ACL functions.
 
-
 =head2 TicketAcl()
 
-Restricts the Data parameter sent to a subset of it, depending on a group of user defied rules
+Restricts the Data parameter sent to a subset of it, depending on a group of user defined rules
 called ACLs. The reduced subset can be access from TicketACLData() if ReturnType parameter is set
 to: Ticket, Process or ActivityDialog, or in TicketACLActionData(), if ReturnType Action is used.
 
@@ -118,7 +118,7 @@ Example to restrict ticket actions:
 
 or to restrict ticket states:
 
-    $Success = $TicketObject->TicketAcl(
+    my $Success = $TicketObject->TicketAcl(
         Data => {
             1 => 'new',
             2 => 'open',
@@ -130,21 +130,27 @@ or to restrict ticket states:
     );
 
 returns:
+
     $Success = 1,                                     # if an ACL matches, or false otherwise.
 
 If ACL modules are configured in the C<Ticket::Acl::Module> config key, they are invoked
 during the call to C<TicketAcl>. The configuration of a module looks like this:
 
      $ConfigObject->{'Ticket::Acl::Module'}->{'TheName'} = {
-         Module => 'Kernel::System::Ticket::Acl::TheAclModule',
-         Checks => ['Owner', 'Queue', 'SLA', 'Ticket'],
-         ReturnType => 'Ticket',
+         Module        => 'Kernel::System::Ticket::Acl::TheAclModule',
+         Checks        => ['Owner', 'Queue', 'SLA', 'Ticket'],
+         ReturnType    => 'Ticket',
          ReturnSubType => ['State', 'Service'],
+
+         # ReturnSubType may also be a string
+         #ReturnSubType => 'Service',
      };
 
 Each time the C<ReturnType> and one of the C<ReturnSubType> entries is identical to the same
 arguments passed to C<TicketAcl>, the module of the name in C<Module> is loaded, the C<new> method
 is called on it, and then the C<Run> method is called.
+When C<ReturnType> or C<ReturnSubType> is not set in the ACL module config then the relevant
+check is assumed to be true.
 
 The C<Checks> array reference in the configuration controls what arguments are passed. to the
 C<Run> method.
@@ -170,6 +176,7 @@ sub TicketAcl {
             Priority => 'error',
             Message  => 'Need UserID or CustomerUserID!',
         );
+
         return;
     }
 
@@ -207,10 +214,12 @@ sub TicketAcl {
     for my $ModuleName ( sort keys %{ $AclModules // {} } ) {
         my $Module = $AclModules->{$ModuleName};
 
-        if ( $Module->{ReturnType} && $Module->{ReturnType} ne $Param{ReturnType} ) {
-            next MODULENAME;
+        # filtering by ReturnType is optional
+        if ( $Module->{ReturnType} ) {
+            next MODULENAME unless $Module->{ReturnType} eq $Param{ReturnType};
         }
 
+        # filtering by ReturnSubType is optional
         if ( $Module->{ReturnSubType} ) {
 
             # TODO: this looks broken. $Module->{ReturnSubType} is a hashref, yet the value is derefenced as an array
