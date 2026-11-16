@@ -222,10 +222,9 @@ sub TicketAcl {
         # filtering by ReturnSubType is optional
         if ( $Module->{ReturnSubType} ) {
 
-            # TODO: this looks broken. $Module->{ReturnSubType} is a hashref, yet the value is derefenced as an array
-            if ( ref( $Module->{ReturnSubType} ) eq 'HASH' ) {
-                next MODULENAME if !grep { $Param{ReturnSubType} eq $_ }
-                    @{ $Module->{ReturnSubType} };
+            # $Module->{ReturnSubType} can be a reference to an array of strings or a string.
+            if ( ref $Module->{ReturnSubType} eq 'ARRAY' ) {
+                next MODULENAME unless any { $Param{ReturnSubType} eq $_ } $Module->{ReturnSubType}->@*;
             }
             else {
 
