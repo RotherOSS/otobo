@@ -19,6 +19,11 @@ package Kernel::Modules::AgentTicketBulk;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -27,11 +32,7 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -1077,18 +1078,16 @@ sub Run {
                         TicketNumber => $GetParam{'LinkTogetherParent'},
                     );
 
-                    for my $TicketIDPartner (@TicketIDs) {
-                        if ( $MainTicketID ne $TicketID ) {
-                            $LinkObject->LinkAdd(
-                                SourceObject => 'Ticket',
-                                SourceKey    => $MainTicketID,
-                                TargetObject => 'Ticket',
-                                TargetKey    => $TicketID,
-                                Type         => 'ParentChild',
-                                State        => 'Valid',
-                                UserID       => $Self->{UserID},
-                            );
-                        }
+                    if ( $MainTicketID ne $TicketID ) {
+                        $LinkObject->LinkAdd(
+                            SourceObject => 'Ticket',
+                            SourceKey    => $MainTicketID,
+                            TargetObject => 'Ticket',
+                            TargetKey    => $TicketID,
+                            Type         => 'ParentChild',
+                            State        => 'Valid',
+                            UserID       => $Self->{UserID},
+                        );
                     }
                 }
 

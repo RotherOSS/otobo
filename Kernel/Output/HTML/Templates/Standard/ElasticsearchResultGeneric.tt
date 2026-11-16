@@ -74,7 +74,7 @@
 [% RenderBlockEnd("ElasticSearchResultGenericCustomerCompanyName") %]
 [% RenderBlockStart("ElasticSearchResultGenericCustomerUserLogin") %]
                 <td>
-                    <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserLogin | uri %]" title="[% Data.UserLogin | html %]" class="MasterActionLink">[% Data.UserLogin | html %]&nbsp;</a>
+                    <a href="[% Env("Baselink") %]Action=AgentCustomerUserInformationCenter;CustomerUserID=[% Data.UserLogin | uri %]" title="[% Data.UserLogin | html %]" class="MasterActionLink">[% Data.UserLogin | html %]&nbsp;</a>
                 </td>
 [% RenderBlockEnd("ElasticSearchResultGenericCustomerUserLogin") %]
 [% RenderBlockStart("ElasticSearchResultGenericConfigItem") %]

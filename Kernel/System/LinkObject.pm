@@ -328,9 +328,9 @@ sub PossibleLinkList {
 
 =head2 LinkAdd()
 
-add a new link between two elements
+adds a new link between two elements.
 
-    $True = $LinkObject->LinkAdd(
+    my $Success = $LinkObject->LinkAdd(
         SourceObject => 'Ticket',
         SourceKey    => '321',
         TargetObject => 'FAQ',
@@ -417,7 +417,7 @@ sub LinkAdd {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # check if link already exists in database
+    # check if link already exists in database, both directions are checked
     return unless $DBObject->Prepare(
         SQL => '
             SELECT source_object_id, source_key, state_id
@@ -619,7 +619,7 @@ sub LinkAdd {
 
 =head2 LinkCleanup()
 
-deletes old links from database
+deletes old links from the database.
 
     $True = $LinkObject->LinkCleanup(
         State  => 'Temporary',
@@ -678,9 +678,9 @@ sub LinkCleanup {
 
 =head2 LinkDelete()
 
-deletes a link
+deletes a link.
 
-    $True = $LinkObject->LinkDelete(
+    my $Success = $LinkObject->LinkDelete(
         Object1 => 'Ticket',
         Key1    => '321',
         Object2 => 'FAQ',
@@ -903,9 +903,9 @@ sub LinkDelete {
 
 =head2 LinkDeleteAll()
 
-delete all links of an object
+deletes all links of an object.
 
-    $True = $LinkObject->LinkDeleteAll(
+    my $Success = $LinkObject->LinkDeleteAll(
         Object => 'Ticket',
         Key    => '321',
         UserID => 1,
@@ -982,7 +982,7 @@ sub LinkDeleteAll {
 
 =head2 LinkList()
 
-get all existing links for a given object
+gets all existing links for a given object.
 
     my $LinkList = $LinkObject->LinkList(
         Object    => 'Ticket',
@@ -1167,7 +1167,7 @@ sub LinkList {
 
 =head2 LinkListWithData()
 
-get all existing links for a given object with data of the other objects
+gets all existing links for a given object with data of the other objects.
 
     my $LinkList = $LinkObject->LinkListWithData(
         Object                          => 'Ticket',
@@ -1313,7 +1313,7 @@ sub LinkListWithData {
 
 =head2 LinkKeyList()
 
-return a hash with links to and from a given object. The type of the linked object
+returns a hash with links to and from a given object. The type of the linked object
 must be specified. The other restrictions are optional.
 
     my %LinkKeyList = $LinkObject->LinkKeyList(
@@ -1389,7 +1389,7 @@ sub LinkKeyList {
 
 =head2 LinkKeyListWithData()
 
-return a hash with all existing links of a given object
+returns a hash with all existing links of a given object.
 
     my %LinkKeyList = $LinkObject->LinkKeyListWithData(
         Object1   => 'Ticket',
@@ -1464,7 +1464,7 @@ sub LinkKeyListWithData {
 
 =head2 ObjectLookup()
 
-look up a link object per name or ID.
+looks up a link object per name or ID.
 
 An ID is generated when ObjectLookup() is called the first time with that name.
 
@@ -1618,7 +1618,7 @@ sub ObjectLookup {
 
 =head2 TypeLookup()
 
-look up either a link type id or a link type name.
+looks up either a link type id or a link type name.
 
 A passed in name is checked whether it is UTF-8 valid and leading and trailing
 white space is trimmed. A new id is created when a name is looked up
@@ -1795,7 +1795,7 @@ sub TypeLookup {
 
 =head2 TypeGet()
 
-get data about a link type from the link type id
+gets data about a link type from the link type id.
 
     my %TypeData = $LinkObject->TypeGet(
         TypeID => 444,
@@ -1918,7 +1918,7 @@ sub TypeGet {
 
 =head2 TypeList()
 
-return a 2 dimensional hash list of all valid link types
+returns a 2 dimensional hash list of all valid link types.
 
     my %TypeList = $LinkObject->TypeList;
 
@@ -1979,7 +1979,7 @@ sub TypeList {
 
 =head2 TypeGroupList()
 
-return a 2 dimensional hash list of all type groups
+returns a 2 dimensional hash list of all type groups.
 
     my %TypeGroupList = $LinkObject->TypeGroupList();
 
@@ -2077,9 +2077,9 @@ sub TypeGroupList {
 
 =head2 PossibleType()
 
-return true if both types are NOT together in a type group
+returns true if both types are NOT together in a type group.
 
-    my $True = $LinkObject->PossibleType(
+    my $IsPossible = $LinkObject->PossibleType(
         Type1 => 'Normal',
         Type2 => 'ParentChild',
     );
@@ -2119,15 +2119,15 @@ sub PossibleType {
 
 =head2 StateLookup()
 
-look up a link state
+looks up a link state.
 
-    $StateID = $LinkObject->StateLookup(
+    my $StateID = $LinkObject->StateLookup(
         Name => 'Valid',
     );
 
 or
 
-    $Name = $LinkObject->StateLookup(
+    my $Name = $LinkObject->StateLookup(
         StateID => 56,
     );
 
@@ -2250,7 +2250,7 @@ sub StateLookup {
 
 =head2 StateList()
 
-return a hash list of all valid link states
+returns a hash list of all valid link states.
 
     my %StateList = $LinkObject->StateList(
         Valid => 0,   # (optional) default 1 (0|1)
@@ -2340,7 +2340,7 @@ sub ObjectPermission {
 
 =head2 ObjectDescriptionGet()
 
-return a hash of object descriptions
+returns a hash of object descriptions.
 
     my %Description = $LinkObject->ObjectDescriptionGet(
         Object  => 'Ticket',
@@ -2387,9 +2387,9 @@ sub ObjectDescriptionGet {
 
 =head2 ObjectSearch()
 
-return a hash reference of the search results.
+returns a hash reference of the search results.
 
-    $ObjectList = $LinkObject->ObjectSearch(
+    my $ObjectList = $LinkObject->ObjectSearch(
         Object       => 'ITSMConfigItem',
         SubObject    => 'Computer'         # (optional)
         SearchParams => $HashRef,          # (optional)
