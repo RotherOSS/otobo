@@ -27,7 +27,6 @@ use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN,
 use Digest::MD5  qw(md5_hex);
 use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
 use File::Path   qw(mkpath);
-use File::stat   qw(stat);
 use List::Util   qw(first);
 use Fcntl        qw(:flock);    ## no perlimports
 use Encode       qw(encode);
@@ -728,76 +727,6 @@ sub FileDelete {
     }
 
     return 1;
-}
-
-=head2 FileGetMTime()
-
-get epoch of file change time
-
-    # specify either Directory and Filename
-    my $FileMTime = $MainObject->FileGetMTime(
-        Directory => '/some/location',
-        Filename  => 'me_to/alal.xml',
-    );
-
-    # or Location
-    my $FileMTime = $MainObject->FileGetMTime(
-        Location  => '/some/location/me_to/alal.xml'
-    );
-
-=cut
-
-sub FileGetMTime {
-    my ( $Self, %Param ) = @_;
-
-    if ( $Param{Filename} && $Param{Directory} ) {
-
-        # filename clean up
-        $Param{Filename} = $Self->FilenameCleanUp(
-            Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
-        );
-        $Param{Location} = "$Param{Directory}/$Param{Filename}";
-    }
-    elsif ( $Param{Location} ) {
-
-        # filename clean up
-        $Param{Location} =~ s{//}{/}xmsg;
-    }
-    else {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Filename and Directory or Location!',
-        );
-    }
-
-    # get file metadata
-    my $Stat = stat $Param{Location};
-
-    if ( !$Stat ) {
-        my $Error = $!;
-
-        if ( !$Param{DisableWarnings} ) {
-
-            # Check if file exists only if system was not able to open it (to get better error message).
-            if ( !-e $Param{Location} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "File '$Param{Location}' doesn't exist!"
-                );
-            }
-            else {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Cannot stat file '$Param{Location}': $Error",
-                );
-            }
-        }
-
-        return;
-    }
-
-    return $Stat->mtime;
 }
 
 =head2 GetReleaseInfo()
