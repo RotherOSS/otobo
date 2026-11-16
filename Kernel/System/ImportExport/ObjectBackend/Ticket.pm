@@ -2223,7 +2223,7 @@ sub _ImportArticle {
     if ( $ChannelName eq 'Email' && !$Article{MessageID} ) {
         my $Time   = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         my $Random = rand 999999;
-        my $FQDN   = $ConfigObject->Get('FQDN');
+        my $FQDN   = $ConfigObject->Get('MessageIDDomain') || $ConfigObject->Get('FQDN');
         $Article{MessageID} = "<$Time.$Random\@$FQDN>";
     }
 
