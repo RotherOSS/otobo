@@ -1274,12 +1274,14 @@ sub CustomerUserDataGet {
 
     # build the UserMailString, e.g q{"Troy Andrews Cold Room \"The Fridge\"    🥶" <unittest@example.org>}
     {
+        # It can be configured which fields make up UserMailString
         my $Fields = $Self->{CustomerUserMap}->{CustomerUserListFields};
         if ( !IsArrayRefWithData($Fields) ) {
             $Fields = [ 'first_name', 'last_name', 'email', ];
         }
 
         # Get the keys of the %Data hash that correspond to the table attributes
+        # Index 0 is 'var', Index 2 is 'storage'
         my @CustomerUserListFields;
         for my $Field ( $Fields->@* ) {
             my @FieldNames = map { $_->[0] } grep { $_->[2] eq $Field } @{ $Self->{CustomerUserMap}->{Map} };

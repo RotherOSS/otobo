@@ -865,10 +865,13 @@ sub CustomerUserDataGet {
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next SOURCE if !$Self->{"CustomerUser$Count"};
+        # only consider configured backends
+        next SOURCE unless $Self->{"CustomerUser$Count"};
 
         my %Customer = $Self->{"CustomerUser$Count"}->CustomerUserDataGet(%Param);
-        next SOURCE if !%Customer;
+
+        # try next backend when no customer user was found
+        next SOURCE unless %Customer;
 
         # generate the full name and save it in the hash
         $Customer{UserFullname} = $Self->CustomerName(%Customer);
@@ -905,8 +908,8 @@ sub CustomerUserDataGet {
         if ( IsArrayRefWithData( $Self->{"CustomerUser$Count"}->{CustomerUserMap}->{Map} ) ) {
             CUSTOMERUSERFIELD:
             for my $CustomerUserField ( @{ $Self->{"CustomerUser$Count"}->{CustomerUserMap}->{Map} } ) {
-                next CUSTOMERUSERFIELD if $CustomerUserField->[5] ne 'dynamic_field';
-                next CUSTOMERUSERFIELD if !$DynamicFieldLookup{ $CustomerUserField->[2] };
+                next CUSTOMERUSERFIELD unless $CustomerUserField->[5] eq 'dynamic_field';        # index 5 is 'storage-type'
+                next CUSTOMERUSERFIELD unless $DynamicFieldLookup{ $CustomerUserField->[2] };    # index 2 is 'storage'
 
                 my $Value = $DynamicFieldBackendObject->ValueGet(
                     DynamicFieldConfig => $DynamicFieldLookup{ $CustomerUserField->[2] },
@@ -927,6 +930,7 @@ sub CustomerUserDataGet {
         );
     }
 
+    # no customer user found
     return;
 }
 
