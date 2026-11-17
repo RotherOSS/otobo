@@ -1482,15 +1482,15 @@ sub CustomerUserDataGet {
             $Fields = [ 'first_name', 'last_name', 'email', ];
         }
 
+        # Collect the values, keeping the empty values. Note that keeping
+        # an empty address diverges from the behavior in rel-11_0.
         my @Values;
-        FIELD:
         for my $Field ( $Fields->@* ) {
 
             # _ConvertFrom() is usually a no-op
             my $Value = $Self->_ConvertFrom( $Result2->get_value($Field) ) || '';
 
-            # it is not obvious why q{0} is not a valid value
-            next FIELD unless $Value;
+            $Value //= '';
 
             if ( $Field =~ /^targetaddress$/i ) {
                 $Value =~ s/SMTP:(.*)/$1/;
@@ -1501,16 +1501,25 @@ sub CustomerUserDataGet {
 
         if (@Values) {
 
-            # Format compliant to RFC 5322. This is relevant when the real name
-            # contain commas, double quotes, or other special symbols.
-            #
             # It is expected that the last part is the address.
-            my $Address = pop @Values;
-            my $Phrase  = join ' ', @Values;
-            $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                RealName => $Phrase,
-                Address  => $Address,
-            );
+            # Check whether this is a valid address.
+            my $BareAddress   = pop @Values;
+            my $AddressObject = Email::Address::XS->parse_bare_address($BareAddress);
+            if ( $AddressObject->is_valid ) {
+
+                # Format compliant to RFC 5322. This is relevant when the real name
+                # contain commas, double quotes, or other special symbols.
+                my $Phrase = join ' ', @Values;
+                $AddressObject->phrase($Phrase);
+                $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                    AddressObject => $AddressObject
+                );
+            }
+            else {
+
+                # fall back to the space separated values
+                $Data{UserMailString} = join ' ', @Values, $BareAddress;
+            }
         }
         else {
             $Data{UserMailString} = '';
