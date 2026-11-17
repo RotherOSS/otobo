@@ -135,8 +135,8 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
     my $UpdateSuccess1 = $CustomerUserObject->CustomerUserUpdate(
         Source         => 'CustomerUser',
         ID             => $UserRand,
-        UserFirstname  => 'Firstname Test Update' . $Key,
-        UserLastname   => 'Lastname Test Update' . $Key,
+        UserFirstname  => 'Firstname Test U p  d   ate ' . $Key,
+        UserLastname   => 'Lastname Test U p  d   ate ' . $Key,
         UserCustomerID => $UserRand . '-Customer-Update-Id',
         UserLogin      => $UserRand,
         UserEmail      => $UserRand . '-UpdateInvalidEmail@',
@@ -153,12 +153,12 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
 
         is(
             $User{UserFirstname},
-            "Firstname Test Update$Key",
+            "Firstname Test U p  d   ate $Key",
             "CustomerUserGet$Key() - UserFirstname",
         );
         is(
             $User{UserLastname},
-            "Lastname Test Update$Key",
+            "Lastname Test U p  d   ate $Key",
             "CustomerUserGet$Key() - UserLastname",
         );
         is(
@@ -173,7 +173,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
         );
         is(
             $User{UserMailString},
-            qq{Firstname Test Update$Key Lastname Test Update$Key $UserRand-UpdateInvalidEmail\@},
+            qq{Firstname Test U p  d   ate $Key Lastname Test U p  d   ate $Key $UserRand-UpdateInvalidEmail\@},
             'UserMailString',
         );
         is(
