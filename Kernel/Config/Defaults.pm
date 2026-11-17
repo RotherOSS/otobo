@@ -1772,7 +1772,8 @@ via the Preferences button after logging in.
         CustomerID    => 'customer_id',
         CustomerValid => 'valid_id',
 
-        # The last field must always be the email address so that a valid
+        # The values for these storage keys make up the attribute 'UserMailString'.
+        # The last field must always be the bare email address so that a valid
         #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
         CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
 
@@ -1898,7 +1899,9 @@ via the Preferences button after logging in.
 #        # customer #
 #        CustomerID => 'mail',
 #
-#        # The last field must always be the email address so that a valid
+#        # The values for these storage keys make up the attribute 'UserMailString'.
+#        # The last field must always be the bare email address so that a valid
+#        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        CustomerUserListFields => ['cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
