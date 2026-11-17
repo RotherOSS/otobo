@@ -27,6 +27,7 @@ use Digest::SHA ();
 
 # CPAN modules
 use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
+use Email::Address::XS 1.04 ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -1284,31 +1285,37 @@ sub CustomerUserDataGet {
         # Index 0 is 'var', Index 2 is 'storage'
         my @CustomerUserListFields;
         for my $Field ( $Fields->@* ) {
-            my @FieldNames = map { $_->[0] } grep { $_->[2] eq $Field } @{ $Self->{CustomerUserMap}->{Map} };
-            push @CustomerUserListFields, $FieldNames[0];
+            my ($FieldName) = map { $_->[0] } grep { $_->[2] eq $Field } $Self->{CustomerUserMap}->{Map}->@*;
+            if ($FieldName) {
+                push @CustomerUserListFields, $FieldName;
+            }
         }
 
-        my @Values;
-
-        FIELD:
-        for my $Field (@CustomerUserListFields) {
-            next FIELD unless $Data{$Field};
-
-            push @Values, $Data{$Field};
-        }
+        # Collect the values, keeping the empty values. Note that keeping
+        # an empty address diverges from the behavior in rel-11_0.
+        my @Values = map { $Data{$_} // '' } @CustomerUserListFields;
 
         if (@Values) {
 
-            # Format compliant to RFC 5322. This is relevant when the real name
-            # contain commas, double quotes, or other special symbols.
-            #
             # It is expected that the last part is the address.
-            my $Address = pop @Values;
-            my $Phrase  = join ' ', @Values;
-            $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                RealName => $Phrase,
-                Address  => $Address,
-            );
+            # Check whether this is a valid address.
+            my $BareAddress   = pop @Values;
+            my $AddressObject = Email::Address::XS->parse_bare_address($BareAddress);
+            if ( $AddressObject->is_valid ) {
+
+                # Format compliant to RFC 5322. This is relevant when the real name
+                # contain commas, double quotes, or other special symbols.
+                my $Phrase = join ' ', @Values;
+                $AddressObject->phrase($Phrase);
+                $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                    AddressObject => $AddressObject
+                );
+            }
+            else {
+
+                # fall back to the space separated values
+                $Data{UserMailString} = join ' ', @Values, $BareAddress;
+            }
         }
         else {
             $Data{UserMailString} = '';
