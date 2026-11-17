@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-10-21 13:49+0000\n"
-"PO-Revision-Date: 2026-07-21 16:45+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2026-11-18 07:00+0000\n"
+"Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
 "de/>\n"
 "Language: de\n"
@@ -63,7 +63,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16\n"
+"X-Generator: Weblate 2026.9\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -21991,7 +21991,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
-msgstr "Erlaubt Agenten eine individuelle Statistik zu generieren."
+msgstr "Erlaubt Agenten eine personenbezogene Statistik zu generieren."
 
 #. SysConfig
 msgid ""
