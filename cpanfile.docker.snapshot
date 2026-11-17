@@ -361,12 +361,13 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  Convert-ASN1-0.34
-    pathname: T/TI/TIMLEGGE/Convert-ASN1-0.34.tar.gz
+  Convert-ASN1-0.36
+    pathname: T/TI/TIMLEGGE/Convert-ASN1-0.36.tar.gz
     provides:
-      Convert::ASN1 0.34
+      Convert::ASN1 0.36
     requirements:
       ExtUtils::MakeMaker 0
+      Time::Local 1.27
   Convert-BinHex-1.125
     pathname: S/ST/STEPHEN/Convert-BinHex-1.125.tar.gz
     provides:
@@ -391,21 +392,21 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  Cookie-Baker-0.12
-    pathname: K/KA/KAZEBURO/Cookie-Baker-0.12.tar.gz
+  Cookie-Baker-0.14
+    pathname: K/KA/KAZEBURO/Cookie-Baker-0.14.tar.gz
     provides:
-      Cookie::Baker 0.12
+      Cookie::Baker 0.14
     requirements:
       Exporter 0
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.80
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.80.tar.gz
+  Cpanel-JSON-XS-4.82
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.82.tar.gz
     provides:
-      Cpanel::JSON::XS 4.80
-      Cpanel::JSON::XS::Boolean 4.80
-      Cpanel::JSON::XS::Type 4.80
+      Cpanel::JSON::XS 4.82
+      Cpanel::JSON::XS::Boolean 4.82
+      Cpanel::JSON::XS::Type 4.82
     requirements:
       Carp 0
       Config 0
@@ -1501,11 +1502,11 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  Gazelle-0.50
-    pathname: K/KA/KAZEBURO/Gazelle-0.50.tar.gz
+  Gazelle-0.51
+    pathname: K/KA/KAZEBURO/Gazelle-0.51.tar.gz
     provides:
-      Gazelle 0.50
-      Plack::Handler::Gazelle 0.50
+      Gazelle 0.51
+      Plack::Handler::Gazelle 0.51
     requirements:
       ExtUtils::CBuilder 0
       Guard 0
@@ -1827,10 +1828,10 @@ DISTRIBUTIONS
       JSON::PP 2.27300
       Scalar::Util 0
       perl 5.006
-  JSON-XS-4.04
-    pathname: M/ML/MLEHMANN/JSON-XS-4.04.tar.gz
+  JSON-XS-4.05
+    pathname: M/ML/MLEHMANN/JSON-XS-4.05.tar.gz
     provides:
-      JSON::XS 4.04
+      JSON::XS 4.05
     requirements:
       Canary::Stability 0
       ExtUtils::MakeMaker 6.52
@@ -2390,7 +2391,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2532,8 +2532,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.53
-    pathname: S/SR/SRI/Mojolicious-9.53.tar.gz
+  Mojolicious-9.54
+    pathname: S/SR/SRI/Mojolicious-9.54.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2603,7 +2603,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.53
+      Mojolicious 9.54
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -4494,6 +4494,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
