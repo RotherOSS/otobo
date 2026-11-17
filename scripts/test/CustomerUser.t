@@ -115,6 +115,11 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
             "UserEmail",
         );
         is(
+            $User{UserMailString},
+            qq{"Firstname Test$Key Lastname Test$Key" <$UserRand-Email\@example.com>},
+            'UserMailString',
+        );
+        is(
             $User{UserCustomerID},
             $UserRand . '-Customer-Id',
             "UserCustomerID",
@@ -167,6 +172,11 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
             "CustomerUserGet$Key() - UserEmail",
         );
         is(
+            $User{UserMailString},
+            qq{},
+            'UserMailString',
+        );
+        is(
             $User{UserCustomerID},
             $UserRand . '-Customer-Update-Id',
             "CustomerUserGet$Key() - UserCustomerID",
@@ -217,6 +227,11 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
             $User{UserEmail},
             $UserRand . '-Update@example.com',
             "CustomerUserGet$Key() - UserEmail",
+        );
+        is(
+            $User{UserMailString},
+            qq{"Firstname Test Update$Key Lastname Test Update$Key" <$UserRand-Update\@example.com>},
+            'UserMailString',
         );
         is(
             $User{UserCustomerID},
