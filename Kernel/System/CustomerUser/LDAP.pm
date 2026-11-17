@@ -54,7 +54,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # max shown user a search list
+    # max shown user per search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 200;
 
     # get ldap preferences
@@ -1476,6 +1476,7 @@ sub CustomerUserDataGet {
 
     # build the UserMailString, e.g q{"Troy Andrews Cold Room \"The Fridge\"    🥶" <unittest@example.org>}
     {
+        # It can be configured which fields make up UserMailString
         my $Fields = $Self->{CustomerUserMap}->{CustomerUserListFields};
         if ( !IsArrayRefWithData($Fields) ) {
             $Fields = [ 'first_name', 'last_name', 'email', ];
