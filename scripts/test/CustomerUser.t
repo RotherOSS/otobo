@@ -173,7 +173,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
         );
         is(
             $User{UserMailString},
-            qq{},
+            qq{Firstname Test Update$Key Lastname Test Update$Key $UserRand-UpdateInvalidEmail\@},
             'UserMailString',
         );
         is(
