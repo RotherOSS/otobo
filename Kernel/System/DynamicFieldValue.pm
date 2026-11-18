@@ -119,7 +119,12 @@ sub ValueSet {
                 # do not accept an empty string as it is the same as NULL on oracle
                 || !length $Param{Value}->[$Counter]->{ValueText}
             )
-            && !defined $Param{Value}->[$Counter]->{ValueInt}
+            && (
+                !defined $Param{Value}->[$Counter]->{ValueInt}
+
+                # do not accept an empty string
+                || !length $Param{Value}->[$Counter]->{ValueInt}
+            )
             && !defined $Param{Value}->[$Counter]->{ValueDateTime}
             )
         {
