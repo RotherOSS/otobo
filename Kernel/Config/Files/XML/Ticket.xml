@@ -8025,7 +8025,7 @@
         </Value>
     </Setting>
     <Setting Name="CustomerPanelOwnSelection" Required="0" Valid="0">
-        <Description Translatable="1">Determines which queues will be valid for ticket's recepients in the customer interface.</Description>
+        <Description Translatable="1">Determines which queues will be valid for ticket's recepients in the customer interface. You can use this setting to present your Queues with different names for the customer interface. You can also use a tree-structure to have parent and child Queues.</Description>
         <Navigation>Frontend::Customer::View::TicketMessage</Navigation>
         <Value>
             <Hash>
