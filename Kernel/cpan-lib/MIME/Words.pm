@@ -94,7 +94,7 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.514";
+$VERSION = "5.522";
 
 ### Nonprintables (controls + x7F + 8bit):
 my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF";
@@ -207,7 +207,7 @@ sub decode_mimewords {
 	### We need this to detect problems for case 3, which stops at "=?":
 	pos($encstr) = $pos;               # reset the pointer.
 	if ($encstr =~ m{\G=\?}xg) {
-	    $@ .= qq|unterminated "=?..?..?=" in "$encstr" (pos $pos)\n|;
+	    $@ .= qq|unterminated "=?..?..?=" (pos $pos)\n|;
 	    push @tokens, ['=?'];
 	    next;
 	}

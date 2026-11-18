@@ -263,7 +263,7 @@ sub decode {
 	### Get the data and (upcased) charset:
 	my $data    = $_->[0];
 	my $charset = (defined($_->[1]) ? uc($_->[1]) : 'raw');
-	$charset =~ s/\*\w+\Z//;   ### RFC2184 language suffix
+	$charset =~ s/\*.*\z//s;   ### RFC2184 language suffix, e.g. "*en-US"
 
 	### Get the handler; guess if never seen before:
 	defined($self->{MWD_Map}{$charset}) or

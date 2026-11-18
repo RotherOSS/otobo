@@ -1,6 +1,5 @@
 package MIME::Parser;
 
-
 =head1 NAME
 
 MIME::Parser - experimental class for parsing MIME streams
@@ -153,7 +152,7 @@ use MIME::Parser::Results;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.514";
+$VERSION = "5.522";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -217,7 +216,8 @@ sub init {
     $self->{MP5_TmpToCore}       = 0;
     $self->{MP5_IgnoreErrors}    = 1;
     $self->{MP5_UUDecode}        = 0;
-    $self->{MP5_MaxParts}        = -1;
+    $self->{MP5_MaxParts}        = 1000;
+    $self->{MP5_MaxDepth}        = 64;
     $self->{MP5_TmpDir}          = undef;
     $self->{MP5_AmbiguousContent} = 0;
 
@@ -545,7 +545,7 @@ sub process_preamble {
     my ($self, $in, $rdr, $ent) = @_;
 
     ### Sanity:
-    ($rdr->depth > 0) or die "$ME: internal logic error";
+    ($rdr->has_bounds) or die "$ME: internal logic error";
 
     ### Parse preamble:
     my @saved;
@@ -556,10 +556,10 @@ sub process_preamble {
 
     # Ugh.  Horrible.  If the preamble consists only of CRLF, squash it down
     # to the empty string.  Else, remove the trailing CRLF.
-    if( $data =~ m/^[\r\n]\z/ ) {
+    if( $data =~ m/^(\r\n|\n\r|\n|\r)\z/ ) {
 	@saved = ('');
     } else {
-	$data =~ s/[\r\n]\z//;
+	$data =~ s/(\r\n|\n\r|\n|\r)\z//;
         @saved = split(/^/, $data);
     }
     $ent->preamble(\@saved);
@@ -636,6 +636,9 @@ sub process_header {
     ($hdr_rdr->eos_type eq 'DONE') or
 	$self->error("unexpected end of header\n");
 
+    # Free memory used by hdr_rdr and undo any changes it made
+    # to terminators
+    $hdr_rdr = undef;
 
     ### If header line begins with a UTF-8 Byte-Order mark, remove it.
     $headstr =~ s/^\x{EF}\x{BB}\x{BF}//;
@@ -695,6 +698,10 @@ sub process_multipart {
     }
     my $part_rdr = $rdr->spawn->add_boundary($bound);
 
+    if ($self->{MP5_MaxDepth} > 0 && $part_rdr->depth() > $self->{MP5_MaxDepth}) {
+        $self->whine("MIME parts nested too deeply");
+        return undef;
+    }
     ### Prepare to parse:
     my $eos_type;
     my $more_parts;
@@ -731,6 +738,11 @@ sub process_multipart {
 						    "before epilogue\n");
 				       return 1; }
     }
+
+    # We have to free $part_rdr here because we rely on the destructor
+    # to remove its boundaries from the parent reader's copy of the
+    # boundary hash.
+    $part_rdr = undef;
 
     ### Parse epilogue...
     ###    (note that we use the *parent's* reader here, which does not
@@ -1006,7 +1018,7 @@ sub process_part {
     if ($self->{MP5_MaxParts} > 0) {
 	$self->{MP5_NumParts}++;
 	if ($self->{MP5_NumParts} > $self->{MP5_MaxParts}) {
-	    # Return UNDEF if msg too complex
+            $self->whine("Too many MIME parts");
 	    return undef;
 	}
     }
@@ -1167,7 +1179,8 @@ interface (which minimally implements getline() and read()).
 
 Returns the parsed MIME::Entity on success.
 Throws exception on failure.  If the message contained too many
-parts (as set by I<max_parts>), returns undef.
+parts (as set by I<max_parts>) or was nested too deeply (as
+set by I<max_depth>), returns undef.
 
 =cut
 
@@ -1430,12 +1443,11 @@ sub evil_filename {
 I<Instance method.>
 Limits the number of MIME parts we will parse.
 
-Normally, instances of this class parse a message to the bitter end.
-Messages with many MIME parts can cause excessive memory consumption.
-If you invoke this method, parsing will abort with a die() if a message
-contains more than NUM parts.
+Messages with many MIME parts can cause excessive memory consumption,
+so parsing will abort and return undef if a message contains more
+than NUM parts.  The default is 1000.
 
-If NUM is set to -1 (the default), then no maximum limit is enforced.
+If NUM is set to -1, then no maximum limit is enforced.
 
 With no argument, returns the current setting as an integer
 
@@ -1447,6 +1459,31 @@ sub max_parts {
 	$self->{MP5_MaxParts} = $num;
     }
     return $self->{MP5_MaxParts};
+}
+
+=item max_depth NUM
+
+I<Instance method.>
+Limits the depth of nested MIME parts we will parse.
+
+Messages with many nested MIME parts can cause excessive memory
+consumption, so parsing will abort and return undef if a message is
+nested to a level more than NUM levels deep.  The default is 64.
+Only multipart nesting counts; message/rfc822 parts nest within the
+limit set by max_parts.
+
+If NUM is set to -1, then no maximum limit is enforced.
+
+With no argument, returns the current setting as an integer
+
+=cut
+
+sub max_depth {
+    my($self, $num) = @_;
+    if (@_ > 1) {
+	$self->{MP5_MaxDepth} = $num;
+    }
+    return $self->{MP5_MaxDepth};
 }
 
 #------------------------------
