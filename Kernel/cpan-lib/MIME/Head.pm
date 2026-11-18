@@ -142,7 +142,7 @@ my $singleton_headers =
      'content-id',
     ];
 
-# The presence of a duplicated parameters in one of the following
+# The presence of a duplicated or empty parameters in one of the following
 # headers in a given MIME entity could indicate an ambiguous parse and
 # hence a security risk
 my $singleton_parameter_headers =
@@ -159,7 +159,7 @@ my $singleton_parameter_headers =
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.514";
+$VERSION = "5.522";
 
 ### Sanity (we put this test after our own version, for CPAN::):
 use Mail::Header 1.06 ();
@@ -203,7 +203,10 @@ More than one Content-Type, Content-ID, Content-Transfer-Encoding or
 Content-Disposition header.
 
 A Content-Type or Content-Disposition header contains a repeated
-parameter.
+parameter, or a parameter list that cannot be parsed unambiguously
+(see C<@unparsed_parameters> under mime_attr).
+
+A Content-Type header contains a boundary that is ambiguous.
 
 =back
 
@@ -225,7 +228,18 @@ sub ambiguous_content {
         if ($self->mime_attr($hdr . '.@duplicate_parameters')) {
             return 1;
         }
+        if ($self->mime_attr($hdr . '.@empty_parameters')) {
+            return 1;
+        }
+        if ($self->mime_attr($hdr . '.@unparsed_parameters')) {
+            return 1;
+        }
     }
+
+    if ($self->mime_attr('content-type.@boundary_ambiguous')) {
+        return 1;
+    }
+
     return 0;
 }
 #------------------------------
@@ -732,10 +746,44 @@ would return:
 
     [ 'boundary' ]
 
-A duplicate "boundary" tag should be treated as a security risk, as should
-duplicate Content-Type headers in a message.  Since such messages cannot
-be parsed unambiguously, we strongly recommend that they never be
+Similarly he special sub-field tag C<@empty_parameters> (which can
+never be a real tag) returns an arrayref of tags that had an empty
+parameter value in the header, or C<undef> if no such tags were
+found. (This does not include C<name> or C<filename> paramaneters,
+which I<are> allowed to be empty without triggering an ambiguous parse
+signal.)  For example, given the header:
+
+    Content-Type: multipart/mixed; boundary=;
+
+Then:
+
+    $head->mime_attr('content-type.@emtpy_parameters')
+
+would return:
+
+    [ 'boundary' ]
+
+The special sub-field tag C<@unparsed_parameters> is true if parsing
+stopped at a parameter it could not read and the rest of the field
+contains "=", as in:
+
+    Content-Type: multipart/mixed; x:y=1; boundary="foo"
+
+Any parameters after that point are lost.  It is also true if text
+skipped between parameters holds an odd number of '"' or a comment
+still open at a ";", or a quoted value ends in a backslash, any of
+which makes other parsers split the field at different semicolons.
+
+A duplicate or empty "boundary" tag should be treated as a security risk, as
+should duplicate Content-Type headers in a message.  Since such messages
+cannot be parsed unambiguously, we strongly recommend that they never be
 delivered to end-users.
+
+Note also that a parameter explicitly set to blank via something like:
+
+    Content-Type: application/octet-stream; boundary=""
+
+I<will> populate C<@empty_parameters>
 
 =cut
 
@@ -845,7 +893,10 @@ multipart or if there is no specified boundary.
 sub multipart_boundary {
     my $self = shift;
     my $value =  $self->mime_attr('content-type.boundary');
-    (!defined($value)) ? undef : $value;
+    return undef unless defined($value);
+    $value = decode_mimewords($value);
+    $value =~ s/\s+$//;                  # kill trailing whitespace, per RFC 2046
+    return $value;
 }
 
 #------------------------------
