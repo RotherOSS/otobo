@@ -27,9 +27,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooSearch {
         display: inline-block;
-        width: calc( 100% - 3px );
+        width: calc( 100% + 33px );
         padding-left: 32px;
-        height: 32px;
+        height: 36px;
         background-color: #f7f7f9;
         background-color: var(--colBGLight);
         border: solid 1px #f7f7f9;
@@ -59,15 +59,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #oooSearch {
-        display: none;
         left: -32px;
         padding-left: 32px;
         width: 114px;
-        height: 40px;
+        height: 44px;
         font-size: 16px;
         background-color: inherit;
         border: solid 1px #7f809d;
         border: solid 1px var(--colTextLight);
+
+        display: inline-block;
+        position: absolute !important;
+        opacity: 0;
+        pointer-events: none;
     }
 
     #oooSearch.oooFull,
@@ -75,9 +79,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         display: inline-block;
         border: solid 1px #001bff;
         border: solid 1px var(--colMainLight);
+
+        position: relative !important;
+        opacity: 1;
+        pointer-events: auto;
     }
     #oooSearch:focus {
-        width: 280px;
+        width: 316px;
     }
 
 }
