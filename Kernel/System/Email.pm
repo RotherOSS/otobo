@@ -892,7 +892,7 @@ sub Bounce {
     my $MessageID = $Param{'Message-ID'} || $Self->_MessageIDCreate();
 
     # split body && header
-    my @EmailPlain  = split( /\n/, $Param{Email} );
+    my @EmailPlain  = split /\n/, $Param{Email};
     my $EmailObject = Mail::Internet->new( \@EmailPlain );
 
     # get sender
@@ -903,16 +903,15 @@ sub Bounce {
     # add ReSent header (see https://www.ietf.org/rfc/rfc2822.txt A.3. Resent messages)
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $HeaderObject = $EmailObject->head();
+    my $HeaderObject = $EmailObject->head;
     $HeaderObject->replace( 'Resent-Message-ID', $MessageID );
     $HeaderObject->replace( 'Resent-To',         $Param{To} );
     $HeaderObject->replace( 'Resent-From',       $RealFrom );
     $HeaderObject->replace( 'Resent-Date',       $DateTimeObject->ToEmailTimeStamp() );
+
     my $Body         = $EmailObject->body();
-    my $BodyAsString = '';
-    for ( @{$Body} ) {
-        $BodyAsString .= $_ . "\n";
-    }
+    my $BodyAsString = join '', map { $_ . "\n" } $Body->@*;
+
     my $HeaderAsString = $HeaderObject->as_string();
     my $OldMessageID   = $HeaderObject->get('Message-ID') || '??';
     my $Subject        = $HeaderObject->get('Subject');
