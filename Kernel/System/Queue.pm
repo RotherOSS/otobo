@@ -158,9 +158,9 @@ sub GetSystemAddress {
     return if !$DBObject->Prepare(
         SQL => <<'END_SQL',
 SELECT sa.value0, sa.value1
-  FROM system_address sa, queue sq
+  FROM system_address sa
+  JOIN queue sq ON sa.id = sq.system_address_id
   WHERE sq.id = ?
-    AND sa.id = sq.system_address_id
 END_SQL
         Bind  => [ \$QueueID ],
         Limit => 1,
