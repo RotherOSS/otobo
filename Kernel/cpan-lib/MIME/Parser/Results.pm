@@ -163,7 +163,9 @@ sub level {
 #
 sub indent {
     my ($self) = @_;
-    '   ' x $self->{MPI_Level};
+    my $level = $self->{MPI_Level};
+    $level = 16 if $level > 16;     # keep each message short at any depth
+    '   ' x $level;
 }
 
 =back
