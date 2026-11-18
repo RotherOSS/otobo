@@ -57,6 +57,9 @@ sub new {
 	Bounds => [],
 	BH     => {},
 	TH     => {},
+        LocalBH => {},
+        LocalTH => {},
+        Depth   => 0,
 	EOS    => \$eos,
     }, $class;
 }
@@ -66,16 +69,19 @@ sub new {
 # spawn
 #
 # I<Instance method.>
-# Return a reader which is mostly a duplicate, except that the EOS
-# accumulator is shared.
+# Return a reader which is mostly a shallow copy.
 #
 sub spawn {
     my $self = shift;
     my $dup = bless {}, ref($self);
-    $dup->{Bounds} = [ @{$self->{Bounds}} ];  ### deep copy
-    $dup->{BH}     = { %{$self->{BH}} };      ### deep copy
-    $dup->{TH}     = { %{$self->{TH}} };      ### deep copy
+    $dup->{Parent} = $self;                   ### Parent we were spawned from
+    $dup->{Bounds} = [ ];                     ### do not copy
+    $dup->{BH}     = $self->{BH};             ### shallow copy
+    $dup->{TH}     = $self->{TH};             ### shallow copy
     $dup->{EOS}    = $self->{EOS};            ### shallow copy; same ref!
+    $dup->{LocalBH} = {};                     ### do not copy
+    $dup->{LocalTH} = {};                     ### do not copy
+    $dup->{Depth} = $self->{Depth} + 1;       ### increment Depth
     $dup;
 }
 
@@ -89,9 +95,25 @@ sub spawn {
 sub add_boundary {
     my ($self, $bound) = @_;
     unshift @{$self->{Bounds}}, $bound;   ### now at index 0
-    $self->{BH}{"--$bound"}   = "DELIM $bound";
-    $self->{BH}{"--$bound--"} = "CLOSE $bound";
+    if (!exists($self->{BH}{"--$bound"})) {
+        $self->{BH}{"--$bound"}   = "DELIM $bound";
+        $self->{LocalBH}{"--$bound"} = 1;
+    }
+    if (!exists($self->{BH}{"--$bound--"})) {
+        $self->{BH}{"--$bound--"} = "CLOSE $bound";
+        $self->{LocalBH}{"--$bound--"} = 1;
+    }
     $self;
+}
+
+sub DESTROY {
+    my ($self) = @_;
+    foreach my $thing (keys(%{$self->{LocalBH}})) {
+        delete($self->{BH}{$thing});
+    }
+    foreach my $thing (keys(%{$self->{LocalTH}})) {
+        delete($self->{TH}{$thing});
+    }
 }
 
 #------------------------------
@@ -104,7 +126,10 @@ sub add_boundary {
 sub add_terminator {
     my ($self, $line) = @_;
     foreach (@EOLs) {
-	$self->{TH}{"$line$_"} = "DONE $line";
+        if (!exists($self->{TH}{"$line$_"})) {
+            $self->{TH}{"$line$_"} = "DONE $line";
+            $self->{LocalTH}{"$line$_"} = 1;
+        }
     }
     $self;
 }
@@ -117,7 +142,14 @@ sub add_terminator {
 # Are there boundaries to contend with?
 #
 sub has_bounds {
-    scalar(@{shift->{Bounds}});
+    my ($self) = @_;
+    if (scalar(@{$self->{Bounds}})) {
+        return 1;
+    }
+    if ($self->{Parent}) {
+        return $self->{Parent}->has_bounds();
+    }
+    return 0;
 }
 
 #------------------------------
@@ -128,7 +160,8 @@ sub has_bounds {
 # How many levels are there?
 #
 sub depth {
-    scalar(@{shift->{Bounds}});
+    my ($self) = @_;
+    return $self->{Depth};
 }
 
 #------------------------------
@@ -143,6 +176,13 @@ sub eos {
     my $self = shift;
     ${$self->{EOS}} = $_[0] if @_;
     ${$self->{EOS}};
+}
+
+sub most_recent_boundary {
+    my ($self) = @_;
+    return $self->{Bounds}[0] if scalar(@{$self->{Bounds}});
+    return $self->{Parent}->most_recent_boundary() if $self->{Parent};
+    return undef;
 }
 
 #------------------------------
@@ -166,7 +206,7 @@ sub eos_type {
 	return $1;
     }
     elsif ($eos =~ /^(DELIM|CLOSE) (.*)$/) {
-	return (($2 eq $self->{Bounds}[0]) ? $1 : 'EXT');
+	return (($2 eq $self->most_recent_boundary()) ? $1 : 'EXT');
     }
     else {
 	die("internal error: unable to classify boundary token ($eos)");
@@ -225,8 +265,9 @@ sub read_chunk {
 
     $normalize_newlines ||= 0;
     ### Init:
-    my %bh = %{$self->{BH}};
-    my %th = %{$self->{TH}}; my $thx = keys %th;
+    my $bh = $self->{BH};
+    my $th = $self->{TH};
+    my $thx = keys %$th;
     local $_ = $LONGLINE;
     my $maybe;
     my $last = '';
@@ -244,9 +285,9 @@ sub read_chunk {
 		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
-		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
+		    $bh->{$maybe} and do { $eos = $bh->{$maybe}; last };
 		}
-		$thx and $th{$_} and do { $eos = $th{$_}; last };
+		$thx and $th->{$_} and do { $eos = $th->{$_}; last };
 		print $n_out $last; $last = $_;
 	    }
 	}
@@ -256,9 +297,9 @@ sub read_chunk {
 		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
-		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
+		    $bh->{$maybe} and do { $eos = $bh->{$maybe}; last };
 		}
-		$thx and $th{$_} and do { $eos = $th{$_}; last };
+		$thx and $th->{$_} and do { $eos = $th->{$_}; last };
 		$out->print($last); $last = $_;
 	    }
 	}
@@ -270,9 +311,9 @@ sub read_chunk {
 		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
-		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
+		    $bh->{$maybe} and do { $eos = $bh->{$maybe}; last };
 		}
-		$thx and $th{$_} and do { $eos = $th{$_}; last };
+		$thx and $th->{$_} and do { $eos = $th->{$_}; last };
 		print $n_out $last; $last = $_;
 	    }
 	}
@@ -282,9 +323,9 @@ sub read_chunk {
 		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
-		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
+		    $bh->{$maybe} and do { $eos = $bh->{$maybe}; last };
 		}
-		$thx and $th{$_} and do { $eos = $th{$_}; last };
+		$thx and $th->{$_} and do { $eos = $th->{$_}; last };
 		$out->print($last); $last = $_;
 	    }
 	}
@@ -293,7 +334,7 @@ sub read_chunk {
     # Write out last held line, removing terminating CRLF if ended on bound,
     # unless the line consists only of CRLF and we're wanting to keep the
     # preceding blank line (as when parsing a preamble)
-    $last =~ s/[\r\n]+\Z// if ($eos =~ /^(DELIM|CLOSE)/ && !($keep_newline && $last =~ m/^[\r\n]\z/));
+    $last =~ s/[\r\n]+\Z// if ($eos =~ /^(DELIM|CLOSE)/ && !($keep_newline && $last =~ m/^(\r\n|\n\r|\n|\r)\z/));
     $out->print($last);
 
     ### Save and return what we finished on:

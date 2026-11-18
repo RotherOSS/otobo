@@ -858,6 +858,7 @@ OPTSHASH can contain the following:
 Explicitly set the name of the subdirectory which is created.
 The default is to use the time, process id, and a sequence number,
 but you might want a predictable directory.
+A generated directory must not exist yet: if it does, the parse dies.
 
 =item Purge
 
@@ -919,7 +920,9 @@ sub init_parse {
 
     ### Remove and re-create the per-message output directory:
     rmtree $self->output_dir if $self->{MPFU_Purge};
-    (-d $self->output_dir) or
+    # Reuse an existing directory only if the caller named it: a generated
+    # name that already exists may have been planted by another user
+    (defined($self->{MPFU_DirName}) && -d $self->output_dir) or
 	mkdir $self->output_dir, 0700 or
 	    die "mkdir ".$self->output_dir.": $!\n";
 
