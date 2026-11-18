@@ -133,7 +133,7 @@ my @Tests = (
         UserLastname           => 'Schmidt',
         UserTitle              => '',
         UserEmail              => 'Stefanie.Schmidt@example.org',
-        ExpectedUserMailString => q{"Stefanie  Schmidt" <Stefanie.Schmidt@example.org>},                            # 1+1 spaces between 'Stefanie' and 'Schmidt'
+        ExpectedUserMailString => q{"Stefanie Schmidt" <Stefanie.Schmidt@example.org>},    # 1 space between 'Stefanie' and 'Schmidt' as the empty title is discarded
     },
     {
         Name                   => 'non empty title in the middle',

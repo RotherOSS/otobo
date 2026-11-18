@@ -1509,7 +1509,9 @@ sub CustomerUserDataGet {
 
                 # Format compliant to RFC 5322. This is relevant when the real name
                 # contain commas, double quotes, or other special symbols.
-                my $Phrase = join ' ', @Values;
+                # Empty fields are discarded in order to avoid consecutive spaces.
+                # The value 0 does not count as empty.
+                my $Phrase = join ' ', grep { defined $_ && $_ ne '' } @Values;
                 $AddressObject->phrase($Phrase);
                 $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
                     AddressObject => $AddressObject
