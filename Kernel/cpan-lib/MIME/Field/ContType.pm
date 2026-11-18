@@ -58,12 +58,13 @@ Instead, ask Mail::Field for new instances based on the field name!
 require 5.001;
 use strict;
 use MIME::Field::ParamVal;
+use MIME::Words qw(decode_mimewords);
 use vars qw($VERSION @ISA);
 
 @ISA = qw(MIME::Field::ParamVal);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.514";
+$VERSION = "5.522";
 
 # Install it:
 bless([])->register('Content-type');
@@ -113,8 +114,9 @@ removed).
 sub boundary {
     my $value = shift->param('boundary', @_);
     defined($value) || return '';
-    $value =~ s/\s+$//;                  # kill trailing white, per RFC 2046
-    $value;
+    $value = decode_mimewords($value);
+    $value =~ s/\s+$//;                  # kill trailing whitespace, per RFC 2046
+    return $value;
 }
 
 #------------------------------

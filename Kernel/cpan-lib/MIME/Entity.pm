@@ -255,7 +255,7 @@ use MIME::Decoder;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.514";
+$VERSION = "5.522";
 
 ### Boundary counter:
 my $BCount = 0;

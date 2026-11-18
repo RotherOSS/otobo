@@ -1998,7 +1998,6 @@ sub FilterContent {
     # variable to save the filter's HTML code
     my $ColumnFilterJSON = $Self->_ColumnFilterJSON(
         ColumnName    => $HeaderColumn,
-        Label         => $LabelColumn,
         ColumnValues  => $ColumnValues->{$HeaderColumn},
         SelectedValue => $SelectedValue,
     );
@@ -2036,20 +2035,11 @@ sub _ColumnFilterJSON {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Label = $Param{Label};
-    $Label =~ s{ \A DynamicField_ }{}gxms;
-    $Label = $LayoutObject->{LanguageObject}->Translate($Label);
-
     # set fixed values
     my $Data = [
         {
             Key   => 'DeleteFilter',
-            Value => ' DELETE FILTER',
-        },
-        {
-            Key      => '-',
-            Value    => '-',
-            Disabled => 1,
+            Value => $LayoutObject->{LanguageObject}->Translate('DELETE FILTER'),
         },
     ];
 
