@@ -2692,7 +2692,7 @@ sub Attachment {
         # style-src:  allow inline styles for nice email display
         # referrer:   don't send referrers to prevent referrer-leak attacks
         $Headers{'Content-Security-Policy'}
-            = q{default-src 'self'; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
+            = q{default-src 'self'; img-src * data:; script-src 'self'; object-src 'self'; frame-src 'none'; style-src 'self' 'unsafe-inline'; referrer no-referrer;};
 
         # Use Referrer-Policy header to suppress referrer information in modern browsers
         # in order to prevent referrer-leak attacks.
