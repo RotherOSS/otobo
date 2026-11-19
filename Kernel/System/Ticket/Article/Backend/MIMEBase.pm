@@ -376,7 +376,10 @@ sub ArticleEdit {
             if ( $Param{To} || $NewTo ) {
                 $NewTo .= ', ';
             }
-            $NewTo .= "\"$UserData{UserFirstname} $UserData{UserLastname}\" <$UserData{UserEmail}>";
+            $NewTo .= $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                RealName => "$UserData{UserFirstname} $UserData{UserLastname}",
+                Address  => $UserData{UserEmail},
+            ) || "\"$UserData{UserFirstname} $UserData{UserLastname}\" <$UserData{UserEmail}>";
         }
         $Param{To} .= $NewTo;
     }
@@ -812,7 +815,10 @@ sub ArticleCreate {
             if ( $Param{To} || $NewTo ) {
                 $NewTo .= ', ';
             }
-            $NewTo .= "\"$UserData{UserFirstname} $UserData{UserLastname}\" <$UserData{UserEmail}>";
+            $NewTo .= $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                RealName => "$UserData{UserFirstname} $UserData{UserLastname}",
+                Address  => $UserData{UserEmail},
+            ) || "\"$UserData{UserFirstname} $UserData{UserLastname}\" <$UserData{UserEmail}>";
         }
         $Param{To} .= $NewTo;
     }

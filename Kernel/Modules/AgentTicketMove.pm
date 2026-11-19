@@ -1218,7 +1218,10 @@ sub Run {
             TicketID             => $Self->{TicketID},
             IsVisibleForCustomer => 0,
             SenderType           => 'agent',
-            From                 => "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
+            From                 => $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                RealName => $Self->{UserFullname},
+                Address  => $Self->{UserEmail},
+            ) || "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
             Subject              => $GetParam{Subject},
             Body                 => $GetParam{Body},
             MimeType             => $MimeType,

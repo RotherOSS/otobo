@@ -1622,7 +1622,12 @@ sub Run {
                 );
                 next CUSTOMER_USER_ID if !%Customer;
 
-                push @CustomerRecipients, "\"$Customer{UserFirstname} $Customer{UserLastname}\" <$Customer{UserEmail}>";
+                my $CustomerRecipient = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                    RealName => "$Customer{UserFirstname} $Customer{UserLastname}",
+                    Address  => $Customer{UserEmail},
+                );
+                $CustomerRecipient ||= "\"$Customer{UserFirstname} $Customer{UserLastname}\" <$Customer{UserEmail}>";
+                push @CustomerRecipients, $CustomerRecipient;
             }
 
             $Data{To} = join( ',', @CustomerRecipients ) // '';
