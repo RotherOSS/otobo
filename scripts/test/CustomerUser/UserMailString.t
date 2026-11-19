@@ -126,6 +126,28 @@ my @Tests = (
         ExpectedUserMailString => q{"   Stefanie      Schmidt  " <Stefanie.Schmidt@example.org>},                   # 3+1+2 spaces between 'Stefanie' and 'Schmidt'
     },
     {
+        Name                   => 'quotes in name',
+        Line                   => __LINE__,
+        CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
+        UserFirstname          => 'one quote " in first name',
+        UserLastname           => 'two quotes "" in last name',
+        UserTitle              => '',
+        UserEmail              => 'Stefanie.Schmidt@example.org',
+        ExpectedUserMailString => q{"one quote \" in first name two quotes \"\" in last name" <Stefanie.Schmidt@example.org>},
+    },
+    {
+        # In this test case we consistently escape backslash with a backslash in single quoted strings,
+        # even when that is not required by Perl.
+        Name                   => 'backslashes in name',
+        Line                   => __LINE__,
+        CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
+        UserFirstname          => 'one backslash \\ in first name',
+        UserLastname           => 'two backslashes \\\\ in last name',
+        UserTitle              => '',
+        UserEmail              => 'Stefanie.Schmidt@example.org',
+        ExpectedUserMailString => q{"one backslash \\\\ in first name two backslashes \\\\\\\\ in last name" <Stefanie.Schmidt@example.org>},
+    },
+    {
         Name                   => 'empty title in the middle',
         Line                   => __LINE__,
         CustomerUserListFields => [ 'first_name', 'title', 'last_name', 'email' ],
