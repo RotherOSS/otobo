@@ -106,8 +106,7 @@ sub Run {
 
     return 1 unless exists $Name2Properties{$EventFileName};
 
-    my $DoReinstallPackages = 0;
-    my $EventFileLocation   = "$Self->{Home}/Kernel/Config/Files/$EventFileName";
+    my $EventFileLocation = "$Self->{Home}/Kernel/Config/Files/$EventFileName";
 
     {
         my $DoReinstallPackages = 0;
@@ -119,12 +118,13 @@ sub Run {
         my $Properties = $Name2Properties{$EventFileName};
 
         # reinstall packages when there is a unhandled package event
+        # the timestamp check does not consider differences within one second, as S3 may report milliseconds
         if (
             !$Stat
             ||
             $Stat->size != $Properties->{Size}
             ||
-            $Stat->mtime != $Properties->{Mtime}
+            int( $Stat->mtime ) != int( $Properties->{Mtime} )
             )
         {
             $DoReinstallPackages = 1;
@@ -147,7 +147,7 @@ sub Run {
     # no locking required as there should be no concurrent access
 
     # update event_package.json from S3
-    my $FilePath = $FilesPrefix . $EventFileName;    # $FilesPrefix already has trailing '/'
+    my $FilePath = join '/', $FilesPrefix, $EventFileName;
     $StorageS3Object->SaveObjectToFile(
         Key      => $FilePath,
         Location => $EventFileLocation,
