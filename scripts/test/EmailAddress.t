@@ -333,11 +333,20 @@ subtest 'Format()' => sub {
 
     is(
         $EmailAddressObject->Format(
+            Phrase  => 'Ben 🐛 Bugfinder',
+            Address => 'bugfinder@testanything.org'
+        ),
+        '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
+        'phrase and address'
+    );
+
+    is(
+        $EmailAddressObject->Format(
             RealName => 'Ben 🐛 Bugfinder',
             Address  => 'bugfinder@testanything.org'
         ),
         '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
-        'phrase and address'
+        'RealName as an alias for Phrase'
     );
 };
 
