@@ -348,6 +348,25 @@ subtest 'Format()' => sub {
         '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
         'RealName as an alias for Phrase'
     );
+
+    is(
+        $EmailAddressObject->Format(
+            Phrase  => 'Ben 🐛 Bugfinder',
+            Address => 'bugfinder@'
+        ),
+        q{},
+        'invalid address'
+    );
+
+    is(
+        $EmailAddressObject->Format(
+            Phrase               => 'Ben 🐛 Bugfinder',
+            Address              => 'bugfinder@',
+            AcceptInvalidAddress => 1,
+        ),
+        q{"Ben 🐛 Bugfinder" <bugfinder@>},
+        'invalid address with AcceptInvalidAddress'
+    );
 };
 
 subtest 'Email::Address::XS vs Mail::AddressⅠ' => sub {
