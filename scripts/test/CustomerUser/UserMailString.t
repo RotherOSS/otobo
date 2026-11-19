@@ -228,6 +228,16 @@ my @Tests = (
         ExpectedUserMailString => q{"Snowman ⛄" <Snow.Man@example.org>},
     },
     {
+        Name                   => 'non-existing user list fields',
+        Line                   => __LINE__,
+        CustomerUserListFields => [ '', -2.33, 0, 'first_name', 'blubber', undef, 'last_name', 'email', 'not an email' ],
+        UserFirstname          => 'Snowman',
+        UserLastname           => '⛄',
+        UserTitle              => '',
+        UserEmail              => 'Snow.Man@example.org',
+        ExpectedUserMailString => q{"Snowman ⛄" <Snow.Man@example.org>},
+    },
+    {
         Name                   => 'with title',
         Line                   => __LINE__,
         CustomerUserListFields => [ 'title', 'first_name', 'last_name', 'email' ],

@@ -1214,6 +1214,7 @@ sub CustomerUserDataGet {
             Type => $Self->{CacheType},
             Key  => "CustomerUserDataGet::$Param{User}",
         );
+
         return %{$Data} if ref $Data eq 'HASH';
     }
 
@@ -1228,7 +1229,7 @@ sub CustomerUserDataGet {
     }
 
     # ask the database
-    return if !$Self->{DBObject}->Prepare(
+    return unless $Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => [ \$User ],
         Limit => 1,
@@ -1282,9 +1283,14 @@ sub CustomerUserDataGet {
         }
 
         # Get the keys of the %Data hash that correspond to the table attributes
-        # Index 0 is 'var', Index 2 is 'storage'
+        # Fields which are not in the CustomerUserMap are ignored. Note that this also
+        # applies to the last field which points to the email.
         my @CustomerUserListFields;
         for my $Field ( $Fields->@* ) {
+
+            # Index 0 is 'var',
+            # Index 2 is 'storage'
+            $Field //= '';
             my ($FieldName) = map { $_->[0] } grep { $_->[2] eq $Field } $Self->{CustomerUserMap}->{Map}->@*;
             if ($FieldName) {
                 push @CustomerUserListFields, $FieldName;
