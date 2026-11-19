@@ -183,24 +183,31 @@ Format a Email::Address::XS object or an address given as a string.
         );
     );
 
-or
+Or supply an address line and get the last address:
 
     my $FormattedAddress = $EmailAddressObject->Format(
         Email => 'dummy <dummy@testanything.org>,   Erna Extremtesterin     <extremerna@testanything.org>   (extreme testing is good) ',
     );
 
-or
+Or supply the phrase and the base address:
+
+    my $FormattedAddress = $EmailAddressObject->Format(
+        Phrase  => 'Ben 🐛 Bugfinder',
+        Address => 'bugfinder@testanything.org'
+    );
+
+Or use C<RealName> as an alias for C<Phrase>:
 
     my $FormattedAddress = $EmailAddressObject->Format(
         RealName => 'Ben 🐛 Bugfinder',
-        Address => 'bugfinder@testanything.org'
+        Address  => 'bugfinder@testanything.org'
     );
 
 The first two variants support comments. They return:
 
     $FormattedAddress = 'Erna Extremtesterin <extremerna@testanything.org> (extreme testing is good)'
 
-The third variant does not support comments. It returns:
+The variants that supply C<Phrase> and C<Address> do not support comments. They return:
 
     $FormattedAddress = '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>';
 
@@ -210,6 +217,9 @@ An empty string is returned as fallback.
 
 sub Format {
     my ( $Self, %Param ) = @_;
+
+    # The parameter 'RealName' is an alias for 'Phrase'
+    my $Phrase = $Param{Phrase} // $Param{RealName} // '';
 
     # The parameter AddressObject has precedence
     if ( exists $Param{AddressObject} ) {
@@ -230,9 +240,9 @@ sub Format {
     }
 
     # alternatively the phrase and the address can be passed
-    if ( $Param{RealName} || $Param{Address} ) {
+    if ( $Phrase || $Param{Address} ) {
         return Email::Address::XS->new(
-            phrase  => $Param{RealName},
+            phrase  => $Phrase,
             address => $Param{Address},
         )->format;
     }
