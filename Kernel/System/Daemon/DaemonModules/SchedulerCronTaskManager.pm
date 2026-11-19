@@ -71,7 +71,9 @@ sub new {
     $Self->{NodeID} = $Self->{ConfigObject}->Get('NodeID') || 1;
 
     # Check NodeID, if does not match is impossible to continue.
-    if ( $Self->{NodeID} !~ m{ \A \d+ \z }xms && $Self->{NodeID} > 0 && $Self->{NodeID} < 1000 ) {
+    # The NodeID must be a number from 1 to 999, it is stored with three digits in the lock keys.
+    my $NodeIDIsValid = $Self->{NodeID} =~ m{ \A \d+ \z }xms && $Self->{NodeID} > 0 && $Self->{NodeID} < 1000;
+    if ( !$NodeIDIsValid ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "NodeID '$Self->{NodeID}' is invalid!",
