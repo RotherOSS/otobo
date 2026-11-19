@@ -211,6 +211,20 @@ The variants that supply C<Phrase> and C<Address> do not support comments. They 
 
     $FormattedAddress = '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>';
 
+It is not always guaranteed that the supplied C<Address> is a valid address. In those cases the parameter C<AcceptInvalidAddress>
+can passed. For an invalid address the C<Phrase> part is enclosed in double quotes and the address is enclosed in <>.
+Both parts are then joined with a space.
+
+    my $FormattedAddress = $EmailAddressObject->Format(
+        Phrase               => 'Ben',
+        Address              => '🐛 bugfinder@testanything.org'
+        AcceptInvalidAddress => 1,
+    );
+
+Returns:
+
+    $FormattedAddress = '"Ben 🐛" <bugfinder@testanything.org>';
+
 An empty string is returned as fallback.
 
 =cut
@@ -219,7 +233,11 @@ sub Format {
     my ( $Self, %Param ) = @_;
 
     # The parameter 'RealName' is an alias for 'Phrase'
-    my $Phrase = $Param{Phrase} // $Param{RealName} // '';
+    my $Phrase  = $Param{Phrase}  // $Param{RealName} // '';
+    my $Address = $Param{Address} // '';
+
+    # invalid addresses are not accepted per default
+    my $AcceptInvalidAddress = $Param{AcceptInvalidAddress} ? 1 : 0;
 
     # The parameter AddressObject has precedence
     if ( exists $Param{AddressObject} ) {
@@ -241,10 +259,20 @@ sub Format {
 
     # alternatively the phrase and the address can be passed
     if ( $Phrase || $Param{Address} ) {
-        return Email::Address::XS->new(
+
+        my $AddressObject = Email::Address::XS->new(
             phrase  => $Phrase,
-            address => $Param{Address},
-        )->format;
+            address => $Address,
+        );
+
+        # all is well
+        return $AddressObject->format if $AddressObject->is_valid;
+
+        # silently accept invalid addresses
+        return qq{"$Phrase" <$Address>} if $AcceptInvalidAddress;
+
+        # do not accept invalid addresses
+        return '';
     }
 
     # the fallback
