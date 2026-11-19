@@ -5694,7 +5694,11 @@ sub _StoreActivityDialog {
                     $HistoryComment = '%%';
                 }
 
-                my $From = "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
+                my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                    RealName => $Self->{UserFullname},
+                    Address  => $Self->{UserEmail},
+                );
+                $From ||= "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'agent',
