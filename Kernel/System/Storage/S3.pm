@@ -116,6 +116,8 @@ sub new {
 return a hash with information about objects with a specific prefix.
 The prefix will be removed from the keys of the returned hash.
 Note the trailing slash.
+All objects are returned, also when there are more than the 1000 objects that S3 returns in a single response.
+An empty list is returned when the objects could not be listed.
 
     my %Name2Properties = $StorageS3Object->ListObjects(
         Prefix => 'Kernel/Config/Files/',
@@ -155,54 +157,87 @@ sub ListObjects {
     my $Delimiter = exists $Param{Delimiter} ? $Param{Delimiter} : $Self->{Delimiter};
 
     my %Name2Properties;
-    my $URL = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path( $Self->{Bucket} );
     my $CompletePrefix = join '/', $Self->{HomePrefix}, $Param{Prefix};
-    $URL->query(
-        [
+
+    # A single response lists at most 1000 objects.
+    # The further objects are requested with the continuation token of the previous response.
+    my $ContinuationToken;
+
+    PAGE:
+    while (1) {
+        my @Query = (
             'list-type' => 2,
             prefix      => $CompletePrefix,
             delimiter   => $Delimiter,
-        ]
-    );
-
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
-    );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # look at the Contents nodes in the returned XML
-    $Transaction->res->dom->find('Contents')->map(
-        sub {
-            my ($ContentNode) = @_;
-
-            my %Properties;
-
-            # The key in the XML also includes the prefix.
-            my $Key = $ContentNode->at('Key')->text;
-            $Properties{Key} = $Key;
-
-            # also keep the objects in the subdirectories, but relative to the prefix
-            my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
-
-            # TODO: maybe rename to FilesizeRaw
-            $Properties{Size} = $ContentNode->at('Size')->text;
-
-            # LastModified is actually the time when the file was uploaded
-            my $ISO8601 = $ContentNode->at('LastModified')->text;
-            my $Epoch   = Mojo::Date->new($ISO8601)->epoch;
-            $Properties{Mtime} = $Epoch;
-
-            $Name2Properties{$Name} = \%Properties;
+        );
+        if ( defined $ContinuationToken ) {
+            push @Query, 'continuation-token' => $ContinuationToken;
         }
-    );
+
+        my $URL = Mojo::URL->new
+            ->scheme( $Self->{Scheme} )
+            ->host( $Self->{Host} )
+            ->path( $Self->{Bucket} );
+        $URL->query( \@Query );
+
+        my $Now         = Mojo::Date->new(time)->to_datetime;
+        my $Transaction = $Self->{S3Object}->signed_request(
+            method   => 'GET',
+            datetime => $Now,
+            url      => $URL,
+        );
+
+        # run blocking request
+        $Self->{UserAgent}->start($Transaction);
+
+        # A failed request must not be mistaken for an empty or a complete list.
+        # Kernel::System::Log is not used here, because this method is also called
+        # while Kernel::Config is constructed, see Kernel::Config::Defaults::SyncWithS3().
+        if ( my $Error = $Transaction->error ) {
+            my $ResponseBody = $Transaction->res->body // '';
+            warn "Could not list the S3 objects with the prefix '$CompletePrefix': $Error->{message} $ResponseBody\n";
+
+            return;
+        }
+
+        my $ResponseDOM = $Transaction->res->dom;
+
+        # look at the Contents nodes in the returned XML
+        $ResponseDOM->find('Contents')->map(
+            sub {
+                my ($ContentNode) = @_;
+
+                my %Properties;
+
+                # The key in the XML also includes the prefix.
+                my $Key = $ContentNode->at('Key')->text;
+                $Properties{Key} = $Key;
+
+                # also keep the objects in the subdirectories, but relative to the prefix
+                my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
+
+                # TODO: maybe rename to FilesizeRaw
+                $Properties{Size} = $ContentNode->at('Size')->text;
+
+                # LastModified is actually the time when the file was uploaded
+                my $ISO8601 = $ContentNode->at('LastModified')->text;
+                my $Epoch   = Mojo::Date->new($ISO8601)->epoch;
+                $Properties{Mtime} = $Epoch;
+
+                $Name2Properties{$Name} = \%Properties;
+            }
+        );
+
+        # IsTruncated is 'true' when there are more objects than listed in this response
+        my $IsTruncatedNode = $ResponseDOM->at('IsTruncated');
+        last PAGE unless $IsTruncatedNode;
+        last PAGE unless $IsTruncatedNode->text eq 'true';
+
+        my $NextContinuationTokenNode = $ResponseDOM->at('NextContinuationToken');
+        last PAGE unless $NextContinuationTokenNode;
+
+        $ContinuationToken = $NextContinuationTokenNode->text;
+    }
 
     return %Name2Properties;
 }
