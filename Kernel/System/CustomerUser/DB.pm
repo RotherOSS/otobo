@@ -1305,7 +1305,6 @@ sub CustomerUserDataGet {
 
             # It is expected that the last part is the address.
             # Check whether this is a valid address.
-            # TODO: are non-bare addresses like q{"Stefanie Schmidt" <stefanie.schmidt@example.com>} supported?
             my $BareAddress   = pop @Values;
             my $AddressObject = Email::Address::XS->parse_bare_address($BareAddress);
             if ( $AddressObject->is_valid ) {
@@ -1322,8 +1321,12 @@ sub CustomerUserDataGet {
             }
             else {
 
-                # fall back to the space separated values
-                $Data{UserMailString} = join ' ', @Values, $BareAddress;
+                # fall back to the approach taken in OTOBO 11.0
+                # Look for something resembling a bare email at the end.
+                # Format it with '"' and '<>'
+                my $UserMailString = join ' ', @Values, $BareAddress;
+                $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+                $Data{UserMailString} = $UserMailString;
             }
         }
         else {

@@ -185,7 +185,7 @@ my @Tests = (
         UserLastname           => 'Schmidt',
         UserTitle              => '0',
         UserEmail              => '<Stefanie.Schmidt@example.org>',
-        ExpectedUserMailString => q{Stefanie Schmidt <Stefanie.Schmidt@example.org>},
+        ExpectedUserMailString => q{"Stefanie Schmidt" <<Stefanie.Schmidt@example.org>>},
     },
     {
         Name                   => 'original email with single word phrase',
@@ -195,7 +195,7 @@ my @Tests = (
         UserLastname           => 'Schmidt',
         UserTitle              => '0',
         UserEmail              => 'word <Stefanie.Schmidt@example.org>',
-        ExpectedUserMailString => q{Stefanie Schmidt word <Stefanie.Schmidt@example.org>},
+        ExpectedUserMailString => q{"Stefanie Schmidt word" <<Stefanie.Schmidt@example.org>>},
     },
     {
         Name                   => 'original email with multi word phrase',
@@ -205,7 +205,7 @@ my @Tests = (
         UserLastname           => 'Schmidt',
         UserTitle              => '0',
         UserEmail              => '"two    words" <Stefanie.Schmidt@example.org>',
-        ExpectedUserMailString => q{Stefanie Schmidt "two    words" <Stefanie.Schmidt@example.org>},
+        ExpectedUserMailString => q{"Stefanie Schmidt "two    words"" <<Stefanie.Schmidt@example.org>>},
     },
     {
         Name                   => 'original email with multi word phrase not enclosed by quotes',
@@ -215,7 +215,7 @@ my @Tests = (
         UserLastname           => 'Schmidt',
         UserTitle              => '0',
         UserEmail              => 'two    words <Stefanie.Schmidt@example.org>',
-        ExpectedUserMailString => q{Stefanie Schmidt two    words <Stefanie.Schmidt@example.org>},
+        ExpectedUserMailString => q{"Stefanie Schmidt two    words" <<Stefanie.Schmidt@example.org>>},
     },
     {
         Name                   => 'snowman ⛄',

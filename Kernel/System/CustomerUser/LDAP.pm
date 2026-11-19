@@ -1519,8 +1519,12 @@ sub CustomerUserDataGet {
             }
             else {
 
-                # fall back to the space separated values
-                $Data{UserMailString} = join ' ', @Values, $BareAddress;
+                # fall back to the approach taken in OTOBO 11.0
+                # Look for something resembling a bare email at the end.
+                # Format it with '"' and '<>'
+                my $UserMailString = join ' ', @Values, $BareAddress;
+                $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+                $Data{UserMailString} = $UserMailString;
             }
         }
         else {
