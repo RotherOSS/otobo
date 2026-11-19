@@ -186,6 +186,11 @@ sub Run {
             $Error{'CustomerUserIDInvalid'} = 'ServerError';
         }
 
+        elsif ( $Param{SelectedCustomerUser} eq '' ) {
+            $Error{'CustomerUserIDInvalid'}     = 'ServerError';
+            $Error{'CustomerUserIDNotSelected'} = 1;
+        }
+
         if (%Error) {
             return $Self->Form( %Param, %Error );
         }
@@ -259,7 +264,9 @@ sub Form {
         }
 
         $TicketCustomerID = $TicketData{CustomerID};
-        $Param{SelectedCustomerUser} = $TicketData{CustomerUserID};
+
+        # don't silently preselect the current customer user after a rejected submit
+        $Param{SelectedCustomerUser} = $Param{CustomerUserIDInvalid} ? '' : $TicketData{CustomerUserID};
 
         $Param{Table} = $LayoutObject->AgentCustomerViewTable(
             Data   => \%CustomerUserData,
