@@ -358,11 +358,16 @@ sub Run {
 
         # Get current user data
         my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-            UserID => $Param{UserID},
+            UserID        => $Param{UserID},
+            NoOutOfOffice => 1,
         );
 
-        # Set "From" field according to user - UserFullname <UserEmail>.
-        $Param{Config}->{From} = $User{UserFullname} . ' <' . $User{UserEmail} . '>';
+        # Set "From" field according to user - UserFullname <UserEmail>, with the phrase quoted if needed.
+        $Param{Config}->{From} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+            RealName => $User{UserFullname},
+            Address  => $User{UserEmail},
+        );
+        $Param{Config}->{From} ||= $User{UserFullname} . ' <' . $User{UserEmail} . '>';
     }
 
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
