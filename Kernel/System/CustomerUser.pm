@@ -871,10 +871,7 @@ sub CustomerUserDataGet {
         next SOURCE if !%Customer;
 
         # generate the full name and save it in the hash
-        my $UserFullname = $Self->CustomerName(%Customer);
-
-        # save the generated fullname in the hash.
-        $Customer{UserFullname} = $UserFullname;
+        $Customer{UserFullname} = $Self->CustomerName(%Customer);
 
         # add preferences defaults
         my $Config = $ConfigObject->Get('CustomerPreferencesGroups');
