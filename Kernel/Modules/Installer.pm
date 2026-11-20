@@ -15,10 +15,12 @@
 # --
 
 package Kernel::Modules::Installer;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -110,6 +112,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
     my $StepCounter;
 
     # Build header - but only if we're not in AJAX mode.
+    # 'CheckRequirements' is the only subaction that is called from JS and returns JSON
     if ( $Self->{Subaction} ne 'CheckRequirements' ) {
         $LayoutObject->Block(
             Name => 'Steps',
@@ -1105,14 +1108,14 @@ sub ReConfigure {
     open( my $In, '<', $ConfigFile )                                                ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         or $LayoutObject->FatalError( Message => "Can't open $ConfigFile: $!" );    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     my $Config = '';
-    while (<$In>) {
+    while ( my $s = <$In> ) {
 
-        # Skip empty lines or comments.
-        if ( !$_ || $_ =~ /^\s*#/ || $_ =~ /^\s*$/ ) {
-            $Config .= $_;
+        # no need to adapt empty lines or comments.
+        if ( !$s || $s =~ /^\s*#/ || $s =~ /^\s*$/ ) {
+            $Config .= $s;
         }
         else {
-            my $NewConfig = $_;
+            my $NewConfig = $s;
 
             # Replace config with %Param.
             for my $Key ( sort keys %Param ) {
@@ -1299,6 +1302,20 @@ sub CheckDBRequirements {
                     'https://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html',
                 );
             }
+        }
+    }
+
+    # Check the SQL mode NO_BACKSLASH_ESCAPES, it shouldn't be active
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
+
+        # Check the global variable as the global variable should be adapted.
+        my ($SQLMode) = $Result{DBH}->selectrow_array('SELECT @@GLOBAL.sql_mode');
+
+        if ( $SQLMode =~ m/NO_BACKSLASH_ESCAPES/ ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
+                "Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character."
+            );
         }
     }
 
