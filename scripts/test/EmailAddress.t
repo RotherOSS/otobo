@@ -367,6 +367,16 @@ subtest 'Format()' => sub {
         q{"Ben 🐛 Bugfinder" <bugfinder@>},
         'invalid address with AcceptInvalidAddress'
     );
+
+    is(
+        $EmailAddressObject->Format(
+            Phrase               => 'Ben',
+            Address              => '🐛 bugfinder@testanything.org',
+            AcceptInvalidAddress => 1,
+        ),
+        q{"Ben" <🐛 bugfinder@testanything.org>},
+        'another invalid address'
+    );
 };
 
 subtest 'Email::Address::XS vs Mail::AddressⅠ' => sub {
