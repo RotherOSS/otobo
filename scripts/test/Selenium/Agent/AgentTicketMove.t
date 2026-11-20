@@ -141,6 +141,7 @@ $Selenium->RunTest(
 
             my $ACL = $ACLObject->ACLGet(
                 ID => $Item,
+                UserID => 1,
             );
             $ACLObject->ACLUpdate(
                 $ACL->%*,
