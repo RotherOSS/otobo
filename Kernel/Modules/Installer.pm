@@ -1348,9 +1348,9 @@ sub CheckDBRequirements {
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
 
         # max_allowed_packet should be at least 64 MB
-        my $MySQLMaxAllowedPacketRecommended = 64;
+        my $MySQLMaxAllowedPacketRecommended = 64;                                                                                              # size in mebibytes
         my $Data                             = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
-        my $MySQLMaxAllowedPacket            = $Data->[0]->[1] / 1024 / 1024;
+        my $MySQLMaxAllowedPacket            = $Data->[0]->[1] / 1024 / 1024;    # convert bytes into mebibytes
         if ( $MySQLMaxAllowedPacket < $MySQLMaxAllowedPacketRecommended ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
@@ -1364,7 +1364,7 @@ sub CheckDBRequirements {
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
 
         my $MySQLInnoDBLogFileSize            = 0;
-        my $MySQLInnoDBLogFileSizeMinimum     = 256;
+        my $MySQLInnoDBLogFileSizeMinimum     = 256;    # mebibytes
         my $MySQLInnoDBLogFileSizeRecommended = 512;
 
         # Default storage engine variable has changed its name in MySQL 5.5.3, we need to support both of them for now.
@@ -1378,7 +1378,7 @@ sub CheckDBRequirements {
         if ( lc $DefaultStorageEngine eq 'innodb' ) {
 
             my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'innodb_log_file_size'");
-            $MySQLInnoDBLogFileSize = $Data->[0]->[1] / 1024 / 1024;
+            $MySQLInnoDBLogFileSize = $Data->[0]->[1] / 1024 / 1024;    # convert bytes into mebibytes
 
             if ( $MySQLInnoDBLogFileSize < $MySQLInnoDBLogFileSizeMinimum ) {
                 $Result{Successful} = 0;
