@@ -355,10 +355,10 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  Convert-ASN1-0.36
-    pathname: T/TI/TIMLEGGE/Convert-ASN1-0.36.tar.gz
+  Convert-ASN1-0.37
+    pathname: T/TI/TIMLEGGE/Convert-ASN1-0.37.tar.gz
     provides:
-      Convert::ASN1 0.36
+      Convert::ASN1 0.37
     requirements:
       ExtUtils::MakeMaker 0
       Time::Local 1.27
@@ -1622,16 +1622,16 @@ DISTRIBUTIONS
       Guard 1.023
     requirements:
       ExtUtils::MakeMaker 0
-  HTML-Parser-3.86
-    pathname: O/OA/OALDERS/HTML-Parser-3.86.tar.gz
+  HTML-Parser-3.87
+    pathname: O/OA/OALDERS/HTML-Parser-3.87.tar.gz
     provides:
-      HTML::Entities 3.86
-      HTML::Filter 3.86
-      HTML::HeadParser 3.86
-      HTML::LinkExtor 3.86
-      HTML::Parser 3.86
-      HTML::PullParser 3.86
-      HTML::TokeParser 3.86
+      HTML::Entities 3.87
+      HTML::Filter 3.87
+      HTML::HeadParser 3.87
+      HTML::LinkExtor 3.87
+      HTML::Parser 3.87
+      HTML::PullParser 3.87
+      HTML::TokeParser 3.87
     requirements:
       Carp 0
       Exporter 0
