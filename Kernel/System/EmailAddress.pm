@@ -213,7 +213,7 @@ The variants that supply C<Phrase> and C<Address> do not support comments. They 
 
 It is not always guaranteed that the supplied C<Address> is a valid address. In those cases the parameter C<AcceptInvalidAddress>
 can passed. For an invalid address the C<Phrase> part is enclosed in double quotes and the address is enclosed in <>.
-Both parts are then joined with a space.
+Both parts are then joined with a space. Note that this approach may or may not result in a valid email address.
 
     my $FormattedAddress = $EmailAddressObject->Format(
         Phrase               => 'Ben',
