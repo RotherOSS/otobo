@@ -253,7 +253,7 @@ my $VarDirBackupBz2  = File::Spec->catfile( $Opts{b}, 'VarDir.tar.bz2' );
 my $VarDirBackupZstd = File::Spec->catfile( $Opts{b}, 'VarDir.tar.zst' );
 if ( -e $VarDirBackupGz ) {
     say "Restore $VarDirBackupGz ...";
-    if ( system("tar -xzf $VarDirBackupGz") ) {          # returns non-zero if tar extraction fails
+    if ( system("tar -xzf $VarDirBackupGz") ) {    # returns non-zero if tar extraction fails
         warn "ERROR: Invalid tar file!";
 
         exit 1;
@@ -261,7 +261,7 @@ if ( -e $VarDirBackupGz ) {
 }
 elsif ( -e $VarDirBackupBz2 ) {
     say "Restore $VarDirBackupBz2 ...";
-    if ( system("tar -xjf $VarDirBackupBz2") ) {         # returns non-zero if tar extraction fails
+    if ( system("tar -xjf $VarDirBackupBz2") ) {    # returns non-zero if tar extraction fails
         warn "ERROR: Invalid tar file!";
 
         exit 1;
@@ -278,7 +278,7 @@ my $DataDirBackupBz2  = File::Spec->catfile( $Opts{b}, 'DataDir.tar.bz2' );
 my $DataDirBackupZstd = File::Spec->catfile( $Opts{b}, 'DataDir.tar.zst' );
 if ( -e $DataDirBackupGz ) {
     say "Restore $DataDirBackupGz ...";
-    if ( system("tar -xzf $DataDirBackupGz") ) {         # returns non-zero if tar extraction fails
+    if ( system("tar -xzf $DataDirBackupGz") ) {    # returns non-zero if tar extraction fails
         warn "ERROR: Invalid tar file!";
 
         exit 1;
@@ -286,7 +286,7 @@ if ( -e $DataDirBackupGz ) {
 }
 if ( -e $DataDirBackupBz2 ) {
     say "Restore $DataDirBackupBz2 ...";
-    if ( system("tar -xjf $DataDirBackupBz2") ) {        # returns non-zero if tar extraction fails
+    if ( system("tar -xjf $DataDirBackupBz2") ) {    # returns non-zero if tar extraction fails
         warn "ERROR: Invalid tar file!";
 
         exit 1;

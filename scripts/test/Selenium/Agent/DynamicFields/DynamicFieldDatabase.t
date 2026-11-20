@@ -152,7 +152,7 @@ $Selenium->RunTest(
         for my $Item ( sort keys %{$ACLList} ) {
 
             my $ACL = $ACLObject->ACLGet(
-                ID => $Item,
+                ID     => $Item,
                 UserID => 1,
             );
             $ACLObject->ACLUpdate(
