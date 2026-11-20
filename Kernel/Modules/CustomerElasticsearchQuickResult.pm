@@ -31,6 +31,8 @@ Kernel::Modules::CustomerElasticsearchQuickResult - ticket search via Elasticsea
 
 CustomerElasticsearchQuickResult returns n-number of tickets (defined by the sysconfig) from the ES-query sorted by descending age
 
+=head1 PUBLIC INTERFACE
+
 =head2 new()
 
 =cut
