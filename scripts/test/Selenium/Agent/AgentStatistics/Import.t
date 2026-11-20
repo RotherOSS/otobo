@@ -254,8 +254,7 @@ $Selenium->RunTest(
             Element => '#EditDialog select',
             Value   => 'XAxisServiceIDs',
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # Check Y-axis configuration dialog.
         $Selenium->find_element( ".EditYAxis", 'css' )->click();
@@ -268,8 +267,7 @@ $Selenium->RunTest(
             Element => '#EditDialog select',
             Value   => 'YAxisSLAIDs',
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # Check Restrictions configuration dialog.
         $Selenium->find_element("//span[contains(.,\'Filter\')]")->click();
@@ -289,8 +287,7 @@ $Selenium->RunTest(
             Element => '#EditDialog #RestrictionsQueueIDs',
             Value   => 3,
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # Save and finish edit.
         $Selenium->find_element("//button[\@name='SaveAndFinish'][\@type='submit']")->VerifiedClick();
