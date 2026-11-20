@@ -19,9 +19,15 @@ use strict;
 use warnings;
 
 # core modules
+use MIME::Base64 qw(decode_base64);
+use Digest::SHA  qw(sha256_hex);
+use Encode       qw(encode_utf8);
+use POSIX        qw(isfinite);
+use Scalar::Util qw(looks_like_number);
 
 # CPAN modules
-use Crypt::JWT qw(decode_jwt);
+use Crypt::JWT       qw(decode_jwt);
+use Cpanel::JSON::XS qw(decode_json);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -239,6 +245,14 @@ sub Validate {
         };
     }
 
+    if ( IsHashRefWithData( $TokenData->{events} ) && exists $TokenData->{events}{'http://schemas.openid.net/event/backchannel-logout'} ) {
+
+        return {
+            Success => 0,
+            Error   => 'Token invalid: back-channel logout event is not an ID token.',
+        };
+    }
+
     for my $Needed (qw/iss sub aud exp iat/) {
 
         if ( !$TokenData->{$Needed} ) {
@@ -360,6 +374,184 @@ sub Validate {
     };
 }
 
+=head2 ValidateLogout()
+
+Validate an OIDC Back-Channel Logout Token and return its claims.
+
+    my $TokenData = $TokenObject->ValidateLogout(
+        Token            => $LogoutToken,
+        OpenIDConfig     => $OpenIDConfig,
+        ExpectedAudience => $ClientID,
+        SigningAlgorithm => 'RS256', # optional, defaults to RS256
+        Leeway           => 0,       # optional, defaults to 0
+    );
+
+=cut
+
+sub ValidateLogout {
+    my ( $Self, %Param ) = @_;
+
+    return if !defined $Param{Token} || ref $Param{Token} || !length $Param{Token};
+    return if !IsHashRefWithData( $Param{OpenIDConfig} );
+    return if !defined $Param{ExpectedAudience} || ref $Param{ExpectedAudience} || !length $Param{ExpectedAudience};
+    return if $Param{Token} !~ /\A[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\z/;
+
+    my $SigningAlgorithm = $Param{SigningAlgorithm} // 'RS256';
+    return if !defined $SigningAlgorithm || ref $SigningAlgorithm;
+
+    my %AllowedAlgorithm = map { $_ => 1 } qw(
+        RS256 RS384 RS512 PS256 PS384 PS512 ES256 ES384 ES512 EdDSA
+    );
+    return if !$AllowedAlgorithm{$SigningAlgorithm};
+
+    my $Leeway = $Param{Leeway} // 0;
+    return if ref $Leeway || !looks_like_number($Leeway) || !isfinite( 0 + $Leeway ) || $Leeway < 0 || $Leeway > 60;
+
+    my ($HeaderPart) = split /\./, $Param{Token};
+    return if !defined $HeaderPart || !length $HeaderPart || length $HeaderPart > 4096;
+    $HeaderPart =~ tr{-_}{+/};
+    $HeaderPart .= '=' x ( ( 4 - length($HeaderPart) % 4 ) % 4 );
+
+    # Malformed public input must not be included in JSON parser log messages.
+    my $UnverifiedHeader = eval { decode_json( decode_base64($HeaderPart) ) };
+    return if !IsHashRefWithData($UnverifiedHeader);
+    return if !defined $UnverifiedHeader->{alg} || $UnverifiedHeader->{alg} ne $SigningAlgorithm;
+    if ( exists $UnverifiedHeader->{typ} ) {
+        return if ref $UnverifiedHeader->{typ} || !defined $UnverifiedHeader->{typ};
+        return if $UnverifiedHeader->{typ} ne 'logout+jwt' && $UnverifiedHeader->{typ} ne 'JWT';
+    }
+    return if !defined $UnverifiedHeader->{kid} || ref $UnverifiedHeader->{kid} || !length $UnverifiedHeader->{kid};
+
+    my $OIDCConfigurationObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Configuration');
+    my $OpenIDProviderData      = $OIDCConfigurationObject->GetProviderData(
+        OpenIDConfig => $Param{OpenIDConfig},
+    );
+    return if !IsHashRefWithData($OpenIDProviderData);
+
+    my $HasKid = sub {
+        my ($ProviderData) = @_;
+        return if !IsHashRefWithData( $ProviderData->{KeyData} );
+        return if !IsArrayRefWithData( $ProviderData->{KeyData}{keys} );
+        return scalar grep {
+            IsHashRefWithData($_)
+                && defined $_->{kid}
+                && !ref $_->{kid}
+                && $_->{kid} eq $UnverifiedHeader->{kid}
+        } @{ $ProviderData->{KeyData}{keys} };
+    };
+
+    if ( !$HasKid->($OpenIDProviderData) ) {
+        my $ProviderSettings = $Param{OpenIDConfig}{ProviderSettings};
+        return if !IsHashRefWithData($ProviderSettings);
+
+        my $DiscoveryURL = $ProviderSettings->{OpenIDConfiguration};
+        return if !defined $DiscoveryURL || ref $DiscoveryURL || !length $DiscoveryURL;
+
+        my $ProviderName = $ProviderSettings->{Name};
+        return if defined $ProviderName && ref $ProviderName;
+
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        my $CacheKey    = 'BackchannelLogoutJWKSRefresh::' . sha256_hex(
+            join "\0", encode_utf8($DiscoveryURL), encode_utf8( $ProviderName // '' ),
+        );
+        my $RefreshInCooldown = $CacheObject->Get(
+            Type          => 'OpenIDConnect',
+            Key           => $CacheKey,
+            CacheInMemory => 0,
+        );
+
+        if ( !$RefreshInCooldown ) {
+            my $CooldownSet = $CacheObject->Set(
+                Type          => 'OpenIDConnect',
+                Key           => $CacheKey,
+                Value         => 1,
+                TTL           => 30,
+                CacheInMemory => 0,
+            );
+            return if !$CooldownSet;
+            return if !$CacheObject->Get(
+                Type          => 'OpenIDConnect',
+                Key           => $CacheKey,
+                CacheInMemory => 0,
+            );
+
+            $OpenIDProviderData = $OIDCConfigurationObject->GetProviderData(
+                OpenIDConfig => $Param{OpenIDConfig},
+                NoCache      => 1,
+            );
+            return if !IsHashRefWithData($OpenIDProviderData);
+        }
+
+        return if !$HasKid->($OpenIDProviderData);
+    }
+
+    my $Issuer = $OpenIDProviderData->{OpenIDConfiguration}{issuer};
+    return if !defined $Issuer || !length $Issuer;
+
+    my $DecodedToken = $Self->DecodeToken(
+        Token             => $Param{Token},
+        OpenIDConfig      => $Param{OpenIDConfig},
+        AcceptedAlgorithm => $SigningAlgorithm,
+        DecodeHeader      => 1,
+        Leeway            => $Leeway,
+        NoLog             => 1,
+        NoRefresh         => 1,
+    );
+    return if !IsHashRefWithData($DecodedToken);
+
+    my $Header    = $DecodedToken->{Header};
+    my $TokenData = $DecodedToken->{TokenData};
+    return if !IsHashRefWithData($Header) || !IsHashRefWithData($TokenData);
+
+    return if !defined $Header->{alg} || $Header->{alg} ne $SigningAlgorithm;
+    if ( exists $Header->{typ} ) {
+        return if ref $Header->{typ} || !defined $Header->{typ};
+        return if $Header->{typ} ne 'logout+jwt' && $Header->{typ} ne 'JWT';
+    }
+
+    return if !defined $TokenData->{iss} || ref $TokenData->{iss} || $TokenData->{iss} ne $Issuer;
+    return if !defined $TokenData->{aud};
+
+    my @Audience = ref $TokenData->{aud} eq 'ARRAY' ? @{ $TokenData->{aud} } : ( $TokenData->{aud} );
+    return if !@Audience;
+    for my $Audience (@Audience) {
+        return if !defined $Audience || ref $Audience || !length $Audience;
+    }
+    return if !grep { $_ eq $Param{ExpectedAudience} } @Audience;
+
+    for my $Needed (qw/iat exp jti events/) {
+        return if !exists $TokenData->{$Needed};
+    }
+
+    return if exists $TokenData->{nonce};
+    return if !defined $TokenData->{jti} || ref $TokenData->{jti} || !length $TokenData->{jti};
+
+    my $NumericDatePattern = qr/\A(?:0|[1-9][0-9]*)(?:\.[0-9]+)?\z/;
+    for my $Claim (qw/iat exp/) {
+        my $Value = $TokenData->{$Claim};
+        return if !defined $Value || ref $Value || !looks_like_number($Value) || "$Value" !~ $NumericDatePattern;
+        return if !isfinite( 0 + $Value ) || $Value > 9_007_199_254_740_991;
+    }
+
+    return if $TokenData->{exp} <= $TokenData->{iat};
+
+    my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+    return if $TokenData->{iat} - $Leeway > $CurrentTime;
+    return if $TokenData->{exp} + $Leeway <= $CurrentTime;
+
+    return if ref $TokenData->{events} ne 'HASH';
+    return if ref $TokenData->{events}{'http://schemas.openid.net/event/backchannel-logout'} ne 'HASH';
+
+    CLAIM:
+    for my $Claim (qw/sid sub/) {
+        next CLAIM if !exists $TokenData->{$Claim};
+        return     if !defined $TokenData->{$Claim} || ref $TokenData->{$Claim} || !length $TokenData->{$Claim};
+    }
+    return if !length( $TokenData->{sid} // '' ) && !length( $TokenData->{sub} // '' );
+
+    return $TokenData;
+}
+
 =head2 DecodeToken()
 
 Returns the decoded token
@@ -376,16 +568,18 @@ sub DecodeToken {
 
     for my $Needed (qw/Token OpenIDConfig/) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
+            if ( !$Param{NoLog} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Need $Needed!",
+                );
+            }
             return;
         }
     }
 
     my $OIDCConfigurationObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Configuration');
-    my $Leeway                  = $Param{OpenIDConfig}->{Misc}->{Leeway} // 2;
+    my $Leeway                  = $Param{Leeway} // $Param{OpenIDConfig}->{Misc}->{Leeway} // 2;
     my $OpenIDProviderData      = $OIDCConfigurationObject->GetProviderData(
         OpenIDConfig => $Param{OpenIDConfig},
     );
@@ -395,16 +589,28 @@ sub DecodeToken {
 
     # decode the token; retry once if it doesn't work for cached config
     my $TokenData;
-    while ( $Try++ < 2 ) {
+    my $TokenHeader;
+    my $MaxTry = $Param{NoRefresh} ? 1 : 2;
+    while ( $Try++ < $MaxTry ) {
         my $Error;
 
         # decode id_token, check key
         eval {
-            $TokenData = decode_jwt(
+            my %DecodeParam = (
                 token    => $Param{Token},
                 kid_keys => $OpenIDProviderData->{KeyData},
                 leeway   => $Leeway,
-            ) // {};
+            );
+            $DecodeParam{accepted_alg}  = $Param{AcceptedAlgorithm} if $Param{AcceptedAlgorithm};
+            $DecodeParam{decode_header} = 1                         if $Param{DecodeHeader};
+
+            if ( $Param{DecodeHeader} ) {
+                ( $TokenHeader, $TokenData ) = decode_jwt(%DecodeParam);
+            }
+            else {
+                $TokenData = decode_jwt(%DecodeParam);
+            }
+            $TokenData //= {};
         };
         if ($@) {
             $TokenData = undef;
@@ -412,12 +618,12 @@ sub DecodeToken {
         }
 
         # check whether the token could be decoded and the issuer is correct - if not the cached data might just be outdated
-        if ( $TokenData && $TokenData->{iss} && $TokenData->{iss} eq $OpenIDProviderData->{OpenIDConfiguration}{issuer} ) {
+        if ( IsHashRefWithData($TokenData) && $TokenData->{iss} && $TokenData->{iss} eq $OpenIDProviderData->{OpenIDConfiguration}{issuer} ) {
             $Try = 100;
         }
 
         # renew the provider data once
-        elsif ( $Try < 2 ) {
+        elsif ( $Try < $MaxTry ) {
             $OpenIDProviderData = $OIDCConfigurationObject->GetProviderData(
                 OpenIDConfig => $Param{OpenIDConfig},
                 NoCache      => 1,
@@ -426,16 +632,24 @@ sub DecodeToken {
 
         else {
             $TokenData = undef;
-            $Error //= $TokenData->{iss}
+            $Error //= IsHashRefWithData($TokenData) && $TokenData->{iss}
                 ? "Wrong issuer! $TokenData->{iss} (Token); $OpenIDProviderData->{OpenIDConfiguration}{issuer} (Provider Config);"
                 : 'Unknown Error.';
 
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Decoding JWT failed: $@",
-            );
+            if ( !$Param{NoLog} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Decoding JWT failed: $@",
+                );
+            }
         }
     }
+
+    return {
+        Header    => $TokenHeader,
+        TokenData => $TokenData
+    } if $Param{DecodeHeader}
+        && $TokenData;
 
     return $TokenData;
 }

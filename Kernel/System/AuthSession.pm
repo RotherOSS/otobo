@@ -26,6 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::OpenIDConnect::BackchannelLogout',
     'Kernel::System::SysConfig',
 );
 
@@ -92,7 +93,26 @@ checks a session, returns true (session ok) or false (session invalid)
 sub CheckSessionID {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->CheckSessionID(%Param);
+    return if !$Self->{Backend}->CheckSessionID(%Param);
+
+    my %Session = $Self->{Backend}->GetSessionIDData(%Param);
+    if (
+        $Session{OIDCSession}
+        && ( $Session{UserType}      // '' ) eq 'User'
+        && ( $Session{SessionSource} // '' ) eq 'AgentInterface'
+        )
+    {
+
+        # A request finishing after logout can write cached session data back.
+        return 1 if $Kernel::OM->Get('Kernel::System::OpenIDConnect::BackchannelLogout')->SessionAllowed(
+            Session => $Session{OIDCSession},
+        );
+
+        $Self->RemoveSessionID(%Param);
+        return;
+    }
+
+    return 1;
 }
 
 =head2 CheckAgentSessionLimitPriorWarning()
@@ -160,6 +180,7 @@ get session data in a hash
 
     my %Data = $SessionObject->GetSessionIDData(
         SessionID => '1234567890123456',
+        NoCache   => 1, # optional: read persisted data without caching it for later writes
     );
 
 Returns:
@@ -259,7 +280,25 @@ sub CreateSessionID {
         Key  => 'AgentSessionLimitPriorWarningMessage',
     );
 
-    return $Self->{Backend}->CreateSessionID(%Param);
+    my $LogoutObject;
+    if ( $Param{OIDCSession} && $Param{UserType} eq 'User' && $SessionSource eq 'AgentInterface' ) {
+        $LogoutObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::BackchannelLogout');
+        if ( !$LogoutObject->SessionAllowed( Session => $Param{OIDCSession} ) ) {
+            $Self->{SessionIDErrorMessage} = Translatable('Authentication failed.');
+            return;
+        }
+    }
+
+    my $SessionID = $Self->{Backend}->CreateSessionID(%Param);
+
+    # Logout writes its revocation before scanning sessions; check both sides of creation.
+    if ( $SessionID && $LogoutObject && !$LogoutObject->SessionAllowed( Session => $Param{OIDCSession} ) ) {
+        $Self->RemoveSessionID( SessionID => $SessionID );
+        $Self->{SessionIDErrorMessage} = Translatable('Authentication failed.');
+        return;
+    }
+
+    return $SessionID;
 }
 
 =head2 RemoveSessionID()
