@@ -142,9 +142,10 @@ sub Run {
         # run password change
         my $Success = $Object->Run(
             GetParam => {
-                CurPw  => [ $ParamObject->GetParam( Param => 'CurPw' ) ],
-                NewPw  => [ $ParamObject->GetParam( Param => 'NewPw' ) ],
-                NewPw1 => [ $ParamObject->GetParam( Param => 'NewPw1' ) ],
+                CurPw          => [ $ParamObject->GetParam( Param => 'CurPw' ) ],
+                NewPw          => [ $ParamObject->GetParam( Param => 'NewPw' ) ],
+                NewPw1         => [ $ParamObject->GetParam( Param => 'NewPw1' ) ],
+                TwoFactorToken => [ $ParamObject->GetParam( Param => 'TwoFactorToken' ) ],
             },
             UserData => \%UserData,
         );
@@ -199,6 +200,23 @@ sub _Screen {
             Name => $Block,
             Data => { %Param, %{ $Config->{Password} } },
         );
+    }
+
+    # set the TwoFactorModule setting name depending on the interface
+    my $AuthTwoFactorModule = $Self->_FrontendTypeGet() eq 'Agent'
+        ? 'AuthTwoFactorModule'
+        : 'Customer::AuthTwoFactorModule';
+
+    # show 2 factor password input if we have at least one backend enabled
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+        next COUNT if !$ConfigObject->Get( $AuthTwoFactorModule . $Count );
+
+        $LayoutObject->Block(
+            Name => 'TwoFactorToken',
+        );
+
+        last COUNT;
     }
 
     # show sysconfig settings link if admin
