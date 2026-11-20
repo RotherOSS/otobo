@@ -293,6 +293,9 @@ $Selenium->RunTest(
 
             # Set queue to raw which should make the field visible
             $Selenium->find_element( "#Dest_Search",         'css' )->send_keys('Raw');
+            $Selenium->WaitFor(
+                JavaScript => "return \$('li[data-id=\"2||Raw\"]').length",
+            );
             $Selenium->find_element( "li[data-id='2||Raw']", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript => "return \$.active == 0",
