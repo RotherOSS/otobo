@@ -39,8 +39,8 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate a new hash for the instance and initialize it with the passed parameters.
-    return bless {%Param}, $Type;
+    # bless the hashref with the passed parameters, no need for an extry copy
+    return bless \%Param, $Type;
 }
 
 sub Run {
