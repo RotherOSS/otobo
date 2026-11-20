@@ -97,6 +97,7 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
+use Kernel::System::Web::InterfaceOIDCLogout      ();
 
 # turn warnings into warnings with stack trace
 # this should only be enabled during debugging
@@ -673,6 +674,8 @@ my $OTOBOApp = builder {
     mount '/nph-genericinterface.pl' => Kernel::GenericInterface::Provider->new(
         Debug => 0,
     )->to_app;
+
+    mount '/oidc/backchannel-logout' => Kernel::System::Web::InterfaceOIDCLogout->new()->to_app;
 
     # the following interfaces can be deactivated in the SysConfig
     mount '/customer.pl' => builder {

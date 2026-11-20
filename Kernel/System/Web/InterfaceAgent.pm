@@ -328,6 +328,12 @@ sub _Content {
             NoOutOfOffice => 1,
         );
 
+        # OIDC session identity must come from authentication, never user preferences.
+        delete $UserData{OIDCSession};
+        if ( $PostAuth && $PostAuth->{OIDCSession} ) {
+            $UserData{OIDCSession} = $PostAuth->{OIDCSession};
+        }
+
         # check if the browser supports cookies
         if ( $ParamObject->GetCookie( Key => 'OTOBOBrowserHasCookie' ) ) {
             $Kernel::OM->ObjectParamAdd(
@@ -598,7 +604,9 @@ sub _Content {
         }
 
         # try auth module specific logout
-        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout();
+        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout(
+            OIDCSession => $UserData{OIDCSession},
+        );
         if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
             $LayoutObject->Redirect(
                 ExtURL => $LogoutInfo->{LogoutURL},
