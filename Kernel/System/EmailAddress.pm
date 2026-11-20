@@ -223,7 +223,7 @@ Both parts are then joined with a space. Note that this approach may or may not 
 
 Returns:
 
-    $FormattedAddress = '"Ben 🐛" <bugfinder@testanything.org>';
+    $FormattedAddress = q{"Ben" <🐛 bugfinder@testanything.org>};
 
 An empty string is returned as fallback.
 
