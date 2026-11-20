@@ -58,23 +58,23 @@ sub Run {
     }
 
     # Check environment directories.
-    $Self->{Path} = $ConfigObject->Get('Home');
-    if ( !-d $Self->{Path} ) {
+    my $Home = $ConfigObject->Get('Home');
+    if ( !-d $Home ) {
         $LayoutObject->FatalError(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Home ),
             Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
         );
     }
-    if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
+    if ( !-f "$Home/Kernel/Config.pm" ) {
         $LayoutObject->FatalError(
             Message =>
-                $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
+                $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Home ),
             Comment => Translatable('Please contact the administrator.'),
         );
     }
 
     # Get and check the SQL schema directory
-    my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
+    my $DirOfSQLFiles = $Home . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
 
         # throw a Kernel::System::Web::Exception exception
@@ -213,7 +213,7 @@ sub Run {
 
     # Database selection screen.
     elsif ( $Self->{Subaction} eq 'Start' ) {
-        if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
+        if ( !-w "$Home/Kernel/Config.pm" ) {
             return join '',
                 $LayoutObject->Header(
                     Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Error')
@@ -1075,8 +1075,8 @@ sub Run {
 
         # TODO: This seems to be deprecated now.
         # Remove installer file with pre-configured options.
-        if ( -f "$Self->{Path}/var/tmp/installer.json" ) {
-            unlink "$Self->{Path}/var/tmp/installer.json";
+        if ( -f "$Home/var/tmp/installer.json" ) {
+            unlink "$Home/var/tmp/installer.json";
         }
 
         # webserver restart is never necessary
@@ -1144,11 +1144,14 @@ sub ReConfigure {
     }
 
     # Read config file.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigFile   = "$Self->{Path}/Kernel/Config.pm";
+    my $Home         = $ConfigObject->Get('Home');
+    my $ConfigFile   = "$Home/Kernel/Config.pm";
     open( my $In, '<', $ConfigFile )                                                ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         or $LayoutObject->FatalError( Message => "Can't open $ConfigFile: $!" );    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     my $Config = '';
+
     while ( my $s = <$In> ) {
 
         # no need to adapt empty lines or comments.
