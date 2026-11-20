@@ -333,11 +333,49 @@ subtest 'Format()' => sub {
 
     is(
         $EmailAddressObject->Format(
+            Phrase  => 'Ben 🐛 Bugfinder',
+            Address => 'bugfinder@testanything.org'
+        ),
+        '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
+        'phrase and address'
+    );
+
+    is(
+        $EmailAddressObject->Format(
             RealName => 'Ben 🐛 Bugfinder',
             Address  => 'bugfinder@testanything.org'
         ),
         '"Ben 🐛 Bugfinder" <bugfinder@testanything.org>',
-        'phrase and address'
+        'RealName as an alias for Phrase'
+    );
+
+    is(
+        $EmailAddressObject->Format(
+            Phrase  => 'Ben 🐛 Bugfinder',
+            Address => 'bugfinder@'
+        ),
+        q{},
+        'invalid address'
+    );
+
+    is(
+        $EmailAddressObject->Format(
+            Phrase               => 'Ben 🐛 Bugfinder',
+            Address              => 'bugfinder@',
+            AcceptInvalidAddress => 1,
+        ),
+        q{"Ben 🐛 Bugfinder" <bugfinder@>},
+        'invalid address with AcceptInvalidAddress'
+    );
+
+    is(
+        $EmailAddressObject->Format(
+            Phrase               => 'Ben',
+            Address              => '🐛 bugfinder@testanything.org',
+            AcceptInvalidAddress => 1,
+        ),
+        q{"Ben" <🐛 bugfinder@testanything.org>},
+        'another invalid address'
     );
 };
 

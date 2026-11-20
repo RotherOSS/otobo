@@ -27,6 +27,7 @@ use Digest::SHA ();
 
 # CPAN modules
 use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
+use Email::Address::XS 1.04 ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -1213,6 +1214,7 @@ sub CustomerUserDataGet {
             Type => $Self->{CacheType},
             Key  => "CustomerUserDataGet::$Param{User}",
         );
+
         return %{$Data} if ref $Data eq 'HASH';
     }
 
@@ -1227,7 +1229,7 @@ sub CustomerUserDataGet {
     }
 
     # ask the database
-    return if !$Self->{DBObject}->Prepare(
+    return unless $Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => [ \$User ],
         Limit => 1,
@@ -1274,39 +1276,58 @@ sub CustomerUserDataGet {
 
     # build the UserMailString, e.g q{"Troy Andrews Cold Room \"The Fridge\"    🥶" <unittest@example.org>}
     {
+        # It can be configured which fields make up UserMailString
         my $Fields = $Self->{CustomerUserMap}->{CustomerUserListFields};
         if ( !IsArrayRefWithData($Fields) ) {
             $Fields = [ 'first_name', 'last_name', 'email', ];
         }
 
         # Get the keys of the %Data hash that correspond to the table attributes
+        # Fields which are not in the CustomerUserMap are ignored. Note that this also
+        # applies to the last field which points to the email.
         my @CustomerUserListFields;
         for my $Field ( $Fields->@* ) {
-            my @FieldNames = map { $_->[0] } grep { $_->[2] eq $Field } @{ $Self->{CustomerUserMap}->{Map} };
-            push @CustomerUserListFields, $FieldNames[0];
+
+            # Index 0 is 'var',
+            # Index 2 is 'storage'
+            $Field //= '';
+            my ($FieldName) = map { $_->[0] } grep { $_->[2] eq $Field } $Self->{CustomerUserMap}->{Map}->@*;
+            if ($FieldName) {
+                push @CustomerUserListFields, $FieldName;
+            }
         }
 
-        my @Values;
-
-        FIELD:
-        for my $Field (@CustomerUserListFields) {
-            next FIELD unless $Data{$Field};
-
-            push @Values, $Data{$Field};
-        }
+        # Collect the values, keeping the empty values. Note that keeping
+        # an empty address diverges from the behavior in rel-11_0.
+        my @Values = map { $Data{$_} // '' } @CustomerUserListFields;
 
         if (@Values) {
 
-            # Format compliant to RFC 5322. This is relevant when the real name
-            # contain commas, double quotes, or other special symbols.
-            #
             # It is expected that the last part is the address.
-            my $Address = pop @Values;
-            my $Phrase  = join ' ', @Values;
-            $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                RealName => $Phrase,
-                Address  => $Address,
-            );
+            # Check whether this is a valid address.
+            my $BareAddress   = pop @Values;
+            my $AddressObject = Email::Address::XS->parse_bare_address($BareAddress);
+            if ( $AddressObject->is_valid ) {
+
+                # Format compliant to RFC 5322. This is relevant when the real name
+                # contain commas, double quotes, or other special symbols.
+                # Empty fields are discarded in order to avoid consecutive spaces.
+                # The value 0 does not count as empty.
+                my $Phrase = join ' ', grep { defined $_ && $_ ne '' } @Values;
+                $AddressObject->phrase($Phrase);
+                $Data{UserMailString} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                    AddressObject => $AddressObject
+                );
+            }
+            else {
+
+                # fall back to the approach taken in OTOBO 11.0
+                # Look for something resembling a bare email at the end.
+                # Format it with '"' and '<>'
+                my $UserMailString = join ' ', @Values, $BareAddress;
+                $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+                $Data{UserMailString} = $UserMailString;
+            }
         }
         else {
             $Data{UserMailString} = '';

@@ -152,7 +152,8 @@ $Selenium->RunTest(
         for my $Item ( sort keys %{$ACLList} ) {
 
             my $ACL = $ACLObject->ACLGet(
-                ID => $Item,
+                ID     => $Item,
+                UserID => 1,
             );
             $ACLObject->ACLUpdate(
                 $ACL->%*,
@@ -536,7 +537,10 @@ $Selenium->RunTest(
         # Wait for AJAX Call
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        $Selenium->find_element( ".ui-menu-item", 'css' )->click();
+        $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ResultElementText_1').length;",
+        );
 
         # Open Detailed Search Dialog
         $Selenium->find_element(
@@ -554,7 +558,10 @@ $Selenium->RunTest(
             Element => '#id',
             Value   => '2',
         );
-        $Selenium->find_element( "#Search",                  'css' )->click();
+        $Selenium->find_element( "#Search", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$.active == 0",
+        );
         $Selenium->find_element( "tr[class='MasterAction']", 'css' )->click();
 
         $Selenium->WaitFor(
@@ -607,7 +614,10 @@ $Selenium->RunTest(
         # Wait for AJAX Call
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        $Selenium->find_element( ".ui-menu-item", 'css' )->click();
+        $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ResultElementText_1').length;",
+        );
 
         # Open Detailed Search Dialog
         $Selenium->find_element(

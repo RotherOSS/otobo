@@ -25,6 +25,8 @@ use utf8;
 use File::Basename qw(basename dirname);
 use File::Path     qw(make_path);
 use Cwd            qw(realpath);
+use Digest::MD5    qw(md5);
+use MIME::Base64   qw(encode_base64);
 
 # CPAN modules
 use Mojo::UserAgent;
@@ -114,6 +116,8 @@ sub new {
 return a hash with information about objects with a specific prefix.
 The prefix will be removed from the keys of the returned hash.
 Note the trailing slash.
+All objects are returned, also when there are more than the 1000 objects that S3 returns in a single response.
+An empty list is returned when the objects could not be listed.
 
     my %Name2Properties = $StorageS3Object->ListObjects(
         Prefix => 'Kernel/Config/Files/',
@@ -153,54 +157,87 @@ sub ListObjects {
     my $Delimiter = exists $Param{Delimiter} ? $Param{Delimiter} : $Self->{Delimiter};
 
     my %Name2Properties;
-    my $URL = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path( $Self->{Bucket} );
     my $CompletePrefix = join '/', $Self->{HomePrefix}, $Param{Prefix};
-    $URL->query(
-        [
+
+    # A single response lists at most 1000 objects.
+    # The further objects are requested with the continuation token of the previous response.
+    my $ContinuationToken;
+
+    PAGE:
+    while (1) {
+        my @Query = (
             'list-type' => 2,
             prefix      => $CompletePrefix,
             delimiter   => $Delimiter,
-        ]
-    );
-
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
-    );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # look at the Contents nodes in the returned XML
-    $Transaction->res->dom->find('Contents')->map(
-        sub {
-            my ($ContentNode) = @_;
-
-            my %Properties;
-
-            # The key in the XML also includes the prefix.
-            my $Key = $ContentNode->at('Key')->text;
-            $Properties{Key} = $Key;
-
-            # also keep the objects in the subdirectories, but relative to the prefix
-            my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
-
-            # TODO: maybe rename to FilesizeRaw
-            $Properties{Size} = $ContentNode->at('Size')->text;
-
-            # LastModified is actually the time when the file was uploaded
-            my $ISO8601 = $ContentNode->at('LastModified')->text;
-            my $Epoch   = Mojo::Date->new($ISO8601)->epoch;
-            $Properties{Mtime} = $Epoch;
-
-            $Name2Properties{$Name} = \%Properties;
+        );
+        if ( defined $ContinuationToken ) {
+            push @Query, 'continuation-token' => $ContinuationToken;
         }
-    );
+
+        my $URL = Mojo::URL->new
+            ->scheme( $Self->{Scheme} )
+            ->host( $Self->{Host} )
+            ->path( $Self->{Bucket} );
+        $URL->query( \@Query );
+
+        my $Now         = Mojo::Date->new(time)->to_datetime;
+        my $Transaction = $Self->{S3Object}->signed_request(
+            method   => 'GET',
+            datetime => $Now,
+            url      => $URL,
+        );
+
+        # run blocking request
+        $Self->{UserAgent}->start($Transaction);
+
+        # A failed request must not be mistaken for an empty or a complete list.
+        # Kernel::System::Log is not used here, because this method is also called
+        # while Kernel::Config is constructed, see Kernel::Config::Defaults::SyncWithS3().
+        if ( my $Error = $Transaction->error ) {
+            my $ResponseBody = $Transaction->res->body // '';
+            warn "Could not list the S3 objects with the prefix '$CompletePrefix': $Error->{message} $ResponseBody\n";
+
+            return;
+        }
+
+        my $ResponseDOM = $Transaction->res->dom;
+
+        # look at the Contents nodes in the returned XML
+        $ResponseDOM->find('Contents')->map(
+            sub {
+                my ($ContentNode) = @_;
+
+                my %Properties;
+
+                # The key in the XML also includes the prefix.
+                my $Key = $ContentNode->at('Key')->text;
+                $Properties{Key} = $Key;
+
+                # also keep the objects in the subdirectories, but relative to the prefix
+                my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
+
+                # TODO: maybe rename to FilesizeRaw
+                $Properties{Size} = $ContentNode->at('Size')->text;
+
+                # LastModified is actually the time when the file was uploaded
+                my $ISO8601 = $ContentNode->at('LastModified')->text;
+                my $Epoch   = Mojo::Date->new($ISO8601)->epoch;
+                $Properties{Mtime} = $Epoch;
+
+                $Name2Properties{$Name} = \%Properties;
+            }
+        );
+
+        # IsTruncated is 'true' when there are more objects than listed in this response
+        my $IsTruncatedNode = $ResponseDOM->at('IsTruncated');
+        last PAGE unless $IsTruncatedNode;
+        last PAGE unless $IsTruncatedNode->text eq 'true';
+
+        my $NextContinuationTokenNode = $ResponseDOM->at('NextContinuationToken');
+        last PAGE unless $NextContinuationTokenNode;
+
+        $ContinuationToken = $NextContinuationTokenNode->text;
+    }
 
     return %Name2Properties;
 }
@@ -603,57 +640,83 @@ sub DiscardObjects {
         ( exists $Param{Delimiter} ? ( Delimiter => $Param{Delimiter} ) : () ),
     );
 
-    # There have been problems with deleting multiple objects at once. Discard single object as a workaraóund.
-    if ( !$Self->{DeleteMulti} ) {
-        my $DiscardSuccess = 1;
+    # collect the keys of the objects that should be discarded
+    my @Keys;
 
-        FILENAME:
-        for my $Filename ( sort keys %Name2Properties ) {
+    FILENAME:
+    for my $Filename ( sort keys %Name2Properties ) {
 
-            # keep files matching a regex
-            next FILENAME if $Param{Keep}        && $Filename =~ $Param{Keep};
-            next FILENAME if $Param{DiscardOnly} && $Filename !~ $Param{DiscardOnly};
+        # keep files matching a regex
+        next FILENAME if $Param{Keep}        && $Filename =~ $Param{Keep};
+        next FILENAME if $Param{DiscardOnly} && $Filename !~ $Param{DiscardOnly};
 
-            $DiscardSuccess = $Self->DiscardObject(
-                Key => "$Param{Prefix}$Filename",
-            );
-
-            last FILENAME unless $DiscardSuccess;
-        }
-
-        return $DiscardSuccess;
+        # the prefix already has a trailing slash
+        push @Keys, "$Param{Prefix}$Filename";
     }
 
-    # Create XML for deleting objects with the to be deleted prefix
-    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
-    my $DOM = Mojo::DOM->new->xml(1);
-    {
-        # start with the toplevel Delete tag
-        $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
+    # nothing to do, an empty delete request would be rejected by S3
+    return 1 unless @Keys;
 
-        FILENAME:
-        for my $Filename ( sort keys %Name2Properties ) {
-
-            # keep files matching a regex
-            next FILENAME if $Param{Keep}        && $Filename =~ $Param{Keep};
-            next FILENAME if $Param{DiscardOnly} && $Filename !~ $Param{DiscardOnly};
-
-            # the key which should be deleted, note that that prefix already has a trailing slash
-            my $Key = join '/', $Self->{HomePrefix}, "$Param{Prefix}$Filename";
-
-            $DOM->at('Delete')->append_content(
-                $DOM->new_tag('Object')->at('Object')->append_content(
-                    $DOM->new_tag( Key => $Key )
-                )
-            );
+    # There have been problems with deleting multiple objects at once. Discard single object as a workaraóund.
+    if ( !$Self->{DeleteMulti} ) {
+        for my $Key (@Keys) {
+            return unless $Self->DiscardObject( Key => $Key );
         }
+
+        return 1;
+    }
+
+    # A single request may delete at most 1000 objects.
+    my $DiscardSuccess = 1;
+    while ( my @KeysOfOneRequest = splice @Keys, 0, 1000 ) {
+        my $RequestSuccess = $Self->_DiscardObjectsRequest(
+            Keys => \@KeysOfOneRequest,
+        );
+        $DiscardSuccess = 0 unless $RequestSuccess;
+    }
+
+    return unless $DiscardSuccess;
+    return 1;
+}
+
+=head1 PRIVATE INTERFACE
+
+=head2 _DiscardObjectsRequest()
+
+Discard up to 1000 objects with a single request.
+The keys are given without bucket and without home prefix.
+
+    my $Success = $StorageS3Object->_DiscardObjectsRequest(
+        Keys => [ 'var/article/2026/11/19/4711/plain.txt', 'var/article/2026/11/19/4711/file-1' ],
+    );
+
+See L<https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html>.
+
+=cut
+
+sub _DiscardObjectsRequest {
+    my ( $Self, %Param ) = @_;
+
+    # create the XML that lists the objects to be deleted
+    my $DOM = Mojo::DOM->new->xml(1);
+    $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
+
+    for my $Key ( $Param{Keys}->@* ) {
+        my $KeyWithHomePrefix = join '/', $Self->{HomePrefix}, $Key;
+
+        $DOM->at('Delete')->append_content(
+            $DOM->new_tag('Object')->at('Object')->append_content(
+                $DOM->new_tag( Key => $KeyWithHomePrefix )
+            )
+        );
     }
 
     my $SerialisedDOM = $DOM->to_string;
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$SerialisedDOM );
 
-    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
-    # delete plain
+    # S3 requires the MD5 checksum of the request body for deleting multiple objects
+    my $ContentMD5 = encode_base64( md5($SerialisedDOM), '' );
+
     my $Now = Mojo::Date->new(time)->to_datetime;
     my $URL = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
@@ -661,18 +724,46 @@ sub DiscardObjects {
         ->path( $Self->{Bucket} );
     $URL->query('delete=');
     my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'POST',
-        datetime => $Now,
-        url      => $URL,
-        payload  => [$SerialisedDOM],
+        method         => 'POST',
+        datetime       => $Now,
+        url            => $URL,
+        signed_headers => { 'Content-MD5' => $ContentMD5 },
+        payload        => [$SerialisedDOM],
     );
 
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
 
-    # the S3 backend does not support storing articles in mixed backends
-    # TODO: check success
-    return 1;
+    if ( my $Error = $Transaction->error ) {
+        my $ResponseBody = $Transaction->res->body // '';
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Message  => "Could not discard the S3 objects: $Error->{message} $ResponseBody",
+            Priority => 'error',
+        );
+
+        return;
+    }
+
+    # The request is successful even when single objects could not be deleted.
+    # These objects are reported in Error nodes of the response.
+    my @FailedKeys;
+    for my $ErrorNode ( $Transaction->res->dom->find('Error')->each ) {
+        my $KeyNode  = $ErrorNode->at('Key');
+        my $CodeNode = $ErrorNode->at('Code');
+        my $Key      = $KeyNode  ? $KeyNode->text  : '';
+        my $Code     = $CodeNode ? $CodeNode->text : '';
+
+        push @FailedKeys, "$Key ($Code)";
+    }
+
+    return 1 unless @FailedKeys;
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Message  => 'Could not discard the S3 objects ' . join( ', ', @FailedKeys ),
+        Priority => 'error',
+    );
+
+    return;
 }
 
 1;

@@ -66,14 +66,11 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
             User => $UserRand,
         );
 
-        last TRY if !%UserData;
+        last TRY unless %UserData;
 
         next TRY if $Try ne 20;
 
-        $Self->True(
-            0,
-            'Find non existing customer user login.',
-        );
+        fail('Find non existing customer user login.');
     }
 
     $UserID = $UserRand;
@@ -89,47 +86,110 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
         UserID         => 1,
     );
 
-    $Self->True(
-        $UserID,
-        "CustomerUserAdd() - $UserID",
-    );
+    ok( $UserID, "CustomerUserAdd() - $UserID" );
 
-    my %User = $CustomerUserObject->CustomerUserDataGet(
-        User => $UserID,
-    );
+    subtest "CustomerUserGet() after CustomerUserAdd() - $Key" => sub {
 
-    $Self->Is(
-        $User{UserFirstname},
-        "Firstname Test$Key",
-        "CustomerUserGet() - UserFirstname - $Key",
-    );
-    $Self->Is(
-        $User{UserLastname},
-        "Lastname Test$Key",
-        "CustomerUserGet() - UserLastname - $Key",
-    );
-    $Self->Is(
-        $User{UserLogin},
-        $UserRand,
-        "CustomerUserGet() - UserLogin - $Key",
-    );
-    $Self->Is(
-        $User{UserEmail},
-        $UserRand . '-Email@example.com',
-        "CustomerUserGet() - UserEmail - $Key",
-    );
-    $Self->Is(
-        $User{UserCustomerID},
-        $UserRand . '-Customer-Id',
-        "CustomerUserGet() - UserCustomerID - $Key",
-    );
-    $Self->Is(
-        $User{ValidID},
-        1,
-        "CustomerUserGet() - ValidID - $Key",
-    );
+        my %User = $CustomerUserObject->CustomerUserDataGet(
+            User => $UserID,
+        );
 
-    my $Update = $CustomerUserObject->CustomerUserUpdate(
+        is(
+            $User{UserFirstname},
+            "Firstname Test$Key",
+            "UserFirstname",
+        );
+        is(
+            $User{UserLastname},
+            "Lastname Test$Key",
+            "UserLastname",
+        );
+        is(
+            $User{UserLogin},
+            $UserRand,
+            "UserLogin",
+        );
+        is(
+            $User{UserEmail},
+            $UserRand . '-Email@example.com',
+            "UserEmail",
+        );
+        is(
+            $User{UserMailString},
+            qq{"Firstname Test$Key Lastname Test$Key" <$UserRand-Email\@example.com>},
+            'UserMailString',
+        );
+        is(
+            $User{UserCustomerID},
+            $UserRand . '-Customer-Id',
+            "UserCustomerID",
+        );
+        is(
+            $User{ValidID},
+            1,
+            "ValidID",
+        );
+    };
+
+    # first update, with an invalid email
+    my $UpdateSuccess1 = $CustomerUserObject->CustomerUserUpdate(
+        Source         => 'CustomerUser',
+        ID             => $UserRand,
+        UserFirstname  => 'Firstname Test U p  d   ate ' . $Key,
+        UserLastname   => 'Lastname Test U p  d   ate ' . $Key,
+        UserCustomerID => $UserRand . '-Customer-Update-Id',
+        UserLogin      => $UserRand,
+        UserEmail      => $UserRand . '-UpdateInvalidEmail@',
+        ValidID        => 1,
+        UserID         => 1,
+    );
+    ok( $UpdateSuccess1, "CustomerUserUpdate() 1 $Key - $UserID" );
+
+    subtest "CustomerUserGet() after first update - $Key" => sub {
+
+        my %User = $CustomerUserObject->CustomerUserDataGet(
+            User => $UserID,
+        );
+
+        is(
+            $User{UserFirstname},
+            "Firstname Test U p  d   ate $Key",
+            "CustomerUserGet$Key() - UserFirstname",
+        );
+        is(
+            $User{UserLastname},
+            "Lastname Test U p  d   ate $Key",
+            "CustomerUserGet$Key() - UserLastname",
+        );
+        is(
+            $User{UserLogin},
+            $UserRand,
+            "CustomerUserGet$Key() - UserLogin",
+        );
+        is(
+            $User{UserEmail},
+            $UserRand . '-UpdateInvalidEmail@',
+            "CustomerUserGet$Key() - UserEmail",
+        );
+        is(
+            $User{UserMailString},
+            qq{Firstname Test U p  d   ate $Key Lastname Test U p  d   ate $Key $UserRand-UpdateInvalidEmail\@},
+            'UserMailString',
+        );
+        is(
+            $User{UserCustomerID},
+            $UserRand . '-Customer-Update-Id',
+            "CustomerUserGet$Key() - UserCustomerID",
+        );
+        is(
+            $User{ValidID},
+            1,
+            "CustomerUserGet$Key() - ValidID",
+        );
+    };
+
+    # second update with a valid email
+    my $UpdateSuccess2 = $CustomerUserObject->CustomerUserUpdate(
         Source         => 'CustomerUser',
         ID             => $UserRand,
         UserFirstname  => 'Firstname Test Update' . $Key,
@@ -140,63 +200,62 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
         ValidID        => 1,
         UserID         => 1,
     );
-    $Self->True(
-        $Update,
-        "CustomerUserUpdate$Key() - $UserID",
-    );
+    ok( $UpdateSuccess2, "CustomerUserUpdate() 2 $Key - $UserID" );
 
-    %User = $CustomerUserObject->CustomerUserDataGet(
-        User => $UserID,
-    );
+    subtest "CustomerUserGet() after second update - $Key" => sub {
 
-    $Self->Is(
-        $User{UserFirstname},
-        "Firstname Test Update$Key",
-        "CustomerUserGet$Key() - UserFirstname",
-    );
-    $Self->Is(
-        $User{UserLastname},
-        "Lastname Test Update$Key",
-        "CustomerUserGet$Key() - UserLastname",
-    );
-    $Self->Is(
-        $User{UserLogin},
-        $UserRand,
-        "CustomerUserGet$Key() - UserLogin",
-    );
-    $Self->Is(
-        $User{UserEmail},
-        $UserRand . '-Update@example.com',
-        "CustomerUserGet$Key() - UserEmail",
-    );
-    $Self->Is(
-        $User{UserCustomerID},
-        $UserRand . '-Customer-Update-Id',
-        "CustomerUserGet$Key() - UserCustomerID",
-    );
-    $Self->Is(
-        $User{ValidID},
-        1,
-        "CustomerUserGet$Key() - ValidID",
-    );
+        my %User = $CustomerUserObject->CustomerUserDataGet(
+            User => $UserID,
+        );
+
+        is(
+            $User{UserFirstname},
+            "Firstname Test Update$Key",
+            "CustomerUserGet$Key() - UserFirstname",
+        );
+        is(
+            $User{UserLastname},
+            "Lastname Test Update$Key",
+            "CustomerUserGet$Key() - UserLastname",
+        );
+        is(
+            $User{UserLogin},
+            $UserRand,
+            "CustomerUserGet$Key() - UserLogin",
+        );
+        is(
+            $User{UserEmail},
+            $UserRand . '-Update@example.com',
+            "CustomerUserGet$Key() - UserEmail",
+        );
+        is(
+            $User{UserMailString},
+            qq{"Firstname Test Update$Key Lastname Test Update$Key" <$UserRand-Update\@example.com>},
+            'UserMailString',
+        );
+        is(
+            $User{UserCustomerID},
+            $UserRand . '-Customer-Update-Id',
+            "CustomerUserGet$Key() - UserCustomerID",
+        );
+        is(
+            $User{ValidID},
+            1,
+            "CustomerUserGet$Key() - ValidID",
+        );
+    };
 
     # lc
-    %User = $CustomerUserObject->CustomerUserDataGet(
+    my %User = $CustomerUserObject->CustomerUserDataGet(
         User => lc($UserID),
     );
-    $Self->True(
-        $User{UserLogin},
-        "CustomerUserGet() - lc() - $UserID",
-    );
+    ok( $User{UserLogin}, "CustomerUserGet() - lc() - $UserID" );
 
     # uc
     %User = $CustomerUserObject->CustomerUserDataGet(
         User => uc($UserID),
     );
-    $Self->True(
-        $User{UserLogin},
-        "CustomerUserGet() - uc() - $UserID",
-    );
+    ok( $User{UserLogin}, "CustomerUserGet() - uc() - $UserID" );
 
     # check customer ids
     my @CustomerIDs = $CustomerUserObject->CustomerIDs(
@@ -807,7 +866,7 @@ $Self->Is(
     "UpdatePreferences $UserID - da",
 );
 
-#update customer user
+# update customer user
 my $Update = $CustomerUserObject->CustomerUserUpdate(
     Source         => 'CustomerUser',
     UserLogin      => 'NewLogin' . $UserID,

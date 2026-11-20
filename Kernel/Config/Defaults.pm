@@ -1771,7 +1771,8 @@ via the Preferences button after logging in.
         CustomerID    => 'customer_id',
         CustomerValid => 'valid_id',
 
-        # The last field must always be the email address so that a valid
+        # The values for these storage keys make up the attribute 'UserMailString'.
+        # The last field must always be the bare email address so that a valid
         #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
         CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
 
@@ -1897,7 +1898,9 @@ via the Preferences button after logging in.
 #        # customer #
 #        CustomerID => 'mail',
 #
-#        # The last field must always be the email address so that a valid
+#        # The values for these storage keys make up the attribute 'UserMailString'.
+#        # The last field must always be the bare email address so that a valid
+#        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        CustomerUserListFields => ['cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
@@ -2711,8 +2714,10 @@ sub SyncWithS3 {
 
         # Find files in the file system that have been discarded in the S3 storage.
         # Note that the regular ZZZ*.pm files are never discarded.
+        # A failed or empty listing must not lead to removing local files. Therefore
+        # obsolete files are only looked for when the deployed ZZZAAuto.pm was listed.
         my @ObsoleteFiles;
-        {
+        if ( $SubPath2Properties{'ZZZAAuto.pm'} ) {
              # files that are used in the unit tests
             push @ObsoleteFiles,
                 grep { !$SubPath2Properties{ basename($_) } }
@@ -2722,7 +2727,7 @@ sub SyncWithS3 {
             # note that POSIX does not allow to match multiple digits, so we need an extra filter
             push @ObsoleteFiles,
                 grep { !$SubPath2Properties{ 'User/' . basename($_) } }
-                grep { m!/\d+\.pm^! }
+                grep { m!/\d+\.pm$! }
                 glob "$Self->{Home}/Kernel/Config/Files/User/[0-9]*.pm";
         }
 

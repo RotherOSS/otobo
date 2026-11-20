@@ -288,6 +288,11 @@ sub ArticleSearchIndexWhereCondition {
         return;
     }
 
+    # validate ContentSearch
+    if ( !$Param{SearchParams}->{ContentSearch} || $Param{SearchParams}->{ContentSearch} !~ /^(AND|OR)$/i ) {
+        $Param{SearchParams}->{ContentSearch} = 'AND';
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
