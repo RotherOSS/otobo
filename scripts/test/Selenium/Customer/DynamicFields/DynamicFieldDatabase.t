@@ -533,7 +533,7 @@ $Selenium->RunTest(
         # Wait for AJAX Call
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        $Selenium->find_element( ".ui-menu-item", 'css' )->click();
+        $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
 
         # Open Detailed Search Dialog
         $Selenium->find_element(
@@ -604,7 +604,7 @@ $Selenium->RunTest(
         # Wait for AJAX Call
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        $Selenium->find_element( ".ui-menu-item", 'css' )->click();
+        $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
 
         # Open Detailed Search Dialog
         $Selenium->find_element(
