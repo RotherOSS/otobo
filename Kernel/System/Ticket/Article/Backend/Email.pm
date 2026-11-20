@@ -288,9 +288,10 @@ sub ArticleSend {
     );
 
     # create article
-    my $Time      = $DateTimeObject->ToEpoch();
-    my $Random    = rand 999999;
-    my $FQDN      = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+    my $Time   = $DateTimeObject->ToEpoch();
+    my $Random = rand 999999;
+    my $FQDN   = $Kernel::OM->Get('Kernel::Config')->Get('MessageIDDomain')
+        || $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
     my $MessageID = "<$Time.$Random\@$FQDN>";
     my $ArticleID = $Self->ArticleCreate(
         %Param,
@@ -380,9 +381,10 @@ sub ArticleBounce {
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # create message id
-    my $Time         = $DateTimeObject->ToEpoch();
-    my $Random       = rand 999999;
-    my $FQDN         = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+    my $Time   = $DateTimeObject->ToEpoch();
+    my $Random = rand 999999;
+    my $FQDN   = $Kernel::OM->Get('Kernel::Config')->Get('MessageIDDomain')
+        || $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
     my $NewMessageID = "<$Time.$Random.0\@$FQDN>";
     my $Email        = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
 
