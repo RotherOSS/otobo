@@ -534,6 +534,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ResultElementText_1').length;",
+        );
 
         # Open Detailed Search Dialog
         $Selenium->find_element(
@@ -551,7 +554,10 @@ $Selenium->RunTest(
             Element => '#id',
             Value   => '2',
         );
-        $Selenium->find_element( "#Search",                  'css' )->click();
+        $Selenium->find_element( "#Search", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$.active == 0",
+        );
         $Selenium->find_element( "tr[class='MasterAction']", 'css' )->click();
 
         $Selenium->WaitFor(
@@ -605,6 +611,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ResultElementText_1').length;",
+        );
 
         # Open Detailed Search Dialog
         $Selenium->find_element(
