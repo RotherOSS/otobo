@@ -366,10 +366,10 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  Convert-ASN1-0.36
-    pathname: T/TI/TIMLEGGE/Convert-ASN1-0.36.tar.gz
+  Convert-ASN1-0.37
+    pathname: T/TI/TIMLEGGE/Convert-ASN1-0.37.tar.gz
     provides:
-      Convert::ASN1 0.36
+      Convert::ASN1 0.37
     requirements:
       ExtUtils::MakeMaker 0
       Time::Local 1.27
@@ -1472,16 +1472,16 @@ DISTRIBUTIONS
       Guard 1.023
     requirements:
       ExtUtils::MakeMaker 0
-  HTML-Parser-3.86
-    pathname: O/OA/OALDERS/HTML-Parser-3.86.tar.gz
+  HTML-Parser-3.87
+    pathname: O/OA/OALDERS/HTML-Parser-3.87.tar.gz
     provides:
-      HTML::Entities 3.86
-      HTML::Filter 3.86
-      HTML::HeadParser 3.86
-      HTML::LinkExtor 3.86
-      HTML::Parser 3.86
-      HTML::PullParser 3.86
-      HTML::TokeParser 3.86
+      HTML::Entities 3.87
+      HTML::Filter 3.87
+      HTML::HeadParser 3.87
+      HTML::LinkExtor 3.87
+      HTML::Parser 3.87
+      HTML::PullParser 3.87
+      HTML::TokeParser 3.87
     requirements:
       Carp 0
       Exporter 0
@@ -2106,10 +2106,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.57
-    pathname: N/NL/NLNETLABS/Net-DNS-1.57.tar.gz
+  Net-DNS-1.58
+    pathname: N/NL/NLNETLABS/Net-DNS-1.58.tar.gz
     provides:
-      Net::DNS 1.57
+      Net::DNS 1.58
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2054
       Net::DNS::DomainName1035 2054
@@ -2119,8 +2119,8 @@ DISTRIBUTIONS
       Net::DNS::Mailbox1035 2002
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
-      Net::DNS::Packet 2003
-      Net::DNS::Parameters 2059
+      Net::DNS::Packet 2067
+      Net::DNS::Parameters 2066
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2136,6 +2136,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
       Net::DNS::RR::DELEG 2053
+      Net::DNS::RR::DELEGPARAM 2066
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2059
@@ -2189,9 +2190,9 @@ DISTRIBUTIONS
       Net::DNS::RR::PX 2003
       Net::DNS::RR::RESINFO 2003
       Net::DNS::RR::RP 2002
-      Net::DNS::RR::RRSIG 2059
+      Net::DNS::RR::RRSIG 2066
       Net::DNS::RR::RT 2003
-      Net::DNS::RR::SIG 2057
+      Net::DNS::RR::SIG 2066
       Net::DNS::RR::SMIMEA 2003
       Net::DNS::RR::SOA 2002
       Net::DNS::RR::SPF 2003
@@ -2200,7 +2201,7 @@ DISTRIBUTIONS
       Net::DNS::RR::SVCB 2043
       Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
-      Net::DNS::RR::TSIG 2060
+      Net::DNS::RR::TSIG 2066
       Net::DNS::RR::TXT 2003
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
