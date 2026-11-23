@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2026-03-10 19:00+0000\n"
 "Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
@@ -16255,6 +16255,12 @@ msgstr ""
 "ميغابايت على الأقل (الحالي: ‎%s ميغابايت، مستحسن: ‎%s ميغابايت). لمزيد من "
 "المعلومات، الرجاء إلقاء نظرة على ‎%s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -18110,6 +18116,14 @@ msgid ""
 msgstr ""
 "يجب استخدام إعداد query_cache_size (أكثر من 10 ميغابايت ولكن ليس أكثر من 512 "
 "ميغابايت)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -21204,10 +21218,6 @@ msgstr ""
 "=> 1 - تعرض أيضًا معلومات العميل)."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr "يسمح للوكلاء غير الصالحين (invalid) بإنشاء إحصاءات فردية."
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -21222,6 +21232,12 @@ msgid ""
 msgstr ""
 "السماح للمسؤولين بتسجيل الدخول كمستخدمين آخرين، من خلال لوحة إدارة "
 "المستخدمين."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr "يسمح للوكلاء غير الصالحين (invalid) بإنشاء إحصاءات فردية."
 
 #. SysConfig
 msgid ""

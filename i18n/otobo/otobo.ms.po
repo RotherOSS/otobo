@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
 "Language-Team: Malay (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -16049,6 +16049,12 @@ msgstr ""
 "anda kepada sekurang-kurangnya %s MB ( semasa: %s MB, disyorkan: %s MB) . "
 "Untuk maklumat lanjut, sila lihat di %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -17875,6 +17881,14 @@ msgid ""
 msgstr ""
 "Tetapan 'saiz_query_cache' harus digunakan (tinggi daripada 10 MB tetapi "
 "tidak melebihi 512 MB)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -20929,10 +20943,6 @@ msgstr ""
 "menunjukkan maklumat pelanggan)."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr "Membenarkan agen sah untuk menghasilkan statistik berkaitan-individu."
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -20947,6 +20957,12 @@ msgid ""
 msgstr ""
 "Membolehkan mempunyai format tiket gambaran kecil (CustomerInfo => 1 - juga "
 "menunjukkan maklumat pelanggan)."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr "Membenarkan agen sah untuk menghasilkan statistik berkaitan-individu."
 
 #. SysConfig
 msgid ""

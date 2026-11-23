@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2024-05-09 15:15+0000\n"
 "Last-Translator: Oleksandr Mykhailov <o.mykhailov@etg.ua>\n"
 "Language-Team: Ukrainian <http://weblate.otobo.org/projects/otobo/otobo-10/"
@@ -16158,6 +16158,12 @@ msgstr ""
 "даних, принаймні %s МБ (зараз: %s МБ, рекомендовано: %s МБ). Для отримання "
 "додаткової інформації, будь ласка, перегляньте %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -17996,6 +18002,14 @@ msgid ""
 msgstr ""
 "Параметр 'query_cache_size' повинен використовуватися (вище 10 МБ, але не "
 "більше 512 МБ)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -20940,10 +20954,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -20953,6 +20963,10 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other users, via the users "
 "administration panel."
+msgstr ""
+
+#. SysConfig
+msgid "Allows the use of invalid agents in individual-related stats."
 msgstr ""
 
 #. SysConfig

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2020-01-25 16:27+0000\n"
 "Last-Translator: Dusan Vuckovic <dusan.vuckovic@otrs.com>\n"
 "Language-Team: Serbian <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -16329,6 +16329,12 @@ msgstr ""
 "података на најмање %s MB (тренутно: %s MB, препоручено: %s MB). За више "
 "информација, молимо погледајте на %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -18184,6 +18190,14 @@ msgid ""
 msgstr ""
 "Подешавање 'query_cache_size' мора бити коришћено (веће од 10 MB, али не "
 "више од 512 MB)"
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -21317,11 +21331,6 @@ msgstr ""
 "такође приказује информације о клијенту)."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
-"Дозвољава неважећим оператерима да генеришу индивидуално повезане статистике."
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -21336,6 +21345,13 @@ msgid ""
 msgstr ""
 "Дозвољава администраторима да приступе као други корисници, кроз "
 "административни панел."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr ""
+"Дозвољава неважећим оператерима да генеришу индивидуално повезане статистике."
 
 #. SysConfig
 msgid ""

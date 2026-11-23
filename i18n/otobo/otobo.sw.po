@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
 "Language-Team: Swahili (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -15914,6 +15914,12 @@ msgid ""
 "please have a look at %s."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -17718,6 +17724,14 @@ msgid ""
 msgstr ""
 "Mpangilio 'Ukubwa_wa hifadhi data_wa ulizo' utumike ( kubwa zaidi ya MB 10 "
 "lakini sio zaidi ya MB 512)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -20724,10 +20738,6 @@ msgstr ""
 "inaonyesha pia taarifa za mteja)."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr "Inaruhusu mawakala batili kutengeneza takwimu zinazohusiana na mtu."
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -20742,6 +20752,12 @@ msgid ""
 msgstr ""
 "Inawaruhusu viongozi kuingia kama wateja wengine, kupitia paneli ya uongozi "
 "ya watumiaji."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr "Inaruhusu mawakala batili kutengeneza takwimu zinazohusiana na mtu."
 
 #. SysConfig
 msgid ""

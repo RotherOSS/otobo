@@ -53,7 +53,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2026-11-18 07:00+0000\n"
 "Last-Translator: Alexander Oesterling <ao@otobo.io>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo-11-0/otobo/"
@@ -16897,6 +16897,12 @@ msgstr ""
 "Datenbank-Konfiguration auf mindestens %s MB (aktuell: %s MB, empfohlen: %s "
 "MB). Mehr Informationen finden Sie unter %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -18857,6 +18863,14 @@ msgid ""
 msgstr ""
 "Die Einstellung query_cache_size sollte genutzt werden (mehr als 10 MB aber "
 "nicht mehr als 512 MB)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -22111,11 +22125,6 @@ msgstr ""
 "zeigt auch die Kundeninformation )."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
-"Erlaubt Agenten, die ungültig sind, individuelle Statistiken zu generieren."
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -22130,6 +22139,13 @@ msgid ""
 msgstr ""
 "Erlaubt Administratoren sich als anderer Agent über die Agenten-"
 "Administrationsoberfläche anzumelden."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr ""
+"Erlaubt Agenten, die ungültig sind, individuelle Statistiken zu generieren."
 
 #. SysConfig
 msgid ""

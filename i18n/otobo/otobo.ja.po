@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-10-21 13:49+0000\n"
+"POT-Creation-Date: 2026-11-23 16:20+0000\n"
 "PO-Revision-Date: 2026-10-06 05:41+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <http://translate.otobo.org/projects/otobo-11-0/"
@@ -16341,6 +16341,12 @@ msgstr ""
 "innodb_log_file_sizeの設定を少なくとも%s MB以上にしてください(現在: %s MB, 推"
 "奨: %s MB)。詳細は%sを参照して下さい。"
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -18198,6 +18204,14 @@ msgid ""
 msgstr ""
 "query_cache_size の設定を行ってください (設定値は10MB以上512MB以下に設定する"
 "必要があります)"
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -21349,10 +21363,6 @@ msgstr ""
 "客情報も表示します)。"
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr "統計出力において無効にされた担当者も出力対象とします。"
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -21367,6 +21377,12 @@ msgid ""
 msgstr ""
 "管理者が、ユーザ管理パネルを通じて、別のユーザとしてログインすることを許可し"
 "ます。"
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr "統計出力において無効にされた担当者も出力対象とします。"
 
 #. SysConfig
 msgid ""
