@@ -52,7 +52,7 @@
                             <div class="Field">
                                 <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDInvalid | html %]" autocomplete="off" />
                                 <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate(Data.CustomerUserIDServerErrorMessage) | html %]</p></div>
                             </div>
                             <div class="Clear"></div>
 
