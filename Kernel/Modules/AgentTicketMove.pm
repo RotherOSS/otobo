@@ -1219,8 +1219,8 @@ sub Run {
             IsVisibleForCustomer => 0,
             SenderType           => 'agent',
             From                 => $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                RealName => $Self->{UserFullname},
-                Address  => $Self->{UserEmail},
+                Phrase  => $Self->{UserFullname},
+                Address => $Self->{UserEmail},
             ) || "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
             Subject              => $GetParam{Subject},
             Body                 => $GetParam{Body},
