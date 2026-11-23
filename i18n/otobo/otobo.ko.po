@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-11-10 12:13+0000\n"
+"POT-Creation-Date: 2026-11-23 16:33+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -17570,6 +17570,12 @@ msgstr ""
 "오류 : 데이터베이스의 innodb_log_file_size 값을 최소 %s MB (현재 : %s MB, 권"
 "장 : %s MB)로 설정하십시오. 자세한 내용은 %s를보십시오."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -18321,6 +18327,10 @@ msgstr "살피다"
 #. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
 msgid "Add to list of watched tickets"
 msgstr "시청 티켓 목록에 추가"
+
+#. Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+msgid "DELETE FILTER"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
@@ -19579,6 +19589,14 @@ msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
 msgstr "'query_cache_size'설정을 사용해야합니다 (10MB 이상 512MB 이하)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -22695,10 +22713,6 @@ msgstr ""
 "시)."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr "잘못된 에이전트가 개인 관련 통계를 생성할 수 있습니다."
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -22711,6 +22725,12 @@ msgid ""
 "administration panel."
 msgstr ""
 "관리자가 사용자 관리 패널을 통해 다른 사용자로 로그인 할 수있게 합니다."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
+msgstr "잘못된 에이전트가 개인 관련 통계를 생성할 수 있습니다."
 
 #. SysConfig
 msgid ""

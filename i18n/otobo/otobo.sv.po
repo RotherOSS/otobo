@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-11-10 12:13+0000\n"
+"POT-Creation-Date: 2026-11-23 16:33+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Anthon Nilsson <superdos@gmail.com>, 2019\n"
 "Language-Team: Swedish (https://translate.otobo.org/projects/otobo10/otobo/"
@@ -17130,6 +17130,12 @@ msgid ""
 "please have a look at %s."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -17864,6 +17870,10 @@ msgstr "Bevaka"
 #. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
 msgid "Add to list of watched tickets"
 msgstr "Lägg till i listan av bevakade ärenden"
+
+#. Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+msgid "DELETE FILTER"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
@@ -19106,6 +19116,14 @@ msgstr ""
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
@@ -22059,10 +22077,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
@@ -22072,6 +22086,10 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other users, via the users "
 "administration panel."
+msgstr ""
+
+#. SysConfig
+msgid "Allows the use of invalid agents in individual-related stats."
 msgstr ""
 
 #. SysConfig
