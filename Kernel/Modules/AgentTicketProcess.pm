@@ -5695,10 +5695,10 @@ sub _StoreActivityDialog {
                 }
 
                 my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                    Phrase  => $Self->{UserFullname},
-                    Address => $Self->{UserEmail},
+                    Phrase               => $Self->{UserFullname},
+                    Address              => $Self->{UserEmail},
+                    AcceptInvalidAddress => 1,
                 );
-                $From ||= "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'agent',

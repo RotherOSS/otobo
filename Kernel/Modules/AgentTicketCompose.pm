@@ -1623,10 +1623,10 @@ sub Run {
                 next CUSTOMER_USER_ID if !%Customer;
 
                 my $CustomerRecipient = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                    Phrase  => "$Customer{UserFirstname} $Customer{UserLastname}",
-                    Address => $Customer{UserEmail},
+                    Phrase               => "$Customer{UserFirstname} $Customer{UserLastname}",
+                    Address              => $Customer{UserEmail},
+                    AcceptInvalidAddress => 1,
                 );
-                $CustomerRecipient ||= "\"$Customer{UserFirstname} $Customer{UserLastname}\" <$Customer{UserEmail}>";
                 push @CustomerRecipients, $CustomerRecipient;
             }
 

@@ -364,10 +364,10 @@ sub Run {
 
         # Set "From" field according to user - UserFullname <UserEmail>, with the phrase quoted if needed.
         $Param{Config}->{From} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            Phrase  => $User{UserFullname},
-            Address => $User{UserEmail},
+            Phrase               => $User{UserFullname},
+            Address              => $User{UserEmail},
+            AcceptInvalidAddress => 1,
         );
-        $Param{Config}->{From} ||= $User{UserFullname} . ' <' . $User{UserEmail} . '>';
     }
 
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
