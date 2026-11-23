@@ -837,9 +837,8 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         # get params
         my %GetParams;
-        for my $Entry ( @{ $ConfigObject->Get('CustomerUser')->{Map} } ) {
-            $GetParams{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[1] )
-                || '';
+        for my $Key (qw(Title Firstname Lastname Email)) {
+            $GetParams{"User$Key"} = $ParamObject->GetParam( Param => $Key ) || '';
         }
         $GetParams{ValidID} = 1;
 
