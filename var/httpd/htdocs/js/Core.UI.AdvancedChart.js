@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 // --
 
-/*global d3, nv, canvg, StringView */
+/*global d3, nv, canvg */
 
 "use strict";
 
@@ -826,13 +826,17 @@ Core.UI.AdvancedChart = (function (TargetNS) {
      * @param {jQueryObject} $SVGContainer - The element containing the SVG element. There should be no other content.
      * @return {String} - The base64 data URL containing the SVG data with a proper XML header.
      * @description
-     *      Convert an SVG element to an SVG data URL.
+     *      Convert an SVG element to a data URL containing the SVG XML text.
      */
     TargetNS.ConvertSVGtoBase64 = function($SVGContainer) {
-        // window.btoa() does not work because it does not support Unicode DOM strings.
-        var SVGPrefix = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
-            UnicodeStringView = new StringView(SVGPrefix + GetSVGContent($SVGContainer));
-        return 'data:image/svg+xml;base64,' + UnicodeStringView.toBase64();
+
+        const SVGPrefix = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+        const Encoder = new TextEncoder();
+        const CharacterCodes = Encoder.encode(SVGPrefix + GetSVGContent($SVGContainer)); // UTF-8
+        const BinaryString = String.fromCharCode.apply(null, CharacterCodes);            // String of bytes
+
+        // return the data URL
+        return 'data:image/svg+xml;base64,' + btoa(BinaryString);                        // binary to ASCII, that is Base64
     };
 
     return TargetNS;
