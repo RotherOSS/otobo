@@ -1410,6 +1410,20 @@ sub CheckDBRequirements {
             END_SQL
     }
 
+    # Check the SQL mode NO_BACKSLASH_ESCAPES, it shouldn't be active
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} ) {
+
+        # Check the global variable as the global variable should be adapted.
+        my ($SQLMode) = $Result{DBH}->selectrow_array('SELECT @@GLOBAL.sql_mode');
+
+        if ( $SQLMode =~ m/NO_BACKSLASH_ESCAPES/ ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
+                "Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character."
+            );
+        }
+    }
+
     # Delete key/value pairs which should not be included in the sent json
     delete $Result{DB};
     delete $Result{DBH};
