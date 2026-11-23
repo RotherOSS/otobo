@@ -185,7 +185,12 @@ sub Run {
 
         # check needed data
         if ( !$Param{CustomerUserID} ) {
-            $Error{'CustomerUserIDInvalid'} = 'ServerError';
+            $Error{'CustomerUserIDInvalid'}            = 'ServerError';
+            $Error{'CustomerUserIDServerErrorMessage'} = Translatable('This field is required.');
+        }
+        elsif ( $Param{SelectedCustomerUser} eq '' ) {
+            $Error{'CustomerUserIDInvalid'}            = 'ServerError';
+            $Error{'CustomerUserIDServerErrorMessage'} = Translatable('Please select an entry from the list.');
         }
 
         if (%Error) {
@@ -263,7 +268,9 @@ sub Form {
         }
 
         $TicketCustomerID = $TicketData{CustomerID};
-        $Param{SelectedCustomerUser} = $TicketData{CustomerUserID};
+
+        # don't silently preselect the current customer user after a rejected submit
+        $Param{SelectedCustomerUser} = $Param{CustomerUserIDInvalid} ? '' : $TicketData{CustomerUserID};
 
         $Param{Table} = $LayoutObject->AgentCustomerViewTable(
             Data   => \%CustomerUserData,
