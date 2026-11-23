@@ -30,6 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailAddress',
     'Kernel::System::User',
     'Kernel::System::HTMLUtils',
 );

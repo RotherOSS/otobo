@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailAddress',
     'Kernel::System::HTMLUtils',
     'Kernel::System::LinkObject',
     'Kernel::System::Log',

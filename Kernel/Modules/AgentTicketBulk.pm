@@ -967,13 +967,13 @@ sub Run {
                             Address              => $Self->{UserEmail},
                             AcceptInvalidAddress => 1,
                         ),
-                        Subject              => $GetParam{'Subject'},
-                        Body                 => $GetParam{'Body'},
-                        MimeType             => $MimeType,
-                        Charset              => $LayoutObject->{UserCharset},
-                        UserID               => $Self->{UserID},
-                        HistoryType          => 'AddNote',
-                        HistoryComment       => '%%Bulk',
+                        Subject        => $GetParam{'Subject'},
+                        Body           => $GetParam{'Body'},
+                        MimeType       => $MimeType,
+                        Charset        => $LayoutObject->{UserCharset},
+                        UserID         => $Self->{UserID},
+                        HistoryType    => 'AddNote',
+                        HistoryComment => '%%Bulk',
                     );
                 }
 

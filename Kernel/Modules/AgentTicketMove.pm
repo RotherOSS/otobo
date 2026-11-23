@@ -1223,14 +1223,14 @@ sub Run {
                 Address              => $Self->{UserEmail},
                 AcceptInvalidAddress => 1,
             ),
-            Subject              => $GetParam{Subject},
-            Body                 => $GetParam{Body},
-            MimeType             => $MimeType,
-            Charset              => $LayoutObject->{UserCharset},
-            UserID               => $Self->{UserID},
-            HistoryType          => 'AddNote',
-            HistoryComment       => '%%Move',
-            NoAgentNotify        => 1,
+            Subject        => $GetParam{Subject},
+            Body           => $GetParam{Body},
+            MimeType       => $MimeType,
+            Charset        => $LayoutObject->{UserCharset},
+            UserID         => $Self->{UserID},
+            HistoryType    => 'AddNote',
+            HistoryComment => '%%Move',
+            NoAgentNotify  => 1,
         );
         if ( !$ArticleID ) {
             return $LayoutObject->ErrorScreen();
