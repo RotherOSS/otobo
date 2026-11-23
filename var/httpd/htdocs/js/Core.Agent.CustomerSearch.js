@@ -400,6 +400,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         // get customer tickets for AgentTicketCustomer
         if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
+
+            BackupData.CustomerEmail = $Element.val();
+            BackupData.CustomerKey = $('#SelectedCustomerUser').val();
+
             GetCustomerTickets($('#CustomerAutoComplete').val(), $('#CustomerID').val());
 
             $Element.blur(function () {

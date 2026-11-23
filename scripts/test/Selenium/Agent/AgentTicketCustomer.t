@@ -311,6 +311,32 @@ $Selenium->RunTest(
             "CustomerID is not cleared"
         );
 
+        # A customer user that was not selected from the autocomplete list is rejected.
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#CustomerAutoComplete.ServerError").length'
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#CustomerAutoCompleteServerError p').text().trim();"),
+            'Please select an entry from the list.',
+            "Free text customer user is rejected"
+        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.Dialog.Modal').length;" );
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && !\$('.Dialog.Modal').length;" );
+
+        # Select an existing customer user and keep the free text CustomerID.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#CustomerAutoComplete.ui-autocomplete-input").length'
+        );
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[0] );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomers[0])').click()");
+        $Selenium->WaitFor( JavaScript => "return \$('#CustomerID').val() === '$TestCustomers[0]'" );
+        $Selenium->find_element( "#CustomerID", 'css' )->clear();
+        $Selenium->find_element( "#CustomerID", 'css' )->send_keys($RandomCustomerUser);
+
         # Return CustomerID read only to default.
         $Helper->ConfigSettingChange(
             Valid => 1,
