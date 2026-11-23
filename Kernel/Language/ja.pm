@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.999552906110283;
+    $Self->{Completeness}        = 0.99895724713243;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5141,6 +5141,8 @@ sub Data {
             'エラー: DB側で%s MB以上のパケットを受け付けるように設定してください(現在 %s MBです)。DB側のmax_allowed_packet設定を確認してください。',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'innodb_log_file_sizeの設定を少なくとも%s MB以上にしてください(現在: %s MB, 推奨: %s MB)。詳細は%sを参照して下さい。',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5896,6 +5898,10 @@ sub Data {
         'Query Cache Size' => 'クエリキャッシュサイズ',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'query_cache_size の設定を行ってください (設定値は10MB以上512MB以下に設定する必要があります)',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'デフォルトのストレージエンジン',
@@ -7028,11 +7034,12 @@ Thanks for your help!
             '中程度のフォーマットでのチケット一覧の表示を許可します（CustomerInfo => 1 - 顧客情報も表示します)。',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '小さいフォーマットでのチケット一覧の表示を許可します（CustomerInfo => 1 - 顧客情報も表示します)。',
-        'Allows invalid agents to generate individual-related stats.' => '統計出力において無効にされた担当者も出力対象とします。',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '管理者は、顧客ユーザ管理パネルを経由して、他の顧客としてログインすることができます。',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             '管理者が、ユーザ管理パネルを通じて、別のユーザとしてログインすることを許可します。',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             '担当者インターフェイスのチケットのクローズ画面で、現在の作業を下書きとして保存できます。',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

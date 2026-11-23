@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.499701937406855;
+    $Self->{Completeness}        = 0.499329658870848;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5141,6 +5141,8 @@ sub Data {
             'ข้อผิดพลาด: โปรดตรวจสอบฐานข้อมูลของคุณว่าสามารถรับแพคเกจได้มากกว่า% s MB (ปัจจุบันรับเฉพาะแพคเกจขนาด% s MB) กรุณาปรับให้เข้าการตั้งค่า max_allowed_packet ของฐานข้อมูลของคุณเพื่อหลีกเลี่ยงข้อผิดพลาด',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'ข้อผิดพลาด: กรุณาระบุค่าสำหรับ innodb_log_file_size ในฐานข้อมูลของคุณอย่างน้อย% s MB (ปัจจุบัน:% s MB แนะนำ:% s MB) สำหรับข้อมูลเพิ่มเติมโปรดดูได้ที่',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5896,6 +5898,10 @@ sub Data {
         'Query Cache Size' => 'ขนาดQueryของแคช',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'การตั้งค่า \'query_cache_size ที่ควรใช้ (มากกว่า 10 MB แต่ไม่เกิน 512 MB)',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'เครื่องมือการจัดเก็บข้อมูลเริ่มต้น',
@@ -7028,11 +7034,12 @@ Thanks for your help!
             'อนุญาตให้มีรูปแบบภาพรวมของตั๋วขนาดกลาง (customerinfo => 1 - แสดงข้อมูลของลูกค้าอีกด้วย)',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'อนุญาตให้มีรูปแบบภาพรวมของตั๋วขนาดเล็ก (customerinfo => 1 - แสดงข้อมูลของลูกค้าอีกด้วย)',
-        'Allows invalid agents to generate individual-related stats.' => 'อนุญาตให้เอเย่นต์ที่ไม่ถูกต้องสร้างสถิติของแต่ละบุคคลที่เกี่ยวข้อง',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'อนุญาตให้ผู้ดูแลระบบเข้าสู่ระบบเป็นลูกค้า ผ่านแผงการจัดการลูกค้าผู้ใช้',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'อนุญาตให้ผู้ดูแลระบบเข้าสู่ระบบเป็นลูกค้า ผ่านแผงการจัดการผู้ใช้',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             '',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

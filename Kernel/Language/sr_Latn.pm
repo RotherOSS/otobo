@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.849478390461997;
+    $Self->{Completeness}        = 0.848949798897661;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5144,6 +5144,8 @@ sub Data {
             'Greška: Molimo da proverite da vaša baza podataka prihvata pakete po veličini veće od %s MB  (trenutno prihvata pakete veličine do %s MB). Molimo da prilagodite parametar max_allowed_packet podešavanje u vašoj bazi podataka kako bi izbegli greške.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Greška: Molimo da podesete vrednost za innodb_log_file_size u vašoj bazi podataka na najmanje %s MB (trenutno: %s MB, preporučeno: %s MB). Za više informacija, molimo pogledajte na %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5899,6 +5901,10 @@ sub Data {
         'Query Cache Size' => 'Veličina keš upita',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'Podešavanje \'query_cache_size\' mora biti korišćeno (veće od 10 MB, ali ne više od 512 MB)',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Podrazumevani mehanizam za skladištenje',
@@ -7031,11 +7037,12 @@ Vaša tehnička podrška
             'Dozvoljava posedovanje srednjeg formata pregleda tiketa ( CustomerInfo => 1 - takođe prikazuje informacije o klijentu).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Dozvoljava posedovanje malog formata pregleda tiketa ( CustomerInfo => 1  - takođe prikazuje informacije o klijentu).',
-        'Allows invalid agents to generate individual-related stats.' => 'Dozvoljava nevažećim operaterima da generišu individualno povezane statistike.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Dozvoljava administratorima da pristupe kao drugi klijenti, kroz administrativni panel klijenta korisnika.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Dozvoljava administratorima da pristupe kao drugi korisnici, kroz administrativni panel.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'Dozvoljava čuvanje trenutne forme kao nacrta u ekranu zatvaranja tiketa u interfejsu operatera.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.42682563338301;
+    $Self->{Completeness}        = 0.426634887531655;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5138,6 +5138,8 @@ sub Data {
             'Помилка: Будь ласка, переконайтеся в тому. що ваша база даних приймає пакунки розміром завбільшки %s МБ (в даний час приймаються пакунки за розміром до %s МБ). Будь ласка адаптуйте установку max_allowed_packet вашої бази даних, щоб уникнути помилок.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Помилка: Будь ласка, встановіть значення для innodb_log_file_size вашої бази даних, принаймні %s МБ (зараз: %s МБ, рекомендовано: %s МБ). Для отримання додаткової інформації, будь ласка, перегляньте %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5893,6 +5895,10 @@ sub Data {
         'Query Cache Size' => 'Розмір кешу запиту',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'Параметр \'query_cache_size\' повинен використовуватися (вище 10 МБ, але не більше 512 МБ).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Типове знаряддя зберігання даних',
@@ -7014,10 +7020,11 @@ Thanks for your help!
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
-        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
+            '',
+        'Allows the use of invalid agents in individual-related stats.' =>
             '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             '',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.915350223546945;
+    $Self->{Completeness}        = 0.914792194249963;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5138,6 +5138,8 @@ sub Data {
             'Error: Por favor, asegúrese de que su base de datos acepta paquetes de más de %s MB de tamaño (actualmente sólo acepta paquetes de hasta %s MB). Por favor, adapte el ajuste max_allowed_packet de su base de datos para evitar errores.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Error: Por favor, establezca el valor de innodb_log_file_size en su base de datos a un mínimo de %s MB (actual: %s MB, recomendado: %s MB). Para más información, por favor, eche un vistazo a %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5893,6 +5895,10 @@ sub Data {
         'Query Cache Size' => 'Tamaño del Cache de la Consulta',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'La varialbe \'query_cache_size\' debe ser usada ( y ser mayor de 10 MB pero no mas de 512 MB).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Motor de Almacenamiento Predeterminado',
@@ -7025,11 +7031,12 @@ Su equipo de asistencia técnica
             'Permite tener un formato de vista mediana para los tickets (InformaciónCliente => 1 - muestra además la información del cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite tener un formato de vista pequeña para los tickets (InformaciónCliente => 1 - muestra además la información del cliente).',
-        'Allows invalid agents to generate individual-related stats.' => 'Permite a los agentes no válidos generar estadísticas individuales.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Permite a los administradores iniciar sesión como otros clientes a través del panel de administración de usuario de cliente.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Permite al administrador iniciar sesión como otros usuarios, a través del panel de administración de los mismos.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'Permite guardar el trabajo actual como borrador en la pantalla de cierre de tickets de la interfaz del agente.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.873025335320417;
+    $Self->{Completeness}        = 0.872486220765678;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5143,6 +5143,8 @@ sub Data {
             'Error: Certifique-se que seu banco da dados aceita pacotes com tamanho acima de %s MB (atualmente ele aceita somente até %sMB). Por Favor, ajuste o parametro max_allowed_packet do seu banco de dados, a fim de previnir erros.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Error: Defina o valor para innodb_log_file_size no seu banco de dados para, ao menos %s MB (atualmente %sMB, recomendado: %sMB). Para mais informações verifique em %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5898,6 +5900,10 @@ sub Data {
         'Query Cache Size' => 'Tamanho do Cache de Consulta',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'A configuração \'query_cache_size\' deve ser usada (maior que 10 MB mas não mais que 512 MB).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Mecanismo de Armazenamento Padrão',
@@ -7030,11 +7036,12 @@ Obrigado pela ajuda!
             'Permite ter uma visão em formato médio do chamado (CustomerInfo => 1 - mostra também as informações do cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite ter uma visão em formato pequeno do chamado (CustomerInfo => 1 - mostra também as informações do cliente).',
-        'Allows invalid agents to generate individual-related stats.' => 'Permitr agentes inválidos para gerar estatísticas relacionadas com indivíduos.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Permite que os administradores efetuem login como outros clientes através do painel de administração de usuários clientes.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Permite que administradores personifiquem (se loguem como) outros usuários, através do painel de administração de usuários.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'Permite salvar o trabalho corrente na tela de ticket fechado da interface de agente.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

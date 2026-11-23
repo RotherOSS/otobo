@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992399403874814;
+    $Self->{Completeness}        = 0.991806941754804;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5138,6 +5138,8 @@ sub Data {
             'Fehler: Bitte stellen Sie sicher, dass Ihre Datenbank Pakete größer als %s MB akzeptiert (aktuell: Pakete bis zu einer Größe von %s MB). Bitte passen Sie die Einstellung max_allowed_packet Ihrer Datenbank an, um Fehler zu vermeiden.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Fehler: Bitte setzen Sie den Wert für innodb_log_file_size in Ihrer Datenbank-Konfiguration auf mindestens %s MB (aktuell: %s MB, empfohlen: %s MB). Mehr Informationen finden Sie unter %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5893,6 +5895,10 @@ sub Data {
         'Query Cache Size' => 'Größe Abfrage-Cache',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'Die Einstellung query_cache_size sollte genutzt werden (mehr als 10 MB aber nicht mehr als 512 MB).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Standard-Storage-Engine',
@@ -6993,7 +6999,7 @@ Ihr Helpdesk-Team
             'Erlaubt das Hinzufügen von Notizen durch den Ticketverantwortlichen im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren.',
-        'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine individuelle Statistik zu generieren.',
+        'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine personenbezogene Statistik zu generieren.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
             'Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im Browser (Inline) oder bietet sie einfach nur zum Herunterladen an (Anhang).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
@@ -7025,11 +7031,12 @@ Ihr Helpdesk-Team
             'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen (Customer => 1 - zeigt auch die Kundeninformation).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Ermöglicht die Benutzung der kleinenTicketübersicht (CustomerInfo => 1 - zeigt auch die Kundeninformation ).',
-        'Allows invalid agents to generate individual-related stats.' => 'Erlaubt Agenten, die ungültig sind, individuelle Statistiken zu generieren.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Erlaubt Administratoren sich als Kunde über die Customer-User-Administrationsoberfläche anzumelden.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Erlaubt Administratoren sich als anderer Agent über die Agenten-Administrationsoberfläche anzumelden.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'Erlaubt das Speichern des aktuellen Bearbeitungsstands in der "Schließen"-Maske im Agenten-Interface.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

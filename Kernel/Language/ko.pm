@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.819374068554396;
+    $Self->{Completeness}        = 0.818858930433487;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5138,6 +5138,8 @@ sub Data {
             '오류 : 데이터베이스가 크기가 %s를 넘는 패킷을 수락하는지 확인하십시오 (패키지는 현재 최대 %s MB 만 허용). 오류를 피하기 위해 데이터베이스의 max_allowed_packet 설정을 조정하십시오.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '오류 : 데이터베이스의 innodb_log_file_size 값을 최소 %s MB (현재 : %s MB, 권장 : %s MB)로 설정하십시오. 자세한 내용은 %s를보십시오.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5893,6 +5895,10 @@ sub Data {
         'Query Cache Size' => '쿼리 캐시 크기',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             '\'query_cache_size\'설정을 사용해야합니다 (10MB 이상 512MB 이하).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => '기본 저장소 엔진',
@@ -7025,11 +7031,12 @@ Thanks for your help!
             '중간 형식 티켓 개요 (CustomerInfo => 1 - 고객 정보도 표시)를 허용합니다.',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '작은 형식의 티켓 개요를 가질 수 있습니다 (CustomerInfo => 1 - 고객 정보 표시).',
-        'Allows invalid agents to generate individual-related stats.' => '잘못된 에이전트가 개인 관련 통계를 생성할 수 있습니다.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '관리자가 고객 사용자 관리 패널을 통해 다른 고객으로 로그인 할 수 있습니다.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             '관리자가 사용자 관리 패널을 통해 다른 사용자로 로그인 할 수있게 합니다.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             '에이전트 인터페이스의 닫기 티켓 화면에서 현재 작업을 초안으로 저장할 수 있습니다.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
