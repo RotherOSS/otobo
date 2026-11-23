@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailAddress',
     'Kernel::System::HTMLUtils',
     'Kernel::System::LinkObject',
     'Kernel::System::Log',
@@ -476,11 +477,16 @@ sub Run {
 
             # Get current user data.
             my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $Param{UserID},
+                UserID        => $Param{UserID},
+                NoOutOfOffice => 1,
             );
 
-            # Set "From" field according to user - UserFullname <UserEmail>.
-            $Param{Config}->{From} = $User{UserFullname} . ' <' . $User{UserEmail} . '>';
+            # Set "From" field according to user - UserFullname <UserEmail>, with the phrase quoted if needed.
+            $Param{Config}->{From} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                Phrase               => $User{UserFullname},
+                Address              => $User{UserEmail},
+                AcceptInvalidAddress => 1,
+            );
         }
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(

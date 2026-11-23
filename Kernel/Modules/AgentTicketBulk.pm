@@ -962,14 +962,18 @@ sub Run {
                         TicketID             => $TicketID,
                         SenderType           => 'agent',
                         IsVisibleForCustomer => $GetParam{IsVisibleForCustomer},
-                        From                 => "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
-                        Subject              => $GetParam{'Subject'},
-                        Body                 => $GetParam{'Body'},
-                        MimeType             => $MimeType,
-                        Charset              => $LayoutObject->{UserCharset},
-                        UserID               => $Self->{UserID},
-                        HistoryType          => 'AddNote',
-                        HistoryComment       => '%%Bulk',
+                        From                 => $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                            Phrase               => $Self->{UserFullname},
+                            Address              => $Self->{UserEmail},
+                            AcceptInvalidAddress => 1,
+                        ),
+                        Subject        => $GetParam{'Subject'},
+                        Body           => $GetParam{'Body'},
+                        MimeType       => $MimeType,
+                        Charset        => $LayoutObject->{UserCharset},
+                        UserID         => $Self->{UserID},
+                        HistoryType    => 'AddNote',
+                        HistoryComment => '%%Bulk',
                     );
                 }
 

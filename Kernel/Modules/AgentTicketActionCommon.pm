@@ -1285,7 +1285,11 @@ sub Run {
                 );
             }
 
-            my $From = "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
+            my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                Phrase               => $Self->{UserFullname},
+                Address              => $Self->{UserEmail},
+                AcceptInvalidAddress => 1,
+            );
             my @NotifyUserIDs;
 
             # get list of users that will be informed without selection in informed/involved list

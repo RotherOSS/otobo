@@ -1218,15 +1218,19 @@ sub Run {
             TicketID             => $Self->{TicketID},
             IsVisibleForCustomer => 0,
             SenderType           => 'agent',
-            From                 => "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
-            Subject              => $GetParam{Subject},
-            Body                 => $GetParam{Body},
-            MimeType             => $MimeType,
-            Charset              => $LayoutObject->{UserCharset},
-            UserID               => $Self->{UserID},
-            HistoryType          => 'AddNote',
-            HistoryComment       => '%%Move',
-            NoAgentNotify        => 1,
+            From                 => $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+                Phrase               => $Self->{UserFullname},
+                Address              => $Self->{UserEmail},
+                AcceptInvalidAddress => 1,
+            ),
+            Subject        => $GetParam{Subject},
+            Body           => $GetParam{Body},
+            MimeType       => $MimeType,
+            Charset        => $LayoutObject->{UserCharset},
+            UserID         => $Self->{UserID},
+            HistoryType    => 'AddNote',
+            HistoryComment => '%%Move',
+            NoAgentNotify  => 1,
         );
         if ( !$ArticleID ) {
             return $LayoutObject->ErrorScreen();

@@ -942,7 +942,11 @@ sub Run {
         my $FullName = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
             UserLogin => $Self->{UserLogin},
         );
-        my $From      = "\"$FullName\" <$Self->{UserEmail}>";
+        my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+            Phrase               => $FullName,
+            Address              => $Self->{UserEmail},
+            AcceptInvalidAddress => 1,
+        );
         my $ArticleID = $ArticleBackendObject->ArticleCreate(
             TicketID             => $TicketID,
             IsVisibleForCustomer => 1,
