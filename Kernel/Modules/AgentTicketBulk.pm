@@ -963,9 +963,10 @@ sub Run {
                         SenderType           => 'agent',
                         IsVisibleForCustomer => $GetParam{IsVisibleForCustomer},
                         From                 => $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                            Phrase  => $Self->{UserFullname},
-                            Address => $Self->{UserEmail},
-                        ) || "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
+                            Phrase               => $Self->{UserFullname},
+                            Address              => $Self->{UserEmail},
+                            AcceptInvalidAddress => 1,
+                        ),
                         Subject              => $GetParam{'Subject'},
                         Body                 => $GetParam{'Body'},
                         MimeType             => $MimeType,

@@ -943,10 +943,10 @@ sub Run {
             UserLogin => $Self->{UserLogin},
         );
         my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            Phrase  => $FullName,
-            Address => $Self->{UserEmail},
+            Phrase               => $FullName,
+            Address              => $Self->{UserEmail},
+            AcceptInvalidAddress => 1,
         );
-        $From ||= "\"$FullName\" <$Self->{UserEmail}>";
         my $ArticleID = $ArticleBackendObject->ArticleCreate(
             TicketID             => $TicketID,
             IsVisibleForCustomer => 1,

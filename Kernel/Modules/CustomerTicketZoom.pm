@@ -936,10 +936,10 @@ sub Run {
         }
 
         my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            Phrase  => $Self->{UserFullname},
-            Address => $Self->{UserEmail},
+            Phrase               => $Self->{UserFullname},
+            Address              => $Self->{UserEmail},
+            AcceptInvalidAddress => 1,
         );
-        $From ||= "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
         my $MimeType = 'text/plain';
         if ( $LayoutObject->{BrowserRichText} ) {
             $MimeType = 'text/html';

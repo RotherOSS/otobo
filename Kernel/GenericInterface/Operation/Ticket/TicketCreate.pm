@@ -1400,11 +1400,10 @@ sub _TicketCreate {
     # use data from customer user (if customer user is in database)
     elsif ( IsHashRefWithData( \%CustomerUserData ) ) {
         $ArticleFrom = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            Phrase  => $CustomerUserData{UserFullname},
-            Address => $CustomerUserData{UserEmail},
+            Phrase               => $CustomerUserData{UserFullname},
+            Address              => $CustomerUserData{UserEmail},
+            AcceptInvalidAddress => 1,
         );
-        $ArticleFrom ||= '"' . $CustomerUserData{UserFullname} . '"'
-            . ' <' . $CustomerUserData{UserEmail} . '>';
     }
 
     # otherwise use customer user as sent from the request (it should be an email)
