@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.799000713775874;
+    $Self->{Completeness}        = 0.798402054501355;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5482,6 +5482,8 @@ sub Data {
             'خطأ: الرجاء التأكد من قبول قاعدة البيانات للحزم التي يزيد حجمها عن ‎%s ميغابايت (تقبل حاليا الحزم حتى ‎%s ميغابايت فقط). الرجاء تعديل إعداد max_allowed_packet لقاعدة البيانات لتجنب الأخطاء.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'خطأ: الرجاء تعيين قيمة INNODB_log_file_size في قاعدة البيانات إلى ‎%s ميغابايت على الأقل (الحالي: ‎%s ميغابايت، مستحسن: ‎%s ميغابايت). لمزيد من المعلومات، الرجاء إلقاء نظرة على ‎%s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5809,6 +5811,9 @@ sub Data {
         'Remove from list of watched tickets' => 'إزالة من قائمة التذاكر المراقبة',
         'Watch' => 'مُرَاقَبَةٌ',
         'Add to list of watched tickets' => 'إضافة إلى قائمة التذاكر المراقبة',
+
+        # Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+        'DELETE FILTER' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'ترتيب حسب',
@@ -6282,6 +6287,10 @@ sub Data {
         'Query Cache Size' => 'حجم ذاكرة التخزين المؤقت للاستعلام (للطلب)',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'يجب استخدام إعداد query_cache_size (أكثر من 10 ميغابايت ولكن ليس أكثر من 512 ميغابايت).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'محرك التخزين الافتراضي',
@@ -7419,11 +7428,12 @@ Thanks for your help!
             'يسمح بنظرة عامة على التذكرة مع بعض معلومات التذاكر (العميل = > 1 - يعرض أيضا معلومات العميل).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'تمكن من استخدام نظرة عامة على التذكرة الصغيرة (معلومات العميل (CustomerInfo) => 1 - تعرض أيضًا معلومات العميل).',
-        'Allows invalid agents to generate individual-related stats.' => 'يسمح للوكلاء غير الصالحين (invalid) بإنشاء إحصاءات فردية.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'السماح للمسؤولين بتسجيل الدخول كعملاء آخرين، من خلال لوحة إدارة المستخدم الخاص بالعميل.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'السماح للمسؤولين بتسجيل الدخول كمستخدمين آخرين، من خلال لوحة إدارة المستخدمين.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'يسمح بحفظ العمل الحالي كمسودة في شاشة إغلاق التذكرة لواجهة الوكيل.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>

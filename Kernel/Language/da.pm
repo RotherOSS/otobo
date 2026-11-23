@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.347751605995717;
+    $Self->{Completeness}        = 0.3475531459552;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5481,6 +5481,8 @@ sub Data {
             'Fejl: Sørg for at din database accepterer pakker over %s MB i størrelse (I øjeblikket accepterer den kun pakker op til %s MB). Tilpas max_allowed_packet indstillingen i din database for at undgå fejl.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Fejl: Sæt venligst værdien for innodb_log_file_size i din database til mindst %s MB (nuværende: %s MB, anbefalet: %s MB). For mere info, se %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5808,6 +5810,9 @@ sub Data {
         'Remove from list of watched tickets' => 'Fjern fra listen over fulgte sager',
         'Watch' => 'Følg',
         'Add to list of watched tickets' => 'Føj til listen over fulgte sager',
+
+        # Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+        'DELETE FILTER' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sorter efter',
@@ -6281,6 +6286,10 @@ sub Data {
         'Query Cache Size' => 'Størrelse på Query Cache',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'Indstillingen \'query_cache_size\' bør anvendes (og sættes højere end 10 MB, men ikke højere end 512 MB).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Default Storage Engine',
@@ -7407,10 +7416,11 @@ Thanks for your help!
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
-        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Tillad administratorer at logge ind som andre kunder via kundebruger-administrationspanelet.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
+            '',
+        'Allows the use of invalid agents in individual-related stats.' =>
             '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             '',

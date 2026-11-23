@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.232833690221271;
+    $Self->{Completeness}        = 0.23270081324012;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5487,6 +5487,8 @@ sub Data {
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5814,6 +5816,9 @@ sub Data {
         'Remove from list of watched tickets' => 'Odebrat ze seznamu sledovaných ticketů',
         'Watch' => 'Sledovat',
         'Add to list of watched tickets' => 'Přidat do seznamu sledovaných ticketů',
+
+        # Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+        'DELETE FILTER' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Řadit dle',
@@ -6287,6 +6292,10 @@ sub Data {
         'Query Cache Size' => 'Velikost Query Cache',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Výchozí typ úložiště tabulek',
@@ -7413,10 +7422,11 @@ Thanks for your help!
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
-        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
+            '',
+        'Allows the use of invalid agents in individual-related stats.' =>
             '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             '',

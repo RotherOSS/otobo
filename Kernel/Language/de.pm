@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.985581727337616;
+    $Self->{Completeness}        = 0.984876587244971;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -124,7 +124,7 @@ sub Data {
         'Calendar Management' => 'Kalenderverwaltung',
         'Add Calendar' => 'Kalender hinzufügen',
         'Edit Calendar' => 'Kalender bearbeiten',
-        'Include invalid calendars' => 'Ungültige Kalender anzeigen',
+        'Include invalid calendars' => 'Ungültige Kalender einschließen',
         'Calendar Overview' => 'Kalenderübersicht',
         'Add new Calendar' => 'Einen neuen Kalender hinzufügen',
         'Import Appointments' => 'Termine importieren',
@@ -194,7 +194,7 @@ sub Data {
         'Appointment Notification Management' => 'Verwaltung von Terminbenachrichtigungen',
         'Add Notification' => 'Benachrichtigung hinzufügen',
         'Edit Notification' => 'Benachrichtigung bearbeiten',
-        'Include invalid appointment notifications' => 'Ungültige Terminbenachrichtigungen anzeigen',
+        'Include invalid appointment notifications' => 'Ungültige Terminbenachrichtigungen einschließen',
         'Export Notifications' => 'Benachrichtigungen exportieren',
         'Filter for Notifications' => 'Filter für Benachrichtigungen',
         'Filter for notifications' => 'Filter für Benachrichtigungen',
@@ -5480,6 +5480,8 @@ sub Data {
             'Fehler: Bitte stellen Sie sicher, dass Ihre Datenbank Pakete größer als %s MB akzeptiert (aktuell: Pakete bis zu einer Größe von %s MB). Bitte passen Sie die Einstellung max_allowed_packet Ihrer Datenbank an, um Fehler zu vermeiden.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Fehler: Bitte setzen Sie den Wert für innodb_log_file_size in Ihrer Datenbank-Konfiguration auf mindestens %s MB (aktuell: %s MB, empfohlen: %s MB). Mehr Informationen finden Sie unter %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5807,6 +5809,9 @@ sub Data {
         'Remove from list of watched tickets' => 'Von der Liste der beobachteten Tickets entfernen',
         'Watch' => 'Beobachten',
         'Add to list of watched tickets' => 'Zur Liste der beobachteten Tickets hinzufügen',
+
+        # Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+        'DELETE FILTER' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortieren nach',
@@ -6280,6 +6285,10 @@ sub Data {
         'Query Cache Size' => 'Größe Abfrage-Cache',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'Die Einstellung query_cache_size sollte genutzt werden (mehr als 10 MB aber nicht mehr als 512 MB).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Standard-Storage-Engine',
@@ -7385,7 +7394,7 @@ Ihr Helpdesk-Team
             'Erlaubt das Hinzufügen von Notizen durch den Ticketverantwortlichen im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren.',
-        'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine individuelle Statistik zu generieren.',
+        'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine personenbezogene Statistik zu generieren.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
             'Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im Browser (Inline) oder bietet sie einfach nur zum Herunterladen an (Anhang).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
@@ -7417,11 +7426,12 @@ Ihr Helpdesk-Team
             'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen (Customer => 1 - zeigt auch die Kundeninformation).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Ermöglicht die Benutzung der kleinenTicketübersicht (CustomerInfo => 1 - zeigt auch die Kundeninformation ).',
-        'Allows invalid agents to generate individual-related stats.' => 'Erlaubt Agenten, die ungültig sind, individuelle Statistiken zu generieren.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Erlaubt Administratoren sich als Kunde über die Customer-User-Administrationsoberfläche anzumelden.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Erlaubt Administratoren sich als anderer Agent über die Agenten-Administrationsoberfläche anzumelden.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'Erlaubt das Speichern des aktuellen Bearbeitungsstands in der "Schließen"-Maske im Agenten-Interface.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
@@ -8627,7 +8637,7 @@ Ihr Helpdesk-Team
         'Dynamic Fields Text Backend GUI' => 'Dynamic Fields-Oberfläche für Textfelder',
         'Dynamic Fields Web Service Backend GUI' => 'Dynamic Fields-Oberfläche für Webservice-Felder',
         'Dynamic Fields used to export the search result in CSV format.' =>
-            'Dynamic Fields welche beim Export des Suchergebnisses im CSV-Format auszugeben sind.',
+            'Dynamische Felder, die zum Exportieren des Suchergebnisses im CSV-Format verwendet werden.',
         'Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted.' =>
             'Event-Modul für dynamische Felder, das Skriptfeld-Events löscht, wenn ein Skriptfeld gelöscht wird.',
         'Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.' =>
@@ -8700,7 +8710,7 @@ Ihr Helpdesk-Team
         'Dynamic fields shown in the ticket zoom screen of the customer interface.' =>
             'Angezeigte dynamische Felder in der Ticket-Detailansicht im Kundenbereich.',
         'DynamicField' => 'DynamicField',
-        'DynamicField backend registration.' => 'Backend-Registrierung für Dynamische Felder.',
+        'DynamicField backend registration.' => 'Backend-Registrierung der dynamischen Felder.',
         'DynamicField object registration.' => 'DynamischesFeld Objektregistrierung.',
         'DynamicField_%s' => 'DynamicField_%s',
         'E-Mail Outbound' => 'Ausgehende E-Mail',
@@ -8855,7 +8865,7 @@ Ihr Helpdesk-Team
         'French (Canada)' => 'Französisch (Kanada)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             'Französische Stoppwörter für den Volltext-Index. Diese Wörter werden vom Suchindex entfernt.',
-        'Frontend' => 'Oberfläche',
+        'Frontend' => 'Frontend',
         'Frontend module for dashboard info tile in customer interface.' =>
             'Frontend-Modul für die Dashboard Infokachel im Kundenbereich.',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
@@ -8867,8 +8877,8 @@ Ihr Helpdesk-Team
         'Frontend module registration (show personal favorites as sub navigation items of \'Admin\').' =>
             'Frontend-Modulregistrierung (persönliche Favoriten als Untermenü des Punktes "Admin" anzeigen).',
         'Frontend module registration for the admin interface.' => 'Frontend-Modulregistrierung im Agentenbereich.',
-        'Frontend module registration for the agent interface.' => 'Frontend-Modulregistrierung im Agent-Interface.',
-        'Frontend module registration for the customer interface.' => 'Frontend-Modulregistrierung für den Kundenbereich.',
+        'Frontend module registration for the agent interface.' => 'Registrierung des Frontend-Moduls für die Agentenoberfläche.',
+        'Frontend module registration for the customer interface.' => 'Registrierung des Frontend-Moduls für die Kundenoberfläche.',
         'Frontend module registration for the public interface.' => 'Frontendmodul-Registrierung für das Public-Interface.',
         'Full value' => 'Vollständiger Wert',
         'Fulltext Elasticsearch' => 'Volltext-Elasticsearch',
@@ -9145,13 +9155,13 @@ Ihr Helpdesk-Team
         'List of Active CKEditor Plugins. (Only used if `Frontend::RichText::EnhancedMode` is enabled).' =>
             'Liste aktiver CKEditor-Plugins. (Wird nur verwendet, falls `Frontend::RichText::EnhancedMode` aktiviert ist).',
         'List of CSS files to always be loaded for the agent interface.' =>
-            'Liste der CSS-Dateien, die immer im Agenten-Interface geladen werden sollen.',
+            'Liste der CSS-Dateien, die für die Agentenoberfläche immer geladen werden sollen.',
         'List of CSS files to always be loaded for the customer interface.' =>
             'Liste der CSS-Dateien, die immer im Kunden-Interface geladen werden sollen.',
         'List of JS files to always be loaded for the agent interface.' =>
-            'Liste der JavaScript-Dateien, die immer im Agenten-Interface geladen werden sollen.',
+            'Liste der JS-Dateien, die für die Agentenoberfläche immer geladen werden sollen.',
         'List of JS files to always be loaded for the customer interface.' =>
-            'Liste der JavaScript-Dateien, die immer im Kunden-Interface geladen werden sollen.',
+            'Liste der JS-Dateien, die für die Kundenoberfläche immer geladen werden sollen.',
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             'Liste aller Kundenereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
         'List of all CustomerUser events to be displayed in the GUI.' => 'Liste aller Kundenbenutzerereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
@@ -9178,7 +9188,7 @@ Ihr Helpdesk-Team
         'Lithuanian' => 'Litauisch',
         'Loader module for dashboard info tile in customer interface.' =>
             'Lademodul für die Dashboard Infokachel im Kundenbereich.',
-        'Loader module registration for the agent interface.' => 'Loader-Modulregistrierung für die Agentenoberfläche.',
+        'Loader module registration for the agent interface.' => 'Registrierung des Loader-Moduls für die Agentenoberfläche.',
         'Loader module registration for the customer interface.' => 'Loader-Modulregistrierung für das Kunden-Interface.',
         'Lock / unlock this ticket' => 'Dieses Ticket sperren / entsperren',
         'Locked Tickets' => 'Gesperrte Tickets',
@@ -9481,7 +9491,7 @@ Ihr Helpdesk-Team
         'Pending time' => 'Warten bis',
         'People' => 'Personen',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
-            'Führt die konfigurierte Aktion für jedes Ereignis für jeden konfigurierten Webservice aus (als Invoker).',
+            'Führt die konfigurierte Aktion für jedes Ereignis (als Invoker) für jeden konfigurierten Webservice aus.',
         'Permanent' => 'Permanent',
         'Permitted width for compose email windows.' => 'Erlaubte Breite für E-Mail erstellen-Fenster.',
         'Permitted width for compose note windows.' => 'Erlaubte Breite für Notiz erstellen-Fenster.',
@@ -9700,12 +9710,12 @@ Ihr Helpdesk-Team
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
             'Legt die minimale Protokoll-Ebene fest. Wählen Sie „Fehler“ aus, werden nur Fehler protokolliert. Mit „Debug“ erhalten Sie alle Log-Einträge. Die Reihenfolge der Ebenen ist Debug, Info, Hinweis und Fehler.',
         'Set this ticket to pending' => 'Ticket auf "warten" setzen',
-        'Sets if SLA must be selected by the agent.' => 'Gibt an, ob ein SLA durch einen Agenten ausgewählt sein muss.',
+        'Sets if SLA must be selected by the agent.' => 'Legt fest, ob die SLA vom Agenten ausgewählt werden muss.',
         'Sets if SLA must be selected by the customer.' => 'Gibt an, ob ein SLA durch einen Kundenbenutzer ausgewählt sein muss.',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             'Setzt ob eine Notiz vom Agenten ausgefüllt werden muss. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Sets if queue must be selected by the agent.' => 'Legt fest, ob Agenten eine Queue wählen müssen.',
-        'Sets if service must be selected by the agent.' => 'Gibt an, ob ein Service durch einen Agenten ausgewählt sein muss.',
+        'Sets if service must be selected by the agent.' => 'Legt fest, ob der Service vom Agenten ausgewählt werden muss.',
         'Sets if service must be selected by the customer.' => 'Gibt an, ob ein Service durch einen Kundenbenutzer ausgewählt sein muss.',
         'Sets if state must be selected by the agent.' => 'Legt fest, ob Agenten einen Status wählen müssen.',
         'Sets if ticket owner must be selected by the agent.' => 'Gibt an, ob ein Ticket-Besitzer durch einen Agenten ausgewählt sein muss.',
@@ -10274,7 +10284,7 @@ Ihr Helpdesk-Team
         'This configuration defines all possible screens to enable or disable default columns.' =>
             'Diese Konfigurationsoption definiert alle möglichen Oberflächen, auf denen Standard-Spalten aktiviert oder deaktiviert werden.',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>
-            'Diese Konfiguration definiert alle möglichen Oberflächen, auf denen dynamische Felder aktiviert oder deaktiviert werden.',
+            'Diese Konfiguration definiert alle möglichen Bildschirme, in denen dynamische Felder aktiviert oder deaktiviert werden können.',
         'This configuration defines if only valids or all (invalids) dynamic fields should be shown.' =>
             'Diese Konfiguration definiert, ob nur gültige oder alle (ungültige) dynamischen Felder angezeigt werden sollen.',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
