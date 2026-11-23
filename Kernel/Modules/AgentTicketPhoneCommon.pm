@@ -890,8 +890,8 @@ sub Run {
                     # use data from customer user (if customer user is in database)
                     if ( IsHashRefWithData( \%CustomerUserData ) ) {
                         $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                            RealName => $CustomerUserData{UserFullname},
-                            Address  => $CustomerUserData{UserEmail},
+                            Phrase  => $CustomerUserData{UserFullname},
+                            Address => $CustomerUserData{UserEmail},
                         );
                         $From ||= '"' . $CustomerUserData{UserFullname} . '"' . '<' . $CustomerUserData{UserEmail} . '>';
                     }

@@ -364,8 +364,8 @@ sub Run {
 
         # Set "From" field according to user - UserFullname <UserEmail>, with the phrase quoted if needed.
         $Param{Config}->{From} = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            RealName => $User{UserFullname},
-            Address  => $User{UserEmail},
+            Phrase  => $User{UserFullname},
+            Address => $User{UserEmail},
         );
         $Param{Config}->{From} ||= $User{UserFullname} . ' <' . $User{UserEmail} . '>';
     }

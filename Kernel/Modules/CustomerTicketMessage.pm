@@ -943,8 +943,8 @@ sub Run {
             UserLogin => $Self->{UserLogin},
         );
         my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            RealName => $FullName,
-            Address  => $Self->{UserEmail},
+            Phrase  => $FullName,
+            Address => $Self->{UserEmail},
         );
         $From ||= "\"$FullName\" <$Self->{UserEmail}>";
         my $ArticleID = $ArticleBackendObject->ArticleCreate(

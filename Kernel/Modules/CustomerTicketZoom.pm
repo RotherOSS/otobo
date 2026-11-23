@@ -936,8 +936,8 @@ sub Run {
         }
 
         my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-            RealName => $Self->{UserFullname},
-            Address  => $Self->{UserEmail},
+            Phrase  => $Self->{UserFullname},
+            Address => $Self->{UserEmail},
         );
         $From ||= "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
         my $MimeType = 'text/plain';

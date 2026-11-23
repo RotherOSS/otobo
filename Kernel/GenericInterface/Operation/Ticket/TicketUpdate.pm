@@ -2036,8 +2036,8 @@ sub _TicketUpdate {
             # use data from customer user (if customer user is in database)
             if ( IsHashRefWithData( \%CustomerUserData ) ) {
                 $ArticleFrom = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                    RealName => $CustomerUserData{UserFullname},
-                    Address  => $CustomerUserData{UserEmail},
+                    Phrase  => $CustomerUserData{UserFullname},
+                    Address => $CustomerUserData{UserEmail},
                 );
                 $ArticleFrom ||= '"'
                     . $CustomerUserData{UserFullname} . '"'
@@ -2150,8 +2150,8 @@ sub _TicketUpdate {
             # Use data from customer user (if customer user is in database).
             if ( IsHashRefWithData( \%CustomerUserData ) ) {
                 $To = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
-                    RealName => $CustomerUserData{UserFullname},
-                    Address  => $CustomerUserData{UserEmail},
+                    Phrase  => $CustomerUserData{UserFullname},
+                    Address => $CustomerUserData{UserEmail},
                 );
                 $To ||= '"' . $CustomerUserData{UserFullname} . '"'
                     . ' <' . $CustomerUserData{UserEmail} . '>';
