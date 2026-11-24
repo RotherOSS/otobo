@@ -424,8 +424,8 @@ sub ImportExportPrepareConfig {
     my %Return;
     my %AttributeLookup = (
         Group => {
-            Import => sub { return $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => pop @_ ) },
-            Export => sub { return $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group   => pop @_ ) },
+            Import => sub { return $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group   => pop @_ ) },
+            Export => sub { return $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => pop @_ ) },
         },
     );
 
