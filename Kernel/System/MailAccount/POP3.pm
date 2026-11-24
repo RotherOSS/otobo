@@ -452,17 +452,18 @@ sub Fetch {
                         ObjectLogType => 'Message',
                         Status        => $MessageStatus,
                     );
+
+                    # mark email to delete as it got retrieved,
+                    # and either processed or stored as raw error mail
+                    $POPOperation->( 'delete', $Messageno, );
+
+                    $CommunicationLogObject->ObjectLog(
+                        ObjectLogType => 'Connection',
+                        Priority      => 'Debug',
+                        Key           => 'Kernel::System::MailAccount::POP3',
+                        Value         => "Message '$Messageno' marked for deletion.",
+                    );
                 }
-
-                # mark email to delete if it got processed
-                $POPOperation->( 'delete', $Messageno, );
-
-                $CommunicationLogObject->ObjectLog(
-                    ObjectLogType => 'Connection',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::MailAccount::POP3',
-                    Value         => "Message '$Messageno' marked for deletion.",
-                );
 
                 # check limit
                 $Self->{Limit}++;
