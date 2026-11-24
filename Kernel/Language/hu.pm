@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.99971448965025;
+    $Self->{Completeness}        = 0.999286631473819;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4872,7 +4872,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Produktív',
         'Test' => 'Teszt',
-        'Training' => 'Oktatás',
+        'Training' => 'Képzés',
         'Development' => 'Fejlesztés',
 
         # Perl Module: Kernel/Modules/AdminRole.pm
@@ -5485,6 +5485,8 @@ sub Data {
             'Hiba: Győződjön meg arról, hogy az adatbázisa elfogad-e %s MB méretűnél nagyobb csomagot (jelenleg csak legfeljebb %s MB méretű csomagot fogad el). A hibák elkerülése érdekében alkalmazkodjon az adatbázisa max_allowed_packet beállításához.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Hiba: Állítsa be az adatbázison az innodb_log_file_size értékét legalább %s MB méretűre (jelenleg: %s MB, ajánlott: %s MB). További információkért nézze meg a következőt: %s.',
+        'Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character.' =>
+            '',
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
@@ -5812,6 +5814,9 @@ sub Data {
         'Remove from list of watched tickets' => 'Eltávolítás a megfigyelt jegyek listájáról',
         'Watch' => 'Megfigyelés',
         'Add to list of watched tickets' => 'Hozzáadás a megfigyelt jegyek listájához',
+
+        # Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+        'DELETE FILTER' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Rendezés',
@@ -6285,6 +6290,10 @@ sub Data {
         'Query Cache Size' => 'Lekérdezési gyorsítótár méret',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'A „query_cache_size” beállítást használni kell (nagyobb mint 10 MB, de nem több mint 512 MB).',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+        'SQL mode NO_BACKSLASH_ESCAPES' => '',
+        'The SQL mode NO_BACKSLASH_ESCAPES must be turned off.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Alapértelmezett tárolómotor',
@@ -7422,11 +7431,12 @@ Az Ön ügyfélszolgálati csapata
             'Lehetővé teszi a közepes formátumú jegyáttekintőt (CustomerInfo => 1 – megjeleníti az ügyfél-információkat is).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Lehetővé teszi a kis formátumú jegyáttekintőt (CustomerInfo => 1 – megjeleníti az ügyfél-információkat is).',
-        'Allows invalid agents to generate individual-related stats.' => 'Lehetővé teszi az érvénytelen ügyintézőknek egyénhez kapcsolódó statisztikák előállítását.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Lehetővé teszi az adminisztrátoroknak, hogy más ügyfélként lépjenek be az ügyfél-felhasználó adminisztrációs panelen keresztül.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Lehetővé teszi az adminisztrátoroknak, hogy más felhasználóként lépjenek be a felhasználók adminisztrációs paneljén keresztül.',
+        'Allows the use of invalid agents in individual-related stats.' =>
+            '',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
             'Lehetővé teszi az aktuális munka elmentését piszkozatként az ügyintézői felület jegylezárás képernyőjén.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
@@ -10046,9 +10056,9 @@ Az Ön ügyfélszolgálati csapata
         'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
             'Megjeleníti a jegy összes bejegyzését (kinyitva) az ügyfél nagyítás nézetben.',
         'Shows all the customer identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
-            '',
+            'Megjeleníti az összes ügyfél-azonosítót egy többválasztós mezőben (figyelem: ez jelentősen lecsökkenti a teljesítményt a sok ügyfél-azonosítóval rendelkező nagy környezetekben).',
         'Shows all the customer user identifiers in a multi-select field (Warning: This significantly lowers performance in large environments with many CustomerIDs).' =>
-            '',
+            'Megjeleníti az összes ügyfélfelhasználó-azonosítót egy többválasztós mezőben (figyelem: ez jelentősen lecsökkenti a teljesítményt a sok ügyfél-azonosítóval rendelkező nagy környezetekben).',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Megjelenít egy tulajdonos kijelölést a telefon és e-mail jegyekben az ügyintézői felületen.',
         'Shows creation date instead of age in the customer interface if ticket is older than configured value (days).' =>

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-11-10 12:13+0000\n"
+"POT-Creation-Date: 2026-11-23 16:33+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Isabell Long <isabell@issyl0.co.uk>, 2019\n"
 "Language-Team: English (United Kingdom) (https://translate.otobo.org/"
@@ -17504,6 +17504,12 @@ msgstr ""
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database "
+"backend.OTOBO relies on the backslash as the escape character."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
@@ -18249,6 +18255,10 @@ msgstr "Watch"
 #. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
 msgid "Add to list of watched tickets"
 msgstr "Add to list of watched tickets"
+
+#. Perl Module: Kernel/Output/HTML/TicketOverview/Small.pm
+msgid "DELETE FILTER"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
@@ -19502,6 +19512,14 @@ msgid ""
 msgstr ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "SQL mode NO_BACKSLASH_ESCAPES"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
+msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -22582,24 +22600,26 @@ msgstr ""
 "the customer information)."
 
 #. SysConfig
-msgid "Allows invalid agents to generate individual-related stats."
+msgid ""
+"Allows the administrators to login as other customers, via the customer user "
+"administration panel."
+msgstr ""
+"Allows the administrators to login as other customers, via the customer user "
+"administration panel."
+
+#. SysConfig
+msgid ""
+"Allows the administrators to login as other users, via the users "
+"administration panel."
+msgstr ""
+"Allows the administrators to login as other users, via the users "
+"administration panel."
+
+#. SysConfig
+#, fuzzy
+#| msgid "Allows invalid agents to generate individual-related stats."
+msgid "Allows the use of invalid agents in individual-related stats."
 msgstr "Allows invalid agents to generate individual-related stats."
-
-#. SysConfig
-msgid ""
-"Allows the administrators to login as other customers, via the customer user "
-"administration panel."
-msgstr ""
-"Allows the administrators to login as other customers, via the customer user "
-"administration panel."
-
-#. SysConfig
-msgid ""
-"Allows the administrators to login as other users, via the users "
-"administration panel."
-msgstr ""
-"Allows the administrators to login as other users, via the users "
-"administration panel."
 
 #. SysConfig
 msgid ""

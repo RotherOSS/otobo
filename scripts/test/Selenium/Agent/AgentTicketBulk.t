@@ -433,8 +433,8 @@ $Selenium->RunTest(
             Value   => $QueueID,
         );
         $Selenium->find_element_by_xpath_ok(
-            '//select[@id="QueueID"]/option[contains(.,"Oberfläche")]',
-            "On update - Ticket queue 'Frontend' is translated to 'Oberfläche'",
+            '//select[@id="QueueID"]/option[contains(.,"Frontend")]',
+            "On update - Ticket queue 'Frontend' is translated to 'Frontend'",
         );
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => ".UndoClosePopup",
