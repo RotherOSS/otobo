@@ -395,12 +395,12 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.82
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.82.tar.gz
+  Cpanel-JSON-XS-4.83
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.83.tar.gz
     provides:
-      Cpanel::JSON::XS 4.82
-      Cpanel::JSON::XS::Boolean 4.82
-      Cpanel::JSON::XS::Type 4.82
+      Cpanel::JSON::XS 4.83
+      Cpanel::JSON::XS::Boolean 4.83
+      Cpanel::JSON::XS::Type 4.83
     requirements:
       Carp 0
       Config 0
@@ -734,10 +734,10 @@ DISTRIBUTIONS
     requirements:
       DBI 1.605
       perl 5.008001
-  Data-Dump-1.25
-    pathname: G/GA/GARU/Data-Dump-1.25.tar.gz
+  Data-Dump-1.28
+    pathname: G/GA/GARU/Data-Dump-1.28.tar.gz
     provides:
-      Data::Dump 1.25
+      Data::Dump 1.28
       Data::Dump::FilterContext undef
       Data::Dump::Filtered undef
       Data::Dump::Trace 0.02
@@ -2768,10 +2768,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.57
-    pathname: N/NL/NLNETLABS/Net-DNS-1.57.tar.gz
+  Net-DNS-1.58
+    pathname: N/NL/NLNETLABS/Net-DNS-1.58.tar.gz
     provides:
-      Net::DNS 1.57
+      Net::DNS 1.58
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2054
       Net::DNS::DomainName1035 2054
@@ -2781,8 +2781,8 @@ DISTRIBUTIONS
       Net::DNS::Mailbox1035 2002
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
-      Net::DNS::Packet 2003
-      Net::DNS::Parameters 2059
+      Net::DNS::Packet 2067
+      Net::DNS::Parameters 2066
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2798,6 +2798,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
       Net::DNS::RR::DELEG 2053
+      Net::DNS::RR::DELEGPARAM 2066
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2059
@@ -2851,9 +2852,9 @@ DISTRIBUTIONS
       Net::DNS::RR::PX 2003
       Net::DNS::RR::RESINFO 2003
       Net::DNS::RR::RP 2002
-      Net::DNS::RR::RRSIG 2059
+      Net::DNS::RR::RRSIG 2066
       Net::DNS::RR::RT 2003
-      Net::DNS::RR::SIG 2057
+      Net::DNS::RR::SIG 2066
       Net::DNS::RR::SMIMEA 2003
       Net::DNS::RR::SOA 2002
       Net::DNS::RR::SPF 2003
@@ -2862,7 +2863,7 @@ DISTRIBUTIONS
       Net::DNS::RR::SVCB 2043
       Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
-      Net::DNS::RR::TSIG 2060
+      Net::DNS::RR::TSIG 2066
       Net::DNS::RR::TXT 2003
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
@@ -3290,10 +3291,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.034
       Try::Tiny 0
       perl 5.010
-  Redis-Fast-0.40
-    pathname: S/SH/SHOGO/Redis-Fast-0.40.tar.gz
+  Redis-Fast-0.41
+    pathname: S/SH/SHOGO/Redis-Fast-0.41.tar.gz
     provides:
-      Redis::Fast 0.40
+      Redis::Fast 0.41
       Redis::Fast::Hash undef
       Redis::Fast::List undef
       Redis::Fast::Sentinel undef
@@ -4554,7 +4555,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
