@@ -112,8 +112,9 @@ select {
 
 *:link,
 *:visited {
-    color: #001bff;
-    color: var(--colTextLink);
+    color: inherit;
+    /*color: #001bff;
+    color: var(--colTextLink);*/
 }
 
 } /* end @media */
