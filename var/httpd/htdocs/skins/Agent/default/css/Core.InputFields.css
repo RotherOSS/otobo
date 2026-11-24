@@ -79,14 +79,6 @@ div.InputField_InputContainer {
     display: none !important;
 }
 
-.MultiValue_Template {
-    display: none !important;
-}
-
-.TableLike .Row_DynamicField {
-    display: grid;
-}
-
 @media only screen and (min-width: 1025px) {
     fieldset.TableLike > .Field > .Modernize#TypeID,
     fieldset.TableLike > .Field > .Modernize#Dest,
@@ -203,67 +195,6 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer {
     padding-left: 0;
     padding-right: 0;
     width: 100% !important;
-}
-
-/*.FieldCell .InputField_Search {
-    width: 100% !important;
-}*/
-
-/*.MultiColumn > .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
-.MultiColumn > .FieldCell > .Field > div.InputField_Container > div.InputField_InputContainer > .InputField_Autocomplete {
-    min-width: 100%;
-    width: 100% !important;
-}*/
-
-.FieldCell {
-    white-space: nowrap;
-}
-
-.FieldCell div.oooTitle {
-    white-space: normal;
-}
-
-/*div.Row.Row_DynamicField div.SingleColumn > label,
-div.Row.Row_DynamicField div.SingleColumn > div.MultiValueItem > label,
-div.Row.Row_DynamicField div.MultiColumn > label,
-div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
-    width: auto;
-    margin-right: 5px;
-    float: none;
-    text-align: left;
-    font-size: 0.9em;
-    overflow-wrap: break-word;
-    display: block;
-    line-height: 1.9em;
-    min-height: 17px;
-    padding-top: 0.3em;
-    padding-bottom: 1px;
-    text-shadow: 0 1px 0 #FAFAFA;
-}*/
-
-fieldset.TableLike .AddRemoveValueRow {
-    display: inline-block;
-    padding-left: 8px;
-}
-
-.AddValueRow,
-.RemoveValueRow {
-    cursor: pointer;
-}
-
-fieldset.TableLike fieldset.DynamicFieldSet {
-    box-sizing: border-box;
-    width: 100%
-}
-
-/* needed for multivalue sets due to current difference in outer structure compared to single value sets */
-fieldset.TableLike .MultiValue > .FieldCell > .Field > .DynamicFieldSet {
-    width: 100%;
-}
-
-fieldset.TableLike .MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
-    vertical-align: top;
-    padding-top: 16px;
 }
 
 a.InputField_Action {
@@ -425,6 +356,10 @@ div.InputField_ToolbarContainer ul li a:hover {
     font-style: italic;
     color: var(--colTextLight);
 }
+
+/**
+ * @subsection New Form Styling (ModularForm)
+ */
 
 /**
  * @subsection  jsTree theme

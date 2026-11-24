@@ -22,7 +22,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * @subsection  Input focus
- * @note        Does not work in IE6, only partially in IE7 (no focus)
  */
 
 input[type=text],
@@ -98,11 +97,6 @@ textarea:focus {
    opacity: 1;
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: var(--colTextMedium);
-   transition: color ease 0.3s;
-}
-
 ::-ms-input-placeholder { /* Microsoft Edge */
    color: var(--colTextMedium);
    transition: color ease 0.3s;
@@ -120,10 +114,6 @@ textarea:focus {
 :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
    color: var(--colBGDark);
    opacity: 1;
-}
-
-:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: var(--colBGDark);
 }
 
 :focus::-ms-input-placeholder { /* Microsoft Edge */
@@ -454,6 +444,48 @@ form fieldset {
     border: none;
 }
 
+.MultiValue_Template {
+    display: none !important;
+}
+
+.TableLike .Row_DynamicField {
+    display: grid;
+}
+
+.FieldCell {
+    white-space: nowrap;
+}
+
+.FieldCell div.oooTitle {
+    white-space: normal;
+}
+
+fieldset.TableLike .AddRemoveValueRow {
+    display: inline-block;
+    padding-left: 8px;
+}
+
+.AddValueRow,
+.RemoveValueRow {
+    cursor: pointer;
+}
+
+fieldset.TableLike fieldset.DynamicFieldSet {
+    box-sizing: border-box;
+    width: 100%
+}
+
+/* needed for multivalue sets due to current difference in outer structure compared to single value sets */
+fieldset.TableLike .MultiValue > .FieldCell > .Field > .DynamicFieldSet {
+    width: 100%;
+}
+
+fieldset.TableLike .MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
+    vertical-align: top;
+    padding-top: 16px;
+}
+
+/* class unused?? */
 .TableLikeOverflow {
     overflow: auto;
     line-height: initial;
@@ -519,6 +551,11 @@ form label.LabelError {
     color: #ff505e !important;
 }
 
+/**
+ * @subsection  CustomerContainer
+ * @note        Used in email forms (e.g. AgentTicketCompose) to display the customer, cc and bcc fields.
+ */
+
 .CustomerContainer,
 .CcCustomerContainer,
 .BccCustomerContainer {
@@ -577,16 +614,6 @@ form label.LabelError {
     color: var(--colTextMedium);
 }
 
-#EmailRecipientsList span,
-#EmailRecipientsList a.Collapse {
-    display: none;
-}
-
-#EmailRecipientsList.Expanded span,
-#EmailRecipientsList.Expanded a.Expand {
-    display: inline;
-}
-
 .MoveCustomerButton > span {
     border: solid 1px;
     font-size: 7px;
@@ -603,7 +630,24 @@ form label.LabelError {
     padding: 0.4px 1.5px;
 }
 
+
 /**
+ * @subsection  EmailRecipientsList
+ * @note        Used exclusively on AgentTicketBulk.
+ */
+
+#EmailRecipientsList span,
+#EmailRecipientsList a.Collapse {
+    display: none;
+}
+
+#EmailRecipientsList.Expanded span,
+#EmailRecipientsList.Expanded a.Expand {
+    display: inline;
+}
+
+/**
+ * @subsection  Labels
  * @note        Give the user a hint about linked label elements (they are clickable and
  *                  give focus to the linked element.
  */
@@ -611,6 +655,11 @@ form label.LabelError {
 form label[for] {
     cursor: pointer;
 }
+
+/**
+ * @subsection  Error
+ * @note        Highlight input fields with errors
+ */
 
 form input.Error,
 form textarea.Error,
@@ -854,27 +903,7 @@ fieldset.TableLike .Row > .Field > input {
     border-radius: 4px;
 }
 
-/*fieldset.TableLike > .Field > select#ConfigFile,
-fieldset.TableLike > .Row > .Field > select#ConfigFile,
-fieldset.TableLike > .Field > input#ConfigFile,
-fieldset.TableLike > .Row > .Field > input#ConfigFile,
-fieldset.TableLike > .Field > select#WebserviceName,
-fieldset.TableLike > .Row > .Field > select#WebserviceName,
-fieldset.TableLike > .Field > input#WebserviceName,
-fieldset.TableLike > .Row > .Field > input#WebserviceName {
-    max-width: 250px;
-    border: none;
-}*/
-
-/**
- * @note    The RichText field needs to float, otherwise it breaks
- *          in small screens.
- *          Additionally we have a generic FloatingField class,
- *          RichTextField is for backwards compatibility.
- */
-fieldset.TableLike > .Row > .RichTextField,
-fieldset.TableLike > .FloatingField,
-fieldset.TableLike > .Row > .FloatingField {
+fieldset.TableLike > .Row > .RichTextField {
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 0;
@@ -895,9 +924,7 @@ fieldset.TableLike .RichTextField {
     height: min-content;    /* overwritten by Core.UI.RichTextEditor.js! */
 }
 
-body.Popup fieldset.TableLike > .Row > .RichTextField,
-body.Popup fieldset.TableLike > .FloatingField,
-body.Popup fieldset.TableLike > .Row > .FloatingField {
+body.Popup fieldset.TableLike > .Row > .RichTextField {
     margin: 7px 7px 0px 7px;
 }
 
@@ -909,9 +936,7 @@ body.Popup fieldset.TableLike > .RichTextField {
     margin-right: 0;
 }
 
-.RTL fieldset.TableLike > .Row > .RichTextField,
-.RTL fieldset.TableLike > .FloatingField,
-.RTL fieldset.TableLike > .Row > .FloatingField {
+.RTL fieldset.TableLike > .Row > .RichTextField {
     padding-left: 0;
     padding-right: 10px;
     float: right;
@@ -925,9 +950,7 @@ body.Popup fieldset.TableLike > .RichTextField {
     margin-left: 0;
 }
 
-body.RealPopup.RTL fieldset.TableLike > .Row > .RichTextField,
-body.RealPopup.RTL fieldset.TableLike > .FloatingField,
-body.RealPopup.RTL fieldset.TableLike > .Row > .FloatingField {
+body.RealPopup.RTL fieldset.TableLike > .Row > .RichTextField {
     margin: 7px 7px 0px 7px;
 }
 
@@ -1115,11 +1138,12 @@ fieldset.ModularForm {
     --line-height: 1em;
     --row-gap: 0px;
     --checkbox-size: 1em;
-    --checkbox-margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 );
+    --input-field-border-radius: 4px;
     --customer-id-selection-button-width: 110px; /* set in style tag */
-    --address-book-button-width: 16px; /* width set for .AdditionlFieldIcon */
-    --address-book-button-margin: 3px; /* margin set for .AdditionlFieldIcon */
+    --address-book-button-width: 16px; /* width of .AdditionlFieldIcon */
+    --address-book-button-margin: 3px; /* margin for .AdditionlFieldIcon */
     
+    --checkbox-margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 );
     --search-icon-width: var(--multivalue-icon-width);
     --label-padding-vertical: calc( var(--field-padding-vertical) + var(--text-input-padding) + 1px );
     --label-padding:    var(--label-padding-vertical) 
@@ -1135,423 +1159,470 @@ fieldset.ModularForm {
     row-gap: var(--row-gap);
 }
 
-    fieldset.ModularForm * {
-        box-sizing: border-box;
-    }
+fieldset.ModularForm * {
+    box-sizing: border-box;
+}
 
-    fieldset.ModularForm .fa {
-        color: var(--colTextDark);
-    }
+fieldset.ModularForm .fa {
+    color: var(--colTextDark);
+}
 
-    fieldset.ModularForm .AJAXLoader {
-        margin: var(--AJAX-loader-margin);
-        position: absolute;
-        right: 0;
-    }
+fieldset.ModularForm .AJAXLoader {
+    margin: var(--AJAX-loader-margin);
+    position: absolute;
+    right: 0;
+}
 
-    fieldset.ModularForm div.Field {
-        position: relative;
-        grid-area: field;
-        width: 100%;
-        height: min-content;
-        min-height: var(--min-field-height);
-        padding: var(--field-padding-vertical) var(--field-padding-horizontal);
-    }
+fieldset.ModularForm .FieldExplanation {
+    text-wrap: wrap;
+}
 
-    fieldset.ModularForm .Field:not(.Hidden) {
-        display: flex;
-        flex-flow: row wrap;
-    }
+fieldset.ModularForm .Field #OptionCustomer {
+    align-self: center;
+}
 
-    fieldset.ModularForm .InputField_Search,
-    fieldset.ModularForm .InputField_Autocomplete {
-        min-width: 32px;
-    }
+fieldset.ModularForm .oooTitle {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
 
-    fieldset.ModularForm div.DnDUpload {
-        width: 100%;
-    }
+fieldset.ModularForm textarea {
+    resize: vertical;
+    width: 100%;
+    border-radius: var(--input-field-border-radius);
+}
 
-    fieldset.ModularForm label {
-        grid-column: label;
-        text-align: right;
-        vertical-align: middle;
-        padding: var(--label-padding);
-        color: var(--colTextLight);
-        text-shadow: 0 1px 0 var(--colBGLightMedium);
-        text-wrap: wrap;
-        overflow-wrap: break-word;
-    }
+fieldset.ModularForm input[type=text],
+fieldset.ModularForm input[type=email] {
+    border-radius: var(--input-field-border-radius);
+    width: 100%;
+    line-height: inherit;
+}
 
-    fieldset.ModularForm label[for="Subject"] {
-        padding: var(--label-padding);
-        align-self: center;
-    }
+fieldset.ModularForm .Field > input[type=text] {
+    flex: 1 1 auto;
+}
 
-    /* special case for AgentTicketMerge */
-    fieldset.ModularForm .Field > label {
-        --height: max( calc( var(--checkbox-margin) * 2 + var(--checkbox-size) ), var(--line-height) );
-        --padding-vertical: calc(0.5 * (var(--height) - var(--line-height)) );
-        margin: 0 0 0 8px;
-        padding: var(--padding-vertical) 0;
-    }
+/* Override old styles for Subject field */
+fieldset.ModularForm input#Subject {
+    font-size: inherit;
+    padding: 3px; 
+}
 
-    fieldset.ModularForm input[type=text],
-    fieldset.ModularForm input[type=email] {
-        border-radius: 4px;
-        width: 100%;
-        line-height: inherit;
-    }
+/* unique to AgentTicketCompose */
+fieldset.ModularForm div.Field.InfoTextField {
+    padding: var(--label-padding);
+}
 
-    fieldset.ModularForm .Field > input[type=text] {
-        flex: 1 1 auto;
-    }
 
-    fieldset.ModularForm .PendingDateField {
-        justify-content: start;
-        row-gap: 4px;
-        column-gap: 1px;
-        align-items: center;
-    }
+/* unique to AgentTicketBulk */
+fieldset.ModularForm .Row .Field.ChoiceInput {
+    flex-direction: column;
+}
 
-    fieldset.ModularForm .PendingDateField .oooQuickDate {
-        margin: 0;
-        margin-left: 4px;
-        width: min-content;
-        flex: none;
-    }
-
-    fieldset.ModularForm .PendingDateField .FieldExplanation {
-        width: 100%;
-    }
-
-    fieldset.ModularForm #CustomerID {
-        --margin-to-button: 3px;
-        margin-right: var(--margin-to-button);
-        width: calc( 100% - ( var(--customer-id-selection-button-width) + var(--margin-to-button) ) );
-    }
-
-    fieldset.ModularForm #ToCustomer,
-    fieldset.ModularForm #CcCustomer,
-    fieldset.ModularForm #BccCustomer {
-        width: calc( 100% - ( var(--address-book-button-width) + var(--address-book-button-margin) ) );
-    }
-
-    fieldset.ModularForm .OptionCustomerUserAddressBook {
-        align-self: center;
-    }
-
-    fieldset.ModularForm .CustomerContainer, 
-    fieldset.ModularForm .CcCustomerContainer, 
-    fieldset.ModularForm .BccCustomerContainer {
-        --ContainerPadding: 8px;
-        padding: calc( var(--ContainerPadding) / 2) var(--ContainerPadding);
-    }
-
-    fieldset.ModularForm .CustomerContainer .BoxLabel, 
-    fieldset.ModularForm .CcCustomerContainer .BoxLabel, 
-    fieldset.ModularForm .BccCustomerContainer .BoxLabel {
-        display: flex;
-        top: var(--ContainerPadding);
-        bottom: var(--ContainerPadding);
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    fieldset.ModularForm .CustomerContainer > div, 
-    fieldset.ModularForm .CcCustomerContainer > div, 
-    fieldset.ModularForm .BccCustomerContainer > div {
-        margin: calc( var(--ContainerPadding) / 2) 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: calc( var(--ContainerPadding) / 2);
-    }
-
-    fieldset.ModularForm .CustomerContainer input[type="radio"], 
-    fieldset.ModularForm .CcCustomerContainer input[type="radio"], 
-    fieldset.ModularForm .BccCustomerContainer input[type="radio"] {
-        margin: 0;
-    }
-
-    fieldset.ModularForm .CcCustomerContainer .ToMove,
-    fieldset.ModularForm .BccCustomerContainer .ToMove,
-    fieldset.ModularForm .CustomerContainer .CcMove,
-    fieldset.ModularForm .BccCustomerContainer .CcMove,
-    fieldset.ModularForm .CustomerContainer .BccMove,
-    fieldset.ModularForm .CcCustomerContainer .BccMove {
-        height: 14px;
-        padding-bottom: 3px;
-    }
-
-    fieldset.ModularForm .CcCustomerContainer .ToMove > span,
-    fieldset.ModularForm .BccCustomerContainer .ToMove > span,
-    fieldset.ModularForm .CustomerContainer .CcMove > span,
-    fieldset.ModularForm .BccCustomerContainer .CcMove > span,
-    fieldset.ModularForm .CustomerContainer .BccMove > span,
-    fieldset.ModularForm .CcCustomerContainer .BccMove > span {
-        height: 11px;
-        font-size: 10px;
-        font-weight: 600;
-        border: 1.5px solid;
-    }
-
-    fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
-    fieldset.ModularForm .CcCustomerContainer .CustomerTicketText, 
-    fieldset.ModularForm .BccCustomerContainer .CustomerTicketText {
-        width: calc(100% - 70px);
-    }
-
-    fieldset.ModularForm input[type=checkbox] {
-        height: var(--checkbox-size);
-        width: var(--checkbox-size);
-        margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 ) 0;
-    }
-
-    fieldset.ModularForm .DynamicFieldDate {
-        display: flex;
-        flex-direction: row;
-        align-self: center;
-        align-items: center;
-        column-gap: 1px;
-    }
-
-    fieldset.ModularForm .DynamicFieldDate input[type="checkbox"] {
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: 2px;
-    }
-
-    fieldset.ModularForm textarea {
-        resize: vertical;
-        width: 100%;
-        border-radius: 4px;
-    }
-
-    fieldset.ModularForm .oooTitle {
-        max-width: 100%;
-        overflow-wrap: break-word;
-    }
-    
-    fieldset.ModularForm .FieldCell .RichTextField {
-        --PreferredWidth: 620px;
-        flex-direction: column;
-        z-index: 10;
-        position: relative;
-        height: var(--InitialHeight);
-        width: min( 100%, var(--PreferredWidth) );
-        max-width: 100%
-    }
-
-    fieldset.ModularForm .RichTextField > .CKEditor_resizeHandle {
-        --handle-width: 30px;
-        --handle-height: 4px;
-        position: absolute;
-        bottom: calc( var(--handle-height) / 2 );
-        width: var( --handle-width );
-        box-sizing: border-box;
-        height: var(--handle-height);
-        left: calc( 50% - var( --handle-width ) / 2 );
-        border-radius: 5px;
-        background-color: var(--colBGDark);
-        cursor: s-resize;
-        overflow: hidden;
-    }
-
-    fieldset.ModularForm .RichTextField > .CKEditor_resizeHandle i {
-        display: block;
-        margin: auto;
-        margin-top: -2px;
-        color: var(--colTextLight);
-        text-align: center;
-        font-size: 9px;
-    }
-
-    fieldset.ModularForm .RichTextField .ck-editor {
-        width: 100%;
-    }
-
-    fieldset.ModularForm .RichTextField input[type="checkbox"] {
-        height: unset;
-        width: unset;
-        margin: unset;
-    }
-
-    fieldset.ModularForm .InputField_Container {
-        width: 100%
-    }
-
-    fieldset.ModularForm .InputField_InputContainer {
-        width: 100%;
-        line-height: inherit;
-    }
-
-    fieldset.ModularForm .Field > select.Modernize {
-        width: 100%;
-    }
-
-    fieldset.ModularForm .Field #OptionCustomer {
-        align-self: center;
-    }
-
-    /* Override old styles for Subject field */
-    fieldset.ModularForm input#Subject {
-        font-size: inherit;
-        padding: 3px; 
-    }
-
-    fieldset.ModularForm .Field .ReadyForUpload {
-        white-space: wrap;
-    }
-
-    fieldset.ModularForm .Field .AttachmentListContainer {
-        max-width: unset;
-        width: 100%;
-    }
-
-    fieldset.ModularForm .Field table.AttachmentList {
-        max-width: unset;
-    }
-
-    fieldset.ModularForm .Field table.AttachmentList * {
-        box-sizing: content-box;
-    }
-
-    fieldset.ModularForm div.Row {
-        width: 100%;
-    }
-
-    /* surrounding div of dynamic fields */
-    fieldset.ModularForm div.Row > div.FieldCell {
-        display: grid;
-        position: relative;
-        grid-template-areas:   "label                                       field                                                                               multivaluebuttons";
-        grid-template-columns:  calc( 30% - var(--field-column-gap)*2 )     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
-        grid-column-gap: var(--field-column-gap);
-    }
-
-    /* +- button div for multivalue rows */
-    fieldset.ModularForm div.AddRemoveValueRow {
-        grid-area: multivaluebuttons;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        column-gap: 3px;
-        padding: var(--label-padding);
-    }
-    
-    fieldset.ModularForm .DatepickerIcon {
-        margin: 0;
-        width: auto;
-        height: auto;
-    }
-
-    fieldset.ModularForm div.Row .DFSetOuterField {
-        padding: 8px;
-        margin: var(--field-padding-vertical) 0;
-        border: 1px solid var(--colBGDark);
-        border-radius: 4px;
-    }
-
-    fieldset.ModularForm div.Row fieldset.DynamicFieldSet {
-        display: flex;
-        flex-direction: column;
-        row-gap: var(--row-gap);
-        width: 100%;
-    }
-
-    fieldset.ModularForm div.Row.MultiColumn {
-        display: grid;
-        column-gap: var(--grid-column-gap);
-    }
-
-    fieldset.ModularForm > div.Row.MultiColumn {
-        --left-margin: 10%;
-        margin: 8px 0 8px var( --left-margin);
-        width: calc( 100% - var( --left-margin ) );
-        column-gap: var(--grid-column-gap);
-    }
-
-    fieldset.ModularForm div.Row.MultiColumn div.FieldCell {
-        --field-column-gap: 5px;
-        grid-template-areas:    "label ."
-                                "field multivaluebuttons";
-        grid-template-rows: min-content 1fr;
-        grid-template-columns: min(calc( 100% - ( var(--multivalue-buttons-width) + var(--field-column-gap) )), var(--max-field-width))  var( --multivalue-buttons-width );
-        grid-column-gap: var(--field-column-gap);
-        vertical-align: top;
-    }
-    
-    fieldset.ModularForm div.Row.MultiColumn div[class*=MultiValue_] {
-        grid-template-areas:    "field multivaluebuttons";
-    }
-
-    fieldset.ModularForm div.Row.MultiColumn div.MultiValue_0 {
-        grid-template-areas:    "label ."
-                                "field multivaluebuttons" !important;
-    }
-
-    fieldset.ModularForm div.Row.MultiColumn div.FieldCell label {
-        text-align: left;
-    }
-
-    fieldset.ModularForm .InputField_Container ~ a.GetAllAJAX {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        display: flex;
-        align-items: center;
-    }
-
-    fieldset.ModularForm .Field .DynamicFieldDB {
-        width: calc ( 100% - var(--search-icon-width));
-    }
-
-    fieldset.ModularForm .DynamicFieldDB ~ a {
-        display: unset;
-        position: static;
-        padding: calc( var(--text-input-padding) + 1px );
-    }
-
-    fieldset.ModularForm .DynamicFieldDBContainer {
-        width: 100%;
-    }
-
-    fieldset.ModularForm .CustomerContainer, 
-    fieldset.ModularForm .CcCustomerContainer, 
-    fieldset.ModularForm .BccCustomerContainer {
-        width: 100%;
-    }
-
-    fieldset.ModularForm div.Field.InfoTextField {
-        padding: var(--label-padding);
-    }
-
-    fieldset.ModularForm .FieldExplanation {
-        text-wrap: wrap;
-    }
-
-    fieldset.ModularForm .DynamicFieldDB ~ a {
+/* unique to AgentTicketBulk */
+fieldset.ModularForm .ChoiceInput > div {
     display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}
+
+/* unique to AgentTicketBulk */
+fieldset.ModularForm .ChoiceInput input[type="text"] {
+    width: unset;
+    flex-basis: 1;
+}
+
+/**
+ * @subsection Labels
+ */
+
+fieldset.ModularForm label {
+    grid-column: label;
+    text-align: right;
+    vertical-align: middle;
+    padding: var(--label-padding);
+    color: var(--colTextLight);
+    text-shadow: 0 1px 0 var(--colBGLightMedium);
+    text-wrap: wrap;
+    overflow-wrap: break-word;
+}
+
+fieldset.ModularForm label[for="Subject"] {
+    padding: var(--label-padding);
+    align-self: center;
+}
+
+/* special case for AgentTicketMerge */
+fieldset.ModularForm .Field > label {
+    --height: max( calc( var(--checkbox-margin) * 2 + var(--checkbox-size) ), var(--line-height) );
+    --padding-vertical: calc(0.5 * (var(--height) - var(--line-height)) );
+    margin: 0 0 0 8px;
+    padding: var(--padding-vertical) 0;
+}
+
+/**
+ * @subsection  CustomerContainer
+ * @note        Used in email forms (e.g. AgentTicketCompose) to display the customer, cc and bcc fields.
+ */
+
+fieldset.ModularForm #CustomerID {
+    --margin-to-button: 3px;
+    margin-right: var(--margin-to-button);
+    width: calc( 100% - ( var(--customer-id-selection-button-width) + var(--margin-to-button) ) );
+}
+
+fieldset.ModularForm #ToCustomer,
+fieldset.ModularForm #CcCustomer,
+fieldset.ModularForm #BccCustomer {
+    width: calc( 100% - ( var(--address-book-button-width) + var(--address-book-button-margin) ) );
+}
+
+fieldset.ModularForm .OptionCustomerUserAddressBook {
+    align-self: center;
+}
+
+fieldset.ModularForm .CustomerContainer, 
+fieldset.ModularForm .CcCustomerContainer, 
+fieldset.ModularForm .BccCustomerContainer {
+    --ContainerPadding: 8px;
+
+    width: 100%;
+    padding: calc( var(--ContainerPadding) / 2) var(--ContainerPadding);
+}
+
+fieldset.ModularForm .CustomerContainer .BoxLabel, 
+fieldset.ModularForm .CcCustomerContainer .BoxLabel, 
+fieldset.ModularForm .BccCustomerContainer .BoxLabel {
+    display: flex;
+    top: var(--ContainerPadding);
+    bottom: var(--ContainerPadding);
+    flex-direction: column;
+    justify-content: center;
+}
+
+fieldset.ModularForm .CustomerContainer > div, 
+fieldset.ModularForm .CcCustomerContainer > div, 
+fieldset.ModularForm .BccCustomerContainer > div {
+    margin: calc( var(--ContainerPadding) / 2) 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: calc( var(--ContainerPadding) / 2);
+}
+
+fieldset.ModularForm .CustomerContainer input[type="radio"], 
+fieldset.ModularForm .CcCustomerContainer input[type="radio"], 
+fieldset.ModularForm .BccCustomerContainer input[type="radio"] {
+    margin: 0;
+}
+
+fieldset.ModularForm .CcCustomerContainer .ToMove,
+fieldset.ModularForm .BccCustomerContainer .ToMove,
+fieldset.ModularForm .CustomerContainer .CcMove,
+fieldset.ModularForm .BccCustomerContainer .CcMove,
+fieldset.ModularForm .CustomerContainer .BccMove,
+fieldset.ModularForm .CcCustomerContainer .BccMove {
+    height: 14px;
+    padding-bottom: 4px;
+}
+
+fieldset.ModularForm .CcCustomerContainer .ToMove > span,
+fieldset.ModularForm .BccCustomerContainer .ToMove > span,
+fieldset.ModularForm .CustomerContainer .CcMove > span,
+fieldset.ModularForm .BccCustomerContainer .CcMove > span,
+fieldset.ModularForm .CustomerContainer .BccMove > span,
+fieldset.ModularForm .CcCustomerContainer .BccMove > span {
+    font-size: 9px;
+    font-weight: 600;
+    border: 1.5px solid;
+    padding: 0 1px;
+    display: unset;
+    vertical-align: unset;
+    line-height: unset;
+}
+
+fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
+fieldset.ModularForm .CcCustomerContainer .CustomerTicketText, 
+fieldset.ModularForm .BccCustomerContainer .CustomerTicketText {
+    width: 100%;
+    margin-left: 0;
+}
+
+
+/**
+ * @subsection Checkboxe and Date Fields
+ */
+
+fieldset.ModularForm input[type=checkbox] {
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 ) 0;
+}
+
+fieldset.ModularForm .DynamicFieldDate {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    align-items: center;
+    column-gap: 1px;
+}
+
+fieldset.ModularForm .DynamicFieldDate input[type="checkbox"] {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 2px;
+}
+
+fieldset.ModularForm .DatepickerIcon {
+    margin: 0;
+    width: auto;
+    height: auto;
+}
+
+fieldset.ModularForm .PendingDateField {
+    justify-content: start;
+    row-gap: 4px;
+    column-gap: 1px;
+    align-items: center;
+}
+
+fieldset.ModularForm .PendingDateField .oooQuickDate {
+    margin: 0;
+    margin-left: 4px;
+    width: min-content;
+    flex: none;
+}
+
+fieldset.ModularForm .PendingDateField .FieldExplanation {
+    width: 100%;
+}
+
+
+/*
+ * @subsection  RichTextField
+ */
+
+fieldset.ModularForm .FieldCell .RichTextField {
+    --PreferredWidth: 620px;
+    flex-direction: column;
+    z-index: 10;
+    position: relative;
+    height: var(--InitialHeight);
+    width: min( 100%, var(--PreferredWidth) );
+    max-width: 100%
+}
+
+fieldset.ModularForm .RichTextField > .CKEditor_resizeHandle {
+    --handle-width: 30px;
+    --handle-height: 4px;
+    position: absolute;
+    bottom: calc( var(--handle-height) / 2 );
+    width: var( --handle-width );
+    box-sizing: border-box;
+    height: var(--handle-height);
+    left: calc( 50% - var( --handle-width ) / 2 );
+    border-radius: 5px;
+    background-color: var(--colBGDark);
+    cursor: s-resize;
+    overflow: hidden;
+}
+
+fieldset.ModularForm .RichTextField > .CKEditor_resizeHandle i {
+    display: block;
+    margin: auto;
+    margin-top: -2px;
+    color: var(--colTextLight);
+    text-align: center;
+    font-size: 9px;
+}
+
+fieldset.ModularForm .RichTextField .ck-editor {
+    width: 100%;
+}
+
+fieldset.ModularForm .RichTextField input[type="checkbox"] {
+    height: unset;
+    width: unset;
+    margin: unset;
+}
+
+/*
+ * @subsection  Dropdowns
+ */
+
+fieldset.ModularForm .InputField_Container {
+    width: 100%
+}
+
+fieldset.ModularForm .InputField_InputContainer {
+    width: 100%;
+    line-height: inherit;
+}
+
+fieldset.ModularForm .Field > select.Modernize {
+    width: 100%;
+}
+
+fieldset.ModularForm .InputField_Container ~ a.GetAllAJAX {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+fieldset.ModularForm .InputField_Search,
+fieldset.ModularForm .InputField_Autocomplete {
+    min-width: 32px;
+}
+
+/*
+ * @subsection Attachments
+ */
+
+fieldset.ModularForm div.DnDUpload {
+    width: 100%;
+}
+
+fieldset.ModularForm .Field .ReadyForUpload {
+    white-space: wrap;
+}
+
+fieldset.ModularForm .Field .AttachmentListContainer {
+    max-width: unset;
+    width: 100%;
+}
+
+fieldset.ModularForm .Field table.AttachmentList {
+    max-width: unset;
+}
+
+fieldset.ModularForm .Field table.AttachmentList * {
+    box-sizing: content-box;
+}
+
+/*
+ * @subsection  Form structure
+ */
+
+fieldset.ModularForm div.Row {
+    width: 100%;
+}
+
+fieldset.ModularForm div.Row > div.FieldCell {
+    display: grid;
+    position: relative;
+    grid-template-areas:   "label                                       field                                                                               multivaluebuttons";
+    grid-template-columns:  calc( 30% - var(--field-column-gap)*2 )     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
+    grid-column-gap: var(--field-column-gap);
+}
+
+fieldset.ModularForm div.Field {
+    position: relative;
+    grid-area: field;
+    width: 100%;
+    height: min-content;
+    min-height: var(--min-field-height);
+    padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+}
+
+fieldset.ModularForm .Field:not(.Hidden) {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+/*
+ * @subsection  MultiValue Fields
+ */
+
+/* +- button div for multivalue rows */
+fieldset.ModularForm div.AddRemoveValueRow {
+    grid-area: multivaluebuttons;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 3px;
+    padding: var(--label-padding);
+}
+
+/*
+ * @subsection  Dynamic Field Sets
+ */
+
+fieldset.ModularForm div.Row .DFSetOuterField {
+    padding: 8px;
+    margin: var(--field-padding-vertical) 0;
+    border: 1px solid var(--colBGDark);
+    border-radius: var(--input-field-border-radius);
+}
+
+fieldset.ModularForm div.Row fieldset.DynamicFieldSet {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--row-gap);
+    width: 100%;
+}
+
+/*
+ * @subsection  Grids
+ */
+
+fieldset.ModularForm div.Row.MultiColumn {
+    display: grid;
+    column-gap: var(--grid-column-gap);
+}
+
+fieldset.ModularForm > div.Row.MultiColumn {
+    --left-margin: 10%;
+    margin: 8px 0 8px var( --left-margin);
+    width: calc( 100% - var( --left-margin ) );
+    column-gap: var(--grid-column-gap);
+}
+
+fieldset.ModularForm div.Row.MultiColumn div.FieldCell {
+    --field-column-gap: 5px;
+    grid-template-areas:    "label ."
+                            "field multivaluebuttons";
+    grid-template-rows: min-content 1fr;
+    grid-template-columns: min(calc( 100% - ( var(--multivalue-buttons-width) + var(--field-column-gap) )), var(--max-field-width))  var( --multivalue-buttons-width );
+    grid-column-gap: var(--field-column-gap);
+    vertical-align: top;
+}
+
+fieldset.ModularForm div.Row.MultiColumn div[class*=MultiValue_] {
+    grid-template-areas:    "field multivaluebuttons";
+}
+
+fieldset.ModularForm div.Row.MultiColumn div.MultiValue_0 {
+    grid-template-areas:    "label ."
+                            "field multivaluebuttons" !important;
+}
+
+fieldset.ModularForm div.Row.MultiColumn div.FieldCell label {
+    text-align: left;
+}
+
+/*
+ * @subsection  Database Dynamic Field
+ */
+
+fieldset.ModularForm .Field .DynamicFieldDB {
+    width: calc ( 100% - var(--search-icon-width));
+}
+
+fieldset.ModularForm .DynamicFieldDB ~ a {
+    display: flex;
+    position: static;
+    padding: calc( var(--text-input-padding) + 1px );
     height: 100%;
     align-items: center;
-    }
+}
 
-    fieldset.ModularForm .Row .Field.ChoiceInput {
-        flex-direction: column;
-    }
-
-    fieldset.ModularForm .ChoiceInput > div {
-        display: flex;
-        flex-direction: row;
-        gap: 0.5em;
-    }
-
-    fieldset.ModularForm .ChoiceInput input[type="text"] {
-        width: unset;
-        flex-basis: 1;
-    }
+fieldset.ModularForm .DynamicFieldDBContainer {
+    width: 100%;
+}
 
 /**
  * end @subsection New Form CSS
