@@ -22,6 +22,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Email',
+    'Kernel::System::EmailAddress',
     'Kernel::System::Log',
 );
 
@@ -61,8 +62,11 @@ sub _HandleError {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $From = $ConfigObject->Get('NotificationSenderName') . ' <'
-        . $ConfigObject->Get('NotificationSenderEmail') . '>';
+    my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+        Phrase               => $ConfigObject->Get('NotificationSenderName'),
+        Address              => $ConfigObject->Get('NotificationSenderEmail'),
+        AcceptInvalidAddress => 1,
+    );
 
     my $To = $ConfigObject->Get('Daemon::SchedulerTaskWorker::NotificationRecipientEmail') || '';
 
