@@ -3569,6 +3569,9 @@ sub TicketCustomerSet {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # For tracking the changes
+    my $History = '';
+
     # db customer id update
     if ( defined $Param{No} ) {
 
@@ -3579,7 +3582,7 @@ sub TicketCustomerSet {
         );
 
         if ($Ok) {
-            $Param{History} = "CustomerID=$Param{No};";
+            $History .= "CustomerID=$Param{No};";
         }
     }
 
@@ -3593,17 +3596,16 @@ sub TicketCustomerSet {
         );
 
         if ($Ok) {
-            $Param{History} .= "CustomerUser=$Param{User};";
+            $History .= "CustomerUser=$Param{User};";
         }
     }
 
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
-    # if no change
-    if ( !$Param{History} ) {
-        return;
-    }
+    # Nothing further to do when there was no change.
+    # Note that no event is emitted when there was no change.
+    return unless $History;
 
     # history insert
     $Self->HistoryAdd(
@@ -3623,6 +3625,7 @@ sub TicketCustomerSet {
         UserID => $Param{UserID},
     );
 
+    # report success when there was a change
     return 1;
 }
 
