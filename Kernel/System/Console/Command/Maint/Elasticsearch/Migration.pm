@@ -839,6 +839,7 @@ sub MigrateFAQs {
 
     my $FAQObject = $Kernel::OM->Get('Kernel::System::FAQ');
     my @FAQs      = $FAQObject->FAQSearch(
+        Limit => 100000000,
         UserID => 1,
     );
 
