@@ -3523,12 +3523,24 @@ Set customer data of ticket. Can set 'No' (CustomerID),
 
     my $Success = $TicketObject->TicketCustomerSet(
         No       => 'client123',
-        User     => 'client-user-123',
+        User     => 'client-user-123', # UserCustomerID
         TicketID => 123,
         UserID   => 23,
     );
 
+F<TicketCustomerSet()> is also called when creating a ticket. This case
+might receive special treatment in event handlers. The information that
+this special case applies is passed by setting C<TicketCreated> to the value C<1>.
+
+        $TicketObject->TicketCustomerSet(
+            TicketID      => $TicketID,
+            No            => $Param{CustomerNo}   || $Param{CustomerID} || '',
+            User          => $Param{CustomerUser} || '',
+            UserID        => $Param{UserID},
+            TicketCreated => 1,
+        );
 Events:
+
     TicketCustomerUpdate
 
 =cut
