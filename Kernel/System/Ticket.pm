@@ -17,8 +17,10 @@
 
 package Kernel::System::Ticket;
 
+use v5.26;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
 use parent qw(
@@ -70,7 +72,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Ticket - Functions to create, modify and delete tickets as well as related helper functions
+Kernel::System::Ticket - Functions to create, modify and delete tickets. Plus some related helper functions.
 
 =head1 SYNOPSIS
 
@@ -78,6 +80,7 @@ Create ticket object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
+
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 Create a new ticket
@@ -220,8 +223,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
@@ -3595,11 +3597,11 @@ sub TicketCustomerSet {
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
         HistoryType  => 'CustomerUpdate',
-        Name         => "\%\%" . $Param{History},
+        Name         => ( '%%' . $Param{History} ),
         CreateUserID => $Param{UserID},
     );
 
-    # trigger event
+    # emit event
     $Self->EventHandler(
         Event => 'TicketCustomerUpdate',
         Data  => {
