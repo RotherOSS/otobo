@@ -470,7 +470,6 @@ sub Fetch {
                     $Self->{Reconnect} = 0;
                     last MESSAGE_NO;
                 }
-
             }
 
             if ($CMD) {
@@ -492,6 +491,7 @@ sub Fetch {
         Value         => "Fetched $FetchCounter message(s) from server ($Param{Login}/$Param{Host}).",
     );
 
+    # Mails that are marked as to be deleted are really deleted now.
     $POPOperation->( 'quit', );
 
     if ($CMD) {
@@ -536,11 +536,11 @@ sub _ProcessFailed {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/spool/';
-    my $MD5  = $MainObject->MD5sum(
+    my $SpoolDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/spool/';
+    my $MD5      = $MainObject->MD5sum(
         String => \$Content,
     );
-    my $Location = $Home . 'problem-email-' . $MD5;
+    my $Location = $SpoolDir . 'problem-email-' . $MD5;
 
     return $MainObject->FileWrite(
         Location   => $Location,
