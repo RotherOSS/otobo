@@ -932,7 +932,7 @@ sub _ShowScreen {
         PossibleNone  => 0,
         Translation   => 0,
         Sort          => 'NumericKey',
-        Class         => 'Modernize W75pc Validate_Number',
+        Class         => 'Modernize W90pc Validate_Number',
     );
 
     # compute value for editfieldmode to maintain frontend selection
