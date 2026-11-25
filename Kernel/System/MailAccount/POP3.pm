@@ -35,11 +35,10 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Class;
 
     # reset limit
     $Self->{Limit} = 0;
@@ -198,6 +197,7 @@ sub Fetch {
             Timeout  => 15,
             Debug    => $Debug
         );
+
         return 1;
     } || do {
         my $Error = $@;
@@ -531,10 +531,7 @@ sub _ProcessFailed {
     }
 
     # get content of email
-    my $Content;
-    for my $Line ( @{ $Param{Email} } ) {
-        $Content .= $Line;
-    }
+    my $Content = join '', $Param{Email}->@*;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
