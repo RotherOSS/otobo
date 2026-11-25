@@ -1314,7 +1314,7 @@ sub CheckDBRequirements {
         if ( $SQLMode =~ m/NO_BACKSLASH_ESCAPES/ ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
-                "Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend.OTOBO relies on the backslash as the escape character."
+                "Error: Please deactivate the SQL mode NO_BACKSLASH_ESCAPES in the database backend. OTOBO relies on the backslash as the escape character."
             );
         }
     }
