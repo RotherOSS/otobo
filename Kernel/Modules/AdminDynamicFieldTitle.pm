@@ -699,7 +699,7 @@ sub _ShowScreen {
     my %DynamicfieldNamesList;
     for my $Dynamicfield ( @{$DynamicFieldList} ) {
         push @DynamicfieldOrderList, $Dynamicfield->{FieldOrder};
-        $DynamicfieldNamesList{ $Dynamicfield->{FieldOrder} } = $Dynamicfield->{Label};
+        $DynamicfieldNamesList{ $Dynamicfield->{FieldOrder} } = "$Dynamicfield->{Name} ($Dynamicfield->{Label})";
     }
 
     # when adding we need to create an extra order number for the new field
