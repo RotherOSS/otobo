@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-11-23 16:20+0000\n"
-"PO-Revision-Date: 2026-11-11 13:00+0000\n"
+"PO-Revision-Date: 2026-11-26 21:00+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo-11-0/"
 "otobo/hu/>\n"
@@ -18708,11 +18708,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
 msgid "SQL mode NO_BACKSLASH_ESCAPES"
-msgstr ""
+msgstr "NO_BACKSLASH_ESCAPES SQL-mód"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/SQLModeNoBackslashEscapes.pm
 msgid "The SQL mode NO_BACKSLASH_ESCAPES must be turned off."
-msgstr ""
+msgstr "A NO_BACKSLASH_ESCAPES SQL-módot ki kell kapcsolni."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
@@ -21967,12 +21967,10 @@ msgstr ""
 "a felhasználók adminisztrációs paneljén keresztül."
 
 #. SysConfig
-#, fuzzy
-#| msgid "Allows invalid agents to generate individual-related stats."
 msgid "Allows the use of invalid agents in individual-related stats."
 msgstr ""
-"Lehetővé teszi az érvénytelen ügyintézőknek egyénhez kapcsolódó statisztikák "
-"előállítását."
+"Lehetővé teszi az érvénytelen ügyintézők használatát az egyénhez kapcsolódó "
+"statisztikákban."
 
 #. SysConfig
 msgid ""
