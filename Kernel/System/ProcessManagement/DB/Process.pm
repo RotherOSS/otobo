@@ -1306,7 +1306,7 @@ sub ProcessDump {
     ACTIVITYDIALOG:
     for my $ActivityDialogData ( @{$ActivityDialogsList} ) {
 
-        next ACTIVITY if !IsHashRefWithData($ActivityDialogData);
+        next ACTIVITYDIALOG if !IsHashRefWithData($ActivityDialogData);
 
         $ActivityDialogDump{ $ActivityDialogData->{EntityID} } = {
             Name                 => $ActivityDialogData->{Name},
