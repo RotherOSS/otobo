@@ -257,7 +257,8 @@ sub CleanUp {
         }
     };
 
-    # File::Find has a specific race condition when multiple asynchronous tasks clean up the same Type, see #6501
+    # Concurrent CleanUp() calls for the same type (e.g. parallel asynchronous tasks) may remove
+    # directories that File::Find has already listed, which makes File::Find warn, see #6501.
     # first save a potential warning handler that was active before, so we can hand real warnings on to it later
     my $OuterWarnHandler = $SIG{__WARN__};
 
@@ -266,7 +267,7 @@ sub CleanUp {
     local $SIG{__WARN__} = sub {
         my ($Message) = @_;
 
-        # two warnings are produced from File::Find's race condition
+        # two warnings are produced by File::Find in this race condition
         # - 'Can't opendir(<path>): ...'
         # - 'Can't stat <path>: ...'
         if ( $Message =~ m{\A Can't \s (?: opendir\( (.+) \) | stat \s (.+?) ) : \s}smx ) {
@@ -274,7 +275,7 @@ sub CleanUp {
 
             # check if the path still exists; if it does, we are not looking at a race condition
             # but rather a different file warning (e.g. insufficient permissions)
-            return if !-e $Path;
+            return if !-e $Path && $!{ENOENT};
         }
 
         # if there was an active handler before our localization, pass the warning to it instead
