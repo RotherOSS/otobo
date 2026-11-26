@@ -184,7 +184,7 @@ sub GetSessionIDData {
 
     # check cache
     return %{ $Self->{Cache}->{ $Param{SessionID} } }
-        if $Self->{Cache}->{ $Param{SessionID} };
+        if !$Param{NoCache} && $Self->{Cache}->{ $Param{SessionID} };
 
     # read data
     my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
@@ -204,12 +204,12 @@ sub GetSessionIDData {
     };
 
     if ( !$Session || ref $Session ne 'HASH' ) {
-        delete $Self->{Cache}->{ $Param{SessionID} };
+        delete $Self->{Cache}->{ $Param{SessionID} } if !$Param{NoCache};
         return;
     }
 
     # cache result
-    $Self->{Cache}->{ $Param{SessionID} } = $Session;
+    $Self->{Cache}->{ $Param{SessionID} } = $Session if !$Param{NoCache};
 
     return %{$Session};
 }

@@ -204,6 +204,18 @@
                 </p>
 [% RenderBlockEnd("LostPasswordLink") %]
 [% END %]
+[% IF Data.OIDCLoginAvailable %]
+                <div class="WidgetSimple">
+                    <div class="Content">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="loginOIDC">
+                            <input type="hidden" name="Action" value="LoginOIDC" />
+                            <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+                            <button type="submit" id="OIDCLoginButton" class="Primary CallForAction Fullsize Center"><span>[% Translate(Data.OIDCLoginButtonText) | html %]</span></button>
+                        </form>
+                    </div>
+                </div>
+[% END %]
             </div>
 [% RenderBlockEnd("LoginBox") %]
 

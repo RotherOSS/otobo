@@ -180,7 +180,7 @@ sub GetSessionIDData {
         return;
     }
 
-    return %{ $Self->{Cache}->{ $Param{SessionID} } } if $Self->{Cache}->{ $Param{SessionID} };
+    return %{ $Self->{Cache}->{ $Param{SessionID} } } if !$Param{NoCache} && $Self->{Cache}->{ $Param{SessionID} };
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -230,15 +230,19 @@ sub GetSessionIDData {
     }
 
     if ( !%Session ) {
-        delete $Self->{Cache}->{ $Param{SessionID} };
-        delete $Self->{CacheID}->{ $Param{SessionID} };
-        delete $Self->{CacheUpdate}->{ $Param{SessionID} };
+        if ( !$Param{NoCache} ) {
+            delete $Self->{Cache}->{ $Param{SessionID} };
+            delete $Self->{CacheID}->{ $Param{SessionID} };
+            delete $Self->{CacheUpdate}->{ $Param{SessionID} };
+        }
         return;
     }
 
     # cache result
-    $Self->{Cache}->{ $Param{SessionID} }   = \%Session;
-    $Self->{CacheID}->{ $Param{SessionID} } = \%SessionID;
+    if ( !$Param{NoCache} ) {
+        $Self->{Cache}->{ $Param{SessionID} }   = \%Session;
+        $Self->{CacheID}->{ $Param{SessionID} } = \%SessionID;
+    }
 
     return %Session;
 }
