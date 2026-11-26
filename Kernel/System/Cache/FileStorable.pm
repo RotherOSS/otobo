@@ -257,6 +257,34 @@ sub CleanUp {
         }
     };
 
+    # File::Find has a specific race condition when multiple asynchronous tasks clean up the same Type, see #6501
+    # first save a potential warning handler that was active before, so we can hand real warnings on to it later
+    my $OuterWarnHandler = $SIG{__WARN__};
+
+    # File::Find calls warnings::warnif, ending in perl's built-in warn, which calls $SIG{__WARN__}
+    # this handler goes out of scope when CleanUp() returns
+    local $SIG{__WARN__} = sub {
+        my ($Message) = @_;
+
+        # two warnings are produced from File::Find's race condition
+        # - 'Can't opendir(<path>): ...'
+        # - 'Can't stat <path>: ...'
+        if ( $Message =~ m{\A Can't \s (?: opendir\( (.+) \) | stat \s (.+?) ) : \s}smx ) {
+            my $Path = $1 // $2;
+
+            # check if the path still exists; if it does, we are not looking at a race condition
+            # but rather a different file warning (e.g. insufficient permissions)
+            return if !-e $Path;
+        }
+
+        # if there was an active handler before our localization, pass the warning to it instead
+        return $OuterWarnHandler->(@_) if ref $OuterWarnHandler eq 'CODE';
+
+        # otherwise warn like normal
+        warn @_;
+        return;
+    };
+
     # We use finddepth so that the most deeply nested files will be deleted first,
     #   and then the directories above are already empty and can just be removed.
     File::Find::finddepth(
