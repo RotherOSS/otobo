@@ -294,7 +294,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'CGI',
             'Required'        => 1,
-            'VersionRequired' => '== 4.36',
+            'VersionRequired' => '== 5.02',
         },
         {
             'Comment'         => 'needed by e.g. Data::ICal, but not used by OTOBO itself',
@@ -522,6 +522,12 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.080001',
         },
         {
+            'Comment'         => 'needed by URI',
+            'Module'          => 'MIME::Base32',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.303',
+        },
+        {
             'Comment'         => 'needed by Kernel::System::Mail and Kernel::System::EmailParser',
             'Module'          => 'MIME::Tools',
             'Required'        => 1,
@@ -692,7 +698,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'URI',
             'Required'        => 1,
-            'VersionRequired' => '== 1.71',
+            'VersionRequired' => '== 5.40',
         },
         {
             'Comment'         => 'needed by Sisimai, OTOBO itself uses YAML::XS',

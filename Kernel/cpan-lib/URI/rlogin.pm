@@ -3,11 +3,10 @@ package URI::rlogin;
 use strict;
 use warnings;
 
-our $VERSION = '1.71';
-$VERSION = eval $VERSION;
+our $VERSION = '5.40';
 
 use parent 'URI::_login';
 
-sub default_port { 513 }
+sub default_port {513}
 
 1;

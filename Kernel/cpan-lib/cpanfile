@@ -11,7 +11,7 @@
 requires 'Algorithm::Diff', '== 1.1903';
 
 # removed in OTOBO 11.0.x
-requires 'CGI', '== 4.36';
+requires 'CGI', '== 5.02';
 
 # needed by e.g. Data::ICal, but not used by OTOBO itself
 requires 'Class::Accessor', '== 0.34';
@@ -122,6 +122,9 @@ requires 'Math::Random::ISAAC', '== 1.004';
 # needed by Kernel::System::Main for GenerateRandomString()
 requires 'Math::Random::Secure', '== 0.080001';
 
+# needed by URI
+requires 'MIME::Base32', '== 1.303';
+
 # needed by Kernel::System::Mail and Kernel::System::EmailParser
 requires 'MIME::Tools', '== 5.522';
 
@@ -205,7 +208,7 @@ requires 'XML::Simple', '== 2.25';
 requires 'XML::TreePP', '== 0.43';
 
 # removed in OTOBO 11.0.x
-requires 'URI', '== 1.71';
+requires 'URI', '== 5.40';
 
 # needed by Sisimai, OTOBO itself uses YAML::XS
 requires 'YAML', '== 1.30';

@@ -3,7 +3,7 @@
 # you use it directly and your code breaks horribly.
 package CGI::File::Temp;
 
-$CGI::File::Temp::VERSION = '4.36';
+$CGI::File::Temp::VERSION = '5.02';
 
 use parent File::Temp;
 use parent Fh;
@@ -30,8 +30,9 @@ sub compare {
 
 sub _mp_filename {
 	my ( $self,$filename ) = @_;
+	# not just "if $filename" so that a file named "0" keeps its name
 	${*$self}->{ _mp_filename } = $filename
-		if $filename;
+		if defined $filename && length $filename;
 	return ${*$self}->{_mp_filename};
 }
 

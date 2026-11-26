@@ -3,9 +3,7 @@ package CGI::Cookie;
 use strict;
 use warnings;
 
-use if $] >= 5.019, 'deprecate';
-
-our $VERSION='4.36';
+our $VERSION='5.02';
 
 use CGI::Util qw(rearrange unescape escape);
 use overload '""' => \&as_string, 'cmp' => \&compare, 'fallback' => 1;
@@ -77,6 +75,17 @@ sub parse {
 
   my %results;
 
+  if ( $raw_cookie =~ /(expires)=([^;]+)/ixsm ) {
+    # regex captures are untainted, so carry over the taint of the source
+    my $tainted = substr( $raw_cookie, 0, 0 );
+    my ($expires_name, $expires_value) = ($1 . $tainted, $2 . $tainted);
+    # remove the matched expires pair by position - the value is client
+    # supplied so must never be interpolated into a pattern
+    substr( $raw_cookie, $-[0], $+[0] - $-[0] ) = '';
+    $results{$expires_name} = $self->new(-name => $expires_name, -value => $expires_value);
+  }
+
+
   my @pairs = split("[;,] ?",$raw_cookie);
   for (@pairs) {
     s/^\s+//;
@@ -106,13 +115,14 @@ sub new {
   # Ignore mod_perl request object--compatibility with Apache::Cookie.
   shift if ref $params[0]
         && eval { $params[0]->isa('Apache::Request::Req') || $params[0]->isa('Apache') };
-  my ( $name, $value, $path, $domain, $secure, $expires, $max_age, $httponly, $samesite )
+  my ( $name, $value, $path, $domain, $secure, $expires, $max_age, $httponly, $samesite, $priority, $partitioned )
    = rearrange(
     [
       'NAME', [ 'VALUE', 'VALUES' ],
       'PATH',   'DOMAIN',
       'SECURE', 'EXPIRES',
-      'MAX-AGE','HTTPONLY','SAMESITE'
+      'MAX-AGE','HTTPONLY','SAMESITE',
+      'PRIORITY', 'PARTITIONED',
     ],
     @params
    );
@@ -122,13 +132,15 @@ sub new {
   $self->name( $name );
   $self->value( $value );
   $path ||= "/";
-  $self->path( $path )         if defined $path;
-  $self->domain( $domain )     if defined $domain;
-  $self->secure( $secure )     if defined $secure;
-  $self->expires( $expires )   if defined $expires;
-  $self->max_age( $max_age )   if defined $max_age;
-  $self->httponly( $httponly ) if defined $httponly;
-  $self->samesite( $samesite ) if defined $samesite;
+  $self->path( $path )               if defined $path;
+  $self->domain( $domain )           if defined $domain;
+  $self->secure( $secure )           if defined $secure;
+  $self->expires( $expires )         if defined $expires;
+  $self->max_age( $max_age )         if defined $max_age;
+  $self->httponly( $httponly )       if defined $httponly;
+  $self->samesite( $samesite )       if defined $samesite;
+  $self->priority( $priority )       if defined $priority;
+  $self->partitioned( $partitioned ) if defined $partitioned;
   return $self;
 }
 
@@ -149,6 +161,8 @@ sub as_string {
     push @cookie,"secure"                    if $self->secure;
     push @cookie,"HttpOnly"                  if $self->httponly;
     push @cookie,"SameSite=".$self->samesite if $self->samesite;
+    push @cookie,"Priority=".$self->priority if $self->priority;
+    push @cookie,"Partitioned"               if $self->partitioned;
 
     return join "; ", @cookie;
 }
@@ -167,7 +181,7 @@ sub bake {
           : Apache->request
   } if $MOD_PERL;
   if ($r) {
-      $r->headers_out->add('Set-Cookie' => $self->as_string);
+      $r->err_headers_out->add('Set-Cookie' => $self->as_string);
   } else {
       require CGI;
       print CGI::header(-cookie => $self);
@@ -194,9 +208,21 @@ sub value {
   return wantarray ? @{ $self->{'value'} } : $self->{'value'}->[0];
 }
 
+# attribute values are not escaped, so must be checked: per RFC 6265 they
+# can't contain ";" or control characters (anything else would allow
+# other attributes, e.g. "/; Domain=example.com", to be injected)
+sub _check_attribute {
+    my ( $attribute,$value,$valid ) = @_;
+    $valid ||= qr/\A[^;\x00-\x1f\x7f]*\z/;
+    return $value if $value =~ $valid;
+    ( my $shown = $value ) =~ s/([^\x20-\x7e])/sprintf( '\\x%02x',ord $1 )/ge;
+    die "Invalid cookie $attribute (contains ';' or invalid characters): $shown\n";
+}
+
 sub domain {
     my ( $self, $domain ) = @_;
-    $self->{'domain'} = lc $domain if defined $domain;
+    $self->{'domain'} = lc _check_attribute( domain => $domain,qr/\A\.?[A-Za-z0-9._-]*\z/ )
+        if defined $domain;
     return $self->{'domain'};
 }
 
@@ -208,7 +234,9 @@ sub secure {
 
 sub expires {
     my ( $self, $expires ) = @_;
-    $self->{'expires'} = CGI::Util::expires($expires,'cookie') if defined $expires;
+    # CGI::Util::expires passes through anything it doesn't understand
+    $self->{'expires'} = _check_attribute( expires => CGI::Util::expires($expires) )
+        if defined $expires;
     return $self->{'expires'};
 }
 
@@ -220,7 +248,7 @@ sub max_age {
 
 sub path {
     my ( $self, $path ) = @_;
-    $self->{'path'} = $path if defined $path;
+    $self->{'path'} = _check_attribute( path => $path ) if defined $path;
     return $self->{'path'};
 }
 
@@ -230,12 +258,28 @@ sub httponly { # HttpOnly
     return $self->{'httponly'};
 }
 
-my %_legal_samesite = ( Strict => 1, Lax => 1 );
+sub partitioned { # Partitioned
+    my ( $self, $partitioned ) = @_;
+    $self->{'partitioned'} = $partitioned if defined $partitioned;
+    return $self->{'partitioned'};
+}
+
+my %_legal_samesite = ( Strict => 1, Lax => 1, None => 1 );
 sub samesite { # SameSite
     my $self = shift;
     my $samesite = ucfirst lc +shift if @_; # Normalize casing.
     $self->{'samesite'} = $samesite if $samesite and $_legal_samesite{$samesite};
     return $self->{'samesite'};
+}
+
+my %_legal_priority = ( Low => 1, Medium => 1, High => 1 );
+sub priority {
+    my $self = shift;
+    my $priority = ucfirst lc +shift if @_;
+    if ($priority && $_legal_priority{$priority}) {
+        $self->{'priority'} = $priority;
+    }
+    return $self->{'priority'};
 }
 
 1;
@@ -339,11 +383,17 @@ See these URLs for more information:
 
 =item B<6. samesite flag>
 
-Allowed settings are C<Strict> and C<Lax>.
+Allowed settings are C<Strict>, C<Lax> and C<None>.
 
 As of June 2016, support is limited to recent releases of Chrome and Opera.
 
 L<https://tools.ietf.org/html/draft-west-first-party-cookies-07>
+
+=item B<7. priority flag>
+
+Allowed settings are C<Low>, C<Medium> and C<High>.
+
+Support is limited to recent releases of Chrome.
 
 =back
 
@@ -356,7 +406,8 @@ L<https://tools.ietf.org/html/draft-west-first-party-cookies-07>
                              -domain  =>  '.capricorn.com',
                              -path    =>  '/cgi-bin/database',
                              -secure  =>  1,
-                             -samesite=>  "Lax"
+                             -samesite=>  "Lax",
+                             -priority=>  "High",
 	                    );
 
 Create cookies from scratch with the B<new> method.  The B<-name> and
@@ -386,14 +437,20 @@ will be returned to all URLs beginning with the specified path.  If
 not specified, it defaults to '/', which returns the cookie to all
 pages at your site.
 
+Unlike the name and value, which are URL escaped, the B<-path>, B<-domain>
+and B<-expires> values are used as given, so since v5.00 CGI::Cookie dies if
+they contain a ";" or control characters (which would allow other attributes
+to be injected), or if B<-domain> isn't a valid host name.
+
 B<-secure> if set to a true value instructs the browser to return the
 cookie only when a cryptographic protocol is in use.
 
 B<-httponly> if set to a true value, the cookie will not be accessible
 via JavaScript.
 
-B<-samesite> may be C<Lax> or C<Strict> and is an evolving part of the
-standards for cookies. Please refer to current documentation regarding it.
+B<-samesite> may be C<Lax>, C<Strict>, or C<None> and is an evolving part
+of the standards for cookies. Please refer to current documentation
+regarding it.
 
 For compatibility with Apache::Cookie, you may optionally pass in
 a mod_perl request object as the first argument to C<new()>. It will
@@ -439,7 +496,7 @@ argument to the header() method:
 Mod_perl users can set cookies using the request object's header_out()
 method:
 
-  $r->headers_out->set('Set-Cookie' => $c);
+  $r->err_headers_out->add('Set-Cookie' => $c);
 
 Internally, Cookie overloads the "" operator to call its as_string()
 method when incorporated into the HTTP header.  as_string() turns the
@@ -533,7 +590,7 @@ Get or set the cookie's max_age value.
 =head1 AUTHOR INFORMATION
 
 The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein. It is
-distributed under GPL and the Artistic License 2.0. It is currently
+distributed under the Artistic License 2.0. It is currently
 maintained by Lee Johnson with help from many contributors.
 
 Address bug reports and comments to: https://github.com/leejo/CGI.pm/issues
