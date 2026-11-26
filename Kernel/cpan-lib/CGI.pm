@@ -1,14 +1,14 @@
 package CGI;
 require 5.008001;
-use if $] >= 5.019, 'deprecate';
 use Carp 'croak';
+use URI;
 
 my $appease_cpants_kwalitee = q/
 use strict;
 use warnings;
 #/;
 
-$CGI::VERSION='4.36';
+$CGI::VERSION='5.02';
 
 use CGI::Util qw(rearrange rearrange_header make_attributes unescape escape expires ebcdic2ascii ascii2ebcdic);
 
@@ -23,12 +23,22 @@ $_XHTML_DTD = ['-//W3C//DTD XHTML 1.0 Transitional//EN',
 $MOD_PERL            = 0; # no mod_perl by default
 
 #global settings
-$POST_MAX            = -1; # no limit to uploaded files
+$POST_MAX            = 1024 * 1024 * 128; # 128MB, set to -1 for no limit
+$MAX_PARAMS          = 10_000; # param values per request, -1 for no limit
+$MAX_UPLOADS         = 1_000;  # uploaded files per request, -1 for no limit
+my $REQUEST_TOO_LARGE = "CGI.pm: 413 Request entity too large\n";
+# params that CGI.pm sets itself to the raw request body (or XForms model),
+# which must not be settable by the client via the query string or a form
+# field, as an app couldn't then tell them apart from the real body
+my %RESERVED_PARAM = map { $_ => 1 } qw/ POSTDATA PUTDATA PATCHDATA XForms:Model /;
 $DISABLE_UPLOADS     = 0;
+$SANITIZE_UPLOAD_FILENAMES = 1; # set to 0 for the raw client filename
 $UNLINK_TMP_FILES    = 1;
 $LIST_CONTEXT_WARN   = 1;
 $ENCODE_ENTITIES     = q{&<>"'};
 $ALLOW_DELETE_CONTENT = 0;
+$COOKIE_CACHE        = 0;  # backcompat: cache was broken for years
+$TRUST_X_FORWARDED_HOST = 0; # set to 1 if behind a proxy that sets it
 
 @SAVED_SYMBOLS = ();
 
@@ -91,6 +101,9 @@ sub initialize_globals {
     # make param('PUTDATA') act like file upload
     $PUTDATA_UPLOAD = 0;
 
+    # Add QUERY_STRING to POST request
+    $APPEND_QUERY_STRING = 0;
+
     # Other globals that you shouldn't worry about.
     undef $Q;
     $BEEN_THERE = 0;
@@ -99,8 +112,14 @@ sub initialize_globals {
     undef %QUERY_PARAM;
     undef %EXPORT;
     undef $QUERY_CHARSET;
+    undef $QUERY_CGI_ERROR;
     undef %QUERY_FIELDNAMES;
     undef %QUERY_TMPFILES;
+
+    # CGI::Carp buffers warnings for warningsToBrowser(), which must not be
+    # carried over into another request (and so another user's page) in a
+    # persistent environment
+    CGI::Carp::_reset_globals() if defined &CGI::Carp::_reset_globals;
 
     # prevent complaints by mod_perl
     1;
@@ -284,7 +303,7 @@ sub import {
     # To allow overriding, search through the packages
     # Till we find one in which the correct subroutine is defined.
     my @packages = ($self,@{"$self\:\:ISA"});
-    for $sym (keys %EXPORT) {
+    for $sym (sort keys %EXPORT) {
 	my $pck;
 	my $def = $DefaultClass;
 	for $pck (@packages) {
@@ -501,6 +520,7 @@ sub init {
   my($query_string,$meth,$content_length,$fh,@lines) = ('','','','');
 
   my $is_xforms;
+  my $too_large;
 
   my $initializer = shift;  # for backward compatibility
   local($/) = "\n";
@@ -523,6 +543,9 @@ sub init {
             }
         }
         $self->charset($QUERY_CHARSET);
+        # so an error parsing the request (e.g. a malformed or too large
+        # body) is seen by every object, not just the first
+        $self->cgi_error($QUERY_CGI_ERROR) if defined $QUERY_CGI_ERROR;
         $self->{'.fieldnames'} = {%QUERY_FIELDNAMES};
         $self->{'.tmpfiles'}   = {%QUERY_TMPFILES};
         return;
@@ -542,6 +565,7 @@ sub init {
       if (($POST_MAX > 0) && ($content_length > $POST_MAX)) {
 	#discard the post, unread
 	$self->cgi_error("413 Request entity too large");
+	$too_large = 1;
 	last METHOD;
       }
 
@@ -553,7 +577,18 @@ sub init {
 	  && !defined($initializer)
 	  ) {
 	  my($boundary) = $ENV{'CONTENT_TYPE'} =~ /boundary=\"?([^\";,]+)\"?/;
-	  $self->read_multipart($boundary,$content_length);
+	  unless ( $self->_within_request_limits(
+	      sub { $self->read_multipart($boundary,$content_length) }
+	  ) ) {
+	      $too_large = 1;
+	      last METHOD;
+	  }
+	  if ($APPEND_QUERY_STRING) {
+	    # Some people want to have their cake and eat it too!
+	    # Set $APPEND_QUERY_STRING = 1 to have the contents of the query string
+	    # APPENDED to the POST data.
+	    $query_string .= (length($query_string) ? '&' : '') . $ENV{'QUERY_STRING'} if defined $ENV{'QUERY_STRING'};
+	  }
 	  last METHOD;
       } 
 
@@ -581,11 +616,22 @@ sub init {
                         if $content_length > 0;
                       push (@{$self->{param}{$param}},$value);
                       $is_xforms = 1;
-              } elsif ($ENV{'CONTENT_TYPE'} =~ /multipart\/related.+boundary=\"?([^\";,]+)\"?.+start=\"?\<?([^\"\>]+)\>?\"?/) {
-                      my($boundary,$start) = ($1,$2);
+              } elsif ($ENV{'CONTENT_TYPE'} =~ m|^multipart/related\b|
+                  # separate (linear) matches for each parameter - a single
+                  # pattern with .+ between them backtracks in cubic time on
+                  # a crafted Content-Type, and parameters can be in any order
+                  and my ($boundary) = $ENV{'CONTENT_TYPE'} =~ /[;\s]boundary=\"?([^\";,]+)\"?/
+                  and my ($start)    = $ENV{'CONTENT_TYPE'} =~ /[;\s]start=\"?\<?([^\"\>]+)\>?\"?/
+              ) {
                       my($param) = 'XForms:Model';
                       $self->add_parameter($param);
-                      my($value) = $self->read_multipart_related($start,$boundary,$content_length,0);
+                      my($value);
+                      unless ( $self->_within_request_limits(
+                          sub { $value = $self->read_multipart_related($start,$boundary,$content_length,0) }
+                      ) ) {
+                          $too_large = 1;
+                          last METHOD;
+                      }
                       push (@{$self->{param}{$param}},$value);
 					  $query_string = $self->_get_query_string_from_env;
                       $is_xforms = 1;
@@ -601,7 +647,7 @@ sub init {
 	      last METHOD;
 	  }
 	  if (ref($initializer) && ref($initializer) eq 'HASH') {
-	      for (keys %$initializer) {
+	      for (sort keys %$initializer) {
 		  $self->param('-name'=>$_,'-value'=>$initializer->{$_});
 	      }
 	      last METHOD;
@@ -652,19 +698,27 @@ sub init {
             $self->read_from_client(\$query_string,$content_length,0);
         }
 	  }
-	  # Some people want to have their cake and eat it too!
-	  # Uncomment this line to have the contents of the query string
-	  # APPENDED to the POST data.
-	  # $query_string .= (length($query_string) ? '&' : '') . $ENV{'QUERY_STRING'} if defined $ENV{'QUERY_STRING'};
+	  if ($APPEND_QUERY_STRING) {
+	    # Some people want to have their cake and eat it too!
+	    # Set $APPEND_QUERY_STRING = 1 to have the contents of the query string
+	    # APPENDED to the POST data.
+	    $query_string .= (length($query_string) ? '&' : '') . $ENV{'QUERY_STRING'} if defined $ENV{'QUERY_STRING'};
+	  }
 	  last METHOD;
       }
 
-      # If $meth is not of GET, POST, PUT or HEAD, assume we're
-      #   being debugged offline.
+      # If there is no request at all (no REQUEST_METHOD, and not running
+      #   under a web server), assume we're being debugged offline.
       # Check the command line and then the standard input for data.
       # We use the shellwords package in order to behave the way that
-      # UN*X programmers expect.
-      if ($DEBUG)
+      # UN*X programmers expect. This must not happen for a request with
+      # some other method (e.g. OPTIONS, or "post"), which a client can
+      # send, as the process' own command line would become the params.
+      if ($DEBUG
+          && !defined $ENV{'REQUEST_METHOD'}
+          && !defined $ENV{'GATEWAY_INTERFACE'}
+          && !exists $ENV{'FCGI_ROLE'}
+          && !$MOD_PERL)
       {
           my $cmdline_ret = read_from_cmdline();
           $query_string = $cmdline_ret->{'query_string'};
@@ -676,7 +730,7 @@ sub init {
   }
 
 # YL: Begin Change for XML handler 10/19/2001
-    if (!$is_xforms && ($meth eq 'POST' || $meth eq 'PUT' || $meth eq 'PATCH')
+    if (!$is_xforms && !$too_large && ($meth eq 'POST' || $meth eq 'PUT' || $meth eq 'PATCH')
         && defined($ENV{'CONTENT_TYPE'})
         && $ENV{'CONTENT_TYPE'} !~ m|^application/x-www-form-urlencoded|
 	&& $ENV{'CONTENT_TYPE'} !~ m|^multipart/form-data| ) {
@@ -691,7 +745,12 @@ sub init {
     # different things for keyword lists and parameter lists.
     if (defined $query_string && length $query_string) {
 	if ($query_string =~ /[&=;]/) {
-	    $self->parse_params($query_string);
+	    # client sent params can't use the reserved names, an app's own
+	    # initializer (e.g. restoring saved state) can
+	    $self->parse_params($query_string,!defined($initializer));
+	} elsif ( !defined($initializer)
+	    && $self->_too_many_params( ( $query_string =~ tr/+// ) + 1 ) ) {
+	    $self->_request_too_large;
 	} else {
 	    $self->add_parameter('keywords');
 	    $self->{param}{'keywords'} = [$self->parse_keywordlist($query_string)];
@@ -715,6 +774,38 @@ sub init {
     $self->delete('.cgifields');
 
     $self->save_request unless defined $initializer;
+}
+
+# Run a multipart reader, enforcing $POST_MAX, $MAX_PARAMS and $MAX_UPLOADS
+# while reading. These can't all be checked up front (e.g. without a
+# CONTENT_LENGTH, with chunked transfer encoding), so the readers die with
+# $REQUEST_TOO_LARGE once a limit is passed. Returns false if one was.
+sub _within_request_limits {
+    my ( $self,$reader ) = @_;
+    return 1 if eval { $reader->(); 1 };
+    die $@ unless $@ eq $REQUEST_TOO_LARGE;
+    $self->_request_too_large;
+    return 0;
+}
+
+# discard anything parsed so far, the same as when $POST_MAX is exceeded up
+# front, and set the error
+sub _request_too_large {
+    my ( $self ) = @_;
+    $self->{param}        = {};
+    $self->{'.parameters'} = [];
+    $self->{'.tmpfiles'}  = {};
+    $self->cgi_error("413 Request entity too large");
+    return;
+}
+
+# true if $count values would exceed $MAX_PARAMS, counting those already
+# parsed from the request
+sub _too_many_params {
+    my ( $self,$count ) = @_;
+    return 0 unless $MAX_PARAMS > 0;
+    $count += @$_ for values %{ $self->{param} || {} };
+    return $count > $MAX_PARAMS;
 }
 
 sub _get_query_string_from_env {
@@ -793,15 +884,22 @@ sub save_request {
     @QUERY_PARAM = $self->param; # save list of parameters
     for (@QUERY_PARAM) {
       next unless defined $_;
-      $QUERY_PARAM{$_}=$self->{param}{$_};
+      # a copy, so that later changes to this object's params (append,
+      # param_fetch, etc) don't change those of objects created later
+      $QUERY_PARAM{$_}=[ @{ $self->{param}{$_} || [] } ];
     }
     $QUERY_CHARSET = $self->charset;
+    $QUERY_CGI_ERROR  = $self->{'.cgi_error'};
     %QUERY_FIELDNAMES = %{$self->{'.fieldnames'}};
     %QUERY_TMPFILES   = %{ $self->{'.tmpfiles'} || {} };
 }
 
 sub parse_params {
-    my($self,$tosplit) = @_;
+    my($self,$tosplit,$from_request) = @_;
+    # count (cheaply) before splitting, so a huge number of params doesn't
+    # cost the time and memory to split and decode them all first
+    return $self->_request_too_large
+        if $from_request && $self->_too_many_params( ( $tosplit =~ tr/&;// ) + 1 );
     my(@pairs) = split(/[&;]/,$tosplit);
     my($param,$value);
     for (@pairs) {
@@ -811,6 +909,7 @@ sub parse_params {
 	$value = '' unless defined $value;
 	$param = unescape($param);
 	$value = unescape($value);
+	next if $from_request && $RESERVED_PARAM{$param};
 	$self->add_parameter($param);
 	push (@{$self->{param}{$param}},$value);
     }
@@ -1009,12 +1108,19 @@ sub read_postdata_putdata {
         # skip the file if uploads disabled
         if ($DISABLE_UPLOADS) {
             
-            #	      while (defined($data = $buffer->read)) { }
-            my $buff;
+            my $buf;
             my $unit = $CGI::MultipartBuffer::INITIAL_FILLUNIT;
             my $len  = $content_length;
+            my $ZERO_LOOP_COUNTER = 0;
             while ( $len > 0 ) {
-                my $read = $self->read_from_client( \$buf, $unit, 0 );
+                my $read = $self->read_from_client( \$buf, $len < $unit ? $len : $unit, 0 );
+                # a body shorter than CONTENT_LENGTH returns 0 (EOF) or undef
+                # (error) forever, so guard against spinning as below
+                if ( ! $read ) {
+                    die "CGI.pm: Server closed socket during read_postdata_putdata (client aborted?).\n" if $ZERO_LOOP_COUNTER++ >= $CGI::MultipartBuffer::SPIN_LOOP_MAX;
+                    next;
+                }
+                $ZERO_LOOP_COUNTER = 0;
                 $len -= $read;
             }
             last UPLOADS;
@@ -1042,13 +1148,14 @@ sub read_postdata_putdata {
         my $totalbytes;
         my $unit = $CGI::MultipartBuffer::INITIAL_FILLUNIT;
         my $len  = $content_length;
-        $unit = $len;
         my $ZERO_LOOP_COUNTER =0;
 
         while( $len > 0 )
         {
             
-            my $bytesRead = $self->read_from_client( \$data, $unit, 0 );
+            # read in chunks (never past CONTENT_LENGTH) rather than slurping
+            # the whole body into memory at once
+            my $bytesRead = $self->read_from_client( \$data, $len < $unit ? $len : $unit, 0 );
             $len -= $bytesRead ;
 
             # An apparent bug in the Apache server causes the read()
@@ -1057,7 +1164,7 @@ sub read_postdata_putdata {
             # they manage this, but the workaround is to abort if we get
             # more than SPIN_LOOP_MAX consecutive zero reads.
             if ($bytesRead <= 0) {
-                die  "CGI.pm: Server closed socket during read_postdata_putdata (client aborted?).\n" if $ZERO_LOOP_COUNTER++ >= $SPIN_LOOP_MAX;
+                die  "CGI.pm: Server closed socket during read_postdata_putdata (client aborted?).\n" if $ZERO_LOOP_COUNTER++ >= $CGI::MultipartBuffer::SPIN_LOOP_MAX;
             } else {
                 $ZERO_LOOP_COUNTER = 0;
             }
@@ -1087,7 +1194,7 @@ sub read_postdata_putdata {
         # unique for each filehandle.  Don't use the file descriptor as
         # this will be re-used for each filehandle if the
         # close_upload_files feature is used.
-        $self->{'.tmpfiles'}->{$$filehandle . $filehandle} = {
+        $self->{'.tmpfiles'}->{$filehandle->filename . $filehandle} = {
             hndl => $filehandle,
 			name => $filehandle->filename,
             info => {%header},
@@ -1146,7 +1253,10 @@ sub import_names {
     die "Can't import names into \"main\"\n" if \%{"${namespace}::"} == \%::;
     if ($delete || $MOD_PERL || exists $ENV{'FCGI_ROLE'}) {
 	# can anyone find an easier way to do this?
-	for (keys %{"${namespace}::"}) {
+	for (sort keys %{"${namespace}::"}) {
+	    # nested packages (e.g. Config:: for Q::Config) are not imported
+	    # names, and undefining their hash would wipe the whole package
+	    next if /::\z/;
 	    local *symbol = "${namespace}::${_}";
 	    undef $symbol;
 	    undef @symbol;
@@ -1362,7 +1472,8 @@ sub url_param {
 	    $self->{'.url_param'}{'keywords'} = \@keywords if @keywords;
 	}
     }
-    return keys %{$self->{'.url_param'}} unless defined($name);
+    # hash keys are never tainted
+    return map { $_ . $TAINTED } keys %{$self->{'.url_param'}} unless defined($name);
     return () unless $self->{'.url_param'}->{$name};
     return wantarray ? @{$self->{'.url_param'}->{$name}}
                      : $self->{'.url_param'}->{$name}->[0];
@@ -1419,7 +1530,7 @@ sub save {
 	        if length($escaped_param) or length($value);
 	}
     }
-    for (keys %{$self->{'.fieldnames'}}) {
+    for (sort keys %{$self->{'.fieldnames'}}) {
           print $filehandle ".cgifields=",escape("$_"),"\n";
     }
     print $filehandle "=\n";    # end of record
@@ -1480,24 +1591,72 @@ sub multipart_init {
 sub multipart_start {
     my(@header);
     my($self,@p) = self_or_default(@_);
-    my($type,$charset,@other) = rearrange([TYPE,CHARSET],@p);
+    my($type,$charset,@other) = _header_params([TYPE,CHARSET],@p);
     $type = $type || 'text/html';
+
+    _check_header_values($type,$charset,@other);
+
     if ($charset) {
         push(@header,"Content-Type: $type; charset=$charset");
     } else {
         push(@header,"Content-Type: $type");
     }
-
-    # rearrange() was designed for the HTML portion, so we
-    # need to fix it up a little.
-    for (@other) {
-        # Don't use \s because of perl bug 21951
-        next unless my($header,$value) = /([^ \r\n\t=]+)=\"?(.+?)\"?$/;
-        ($_ = $header) =~ s/^(\w)(.*)/$1 . lc ($2) . ': '.$self->unescapeHTML($value)/e;
-    }
     push(@header,@other);
     my $header = join($CRLF,@header)."${CRLF}${CRLF}";
     return $header;
+}
+
+# Like rearrange(), but for HTTP headers. rearrange() was designed for HTML
+# attributes so it HTML escapes any extra named parameters (when autoEscape
+# is on), which used to be unescaped again by the callers - but that also
+# decoded entities in values that had never been escaped, turning e.g. an
+# app validated header value or redirect URL of "/&#47evil" into "//evil".
+# Instead the extra parameters are taken as given and returned, after the
+# positional ones, as "Name: value" header lines.
+sub _header_params {
+    my ( $order,@param ) = @_;
+    my ( $result,$leftover ) = CGI::Util::_rearrange_params( $order,@param );
+    my @named = @{$result}[ 0 .. $#$order ];
+    my @lines;
+
+    # extra positional parameters, which may be given as name=value
+    for my $line ( @{$result}[ scalar( @$order ) .. $#$result ] ) {
+        next unless defined $line;
+        # Don't use \s because of perl bug 21951
+        if ( my ( $name,$value ) = $line =~ /([^ \r\n\t=]+)=\"?(.+?)\"?$/s ) {
+            $line = ucfirst( lc( $name ) ) . ": $value";
+        }
+        push( @lines,$line );
+    }
+
+    # extra named parameters, -x_foo => 'bar' becomes "X-foo: bar"
+    for my $name ( sort keys %{ $leftover || {} } ) {
+        next unless defined $leftover->{$name};
+        ( my $header = lc( $name ) ) =~ tr/_/-/;
+        push( @lines,ucfirst( $header ) . ": $leftover->{$name}" );
+    }
+
+    return ( @named,@lines );
+}
+
+# CR escaping for header values, per RFC 822. Values are modified in
+# place (via @_ aliasing) to unfold continuation lines, and we die if
+# any other newline remains as that would allow header injection.
+sub _check_header_values {
+    for my $header (@_) {
+        next unless defined $header;
+        # From RFC 822:
+        # Unfolding  is  accomplished  by regarding   CRLF   immediately
+        # followed  by  a  LWSP-char  as equivalent to the LWSP-char.
+        $header =~ s/$CRLF(\s)/$1/g;
+
+        # All other uses of newlines are invalid input.
+        if ($header =~ m/$CRLF|\015|\012/) {
+            # shorten very long values in the diagnostic
+            $header = substr($header,0,72).'...' if (length $header > 72);
+            die "Invalid header value contains a newline not followed by whitespace: $header";
+        }
+    }
 }
 
 #### Method: multipart_end
@@ -1531,8 +1690,8 @@ sub header {
 
     return "" if $self->{'.header_printed'}++ and $HEADERS_ONCE;
 
-    my($type,$status,$cookie,$target,$expires,$nph,$charset,$attachment,$p3p,@other) = 
-	rearrange([['TYPE','CONTENT_TYPE','CONTENT-TYPE'],
+    my($type,$status,$cookie,$target,$expires,$nph,$charset,$attachment,$p3p,@other) =
+	_header_params([['TYPE','CONTENT_TYPE','CONTENT-TYPE'],
 			    'STATUS',['COOKIE','COOKIES','SET-COOKIE'],'TARGET',
                             'EXPIRES','NPH','CHARSET',
                             'ATTACHMENT','P3P'],@p);
@@ -1546,22 +1705,7 @@ sub header {
     }
     $p3p = join ' ',@$p3p if ref($p3p) eq 'ARRAY';
 
-    # CR escaping for values, per RFC 822
-    for my $header ($type,$status,@cookie,$target,$expires,$nph,$charset,$attachment,$p3p,@other) {
-        if (defined $header) {
-            # From RFC 822:
-            # Unfolding  is  accomplished  by regarding   CRLF   immediately
-            # followed  by  a  LWSP-char  as equivalent to the LWSP-char.
-            $header =~ s/$CRLF(\s)/$1/g;
-
-            # All other uses of newlines are invalid input. 
-            if ($header =~ m/$CRLF|\015|\012/) {
-                # shorten very long values in the diagnostic
-                $header = substr($header,0,72).'...' if (length $header > 72);
-                die "Invalid header value contains a newline not followed by whitespace: $header";
-            }
-        } 
-   }
+    _check_header_values($type,$status,@cookie,$target,$expires,$nph,$charset,$attachment,$p3p,@other);
 
     $nph     ||= $NPH;
 
@@ -1569,14 +1713,6 @@ sub header {
 
     # sets if $charset is given, gets if not
     $charset = $self->charset( $charset );
-
-    # rearrange() was designed for the HTML portion, so we
-    # need to fix it up a little.
-    for (@other) {
-        # Don't use \s because of perl bug 21951
-        next unless my($header,$value) = /([^ \r\n\t=]+)=\"?(.+?)\"?$/s;
-        ($_ = $header) =~ s/^(\w)(.*)/"\u$1\L$2" . ': '.$self->unescapeHTML($value)/e;
-    }
 
     $type .= "; charset=$charset"
       if     $type ne ''
@@ -1597,11 +1733,17 @@ sub header {
     # if the user indicates an expiration time, then we need
     # both an Expires and a Date header (so that the browser is
     # uses OUR clock)
-    push(@header,"Expires: " . expires($expires,'http'))
+    push(@header,"Expires: " . expires($expires))
 	if $expires;
-    push(@header,"Date: " . expires(0,'http')) if $expires || $cookie || $nph;
+    push(@header,"Date: " . expires(0)) if $expires || $cookie || $nph;
     push(@header,"Pragma: no-cache") if $self->cache();
-    push(@header,"Content-Disposition: attachment; filename=\"$attachment\"") if $attachment;
+    if ($attachment) {
+        # the filename is a quoted-string (RFC 9110 5.6.4), so a " or \ in it
+        # must be escaped - an unescaped " would end it, allowing other
+        # parameters to be injected (e.g. 'x.html"; filename*=...')
+        (my $filename = $attachment) =~ s/(["\\])/\\$1/g;
+        push(@header,"Content-Disposition: attachment; filename=\"$filename\"");
+    }
     push(@header,map {ucfirst $_} @other);
     push(@header,"Content-Type: $type") if $type ne '';
     my $header = join($CRLF,@header)."${CRLF}${CRLF}";
@@ -1631,21 +1773,28 @@ sub cache {
 ####
 sub redirect {
     my($self,@p) = self_or_default(@_);
-    my($url,$target,$status,$cookie,$nph,@other) = 
-         rearrange([[LOCATION,URI,URL],TARGET,STATUS,['COOKIE','COOKIES','SET-COOKIE'],NPH],@p);
+    # values are passed on to header() as given - they used to be HTML
+    # unescaped, which decoded entities in the (possibly app validated)
+    # Location, e.g. turning "/&#47evil.example/" into "//evil.example/"
+    my ($result,$leftover) = CGI::Util::_rearrange_params(
+        [[LOCATION,URI,URL],TARGET,STATUS,['COOKIE','COOKIES','SET-COOKIE'],NPH],@p
+    );
+    my($url,$target,$status,$cookie,$nph,@other) = @$result;
     $status = '302 Found' unless defined $status;
     $url ||= $self->self_url;
     my(@o);
+    # extra positional parameters, given as name=value
     for (@other) { tr/\"//d; push(@o,split("=",$_,2)); }
+    # extra named parameters
+    push(@o,map { ("-$_" => $leftover->{$_}) } sort keys %{ $leftover || {} });
     unshift(@o,
 	 '-Status'  => $status,
 	 '-Location'=> $url,
 	 '-nph'     => $nph);
     unshift(@o,'-Target'=>$target) if $target;
     unshift(@o,'-Type'=>'');
-    my @unescaped;
-    unshift(@unescaped,'-Cookie'=>$cookie) if $cookie;
-    return $self->header((map {$self->unescapeHTML($_)} @o),@unescaped);
+    unshift(@o,'-Cookie'=>$cookie) if $cookie;
+    return $self->header(@o);
 }
 
 #### Method: start_html
@@ -1922,7 +2071,7 @@ sub start_form {
        $action = $self->_maybe_escapeHTML($action);
     }
     else {
-       $action = $self->_maybe_escapeHTML($self->request_uri || $self->self_url);
+       $action = $self->_maybe_escapeHTML($self->_request_uri_path || $self->self_url);
     }
     $action = qq(action="$action");
     my($other) = @other ? " @other" : '';
@@ -2172,7 +2321,12 @@ sub defaults {
 # Parameters: a string
 sub comment {
     my($self,@p) = self_or_CGI(@_);
-    return "<!-- @p -->";
+    my $text = "@p";
+    # the text must not be able to end the comment ("-->", "--!>") or start
+    # a nested one ("<!--"), all of which contain "--" - the surrounding
+    # spaces deal with the other cases the HTML spec disallows
+    1 while $text =~ s/--/- -/g;
+    return "<!-- $text -->";
 }
 
 #### Method: checkbox
@@ -2447,7 +2601,7 @@ sub popup_menu {
         if (/<optgroup/) {
             for my $v (split(/\n/)) {
                 my $selectit = $XHTML ? 'selected="selected"' : 'selected';
-		for my $selected (keys %selected) {
+		for my $selected (sort keys %selected) {
 		    $v =~ s/(value="\Q$selected\E")/$selectit $1/;
 		}
                 $result .= "$v\n";
@@ -2492,7 +2646,7 @@ sub popup_menu {
 ####
 sub optgroup {
     my($self,@p) = self_or_default(@_);
-    my($name,$values,$attributes,$labeled,$noval,$labels,@other)
+    my($name,$values,$attributes,$labeled,$novals,$labels,@other)
         = rearrange([NAME,[VALUES,VALUE],ATTRIBUTES,LABELED,NOVALS,LABELS],@p);
 
     my($result,@values);
@@ -2503,11 +2657,11 @@ sub optgroup {
     $result = qq/<optgroup label="$name"$other>\n/;
     for (@values) {
         if (/<optgroup/) {
-            for (split(/\n/)) {
-                my $selectit = $XHTML ? 'selected="selected"' : 'selected';
-                s/(value="$selected")/$selectit $1/ if defined $selected;
-                $result .= "$_\n";
-            }
+            # a nested optgroup, passed through as is (there used to be code
+            # here to mark a selected value, using a $selected that was never
+            # set - unlike popup_menu() / scrolling_list(), optgroup() doesn't
+            # know which values are selected)
+            $result .= "$_\n" for split(/\n/);
         }
         else {
             my $attribs = $self->_set_attributes($_, $attributes);
@@ -2569,8 +2723,8 @@ sub scrolling_list {
         if (/<optgroup/) {
             for my $v (split(/\n/)) {
                 my $selectit = $XHTML ? 'selected="selected"' : 'selected';
-		for my $selected (keys %selected) {
-		    $v =~ s/(value="$selected")/$selectit $1/;
+		for my $selected (sort keys %selected) {
+		    $v =~ s/(value="\Q$selected\E")/$selectit $1/;
 		}
                 $result .= "$v\n";
             }
@@ -2685,14 +2839,16 @@ sub url {
 
     my $path        =  $self->path_info;
     my $script_name =  $self->script_name;
-    my $request_uri =  $self->request_uri || '';
+    my $request_uri =  $self->_request_uri_path || '';
     my $query_str   =  $query ? $self->query_string : '';
 
+    $script_name    =~ s/\?.*$//s; # remove query string
     $request_uri    =~ s/\?.*$//s; # remove query string
     $request_uri    =  unescape($request_uri);
+    # unescaping %2F / %5C may have produced a leading // or \ again
+    $request_uri    =~ s{^[/\\]+}{/};
 
     my $uri         =  $rewrite && $request_uri ? $request_uri : $script_name;
-    $uri            =~ s/\?.*$//s; # remove query string
 
 	if ( defined( $ENV{PATH_INFO} ) ) {
 		# IIS sometimes sets PATH_INFO to the same value as SCRIPT_NAME so only sub it out
@@ -2712,9 +2868,7 @@ sub url {
     if ($full) {
         my $protocol = $self->protocol();
         $url = "$protocol://";
-        my $vh = http('x_forwarded_host') || http('host') || '';
-			$vh =~ s/^.*,\s*//; # x_forwarded_host may be a comma-separated list (e.g. when the request has
-                                # passed through multiple reverse proxies. Take the last one.
+        my $vh = _valid_http_host() || '';
             $vh =~ s/\:\d+$//;  # some clients add the port number (incorrectly). Get rid of it.
 
         $url .= $vh || server_name();
@@ -2737,8 +2891,21 @@ sub url {
     $url .= $path         if $path_info and defined $path;
     $url .= "?$query_str" if $query     and $query_str ne '';
     $url ||= '';
-    $url =~ s/([^a-zA-Z0-9_.%;&?\/\\:+=~-])/sprintf("%%%02X",ord($1))/eg;
-    return $url;
+
+    unless ($full) {
+        # a URL that isn't full must not be protocol relative (// or \,
+        # which browsers treat as /), which would be another host, nor
+        # look like it has a scheme (e.g. relative "javascript:alert(1)")
+        $url =~ s{^[/\\]{2,}}{/};
+        $url = "./$url" if $url =~ m{^[^/?#]*:};
+    }
+
+	$url = URI->new( $url )->canonical->as_string;
+    # canonical() decodes %27 (an RFC 2396 unreserved character) back to a
+    # quote - and a raw quote may be in the request URI - which would let
+    # request data break out of a single quoted attribute or JS string
+    $url =~ s/'/%27/g;
+	return $url
 }
 
 #### Method: cookie
@@ -2751,12 +2918,12 @@ sub url {
 #   -path -> paths for which this cookie is valid (optional)
 #   -domain -> internet domain in which this cookie is valid (optional)
 #   -secure -> if true, cookie only passed through secure channel (optional)
-#   -expires -> expiry date in format Wdy, DD-Mon-YYYY HH:MM:SS GMT (optional)
+#   -expires -> expiry date in format Wdy, DD Mon YYYY HH:MM:SS GMT (optional)
 ####
 sub cookie {
     my($self,@p) = self_or_default(@_);
-    my($name,$value,$path,$domain,$secure,$expires,$httponly,$max_age,$samesite) =
-	rearrange([NAME,[VALUE,VALUES],PATH,DOMAIN,SECURE,EXPIRES,HTTPONLY,'MAX-AGE',SAMESITE],@p);
+    my($name,$value,$path,$domain,$secure,$expires,$httponly,$max_age,$samesite,$priority) =
+	rearrange([NAME,[VALUE,VALUES],PATH,DOMAIN,SECURE,EXPIRES,HTTPONLY,'MAX-AGE',SAMESITE,PRIORITY],@p);
 
     require CGI::Cookie;
 
@@ -2764,11 +2931,12 @@ sub cookie {
     # value of the cookie, if any.  For efficiency, we cache the parsed
     # cookies in our state variables.
     unless ( defined($value) ) {
-	$self->{'.cookies'} = CGI::Cookie->fetch;
+	$self->{'.cookies'} = CGI::Cookie->fetch unless $COOKIE_CACHE && exists $self->{'.cookies'};
 	
 	# If no name is supplied, then retrieve the names of all our cookies.
 	return () unless $self->{'.cookies'};
-	return keys %{$self->{'.cookies'}} unless $name;
+	# hash keys are never tainted
+	return map { $_ . $TAINTED } keys %{$self->{'.cookies'}} unless $name;
 	return () unless $self->{'.cookies'}->{$name};
 	return $self->{'.cookies'}->{$name}->value if defined($name) && $name ne '';
     }
@@ -2784,8 +2952,9 @@ sub cookie {
     push(@param,'-expires'=>$expires) if $expires;
     push(@param,'-secure'=>$secure) if $secure;
     push(@param,'-httponly'=>$httponly) if $httponly;
-    push(@param,'-max_age'=>$max_age) if $max_age;
+    push(@param,'-max-age'=>$max_age) if $max_age;
     push(@param,'-samesite'=>$samesite) if $samesite;
+    push(@param,'-priority'=>$priority) if $priority;
 
     return CGI::Cookie->new(@param);
 }
@@ -2884,7 +3053,8 @@ sub _name_and_path_from_env {
             # REQUEST_URI and SCRIPT_NAME . PATH_INFO only differ by the
             # numer of consecutive slashes, so we can extract the info from
             # REQUEST_URI:
-            ($script_name, $path_info) = ($1, $2);
+            # (regex captures are untainted)
+            ($script_name, $path_info) = ($1 . $TAINTED, $2 . $TAINTED);
         }
     }
     return ($script_name,$path_info);
@@ -2919,6 +3089,20 @@ sub request_uri {
     return (defined $ENV{'REQUEST_URI'}) ? $ENV{'REQUEST_URI'} : undef;
 }
 
+# REQUEST_URI is the raw request-target, so is client controlled and may be
+# in absolute-form (http://host/path) or start with multiple slashes (or
+# backslashes, which browsers treat as slashes) - any of which would make a
+# URL built from it point at another host. Reduce it to a path on this host.
+sub _request_uri_path {
+    my ($self) = @_;
+    my $uri = $self->request_uri;
+    return undef unless defined $uri && length $uri;
+    $uri =~ s{^[A-Za-z][A-Za-z0-9+.-]*://[^/?#]*}{}; # absolute-form
+    $uri =~ s{^[/\\]+}{/};
+    $uri = "/$uri" unless $uri =~ m{^/};
+    return $uri;
+}
+
 #### Method: query_string
 # Synthesize a query string from our current
 # parameters
@@ -2934,7 +3118,7 @@ sub query_string {
            push(@pairs,"$eparam=$value");
        }
     }
-    for (keys %{$self->{'.fieldnames'}}) {
+    for (sort keys %{$self->{'.fieldnames'}}) {
       push(@pairs,".cgifields=".escape("$_"));
     }
     return join($USE_PARAM_SEMICOLONS ? ';' : '&',@pairs);
@@ -2967,10 +3151,11 @@ sub Accept {
 	($pref) = /q=(\d\.\d+|\d+)/;
 	($type) = m#(\S+/[^;]+)#;
 	next unless $type;
-	$prefs{$type}=$pref || 1;
+	$prefs{$type}=$pref ? $pref . $TAINTED : 1; # captures are untainted
     }
 
-    return keys %prefs unless $search;
+    # hash keys are never tainted
+    return map { $_ . $TAINTED } keys %prefs unless $search;
     
     # if a search type is provided, we may need to
     # perform a pattern matching operation.
@@ -2982,7 +3167,7 @@ sub Accept {
     return $prefs{$search} if $prefs{$search};
 
     # Didn't get it, so try pattern matching.
-    for (keys %prefs) {
+    for (sort keys %prefs) {
 	next unless /\*/;       # not a pattern match
 	($pat = $_) =~ s/([^\w*])/\\$1/g; # escape meta characters
 	$pat =~ s/\*/.*/g; # turn it into a pattern
@@ -3031,9 +3216,28 @@ sub raw_cookie {
 # is not always the same as the server
 ######
 sub virtual_host {
-    my $vh = http('x_forwarded_host') || http('host') || server_name();
+    my $vh = _valid_http_host() || server_name();
     $vh =~ s/:\d+$//;		# get rid of port number
     return $vh;
+}
+
+# Return the Host header if it is a syntactically valid host[:port], else
+# undef. The header is client supplied so anything else (userinfo, paths,
+# quotes, whitespace, etc) is rejected. X-Forwarded-Host is not consulted
+# by default as it can be set by any client and is not part of cache keys,
+# unless $TRUST_X_FORWARDED_HOST is set, in which case it is preferred
+# (the last entry if it is a list, i.e. the one added by the nearest proxy)
+# but must still be a valid host[:port].
+sub _valid_http_host {
+    my $host = $ENV{'HTTP_HOST'};
+    if ( $TRUST_X_FORWARDED_HOST && defined $ENV{'HTTP_X_FORWARDED_HOST'}
+        && length $ENV{'HTTP_X_FORWARDED_HOST'} ) {
+        ( $host = $ENV{'HTTP_X_FORWARDED_HOST'} ) =~ s/^.*,\s*//s;
+        $host =~ s/\s+\z//;
+    }
+    return undef unless defined $host;
+    return $host if $host =~ /\A(?:[A-Za-z0-9_.-]+|\[[0-9A-Fa-f:.]+\])(?::\d{1,5})?\z/;
+    return undef;
 }
 
 #### Method: remote_host
@@ -3099,7 +3303,7 @@ sub server_software {
 ####
 sub virtual_port {
     my($self) = self_or_default(@_);
-    my $vh = $self->http('x_forwarded_host') || $self->http('host');
+    my $vh = _valid_http_host();
     my $protocol = $self->protocol;
     if ($vh) {
         return ($vh =~ /:(\d+)$/)[0] || ($protocol eq 'https' ? 443 : 80);
@@ -3135,7 +3339,7 @@ sub http {
         }
         return $ENV{"HTTP_$parameter"};
     }
-    return grep { /^HTTP(?:_|$)/ } keys %ENV;
+    return grep { /^HTTP(?:_|$)/ } sort keys %ENV;
 }
 
 #### Method: https
@@ -3153,7 +3357,7 @@ sub https {
         return $ENV{"HTTPS_$parameter"};
     }
     return wantarray
-        ? grep { /^HTTPS(?:_|$)/ } keys %ENV
+        ? grep { /^HTTPS(?:_|$)/ } sort keys %ENV
         : $ENV{'HTTPS'};
 }
 
@@ -3284,7 +3488,7 @@ sub register_parameter {
 sub get_fields {
     my($self) = @_;
     return $self->CGI::hidden('-name'=>'.cgifields',
-			      '-values'=>[keys %{$self->{'.parametersToAdd'}}],
+			      '-values'=>[sort keys %{$self->{'.parametersToAdd'}}],
 			      '-override'=>1);
 }
 
@@ -3333,6 +3537,7 @@ sub read_multipart {
     return unless $buffer;
     my(%header,$body);
     my $filenumber = 0;
+    my ( $parts,$uploads ) = ( 0,0 );
     while (!$buffer->eof) {
 	%header = $buffer->readHeader;
 
@@ -3341,24 +3546,35 @@ sub read_multipart {
 	    return;
 	}
 
+	# every part costs time to parse (even those that are then skipped),
+	# and every upload a temp file, so limit their number - the reader is
+	# run by _within_request_limits
+	die $REQUEST_TOO_LARGE if $MAX_PARAMS > 0 && ++$parts > $MAX_PARAMS;
+
 	$header{'Content-Disposition'} ||= ''; # quench uninit variable warning
 
-	my($param)= $header{'Content-Disposition'}=~/[\s;]name="([^"]*)"/;
+	my $disposition = _mp_disposition_params( $header{'Content-Disposition'} );
+	my $param = _mp_value_parse( $disposition,'name' );
         $param .= $TAINTED;
 
         # See RFC 1867, 2183, 2045
         # NB: File content will be loaded into memory should
         # content-disposition parsing fail.
-        my ($filename) = $header{'Content-Disposition'}
-	               =~/ filename=(("[^"]*")|([a-z\d!\#'\*\+,\.^_\`\{\}\|\~]*))/i;
+        my $filename = _mp_value_parse( $disposition,'filename' );
 
 	$filename ||= ''; # quench uninit variable warning
 
-        $filename =~ s/^"([^"]*)"$/$1/;
+        $filename .= $TAINTED; # regex captures are untainted
 	# Test for Opera's multiple upload feature
 	my($multipart) = ( defined( $header{'Content-Type'} ) &&
 		$header{'Content-Type'} =~ /multipart\/mixed/ ) ?
 		1 : 0;
+
+	# skip a field using one of the names reserved for the request body
+	if ( $RESERVED_PARAM{$param} ) {
+	    while ( defined( $buffer->read ) ) { }
+	    next;
+	}
 
 	# add this parameter to our list
 	$self->add_parameter($param);
@@ -3371,6 +3587,10 @@ sub read_multipart {
 	    push(@{$self->{param}{$param}},$value);
 	    next;
 	}
+
+	# the filename is client supplied, so remove any path from it
+	$filename = _sanitize_upload_filename( $filename )
+	    if $SANITIZE_UPLOAD_FILENAMES && $filename ne '';
 
       UPLOADS: {
 	  # If we get here, then we are dealing with a potentially large
@@ -3392,6 +3612,8 @@ sub read_multipart {
 		? ( $ENV{TEMP} || $ENV{TMP} || ( $ENV{WINDIR} ? ( $ENV{WINDIR} . $SL . 'TEMP' ) : undef ) )
 		: undef; # File::Temp defaults to TMPDIR
 
+	  die $REQUEST_TOO_LARGE if $MAX_UPLOADS > 0 && ++$uploads > $MAX_UPLOADS;
+
       require CGI::File::Temp;
       my $filehandle = CGI::File::Temp->new(
 		UNLINK => $UNLINK_TMP_FILES,
@@ -3406,7 +3628,7 @@ sub read_multipart {
 	  # together with the body for later parsing with an external
 	  # MIME parser module
 	  if ( $multipart ) {
-	      for ( keys %header ) {
+	      for ( sort keys %header ) {
 		  print $filehandle "$_: $header{$_}${CRLF}";
 	      }
 	      print $filehandle "${CRLF}";
@@ -3440,7 +3662,7 @@ sub read_multipart {
 	  # unique for each filehandle.  Don't use the file descriptor as
 	  # this will be re-used for each filehandle if the
 	  # close_upload_files feature is used.
-      $self->{'.tmpfiles'}->{$$filehandle . $filehandle} = {
+      $self->{'.tmpfiles'}->{$filehandle->filename . $filehandle} = {
               hndl => $filehandle,
 		  name => $filehandle->filename,
 	      info => {%header},
@@ -3448,6 +3670,75 @@ sub read_multipart {
 	  push(@{$self->{param}{$param}},$filehandle);
       }
     }
+}
+
+# The upload filename is client supplied and may contain a path (older
+# browsers send the full path, and an attacker can send anything), so it
+# must not be usable for path traversal if an application uses it when
+# saving the upload. Remove control characters and any directory part,
+# splitting on both / and \ so Windows paths are handled too. The raw
+# value remains available via uploadInfo()->{'Content-Disposition'}.
+sub _sanitize_upload_filename {
+    my ( $filename ) = @_;
+    $filename =~ s/[\x00-\x1f\x7f]//g;
+    $filename =~ s/.*[\/\\]//s;
+    # nothing usable left, but this is still a file upload so must have a
+    # (true) name - see the overloaded stringification in CGI::File::Temp
+    $filename = 'upload' if $filename eq '' || $filename eq '.' || $filename eq '..';
+    return $filename;
+}
+
+# Split a Content-Disposition value into its parameters, left to right, so
+# that a quoted value is skipped as a whole - searching the whole string
+# for e.g. "name=" found it inside another parameter's quoted value, so
+# filename="x;name=admin"; name=user gave a field name of "admin", and
+# name="x filename=y" made a plain field an upload. Returns a list of
+# [ name, raw value (quotes included, undef if there is no =) ].
+sub _mp_disposition_params {
+	my ( $string ) = @_;
+	my @params;
+	$string = '' unless defined $string;
+	$string =~ /\G[^;]*/gc; # the disposition type
+	while ( $string =~ /\G;[ \t]*/gc ) {
+		$string =~ /\G([^\s=;"]*)/gc;
+		my ( $name,$value ) = ( $1 );
+		if ( $string =~ /\G=/gc ) {
+			# a quoted string (which may be unterminated), else up to the next ;
+			$string =~ /\G("(?:\\"|[^"])*"?|[^;]*)/gc;
+			$value = $1;
+		}
+		push( @params,[ $name,$value ] );
+		$string =~ /\G[^;]*/gc; # skip anything else up to the next ;
+	}
+	return \@params;
+}
+
+# Get the value of the name or filename parameter (the first occurrence)
+# from the output of _mp_disposition_params
+sub _mp_value_parse {
+	my ( $params,$field ) = @_;
+
+	my ( $raw ) = map { $_->[1] } grep {
+		defined $_->[1] && ( $field eq 'filename' ? lc( $_->[0] ) eq $field : $_->[0] eq $field )
+	} @$params;
+	return undef unless defined $raw;
+
+	if ( $field eq 'filename' ) {
+		return $1 if $raw =~ /\A"([^"]*)"/;
+		return '' if $raw =~ /\A"/;
+		return ( $raw =~ /\A([a-z\d!\#'\*\+,\.^_\`\{\}\|\~]*)/i )[0];
+	}
+
+	# a quoted token cannot contain anything but an unescaped quote
+	return $1 if $raw =~ /\A"((?:\\"|[^"])*)"/;
+	return undef if $raw =~ /\A"/; # unterminated
+	# a plain token cannot contain any reserved characters
+	# https://tools.ietf.org/html/rfc2616#section-2.2
+	# separators     = "(" | ")" | "<" | ">" | "@"
+	#                | "," | ";" | ":" | "\" | <">
+	#                | "/" | "[" | "]" | "?" | "="
+	#                | "{" | "}" | SP | HT
+	return ( $raw =~ /\A([^\(\)<>\@,;:\\"\/\[\]\?=\{\} \015\n\t]*)/ )[0];
 }
 
 #####
@@ -3466,6 +3757,7 @@ sub read_multipart_related {
     my(%header,$body);
     my $filenumber = 0;
     my $returnvalue;
+    my ( $parts,$uploads ) = ( 0,0 );
     while (!$buffer->eof) {
 	%header = $buffer->readHeader;
 
@@ -3473,6 +3765,9 @@ sub read_multipart_related {
 	    $self->cgi_error("400 Bad request (malformed multipart POST)");
 	    return;
 	}
+
+	# limit the number of parts, as in read_multipart
+	die $REQUEST_TOO_LARGE if $MAX_PARAMS > 0 && ++$parts > $MAX_PARAMS;
 
 	my($param) = $header{'Content-ID'}=~/\<([^\>]*)\>/;
         $param .= $TAINTED;
@@ -3482,6 +3777,12 @@ sub read_multipart_related {
 	if ( $param eq $start ) {
 	    $returnvalue = $buffer->readBody;
             $returnvalue .= $TAINTED;
+	    next;
+	}
+
+	# skip a part using one of the names reserved for the request body
+	if ( $RESERVED_PARAM{$param} ) {
+	    while ( defined( $buffer->read ) ) { }
 	    next;
 	}
 
@@ -3502,6 +3803,8 @@ sub read_multipart_related {
 	my $tmp_dir    = $CGI::OS eq 'WINDOWS'
 		? ( $ENV{TEMP} || $ENV{TMP} || ( $ENV{WINDIR} ? ( $ENV{WINDIR} . $SL . 'TEMP' ) : undef ) )
 		: undef; # File::Temp defaults to TMPDIR
+
+	  die $REQUEST_TOO_LARGE if $MAX_UPLOADS > 0 && ++$uploads > $MAX_UPLOADS;
 
       require CGI::File::Temp;
       my $filehandle = CGI::File::Temp->new(
@@ -3541,7 +3844,7 @@ sub read_multipart_related {
 	  # unique for each filehandle.  Don't use the file descriptor as
 	  # this will be re-used for each filehandle if the
 	  # close_upload_files feature is used.
-	  $self->{'.tmpfiles'}->{$$filehandle . $filehandle} = {
+	  $self->{'.tmpfiles'}->{$filehandle->filename . $filehandle} = {
               hndl => $filehandle,
 		  name => $filehandle->filename,
 	      info => {%header},
@@ -3564,15 +3867,16 @@ sub tmpFileName {
 
     # preferred calling convention: $filename came directly from param or upload
     if (ref $filename) {
-        return $self->{'.tmpfiles'}->{$$filename . $filename}->{name} || '';
+        return $self->{'.tmpfiles'}->{$filename->filename . $filename}->{name} || '';
     }
 
     # backwards compatible with older versions: $filename is merely equal to
     # one of our filenames when compared as strings
     foreach my $param_name ($self->param) {
         foreach my $filehandle ($self->multi_param($param_name)) {
+            next unless ref($filehandle);
             if ($filehandle eq $filename) {
-                return $self->{'.tmpfiles'}->{$$filehandle . $filehandle}->{name} || '';
+                return $self->{'.tmpfiles'}->{$filehandle->filename . $filehandle}->{name} || '';
             }
         }
     }
@@ -3582,8 +3886,11 @@ sub tmpFileName {
 
 sub uploadInfo {
     my($self,$filename) = self_or_default(@_);
-    return if ! defined $$filename;
-    return $self->{'.tmpfiles'}->{$$filename . $filename}->{info};
+    # only an upload filehandle - anything else (e.g. a plain filename from
+    # Vars, or a param value of "0") was dereferenced as a symbolic ref, and
+    # then a method called on it, which died
+    return unless ref($filename) && UNIVERSAL::can($filename,'filename');
+    return $self->{'.tmpfiles'}->{$filename->filename . $filename}->{info};
 }
 
 # internal routine, don't use
@@ -3593,7 +3900,7 @@ sub _set_values_and_labels {
     $$l = $v if ref($v) eq 'HASH' && !ref($$l);
     return $self->param($n) if !defined($v);
     return $v if !ref($v);
-    return ref($v) eq 'HASH' ? keys %$v : @$v;
+    return ref($v) eq 'HASH' ? sort keys %$v : @$v;
 }
 
 # internal routine, don't use
@@ -3602,7 +3909,7 @@ sub _set_attributes {
     my($element, $attributes) = @_;
     return '' unless defined($attributes->{$element});
     $attribs = ' ';
-    for my $attrib (keys %{$attributes->{$element}}) {
+    for my $attrib (sort keys %{$attributes->{$element}}) {
         (my $clean_attrib = $attrib) =~ s/^-//;
         $attribs .= "@{[lc($clean_attrib)]}=\"$attributes->{$element}{$attrib}\" ";
     }
@@ -3628,6 +3935,8 @@ $MultipartBuffer::SPIN_LOOP_MAX    ||= 2000;   # bug fix for some Netscape serve
 $MultipartBuffer::CRLF             ||= $CGI::CRLF;
 
 $INITIAL_FILLUNIT = $MultipartBuffer::INITIAL_FILLUNIT;
+$MAX_BOUNDARY_LINE = 1024; # when the boundary is read from the body
+$MAX_BOUNDARY_LENGTH = 200; # RFC 2046 says 70, allow some slack
 $TIMEOUT          = $MultipartBuffer::TIMEOUT;
 $SPIN_LOOP_MAX    = $MultipartBuffer::SPIN_LOOP_MAX;
 $CRLF             = $MultipartBuffer::CRLF;
@@ -3646,30 +3955,53 @@ sub new {
     # Netscape seems to be a little bit unreliable
     # about providing boundary strings.
     my $boundary_read = 0;
+    my $chunked       = !$length;
+    my $preread       = '';
     if ($boundary) {
 
-	# Under the MIME spec, the boundary consists of the 
-	# characters "--" PLUS the Boundary string
-
-	# BUG: IE 3.01 on the Macintosh uses just the boundary -- not
-	# the two extra hyphens.  We do a special case here on the user-agent!!!!
-	$boundary = "--$boundary" unless CGI::user_agent('MSIE\s+3\.0[12];\s*Mac|DreamPassport');
+	# Under the MIME spec, the boundary consists of the
+	# characters "--" PLUS the Boundary string. (There used to be a special
+	# case here for IE 3.01 on the Mac, based on the client controlled
+	# User-Agent, which any client could use to change how the body was
+	# parsed - e.g. to smuggle extra fields past a filtering proxy)
+	$boundary = "--$boundary";
 
     } else { # otherwise we find it ourselves
-	my($old);
-	($old,$/) = ($/,$CRLF); # read a CRLF-delimited line
-	$boundary = <STDIN>;      # BUG: This won't work correctly under mod_perl
-	$length -= length($boundary);
-	chomp($boundary);               # remove the CRLF
-	$/ = $old;                      # restore old line separator
+	# read the first (boundary) line, bounded in size so that a client
+	# can't make us buffer an arbitrarily long line - RFC 2046 limits
+	# boundaries to 70 characters. anything read past the line is kept
+	# for the body.
+	my $max = $MAX_BOUNDARY_LINE;
+	$max = $length if !$chunked && $length < $max;
+	my $end;
+	while ( ( $end = index( $preread,$CRLF ) ) < 0 && length( $preread ) < $max ) {
+	    my $got = $interface->read_from_client(
+		\$preread, $max - length( $preread ), length( $preread )
+	    );
+	    last unless $got;
+	}
+	die "Malformed multipart POST: boundary line too long or missing\n"
+	    if $end < 0;
+	$length  -= length( $preread ) unless $chunked;
+	$boundary = substr( $preread,0,$end );
+	$preread  = substr( $preread,$end + length( $CRLF ) );
         $boundary_read++;
     }
 
+    # RFC 2046 boundaries are 1 to 70 characters, longer ones (allowing
+    # some slack) are rejected - a boundary approaching the read size
+    # (INITIAL_FILLUNIT) corrupted and merged parts in read()
+    die "Malformed multipart POST: invalid boundary\n"
+        unless $boundary =~ /\A--./s
+            && length( $boundary ) - 2 <= $MAX_BOUNDARY_LENGTH;
+
     my $self = {LENGTH=>$length,
-		CHUNKED=>!$length,
+		CHUNKED=>$chunked,
+		TOTAL_READ=>$boundary_read ? length( $boundary ) + length( $CRLF ) + length( $preread ) : 0,
 		BOUNDARY=>$boundary,
 		INTERFACE=>$interface,
-		BUFFER=>'',
+		BUFFER=>$preread,
+		AT_LINE_START=>1, # the start of the body, or after the boundary line
 	    };
 
     $FILLUNIT = length($boundary)
@@ -3708,6 +4040,7 @@ sub readHeader {
 
     my($header) = substr($self->{BUFFER},0,$end+2);
     substr($self->{BUFFER},0,$end+4) = '';
+    $self->{AT_LINE_START} = 1; # the part's content starts on a new line
     my %return;
 
     if ($CGI::EBCDIC) {
@@ -3726,7 +4059,7 @@ sub readHeader {
     while ($header=~/($token+):\s+([^$CRLF]*)/mgox) {
         my ($field_name,$field_value) = ($1,$2);
 	$field_name =~ s/\b(\w)/uc($1)/eg; #canonicalize
-	$return{$field_name}=$field_value;
+	$return{$field_name}=$field_value . $CGI::TAINTED; # captures are untainted
     }
     return %return;
 }
@@ -3767,8 +4100,20 @@ sub read {
     my $boundary_start = $CGI::EBCDIC ? CGI::Util::ebcdic2ascii($self->{BOUNDARY})      : $self->{BOUNDARY};
     my $boundary_end   = $CGI::EBCDIC ? CGI::Util::ebcdic2ascii($self->{BOUNDARY}.'--') : $self->{BOUNDARY}.'--';
 
-    # Find the boundary in the buffer (it may not be there).
-    my $start = index($self->{BUFFER},$boundary_start);
+    # Find the boundary in the buffer (it may not be there). Per RFC 2046 it
+    # is only a delimiter at the start of a line - at the start of the body
+    # or a part's content, or following a CRLF (which belongs to the
+    # delimiter, and is stripped from the content below). Matching it
+    # anywhere else would let content such as "x--BOUNDARY" start a new
+    # part, and so parse differently to other (e.g. a filtering proxy's)
+    # parsers.
+    my $crlf  = "\015\012"; # always this on the wire
+    my $start = -1;
+    if ( $self->{AT_LINE_START} && index($self->{BUFFER},$boundary_start) == 0 ) {
+        $start = 0;
+    } elsif ( ( $start = index($self->{BUFFER},$crlf . $boundary_start) ) >= 0 ) {
+        $start += length($crlf);
+    }
 
     warn "boundary=$self->{BOUNDARY} length=$self->{LENGTH} start=$start\n" if $_DEBUG;
 
@@ -3791,6 +4136,7 @@ sub read {
 	# just remove the boundary.
 	substr($self->{BUFFER},0,length($boundary_start))='';
         $self->{BUFFER} =~ s/^\012\015?//;
+	$self->{AT_LINE_START} = 0;
 	return undef;
     }
 
@@ -3806,8 +4152,10 @@ sub read {
 
     my $returnval=substr($self->{BUFFER},0,$bytesToReturn);
     substr($self->{BUFFER},0,$bytesToReturn)='';
-    
-    # If we hit the boundary, remove the CRLF from the end.
+
+    # If we hit the boundary, remove the CRLF from the end - the buffer
+    # then starts with the boundary, at the start of a line.
+    $self->{AT_LINE_START} = $bytesToReturn == $start ? 1 : 0;
     return ($bytesToReturn==$start)
            ? substr($returnval,0,-2) : $returnval;
 }
@@ -3843,6 +4191,12 @@ sub fillBuffer {
     }
 
     $self->{LENGTH} -= $bytesRead if !$self->{CHUNKED} && $bytesRead;
+
+    # enforce $POST_MAX as we read, as when there is no CONTENT_LENGTH
+    # (chunked transfer encoding) it can't be checked up front
+    $self->{TOTAL_READ} += $bytesRead if $bytesRead && $bytesRead > 0;
+    die $REQUEST_TOO_LARGE
+        if $CGI::POST_MAX > 0 && $self->{TOTAL_READ} > $CGI::POST_MAX;
 }
 
 # Return true when we've finished reading

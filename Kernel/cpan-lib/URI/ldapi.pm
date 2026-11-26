@@ -3,21 +3,20 @@ package URI::ldapi;
 use strict;
 use warnings;
 
-our $VERSION = '1.71';
-$VERSION = eval $VERSION;
+our $VERSION = '5.40';
 
 use parent qw(URI::_ldap URI::_generic);
 
-require URI::Escape;
+use URI::Escape ();
 
 sub un_path {
     my $self = shift;
-    my $old = URI::Escape::uri_unescape($self->authority);
+    my $old  = URI::Escape::uri_unescape($self->authority);
     if (@_) {
-	my $p = shift;
-	$p =~ s/:/%3A/g;
-	$p =~ s/\@/%40/g;
-	$self->authority($p);
+        my $p = shift;
+        $p =~ s/:/%3A/g;
+        $p =~ s/\@/%40/g;
+        $self->authority($p);
     }
     return $old;
 }

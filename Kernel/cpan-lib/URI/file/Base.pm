@@ -3,37 +3,38 @@ package URI::file::Base;
 use strict;
 use warnings;
 
-use URI::Escape qw();
+use URI::Escape ();
 
-our $VERSION = '1.71';
-$VERSION = eval $VERSION;
+our $VERSION = '5.40';
 
-sub new
-{
+sub new {
     my $class = shift;
     my $path  = shift;
     $path = "" unless defined $path;
 
-    my($auth, $escaped_auth, $escaped_path);
+    my ($auth, $escaped_auth, $escaped_path);
 
     ($auth, $escaped_auth) = $class->_file_extract_authority($path);
     ($path, $escaped_path) = $class->_file_extract_path($path);
 
     if (defined $auth) {
-	$auth =~ s,%,%25,g unless $escaped_auth;
-	$auth =~ s,([/?\#]), URI::Escape::escape_char($1),eg;
-	$auth = "//$auth";
-	if (defined $path) {
-	    $path = "/$path" unless substr($path, 0, 1) eq "/";
-	} else {
-	    $path = "";
-	}
-    } else {
-	return undef unless defined $path;
-	$auth = "";
+        $auth =~ s,%,%25,g unless $escaped_auth;
+        $auth =~ s,([/?\#\t\n\f\r\x0b ]), URI::Escape::escape_char($1),eg;
+        $auth = "//$auth";
+        if (defined $path) {
+            $path = "/$path" unless substr($path, 0, 1) eq "/";
+        }
+        else {
+            $path = "";
+        }
+    }
+    else {
+        return undef unless defined $path;
+        $auth = "";
     }
 
-    $path =~ s,([%;?]), URI::Escape::escape_char($1),eg unless $escaped_path;
+    $path =~ s,([%;?\t\n\f\r\x0b ]), URI::Escape::escape_char($1),eg
+        unless $escaped_path;
     $path =~ s/\#/%23/g;
 
     my $uri = $auth . $path;
@@ -42,42 +43,36 @@ sub new
     URI->new($uri, "file");
 }
 
-sub _file_extract_authority
-{
-    my($class, $path) = @_;
+sub _file_extract_authority {
+    my ($class, $path) = @_;
     return undef unless $class->_file_is_absolute($path);
     return $URI::file::DEFAULT_AUTHORITY;
 }
 
-sub _file_extract_path
-{
+sub _file_extract_path {
     return undef;
 }
 
-sub _file_is_absolute
-{
+sub _file_is_absolute {
     return 0;
 }
 
-sub _file_is_localhost
-{
-    shift; # class
+sub _file_is_localhost {
+    shift;    # class
     my $host = lc(shift);
     return 1 if $host eq "localhost";
     eval {
-	require Net::Domain;
-	lc(Net::Domain::hostfqdn()) eq $host ||
-	lc(Net::Domain::hostname()) eq $host;
+        require Net::Domain;
+        lc(Net::Domain::hostfqdn() || '') eq $host
+            || lc(Net::Domain::hostname() || '') eq $host;
     };
 }
 
-sub file
-{
+sub file {
     undef;
 }
 
-sub dir
-{
+sub dir {
     my $self = shift;
     $self->file(@_);
 }

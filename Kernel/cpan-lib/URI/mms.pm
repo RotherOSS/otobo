@@ -3,11 +3,10 @@ package URI::mms;
 use strict;
 use warnings;
 
-our $VERSION = '1.71';
-$VERSION = eval $VERSION;
+our $VERSION = '5.40';
 
 use parent 'URI::http';
 
-sub default_port { 1755 }
+sub default_port {1755}
 
 1;

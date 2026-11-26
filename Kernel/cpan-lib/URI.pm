@@ -3,112 +3,166 @@ package URI;
 use strict;
 use warnings;
 
-our $VERSION = '1.71';
-$VERSION = eval $VERSION;
+our $VERSION = '5.40';
 
-our ($ABS_REMOTE_LEADING_DOTS, $ABS_ALLOW_RELATIVE_SCHEME, $DEFAULT_QUERY_FORM_DELIMITER);
+# 1=version 5.10 and earlier; 0=version 5.11 and later
+use constant HAS_RESERVED_SQUARE_BRACKETS =>
+    $ENV{URI_HAS_RESERVED_SQUARE_BRACKETS} ? 1 : 0;
 
-my %implements;  # mapping from scheme to implementor class
+our ($ABS_REMOTE_LEADING_DOTS, $ABS_ALLOW_RELATIVE_SCHEME,
+    $DEFAULT_QUERY_FORM_DELIMITER);
+
+my %implements;    # mapping from scheme to implementor class
 
 # Some "official" character classes
 
-our $reserved   = q(;/?:@&=+$,[]);
-our $mark       = q(-_.!~*'());                                    #'; emacs
+our $reserved = HAS_RESERVED_SQUARE_BRACKETS ? q(;/?:@&=+$,[]) : q(;/?:@&=+$,);
+our $mark       = q(-_.!~*'());                               #'; emacs
 our $unreserved = "A-Za-z0-9\Q$mark\E";
 our $uric       = quotemeta($reserved) . $unreserved . "%";
+our $uric4host = $uric . (HAS_RESERVED_SQUARE_BRACKETS ? '' : quotemeta(q([])));
+our $uric4user
+    = quotemeta(q{!$'()*,;:._~%-+=%&})
+    . "A-Za-z0-9"
+    . (HAS_RESERVED_SQUARE_BRACKETS ? quotemeta(q([])) : '')
+    ;    # RFC-3987: iuserinfo w/o UTF
 
-our $scheme_re  = '[a-zA-Z][a-zA-Z0-9.+\-]*';
+our $scheme_re = '[a-zA-Z][a-zA-Z0-9.+\-]*';
 
-use Carp ();
+# These schemes don't have an IPv6+ address part.
+our $schemes_without_host_part_re = 'data|ldapi|urn|sqlite|sqlite3';
+
+# These schemes can have an IPv6+ authority part:
+#     file, ftp, gopher, http, https, ldap, ldaps, mms, news, nntp, nntps, pop, rlogin, rtsp, rtspu, rsync, sip, sips, snews,
+#     smtp, telnet, tn3270, ssh, sftp
+#     (all DB URIs, i.e. cassandra, couch, couchdb, etc.), except 'sqlite:', 'sqlite3:'. Others?
+#MAINT: URI has no test coverage for DB schemes
+#MAINT: decoupling - perhaps let each class decide itself by defining a member function 'scheme_has_authority_part()'?
+
+#MAINT: 'mailto:' needs special treatment for IPv* addresses / RFC 5321 (4.1.3). Until then: restore all '[', ']'
+# These schemes need fallback to previous (<= 5.10) encoding until a specific handler is available.
+our $fallback_schemes_re = 'mailto';
+
+use Carp        ();
 use URI::Escape ();
 
-use overload ('""'     => sub { ${$_[0]} },
-              '=='     => sub { _obj_eq(@_) },
-              '!='     => sub { !_obj_eq(@_) },
-              fallback => 1,
-             );
+use overload (
+    '""'     => sub { ${$_[0]} },
+    '=='     => sub { _obj_eq(@_) },
+    '!='     => sub { !_obj_eq(@_) },
+    fallback => 1,
+);
 
 # Check if two objects are the same object
 sub _obj_eq {
     return overload::StrVal($_[0]) eq overload::StrVal($_[1]);
 }
 
-sub new
-{
-    my($class, $uri, $scheme) = @_;
+sub new {
+    my ($class, $uri, $scheme) = @_;
 
-    $uri = defined ($uri) ? "$uri" : "";   # stringify
-    # Get rid of potential wrapping
-    $uri =~ s/^<(?:URL:)?(.*)>$/$1/;  # 
+    $uri = defined($uri) ? "$uri" : "";    # stringify
+                                           # Get rid of potential wrapping
+    $uri =~ s/^<(?:URL:)?(.*)>$/$1/;       #
     $uri =~ s/^"(.*)"$/$1/;
     $uri =~ s/^\s+//;
     $uri =~ s/\s+$//;
 
     my $impclass;
     if ($uri =~ m/^($scheme_re):/so) {
-	$scheme = $1;
+        $scheme = $1;
     }
     else {
-	if (($impclass = ref($scheme))) {
-	    $scheme = $scheme->scheme;
-	}
-	elsif ($scheme && $scheme =~ m/^($scheme_re)(?::|$)/o) {
-	    $scheme = $1;
+        if (($impclass = ref($scheme))) {
+            $scheme = $scheme->scheme;
+        }
+        elsif ($scheme && $scheme =~ m/^($scheme_re)(?::|$)/o) {
+            $scheme = $1;
         }
     }
-    $impclass ||= implementor($scheme) ||
-	do {
-	    require URI::_foreign;
-	    $impclass = 'URI::_foreign';
-	};
+    $impclass ||= implementor($scheme) || do {
+        require URI::_foreign;
+        $impclass = 'URI::_foreign';
+    };
 
     return $impclass->_init($uri, $scheme);
 }
 
 
-sub new_abs
-{
-    my($class, $uri, $base) = @_;
+sub new_abs {
+    my ($class, $uri, $base) = @_;
     $uri = $class->new($uri, $base);
     $uri->abs($base);
 }
 
 
-sub _init
-{
+sub _init {
     my $class = shift;
-    my($str, $scheme) = @_;
+    my ($str, $scheme) = @_;
+
     # find all funny characters and encode the bytes.
     $str = $class->_uric_escape($str);
-    $str = "$scheme:$str" unless $str =~ /^$scheme_re:/o ||
-                                 $class->_no_scheme_ok;
+    $str = "$scheme:$str"
+        unless $str =~ /^$scheme_re:/o || $class->_no_scheme_ok;
     my $self = bless \$str, $class;
     $self;
 }
 
 
-sub _uric_escape
-{
-    my($class, $str) = @_;
+#-- Version: 5.11+
+#   Since the complete URI will be percent-encoded including '[' and ']',
+#   we selectively unescape square brackets from the authority/host part of the URI.
+#   Derived modules that implement _uric_escape() should take this into account
+#   if they do not rely on URI::_uric_escape().
+#   No unescaping is performed for the userinfo@ part of the authority part.
+sub _fix_uric_escape_for_host_part {
+    return if HAS_RESERVED_SQUARE_BRACKETS;
+    return if $_[0] !~ /%/;
+    return if $_[0] =~ m{^(?:$URI::schemes_without_host_part_re):}os;
+
+# until a scheme specific handler is available, fall back to previous behavior of v5.10 (i.e. 'mailto:')
+    if ($_[0] =~ m{^(?:$URI::fallback_schemes_re):}os) {
+        $_[0] =~ s/\%5B/[/gi;
+        $_[0] =~ s/\%5D/]/gi;
+        return;
+    }
+
+    if ($_[0] =~ m{^((?:$URI::scheme_re:)?)//([^/?\#]+)(.*)$}os) {
+        my $orig = $2;
+        my ($user, $host) = $orig =~ /^(.*@)?([^@]*)$/;
+        $user ||= '';
+        my $port = $host =~ s/(:\d+)$// ? $1 : '';
+
+#MAINT: die() here if scheme indicates TCP/UDP and port is out of range [0..65535] ?
+        $host =~ s/\%5B/[/gi;
+        $host =~ s/\%5D/]/gi;
+        $_[0] =~ s/\Q$orig\E/$user$host$port/;
+    }
+}
+
+
+sub _uric_escape {
+    my ($class, $str) = @_;
     $str =~ s*([^$uric\#])* URI::Escape::escape_char($1) *ego;
+    _fix_uric_escape_for_host_part($str);
     utf8::downgrade($str);
     return $str;
 }
 
 my %require_attempted;
 
-sub implementor
-{
-    my($scheme, $impclass) = @_;
+sub implementor {
+    my ($scheme, $impclass) = @_;
     if (!$scheme || $scheme !~ /\A$scheme_re\z/o) {
-	require URI::_generic;
-	return "URI::_generic";
+        require URI::_generic;
+        return "URI::_generic";
     }
 
     $scheme = lc($scheme);
 
     if ($impclass) {
-	# Set the implementor class for a given scheme
+
+        # Set the implementor class for a given scheme
         my $old = $implements{$scheme};
         $impclass->_init_implementor($scheme);
         $implements{$scheme} = $impclass;
@@ -120,7 +174,7 @@ sub implementor
 
     # scheme not yet known, look for internal or
     # preloaded (with 'use') implementation
-    $ic = "URI::$scheme";  # default location
+    $ic = "URI::$scheme";    # default location
 
     # turn scheme into a valid perl identifier by a simple transformation...
     $ic =~ s/\+/_P/g;
@@ -128,9 +182,12 @@ sub implementor
     $ic =~ s/\-/_/g;
 
     no strict 'refs';
+
     # check we actually have one for the scheme:
     unless (@{"${ic}::ISA"}) {
         if (not exists $require_attempted{$ic}) {
+            $require_attempted{$ic} = 1;
+
             # Try to load it
             my $_old_error = $@;
             eval "require $ic";
@@ -146,59 +203,56 @@ sub implementor
 }
 
 
-sub _init_implementor
-{
-    my($class, $scheme) = @_;
+sub _init_implementor {
+    my ($class, $scheme) = @_;
+
     # Remember that one implementor class may actually
     # serve to implement several URI schemes.
 }
 
 
-sub clone
-{
-    my $self = shift;
+sub clone {
+    my $self  = shift;
     my $other = $$self;
     bless \$other, ref $self;
 }
 
 sub TO_JSON { ${$_[0]} }
 
-sub _no_scheme_ok { 0 }
+sub _no_scheme_ok {0}
 
-sub _scheme
-{
+sub _scheme {
     my $self = shift;
 
     unless (@_) {
-	return undef unless $$self =~ /^($scheme_re):/o;
-	return $1;
+        return undef unless $$self =~ /^($scheme_re):/o;
+        return $1;
     }
 
     my $old;
     my $new = shift;
     if (defined($new) && length($new)) {
-	Carp::croak("Bad scheme '$new'") unless $new =~ /^$scheme_re$/o;
-	$old = $1 if $$self =~ s/^($scheme_re)://o;
-	my $newself = URI->new("$new:$$self");
-	$$self = $$newself; 
-	bless $self, ref($newself);
+        Carp::croak("Bad scheme '$new'") unless $new =~ /^$scheme_re$/o;
+        $old = $1 if $$self =~ s/^($scheme_re)://o;
+        my $newself = URI->new("$new:$$self");
+        $$self = $$newself;
+        bless $self, ref($newself);
     }
     else {
-	if ($self->_no_scheme_ok) {
-	    $old = $1 if $$self =~ s/^($scheme_re)://o;
-	    Carp::carp("Oops, opaque part now look like scheme")
-		if $^W && $$self =~ m/^$scheme_re:/o
-	}
-	else {
-	    $old = $1 if $$self =~ m/^($scheme_re):/o;
-	}
+        if ($self->_no_scheme_ok) {
+            $old = $1 if $$self =~ s/^($scheme_re)://o;
+            Carp::carp("Oops, opaque part now look like scheme")
+                if $^W && $$self =~ m/^$scheme_re:/o;
+        }
+        else {
+            $old = $1 if $$self =~ m/^($scheme_re):/o;
+        }
     }
 
     return $old;
 }
 
-sub scheme
-{
+sub scheme {
     my $scheme = shift->_scheme(@_);
     return undef unless defined $scheme;
     lc($scheme);
@@ -209,13 +263,12 @@ sub has_recognized_scheme {
     return ref($self) !~ /^URI::_(?:foreign|generic)\z/;
 }
 
-sub opaque
-{
+sub opaque {
     my $self = shift;
 
     unless (@_) {
-	$$self =~ /^(?:$scheme_re:)?([^\#]*)/o or die;
-	return $1;
+        $$self =~ /^(?:$scheme_re:)?([^\#]*)/o or die;
+        return $1;
     }
 
     $$self =~ /^($scheme_re:)?    # optional scheme
@@ -239,15 +292,14 @@ sub opaque
     $old_opaque;
 }
 
-sub path { goto &opaque }  # alias
+sub path { goto &opaque }    # alias
 
 
-sub fragment
-{
+sub fragment {
     my $self = shift;
     unless (@_) {
-	return undef unless $$self =~ /\#(.*)/s;
-	return $1;
+        return undef unless $$self =~ /\#(.*)/s;
+        return $1;
     }
 
     my $old;
@@ -255,66 +307,66 @@ sub fragment
 
     my $new_frag = shift;
     if (defined $new_frag) {
-	$new_frag =~ s/([^$uric])/ URI::Escape::escape_char($1) /ego;
-	utf8::downgrade($new_frag);
-	$$self .= "#$new_frag";
+        $new_frag =~ s/([^$uric])/ URI::Escape::escape_char($1) /ego;
+        utf8::downgrade($new_frag);
+        $$self .= "#$new_frag";
     }
     $old;
 }
 
 
-sub as_string
-{
+sub as_string {
     my $self = shift;
     $$self;
 }
 
 
-sub as_iri
-{
+sub as_iri {
     my $self = shift;
-    my $str = $$self;
+    my $str  = $$self;
     if ($str =~ s/%([89a-fA-F][0-9a-fA-F])/chr(hex($1))/eg) {
-	# All this crap because the more obvious:
-	#
-	#   Encode::decode("UTF-8", $str, sub { sprintf "%%%02X", shift })
-	#
-	# doesn't work before Encode 2.39.  Wait for a standard release
-	# to bundle that version.
 
-	require Encode;
-	my $enc = Encode::find_encoding("UTF-8");
-	my $u = "";
-	while (length $str) {
-	    $u .= $enc->decode($str, Encode::FB_QUIET());
-	    if (length $str) {
-		# escape next char
-		$u .= URI::Escape::escape_char(substr($str, 0, 1, ""));
-	    }
-	}
-	$str = $u;
+        # All this crap because the more obvious:
+        #
+        #   Encode::decode("UTF-8", $str, sub { sprintf "%%%02X", shift })
+        #
+        # doesn't work before Encode 2.39.  Wait for a standard release
+        # to bundle that version.
+
+        require Encode;
+        my $enc = Encode::find_encoding("UTF-8");
+        my $u   = "";
+        while (length $str) {
+            $u .= $enc->decode($str, Encode::FB_QUIET());
+            if (length $str) {
+
+                # escape next char
+                $u .= URI::Escape::escape_char(substr($str, 0, 1, ""));
+            }
+        }
+        $str = $u;
     }
     return $str;
 }
 
 
-sub canonical
-{
+sub canonical {
+
     # Make sure scheme is lowercased, that we don't escape unreserved chars,
     # and that we use upcase escape sequences.
 
-    my $self = shift;
-    my $scheme = $self->_scheme || "";
+    my $self      = shift;
+    my $scheme    = $self->_scheme || "";
     my $uc_scheme = $scheme =~ /[A-Z]/;
-    my $esc = $$self =~ /%[a-fA-F0-9]{2}/;
+    my $esc       = $$self  =~ /%[a-fA-F0-9]{2}/;
     return $self unless $uc_scheme || $esc;
 
     my $other = $self->clone;
     if ($uc_scheme) {
-	$other->_scheme(lc $scheme);
+        $other->_scheme(lc $scheme);
     }
     if ($esc) {
-	$$other =~ s{%([0-9a-fA-F]{2})}
+        $$other =~ s{%([0-9a-fA-F]{2})}
 	            { my $a = chr(hex($1));
                       $a =~ /^[$unreserved]\z/o ? $a : "%\U$1"
                     }ge;
@@ -324,28 +376,28 @@ sub canonical
 
 # Compare two URIs, subclasses will provide a more correct implementation
 sub eq {
-    my($self, $other) = @_;
-    $self  = URI->new($self, $other) unless ref $self;
-    $other = URI->new($other, $self) unless ref $other;
-    ref($self) eq ref($other) &&                # same class
-	$self->canonical->as_string eq $other->canonical->as_string;
+    my ($self, $other) = @_;
+    $self  = URI->new($self,  $other) unless ref $self;
+    $other = URI->new($other, $self)  unless ref $other;
+    ref($self) eq ref($other) &&    # same class
+        $self->canonical->as_string eq $other->canonical->as_string;
 }
 
 # generic-URI transformation methods
 sub abs { $_[0]; }
 sub rel { $_[0]; }
 
-sub secure { 0 }
+sub secure {0}
 
 # help out Storable
 sub STORABLE_freeze {
-       my($self, $cloning) = @_;
-       return $$self;
+    my ($self) = @_;
+    return $$self;
 }
 
 sub STORABLE_thaw {
-       my($self, $cloning, $str) = @_;
-       $$self = $str;
+    my ($self, $cloning, $str) = @_;
+    $$self = $str;
 }
 
 1;
@@ -358,11 +410,13 @@ URI - Uniform Resource Identifiers (absolute and relative)
 
 =head1 SYNOPSIS
 
- $u1 = URI->new("http://www.perl.com");
+ use URI ();
+
+ $u1 = URI->new("http://www.example.com");
  $u2 = URI->new("foo", "http");
  $u3 = $u2->abs($u1);
  $u4 = $u3->clone;
- $u5 = URI->new("HTTP://WWW.perl.com:80")->canonical;
+ $u5 = URI->new("HTTP://WWW.example.com:80")->canonical;
 
  $str = $u->as_string;
  $str = "$u";
@@ -373,7 +427,7 @@ URI - Uniform Resource Identifiers (absolute and relative)
  $frag   = $u->fragment;
 
  $u->scheme("ftp");
- $u->host("ftp.perl.com");
+ $u->host("ftp.example.com");
  $u->path("cpan/");
 
 =head1 DESCRIPTION
@@ -429,7 +483,7 @@ The constructor determines the scheme, maps this to an appropriate
 URI subclass, constructs a new object of that class and returns it.
 
 If the scheme isn't one of those that URI recognizes, you still get
-an URI object back that you can access the generic methods on.  The
+a URI object back that you can access the generic methods on.  The
 C<< $uri->has_recognized_scheme >> method can be used to test for
 this.
 
@@ -707,8 +761,79 @@ documents as this avoids the trouble of escaping the "&" character.
 You might also set the $URI::DEFAULT_QUERY_FORM_DELIMITER variable to
 ";" for the same global effect.
 
-The C<URI::QueryParam> module can be loaded to add further methods to
-manipulate the form of a URI.  See L<URI::QueryParam> for details.
+=item @keys = $u->query_param
+
+=item @values = $u->query_param( $key )
+
+=item $first_value = $u->query_param( $key )
+
+=item $u->query_param( $key, $value,... )
+
+If $u->query_param is called with no arguments, it returns all the
+distinct parameter keys of the URI.  In a scalar context it returns the
+number of distinct keys.
+
+When a $key argument is given, the method returns the parameter values with the
+given key.  In a scalar context, only the first parameter value is
+returned.
+
+If additional arguments are given, they are used to update successive
+parameters with the given key.  If any of the values provided are
+array references, then the array is dereferenced to get the actual
+values.
+
+Please note that you can supply multiple values to this method, but you cannot
+supply multiple keys.
+
+Do this:
+
+    $uri->query_param( widget_id => 1, 5, 9 );
+
+Do NOT do this:
+
+    $uri->query_param( widget_id => 1, frobnicator_id => 99 );
+
+=item $u->query_param_append($key, $value,...)
+
+Adds new parameters with the given
+key without touching any old parameters with the same key.  It
+can be explained as a more efficient version of:
+
+   $u->query_param($key,
+                   $u->query_param($key),
+                   $value,...);
+
+One difference is that this expression would return the old values
+of $key, whereas the query_param_append() method does not.
+
+=item @values = $u->query_param_delete($key)
+
+=item $first_value = $u->query_param_delete($key)
+
+Deletes all key/value pairs with the given key.
+The old values are returned.  In a scalar context, only the first value
+is returned.
+
+Using the query_param_delete() method is slightly more efficient than
+the equivalent:
+
+   $u->query_param($key, []);
+
+=item $hashref = $u->query_form_hash
+
+=item $u->query_form_hash( \%new_form )
+
+Returns a reference to a hash that represents the
+query form's key/value pairs.  If a key occurs multiple times, then the hash
+value becomes an array reference.
+
+Note that sequence information is lost.  This means that:
+
+   $u->query_form_hash($u->query_form_hash);
+
+is not necessarily a no-op, as it may reorder the key/value pairs.
+The values returned by the query_param() method should stay the same
+though.
 
 =item $uri->query_keywords
 
@@ -753,7 +878,7 @@ every case where it has been used.
 
 Sets and returns the unescaped hostname.
 
-If the $new_host string ends with a colon and a number, then this
+If the C<$new_host> string ends with a colon and a number, then this
 number also sets the port.
 
 For IPv6 addresses the brackets around the raw address is removed in the return
@@ -761,9 +886,17 @@ value from $uri->host.  When setting the host attribute to an IPv6 address you
 can use a raw address or one enclosed in brackets.  The address needs to be
 enclosed in brackets if you want to pass in a new port value as well.
 
+  my $uri = URI->new("http://www.\xC3\xBCri-sample/foo/bar.html");
+  print $u->host; # www.xn--ri-sample-fra0f
+
+
 =item $uri->ihost
 
-Returns the host in Unicode form.  Any IDNA A-labels are turned into U-labels.
+Returns the host in Unicode form. Any IDNA A-labels (encoded unicode chars with
+I<xn--> prefix) are turned into U-labels (unicode chars).
+
+  my $uri = URI->new("http://www.\xC3\xBCri-sample/foo/bar.html");
+  print $u->ihost; # www.\xC3\xBCri-sample
 
 =item $uri->port
 
@@ -837,10 +970,13 @@ C<URI> objects belonging to the ftp scheme support the common,
 generic and server methods.  In addition, they provide two methods for
 accessing the userinfo sub-components: $uri->user and $uri->password.
 
+It also supports accessing to the encryption mode ($uri->encrypt_mode),
+which has its own defaults for I<ftps> and I<ftpes> URI schemes.
+
 =item B<gopher>:
 
 The I<gopher> URI scheme is specified in
-<draft-murali-url-gopher-1996-12-04> and will hopefully be available
+C<draft-murali-url-gopher-1996-12-04> and will hopefully be available
 as a RFC 2396 based specification.
 
 C<URI> objects belonging to the gopher scheme support the common,
@@ -862,6 +998,39 @@ The I<https> URI scheme is a Netscape invention which is commonly
 implemented.  The scheme is used to reference HTTP servers through SSL
 connections.  Its syntax is the same as http, but the default
 port is different.
+
+=item B<geo>:
+
+The I<geo> URI scheme is specified in L<RFC 5870|http://tools.ietf.org/html/rfc5870>.
+The scheme is used to reference physical location in a two- or
+three-dimensional coordinate reference system in a compact, simple,
+human-readable, and protocol-independent way.
+
+C<URI> objects belonging to the geo scheme support the common methods.
+
+=item B<icap>:
+
+The I<icap> URI scheme is specified in L<RFC 3507|http://tools.ietf.org/html/rfc3507>.
+The scheme is used to reference resources hosted by ICAP servers.
+
+C<URI> objects belonging to the icap scheme support the common,
+generic and server methods.
+
+=item B<icaps>:
+
+The I<icaps> URI scheme is specified in L<RFC 3507|http://tools.ietf.org/html/rfc3507> as well.
+The scheme is used to reference ICAP servers through SSL
+connections.  Its syntax is the same as icap, including the same
+default port.
+
+=item B<irc>:
+
+The I<irc> URI scheme is specified in L<draft-butcher-irc-url-04|https://datatracker.ietf.org/doc/html/draft-butcher-irc-url-04>.
+The scheme is used to reference IRC servers and their resources.
+
+C<URI> objects belonging to the irc or ircs scheme support login
+methods, and the following IRC-specific ones: $uri->entity,
+$uri->flags, $uri->options.
 
 =item B<ldap>:
 
@@ -915,7 +1084,8 @@ query-related sub-components.
 
 The I<news>, I<nntp> and I<snews> URI schemes are specified in
 <draft-gilman-news-url-01> and will hopefully be available as an RFC
-2396 based specification soon.
+2396 based specification soon. (Update: as of April 2010, they are in
+L<RFC 5538|https://tools.ietf.org/html/rfc5538>.
 
 C<URI> objects belonging to the news scheme support the common,
 generic and server methods.  In addition, they provide some methods to
@@ -925,14 +1095,25 @@ access the path: $uri->group and $uri->message.
 
 See I<news> scheme.
 
+=item B<nntps>:
+
+See I<news> scheme and L<RFC 5538|https://tools.ietf.org/html/rfc5538>.
+
+=item B<otpauth>:
+
+The I<otpauth> URI scheme is specified in L<https://github.com/google/google-authenticator/wiki/Key-Uri-Format>.
+The scheme is used to encode secret keys for use in TOTP or HOTP schemes.
+
+C<URI> objects belonging to the otpauth scheme support the common methods.
+
 =item B<pop>:
 
 The I<pop> URI scheme is specified in RFC 2384. The scheme is used to
 reference a POP3 mailbox.
 
 C<URI> objects belonging to the pop scheme support the common, generic
-and server methods.  In addition, they provide two methods to access the
-userinfo components: $uri->user and $uri->auth
+and server methods, as well as two email authorization methods:
+C<user> and C<auth>.
 
 =item B<rlogin>:
 
@@ -971,6 +1152,22 @@ I<sip> parameters: $uri->params_form and $uri->params.
 
 See I<sip> scheme.  Its syntax is the same as sip, but the default
 port is different.
+
+=item B<smb>:
+
+C<URI> objects belonging to the smb scheme support the common,
+generic and server methods. In addition, they provide methods to
+access the userinfo sub-components ($uri->user and $uri->password)
+as well as $uri->authdomain and $uri->sharename methods.
+
+=item B<smtp>:
+
+The I<smtp> URI scheme is specified in L<draft-earhart-url-smtp-00|https://datatracker.ietf.org/doc/html/draft-earhart-url-smtp-00>.
+The scheme is used to reference a SMTP server.
+
+C<URI> objects belonging to the smtp scheme support the common, generic
+and server methods, as well as two email authorization methods:
+C<user> and C<auth>.
 
 =item B<snews>:
 
@@ -1035,6 +1232,18 @@ separated by dots.  A C<URI> object belonging to this namespace has an
 additional method called $uri->oid that can be used to get/set the oid
 value.  In a list context, oid numbers are returned as separate elements.
 
+=item B<ws>:
+
+The <ws> URI scheme is specified in L<RFC 6455|http://tools.ietf.org/html/rfc6455>.
+The C<WebSocket> Protocol enables two-way communication between a client
+running untrusted code in a controlled environment to a remote host
+that has opted-in to communications from that code.
+
+=item B<wss>:
+
+The I<wss> URI scheme is specified in L<RFC 6455|http://tools.ietf.org/html/rfc6455> as well.
+The scheme is used to reference C<WebSocket> servers through SSL connections.
+
 =back
 
 =head1 CONFIGURATION VARIABLES
@@ -1081,6 +1290,34 @@ delimited by ";" instead of "&" which is the default.
 
 =back
 
+=head1 ENVIRONMENT VARIABLES
+
+=over 4
+
+=item URI_HAS_RESERVED_SQUARE_BRACKETS
+
+Before version 5.11, URI treated square brackets as reserved characters
+throughout the whole URI string. However, these brackets are reserved
+only within the authority/host part of the URI and nowhere else (RFC 3986).
+
+Starting with version 5.11, URI takes this distinction into account.
+Setting the environment variable C<URI_HAS_RESERVED_SQUARE_BRACKETS>
+(programmatically or via the shell), restores the old behavior.
+
+  #-- restore 5.10 behavior programmatically
+  BEGIN {
+    $ENV{URI_HAS_RESERVED_SQUARE_BRACKETS} = 1;
+  }
+  use URI ();
+
+I<Note>: This environment variable is just used during initialization and has to be set
+      I<before> module URI is used/required. Changing it at run time has no effect.
+
+Its value can be checked programmatically by accessing the constant
+C<URI::HAS_RESERVED_SQUARE_BRACKETS>.
+
+=back
+
 =head1 BUGS
 
 There are some things that are not quite right:
@@ -1123,7 +1360,7 @@ readable alternative.
 
 =head1 SEE ALSO
 
-L<URI::file>, L<URI::WithBase>, L<URI::QueryParam>, L<URI::Escape>,
+L<URI::file>, L<URI::WithBase>, L<URI::Escape>,
 L<URI::Split>, L<URI::Heuristic>
 
 RFC 2396: "Uniform Resource Identifiers (URI): Generic Syntax",

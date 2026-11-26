@@ -5,16 +5,15 @@ use warnings;
 
 use parent 'URI::file::Unix';
 
-our $VERSION = '1.71';
-$VERSION = eval $VERSION;
+our $VERSION = '5.40';
 
-sub _file_extract_path
-{
-    my($class, $path) = @_;
+sub _file_extract_path {
+    my ($class, $path) = @_;
+
     # tidy path
-    $path =~ s,(.)//+,$1/,g; # ^// is correct
+    $path =~ s,(.)//+,$1/,g;                       # ^// is correct
     $path =~ s,(/\.)+/,/,g;
-    $path = "./$path" if $path =~ m,^[^:/]+:,,; # look like "scheme:"
+    $path = "./$path" if $path =~ m,^[^:/]+:,,;    # look like "scheme:"
     $path;
 }
 

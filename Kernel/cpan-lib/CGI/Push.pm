@@ -1,12 +1,11 @@
 package CGI::Push;
-use if $] >= 5.019, 'deprecate';
 
 my $appease_cpants_kwalitee = q/
 use strict;
 use warnings;
 #/;
 
-$CGI::Push::VERSION='4.36';
+$CGI::Push::VERSION='5.02';
 use CGI;
 use CGI::Util 'rearrange';
 @ISA = ('CGI');
@@ -28,6 +27,8 @@ sub do_push {
     my (@header);
     my ($type,$callback,$delay,$last_page,$cookie,$target,$expires,$nph,@other) = rearrange([TYPE,NEXT_PAGE,DELAY,LAST_PAGE,[COOKIE,COOKIES],TARGET,EXPIRES,NPH],@p);
     $type = 'text/html' unless $type;
+    # $type is printed directly in each part's header, so check it here
+    CGI::_check_header_values($type);
     $callback = \&simple_counter unless $callback && ref($callback) eq 'CODE';
     $delay = 1 unless defined($delay);
     $self->push_delay($delay);
@@ -286,7 +287,7 @@ NPH script.
 =head1 AUTHOR INFORMATION
 
 The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein. It is
-distributed under GPL and the Artistic License 2.0. It is currently
+distributed under the Artistic License 2.0. It is currently
 maintained by Lee Johnson with help from many contributors.
 
 Address bug reports and comments to: https://github.com/leejo/CGI.pm/issues
