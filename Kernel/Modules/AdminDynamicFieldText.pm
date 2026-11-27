@@ -811,7 +811,7 @@ sub _ShowScreen {
     my %DynamicfieldNamesList;
     for my $Dynamicfield ( @{$DynamicFieldList} ) {
         push @DynamicfieldOrderList, $Dynamicfield->{FieldOrder};
-        $DynamicfieldNamesList{ $Dynamicfield->{FieldOrder} } = $Dynamicfield->{Label};
+        $DynamicfieldNamesList{ $Dynamicfield->{FieldOrder} } = "$Dynamicfield->{Name} ($Dynamicfield->{Label})";
     }
 
     # when adding we need to create an extra order number for the new field
@@ -844,7 +844,7 @@ sub _ShowScreen {
         PossibleNone  => 0,
         Translation   => 0,
         Sort          => 'NumericKey',
-        Class         => 'Modernize W75pc Validate_Number',
+        Class         => 'Modernize W90pc Validate_Number',
     );
 
     # Selections may be set up in a declarative way
@@ -884,7 +884,7 @@ sub _ShowScreen {
             PossibleNone  => 1,
             Translation   => 0,
             Sort          => 'AlphanumericValue',
-            Class         => 'Modernize W75pc',
+            Class         => 'Modernize W90pc',
         );
 
         $LayoutObject->Block(

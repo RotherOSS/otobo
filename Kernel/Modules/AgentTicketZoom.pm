@@ -1915,21 +1915,10 @@ sub MaskAgentZoom {
                     },
                 );
 
-                my $DFConfig = $DynamicFieldLookup{ $Field->{Name} };
-
-                # if we are dealing with a lens field pointing to a Set, get the config of the Set
-                if ( $DFConfig->{FieldType} eq 'Lens' ) {
-                    my $AttributeDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                        ID => $DFConfig->{Config}{AttributeDF},
-                    );
-                    if ( $AttributeDF->{FieldType} eq 'Set' ) {
-                        $DFConfig = {
-                            $AttributeDF->%*,
-                            Name  => $DFConfig->{Name},
-                            Label => $DFConfig->{Label},
-                        };
-                    }
-                }
+                # resolve potential lens fields, supports lens on lens
+                my $DFConfig = $Self->_ResolveDFConfig(
+                    DynamicFieldConfig => $DynamicFieldLookup{ $Field->{Name} },
+                );
 
                 # set field
                 if ( $DFConfig->{FieldType} eq 'Set' ) {
@@ -1990,8 +1979,9 @@ sub MaskAgentZoom {
                             $LayoutObject->Block(
                                 Name => 'SetDynamicField',
                                 Data => {
-                                    Name  => $IncludeField{Name},
-                                    Label => $IncludeField{Label},
+                                    Name      => $IncludeField{Name},
+                                    Label     => $IncludeField{Label},
+                                    FieldType => $Self->_ResolveDFConfig( DynamicFieldConfig => $IncludeDFConfig )->{FieldType},
                                 }
                             );
                             $LayoutObject->Block(
@@ -2042,8 +2032,9 @@ sub MaskAgentZoom {
                     $LayoutObject->Block(
                         Name => 'StandardField',
                         Data => {
-                            Name  => $Field->{Name},
-                            Label => $Field->{Label},
+                            Name      => $Field->{Name},
+                            Label     => $Field->{Label},
+                            FieldType => $DFConfig->{FieldType},
                         },
                     );
 
@@ -3434,6 +3425,31 @@ sub _GetIncludedFieldOrdered {
     }
 
     return @Return;
+}
+
+sub _ResolveDFConfig {
+    my ( $Self, %Param ) = @_;
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+    my %Seen;
+
+    LENS:
+    while ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
+        last LENS if !$DynamicFieldConfig->{Config}{AttributeDF};
+        last LENS if $Seen{ $DynamicFieldConfig->{ID} }++;
+
+        my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet(
+            ID => $DynamicFieldConfig->{Config}{AttributeDF},
+        );
+
+        last LENS if !IsHashRefWithData($AttributeDFConfig);
+
+        $DynamicFieldConfig = $AttributeDFConfig;
+    }
+
+    return $DynamicFieldConfig;
 }
 
 1;
