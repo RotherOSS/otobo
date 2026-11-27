@@ -40,7 +40,7 @@ sub PreRun {
     my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # cancel password action if an AgentInfo should be shown
-    # to prevent enless redirect loop
+    # to prevent endless redirect loop
     return if $Self->{Action} && $Self->{Action} eq 'AgentInfo';
 
     # return if password max time is not configured
@@ -180,6 +180,7 @@ sub Run {
 sub _Screen {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 
