@@ -22,8 +22,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Test2::V0;
 use Path::Class qw(file);
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -36,7 +36,7 @@ my @Tests = (
     {
         Line     => __LINE__,
         Name     => "plain email with ascii and utf-8 part",
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlain.eml",
+        RawEmail => "MultipartMixedPlain.eml",
         Body     => 'first part
 
 
@@ -79,7 +79,7 @@ second part äöø',
     {
         Line     => __LINE__,
         Name     => "HTML email with ascii and utf-8 part",
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTML.eml",
+        RawEmail => "MultipartMixedHTML.eml",
         Body     => 'first part
 
 
@@ -139,7 +139,7 @@ second part äöø',
     {
         Line     => __LINE__,
         Name     => "mixed email with plain and HTML part",
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlainHTML.eml",
+        RawEmail => "MultipartMixedPlainHTML.eml",
         Body     => 'Hello,
 
 This is the forwarded message...
@@ -189,7 +189,7 @@ Erik
         # That HTML will concatenated to the HTML part.
         Line     => __LINE__,
         Name     => 'mixed email with HTML and plain part',
-        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTMLPlain.eml",
+        RawEmail => "MultipartMixedHTMLPlain.eml",
         Body     => '    Hi,
  
 This mail is composed in html format.
@@ -273,31 +273,9 @@ END_HTML
     {
         Line        => __LINE__,
         Name        => 'mixed email with images before the body',
-        RawEmail    => "$Home/scripts/test/sample/EmailParser/MultipartMixedImagesBeforeBody.eml",
-        Body        => '- no text message => see attachment -',
+        RawEmail    => "MultipartMixedImagesBeforeBody.eml",
+        Body        => "Hallo, \nthis is the body.",
         Attachments => [
-            {
-                Charset         => "",
-                Content         => pack( "H*", "ffd8ffe000104a46494600010100000100010000ffd9" ),
-                ContentID       => "<inlineimg_0\@test>",
-                ContentLocation => undef,
-                ContentType     => "image/jpeg",
-                Disposition     => "inline",
-                Filename        => "file-1",
-                Filesize        => 22,
-                MimeType        => "image/jpeg",
-            },
-            {
-                Charset         => "",
-                Content         => pack( "H*", "ffd8ffe000104a46494600010100000100010000ffd9" ),
-                ContentID       => "<inlineimg_1\@test>",
-                ContentLocation => undef,
-                ContentType     => "image/jpeg",
-                Disposition     => "inline",
-                Filename        => "file-2",
-                Filesize        => 22,
-                MimeType        => "image/jpeg",
-            },
             {
                 Charset            => "utf-8",
                 Content            => "Hallo, \nthis is the body.",
@@ -306,7 +284,7 @@ END_HTML
                 ContentLocation    => undef,
                 ContentType        => "text/plain; charset=utf-8",
                 Disposition        => undef,
-                Filename           => "file-3",
+                Filename           => "file-1",
                 Filesize           => 25,
                 MimeType           => "text/plain",
             },
@@ -318,9 +296,31 @@ END_HTML
                 ContentLocation    => undef,
                 ContentType        => "text/html; charset=utf-8",
                 Disposition        => undef,
-                Filename           => "file-4",
+                Filename           => "file-2",
                 Filesize           => 121,
                 MimeType           => "text/html",
+            },
+            {
+                Charset         => "",
+                Content         => pack( "H*", "ffd8ffe000104a46494600010100000100010000ffd9" ),
+                ContentID       => "<inlineimg_0\@test>",
+                ContentLocation => undef,
+                ContentType     => "image/jpeg",
+                Disposition     => "inline",
+                Filename        => "file-3",
+                Filesize        => 22,
+                MimeType        => "image/jpeg",
+            },
+            {
+                Charset         => "",
+                Content         => pack( "H*", "ffd8ffe000104a46494600010100000100010000ffd9" ),
+                ContentID       => "<inlineimg_1\@test>",
+                ContentLocation => undef,
+                ContentType     => "image/jpeg",
+                Disposition     => "inline",
+                Filename        => "file-4",
+                Filesize        => 22,
+                MimeType        => "image/jpeg",
             },
             {
                 Charset            => "",
@@ -340,10 +340,10 @@ END_HTML
 
 for my $Test (@Tests) {
 
-    subtest "$Test->{Name} (line $Test->{Line})" => sub {
+    subtest "$Test->{Name} ($Test->{RawEmail}) (line $Test->{Line})" => sub {
 
         # create local object with test email
-        my @EmailLines        = file( $Test->{RawEmail} )->slurp;
+        my @EmailLines        = file("$Home/scripts/test/sample/EmailParser/$Test->{RawEmail}")->slurp;
         my $EmailParserObject = Kernel::System::EmailParser->new(
             Email => \@EmailLines,
         );
@@ -367,17 +367,17 @@ for my $Test (@Tests) {
         # Explicitily compare the content of the attachments with TextEqOrDiff(),
         # just so potential diffs can be more easily inspected
         for my $i ( 0 .. $Test->{Attachments}->$#* ) {
-
             TextEqOrDiff(
                 $Attachments[$i]->{Content},
                 $Test->{Attachments}->[$i]->{Content},
                 "content of attachment $i"
             );
         }
+
         is(
             \@Attachments,
             $Test->{Attachments},
-            "attachments"
+            'all attachments'
         );
     };
 }
