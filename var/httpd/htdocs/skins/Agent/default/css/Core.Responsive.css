@@ -1217,10 +1217,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: auto;
     }
 
-    .LayoutPopup > .Header h1 {
-        white-space: normal;
-    }
-
     .LayoutPopup fieldset.TableLike.FixedLabel > .Field,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .Field,
     .LayoutPopup fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
