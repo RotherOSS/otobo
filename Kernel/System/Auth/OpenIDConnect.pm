@@ -415,10 +415,21 @@ sub PreAuth {
 sub PostAuth {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{RequestedURL};
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $BaseURL = $ConfigObject->Get('HttpType')
+        . '://'
+        . $ConfigObject->Get('FQDN')
+        . '/'
+        . $ConfigObject->Get('ScriptAlias')
+        .'index.pl?';
 
     return {
-        RequestedURL => $Self->{RequestedURL},
+        RequestedURL => $BaseURL
+    } if !$Self->{RequestedURL};
+
+    return {
+        RequestedURL => $BaseURL . $Self->{RequestedURL}
     };
 }
 
