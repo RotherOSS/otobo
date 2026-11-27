@@ -180,6 +180,7 @@ sub Run {
 sub _Screen {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 
