@@ -226,9 +226,20 @@ sub Auth {
         );
     }
 
-    my $Identifier = $ConfigObject->Get('AuthModule::OpenIDConnect::UID');
-    my $UserLogin  = $TokenData->{$Identifier};
-    if ( !$UserLogin ) {
+    my $UserLookupPreference     = $ConfigObject->Get('AuthModule::OpenIDConnect::UserLookupPreference');
+    my $UserLookupPreferenceMode = IsStringWithData($UserLookupPreference);
+    my $Identifier               = $ConfigObject->Get('AuthModule::OpenIDConnect::UID');
+    my $UserLogin                = $TokenData->{$Identifier};
+    if ( $UserLookupPreferenceMode && !IsStringWithData($UserLogin) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Token UID '$Identifier' is not a string.",
+        );
+
+        return;
+    }
+
+    if ( !$UserLogin && !$UserLookupPreferenceMode ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Token received but UID was not provided in '$Identifier'.",
@@ -261,8 +272,47 @@ sub Auth {
     }
 
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-    my %User       = $UserObject->GetUserData( User => $UserLogin );
-    my $UserMap    = $ConfigObject->Get('AuthModule::OpenIDConnect::UserMap');
+    my %User;
+    if ($UserLookupPreferenceMode) {
+        my %Preferences = $UserObject->SearchPreferences(
+            Key => $UserLookupPreference,
+        );
+        my @MatchingUserIDs = grep {
+            IsString( $Preferences{$_} ) && $Preferences{$_} eq $UserLogin
+        } keys %Preferences;
+
+        if ( @MatchingUserIDs != 1 ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "No unique user for preference '$UserLookupPreference'.",
+            );
+
+            return;
+        }
+
+        %User = $UserObject->GetUserData(
+            UserID => $MatchingUserIDs[0],
+            Valid  => 1,
+        );
+        if ( !$User{UserID} || !IsStringWithData( $User{UserLogin} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "No active user for preference '$UserLookupPreference'.",
+            );
+
+            return;
+        }
+
+        # Keep the stored password hash out of UserUpdate().
+        delete $User{UserPw};
+        $UserLogin = $User{UserLogin};
+        delete $User{$UserLookupPreference};
+    }
+    else {
+        %User = $UserObject->GetUserData( User => $UserLogin );
+    }
+
+    my $UserMap = $ConfigObject->Get('AuthModule::OpenIDConnect::UserMap');
     my $UserID;
 
     # create and edit users
@@ -272,6 +322,8 @@ sub Auth {
         # don't mess with some data here
         delete $UserData{UserID};
         delete $UserData{UserPw};
+        delete $UserData{UserLogin}             if $UserLookupPreferenceMode;
+        delete $UserData{$UserLookupPreference} if $UserLookupPreferenceMode;
 
         if ( !%User ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
