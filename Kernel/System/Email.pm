@@ -1005,7 +1005,8 @@ sub _EncodeMIMEWords {
 sub _MessageIDCreate {
     my ( $Self, %Param ) = @_;
 
-    my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $FQDN         = $ConfigObject->Get('MessageIDDomain') || $ConfigObject->Get('FQDN');
 
     return '<' . time() . '.' . rand(999999) . '@' . $FQDN . '>';
 }

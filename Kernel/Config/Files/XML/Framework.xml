@@ -1100,6 +1100,13 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="MessageIDDomain" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Defines the domain used for newly generated Message-ID and Resent-Message-ID headers. If unset or empty, FQDN is used. This allows an internal system hostname to be kept out of generated message identifiers without changing application URLs. Existing message identifiers are not changed.</Description>
+        <Navigation>Core::Email</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=""></Item>
+        </Value>
+    </Setting>
     <Setting Name="SendmailModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the module to send emails. "DoNotSendEmail" doesn't send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn't send emails, but writes them to $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.</Description>
         <Navigation>Core::Email</Navigation>
