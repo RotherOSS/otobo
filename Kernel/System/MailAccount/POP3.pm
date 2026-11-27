@@ -35,11 +35,10 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Class;
 
     # reset limit
     $Self->{Limit} = 0;
@@ -198,6 +197,7 @@ sub Fetch {
             Timeout  => 15,
             Debug    => $Debug
         );
+
         return 1;
     } || do {
         my $Error = $@;
@@ -452,17 +452,18 @@ sub Fetch {
                         ObjectLogType => 'Message',
                         Status        => $MessageStatus,
                     );
+
+                    # mark email to delete as it got retrieved,
+                    # and either processed or stored as raw error mail
+                    $POPOperation->( 'delete', $Messageno, );
+
+                    $CommunicationLogObject->ObjectLog(
+                        ObjectLogType => 'Connection',
+                        Priority      => 'Debug',
+                        Key           => 'Kernel::System::MailAccount::POP3',
+                        Value         => "Message '$Messageno' marked for deletion.",
+                    );
                 }
-
-                # mark email to delete if it got processed
-                $POPOperation->( 'delete', $Messageno, );
-
-                $CommunicationLogObject->ObjectLog(
-                    ObjectLogType => 'Connection',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::MailAccount::POP3',
-                    Value         => "Message '$Messageno' marked for deletion.",
-                );
 
                 # check limit
                 $Self->{Limit}++;
@@ -470,7 +471,6 @@ sub Fetch {
                     $Self->{Reconnect} = 0;
                     last MESSAGE_NO;
                 }
-
             }
 
             if ($CMD) {
@@ -492,6 +492,7 @@ sub Fetch {
         Value         => "Fetched $FetchCounter message(s) from server ($Param{Login}/$Param{Host}).",
     );
 
+    # Mails that are marked as to be deleted are really deleted now.
     $POPOperation->( 'quit', );
 
     if ($CMD) {
@@ -531,19 +532,16 @@ sub _ProcessFailed {
     }
 
     # get content of email
-    my $Content;
-    for my $Line ( @{ $Param{Email} } ) {
-        $Content .= $Line;
-    }
+    my $Content = join '', $Param{Email}->@*;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/spool/';
-    my $MD5  = $MainObject->MD5sum(
+    my $SpoolDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/spool/';
+    my $MD5      = $MainObject->MD5sum(
         String => \$Content,
     );
-    my $Location = $Home . 'problem-email-' . $MD5;
+    my $Location = $SpoolDir . 'problem-email-' . $MD5;
 
     return $MainObject->FileWrite(
         Location   => $Location,
