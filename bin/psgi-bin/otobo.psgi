@@ -647,14 +647,15 @@ my $OTOBOApp = builder {
             my $App = shift;
             sub {
                 my $Env = shift;
-                $Env->{QUERY_STRING} = 'Action=Login&'.$Env->{QUERY_STRING};
+                $Env->{QUERY_STRING} = 'Action=Login&' . $Env->{QUERY_STRING};
                 my $Res = $App->($Env);
                 return $Res;
             };
         };
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceAgent',
-        )->to_app();
+
+        Kernel::System::Web::InterfaceAgent->new(
+            Debug => 0,
+        )->to_app;
     };
 
     mount '/oauth/customer' => builder {
@@ -662,14 +663,15 @@ my $OTOBOApp = builder {
             my $App = shift;
             sub {
                 my $Env = shift;
-                $Env->{QUERY_STRING} = 'Action=Login&'.$Env->{QUERY_STRING};
+                $Env->{QUERY_STRING} = 'Action=Login&' . $Env->{QUERY_STRING};
                 my $Res = $App->($Env);
                 return $Res;
             };
         };
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceCustomer',
-        )->to_app();
+
+        Kernel::System::Web::InterfaceAgent->new(
+            Debug => 0,
+        )->to_app;
     };
 
     mount '/installer.pl' => builder {
