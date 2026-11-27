@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Explain;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
@@ -34,6 +35,8 @@ isa_ok( $JSONObject, ['Kernel::System::JSON'], 'got a JSON object' );
 # Tests for JSON encode method
 my $Twelve      = 12;
 my @EncodeTests = (
+
+    # undef
     {
         Input  => undef,
         Result => q{null},
@@ -44,6 +47,8 @@ my @EncodeTests = (
         Result => q{[1,null,"3",null,5]},
         Name   => 'array containing two undefs'
     },
+
+    # strings
     {
         Input  => '',
         Result => '""',
@@ -69,6 +74,8 @@ my @EncodeTests = (
         Result => q{"🎋 - U+1F38B - TANABATA TREE"},
         Name   => 'tanabata tree'
     },
+
+    # numbers
     {
         Input  => 42,
         Result => '42',
@@ -460,6 +467,115 @@ for my $Test (@EncodeTests) {
     is( $JSON, $Test->{Result}, "JSON Encode: $Test->{Name}" );
 }
 
+# Byte based tests
+my @ByteArrayTests = (
+    {
+        Line            => __LINE__,
+        Name            => 'a - U+00061 - 61 - LATIN SMALL LETTER A',
+        Hex             => '61',
+        ExpectedUtf8Off => qq{"a"},
+        ExpectedUtf8On  => q{"a"},
+    },
+    {
+        Line            => __LINE__,
+        Name            => 'ä - U+000E4 - C3 A4 - LATIN SMALL LETTER A WITH DIAERESIS',
+        Hex             => 'C3 A4',
+        ExpectedUtf8Off => qq{"\x{C3}\x{A4}"},
+        ExpectedUtf8On  => q{"ä"},
+    },
+    {
+        Line            => __LINE__,
+        Name            => '😀 - U+1F600 - F0 9F 98 80 - GRINNING FACE',
+        Hex             => 'F0 9F 98 80',
+        ExpectedUtf8Off => qq{"ð\x{9F}\x{98}\x{80}"},
+        ExpectedUtf8On  => q{"😀"},
+    },
+    {
+        Line              => __LINE__,
+        Name              => '𐀀 - U+10000 - F0 90 80 80 - LINEAR B SYLLABLE B008 A in CESU-8',
+        Hex               => 'ED AE 80 + ED B0 80',
+        ExpectedUtf8Off   => qq{"\x{ED}\x{AE}\x{80}\x{ED}\x{B0}\x{80}"},
+        ExceptionUTF8FLag => qr/malformed or illegal unicode character/,
+        ExpectedJsonXS    => qq{"\x{db80}\x{dc00}"},
+    },
+    {
+        Line              => __LINE__,
+        Name              => 'reversed surrogate pair for 𐀀',
+        Hex               => 'ED B0 80 + ED AE 80 ',
+        ExpectedUtf8Off   => qq{"\x{ED}\x{B0}\x{80}\x{ED}\x{AE}\x{80}"},
+        ExceptionUTF8FLag => qr/malformed or illegal unicode character/,
+        ExpectedJsonXS    => qq{"\x{dc00}\x{db80}"},
+    },
+    {
+        Line              => __LINE__,
+        Name              => 'a lone high surrogate',
+        Hex               => 'ED AE 80',
+        ExpectedUtf8Off   => qq{"\x{ED}\x{AE}\x{80}"},
+        ExceptionUTF8FLag => qr/malformed or illegal unicode character/,
+        ExpectedJsonXS    => qq{"\x{db80}"},
+    },
+    {
+        Line              => __LINE__,
+        Name              => 'a lone low surrogate',
+        Hex               => 'ED B0 80',
+        ExpectedUtf8Off   => qq{"\x{ED}\x{B0}\x{80}"},
+        ExceptionUTF8FLag => qr/malformed or illegal unicode character/,
+        ExpectedJsonXS    => qq{"\x{dc00}"},
+    },
+);
+
+my $JsonXSAvailable = eval { require JSON::XS; 1 };
+if ( !$JsonXSAvailable ) {
+    note "Skipping tests for JSON::XS as the module is not available";
+}
+
+for my $Test (@ByteArrayTests) {
+    subtest "$Test->{Name} (line $Test->{Line}" => sub {
+        my $Hex         = $Test->{Hex} =~ s/[\s+]//gr;
+        my $Bytes       = pack( 'H*', $Hex );
+        my $BytesUTF8On = $Bytes;
+        Encode::_utf8_on($BytesUTF8On);
+
+        my $ResultUtf8Off = $JSONObject->Encode(
+            Data     => $Bytes,
+            SortKeys => 1,
+            %{ $Test->{Params} // {} },
+        );
+        is( $ResultUtf8Off, $Test->{ExpectedUtf8Off}, 'no UTF8 flag' );
+
+        my $ResultUtf8On = eval {
+            $JSONObject->Encode(
+                Data     => $BytesUTF8On,
+                SortKeys => 1,
+                %{ $Test->{Params} // {} },
+            );
+        };
+        if ($@) {
+            diag explain($@);
+        }
+        if ( $Test->{ExceptionUTF8FLag} ) {
+            like( $@, $Test->{ExceptionUTF8FLag}, 'got expected exception' );
+        }
+        else {
+            is( $ResultUtf8On, $Test->{ExpectedUtf8On}, 'UTF8 flag' );
+        }
+
+        if ($JsonXSAvailable) {
+            my $JsonXsResult = eval { JSON::XS::encode_json($BytesUTF8On) };
+            Encode::_utf8_on($JsonXsResult);
+            if ( $Test->{ExpectedJsonXS} ) {
+                is( $JsonXsResult, $Test->{ExpectedJsonXS}, 'JSON::XS' );
+            }
+            elsif ( $Test->{ExceptionUTF8FLag} ) {
+                ok( $@, 'JSON::XS also throws expected exception' );
+            }
+            else {
+                is( $JsonXsResult, $Test->{ExpectedUtf8On}, 'JSON::XS' );
+            }
+        }
+    };
+}
+
 # Tests for JSON decode method
 my @DecodeTests = (
     {
@@ -505,7 +621,7 @@ my @DecodeTests = (
     {
         Result      => [ 1, 2, "3", "Foo", 5 ],
         InputDecode => '[1,2,"3","Foo",5]',
-        Name        => 'array with strings and numbers" '
+        Name        => 'array with strings and numbers'
     },
     {
         Result => {
