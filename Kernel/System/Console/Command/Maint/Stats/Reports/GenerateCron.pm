@@ -29,6 +29,7 @@ our @ObjectDependencies = (
     'Kernel::Output::PDF::StatisticsReports',
     'Kernel::System::CronEvent',
     'Kernel::System::Email',
+    'Kernel::System::EmailAddress',
     'Kernel::System::Main',
     'Kernel::System::PID',
     'Kernel::System::StatsReport',
@@ -76,8 +77,11 @@ sub Run {
     my %StatsReportsList  = %{ $StatsReportObject->StatsReportList() // {} };
     my $Errors;
 
-    my $From = $ConfigObject->Get('NotificationSenderName') . ' <'
-        . $ConfigObject->Get('NotificationSenderEmail') . '>';
+    my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+        Phrase               => $ConfigObject->Get('NotificationSenderName'),
+        Address              => $ConfigObject->Get('NotificationSenderEmail'),
+        AcceptInvalidAddress => 1,
+    );
 
     STATSREPORTID:
     for my $StatsReportID ( sort keys %StatsReportsList ) {

@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Crypt::SMIME',
     'Kernel::System::Email',
+    'Kernel::System::EmailAddress',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SystemAddress',
@@ -132,8 +133,11 @@ sub SendNotification {
     my $FromEmail = $ConfigObject->Get('NotificationSenderEmail');
 
     # send notification
-    my $From = $ConfigObject->Get('NotificationSenderName') . ' <'
-        . $FromEmail . '>';
+    my $From = $Kernel::OM->Get('Kernel::System::EmailAddress')->Format(
+        Phrase               => $ConfigObject->Get('NotificationSenderName'),
+        Address              => $FromEmail,
+        AcceptInvalidAddress => 1,
+    );
 
     # security part
     my $SecurityOptions = $Self->SecurityOptionsGet( %Param, FromEmail => $FromEmail );
