@@ -101,6 +101,21 @@ Core.Customer = (function (TargetNS) {
         if ($('#oooCustomerNotifications > div').length == 0) {
             $('#oooCustomerNotifications').hide();
         }
+
+        // Allow marquee notifications to be paused and resumed with a click.
+        $(document).off('click.CustomerMarquee', '.oooMarquee').on('click.CustomerMarquee', '.oooMarquee', function (Event) {
+            var $Marquee = $(this),
+                IsPaused = $Marquee.hasClass('oooMarqueePaused');
+
+            Event.preventDefault();
+
+            $Marquee
+                .toggleClass('oooMarqueePaused', !IsPaused)
+                .attr('aria-pressed', !IsPaused ? 'true' : 'false')
+                .attr('title', Core.Language.Translate(!IsPaused ? 'Click to resume scrolling' : 'Click to pause scrolling'));
+        });
+
+        $('.oooMarquee').attr('title', Core.Language.Translate('Click to pause scrolling'));
     };
 
     /**
