@@ -1161,9 +1161,11 @@ Core.UI.InputFields = (function (TargetNS) {
                 if (typeof Element === 'object') {
                     if (Element.state) {
                         if (Element.state.selected) {
+
+                            // unescape Element name to avoid double encoding
                             Data.push({
                                 'Key': Element.ID,
-                                'Value': Element.Name
+                                'Value': Core.App.UnescapeHTML(Element.Name)
                             });
                         }
                         if (Element.children.length > 0) {
